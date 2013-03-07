@@ -1,0 +1,1 @@
+x_books_in_my_y_shelves = Ich habe überhaupt gar keine %1$s Bücher in meinen %2$s Regalen die ich nicht habe

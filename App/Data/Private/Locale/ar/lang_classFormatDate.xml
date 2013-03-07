@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<translator>
+	<locale id="ar">
+		<namespace id="lang_classFormatDate">
+			<meta>
+				<author mail="flaimo@gmx.net">Flaimo</author>
+				<created>2004-06-02</created>
+				<lastchange>2004-06-02</lastchange>
+			</meta>
+			<translations>
+				<translation string="april">ابريل؛</translation>
+				<translation string="august">مهيب؛  جليل</translation>
+				<translation string="december">كانون ا</translation>
+				<translation string="february">شباط؛</translation>
+				<translation string="friday">يوم الجمعة؛  الجمعة</translation>
+				<translation string="hour">ساعة؛</translation>
+				<translation string="ISO_time">قاس الوقت؛  وقت ISO</translation>
+				<translation string="january">ناير؛</translation>
+				<translation string="july">يوليو؛  تموز</translation>
+				<translation string="june">حزيران</translation>
+				<translation string="march">خطا؛  سير؛</translation>
+				<translation string="may">ربما؛  قد</translation>
+				<translation string="monday">يوم اِثنين؛  اّثنين</translation>
+				<translation string="november">نوفمبر؛  تشرين الثاني</translation>
+				<translation string="october">أكتوبر؛  تشرين ا</translation>
+				<translation string="saturday">يوم السبت؛</translation>
+				<translation string="september">سبتمبر؛  أيلول</translation>
+				<translation string="standard_time">قياسي؛  عياري؛  مقياسي؛</translation>
+				<translation string="sunday">اّحد؛  يوم اّحد</translation>
+				<translation string="swatch_time">قاس الوقت؛  وقت swatch</translation>
+				<translation string="thursday">يوم الخميس؛  الخميس</translation>
+				<translation string="tuesday">يوم الثِثاء؛  الثِثاء</translation>
+				<translation string="wednesday">يوم اّربعاء؛  اّربعاء</translation>
+			</translations>
+		</namespace>
+	</locale>
+</translator>

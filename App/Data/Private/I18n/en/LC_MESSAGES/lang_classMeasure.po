@@ -1,0 +1,428 @@
+# FLP Translation file.
+# Copyright (C) 2004 Flaimo.com.
+# Flaimo <flaimo@gmx.net>, 2004.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FLP\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2004-04-04 04:04+0100\n"
+"Last-Translator: Flaimo <flaimo@gmx.net>\n"
+"Language-Team: English <flaimo@gmx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "mm_short"
+msgstr "mm"
+
+# This is a comment. This term is marked fuzzy, which means the translation is not 100% correct.
+# Further there is a reference where the string accures in the sourcecode (filename:line)
+#: example.php:12
+#, fuzzy
+msgid "mm_long"
+msgstr "milli­meters"
+
+msgid "cm_short"
+msgstr "cm"
+
+msgid "cm_long"
+msgstr "centi­meters"
+
+msgid "dm_short"
+msgstr "dm"
+
+msgid "dm_long"
+msgstr "deci­meters"
+
+msgid "m_short"
+msgstr "m"
+
+msgid "m_long"
+msgstr "meters"
+
+msgid "km_short"
+msgstr "km"
+
+msgid "km_long"
+msgstr "kilo­meters"
+
+msgid "in_short"
+msgstr "in"
+
+msgid "in_long"
+msgstr "inches"
+
+msgid "ft_short"
+msgstr "ft"
+
+msgid "ft_long"
+msgstr "feet"
+
+msgid "yd_short"
+msgstr "y"
+
+msgid "yd_long"
+msgstr "yards"
+
+msgid "fur_short"
+msgstr "fur"
+
+msgid "fur_long"
+msgstr "fur­longs"
+
+msgid "mi_short"
+msgstr "mi"
+
+msgid "mi_long"
+msgstr "miles"
+
+msgid "mm2_short"
+msgstr "mm²"
+
+msgid "mm2_long"
+msgstr "square milli­meters"
+
+msgid "cm2_short"
+msgstr "cm²"
+
+msgid "cm2_long"
+msgstr "square centi­meters"
+
+msgid "dm2_short"
+msgstr "dm²"
+
+msgid "dm2_long"
+msgstr "square deci­meters"
+
+msgid "m2_short"
+msgstr "m²"
+
+msgid "m2_long"
+msgstr "square meters"
+
+msgid "a_short"
+msgstr "?Are?"
+
+msgid "a_long"
+msgstr "a"
+
+msgid "ha_short"
+msgstr "ha"
+
+msgid "ha_long"
+msgstr "hectares"
+
+msgid "km2_short"
+msgstr "km²"
+
+msgid "km2_long"
+msgstr "square kilo­meters"
+
+msgid "sqin_short"
+msgstr "sq in"
+
+msgid "sqin_long"
+msgstr "square inches"
+
+msgid "sqft_short"
+msgstr "sq ft"
+
+msgid "sqft_long"
+msgstr "square feet"
+
+msgid "sqyd_short"
+msgstr "sq yd"
+
+msgid "sqyd_long"
+msgstr "square yards"
+
+msgid "sqrd_short"
+msgstr "sq rd"
+
+msgid "sqrd_long"
+msgstr "square rod"
+
+msgid "acre_short"
+msgstr "Acre"
+
+msgid "acre_long"
+msgstr "Acre"
+
+msgid "sqmi_short"
+msgstr "sq mi"
+
+msgid "sqmi_long"
+msgstr "square miles"
+
+msgid "mm3_short"
+msgstr "mm³"
+
+msgid "mm3_long"
+msgstr "cubic milli­meters"
+
+msgid "cm3_short"
+msgstr "cm³"
+
+msgid "cm3_long"
+msgstr "cubic centi­meters"
+
+msgid "dm3_short"
+msgstr "dm³"
+
+msgid "dm3_long"
+msgstr "cubic dezi­meters"
+
+msgid "m3_short"
+msgstr "m³"
+
+msgid "m3_long"
+msgstr "cubic meters"
+
+msgid "km3_short"
+msgstr "km³"
+
+msgid "km3_long"
+msgstr "cubic kilo­meters"
+
+msgid "cuin_short"
+msgstr "cu in"
+
+msgid "cuin_long"
+msgstr "cubic inches"
+
+msgid "cuft_short"
+msgstr "cu ft"
+
+msgid "cuft_long"
+msgstr "cubic feet"
+
+msgid "cuyd_short"
+msgstr "cu yd"
+
+msgid "cuyd_long"
+msgstr "cubic yards"
+
+msgid "acrefd_short"
+msgstr "acre ft"
+
+msgid "acrefd_long"
+msgstr "acre feet"
+
+msgid "cumi_short"
+msgstr "cu mi"
+
+msgid "cumi_long"
+msgstr "cubic miles"
+
+msgid "tsp_is_short"
+msgstr "tsp"
+
+msgid "tsp_is_long"
+msgstr "tea­spoon"
+
+msgid "tbs_is_short"
+msgstr "tsp"
+
+msgid "tbs_is_long"
+msgstr "table­spoon"
+
+msgid "tsp_uscs_short"
+msgstr "tsp"
+
+msgid "tsp_uscs_long"
+msgstr "tea­spoon"
+
+msgid "tbs_uscs_short"
+msgstr "tsp"
+
+msgid "tbs_uscs_long"
+msgstr "table­spoon"
+
+msgid "cup_short"
+msgstr "cup"
+
+msgid "cup_long"
+msgstr "cup"
+
+msgid "mg_short"
+msgstr "mg"
+
+msgid "mg_long"
+msgstr "milli­gram"
+
+msgid "cg_short"
+msgstr "cg"
+
+msgid "cg_long"
+msgstr "centi­gram"
+
+msgid "dg_short"
+msgstr "dg"
+
+msgid "dg_long"
+msgstr "dezi­gram"
+
+msgid "g_short"
+msgstr "g"
+
+msgid "g_long"
+msgstr "gram"
+
+msgid "dag_short"
+msgstr "dag"
+
+msgid "dag_long"
+msgstr "deka­gram"
+
+msgid "kg_short"
+msgstr "kg"
+
+msgid "kg_long"
+msgstr "kilo­gram"
+
+msgid "ton_is_short"
+msgstr "t"
+
+msgid "ton_is_long"
+msgstr "tons"
+
+msgid "grain_short"
+msgstr "grain"
+
+msgid "grain_long"
+msgstr "grain"
+
+msgid "dr_short"
+msgstr "dr"
+
+msgid "dr_long"
+msgstr "dram"
+
+msgid "oz_short"
+msgstr "oz"
+
+msgid "oz_long"
+msgstr "ounces"
+
+msgid "lb_short"
+msgstr "lb"
+
+msgid "lb_long"
+msgstr "pounds"
+
+msgid "stone_short"
+msgstr "stone"
+
+msgid "stone_long"
+msgstr "stone"
+
+msgid "cwt_us_short"
+msgstr "cwt"
+
+msgid "cwt_us_long"
+msgstr "hundred­weight"
+
+msgid "ton_us_short"
+msgstr "tons"
+
+msgid "ton_us_long"
+msgstr "tons"
+
+msgid "ml_short"
+msgstr "ml"
+
+msgid "ml_long"
+msgstr "milli­liter"
+
+msgid "cl_short"
+msgstr "cl"
+
+msgid "cl_long"
+msgstr "centi­liter"
+
+msgid "dl_short"
+msgstr "dl"
+
+msgid "dl_long"
+msgstr "dezi­liter"
+
+msgid "l_short"
+msgstr "l"
+
+msgid "l_long"
+msgstr "liter"
+
+msgid "dal_short"
+msgstr "dal"
+
+msgid "dal_long"
+msgstr "deka­liter"
+
+msgid "hl_short"
+msgstr "hl"
+
+msgid "hl_long"
+msgstr "hekto­liter"
+
+msgid "min_short"
+msgstr "min"
+
+msgid "min_long"
+msgstr "minim"
+
+msgid "fldr_short"
+msgstr "fl dr"
+
+msgid "fldr_long"
+msgstr "fluid dram"
+
+msgid "floz_short"
+msgstr "fl oz"
+
+msgid "floz_long"
+msgstr "fluid Ounces"
+
+msgid "gi_short"
+msgstr "gi"
+
+msgid "gi_long"
+msgstr "gill"
+
+msgid "pt_short"
+msgstr "pt"
+
+msgid "pt_long"
+msgstr "pint"
+
+msgid "qt_short"
+msgstr "qt"
+
+msgid "qt_long"
+msgstr "quart"
+
+msgid "gal_short"
+msgstr "gal"
+
+msgid "gal_long"
+msgstr "gallons"
+
+msgid "barrel_short"
+msgstr "barrels"
+
+msgid "barrel_long"
+msgstr "barrels"
+
+msgid "C_short"
+msgstr "°C"
+
+msgid "C_long"
+msgstr "degrees celsius"
+
+msgid "F_short"
+msgstr "°F"
+
+msgid "F_long"
+msgstr "degrees fahren­heit"
+

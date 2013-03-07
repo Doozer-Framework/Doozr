@@ -1,0 +1,562 @@
+# FLP Translation file.
+# Copyright (C) 2003 Flaimo.com.
+# Flaimo <flaimo@gmx.net>, 2003.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FLP\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2003-01-05 04:04+0100\n"
+"Last-Translator: Flaimo <flaimo@gmx.net>\n"
+"Language-Team: Russian <flaimo@gmx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "mm_short"
+msgstr "mm"
+
+# This is a comment. This term is marked fuzzy, which means the translation is not 100% correct.
+# Further there is a reference where the string accures in the sourcecode (filename:line)
+#: class.Measure.inc.php:727
+#, fuzzy
+msgid "mm_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "cm_short"
+msgstr "cm"
+
+#: class.Measure.inc.php:727
+msgid "cm_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "dm_short"
+msgstr "dm"
+
+#: class.Measure.inc.php:727
+msgid "dm_long"
+msgstr "deci­meters"
+
+#: class.Measure.inc.php:727
+msgid "m_short"
+msgstr "m"
+
+#: class.Measure.inc.php:727
+msgid "m_long"
+msgstr "ميتر؛  عداد؛  وزن الشعر؛  الة قياس؛  وزن اّلحان"
+
+#: class.Measure.inc.php:727
+msgid "km_short"
+msgstr "km"
+
+#: class.Measure.inc.php:727
+msgid "km_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "in_short"
+msgstr "in"
+
+#: class.Measure.inc.php:727
+msgid "in_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "ft_short"
+msgstr "ft"
+
+#: class.Measure.inc.php:727
+msgid "ft_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "yd_short"
+msgstr "y"
+
+#: class.Measure.inc.php:727
+msgid "yd_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "fur_short"
+msgstr "fur"
+
+#: class.Measure.inc.php:727
+msgid "fur_long"
+msgstr "Fur­longs"
+
+#: class.Measure.inc.php:727
+msgid "mi_short"
+msgstr "mi"
+
+#: class.Measure.inc.php:727
+msgid "mi_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "mm2_short"
+msgstr "mm²"
+
+#: class.Measure.inc.php:727
+msgid "mm2_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "cm2_short"
+msgstr "cm²"
+
+#: class.Measure.inc.php:727
+msgid "cm2_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "dm2_short"
+msgstr "dm²"
+
+#: class.Measure.inc.php:727
+msgid "dm2_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "m2_short"
+msgstr "m²"
+
+#: class.Measure.inc.php:727
+msgid "m2_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "a_short"
+msgstr "?Are?"
+
+#: class.Measure.inc.php:727
+msgid "a_long"
+msgstr "a"
+
+#: class.Measure.inc.php:727
+msgid "ha_short"
+msgstr "ha"
+
+#: class.Measure.inc.php:727
+msgid "ha_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "km2_short"
+msgstr "km²"
+
+#: class.Measure.inc.php:727
+msgid "km2_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "sqin_short"
+msgstr "sq in"
+
+#: class.Measure.inc.php:727
+msgid "sqin_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "sqft_short"
+msgstr "sq ft"
+
+#: class.Measure.inc.php:727
+msgid "sqft_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "sqyd_short"
+msgstr "sq yd"
+
+#: class.Measure.inc.php:727
+msgid "sqyd_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "sqrd_short"
+msgstr "sq rd"
+
+#: class.Measure.inc.php:727
+msgid "sqrd_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "acre_short"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "acre_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "sqmi_short"
+msgstr "sq mi"
+
+#: class.Measure.inc.php:727
+msgid "sqmi_long"
+msgstr ""
+
+#: class.Measure.inc.php:727
+msgid "mm3_short"
+msgstr "mm³"
+
+#: class.Measure.inc.php:727
+msgid "mm3_long"
+msgstr "Kubik­milli­meter"
+
+#: class.Measure.inc.php:727
+msgid "cm3_short"
+msgstr "cm³"
+
+#: class.Measure.inc.php:727
+msgid "cm3_long"
+msgstr "Kubik­zenti­meter"
+
+#: class.Measure.inc.php:727
+msgid "dm3_short"
+msgstr "dm³"
+
+#: class.Measure.inc.php:727
+msgid "dm3_long"
+msgstr "Kubik­dezi­meter"
+
+#: class.Measure.inc.php:727
+msgid "m3_short"
+msgstr "m³"
+
+#: class.Measure.inc.php:727
+msgid "m3_long"
+msgstr "Kubik­meter"
+
+#: class.Measure.inc.php:727
+msgid "km3_short"
+msgstr "km³"
+
+#: class.Measure.inc.php:727
+msgid "km3_long"
+msgstr "Kubik­kilo­meter"
+
+#: class.Measure.inc.php:727
+msgid "cuin_short"
+msgstr "cu in"
+
+#: class.Measure.inc.php:727
+msgid "cuin_long"
+msgstr "Cubic inches"
+
+#: class.Measure.inc.php:727
+msgid "cuft_short"
+msgstr "cu ft"
+
+#: class.Measure.inc.php:727
+msgid "cuft_long"
+msgstr "Cubic feet"
+
+#: class.Measure.inc.php:727
+msgid "cuyd_short"
+msgstr "cu yd"
+
+#: class.Measure.inc.php:727
+msgid "cuyd_long"
+msgstr "Cubic yards"
+
+#: class.Measure.inc.php:727
+msgid "acrefd_short"
+msgstr "Acre ft"
+
+#: class.Measure.inc.php:727
+msgid "acrefd_long"
+msgstr "Acre feet"
+
+#: class.Measure.inc.php:727
+msgid "cumi_short"
+msgstr "cu mi"
+
+#: class.Measure.inc.php:727
+msgid "cumi_long"
+msgstr "Cubic miles"
+
+#: class.Measure.inc.php:727
+msgid "tsp_is_short"
+msgstr "tsp"
+
+#: class.Measure.inc.php:727
+msgid "tsp_is_long"
+msgstr "Tee­löffel"
+
+#: class.Measure.inc.php:727
+msgid "tbs_is_short"
+msgstr "tbs"
+
+#: class.Measure.inc.php:727
+msgid "tbs_is_long"
+msgstr "Ess­löffel"
+
+#: class.Measure.inc.php:727
+msgid "tsp_uscs_short"
+msgstr "tsp"
+
+#: class.Measure.inc.php:727
+msgid "tsp_uscs_long"
+msgstr "Tee­löffel"
+
+#: class.Measure.inc.php:727
+msgid "tbs_uscs_short"
+msgstr "tbs"
+
+#: class.Measure.inc.php:727
+msgid "tbs_uscs_long"
+msgstr "Ess­löffel"
+
+#: class.Measure.inc.php:727
+msgid "cup_short"
+msgstr "cup"
+
+#: class.Measure.inc.php:727
+msgid "cup_long"
+msgstr "cup"
+
+#: class.Measure.inc.php:727
+msgid "mg_short"
+msgstr "mg"
+
+#: class.Measure.inc.php:727
+msgid "mg_long"
+msgstr "Milli­gramm"
+
+#: class.Measure.inc.php:727
+msgid "cg_short"
+msgstr "cg"
+
+#: class.Measure.inc.php:727
+msgid "cg_long"
+msgstr "Zenti­gramm"
+
+#: class.Measure.inc.php:727
+msgid "dg_short"
+msgstr "dg"
+
+#: class.Measure.inc.php:727
+msgid "dg_long"
+msgstr "Dezi­gramm"
+
+#: class.Measure.inc.php:727
+msgid "g_short"
+msgstr "g"
+
+#: class.Measure.inc.php:727
+msgid "g_long"
+msgstr "Gramm"
+
+#: class.Measure.inc.php:727
+msgid "dag_short"
+msgstr "dag"
+
+#: class.Measure.inc.php:727
+msgid "dag_long"
+msgstr "Deka­gramm"
+
+#: class.Measure.inc.php:727
+msgid "kg_short"
+msgstr "kg"
+
+#: class.Measure.inc.php:727
+msgid "kg_long"
+msgstr "Kilo­gramm"
+
+#: class.Measure.inc.php:727
+msgid "ton_is_short"
+msgstr "t"
+
+#: class.Measure.inc.php:727
+msgid "ton_is_long"
+msgstr "Tonnen"
+
+#: class.Measure.inc.php:727
+msgid "grain_short"
+msgstr "Grain"
+
+#: class.Measure.inc.php:727
+msgid "grain_long"
+msgstr "Grain"
+
+#: class.Measure.inc.php:727
+msgid "dr_short"
+msgstr "dr"
+
+#: class.Measure.inc.php:727
+msgid "dr_long"
+msgstr "Dram"
+
+#: class.Measure.inc.php:727
+msgid "oz_short"
+msgstr "oz"
+
+#: class.Measure.inc.php:727
+msgid "oz_long"
+msgstr "Ounces"
+
+#: class.Measure.inc.php:727
+msgid "lb_short"
+msgstr "lb"
+
+#: class.Measure.inc.php:727
+msgid "lb_long"
+msgstr "Pounds"
+
+#: class.Measure.inc.php:727
+msgid "stone_short"
+msgstr "Stone"
+
+#: class.Measure.inc.php:727
+msgid "stone_long"
+msgstr "Stone"
+
+#: class.Measure.inc.php:727
+msgid "cwt_us_short"
+msgstr "cwt"
+
+#: class.Measure.inc.php:727
+msgid "cwt_us_long"
+msgstr "hundred­weight"
+
+#: class.Measure.inc.php:727
+msgid "ton_us_short"
+msgstr "tons"
+
+#: class.Measure.inc.php:727
+msgid "ton_us_long"
+msgstr "tons"
+
+#: class.Measure.inc.php:727
+msgid "ml_short"
+msgstr "ml"
+
+#: class.Measure.inc.php:727
+msgid "ml_long"
+msgstr "Milli­liter"
+
+#: class.Measure.inc.php:727
+msgid "cl_short"
+msgstr "cl"
+
+#: class.Measure.inc.php:727
+msgid "cl_long"
+msgstr "Zenti­liter"
+
+#: class.Measure.inc.php:727
+msgid "dl_short"
+msgstr "dl"
+
+#: class.Measure.inc.php:727
+msgid "dl_long"
+msgstr "Dezi­liter"
+
+#: class.Measure.inc.php:727
+msgid "l_short"
+msgstr "l"
+
+#: class.Measure.inc.php:727
+msgid "l_long"
+msgstr "Liter"
+
+#: class.Measure.inc.php:727
+msgid "dal_short"
+msgstr "dal"
+
+#: class.Measure.inc.php:727
+msgid "dal_long"
+msgstr "Deka­liter"
+
+#: class.Measure.inc.php:727
+msgid "hl_short"
+msgstr "hl"
+
+#: class.Measure.inc.php:727
+msgid "hl_long"
+msgstr "Hekto­liter"
+
+#: class.Measure.inc.php:727
+msgid "min_short"
+msgstr "min"
+
+#: class.Measure.inc.php:727
+msgid "min_long"
+msgstr "Minim"
+
+#: class.Measure.inc.php:727
+msgid "fldr_short"
+msgstr "fl dr"
+
+#: class.Measure.inc.php:727
+msgid "fldr_long"
+msgstr "Fluid dram"
+
+#: class.Measure.inc.php:727
+msgid "floz_short"
+msgstr "fl oz"
+
+#: class.Measure.inc.php:727
+msgid "floz_long"
+msgstr "Fluid Ounces"
+
+#: class.Measure.inc.php:727
+msgid "gi_short"
+msgstr "gi"
+
+#: class.Measure.inc.php:727
+msgid "gi_long"
+msgstr "Gill"
+
+#: class.Measure.inc.php:727
+msgid "pt_short"
+msgstr "pt"
+
+#: class.Measure.inc.php:727
+msgid "pt_long"
+msgstr "Pint"
+
+#: class.Measure.inc.php:727
+msgid "qt_short"
+msgstr "qt"
+
+#: class.Measure.inc.php:727
+msgid "qt_long"
+msgstr "Quart"
+
+#: class.Measure.inc.php:727
+msgid "gal_short"
+msgstr "gal"
+
+#: class.Measure.inc.php:727
+msgid "gal_long"
+msgstr "Gallons"
+
+#: class.Measure.inc.php:727
+msgid "barrel_short"
+msgstr "Barrels"
+
+#: class.Measure.inc.php:727
+msgid "barrel_long"
+msgstr "Barrels"
+
+#: class.Measure.inc.php:727
+msgid "C_short"
+msgstr "°C"
+
+#: class.Measure.inc.php:727
+msgid "C_long"
+msgstr "Grad Celsius"
+
+#: class.Measure.inc.php:727
+msgid "F_short"
+msgstr "°F"
+
+#: class.Measure.inc.php:727
+msgid "F_long"
+msgstr "Grad Fahren­heit"
+

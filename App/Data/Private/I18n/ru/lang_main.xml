@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<translator>
+	<locale id="ru">
+		<namespace id="lang_main">
+			<meta>
+				<author mail="flaimo@gmx.net">Flaimo</author>
+				<created>2004-06-02</created>
+				<lastchange>2004-06-02</lastchange>
+			</meta>
+			<translations>
+				<translation string="de">немецко</translation>
+				<translation string="de-at">австрийско</translation>
+				<translation string="en">английско</translation>
+				<translation string="en-gb">английско (UK)</translation>
+				<translation string="es">испанско</translation>
+				<translation string="fr">французско</translation>
+				<translation string="it">итальянско</translation>
+				<translation string="No">Нет</translation>
+				<translation string="no_records_found">отсутствие найденных показателей</translation>
+				<translation string="ru">русско</translation>
+				<translation string="switch_to">переключите к</translation>
+				<translation string="time">время</translation>
+				<translation string="timezone_is">времязона</translation>
+				<translation string="Yes">Да</translation>
+				<translation string="ar">Арабско</translation>
+			</translations>
+		</namespace>
+	</locale>
+</translator>

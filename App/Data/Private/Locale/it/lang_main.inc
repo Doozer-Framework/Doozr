@@ -1,0 +1,15 @@
+Yes = Sí
+No = No
+timezone_is = Tutte le volte:
+switch_to = commuti a
+de-at = Austriaco
+de = Tedesco
+en = Inglese
+es = Spagnolo
+fr = Francese
+it = Italiano
+en-gb = Inglese (UK)
+ru = Russo
+ar = Arabo
+no_records_found = Nessun record trovato!
+x_books_in_my_y_shelves = Ho %1$s libri nei mie %2$s mensole

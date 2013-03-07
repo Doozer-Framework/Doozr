@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<translator>
+	<locale id="ru">
+		<namespace id="lang_classFormatDate">
+			<meta>
+				<author mail="flaimo@gmx.net">Flaimo</author>
+				<created>2004-06-02</created>
+				<lastchange>2004-06-02</lastchange>
+			</meta>
+			<translations>
+				<translation string="april">апрель</translation>
+				<translation string="august">август</translation>
+				<translation string="december">декабрь</translation>
+				<translation string="february">февраль</translation>
+				<translation string="friday">пятница</translation>
+				<translation string="hour">час</translation>
+				<translation string="ISO_time">время ISO</translation>
+				<translation string="january">январь</translation>
+				<translation string="july">июль</translation>
+				<translation string="june">июнь</translation>
+				<translation string="march">марш</translation>
+				<translation string="may">смогите</translation>
+				<translation string="monday">понедельник</translation>
+				<translation string="november">ноябрь</translation>
+				<translation string="october">октябрь</translation>
+				<translation string="saturday">суббота</translation>
+				<translation string="september">сентябрь</translation>
+				<translation string="standard_time">временя</translation>
+				<translation string="sunday">воскресенье</translation>
+				<translation string="swatch_time">время swatch</translation>
+				<translation string="thursday">четверг</translation>
+				<translation string="tuesday">вторник</translation>
+				<translation string="wednesday">среда</translation>
+			</translations>
+		</namespace>
+	</locale>
+</translator>

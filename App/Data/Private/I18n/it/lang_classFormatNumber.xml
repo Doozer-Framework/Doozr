@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<translator>
+	<locale id="it">
+		<namespace id="lang_classFormatNumber">
+			<meta>
+				<author mail="flaimo@gmx.net">Flaimo</author>
+				<created>2004-06-02</created>
+				<lastchange>2004-06-02</lastchange>
+			</meta>
+			<translations>
+				<translation string="at_currency_major_long">Euro</translation>
+				<translation string="at_currency_major_short">EUR</translation>
+				<translation string="at_currency_major_symbol">€</translation>
+				<translation string="at_currency_minor_long">Centesimo</translation>
+				<translation string="at_currency_minor_short">c</translation>
+				<translation string="at_currency_minor_symbol">¢</translation>
+				<translation string="de_currency_major_long">Euro</translation>
+				<translation string="de_currency_major_short">EUR</translation>
+				<translation string="de_currency_major_symbol">€</translation>
+				<translation string="de_currency_minor_long">Centesimo</translation>
+				<translation string="de_currency_minor_short">c</translation>
+				<translation string="de_currency_minor_symbol">¢</translation>
+				<translation string="es_currency_major_long">Euro</translation>
+				<translation string="es_currency_major_short">EUR</translation>
+				<translation string="es_currency_major_symbol">€</translation>
+				<translation string="es_currency_minor_long">Centesimo</translation>
+				<translation string="es_currency_minor_short">c</translation>
+				<translation string="es_currency_minor_symbol">¢</translation>
+				<translation string="fr_currency_major_long">Euro</translation>
+				<translation string="fr_currency_major_short">EUR</translation>
+				<translation string="fr_currency_major_symbol">€</translation>
+				<translation string="fr_currency_minor_long">Centesimo</translation>
+				<translation string="fr_currency_minor_short">c</translation>
+				<translation string="fr_currency_minor_symbol">¢</translation>
+				<translation string="gb_currency_major_long">Pound</translation>
+				<translation string="gb_currency_major_short">GBP</translation>
+				<translation string="gb_currency_major_symbol">£</translation>
+				<translation string="gb_currency_minor_long">Pence</translation>
+				<translation string="gb_currency_minor_short">p</translation>
+				<translation string="gb_currency_minor_symbol">p</translation>
+				<translation string="it_currency_major_long">Euro</translation>
+				<translation string="it_currency_major_short">EUR</translation>
+				<translation string="it_currency_major_symbol">€</translation>
+				<translation string="it_currency_minor_long">Centesimo</translation>
+				<translation string="it_currency_minor_short">c</translation>
+				<translation string="it_currency_minor_symbol">¢</translation>
+				<translation string="ru_currency_major_long">Ruble</translation>
+				<translation string="ru_currency_major_short">RUB</translation>
+				<translation string="ru_currency_major_symbol">RUB</translation>
+				<translation string="ru_currency_minor_long">Kopecks</translation>
+				<translation string="sa_currency_major_long">Dirham</translation>
+				<translation string="sa_currency_major_short">SAR</translation>
+				<translation string="sa_currency_major_symbol">SAR</translation>
+				<translation string="sa_currency_minor_long">Fils</translation>
+				<translation string="us_currency_major_long">Dollaro</translation>
+				<translation string="us_currency_major_short">USD</translation>
+				<translation string="us_currency_major_symbol">$</translation>
+				<translation string="us_currency_minor_long">Centesimo</translation>
+				<translation string="us_currency_minor_short">c</translation>
+				<translation string="us_currency_minor_symbol">¢</translation>
+			</translations>
+		</namespace>
+	</locale>
+</translator>

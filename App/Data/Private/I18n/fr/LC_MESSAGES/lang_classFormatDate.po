@@ -1,0 +1,91 @@
+# FLP Translation file.
+# Copyright (C) 2004 Flaimo.com.
+# Flaimo <flaimo@gmx.net>, 2004.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FLP\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2004-04-04 04:04+0100\n"
+"Last-Translator: Flaimo <flaimo@gmx.net>\n"
+"Language-Team: French <flaimo@gmx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "time"
+msgstr "temps"
+
+# This is a comment. This term is marked fuzzy, which means the translation is not 100% correct.
+# Further there is a reference where the string accures in the sourcecode (filename:line)
+#: example.php:12
+#, fuzzy
+msgid "standard_time"
+msgstr "temps standard"
+
+msgid "swatch_time"
+msgstr "temps swatch"
+
+msgid "ISO_time"
+msgstr "temps ISO"
+
+msgid "sunday"
+msgstr "Di­manche"
+
+msgid "monday"
+msgstr "Lundi"
+
+msgid "tuesday"
+msgstr "Mardi"
+
+msgid "wednesday"
+msgstr "Mer­credi"
+
+msgid "thursday"
+msgstr "Jeudi"
+
+msgid "friday"
+msgstr "Vendredi"
+
+msgid "saturday"
+msgstr "Samedi"
+
+msgid "january"
+msgstr "Jan­vier"
+
+msgid "february"
+msgstr "Febrier"
+
+msgid "march"
+msgstr "Mars"
+
+msgid "april"
+msgstr "Avril"
+
+msgid "may"
+msgstr "Mai"
+
+msgid "june"
+msgstr "Juin"
+
+msgid "july"
+msgstr "Juillet"
+
+msgid "august"
+msgstr "Août"
+
+msgid "september"
+msgstr "Sep­tem­bre"
+
+msgid "october"
+msgstr "Oc­to­bre"
+
+msgid "november"
+msgstr "No­vem­bre"
+
+msgid "december"
+msgstr "De­cem­bre"
+
+msgid "hour"
+msgstr "heure"

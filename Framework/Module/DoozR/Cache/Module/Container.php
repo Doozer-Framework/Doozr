@@ -11,7 +11,7 @@
  * LICENSE:
  * DoozR - The PHP-Framework
  *
- * Copyright (c) 2005 - 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2013, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -46,12 +46,12 @@
  * @package    DoozR_Module
  * @subpackage DoozR_Module_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2012 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
- * @since      File available since Release 1.0.0
+ * @since      -
  */
 
 /**
@@ -63,12 +63,12 @@
  * @package    DoozR_Module
  * @subpackage DoozR_Module_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2012 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
- * @since      File available since Release 1.0.0
+ * @since      -
  * @throws     Module_DoozR_Cache_Module_Exception
  * @DoozRType  Multiple
  */
@@ -178,17 +178,13 @@ abstract class DoozR_Cache_Module_Container
 
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
      * @param array $options The options passed to this instance at runtime
      *
-     * @return  object Instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return object Instance of this class
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(array $options = array())
     {
@@ -210,11 +206,9 @@ abstract class DoozR_Cache_Module_Container
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
-     * @return  mixed The dataset value, NULL on failure
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return mixed The dataset value, NULL on failure
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function read($id, $group)
     {
@@ -222,7 +216,6 @@ abstract class DoozR_Cache_Module_Container
         if ($this->_preload) {
             // do a checked preload
             $this->_checkedPreload($id, $group);
-
             return $this->_data;
         }
 
@@ -245,12 +238,10 @@ abstract class DoozR_Cache_Module_Container
      * @param string  $group    The dataset group
      * @param string  $userdata The custom userdata to add
      *
-     * @return  boolean TRUE on success
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @return boolean TRUE on success
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @throws DoozR_Cache_Module_Exception
      */
     public function update($id, $data, $expires, $group, $userdata)
     {
@@ -265,11 +256,9 @@ abstract class DoozR_Cache_Module_Container
      * @param string $id    The dataset id
      * @param string $group The dataset group
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getUserdata($id, $group)
     {
@@ -297,11 +286,9 @@ abstract class DoozR_Cache_Module_Container
      *
      * @param string $id The id to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setId($id)
     {
@@ -313,11 +300,9 @@ abstract class DoozR_Cache_Module_Container
      *
      * This method returns the id.
      *
-     * @return  string The current id
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return string The current id
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getId()
     {
@@ -332,11 +317,9 @@ abstract class DoozR_Cache_Module_Container
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
-     * @return  boolean TRUE if cached, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return boolean TRUE if cached, otherwise FALSE
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function isCached($id, $group)
     {
@@ -360,11 +343,9 @@ abstract class DoozR_Cache_Module_Container
      * @param string  $group  The dataset group
      * @param integer $maxAge Maximum age timestamp
      *
-     * @return  mixed The dataset value, NULL on failure
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return mixed The dataset value, NULL on failure
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function isExpired($id, $group, $maxAge)
     {
@@ -412,11 +393,9 @@ abstract class DoozR_Cache_Module_Container
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
-     * @return  boolean TRUE on success
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return boolean TRUE on success
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     private function _preload($id, $group)
     {
@@ -427,7 +406,7 @@ abstract class DoozR_Cache_Module_Container
         // try to read result by id-group
         $result = $this->read($id, $group);
 
-        list($this->_expires, $this->_data, $this->_userdata) = $result;
+        //list($this->_expires, $this->_data, $this->_userdata) = $result;
 
         if ($this->_expires === null) {
             // Uuups, unknown ID
@@ -437,6 +416,7 @@ abstract class DoozR_Cache_Module_Container
 
         //
         $this->_unknown = false;
+
 
         return true;
     }
@@ -450,11 +430,9 @@ abstract class DoozR_Cache_Module_Container
      * @param string $id    The dataset id
      * @param string $group The dataset group
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     private function _checkedPreload($id, $group)
     {
@@ -472,11 +450,9 @@ abstract class DoozR_Cache_Module_Container
      * @param array $requested The values which should be imported as variable into class-namespace
      * @param array $allowed   The allowed keys (variable-names) - allowed to import
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function setOptions(array $requested = array(), array $allowed = array())
     {
@@ -498,11 +474,9 @@ abstract class DoozR_Cache_Module_Container
      *                      values will only be flushed if they are equal to the given id and group
      * @param string $group The dataset group
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function flushPreload($id = '', $group = 'Default')
     {
@@ -524,11 +498,9 @@ abstract class DoozR_Cache_Module_Container
      *
      * @param string $data The dataset to encode
      *
-     * @return  string Encoded data input
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return string Encoded data input
+     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function encode($data)
     {
@@ -546,11 +518,9 @@ abstract class DoozR_Cache_Module_Container
      *
      * @param string $data The dataset to encode
      *
-     * @return  string Encoded data input
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return string Encoded data input
+     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function decode($data)
     {
@@ -573,11 +543,9 @@ abstract class DoozR_Cache_Module_Container
      *                       absolute unixtime       : x < 2147483648   eg: 2147483648
      *                       see comments in code for details
      *
-     * @return  integer UNIX-Timestamp
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return integer UNIX-Timestamp
+     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function getExpiresAbsolute($expires)
     {
@@ -614,11 +582,9 @@ abstract class DoozR_Cache_Module_Container
      *
      * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function garbageCollection($maxlifetime)
     {
@@ -634,11 +600,9 @@ abstract class DoozR_Cache_Module_Container
      * @param string $id    The id of the dataset
      * @param string $group The group of the dataset
      *
-     * @return  boolean TRUE if Id exist, otherwise FALSE
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return boolean TRUE if Id exist, otherwise FALSE
+     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @abstract
      */
     abstract protected function idExists($id, $group);
@@ -651,11 +615,9 @@ abstract class DoozR_Cache_Module_Container
      * @param string $id    The id of the dataset
      * @param string $group The group of the dataset
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @abstract
      */
     //abstract protected function delete($id, $group);
@@ -667,11 +629,9 @@ abstract class DoozR_Cache_Module_Container
      *
      * @param string $group The dataset group to flush
      *
-     * @return  mixed Number of removed datasets on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return mixed Number of removed datasets on success, otherwise FALSE
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @abstract
      */
     abstract public function flush($group);

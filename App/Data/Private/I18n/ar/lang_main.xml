@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<translator>
+	<locale id="ar">
+		<namespace id="lang_main">
+			<meta>
+				<author mail="flaimo@gmx.net">Flaimo</author>
+				<created>2004-06-02</created>
+				<lastchange>2004-06-02</lastchange>
+			</meta>
+			<translations>
+				<translation string="de">الماني؛  جرماني</translation>
+				<translation string="de-at">النمساوي</translation>
+				<translation string="en">إنكليزي</translation>
+				<translation string="en-gb">إنكليزي (UK)</translation>
+				<translation string="es">أسباني</translation>
+				<translation string="fr">فرنسي</translation>
+				<translation string="it">إيطالي</translation>
+				<translation string="No">ِ؛  أبدا</translation>
+				<translation string="no_records_found">ِ؛  أبدا إرشيف؛  تسجيِت؛  محفوظات؛</translation>
+				<translation string="ru">روسي</translation>
+				<translation string="switch_to">تحول؛  غير؛  حول؛  بدل؛  جلد؛</translation>
+				<translation string="time">قاس الوقت؛  وقت</translation>
+				<translation string="timezone_is"></translation>
+				<translation string="Yes">نعم؛  أجل؛  بلى</translation>
+				<translation string="ar">عربي</translation>
+			</translations>
+		</namespace>
+	</locale>
+</translator>

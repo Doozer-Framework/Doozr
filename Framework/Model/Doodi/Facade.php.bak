@@ -1,0 +1,213 @@
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+ * DoozR - Doodi - Database-Wrapper
+ *
+ * Facade.php - Doodi (DoozR's Object Oriented Database Interface) Facade
+ *
+ * PHP versions 5
+ *
+ * LICENSE:
+ * DoozR - The PHP-Framework
+ *
+ * Copyright (c) 2005 - 2013, Benjamin Carl - All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ * - All advertising materials mentioning features or use of this software
+ *   must display the following acknowledgement: This product includes software
+ *   developed by Benjamin Carl and other contributors.
+ * - Neither the name Benjamin Carl nor the names of other contributors
+ *   may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Please feel free to contact us via e-mail: opensource@clickalicious.de
+ *
+ * @category   DoozR
+ * @package    DoozR_Model
+ * @subpackage DoozR_Model_Doodi
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2013 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/DoozR/
+ * @see        -
+ * @since      -
+ */
+
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Database/Facade/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Database/Facade/Interface.php';
+
+/**
+ * DoozR - Doodi - Database-Wrapper
+ *
+ * Doodi (DoozR's Object Oriented Database Interface) Facade
+ *
+ * @category   DoozR
+ * @package    DoozR_Model
+ * @subpackage DoozR_Model_Doodi
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2013 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/DoozR/
+ * @see        -
+ * @since      -
+ */
+class Doodi_Facade extends DoozR_Base_Database_Facade_Abstract //implements DoozR_Base_Database_Facade_Interface
+{
+    /**
+     * The name of the ORM/DBA
+     *
+     * @var string
+     * @access const
+     */
+    const ORM_NAME = 'Doodi';
+
+    /**
+     * The version of the ORM/DBA
+     *
+     * @var string
+     * @access const
+     */
+    const ORM_VERSION = '0.0.1';
+
+    /**
+     * The directory of/to the ORM/DBA
+     *
+     * @var string
+     * @access const
+     */
+    const ORM_DIRECTORY = 'Lib';
+
+
+    /**
+     * initialize the ORM/DBA Database-Framework (instance!)
+     *
+     * initialize the ORM/DBA Database-Framework (instance!)
+     *
+     * @param object &$referenceWrapper The reference to the wrapper
+     *
+     * @return    object The instance of the ORM/DBA
+     * @access    public
+     * @author    Benjamin Carl <opensource@clickalicious.de>
+     * @copyright Benjamin Carl 2009 - 2010
+     * @since     Method available since Release 1.0.0
+     * @version   1.0
+     */
+    public function dispatch(&$referenceWrapper = '')
+    {
+        // log the dispatch call
+        $this->logger->log('"'.self::ORM_NAME.'" for accessing database dispatched successfully!');
+
+        // retrieve the path to ORM/DBA
+        $ormDirectory = $this->getOrmDirectory();
+
+        // log the path retrieved
+        $this->logger->log('"'.self::ORM_NAME.'" uses path: "'.$ormDirectory.'"');
+
+        // retrieve config from DoozR by ORM-name
+        $this->retrieveOrmConfig($this->getOrmName());
+
+        // get config for further processing
+        $config = $this->getConfig($this->getInstanceIdentifier());
+
+        // which driver should be used by Doodi?
+        $driver = $config['DRIVER'];
+
+        // which database configuration should be used by Doodi?
+        $host     = $config['HOST'];
+        $port     = $config['PORT'];
+        $user     = $config['USER'];
+        $password = $config['PASSWORD'];
+        $dbname   = $config['DATABASE'];
+
+        // get Library-File to include at next step
+        $libraryFilenames = $this->getLibraryFiles($driver);
+
+        // iterate over retrieved filenames and include them
+        foreach ($libraryFilenames as $libraryFilename) {
+            // will load an specified file without DoozR-Autoloader
+            $this->loadFile($libraryFilename);
+        }
+
+        // get instance of Doodi
+        $ormInstance = $this->instanciate(self::ORM_NAME, array($config), 'getInstance');
+
+        // store created instance in given references
+        $referenceWrapper = $ormInstance;
+
+        // return the instance of the ORM
+        return $ormInstance;
+    }
+
+
+    /**
+     * constructs the include filename for our generic wrapper
+     *
+     * in Doodi-Wrapper we retrieve our Library-Filename by the configured Driver (e.g. Mysql or Couchdb)
+     *
+     * @param string $libraryBasename The basename of the library to use for combine
+     *
+     * @return    object The instance of the ORM/DBA
+     * @access    public
+     * @author    Benjamin Carl <opensource@clickalicious.de>
+     * @copyright Benjamin Carl 2009 - 2010
+     * @since     Method available since Release 1.0.0
+     * @version   1.0
+     */
+    protected function getRequiredLibraryFiles($libraryBasename)
+    {
+        // get name in correct spelling and formatting
+        $libraryBasename = ucfirst(strtolower($libraryBasename));
+
+        // assume empty base
+        $libraryFiles = array();
+
+        // ORM-lib-folder
+        $ormDirectoryLib = $this->getOrmDirectory();
+
+        /**
+         * BE AWARE OF CORRECT ORDER !
+         */
+        switch ($libraryBasename) {
+        case 'Couchdb':
+            $libraryFiles[] = $ormDirectoryLib.$libraryBasename.DIRECTORY_SEPARATOR.'bootstrap.php';
+            $libraryFiles[] = $ormDirectoryLib.'Container'.DIRECTORY_SEPARATOR.$libraryBasename.DIRECTORY_SEPARATOR.
+                              'Bootstrap.php';
+            break;
+
+        case 'Mysql':
+        default:
+            $libraryFiles[] = $ormDirectoryLib.$libraryBasename.DIRECTORY_SEPARATOR.$libraryBasename.'.class.php';
+            break;
+        }
+
+        // finally add Doodi
+        $libraryFiles[] = $ormDirectoryLib.self::ORM_NAME.'.php';
+
+        // return the new combined library filename
+        return $libraryFiles;
+    }
+}
+
+?>

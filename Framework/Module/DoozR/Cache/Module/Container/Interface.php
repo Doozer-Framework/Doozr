@@ -11,7 +11,7 @@
  * LICENSE:
  * DoozR - The PHP-Framework
  *
- * Copyright (c) 2005 - 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2013, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -46,12 +46,12 @@
  * @package    DoozR_Module
  * @subpackage DoozR_Module_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2012 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    SVN: $Id$
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
- * @since      File available since Release 1.0.0
+ * @since      -
  */
 
 /**
@@ -63,12 +63,12 @@
  * @package    DoozR_Module
  * @subpackage DoozR_Module_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2012 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Release: @package_version@
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
- * @since      File available since Release 1.0.0
+ * @since      -
  */
 interface DoozR_Cache_Module_Container_Interface
 {
@@ -83,7 +83,6 @@ interface DoozR_Cache_Module_Container_Interface
      * @param string  $data     The data to write to cache
      * @param integer $expires  Date/Time on which the cache-entry expires
      * @param string  $group    The dataset group
-     * @param string  $userdata The custom userdata to add
      *
      * @return  boolean TRUE if entry was created succesful, otherwise FALSE
      * @access  public
@@ -91,7 +90,7 @@ interface DoozR_Cache_Module_Container_Interface
      * @since   Method available since Release 1.0.0
      * @version 1.0
      */
-    public function create($id, $data, $expires, $group, $userdata);
+    public function create($id, $data, $expires, $group);
 
     /**
      * reads a cache-entry

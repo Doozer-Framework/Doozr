@@ -1,0 +1,109 @@
+# FLP Translation file.
+# Copyright (C) 2003 Flaimo.com.
+# Flaimo <flaimo@gmx.net>, 2003.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FLP\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2003-01-05 04:04+0100\n"
+"Last-Translator: Flaimo <flaimo@gmx.net>\n"
+"Language-Team: Arabic <flaimo@gmx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "time"
+msgstr "قاس الوقت؛  وقت"
+
+msgid "standard_time"
+msgstr "قياسي؛  عياري؛  مقياسي؛ قاس الوقت؛  وقت"
+
+#: class.FormatDate.inc.php:817
+msgid "swatch_time"
+msgstr "قاس الوقت؛  وقت swatch"
+
+#: class.FormatDate.inc.php:818
+msgid "ISO_time"
+msgstr "قاس الوقت؛  وقت ISO"
+
+#: class.FormatDate.inc.php:570
+msgid "sunday"
+msgstr "اّحد؛  يوم اّحد"
+
+#: class.FormatDate.inc.php:570
+msgid "monday"
+msgstr "يوم اِثنين؛  اّثنين"
+
+#: class.FormatDate.inc.php:570
+msgid "tuesday"
+msgstr "يوم الثِثاء؛  الثِثاء"
+
+#: class.FormatDate.inc.php:570
+msgid "wednesday"
+msgstr "يوم اّربعاء؛  اّربعاء"
+
+#: class.FormatDate.inc.php:570
+msgid "thursday"
+msgstr "يوم الخميس؛  الخميس"
+
+#: class.FormatDate.inc.php:570
+msgid "friday"
+msgstr "يوم الجمعة؛  الجمعة"
+
+#: class.FormatDate.inc.php:570
+msgid "saturday"
+msgstr "يوم السبت؛  السبت"
+
+#: class.FormatDate.inc.php:527
+msgid "january"
+msgstr "ناير؛  كانون الثاني يناير؛  الشهر اّول في التقويم الغريغوري"
+
+#: class.FormatDate.inc.php:527
+msgid "february"
+msgstr "شباط؛  فبراير؛  الشهر الثاني من التقويم الغريغوري"
+
+#: class.FormatDate.inc.php:527
+msgid "march"
+msgstr "خطا؛  سير؛  تاخم؛  تقدم؛  خرج في مسيرة؛"
+
+#: class.FormatDate.inc.php:527
+msgid "april"
+msgstr "ابريل؛  نيسان؛  الشهر الرابع في التقويم الغريغوريى"
+
+#: class.FormatDate.inc.php:527
+msgid "may"
+msgstr "ربما؛  قد"
+
+#: class.FormatDate.inc.php:527
+msgid "june"
+msgstr "حزيران"
+
+#: class.FormatDate.inc.php:527
+msgid "july"
+msgstr "يوليو؛  تموز"
+
+#: class.FormatDate.inc.php:527
+msgid "august"
+msgstr "مهيب؛  جليل"
+
+#: class.FormatDate.inc.php:527
+msgid "september"
+msgstr "سبتمبر؛  أيلول"
+
+#: class.FormatDate.inc.php:527
+msgid "october"
+msgstr "أكتوبر؛  تشرين اّول؛  مزر أكتوبر"
+
+#: class.FormatDate.inc.php:527
+msgid "november"
+msgstr "نوفمبر؛  تشرين الثاني"
+
+#: class.FormatDate.inc.php:527
+msgid "december"
+msgstr "كانون اِول؛  كانون اّول ديسمبر؛  ديسمبر"
+
+#: class.FormatDate.inc.php:654
+msgid "hour"
+msgstr "ساعة؛  ستون دقيقة؛  موعد اْيواء للفراش؛  وقت الدراسة"

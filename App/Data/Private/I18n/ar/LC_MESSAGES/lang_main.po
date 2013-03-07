@@ -1,0 +1,66 @@
+# FLP Translation file.
+# Copyright (C) 2004 Flaimo.com.
+# Flaimo <flaimo@gmx.net>, 2004.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FLP\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2004-04-04 04:18+0100\n"
+"Last-Translator: Flaimo <flaimo@gmx.net>\n"
+"Language-Team: Russian <flaimo@gmx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Yes"
+msgstr "نعم؛  أجل؛  بلى"
+
+msgid "No"
+msgstr "ِ؛  أبدا"
+
+msgid "hour"
+msgstr "ساعة؛  ستون دقيقة؛  موعد اْيواء للفراش؛  وقت الدراسة"
+
+msgid "timezone_is"
+msgstr ""
+
+msgid "time"
+msgstr "قاس الوقت؛  وقت"
+
+msgid "switch_to"
+msgstr "تحول؛  غير؛  حول؛  بدل؛  جلد؛"
+
+msgid "de-at"
+msgstr "النمساوي"
+
+msgid "de"
+msgstr "الماني؛  جرماني"
+
+msgid "en"
+msgstr "إنكليزي"
+
+msgid "es"
+msgstr "أسباني"
+
+msgid "fr"
+msgstr "فرنسي"
+
+msgid "it"
+msgstr "إيطالي"
+
+msgid "en-gb"
+msgstr "إنكليزي (UK)"
+
+msgid "ru"
+msgstr "روسي"
+
+msgid "ar"
+msgstr "عربي"
+
+msgid "no_records_found"
+msgstr "ِ؛  أبدا إرشيف؛  تسجيِت؛  محفوظات؛"
+
+msgid "x_books_in_my_y_shelves"
+msgstr "ِ؛  أبدا إرشيف؛  تسجيِت؛  محفوظات؛"

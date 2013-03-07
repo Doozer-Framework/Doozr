@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Unbenanntes Dokument</title>
+<style type="text/css"> 
+<!-- 
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #666666;
+	margin: 0; /* Es empfiehlt sich, margin (Rand) und padding (Auffüllung) des Body-Elements auf 0 einzustellen, um unterschiedlichen Browser-Standardeinstellungen Rechnung zu tragen. */
+	padding: 0;
+	text-align: center; /* Hierdurch wird der Container in IE 5*-Browsern zentriert. Dem Text wird dann im #container-Selektor die Standardausrichtung left (links) zugewiesen. */
+	color: #000000;
+}
+.thrColAbsHdr #container { 
+	position: relative; /* Durch Hinzufügen von position: relative können Sie die beiden Randleisten im Verhältnis zu diesem Container positionieren. */
+	width: 780px;  /* Mit einer Breite, die 20 Pixel unter der vollen Breite von 800 Pixel liegt, können Sie dem Browser-Chrome Rechnung tragen und gleichzeitig eine horizontale Bildlaufleiste vermeiden. */
+	background: #FFFFFF;
+	margin: 0 auto; /* Durch automatische Ränder (in Verbindung mit einer Breite) wird die Seite zentriert. */
+	border: 1px solid #000000;
+	text-align: left; /* Hierdurch wird die Einstellung text-align: center im Body-Element überschrieben. */
+} 
+
+/* Tipps für absolut positionierte Randleisten mit Kopf- und Fußzeile:
+1. Für absolut positionierte (AP) Elemente müssen Sie einen oberen (top) und einen seitlichen (right oder left) Positionswert angeben. Wenn der Wert für top fehlt, beginnt das AP-Element standardmäßig direkt nach dem letzten Element in der Quellenabfolge der Seite. Wenn also die Randleisten in der Quellenabfolge des Dokuments die ersten Elemente im #container sind, erscheinen sie ganz oben im #container, auch wenn für sie kein top-Wert angegeben wurde. Falls sie aber später in der Quellenabfolge an eine andere Stelle verschoben werden sollten, benötigen sie einen top-Wert, damit sie an der gewünschten Position stehen.
+2. Absolut positionierte (AP) Elemente werden aus dem Dokumentfluss herausgenommen. Dies bedeutet, dass den benachbarten Elementen ihre Existenz unbekannt ist und dass sie nicht berücksichtigt werden, wenn diese Elemente den ihnen zugedachten Platz auf der Seite einnehmen. Ein AP-div sollte daher nur als Randspalte eingesetzt werden, wenn Sie sicher sind, dass das mittlere #mainContent-div immer die größte Inhaltsmenge hat. Sollte eine der Randleisten eine größere Inhaltsmenge aufweisen, würde diese Randleiste uneingeschränkt über das Ende des übergeordneten div sowie in diesem Fall auch über das Ende der Fußzeile hinauslaufen.
+3. Sofern die oben genannten Bedingungen erfüllt sind, können Sie mit absolut positionierten Randleisten die Quellenabfolge in Dokumenten auf einfache Weise steuern.
+4. Bei einer Änderung der Quellenabfolge sollte der top-Wert mit der Höhe der Überschrift übereinstimmen, weil dadurch die Spalten und die Überschrift visuell einheitlicher wirken.
+*/
+.thrColAbsHdr #header { 
+	height: 60px; /* Wenn Sie die Quellenabfolge der Spalten ändern, sollten Sie für die Überschrift eine Höhe angeben, damit Sie den Spalten einen spezifischen top-Wert zuweisen können. */
+	background: #DDDDDD; 
+	padding: 0 10px 0 20px;  /* Diese Auffüllung entspricht der linksbündigen Ausrichtung der Elemente in den divs, die darunter erscheinen. Wenn im #header anstelle von Text ein Bild eingesetzt wird, sollten Sie die Auffüllung entfernen. */
+} 
+.thrColAbsHdr #header h1 {
+	margin: 0; /* Wenn Sie den Rand des letzten Elements im #header-div auf 0 einstellen, können Sie das Auftreten unerwarteter Abstände zwischen divs vermeiden. Wenn das div einen Rahmen hat, ist dies unnötig, weil dieser Rahmen die gleiche Wirkung hat. */
+	padding: 10px 0; /* Durch die Verwendung der Auffüllung anstelle von Rändern lässt sich gewährleisten, dass das Element die Kanten des div nicht berührt. */
+}
+.thrColAbsHdr #sidebar1 {
+	position: absolute;
+	top: 60px;
+	left: 0;
+	width: 150px; /* Die tatsächliche Breite dieses div umfasst in standardgerechten Browsern bzw. im Standardmodus von Internet Explorer außer der Breite auch die Auffüllung und den Rahmen. */
+	background: #EBEBEB; /* Die Hintergrundfarbe wird nur für die Länge des Spalteninhalts angezeigt. */
+	padding: 15px 10px 15px 20px; /* Mit der Auffüllung wird gewährleistet, dass der Inhalt des div die Kanten nicht berührt. */
+}
+.thrColAbsHdr #sidebar2 {
+	position: absolute;
+	top: 60px;
+	right: 0;
+	width: 160px; /* Die tatsächliche Breite dieses div umfasst in standardgerechten Browsern bzw. im Standardmodus von Internet Explorer außer der Breite auch die Auffüllung und den Rahmen. */
+	background: #EBEBEB; /* Die Hintergrundfarbe wird nur für die Länge des Spalteninhalts angezeigt. */
+	padding: 15px 10px 15px 20px; /* Mit der Auffüllung wird gewährleistet, dass der Inhalt des div die Kanten nicht berührt. */
+}
+.thrColAbsHdr #mainContent { 
+	margin: 0 200px; /* Der rechte und der linke Rand dieses div-Elements erstellen die beiden äußeren Spalten an den Seitenrändern. Der Spaltenbereich bleibt unabhängig von der Inhaltsmenge der Randleisten-divs immer gleich. */
+	padding: 0 10px; /* padding (Auffüllung) bezeichnet den Innenabstand und margin (Rand) den Außenabstand der div -Box. */
+}
+.thrColAbsHdr #footer { 
+	padding: 0 10px 0 20px; /* Diese Auffüllung entspricht der linksbündigen Ausrichtung der Elemente in den divs, die darunter erscheinen. */
+	background:#DDDDDD;
+} 
+.thrColAbsHdr #footer p {
+	margin: 0; /* Wenn Sie die Ränder des ersten Elements in der Fußzeile auf 0 einstellen, können Sie unerwartete Abstände zwischen divs vermeiden. */
+	padding: 10px 0; /* Durch die Verwendung der Auffüllung bei diesem Element entsteht genau wie bei einem Rand ein Leerraum, aber ohne die potenziellen Abstandsprobleme. */
+}
+.fltrt { /* Mit dieser Klasse können Sie ein Element auf der Seite nach rechts fließen lassen. Das floatende Element muss vor dem Element stehen, neben dem es auf der Seite erscheinen soll. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* Mit dieser Klasse können Sie ein Element auf der Seite nach links fließen lassen. */
+	float: left;
+	margin-right: 8px;
+}
+--> 
+</style><!--[if IE 5]>
+<style type="text/css"> 
+/* Fügen Sie CSS-Box-Modell-Korrekturen für IE 5* in diesen bedingten Kommentar ein. */
+.thrColAbsHdr #sidebar1 { width: 180px; }
+.thrColAbsHdr #sidebar2 { width: 190px; }
+</style>
+<![endif]--></head>
+
+<body class="thrColAbsHdr">
+
+<div id="container">
+  <div id="header">
+<h1>Kopfzeile</h1>
+  <!-- end #header --></div>
+  <div id="sidebar1">
+  <h3>Sidebar1-Inhalt</h3>
+    <p>Die Hintergrundfarbe für dieses div wird nur für die Länge des Inhalts angezeigt. Sollten Sie eine Trennlinie bevorzugen, fügen Sie der CSS-Regel des entsprechenden Divs (#sidebar oder #mainContent) eine Rahmen-Eigenschaft hinzu. </p>
+    <p>Donec eu mi sed turpis feugiat feugiat. Integer turpis arcu, pellentesque  eget, cursus et, fermentum ut, sapien. </p>
+  <!-- end #sidebar1 --></div>
+  <div id="sidebar2">
+    <h3>Sidebar2-Inhalt</h3>
+    <p>Die Hintergrundfarbe für dieses div wird nur für die Länge des Inhalts angezeigt. Sollten Sie eine Trennlinie bevorzugen, fügen Sie der CSS-Regel des entsprechenden Divs (#sidebar oder #mainContent) eine Rahmen-Eigenschaft hinzu. </p>
+    <p>Donec eu mi sed turpis feugiat feugiat. Integer turpis arcu, pellentesque  eget, cursus et, fermentum ut, sapien. </p>
+  <!-- end #sidebar2 --></div>
+  <div id="mainContent">
+    <h1> Hauptinhalt </h1>
+    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent aliquam,  justo convallis luctus rutrum, erat nulla fermentum diam, at nonummy quam  ante ac quam. Maecenas urna purus, fermentum id, molestie in, commodo  porttitor, felis. Nam blandit quam ut lacus. Quisque ornare risus quis  ligula. Phasellus tristique purus a augue condimentum adipiscing. Aenean  sagittis. Etiam leo pede, rhoncus venenatis, tristique in, vulputate at,  odio. Donec et ipsum et sapien vehicula nonummy. Suspendisse potenti. </p>
+    <h2>H2-Überschrift </h2>
+    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent aliquam,  justo convallis luctus rutrum, erat nulla fermentum diam, at nonummy quam  ante ac quam. Maecenas urna purus, fermentum id, molestie in, commodo  porttitor, felis. Nam blandit quam ut lacus. Quisque ornare risus quis  ligula. Phasellus tristique purus a augue condimentum adipiscing. Aenean  sagittis. Etiam leo pede, rhoncus venenatis, tristique in, vulputate at, odio.</p>
+	<!-- end #mainContent --></div>
+  <div id="footer">
+    <p>Fußzeile</p>
+  <!-- end #footer --></div>
+<!-- end #container --></div>
+</body>
+</html>

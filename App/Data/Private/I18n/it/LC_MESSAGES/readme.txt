@@ -1,0 +1,1 @@
+this is the folder for the gettext translation files. if you use the inc modus, put the translation files into the iso-code named folder. you don't need the LC_MESSAGES folder in this mode.

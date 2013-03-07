@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<translator>
+	<locale id="it">
+		<namespace id="lang_main">
+			<meta>
+				<author mail="flaimo@gmx.net">Flaimo</author>
+				<created>2004-06-02</created>
+				<lastchange>2004-06-02</lastchange>
+			</meta>
+			<translations>
+				<translation string="de">Tedesco</translation>
+				<translation string="de-at">Austriaco</translation>
+				<translation string="en">Inglese</translation>
+				<translation string="en-gb">Inglese (UK)</translation>
+				<translation string="es">Spagnolo</translation>
+				<translation string="fr">Francese</translation>
+				<translation string="it">Italiano</translation>
+				<translation string="No">No</translation>
+				<translation string="no_records_found"></translation>
+				<translation string="ru">Russo</translation>
+				<translation string="switch_to">commuti a</translation>
+				<translation string="time">tempo</translation>
+				<translation string="timezone_is">Tutte le volte:</translation>
+				<translation string="Yes">Sí</translation>
+				<translation string="ar">Arabo</translation>
+			</translations>
+		</namespace>
+	</locale>
+</translator>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<translator>
+	<locale id="es">
+		<namespace id="lang_classFormatDate">
+			<meta>
+				<author mail="flaimo@gmx.net">Flaimo</author>
+				<created>2004-06-02</created>
+				<lastchange>2004-06-02</lastchange>
+			</meta>
+			<translations>
+				<translation string="april">Abril</translation>
+				<translation string="august">Agosto</translation>
+				<translation string="december">Diciembre</translation>
+				<translation string="february">Febrero</translation>
+				<translation string="friday">Viernes</translation>
+				<translation string="hour">horas</translation>
+				<translation string="ISO_time">ISO tiempo</translation>
+				<translation string="january">Enero</translation>
+				<translation string="july">Julio</translation>
+				<translation string="june">Junio</translation>
+				<translation string="march">Marzo</translation>
+				<translation string="may">Mayo</translation>
+				<translation string="monday">Lunes</translation>
+				<translation string="november">Noviembre</translation>
+				<translation string="october">Octubre</translation>
+				<translation string="saturday">Sábado</translation>
+				<translation string="september">Septiembre</translation>
+				<translation string="standard_time">hora estándar</translation>
+				<translation string="sunday">Domingo</translation>
+				<translation string="swatch_time">swatch tiempo</translation>
+				<translation string="thursday">Jueves</translation>
+				<translation string="tuesday">Martes</translation>
+				<translation string="wednesday">Miércoles</translation>
+			</translations>
+		</namespace>
+	</locale>
+</translator>

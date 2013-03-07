@@ -1,0 +1,82 @@
+#!/usr/bin/env php
+<?php
+/**
+ * phpillow CouchDB backend
+ *
+ * This file is part of phpillow.
+ *
+ * phpillow is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; version 3 of the License.
+ *
+ * phpillow is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with phpillow; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @package Core
+ * @version $Revision$
+ * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
+ */
+
+// Parse options, using getopt(), which actually works since PHP 5.3
+$options = getopt(
+    'hu:p:',
+    array(
+        'version',
+        'help',
+        'input:',
+        'ignore-errors',
+        'username:',
+        'password:',
+    )
+);
+
+// Display help message, if requested, or no options could be parsed.
+if ( isset( $options['h'] ) || 
+     isset( $options['help'] ) )
+{
+    echo <<<EOHELP
+PHPillow CouchDB backup tool
+Licensed under LGPL 3 (http://www.gnu.org/licenses/lgpl-3.0.txt)
+
+Usage: ${argv[0]} [options] dburl
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            show this help message and exit
+  --input=FILE          the name of the file to read from
+  --ignore-errors       whether to ignore errors in document creation and
+                        continue with the remaining documents
+  -u USERNAME, --username=USERNAME
+                        the username to use for authentication
+  -p PASSWORD, --password=PASSWORD
+                        the password to use for authentication
+
+EOHELP;
+    exit( 0 );
+}
+
+// Initialize autoload environment for PHPillow
+function __autoload( $class )
+{
+    static $autoloads = null;
+    
+    if ( $autoloads === null )
+    {
+        $autoloads = include __DIR__ . '/../classes/autoload.php';
+    }
+
+    if ( isset( $autoloads[$class] ) )
+    {
+        require __DIR__ . '/../' . $autoloads[$class];
+    }
+}
+
+$tool = new phpillowTool( end( $argv ), $options );
+exit( $tool->load() );
+

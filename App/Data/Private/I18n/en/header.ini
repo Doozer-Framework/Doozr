@@ -1,0 +1,15 @@
+Yes = Yes
+No = No
+timezone_is = All times:
+switch_to = switch to
+de-at = Austrian
+de = Ger­man
+en = English
+es = Spanish
+fr = French
+it = Italian
+en-gb = English (UK)
+ru = Russian
+ar = Arabic
+no_records_found = No recordset found!
+x_books_in_my_y_shelves = I have %1$s books in my %2$s shelves

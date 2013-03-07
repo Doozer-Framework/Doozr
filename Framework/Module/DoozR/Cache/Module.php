@@ -12,7 +12,7 @@
  * LICENSE:
  * DoozR - The PHP-Framework
  *
- * Copyright (c) 2005 - 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2013, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -47,12 +47,12 @@
  * @package    DoozR_Module
  * @subpackage DoozR_Module_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2012 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
- * @since      File available since Release 1.0.0
+ * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Module/Multiple.php';
@@ -69,12 +69,12 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Cache/Module/Exception.php';
  * @package    DoozR_Module
  * @subpackage DoozR_Module_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2012 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
- * @since      File available since Release 1.0.0
+ * @since      -
  * @throws     DoozR_Cache_Module_Exception
  * @DoozRType  Multiple
  */
@@ -323,7 +323,7 @@ class DoozR_Cache_Module extends DoozR_Base_Module_Multiple implements DoozR_Psr
     {
         if (!$this->_enabled) {
             throw new DoozR_Cache_Module_Exception(
-                'Error while trying to create content in cache! Please active cache first.'
+                'Error while trying to create content in cache! Please activate cache first.'
             );
         }
 
@@ -336,7 +336,9 @@ class DoozR_Cache_Module extends DoozR_Base_Module_Multiple implements DoozR_Psr
         // try to create entry
         if (!$this->_createExt($id, $data, $expires, $group)) {
             // failed
-            return false;
+            throw new DoozR_Cache_Module_Exception(
+                'Error while trying to create content in cache!'
+            );
         }
 
         // success
@@ -909,14 +911,13 @@ class DoozR_Cache_Module extends DoozR_Base_Module_Multiple implements DoozR_Psr
      */
     private function _createExt($id, $data, $expires = null, $group = 'Default', $userdata = '')
     {
-        if (!$this->_enabled) {
-            throw new DoozR_Cache_Module_Exception(
-                'Error while trying to create content in cache through createExt()! Please activate cache first.'
-            );
-        }
+        try {
+            if ($this->_id = $this->_container->create($id, $data, $expires, $group, $userdata)) {
+                return true;
+            }
 
-        if ($this->_container->create($id, $data, $expires, $group, $userdata)) {
-            return $this->_id;
+        } catch (Exception $e) {
+            throw new DoozR_Cache_Module_Exception('Error creating dataset!');
         }
 
         // failed

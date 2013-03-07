@@ -1,0 +1,63 @@
+#-------------------------------------------------------------------------------
+# DoozR - custom routing - BEGIN                                               -
+#-------------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+
+#-------------------------------------------------------------------------------
+# enable rewrite engine [Options +FollowSymLinks]                              -
+#-------------------------------------------------------------------------------
+RewriteEngine On
+
+
+
+#-------------------------------------------------------------------------------
+# PATH CONFIGURATION/SETUP HERE
+#-------------------------------------------------------------------------------	
+RewriteBase /Projekte/DoozR/Framework/
+
+RewriteRule .* - [E=DOOZR_PATH_APP:../App/Data/Public/www/]
+RewriteRule .* - [E=DOOZR_ROUTER:Route.php]
+
+
+
+#-------------------------------------------------------------------------------
+# rewrite everything to DoozR's own/custom router (mod_rewrite-clone)          -
+#-------------------------------------------------------------------------------
+# route our public data /www/...
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^www\/([\/a-zA-Z0-9_\-\.]*)$ ../App/Data/Public/www/$1 [QSA,L]
+RewriteRule ^www\/([\/a-zA-Z0-9_\-\.]*)$ %{env:DOOZR_PATH_APP}$1 [QSA,L]
+
+# route calls to router /x/y/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule . Route.php?mode=htaccess [QSA,L]
+RewriteRule . %{env:DOOZR_ROUTER}?mode=htaccess [QSA,L]
+
+# else existing folder and file direct access deny
+#RewriteCond %{REQUEST_FILENAME} -d
+#RewriteRule . / [R=404,L]
+#RewriteCond %{REQUEST_FILENAME} -f
+#RewriteRule . / [R=404,L]
+
+</IfModule>
+#-------------------------------------------------------------------------------
+# DoozR - custom routing - END                                                 -
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+# DoozR - usefull additions - BEGIN                                            -
+#-------------------------------------------------------------------------------
+<FilesMatch "\.(html|htm)$">
+	<IfModule mod_headers.c>
+		Header set imagetoolbar "no"
+	</IfModule>
+</FilesMatch>
+
+# mime types
+AddType video/mp4 .mp4
+AddType video/webm .webm
+#-------------------------------------------------------------------------------
+# DoozR - usefull additions - END                                              -
+#-------------------------------------------------------------------------------

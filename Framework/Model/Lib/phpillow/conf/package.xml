@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.8.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PHPillow</name>
+ <channel>pear.arbitracker.org</channel>
+ <summary>PHPillow is an object orientated wrapper for CouchDB.</summary>
+ <description>PHPillow is an object orientated wrapper for CouchDB.</description>
+ <lead>
+  <name>Kore Nordmann</name>
+  <user>kore</user>
+  <email>kore@arbitracker.org</email>
+  <active>yes</active>
+ </lead>
+ <date>@date_release@</date>
+ <!-- <time>15:14:46</time> -->
+ <version>
+  <release>@version_release@</release>
+  <api>@version_api@</api>
+ </version>
+ <stability>
+  <release>@stability_release@</release>
+  <api>@stability_api@</api>
+ </stability>
+ <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
+ <notes>None</notes>
+ <contents>
+  <dir baseinstalldir="PHPillow" name="/">
+   <file baseinstalldir="PHPillow" name="classes/autoload.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/classes.png" role="data" />
+   <file baseinstalldir="PHPillow" name="classes/connection.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/document.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/exception.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/file_view.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/manager.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/response.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/tool.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/view.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/connection/custom.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/connection/stream.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/document/group.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/document/user.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/file_view/user.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/file_view/map/user_all.js" role="data" />
+   <file baseinstalldir="PHPillow" name="classes/file_view/map/user_user.js" role="data" />
+   <file baseinstalldir="PHPillow" name="classes/file_view/reduce/sum.js" role="data" />
+   <file baseinstalldir="PHPillow" name="classes/response/array.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/response/base.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/response/data.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/response/result.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/response/status.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/tool/multipart_parser.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/tool/multipart_writer.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/tool/string_stream.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/array.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/date.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/document.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/document_array.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/email.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/float.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/image_file_location.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/indexable_date.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/integer.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/no.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/regexp.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/string.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/text.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/boolean.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/object.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/validator/object_array.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/view/group.php" role="php" />
+   <file baseinstalldir="PHPillow" name="classes/view/user.php" role="php" />
+   <file baseinstalldir="" name="scripts/couchdb-dump" role="script" />
+   <file baseinstalldir="" name="scripts/couchdb-load" role="script" />
+   <file baseinstalldir="PHPillow" name="bootstrap.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="couchdb-dump" name="scripts/couchdb-dump" />
+   <install as="couchdb-load" name="scripts/couchdb-load" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>0.7</release>
+    <api>0.7</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-06-06</date>
+   <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
+  </release>
+  <release>
+   <version>
+    <release>0.6</release>
+    <api>0.6</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2011-01-05</date>
+   <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
+  </release>
+ </changelog>
+</package>

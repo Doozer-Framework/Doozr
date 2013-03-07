@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Check for parse errors in all PHP files
+echo "Checking for syntax errors"
+echo "=========================="
+echo ""
+find ../ -name '*.php' | grep -v '/libraries/' | xargs -n 1 php -l | grep -v 'No syntax errors detected in'
+
+# Check for coding style violations
+phpcs --ignore=libraries,cache --standard=Arbit ./
+
+# Check for open TODOs in source files
+echo ""
+echo "Open TODOs"
+echo "=========="
+echo ""
+grep -rni '@TODO' ./ | grep -v '\.svn' | grep -v 'libraries' | sed -e 's#:\([0-9]\+\): \+// \?# Line \1\n - #'
+
+# Test for missing SVN revision keywords
+echo ""
+echo "Files with missing keywords"
+echo "==========================="
+echo ""
+MISSING=""
+for file in `find ../ -name '*.php' | grep -v compiled_templates | grep -v libraries | grep -v 'tests/data'`
+do
+	if ! svn propget svn:keywords $file | grep -qi 'revision'
+	then
+		echo "- $file missing keyword"
+		MISSING="$MISSING $file"
+	fi
+done
+
+# Display command to fix SVN keywords
+if ! [[ $MISSING = "" ]]
+then
+	echo ""
+	echo "Execute: svn propset svn:keywords 'Revision'$MISSING"
+	echo ""
+else
+	echo "All OK"
+	echo ""
+fi
+

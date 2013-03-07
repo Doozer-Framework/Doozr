@@ -11,7 +11,7 @@
  * LICENSE:
  * DoozR - The PHP-Framework
  *
- * Copyright (c) 2005 - 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2013, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -46,12 +46,12 @@
  * @package    DoozR_Module
  * @subpackage DoozR_Module_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2012 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
- * @since      File available since Release 1.0.0
+ * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Cache/Module/Container.php';
@@ -66,12 +66,12 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Cache/Module/Container/Interface.
  * @package    DoozR_Module
  * @subpackage DoozR_Module_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2012 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
- * @since      File available since Release 1.0.0
+ * @since      -
  * @throws     Module_DoozR_Cache_Module_Exception
  * @DoozRType  Multiple
  */
@@ -148,7 +148,7 @@ implements DoozR_Cache_Module_Container_Interface
         // if highwater = max -> retrieve configuration from server to define highwater
         if ($this->highwater == 'max') {
             $serverConfiguration = $this->_memcache->getExtendedStats();
-            $this->highwater = $serverConfiguration[$this->hostname.':'.$this->port]['limit_maxbytes'];
+            $this->highwater     = $serverConfiguration[$this->hostname.':'.$this->port]['limit_maxbytes'];
         }
     }
 
@@ -158,11 +158,10 @@ implements DoozR_Cache_Module_Container_Interface
      * This method is intend to write data to cache.
      * WARNING: If you supply userdata it must not contain any linebreaks, otherwise it will break the filestructure.
      *
-     * @param string  $id       The dataset Id
-     * @param string  $data     The data to write to cache
-     * @param integer $expires  Date/Time on which the cache-entry expires
-     * @param string  $group    The dataset group
-     * @param string  $userdata The custom userdata to add
+     * @param string  $id      The dataset Id
+     * @param string  $data    The data to write to cache
+     * @param integer $expires Date/Time on which the cache-entry expires
+     * @param string  $group   The dataset group
      *
      * @return  boolean TRUE on success
      * @access  public
@@ -171,21 +170,16 @@ implements DoozR_Cache_Module_Container_Interface
      * @version 1.0
      * @throws  DoozR_Cache_Module_Exception
      */
-    public function create($id, $data, $expires, $group, $userdata)
+    public function create($id, $data, $expires, $group)
     {
         // flush
         $this->flushPreload($id, $group);
 
-        // store in memcache
+         // store in memcache
         if (!$this->_memcache->set(
             md5(self::UNIQUE_IDENTIFIER.$group.$id),
-            array(
-                $this->getExpiresAbsolute($expires),
-                $userdata,
-                $this->encode($data)
-            ),
-            0,
-            $expires
+            $this->encode($data),
+            $this->getExpiresAbsolute($expires)
         )) {
             throw new DoozR_Cache_Module_Exception(
                 'Error while creating dataset!'
@@ -216,15 +210,7 @@ implements DoozR_Cache_Module_Container_Interface
         // try to read from cache (server)
         $result = @$this->_memcache->get(md5(self::UNIQUE_IDENTIFIER.$group.$id));
 
-        if ($result) {
-            $result = array(
-                $result[0],
-                $this->decode($result[2]),
-                $result[1]
-            );
-        }
-
-        return $result;
+        return $this->decode($result);
     }
 
     /**
@@ -501,9 +487,10 @@ implements DoozR_Cache_Module_Container_Interface
      */
     private function _getEntries()
     {
-        $list = array();
+        $list     = array();
         $allSlabs = $this->_memcache->getExtendedStats('slabs');
-        $items = $this->_memcache->getExtendedStats('items');
+        $items    = $this->_memcache->getExtendedStats('items');
+
         foreach ($allSlabs as $server => $slabs) {
             foreach ($slabs as $slabId => $slabMeta) {
                 $cdump = $this->_memcache->getExtendedStats('cachedump', (int)$slabId);
@@ -522,6 +509,7 @@ implements DoozR_Cache_Module_Container_Interface
                 }
             }
         }
+
         ksort($list);
         return $list;
     }
