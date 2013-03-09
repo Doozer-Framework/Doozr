@@ -1,5 +1,5 @@
 # DoozR
-DoozR - The lightweight MVP PHP-Framework
+DoozR - The lightweight MVP PHP-Framework for high-performance websites
 
 
 ## Requirements, install and your 1st request
