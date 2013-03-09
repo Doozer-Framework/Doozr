@@ -147,11 +147,17 @@ class Checkbox extends DoozR_Form_Module_Element_Abstract implements DoozR_Form_
             $html .= ' '.$attribute.'="'.$value.'"';
         }
 
-        // get submitted value for checked property
-        $submittedValue = $this->getSubmittedValue();
+        if ($this->submitted) {
+            // get submitted value for element
+            $value = $this->getSubmittedValue();
 
-        // and check if match
-        if ($this->_checked || (($submittedValue !== null) && $submittedValue == $this->getValue())) {
+        } elseif ($this->jumped) {
+            // get jump value for element
+            $value = $this->getJumpValue();
+        }
+
+            // and check if match
+        if ($this->_checked || (($value !== null) && $value == $this->getValue())) {
             $html .= ' checked="checked"';
         }
 

@@ -329,6 +329,9 @@ abstract class DoozR_Form_Module_Element_Abstract
         // set status of submission
         $this->submitted = $config['submitted'];
 
+        // set jump status of request
+        $this->jumped = $config['jumped'];
+
         // store error status of all form fields from last request
         $this->formError = $config['error'];
 
@@ -1385,15 +1388,22 @@ abstract class DoozR_Form_Module_Element_Abstract
             if ($fromRequest) {
                 return $this->getSubmittedValue();
             } else {
+                $value = null;
+
                 // if form was allready submitted retrieve value right now
                 if ($this->submitted) {
                     // try to retrieve the submitted value of field
-                    $submittedValue = $this->getSubmittedValue();
+                    $value = $this->getSubmittedValue();
 
-                    // and store it for further access/operations
-                    if (!is_null($submittedValue)) {
-                        $this->attributes['value'] = $submittedValue;
-                    }
+                } elseif ($this->jumped) {
+                    // try to retrieve the jump value of field
+                    $value = $this->getJumpValue();
+
+                }
+
+                // and store it for further access/operations
+                if (!is_null($value)) {
+                    $this->attributes['value'] = $value;
                 }
 
                 return (isset($this->attributes['value'])) ? $this->attributes['value'] : null;
@@ -1519,6 +1529,21 @@ abstract class DoozR_Form_Module_Element_Abstract
     protected function nl($count = 1)
     {
         return str_repeat(self::NEW_LINE, $count);
+    }
+
+    /**
+     * Returns the value for this element for jumped step
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Value for this element if set, otherwise NULL
+     * @access public
+     */
+    public function getJumpValue()
+    {
+        $data = $this->form->getData();
+        $step = $this->form->getStep();
+        $value = (isset($data[$step][$this->name])) ? $data[$step][$this->name] : null;
+        return $value;
     }
 
     /**
@@ -1657,8 +1682,10 @@ abstract class DoozR_Form_Module_Element_Abstract
                 $this->valid = true;
             }
         } else {
+            //pred('ne ne ne');
             // not submitted neither "valid" nor "invalid"  just NULL
             $this->valid = true;
+            $this->error = false;
         }
     }
 
@@ -1735,6 +1762,9 @@ abstract class DoozR_Form_Module_Element_Abstract
     {
         $html = '';
 
+        //
+        $this->_restore();
+
         $message = $this->getMessage('element');
         $html    = '<input type="'.$this->type.'"';
 
@@ -1745,6 +1775,21 @@ abstract class DoozR_Form_Module_Element_Abstract
         $html .= ' />'.$this->nl();
 
         return $html;
+    }
+
+
+    private function _restore()
+    {
+        // check if the value of element is still empty - so it's
+        // possible that we haven't yet finished restoring value
+
+        // value = null -> not submitted but maybe jumped
+        // or value =
+        if ($this->getValue() === null || $this->getValue() === '') {
+            if ($this->jumped === true && ($this->name !== DoozR_Form_Module::PREFIX.'Token')) {
+                $this->setAttribute('value', $this->getJumpValue());
+            }
+        }
     }
 
     /**

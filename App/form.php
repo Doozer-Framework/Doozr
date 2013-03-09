@@ -174,44 +174,123 @@ $mx = array(
 );
 
 
-// get current step and define steps of form
-$step  = $form->getStep('register');
-$steps = 2;
+if ($form->submitted('register') && $form->valid() && $form->finished()) {
 
-if ($form->finished($steps)) {
+    pre('Form submitted, valid and finished!');
 
-    pred('finish');
+    $dataset = $form->getData(true);
+    pred($dataset);
+    //pre($dataset[1]['name']);
+    //pre($dataset[2]['ustid']);
+    exit;
 
 } else {
 
-    pre('not finished yet! current step: '.$step.' of total: '.$steps.' steps.');
+    // create the form for step 1
+    if ($form->getStep() === 1) {
 
+        $form->create('register')
+            ->method('post')
+            ->action($_SERVER['PHP_SELF'])
+            ->step()
+            ->steps(2)
+            ->onInvalidToken(DoozR_Form_Module::TOKEN_BEHAVIOR_DENY)
+            ->i18n($i18n)
+            ->setFieldsetBegin('fieldset1', 'Jetzt kostenlos registrieren:', 'myclass')
+                // radio 1 (gender)
+                ->add('radio', true, 'leftHalf')
+                ->name('gender')
+                ->required(true)
+                ->preselected(true)
+                ->id('gender-1')
+                ->value('mrs')
+                ->label('Frau')
+                ->tabindex(1)
+                ->validate('value', 'Frau, Herr')
+                ->done()
+
+                // radio 2 (gender)
+                ->add('radio', true, 'rightHalf')
+                ->name('gender')
+                ->required(true)
+                ->id('gender-2')
+                ->value('mr')
+                ->label('Herr')
+                ->tabindex(2)
+                ->validate('value', 'Frau, Herr')
+                ->done()
+
+                // name
+                ->add('text', true)
+                ->label('Name:')
+                ->name('name')
+                ->id('name')
+                //->value('los gehts')
+                ->required(true)
+                ->tabindex(3)
+                ->done()
+
+                // checkbox 1 (agb + privacy)
+                ->add('checkbox', true)
+                ->name('agb')
+                ->required(true)
+                ->id('agb')
+                ->value('true')
+                ->label('Ich akzeptiere die <a href="#">AGB</a> und die <a href="#">Datenschutzbestimmungen</a>')
+                ->validate('boolean')
+                ->tabindex(7)
+                ->done()
+
+                // submit
+                ->add('submit', true)
+                ->name('submit-register')
+                ->id('submit-register')
+                ->value('Weiter zu Schritt 2')
+                ->tabindex(8)
+                ->done()
+
+                // reset
+                ->add('reset', true)
+                ->name('reset-register')
+                ->id('reset-register')
+                ->value('abbrechen')
+                ->tabindex(9)
+                ->done()
+            ->setFieldSetEnd();
+
+    } elseif ($form->getStep() === 2) {
+
+        $form->create('register')
+            ->method('post')
+            ->action($_SERVER['PHP_SELF'])
+            ->step()
+            ->steps(2)
+            ->onInvalidToken(DoozR_Form_Module::TOKEN_BEHAVIOR_DENY)
+            ->i18n($i18n)
+            ->setFieldsetBegin('fieldset1', 'Nur noch vervollst&auml;ndigen:', 'myclass')
+                ->add('text', true)
+                ->label('UstId:')
+                ->name('ustid')
+                ->id('ustid')
+                ->required(true)
+                ->tabindex(1)
+                ->done()
+
+                ->add('label', true)
+                ->name('jump')
+                ->id('jump')
+                ->html('<a href="form.php?DoozR_Form_Module_Step=1">jump jump</a>')
+                ->done()
+
+                ->add('submit', true)
+                ->name('submit-register')
+                ->id('submit-register')
+                ->value('Registrierung abschlie&szlig;en')
+                ->tabindex(2)
+                ->done()
+            ->setFieldSetEnd();
+    }
 }
-
-
-$submitText = ($step < $steps) ? 'Weiter zu Schritt '.($step+1) : 'Fertigstellen';
-
-
-// create the form for step 1
-$form->create('register')
-     ->method('post')
-     ->action($_SERVER['PHP_SELF'])
-
-     ->step($step)
-     ->steps($steps)
-
-     ->onInvalidToken(DoozR_Form_Module::TOKEN_BEHAVIOR_DENY)
-     ->i18n($i18n)
-     ->setFieldsetBegin('fieldset1', 'Jetzt kostenlos registrieren!', 'myclass')
-
-         ->add('submit', true)
-         ->name('submit-register')
-         ->id('submit-register')
-         ->value($submitText)
-         ->tabindex(2)
-         ->done()
-
-     ->setFieldSetEnd()
 
 ?>
 <html>
@@ -313,7 +392,6 @@ $form->create('register')
 </style>
 </head>
 <body>
-<?php echo '<h1>'.$form->getStep().'/'.$form->getSteps().'</h1>'; ?>
 <?php echo $form; ?>
 </body>
 </html>

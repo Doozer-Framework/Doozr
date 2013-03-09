@@ -78,11 +78,6 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Form/Module/Validate.php';
  */
 final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
 {
-
-    private $_step = 1;
-    private $_steps = 1;
-
-
     /**
      * The request method (e.g. POST || GET) for faster access
      *
@@ -125,7 +120,8 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      * @var boolean
      * @access private
      */
-    private $_valid = true;
+    //private $_valid = true;
+    private $_valid = null;
 
     /**
      * The state of is_upload if true the encoding
@@ -144,6 +140,15 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      * @access private
      */
     private $_maxFileSize = 0;
+
+    /**
+     * TRUE if form is validating its items
+     * otherwise FALSE
+     *
+     * @var boolean
+     * @access private
+     */
+    private $_validating = false;
 
     /**
      * The configuration of the elements of the form
@@ -217,6 +222,15 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
     private $_submitted;
 
     /**
+     * NULL by default and filled by calling -> jumped() or isJumped()
+     * afterwards TRUE if form is initalized by a jump, otherwise FALSE
+     *
+     * @var boolean
+     * @access private
+     */
+    private $_jumped;
+
+    /**
      * The form-elements-error if form isn't valid
      * but only form-error like "wrong method used"
      * "invalid token" ...
@@ -277,6 +291,24 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
     private $_config;
 
     /**
+     * The current step of the form
+     * (default is 1)
+     *
+     * @var integer
+     * @access private
+     */
+    private $_step = self::DEFAULT_STEP;
+
+    /**
+     * The current steps of the form including last
+     * (default is 1)
+     *
+     * @var integer
+     * @access private
+     */
+    private $_steps = self::DEFAULT_STEPS;
+
+    /**
      * The prefix for fields, fieldsets ...
      *
      * @var string
@@ -326,6 +358,11 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      * @access public
      */
     const DEFAULT_UPLOAD_MAX_SIZE = 52428800;
+
+
+    const DEFAULT_STEP  = 1;
+    const DEFAULT_STEPS = 1;
+
 
     /**
      * The encoding (enctype) for upload-forms -> enctype="multipart/form-data"
@@ -442,80 +479,91 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      */
     public function valid()
     {
-        // check FIRST if form was submitted! if not it is always valid!
-        if ($this->submitted()) {
+        // if _valid is null no detection was run before -> start here
+        if ($this->_valid === null && !$this->_validating === true) {
 
-            /**
-             * check if store i still valid - session can be timed out ...
-             */
-            if (!$this->_validateStore()) {
-                $this->setError('The Form isn\'t valid anymore! Please submit it again ...', 'form');
-                return false;
-            }
+            $this->_validating = true;
 
-            /**
-             * 2nd step of all check if correct method was used for submission
-             */
-            $method = $this->_storeRead('method');
+            // check FIRST if form was submitted! if not it is always valid!
+            if ($this->submitted()) {
 
-            if ($method != $this->_getRequestMethod()) {
-                $this->setError('Wrong method used for submitting form! Assumed: "'.$method.'"');
-                return false;
-            }
+                /**
+                 * check if store i still valid - session can be timed out ...
+                 */
+                if (!$this->_validateStore()) {
+                    $this->setError('The Form isn\'t valid anymore! Please submit it again ...', 'form');
+                    return false;
+                }
 
-            /**
-             * 3rd step - validate token used for submit
-             */
-            if (!$this->_validateToken()) {
-                $this->setError('Invalid token used for submitting form!');
-                return false;
-            }
+                /**
+                 * 2nd step of all check if correct method was used for submission
+                 */
+                $method = $this->_storeRead('method');
 
-            /**
-             * 4th step - iterate fields and check for individual error(s) if one found
-             * either MISSING, BAD, INCORRECT DATA => FORM INVALID! and error = fields error message
-             */
-            $elements = $this->_storeRead('elements');
+                if ($method != $this->_getRequestMethod()) {
+                    $this->setError('Wrong method used for submitting form! Assumed: "'.$method.'"');
+                    return false;
+                }
 
-            // iterate elements and check impact and valid-status
-            foreach ($elements as $name => $config) {
+                /**
+                 * 3rd step - validate token used for submit
+                 */
+                if (!$this->_validateToken()) {
+                    $this->setError('Invalid token used for submitting form!');
+                    return false;
+                }
 
-                $name = str_replace('[]', '', $name);
+                /**
+                 * 4th step - iterate fields and check for individual error(s) if one found
+                 * either MISSING, BAD, INCORRECT DATA => FORM INVALID! and error = fields error message
+                 */
+                $elements = $this->_storeRead('elements');
 
                 // get current element as request-object
-                $requestObject = $this->getRequestObject();
+                $request = $this->getRequestObject();
 
-                // select the one which currently processed
-                $currentObject = $requestObject->get($name);
+                // iterate elements and check impact and valid-status
+                foreach ($elements as $name => $config) {
+                    $name = str_replace('[]', '', $name);
 
-                // check if request-object isset - or if is_null
-                if ($currentObject && $currentObject instanceof DoozR_Request_Value) {
-                    //$this->setImpact(123, $name);
-                    $this->setImpact($currentObject->getImpact(), $name);
-                }
+                    // select the one which currently processed
+                    $currentObject = $request->get($name);
 
-                // only validate if validation set
-                if (!empty($config['validation'])) {
-
-                    $value = (isset($requestObject->{$name})) ? $requestObject->{$name} : null;
-
-                    // try to validate the element
-                    $result = DoozR_Form_Module_Validate::validate(
-                        $value,                                              // the value of submitted element
-                        $config['validation'],                               // the array / set of validation(s)
-                        $config['type']                                      // the fieldtype
-                    );
-
-                    // check if result is TRUE which means field is valid or not
-                    // if result is true then the field is valid in all other cases its invalid
-                    if (!($result === true)) {
-                        // store error $result holds the error-array if not true
-                        $this->setError($result, $name);
+                    // check if request-object isset - or if is_null
+                    if ($currentObject && $currentObject instanceof DoozR_Request_Value) {
+                        //$this->setImpact(123, $name);
+                        $this->setImpact($currentObject->getImpact(), $name);
                     }
 
-                    // NOTE: we do not need to set the form status _valid to false cause
-                    // this is done by setError()
+                    // only validate if validation set
+                    if (!empty($config['validation'])) {
+
+                        $value = (isset($request->{$name})) ? $request->{$name} : null;
+
+                        // try to validate the element
+                        $result = DoozR_Form_Module_Validate::validate(
+                            $value,                                              // the value of submitted element
+                            $config['validation'],                               // the array / set of validation(s)
+                            $config['type']                                      // the fieldtype
+                        );
+
+                        // check if result is TRUE which means field is valid or not
+                        // if result is true then the field is valid in all other cases its invalid
+                        if ($result !== true) {
+                            // store error $result holds the error-array if not true
+                            $this->setError($result, $name);
+                        }
+
+                        // NOTE: we do not need to set the form status _valid to false cause
+                        // this is done by setError()
+                    }
                 }
+
+                // it's true if reach this point
+                $this->_valid = ($this->_valid === null) ? true : $this->_valid;
+
+            } else {
+                $this->_valid = true;
             }
         }
 
@@ -833,7 +881,8 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
 
         // invert the invalidate value (true ~ false | false ~ true)
         //$this->_valid = ($this->_valid) && (!$invalidate);
-        $this->_setValid(($this->_valid) && (!$invalidate));
+        $status = ($this->_valid) && (!$invalidate);
+        $this->_setValid($status);
 
         // return the result
         return $result;
@@ -1062,30 +1111,72 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
     }
 
     /**
-     * Sets the current step of the form x/y (e.g. for pagination)
+     * Sets the current step of the form and passing step is optional.
+     * If no step passed the form tries to detect its current step by
+     * simple logic.
      *
-     * @param mixed $step The step to set
+     * @param integer $step The (optional) step to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Form_Module Current active instance for chaining
      * @access public
      */
-    public function step($step)
+    public function step($step = null)
     {
-        $this->_step = $step;
-        $this->_addStepField($step);
+        $this->setStep($step);
         return $this;
     }
 
     /**
+     * Sets the current step of the form and passing step is optional.
+     * If no step passed the form tries to detect its current step by
+     * simple logic.
      *
-     * @return number
+     * @param integer $step The (optional) step to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function setStep($step = null)
+    {
+        if ($step === null) {
+            if ($this->submitted()) {
+                // get current request
+                $request = $this->getRequestObject();
+
+                // try to get from last submit -> fallback to default of module
+                $step = (isset($request->{self::PREFIX.'Step'})) ? $request->{self::PREFIX.'Step'} : self::DEFAULT_STEP;
+
+                // increment by 1 if form was submitted! valid! and not finished yet!
+                $step += ($this->valid()) ? 1 : 0;
+
+            } else {
+                // if form wasn't submitted > its default state is step 1
+                $step = self::DEFAULT_STEP;
+            }
+        }
+
+        return ($this->_step = $step);
+    }
+
+    /**
+     * Returns the current step of the form.
+     *
+     * @param string $identifier The identifier/name of the form
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function getStep($identifier = null)
     {
         // check if form was submitted before, is valid and not finished
         if ($this->submitted($identifier)) {
-            $step = $this->getRequestObject()[self::PREFIX.'Step'] + 1;
+            $step = $this->getRequestObject()[self::PREFIX.'Step'];
+
+            // increment by 1 if form was submitted! valid! and not finished yet!
+            $step += ($this->valid()) ? 1 : 0;
 
         } else {
             $step = $this->_step;
@@ -1094,22 +1185,9 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
         return (int)$step;
     }
 
-    public function getSteps()
-    {
-        // check if form was submitted before, is valid and not finished
-        if ($this->submitted()) {
-            $steps = $this->getRequestObject()[self::PREFIX.'Steps'] + 0;
-
-        } else {
-            $steps = $this->_steps;
-
-        }
-
-        return (int)$steps;
-    }
-
     /**
-     * Sets the number of steps the current has (for automatic finish detection e.g. pagination ...).
+     * Sets the number of steps the current has (for automatic finish
+     * detection e.g. pagination ...).
      *
      * @param mixed $steps The steps to set
      *
@@ -1117,31 +1195,70 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      * @return DoozR_Form_Module Current active instance for chaining
      * @access public
      */
-    public function steps($steps)
+    public function steps($steps = null)
     {
-        $this->_steps = $steps;
-        $this->_addStepsField($steps);
+        $this->setSteps($steps);
         return $this;
+    }
+
+    /**
+     * Sets the number of steps the current has (for automatic finish
+     * detection e.g. pagination ...).
+     *
+     * @param mixed $steps The steps to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function setSteps($steps = self::DEFAULT_STEPS)
+    {
+        return ($this->_steps = $steps);
+    }
+
+    /**
+     * Returns the max steps of the form.
+     *
+     * @param string $identifier The identifier/name of the form
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function getSteps($identifier = null)
+    {
+        // check if form was submitted before, is valid and not finished
+        if ($this->submitted($identifier)) {
+            $steps = $this->getRequestObject()[self::PREFIX.'Steps'] + 0;
+        } else {
+            $steps = $this->_steps;
+        }
+
+        return (int)$steps;
     }
 
     /**
      * Returns true if form is finished (reached page x from y)
      *
+     * @param integer $steps The number of steps of the form
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if form is finished, otherwise FALSE
      * @access public
      */
-    public function finished($steps)
+    public function finished($steps = 1)
     {
-        // wann ist denn eine form finished?
-        // 1. die form muss submitted sein
-        // 2. die form muss gültig sein
-        // 3. der step muss größer der steps sein
-
         if ($this->submitted()) {
             if ($this->valid()) {
                 $submittedData = $this->getRequestObject();
-                if ($submittedData[self::PREFIX.'Step'] >=  $steps) {
+                $step          = ($submittedData[self::PREFIX.'Step']) ?
+                                 (int)$submittedData[self::PREFIX.'Step'] :
+                                 (int)$this->_step;
+                $steps         = ($submittedData[self::PREFIX.'Steps']) ?
+                                 (int)$submittedData[self::PREFIX.'Steps'] :
+                                 (int)$this->_steps;
+
+                if ($step >=  $steps) {
                     return true;
                 }
             }
@@ -1459,9 +1576,7 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      ******************************************************************************************************************/
 
     /**
-     * removes an attribute from input-field
-     *
-     * This method is intend to remove an attribute from input-field.
+     * Removes an attribute from input-field.
      *
      * @param string $attribute The attributes name to remove
      *
@@ -1477,6 +1592,43 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
 
         // return success
         return true;
+    }
+
+    /**
+     * Returns TRUE if the form is jumped to a specific step,
+     * otherwise FALSE
+     *
+     * @param string $identifier The (optional) identifier
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if the form is jumped to a specific step, otherwise FALSE
+     * @access public
+     */
+    public function jumped($identifier = null)
+    {
+        // use intenal identifier if set
+        (!$identifier) ? $identifier = $this->_name : $this->_name = $identifier;
+
+        // check already done?
+        if ($this->_jumped !== null) {
+            return $this->_jumped;
+
+        } else {
+            // get method used for submit
+            $request = $this->registry->front->getRequest();
+            $request->GET();
+            $source = $_GET;
+
+            // and now check if submission identifier exists in current request
+            if (isset($source->{self::PREFIX.'Step'})) {
+                $this->_jumped = true;
+            } else {
+                $this->_jumped = false;
+            }
+        }
+
+        // submission status
+        return $this->_jumped;
     }
 
     /**
@@ -1496,7 +1648,7 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
         (!$identifier) ? $identifier = $this->_name : $this->_name = $identifier;
 
         // check already done?
-        if (!is_null($this->_submitted)) {
+        if ($this->_submitted !== null) {
             return $this->_submitted;
 
         } else {
@@ -1516,7 +1668,7 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
             }
 
             // and now check if submission identifier exists in current request
-            if ($source->{self::PREFIX.self::SUBMISSION_STATUS_FIELDNAME}() == $identifier) {
+            if ($source->{self::PREFIX.self::SUBMISSION_STATUS_FIELDNAME}() === $identifier) {
                 $this->_submitted = true;
             } else {
                 $this->_submitted = false;
@@ -1613,6 +1765,7 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
             'error'          => $this->getError(),
             'impact'         => $this->getImpact(),
             'submitted'      => ($this->submitted() && $this->_validateStore()),
+            'jumped'         => ($this->jumped() && $this->_validateStore()),
             'requestMethod'  => $this->_getRequestMethod(),
             'container'      => $setDivContainer,
             'containerclass' => $divContainerClass,
@@ -1666,12 +1819,6 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
     public function __toString()
     {
         return $this->render($this->_name);
-    }
-
-
-    public function __teardown()
-    {
-        pred('aha');
     }
 
     /**
@@ -1839,21 +1986,22 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      */
     public function render($identifier, $output = false)
     {
-        // remove token
-        //$this->_storeDelete('token');
-
-
         // prefix
         $pre = self::PREFIX;
 
         // check for form encoding for upload and mx-filesize
         $this->_configureUpload();
 
-        // inject hidden-field TOKEN to prevent form abuse
+        // inject hidden-field TOKEN to prevent form abuse + step + steps
         $this->_addTokenField();
+        $this->_addStepField();
+        $this->_addStepsField();
 
         // begin building Form-HTML by adding the form tag
         $this->_html = $this->t().'<form class="'.self::PREFIX.'Form"';
+
+        //
+        $this->attribute('generated', 'true');
 
         // add basic form attributes
         foreach ($this->_attributes as $attribute => $value) {
@@ -1906,6 +2054,9 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
         // all fields added close form tag and add a new-line
         $this->_html .= $this->t().'</form>'.$this->nl();
 
+        // store backup data from step before?
+        $this->_manageDataTransfer();
+
         // store fieldset-configuration
         $this->_storeWrite('elements', $this->_elements);
         $this->_storeWrite('method', $this->getMethod());
@@ -1919,6 +2070,39 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
             // return
             return $this->_html;
         }
+    }
+
+    /**
+     * Returns all collected data from user input frm step 1 till now (step x)
+     *
+     * @param boolean $mergeSteps TRUE to merge a single steps to one resulting array, FALSE to do not (default)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The collected data
+     * @access public
+     */
+    public function getData($mergeSteps = false)
+    {
+        // trigger data transfer before each data request to include user input
+        // from last request
+        $this->_manageDataTransfer();
+
+        // get backpack value from store
+        $backpack = ($this->_storeRead('backpack') !== null) ? $this->_storeRead('backpack') : array();
+
+        // if merge is requested -> we merge all data into one huge
+        // array -> values from larger steps win
+        if ($mergeSteps === true) {
+            $merged = array();
+            foreach ($backpack as $step => $elements) {
+                foreach ($elements as $element => $value) {
+                    $merged[$element] = $value;
+                }
+            }
+            $backpack = $merged;
+        }
+
+        return $backpack;
     }
 
     /**
@@ -1983,6 +2167,40 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
 
         // include the file
         include_once $file;
+    }
+
+    /**
+     * Manages the data transfer between steps no matter if forward
+     * or backward. This method ensures that the user input is transfered
+     * between steps.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
+     */
+    private function _manageDataTransfer()
+    {
+        $backpack = ($this->_storeRead('backpack') !== null) ? $this->_storeRead('backpack') : array();
+
+        if ($this->submitted() && $this->valid()) {
+            // get items identifier to extract and backup them in store
+            $setup    = $this->_storeRead();
+            $request  = $this->getRequestObject();
+            $step     = ($this->getStep() > 1) ? $this->getStep()-1 : $this->getStep();
+            $keyValue = array();
+
+            foreach ($setup['elements'] as $id => $setup) {
+                $keyValue[$id] = (isset($request->{$id})) ? $request->{$id} : null;
+            }
+
+            if (isset($backpack[$step])) {
+                $keyValue = array_merge($backpack[$step], $keyValue);
+            }
+
+            $backpack[$step] = $keyValue;
+        }
+
+        $this->_storeWrite('backpack', $backpack);
     }
 
     /**
@@ -2277,14 +2495,15 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      * Adds a hidden field to the form to mark the
      * current step of the form
      *
-     * @param mixed $step The current step
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The result of the processing
      * @access private
      */
-    private function _addStepField($step)
+    private function _addStepField()
     {
+        //$step = null
+        //($step === null) ? $step = $this->_step : $this->_step = $step;
+
         // add a hidden form-element
         $elementStep = $this->addElement('hidden');
 
@@ -2292,7 +2511,7 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
         $elementStep->setName(self::PREFIX.'Step');
 
         // set the elements value to the passes step value
-        $elementStep->setValue($step, true);
+        $elementStep->setValue($this->_step, true);
     }
 
     /**
@@ -2305,8 +2524,10 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      * @return array The result of the processing
      * @access private
      */
-    private function _addStepsField($steps)
+    private function _addStepsField($steps = null)
     {
+        ($steps === null) ? $steps = $this->_steps : $this->_steps = $steps;
+
         // add a hidden form-element
         $elementSteps = $this->addElement('hidden');
 
