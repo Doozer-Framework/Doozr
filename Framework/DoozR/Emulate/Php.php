@@ -2,11 +2,11 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Extend Emulate Linux
+ * DoozR - Extend - Emulate - Linux
  *
- * Php.php - This include extends PHP's functionality by
- * emulating the missing >= 5.3 functions from PHP installations with
- * native PHP-Code.
+ * Php.php - This include extends PHP's functionality by emulating missing
+ *           functionality in PHP versions <= 5.3. It use native PHP-Code
+ *           replacements of PHP's C-implementations in newer PHP releases.
  *
  * PHP versions 5
  *
@@ -48,7 +48,7 @@
  * @package    DoozR_Extend
  * @subpackage DoozR_Extend_Emulate_Php
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2011 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
@@ -84,11 +84,9 @@ define('E_USER_DEPRECATED', 1024);
  *
  * @param string $string The string to parse as ini
  *
- * @return  array $array The parsed ini content as array
- * @access  public
- * @author  Benjamin Carl <opensource@clickalicious.de>
- * @since   Method available since Release 1.0.0
- * @version 1.0
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return array $array The parsed ini content as array
+ * @access public
  */
 function parse_ini_string($string)
 {
@@ -115,7 +113,6 @@ function parse_ini_string($string)
     return $array;
 }
 
-
 /**
  * get_called_class support for php-version < 5.3
  *
@@ -128,10 +125,8 @@ function parse_ini_string($string)
  * @param mixed   $backtrace Boolean FALSE on init, array with retrieved debug_backtrace() result to reduce load
  * @param integer $level     Level of current recursion starting with one (1)
  *
- * @return  string The name of the called class
  * @author  Benjamin Carl <opensource@clickalicious.de>
- * @since   Method available since Release 1.0.0
- * @version 1.0
+ * @return  string The name of the called class
  */
 function get_called_class($backtrace = false, $level = 1)
 {
@@ -185,11 +180,13 @@ function get_called_class($backtrace = false, $level = 1)
             switch ($matches[1]) {
             case 'self':
             case 'parent':
-                return get_called_class($backtrace, $level+1);
-                break;
+            return get_called_class($backtrace, $level+1);
+            break;
+
             default:
-                return $matches[1];
-                break;
+            return $matches[1];
+            break;
+
             }
             break;
 
@@ -201,18 +198,20 @@ function get_called_class($backtrace = false, $level = 1)
                 if (!is_object($backtrace[$level]['object'])) {
                     throw new Exception('Edge case fail. __get called on non object.');
                 }
-                return get_class($backtrace[$level]['object']);
-            default: return $backtrace[$level]['class'];
+            return get_class($backtrace[$level]['object']);
+            break;
+
+            default:
+            return $backtrace[$level]['class'];
             }
             break;
 
         default:
-            throw new Exception('Unknown backtrace method type.');
-            break;
+        throw new Exception('Unknown backtrace method type.');
+        break;
         }
     }
 }
-
 
 /**
  * lcfirst support for php-version < 5.3
@@ -221,18 +220,14 @@ function get_called_class($backtrace = false, $level = 1)
  *
  * @param string $string The string to lower the first character in
  *
- * @return  string The string with lower first character
- * @author  Benjamin Carl <opensource@clickalicious.de>
- * @since   Method available since Release 1.0.0
- * @version 1.0
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return string The string with lower first character
  */
 function lcfirst($string)
 {
     $string{0} = strtolower($string{0});
     return $string;
 }
-
-
 
 // check if function allready exists
 if (!function_exists('checkdnsrr')) {
@@ -244,10 +239,8 @@ if (!function_exists('checkdnsrr')) {
      * @param string $host The host to check (e.g. gmx.de)
      * @param string $type The DNS-type to check (e.g. default = MX)
      *
-     * @return  boolean TRUE if lookup successful, otherwise FALSE
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return  boolean TRUE if lookup successful, otherwise FALSE
      */
     function checkdnsrr($host, $type = 'MX')
     {
@@ -269,7 +262,6 @@ if (!function_exists('checkdnsrr')) {
     }
 }
 
-
 /**
  * getmxrr support for php-version < 5.3 on windows
  *
@@ -279,10 +271,8 @@ if (!function_exists('checkdnsrr')) {
  * @param array  &$mxhosts  The array reference to found store mx-records in
  * @param array  &$mxweight The array reference to store the weight of the mx-records in
  *
- * @return  boolean TRUE if lookup successful, otherwise FALSE
- * @author  Benjamin Carl <opensource@clickalicious.de>
- * @since   Method available since Release 1.0.0
- * @version 1.0
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return boolean TRUE if lookup successful, otherwise FALSE
  */
 function getmxrr($host, array &$mxhosts, array &$mxweight)
 {

@@ -2,11 +2,12 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Extend Emulate Linux
+ * DoozR - Extend - Emulate - Linux
  *
- * Linux.php - This include extends PHP's functionality by
- * emulating the missing functions from Linux/Unix-based PHP installations with
- * native PHP-Code.
+ * Linux.php - This include extends PHP's functionality by emulating
+ *             missing native functions available only on Linux/Unix
+ *             -based environments like /dev/urandom and
+ *             get_all_headers(). This is done by using native PHP-Code.
  *
  * PHP versions 5
  *
@@ -48,7 +49,7 @@
  * @package    DoozR_Extend
  * @subpackage DoozR_Extend_Emulate_Linux
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2011 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
@@ -69,11 +70,9 @@ if (!function_exists('getallheaders')) {
      * based OS'. To get all headers it iterates over all Request-Header and prepare
      * them like the getallheaders()-function under Linux/Unix OS'.
      *
-     * @return      array $headers All HTTP Headers of current Request
-     * @access      public
-     * @author      Benjamin Carl <opensource@clickalicious.de>
-     * @version     1.0
-     * @since       1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array $headers All HTTP Headers of current Request
+     * @access public
      */
     function getallheaders()
     {
@@ -81,7 +80,7 @@ if (!function_exists('getallheaders')) {
         $headers = array();
 
         // holds the result
-        $headerParsed;
+        $headerParsed = array();
 
         // iterate over $_SERVER to parse header from there
         foreach ($_SERVER as $header => $value) {
