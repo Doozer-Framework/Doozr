@@ -489,7 +489,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         // check if the node exists
         if (!isset($this->currentChainlink->{$node})) {
             // throw exception
-            throw new DoozR_Config_Container_Exception('Config entry does not exist!');
+            throw new DoozR_Config_Container_Exception('Config entry "'.$node.'" does not exist!');
         }
 
         // retrieve next requested chain relative to base
@@ -533,8 +533,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         // check if the node exists
         if (!isset($this->currentChainlink->{$node})) {
             // throw exception
-            throw new DoozR_Config_Container_Exception('Config entry does not exist!');
-
+            throw new DoozR_Config_Container_Exception('Config entry "'.$node.'" does not exist!');
         }
 
         // get correct transformed argument

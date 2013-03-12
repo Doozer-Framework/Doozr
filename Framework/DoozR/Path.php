@@ -181,11 +181,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         // if path to app was defined before return this (prio 1)
         if (!defined('DOOZR_APP_ROOT')) {
             // assume that path to application is like the default environment (one folder up)
-            //$path = $this->mergePath(DOOZR_DOCUMENT_ROOT, '../App/');
-            /* @todo remove */
-            $path = 'C:\\Program Files\\xampp\\htdocs\\Projekte\\dgree\\App\\';
-            $logger = DoozR_Logger::getInstance();
-            $logger->log('REMOVE HARDCODED');
+            $path = $this->mergePath(DOOZR_DOCUMENT_ROOT, '../App/');
 
             // we need a constant of the path as counterpart to DOOZR_DOCUMENT_ROOT
             define('DOOZR_APP_ROOT', $path);

@@ -8,17 +8,13 @@
 #-------------------------------------------------------------------------------
 RewriteEngine On
 
-
-
 #-------------------------------------------------------------------------------
 # PATH CONFIGURATION/SETUP HERE
 #-------------------------------------------------------------------------------	
-RewriteBase /Projekte/DoozR/Framework/
+RewriteBase /Framework/
 
 RewriteRule .* - [E=DOOZR_PATH_APP:../App/Data/Public/www/]
 RewriteRule .* - [E=DOOZR_ROUTER:Route.php]
-
-
 
 #-------------------------------------------------------------------------------
 # rewrite everything to DoozR's own/custom router (mod_rewrite-clone)          -
@@ -26,13 +22,11 @@ RewriteRule .* - [E=DOOZR_ROUTER:Route.php]
 # route our public data /www/...
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule ^www\/([\/a-zA-Z0-9_\-\.]*)$ ../App/Data/Public/www/$1 [QSA,L]
 RewriteRule ^www\/([\/a-zA-Z0-9_\-\.]*)$ %{env:DOOZR_PATH_APP}$1 [QSA,L]
 
 # route calls to router /x/y/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule . Route.php?mode=htaccess [QSA,L]
 RewriteRule . %{env:DOOZR_ROUTER}?mode=htaccess [QSA,L]
 
 # else existing folder and file direct access deny
