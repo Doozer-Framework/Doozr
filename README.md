@@ -15,7 +15,7 @@ For more detailed information on how we did things and how DoozR does things and
 
 
 ## Project statistics
-It's always hard to guess how large a project is grown. Here are some interesting statistics from DoozR:
+It's always hard to guess how large a project is grown. Here are some interesting statistics of DoozR:
 ```php
 Total Physical Source Lines of Code (SLOC)                  = 74.005
 Development Effort Estimate, Person-Years (Person-Months)   = 18,35 (220,26)
