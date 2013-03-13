@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 9debd00cd955dbab3cb82047de1a966ee44a58d6 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 9debd00cd955dbab3cb82047de1a966ee44a58d6 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -149,9 +149,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param object $path   An instance of DoozR_Path
      * @param object $logger An instance of DoozR_Logger
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      * @throws  DoozR_Exception
      */
     protected function __construct(DoozR_Path $path, DoozR_Logger $logger, $enableCaching = false)
@@ -201,9 +201,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * like DOCUMENT_ROOT or SERVERNAME (DOMAIN). The so called "transforms" are applied to each
      * part of the config (section or value) and replaces placeholder with runtime information(s).
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function attachDefaultReplacements()
     {
@@ -232,9 +232,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param mixed $configuration The content to replace the replacements in
      *
-     * @return  mixed The content including the concrete replaces
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The content including the concrete replaces
+     * @access protected
      * @throws  DoozR_Exception
      */
     protected function doReplacement($configuration)
@@ -262,9 +262,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param mixed $resource Any type of variable
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return  string The generated unique Id
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @access protected
      */
     protected function getUid($resource)
     {
@@ -278,9 +278,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param mixed $configuration The configuration to store
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function setRaw($configuration)
     {
@@ -292,9 +292,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * This method is intend to store the raw configuration of the current instance.
      *
-     * @return  mixed The raw configuration of the current instance
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The raw configuration of the current instance
+     * @access protected
      */
     protected function getRaw()
     {
@@ -308,9 +308,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param mixed $configuration The configuration to store
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function setProcessed($configuration)
     {
@@ -322,9 +322,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * This method is intend to store the processed configuration of the current instance.
      *
-     * @return  mixed The processed configuration of the current instance
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The processed configuration of the current instance
+     * @access protected
      */
     protected function getProcessed()
     {
@@ -338,9 +338,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param mixed $configuration The configuration to store
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function setParsed($configuration)
     {
@@ -352,9 +352,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * This method is intend to store the processed configuration of the current instance.
      *
-     * @return  mixed The processed configuration of the current instance
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The processed configuration of the current instance
+     * @access protected
      */
     protected function getParsed()
     {
@@ -371,14 +371,19 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param mixed $configuration1 The configuration to merge the second configuration in
      * @param mixed $configuration2 The configuration to merge into the first one
      *
-     * @return  object The resulting + merged configuration object
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object The resulting + merged configuration object
+     * @access protected
      */
     protected function mergeConfigurations($configuration1, $configuration2)
     {
-        // return resulting merged object
-        return (object)merge_array((array) $configuration1, (array) $configuration2);
+        $a1 = object_to_array($configuration1);
+        $a2 = object_to_array($configuration2);
+        $r1 = array_replace_recursive($a1, $a2);
+        $r2 = array_to_object($r1);
+
+        // merge configurations and return result as object
+        return $r2;
     }
 
     /*******************************************************************************************************************
@@ -397,9 +402,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param string $from The value which should be replaced
      * @param string $to   The value which should be inserted for every occurance of $from
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function attachReplacement($from, $to)
     {
@@ -415,9 +420,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param array   $configuration The configuration array to store
      * @param boolean $merge         TRUE if configuration should be merged with existing
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setConfiguration(array $configuration, $merge)
     {
@@ -440,9 +445,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param array $part The configuration array to store
      *
-     * @return  mixed Complete configuration or value of a part
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Complete configuration or value of a part
+     * @access public
      */
     public function getConfiguration($part = null)
     {
@@ -475,9 +480,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param string $node The node to return
      *
-     * @return  mixed Requested node/value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Requested node/value
+     * @access public
      */
     public function __get($node)
     {
@@ -519,9 +524,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param string $node          The node to return
      * @param array  $returnAsArray TRUE to return node/value as array, otherwise FALSE to return object (default)
      *
-     * @return  mixed Requested node/value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Requested node/value
+     * @access public
      */
     public function __call($node, $returnAsArray)
     {

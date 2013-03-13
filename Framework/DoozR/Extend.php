@@ -126,6 +126,8 @@ function merge_array(array $array_1, array $array_2)
     return $array_1;
 }
 
+
+
 /**
  * A recursive array_change_key_case function
  *
@@ -227,6 +229,7 @@ function array_remove_value(array $array, $value = '', $preserve_keys = true)
  * Converts an object to an array
  *
  * @param object $object The object to convert
+ * @param boolean $recursive TRUE to call this method recursively till last node of input, FALSE to do not
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return array The resulting array
@@ -234,55 +237,35 @@ function array_remove_value(array $array, $value = '', $preserve_keys = true)
  */
 function object_to_array($object)
 {
-    if (!is_object($object) && !is_array($object)) {
-        return $object;
+    if (is_object($object) && null !== $morphed = get_object_vars($object)) {
+        $object = array_map('object_to_array', $morphed);
     }
-
-    if (is_object($object)) {
-        $object = get_object_vars($object);
-    }
-
-    return array_map('object_to_array', $object);
+    return $object;
 }
 
 /**
- * converts an array to an object
+ * Converts input array to an object
  *
- * This method is intend to convert an given object to an array.
- *
- * @param mixed $array The array to convert
+ * @param mixed   $array     The array to convert to an object
+ * @param boolean $recursive TRUE to call this method recursively till last node of input, FALSE to do not
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return object The resulting object
  * @access public
  */
-function array_to_object($array)
+function array_to_object(array $array, $recursive = true)
 {
-    if (!is_array($array)) {
-        return $array;
-    }
-
-    $object = new stdClass();
-
-    if (is_array($array) && count($array) > 0) {
-        foreach ($array as $key => $value) {
-            $key = strtolower(trim($key));
-            if (!empty($key)) {
-                $object->$key = array_to_object($value);
-            }
+    $array = (object)$array;
+    foreach ($array as $key => &$value) {
+        if (is_array($value) && $recursive) {
+            $value = array_to_object($value);
         }
-        return $object;
-
-    } else {
-        return false;
-
     }
+    return $array;
 }
 
 /**
- * returns all defined variables of global scope
- *
- * This method is intend to return all defined variables of global scope.
+ * Returns all currently defined variables PHP knows about (global scope)
  *
  * @param boolean $force TRUE to force the retrieval, otherwise FALSE
  *

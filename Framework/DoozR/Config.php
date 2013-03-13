@@ -107,15 +107,14 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
      *
      * This method act as constructor.
      *
-     * @param object $path      An instance of DoozR_Path
-     * @param object $logger    An instance of DoozR_Logger
-     * @param string $container A container e.g. Json or Ini
+     * @param object  $path          An instance of DoozR_Path
+     * @param object  $logger        An instance of DoozR_Logger
+     * @param string  $container     A container e.g. Json or Ini
+     * @param boolean $enableCaching TRUE to enable internal caching, FALSE to do not
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function __construct(
         DoozR_Path $path,
@@ -150,11 +149,9 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
      * @param string $path      The base path to Framework
      * @param mixed  $arguments Arguments to pass to instance
      *
-     * @return  object The fresh created instance
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object The fresh created instance
+     * @access private
      */
     private function _factory($class, $path, $arguments = null)
     {

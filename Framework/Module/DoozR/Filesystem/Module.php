@@ -4,8 +4,8 @@
 /**
  * DoozR - Module - Filesystem
  *
- * Module.php - DoozR Module for all filesystem operations with virtual-filesystem support (e.g. for
- * unit-testing).
+ * Module.php - DoozR Module for all filesystem operations with virtual-filesystem
+ * support (e.g. for unit-testing).
  *
  * PHP versions 5
  *
@@ -239,14 +239,11 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
      *
-     * @param boolean $virtual  True to mock a filesystem (vfs = virtual filesystem)
-     * @param object  $registry An instance of DoozR_Registry
+     * @param boolean $virtual True to mock a filesystem (vfs = virtual filesystem)
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __tearup($virtual = false)
     {
@@ -266,11 +263,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * This method is intend as replacement for __destruct
      * PLEASE DO NOT USE __destruct() - make always use of __teardown()!
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __teardown()
     {
@@ -299,12 +294,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $create      TRUE to create file if it not exist, FALSE to do not
      * @param boolean $modeBoolean TRUE to return result as boolean, otherwise FALSE to return number of bytes written
      *
-     * @return  mixed Number of bytes written if everything wents fine, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of bytes written if everything wents fine, otherwise false
+     * @access public
+     * @throws DoozR_Exception
      */
     public function write($file, $data, $append = false, $create = true, $modeBoolean = true)
     {
@@ -314,8 +307,7 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
         // exception for the case that the file|folder isn't writable
         if (!$this->_is_resource_writable($file)) {
             throw new DoozR_Exception(
-                'Could not write to file. The file "'.$file.'" could not be written. '.
-                'Current operation failed. Check permissions.'
+                'The file "'.$file.'" could not be written. Current operation failed. Check permissions.'
             );
         }
 
@@ -336,6 +328,38 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
     }
 
     /**
+     * CRUD shortcut to write() for creating files following the CRUD sheme
+     *
+     * @param string $resource The resource to create
+     * @param string $buffer   The content to write
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of bytes written if everything wents fine, otherwise false
+     * @access public
+     * @throws DoozR_Exception
+     */
+    public function create($resource, $buffer)
+    {
+        return $this->write($resource, $buffer);
+    }
+
+    /**
+     * CRUD shortcut to write() for updating the content of a file following the CRUD sheme
+     *
+     * @param string $resource The resource to create
+     * @param string $buffer   The content to write
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of bytes written if everything wents fine, otherwise false
+     * @access public
+     * @throws DoozR_Exception
+     */
+    public function upate($resource, $buffer)
+    {
+        return $this->write($resource, $buffer, false, false);
+    }
+
+    /**
      * Write content to a file in persistent mode
      *
      * This method is intend to write content to a file in persistent mode.
@@ -346,12 +370,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $create      TRUE to create file if it not exist, FALSE to do not
      * @param boolean $modeBoolean TRUE to return result as boolean, otherwise FALSE to return number of bytes written
      *
-     * @return  mixed TRUE/FALSE if mode = boolean, otherwise number of bytes written on success + false on failure
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE/FALSE if mode = boolean, otherwise number of bytes written on success + false on failure
+     * @access public
+     * @throws DoozR_Exception
      */
     public function pwrite($file, $data, $append = false, $create = true, $modeBoolean = true)
     {
@@ -361,8 +383,7 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
         // exception for the case that the file|folder isn't writable
         if (!$this->_is_resource_writable($file)) {
             throw new DoozR_Exception(
-            	'Could not persistent write to file. The file "'.$file.'" could not be written. '.
-                'Current operation failed. Check permissions.'
+                'Could not persistent write to file "'.$file.'". Current operation failed. Check permissions.'
             );
         }
 
@@ -395,12 +416,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $append      Controls if the content should be appended or rewrite the file
      * @param boolean $modeBoolean TRUE to return result as boolean, otherwise FALSE to return number of bytes written
      *
-     * @return  mixed Number of bytes written if everything wents fine, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of bytes written if everything wents fine, otherwise false
+     * @access public
+     * @throws DoozR_Exception
      */
     public function writeBinary($file, $data, $create = true, $append = false, $modeBoolean = true)
     {
@@ -441,12 +460,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $create     TRUE to create file if it not exist, FALSE to do not
      * @param boolean $writecheck Controls if writecheck should be performed
      *
-     * @return  mixed Number of bytes written if everything wents fine, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of bytes written if everything wents fine, otherwise false
+     * @access public
+     * @throws DoozR_Exception
      */
     public function appendBinary($file, $data, $create = true, $writecheck = true)
     {
@@ -456,9 +473,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
         // if write checking is enabled
         if ($writecheck && !$this->_is_writable($file)) {
             throw new DoozR_Exception(
-    			'Could not write binary data to file. The file "'.$file.'" could not be written. '.
+                'Could not write binary data to file. The file "'.$file.'" could not be written. '.
                 'Current operation failed. Check permissions.'
-	        );
+            );
         }
 
         // return result of operation
@@ -475,12 +492,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $create      TRUE to create file if it not exists, FALSE to do not
      * @param boolean $modeBoolean TRUE to return result as boolean, otherwise FALSE to return number of bytes written
      *
-     * @return  mixed Number of bytes written if everything wents fine, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of bytes written if everything wents fine, otherwise false
+     * @access public
+     * @throws DoozR_Exception
      */
     public function append($file, $data, $create = true, $modeBoolean = true)
     {
@@ -525,12 +540,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param string  $context          Context for reading from file
      * @param integer $offset           The offset from which to start reading
      *
-     * @return  string The content of the file
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The content of the file
+     * @access public
+     * @throws DoozR_Exception
      */
     public function read(
         $file,
@@ -561,12 +574,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param string $file   The name of the file to read
      * @param mixed  $length The number of bytes to read
      *
-     * @return  string The content of the file
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The content of the file
+     * @access public
+     * @throws DoozR_Exception
      */
     public function pread($file, $length = null)
     {
@@ -577,7 +588,7 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
         if (!$this->_resource_exists($file)) {
             throw new DoozR_Exception(
                 'Could not persistent read from file. The file: "'.$file.'" does not exist. '.
-				'Current operation failed. Check permissions too.'
+                'Current operation failed. Check permissions too.'
             );
         }
 
@@ -618,12 +629,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $file The file to read into array
      *
-     * @return  array The content of the file
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The content of the file
+     * @access public
+     * @throws DoozR_Exception
      */
     public function readArray($file = null)
     {
@@ -634,7 +643,7 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
         if (!$this->_resource_exists($file)) {
             throw new DoozR_Exception(
                 'Could not read file into array. The file: "'.$file.'" does not exist. '.
-				'Current operation failed. Check permissions too.'
+                'Current operation failed. Check permissions too.'
             );
         }
 
@@ -650,11 +659,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource to check
      *
-     * @return  boolean TRUE if resource exists, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if resource exists, otherwise FALSE
+     * @access public
      */
     public function exists($resource)
     {
@@ -672,12 +679,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $file The file to parse as php-file
      *
-     * @return  string The content of the file
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The content of the file
+     * @access private
+     * @throws DoozR_Exception
      */
     public function parse($file)
     {
@@ -688,7 +693,7 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
         if (!$this->_resource_exists($file)) {
             throw new DoozR_Exception(
                 'Could not parse file. The file: "'.$file.'" does not exist. '.
-				'Current operation failed. Check permissions too.'
+                'Current operation failed. Check permissions too.'
             );
         }
 
@@ -705,12 +710,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $recursive TRUE to remove content (if directory) recursive
      * @param string  $context   The context
      *
-     * @return  boolean TRUE if the resource was removed, FALSE otherwise.
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if the resource was removed, FALSE otherwise.
+     * @access public
+     * @throws DoozR_Exception
      */
     public function delete($resource, $recursive = false, $context = null)
     {
@@ -735,11 +738,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $recursive TRUE to remove content (if directory) recursive
      * @param string  $context   The context
      *
-     * @return  boolean TRUE if the resource was removed, FALSE otherwise.
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if the resource was removed, FALSE otherwise.
+     * @access public
      */
     public function unlink($resource, $recursive = false, $context = null)
     {
@@ -753,11 +754,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource to check
      *
-     * @return  boolean TRUE if the resource is writable, FALSE otherwise.
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if the resource is writable, FALSE otherwise.
+     * @access public
      */
     public function is_writable($resource)
     {
@@ -774,11 +773,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource to check
      *
-     * @return  boolean TRUE if the file exists and is a regular file, FALSE otherwise.
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if the file exists and is a regular file, FALSE otherwise.
+     * @access public
      */
     public function is_file($resource)
     {
@@ -796,11 +793,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource to check
      *
-     * @return  boolean TRUE if the file exists and is a directory, FALSE otherwise.
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if the file exists and is a directory, FALSE otherwise.
+     * @access public
      */
     public function is_dir($resource)
     {
@@ -824,11 +819,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * returns the status of "is-virtual" of this instance
      *
-     * @return  boolean True if instance works on virtual filesystem, otherwise false
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if instance works on virtual filesystem, otherwise false
+     * @access private
      */
     public function isVirtual()
     {
@@ -842,11 +835,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource (path or file) to correct
      *
-     * @return  string The corrected resource (input)
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The corrected resource (input)
+     * @access private
      */
     private function _vfsSlashes($resource)
     {
@@ -860,11 +851,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource to prepare
      *
-     * @return  string The prepared resource
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The prepared resource
+     * @access private
      */
     private function _prepareForVfs($resource)
     {
@@ -900,11 +889,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param mixed  $information The information to store
      * @param string $part        Set if a single part should be stored, keep empty for storing complete array
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function setCurrentResourceInformation($information, $part = null)
     {
@@ -923,11 +910,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $part Set if a single part should be stored, keep empty for returning complete array
      *
-     * @return  mixed Single information or array
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Single information or array
+     * @access protected
      */
     protected function getCurrentResourceInformation($part = null)
     {
@@ -946,11 +931,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param string $uid         The uid of the resource to store information about
      * @param array  $information The information to store
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function setResourceInformation($uid, array $information)
     {
@@ -965,11 +948,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param string $uid  The uid of the resource to store information about
      * @param string $part Set if a single part should be stored, keep empty for returning complete array
      *
-     * @return  mixed Single information or array
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Single information or array
+     * @access protected
      */
     protected function getResourceInformation($uid, $part = null)
     {
@@ -988,11 +969,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param string  $file File to get handle on
      * @param integer $mode Mode to open file
      *
-     * @return  mixed Handle on given file
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Handle on given file
+     * @access private
      */
     private function _getFileHandle($file, $mode = self::FILE_MODE_READ)
     {
@@ -1022,11 +1001,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $file The file to read
      *
-     * @return  string The (interpreted) content of the file
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The (interpreted) content of the file
+     * @access private
      */
     private function _getFileContentFromBuffer($file)
     {
@@ -1052,11 +1029,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $file The file to parse as php-file
      *
-     * @return  string The content of the file
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The content of the file
+     * @access private
      */
     private function _parse($file)
     {
@@ -1074,11 +1049,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $create      TRUE to create file if it not exists, otherwise FALSE to do not
      * @param integer $customFlags Custom flags as integer
      *
-     * @return  mixed INTEGER bytes written on success, otherwise FALSE on error
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed INTEGER bytes written on success, otherwise FALSE on error
+     * @access private
      */
     private function _append($file, $data, $create = false, $customFlags = 0)
     {
@@ -1099,11 +1072,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $create      TRUE to create file if it not exists, otherwise FALSE to do not
      * @param integer $customFlags Custom flags as integer
      *
-     * @return  mixed INTEGER bytes written on success, otherwise FALSE on error
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed INTEGER bytes written on success, otherwise FALSE on error
+     * @access private
      */
     private function _rewrite($file, $data, $create = false, $customFlags = 0)
     {
@@ -1125,11 +1096,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource to process (can be either folder or file)
      *
-     * @return  string The clean and safe resource name
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The clean and safe resource name
+     * @access private
      */
     private function _preProcess($resource)
     {
@@ -1169,11 +1138,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource to calculate Uid for
      *
-     * @return  string The Uid
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The Uid
+     * @access private
      */
     private function _getUid($resource)
     {
@@ -1187,12 +1154,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource to check if writable
      *
-     * @return  boolean True if resource is writable
-     * @throws  DoozR_Base_Exception_Generic
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if resource is writable
+     * @throws DoozR_Base_Exception_Generic
+     * @access private
      */
     private function _is_resource_writable($resource)
     {
@@ -1218,12 +1183,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource (path or file) to check
      *
-     * @return  void
-     * @throws  DoozR_Base_Exception_Generic
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @throws DoozR_Base_Exception_Generic
+     * @access public
      */
     private function _nullByteCheck($resource)
     {
@@ -1247,11 +1210,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource Path to the resource to unlink
      *
-     * @return  boolean Returns TRUE if the resource could be deleted, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean Returns TRUE if the resource could be deleted, otherwise FALSE
+     * @access private
      */
     private function _unlink($resource)
     {
@@ -1270,11 +1231,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource Path to the resource to check
      *
-     * @return  boolean Returns TRUE if the resource is a file, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean Returns TRUE if the resource is a file, otherwise FALSE
+     * @access private
      */
     private function _is_file($resource)
     {
@@ -1293,11 +1252,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource Path to the resource to check
      *
-     * @return  boolean Returns TRUE if the resource is a directory, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean Returns TRUE if the resource is a directory, otherwise FALSE
+     * @access private
      */
     private function _is_dir($resource)
     {
@@ -1316,11 +1273,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource Path to the resource to check
      *
-     * @return  boolean Returns the file in an array. Upon failure, returns FALSE.
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean Returns the file in an array. Upon failure, returns FALSE.
+     * @access private
      */
     private function _file($resource)
     {
@@ -1342,11 +1297,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param boolean $use_include_path TRUE to lookup in include path, otherwise FALSE to do not
      * @param mixed   $context          The context to open file in
      *
-     * @return  mixed Handle on file if exists, otherwise FALSE (on failure ...)
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Handle on file if exists, otherwise FALSE (on failure ...)
+     * @access private
      */
     private function _fopen($file, $mode = self::FILE_MODE_BINARY, $use_include_path = false, $context = null)
     {
@@ -1367,11 +1320,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param mixed   $handle The handle to read from
      * @param integer $length The number of bytes to read
      *
-     * @return  mixed Returns the read string or FALSE on failure.
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Returns the read string or FALSE on failure.
+     * @access private
      */
     private function _fread($handle, $length = self::PHP_STREAM_COPY_ALL)
     {
@@ -1388,11 +1339,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param string  $data   The data to write as string
      * @param integer $length The number of bytes to write
      *
-     * @return  mixed Returns the read string or FALSE on failure.
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Returns the read string or FALSE on failure.
+     * @access private
      */
     private function _fwrite($handle, $data, $length = self::PHP_STREAM_COPY_ALL)
     {
@@ -1407,11 +1356,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $file The file to return size of
      *
-     * @return  mixed Returns the size of the file in bytes, or FALSE (and generates an error of level E_WARNING)
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Returns the size of the file in bytes, or FALSE (and generates an error of level E_WARNING)
+     * @access private
      */
     private function _filesize($file)
     {
@@ -1429,11 +1376,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource Path to the file or directory
      *
-     * @return  boolean Returns TRUE if the file or directory specified by file exists, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean Returns TRUE if the file or directory specified by file exists, otherwise FALSE
+     * @access private
      */
     private function _resource_exists($resource)
     {
@@ -1452,11 +1397,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *
      * @param string $resource The resource being checked.
      *
-     * @return  boolean TRUE if the resource exists and is writable, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if the resource exists and is writable, otherwise FALSE
+     * @access private
      */
     private function _is_writable($resource)
     {
@@ -1485,12 +1428,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      *                                  reached. Note that this parameter is applied to the stream processed by the
      *                                  filters.
      *
-     * @return  mixed The function returns the read data or FALSE on failure.
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @see     http://de.php.net/manual/en/function.file-get-contents.php
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The function returns the read data or FALSE on failure.
+     * @access private
+     * @see    http://de.php.net/manual/en/function.file-get-contents.php
      */
     private function _file_get_contents(
         $file,
@@ -1516,12 +1457,10 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param integer $flags   The value of flags can be any combination joined with the binary OR (|) operator
      * @param mixed   $context A valid context resource created with stream_context_create()
      *
-     * @return  mixed The function returns the number of bytes that were written to the file, or FALSE on failure
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @see     http://de.php.net/manual/en/function.file-put-contents.php
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The function returns the number of bytes that were written to the file, or FALSE on failure
+     * @access private
+     * @see    http://de.php.net/manual/en/function.file-put-contents.php
      */
     private function _file_put_contents($file, $data, $flags = 0, $context = null)
     {
@@ -1548,11 +1487,9 @@ class DoozR_Filesystem_Module extends DoozR_Base_Module_Singleton_Strict
      * @param string $methodSignature The method called
      * @param array  $arguments       The arguments passed to method call
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __call($methodSignature, $arguments)
     {

@@ -145,8 +145,13 @@ class DoozR_Loader_Moduleloader extends DoozR_Base_Class_Singleton
                 self::$_registry
             );
         } else {
-            // join
-            $arguments = array_merge(array(self::$_registry), $arguments);
+            // convert if not is array already
+            if (!is_array($arguments)) {
+                $arguments = array(self::$_registry, $arguments);
+            } else {
+                // simply join and done
+                $arguments = array_merge(array(self::$_registry), $arguments);
+            }
         }
 
         // get correct type if no type explicit given
