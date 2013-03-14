@@ -235,12 +235,22 @@ function array_remove_value(array $array, $value = '', $preserve_keys = true)
  * @return array The resulting array
  * @access public
  */
-function object_to_array($object)
+function object_to_array($object, $recursive = true)
 {
+    /*
     if (is_object($object) && null !== $morphed = get_object_vars($object)) {
         $object = array_map('object_to_array', $morphed);
     }
     return $object;
+    */
+
+    $object = (array)$object;
+    foreach ($object as $key => &$value) {
+        if ((is_object($value) || is_array($value)) && $recursive) {
+            $value = object_to_array($value, $recursive);
+        }
+    }
+    return $object;    
 }
 
 /**

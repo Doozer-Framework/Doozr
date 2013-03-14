@@ -54,7 +54,7 @@ if ($form->submitted('register') && $form->valid() && $form->finished()) {
             ->step()
             ->steps(2)
             ->onInvalidToken(DoozR_Form_Module::TOKEN_BEHAVIOR_DENY)
-            ->i18n($i18n)
+            //->i18n($i18n)
             ->setFieldsetBegin('fieldset1', 'Jetzt kostenlos registrieren:', 'myclass')
                 // radio 1 (gender)
                 ->add('radio', true, 'leftHalf')
