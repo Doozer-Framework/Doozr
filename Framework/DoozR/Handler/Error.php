@@ -90,9 +90,9 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      *
      * constructor builds the class
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct()
     {
@@ -183,9 +183,9 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * @param mixed  $line    The linenummber
      * @param array  $context The context variable and value from error context
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean Everytime TRUE
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _formatMessage(
@@ -216,9 +216,9 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, and most of E_STRICT
      * raised in the file where set_error_handler() is called.).
      *
-     * @return  boolean True always
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True always
+     * @access public
      * @static
      */
     public static function handleUnhandable()
@@ -247,9 +247,9 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * @param string $color  The color for Text in HEX-notation
      * @param string $cursor The cursor (css) to use
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed True if $return = false and string with colorized html if $return = true
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     public static function pre($data, $return = false, $color = '#EF4A4A', $cursor = 'crosshair')
