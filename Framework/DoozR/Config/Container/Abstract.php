@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Config Abstract
+ * DoozR - Config - Container - Abstract
  *
- * Abstract.php - Abstract base for Config-Manager of the DoozR Framework.
+ * Abstract.php - Abstract base for Config container usable by config manager
+ * of the DoozR Framework (e.g. DoozR_Config).
  *
  * PHP versions 5
  *
@@ -48,7 +49,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 9debd00cd955dbab3cb82047de1a966ee44a58d6 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -57,9 +58,10 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
 
 /**
- * DoozR Config Abstract
+ * DoozR - Config - Container - Abstract
  *
- * Abstract base for Config-Manager of the DoozR Framework.
+ * Abstract base for Config container usable by config manager
+ * of the DoozR Framework (e.g. DoozR_Config).
  *
  * @category   DoozR
  * @package    DoozR_Config
@@ -67,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 9debd00cd955dbab3cb82047de1a966ee44a58d6 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -146,8 +148,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * This method is the constructor of the class.
      *
-     * @param object $path   An instance of DoozR_Path
-     * @param object $logger An instance of DoozR_Logger
+     * @param object  $path          An instance of DoozR_Path
+     * @param object  $logger        An instance of DoozR_Logger
+     * @param boolean $enableCaching TRUE to enable caching, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -242,8 +245,8 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         // only string work for current versions
         if (!is_string($configuration)) {
             throw new DoozR_Exception(
-                'Error while replacing placeholder in configuration. '.
-                'Replacement currently only works with strings ("'.gettype($configuration).'" was given).'
+                'Error while replacing placeholder in configuration. Replacement currently only works with strings ("'.
+                gettype($configuration).'" was given).'
             );
         }
 
@@ -263,7 +266,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param mixed $resource Any type of variable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return  string The generated unique Id
+     * @return string The generated unique Id
      * @access protected
      */
     protected function getUid($resource)

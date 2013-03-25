@@ -54,7 +54,7 @@
  * @since      -
  */
 
-//require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Database/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 
 /**
  * DoozR - Base - Database - Abstract
@@ -65,7 +65,6 @@
  * @package    DoozR_Base
  * @subpackage DoozR_Base_Database
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$ <doozr@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
@@ -124,32 +123,46 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      */
     protected $path;
 
+    /**
+     * Instance of DoozR_Config
+     *
+     * @var DoozR_Config
+     * @access protected
+     */
     protected $config;
 
+    /**
+     * Instance of DoozR_Logger
+     *
+     * @var DoozR_Logger
+     * @access protected
+     */
     protected $logger;
+
 
     /**
      * constructs the class
      *
      * constructor builds the class
      *
-     * @return  object self::$_instance object (instance of this class)
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @param DoozR_Path   $path   Instance of DoozR_Path manager for path'
+     * @param DoozR_Config $config Instance of DoozR_Config holding DoozR's config
+     * @param DoozR_Logger $logger Instance of DoozR_Logger
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __construct(DoozR_Path $path, DoozR_Config $config, DoozR_Logger $logger)
     {
         // store instances
-        $this->path = $path;
+        $this->path   = $path;
         $this->config = $config;
         $this->logger = $logger;
 
         // call parent's constructor
         parent::__construct();
     }
-
 
     /**
      * setter for current used config-identifier
@@ -158,34 +171,28 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      *
      * @param string $identifier The identifier to use for this instance
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function setInstanceIdentifier($identifier)
     {
         return ($this->instanceIdentifier = $identifier);
     }
 
-
     /**
      * getter for current used config-identifier
      *
      * This method is intend as getter for current used config-identifier.
      *
-     * @return  mixed STRING the identifier of this instance if previously set, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed STRING the identifier of this instance if previously set, otherwise NULL
+     * @access public
      */
     public function getInstanceIdentifier()
     {
         return $this->instanceIdentifier;
     }
-
 
     /**
      * dispatch configuration to ORM/DBA
@@ -195,22 +202,18 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      *
      * @param object &$referenceWrapper The reference to the wrapper
      *
-     * @return    mixed Object if cached ORM/DBA object exists, otherwise true
-     * @access    public
-     * @author    Benjamin Carl <opensource@clickalicious.de>
-     * @copyright Benjamin Carl 2009 - 2010
-     * @since     Method available since Release 1.0.0
-     * @version   1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Object if cached ORM/DBA object exists, otherwise true
+     * @access public
+     * @throws DoozR_Exception
      */
     public function dispatch(&$referenceWrapper = null)
     {
-        throw new DoozR_Database_Exception(
-            'No dispatch method found in the called Model-Wrapper! Need the dispatch Method to configure the called'
-            . 'ORM/DBA!',
+        throw new DoozR_Exception(
+            'No dispatch method found in the called Wrapper! Need the dispatch Method to configure the called ORM/DBA!',
             E_USER_CORE_FATAL_EXCEPTION
         );
     }
-
 
     /**
      * loads a (configuration-)file
@@ -219,13 +222,10 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      *
      * @param string $filename The name (and path) to the file
      *
-     * @return    boolean True if file exists AND readable AND include succeeded
-     * @throws    DoozR_Database_Exception, DoozR_Database_Exception
-     * @access    protected
-     * @author    Benjamin Carl <opensource@clickalicious.de>
-     * @copyright Benjamin Carl 2009 - 2010
-     * @since     Method available since Release 1.0.0
-     * @version   1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if file exists AND readable AND include succeeded
+     * @access protected
+     * @throws DoozR_Exception
      */
     protected function loadFile($filename)
     {
@@ -247,7 +247,15 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
         return include_once $filename;
     }
 
-
+    /**
+     * Returns the library files required for ORM as array
+     *
+     * @param string $input The identifier for lookup
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The required files ORM/DBA
+     * @access public
+     */
     public function getLibraryFiles($input)
     {
         // assume the result is the same string as the input
@@ -262,26 +270,21 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
         return $result;
     }
 
-
     /**
      * returns the name of the current used ORM/DBA
      *
      * returns the name of the current used ORM/DBA in a dynamic way. no need to define a
      * name anywhere.
      *
-     * @return    string The name of the current ORM/DBA
-     * @access    protected
-     * @author    Benjamin Carl <opensource@clickalicious.de>
-     * @copyright Benjamin Carl 2009 - 2010
-     * @since     Method available since Release 1.0.0
-     * @version   1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the current ORM/DBA
+     * @access protected
      */
     protected function getOrmName()
     {
         // ORM-name dynamic by class-name operation
         return str_replace('DoozR_Model_', '', str_replace('_Facade', '', get_class($this)));
     }
-
 
     /**
      * returns the directory to the ORM/DBA
@@ -290,12 +293,9 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      *
      * @param boolean $stripLibrary TRUE to get just the root to ORM, otherwise FALSE to retrieve full-path
      *
-     * @return    string The path to the current ORM/DBA
-     * @access    protected
-     * @author    Benjamin Carl <opensource@clickalicious.de>
-     * @copyright Benjamin Carl 2009 - 2010
-     * @since     Method available since Release 1.0.0
-     * @version   1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The path to the current ORM/DBA
+     * @access protected
      */
     protected function getOrmDirectory($stripLibrary = false)
     {
@@ -320,7 +320,6 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
         return self::$ormDirectory[$stripLibrary];
     }
 
-
     /**
      * retrieves the configuration for ORM/DBA via DoozR_Core::config()
      *
@@ -328,12 +327,10 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      *
      * @param string $orm The name of the ORM to retrieve config for
      *
-     * @return    array Config retrieved by DoozR_Core::config()
-     * @access    protected
-     * @author    Benjamin Carl <opensource@clickalicious.de>
-     * @copyright Benjamin Carl 2009 - 2010
-     * @since     Method available since Release 1.0.0
-     * @version   1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Config retrieved by DoozR_Core::config()
+     * @access protected
+     * @throws DoozR_Exception
      */
     protected function retrieveOrmConfig($orm)
     {
@@ -355,22 +352,16 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
         return true;
     }
 
-
     /**
-     * returns the configuration for ORM/DBA
-     *
-     * returns the configuration for ORM/DBA
+     * Returns the configuration for ORM/DBA
      *
      * @param mixed $instanceIdentifier The identifier to use for config-retrieval, NULL to return the whole config
      *
-     * @return    array $ormConfig The config for the ORM/DBA
-     * @access    public
-     * @author    Benjamin Carl <opensource@clickalicious.de>
-     * @copyright Benjamin Carl 2009 - 2010
-     * @since     Method available since Release 1.0.0
-     * @version   1.0
-     * @throws    Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array $ormConfig The config for the ORM/DBA
+     * @access public
      * @static
+     * @throws DoozR_Exception
      */
     protected function getConfig($instanceIdentifier = null)
     {
@@ -380,8 +371,8 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
         // check if identifier exist
         if (!isset(self::$ormConfig[$instanceIdentifier])) {
             throw new DoozR_Exception(
-            	'Invalid identifier: "'.$instanceIdentifier.'"! Config could not be retrieved.'
-           	);
+                'Invalid identifier: "'.$instanceIdentifier.'"! Config could not be retrieved.'
+            );
         }
 
         // return a nice prepared configuration for current instance

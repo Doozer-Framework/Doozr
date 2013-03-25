@@ -90,7 +90,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Model.php';
 final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Interface
 {
     /**
-     * The version of DoozR (automatic setted by svn)
+     * The version of DoozR (automatic setted by git)
      * !DO NOT MODIFY MANUALLY!
      *
      * @var string Contains the SVN-Version string
@@ -100,7 +100,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     public static $version = 'Git: $Id$';
 
     /**
-     * Contains instance of DoozR_Path
+     * Instance of DoozR_Path
      *
      * @var DoozR_Path
      * @access private
@@ -109,7 +109,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_path;
 
     /**
-     * Contains instance of DoozR_Config
+     * Instance of DoozR_Config
      *
      * @var DoozR_Config
      * @access private
@@ -118,7 +118,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_config;
 
     /**
-     * Contains instance of DoozR_Debug
+     * Instance of DoozR_Debug
      *
      * @var DoozR_Debug
      * @access private
@@ -127,7 +127,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_debug;
 
     /**
-     * Contains instance of DoozR_Logger
+     * Instance of DoozR_Logger
      *
      * @var DoozR_Logger
      * @access private
@@ -136,7 +136,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_logger;
 
     /**
-     * Contains instance of DoozR_Encoding
+     * Instance of DoozR_Encoding
      *
      * @var DoozR_Encoding
      * @access private
@@ -145,7 +145,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_encoding;
 
     /**
-     * Contains instance of DoozR_Locale
+     * Instance of DoozR_Locale
      *
      * @var DoozR_Locale
      * @access private
@@ -154,7 +154,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_locale;
 
     /**
-     * Contains instance of DoozR_Registry
+     * Instance of DoozR_Registry
      *
      * @var DoozR_Registry
      * @access private
@@ -163,7 +163,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_registry;
 
     /**
-     * Contains instance of DoozR_Front
+     * Instance of DoozR_Front
      *
      * @var DoozR_Front
      * @access private
@@ -172,7 +172,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_front;
 
     /**
-     * Contains instance of DoozR_Back
+     * Instance of DoozR_Back
      *
      * @var DoozR_Back
      * @access private
@@ -181,7 +181,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_back;
 
     /**
-     * Contains instance of DoozR_Model
+     * Instance of DoozR_Model
      *
      * @var DoozR_Model
      * @access private
@@ -190,7 +190,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_model;
 
     /**
-     * Contains instance of DoozR_Security
+     * Instance of DoozR_Security
      *
      * @var DoozR_Security
      * @access private
@@ -293,9 +293,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * @param boolean $rerun                TRUE to rerun the bootstrapper, otherwise FALSE to keep state
      * @param array   $runtimeConfiguration The runtime configuration to pass to config (ovveride configuration)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     public static function bootstrap($rerun = true, array $runtimeConfiguration = array())
@@ -356,9 +356,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * e.g. DoozR_Logger will be available like this $registry->logger, DoozR_Config like $registry->config
      * and so on.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initRegistry()
@@ -373,9 +373,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * is of type collecting. So it collects all entries as long as the config isn't parsed and the real
      * configured loggers are attached.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initLogger()
@@ -394,9 +394,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * always the correct path to predefined parts of the framework and it is also cappable of combining paths
      * in correct slashed writing.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initPath()
@@ -415,9 +415,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      *
      * @param mixed $runtimeConfiguration The runtime configuration passed as ARRAY or OBJECT
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initConfig($runtimeConfiguration)
@@ -458,9 +458,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * This method is intend configure the logging. It attaches the real configured loggers from config and removes
      * the collecting logger. This method also injects the collected entries into the new attached loggers.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _configureLogging()
@@ -498,9 +498,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      *
      * This method is intend to initialize the encoding used internal and external (e.g. output)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initEncoding()
@@ -516,9 +516,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      *
      * This method is intend to initialize the locale.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @see    http://de.wikipedia.org/wiki/Locale
      * @static
      */
@@ -538,9 +538,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * level (inlcuding E_STRICT) is set. It also logs a warning-level message - if safe-mode is detected and setup
      * can't be done.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initDebug()
@@ -558,9 +558,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * This method is intend to manage security related setting and instanciate DoozR_Security which
      * protects the framework and handles security related operations like en- / decryption ...
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initSecurity()
@@ -578,9 +578,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * This method is intend to initialize the front-controller. The front-controller
      * is mainly responsible for retrieving data from and sending data to the client.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     private static function _initFrontController()
     {
@@ -598,9 +598,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * is mainly responsible for managing access to the MVC/MVP part and used as interface
      * to model as well.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initBackController()
@@ -618,9 +618,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * This method is intend to initialize the model layer. It provides access to a database through a
      * ORM (Object-Relational-Mapper) like Doctrine, ... or a ODM (like PHPillow)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initModel()
@@ -648,9 +648,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * This method is intend to initialize the default modules for current running-mode.
      * Running mode depends on used interface. It can be either CLI (Console) or WEB (Browser).
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _initModules()
@@ -671,9 +671,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      *
      * This method is intend to stop the timer for measurements and log the core-execution time.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _stopTimer()
@@ -694,9 +694,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * @param string $error The error-message to throw as core-error
      * @param bool   $fatal The type of core-error - if set to true the error becomes FATAL
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean False always
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _coreError($error, $fatal = true)
@@ -718,7 +718,14 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
         return false;
     }
 
-
+    /**
+     * Returns instance of Datetime module
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Datetime_Module An instance of module Datetime
+     * @access private
+     * @static
+     */
     private static function _getDateTime()
     {
         if (!self::$_dateTime) {
@@ -727,7 +734,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
 
         return self::$_dateTime;
     }
-
 
     /*******************************************************************************************************************
      * \\ END PRIVATE/PROTECTED METHODS
@@ -745,9 +751,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * @param string  $error The error-message
      * @param boolean $fatal Controls if the execution should be stopped (fatal = true)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean FALSE if error successfully processed otherwise TRUE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     public static function coreError($error, $fatal = true)
@@ -760,9 +766,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      *
      * This method is intend to return the starttime of core execution.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return float Microtime
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public static function getCoreStarttime()
     {
@@ -774,9 +780,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      *
      * This method is intend to return the total-time of core execution.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return float Microtime
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public static function getCoreExecutiontime()
     {
@@ -790,6 +796,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      *
      * @param boolean $justRevision If set to true the method returns the revision as integer, otherwise full rev-string
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The version of DoozR
      * @access public
      */
@@ -814,12 +821,13 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      *
      * This method gets calles on class desctruct.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __destruct()
     {
+        /*
         // log request serving time
         self::$_logger->log(
             'Request cycle completed in: '.self::_getDateTime()->getMicrotimeDiff(self::$starttime).' seconds'
@@ -827,6 +835,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
 
         // save session
         session_write_close();
+        */
     }
 }
 

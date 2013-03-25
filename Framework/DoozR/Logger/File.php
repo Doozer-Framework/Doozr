@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Logger for file based logging operations
+ * DoozR - Logger - File
  *
- * File.php - This logger-implementation is intend to log to the filesystem
+ * File.php - This logger-implementation is intend to log to the filesystem.
  *
  * PHP versions 5
  *
@@ -50,7 +50,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Alogger.class.php, ILogger.class.php
+ * @see        -
  * @since      -
  */
 
@@ -58,9 +58,9 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
 
 /**
- * Logger for file based logging operations
+ * DoozR - Logger - File
  *
- * This logger-implementation is intend to log to the filesystem
+ * This logger-implementation is intend to log to the filesystem.
  *
  * @category   DoozR
  * @package    DoozR_Logger
@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Alogger.class.php, ILogger.class.php
+ * @see        -
  * @since      -
  */
 final class DoozR_Logger_File extends DoozR_Logger_Abstract implements DoozR_Logger_Interface
@@ -144,17 +144,13 @@ final class DoozR_Logger_File extends DoozR_Logger_Abstract implements DoozR_Log
      ******************************************************************************************************************/
 
     /**
-     * constructs the class
-     *
      * This method is the constructor and responsible for building the instance.
      *
      * @param integer $level The level to use for this logger
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     protected function __construct($level, $fingerprint)
     {
@@ -175,15 +171,11 @@ final class DoozR_Logger_File extends DoozR_Logger_Abstract implements DoozR_Log
     }
 
     /**
-     * Adds the defined line-separator to log-content
-     *
      * This method is intend to add the defined line-separator to log-content.
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function separate()
     {
@@ -192,18 +184,14 @@ final class DoozR_Logger_File extends DoozR_Logger_Abstract implements DoozR_Log
     }
 
     /**
-     * abstract output container method
-     *
      * This method is intend to write data to a defined pipe like STDOUT, a file, browser ...
      * It should be overriden in concrete implementation.
      *
      * @param string $color The color of the ouput as hexadecimal string reprensentation
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function output($color = '#7CFC00')
     {
@@ -222,17 +210,13 @@ final class DoozR_Logger_File extends DoozR_Logger_Abstract implements DoozR_Log
     }
 
     /**
-     * dispatches a new route to this logger
-     *
-     * dispatches a new route to this logger (e.g. for use as new filename).
+     * Dispatches a new route to this logger (e.g. for use as new filename).
      *
      * @param string $name The name of the route to dispatch
      *
-     * @return  boolean True on success, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True on success, otherwise false
+     * @access public
      */
     public function route($name)
     {
@@ -241,17 +225,13 @@ final class DoozR_Logger_File extends DoozR_Logger_Abstract implements DoozR_Log
     }
 
     /**
-     * setter for logfile
-     *
-     * setter for file to log to
+     * Setter for file to log to
      *
      * @param string $logfile The filename (including path) to log the content to
      *
-     * @return  boolean True on success otherwise false
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True on success otherwise false
+     * @access private
      */
     private function _setLogfile($logfile)
     {

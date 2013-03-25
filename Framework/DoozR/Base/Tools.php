@@ -76,9 +76,8 @@
 class DoozR_Base_Tools // extends DoozR_Base_Development
 {
     /**
-     * holds the backtrace information
-     * so we don't need to call this expensive function more than
-     * one time
+     * The backtrace information so we don't need to call this expensive
+     * function more than once.
      *
      * @var array
      * @access private
@@ -86,7 +85,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     private $_backtrace = null;
 
     /**
-     * holds the path to the parent which extends this base
+     * The path to the parent which extends this base
      *
      * @var string
      * @access private
@@ -94,7 +93,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     private $_path = null;
 
     /**
-     * holds the filename of the parent which extends this base
+     * The filename of the parent which extends this base
      *
      * @var string
      * @access private
@@ -102,7 +101,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     private $_file = null;
 
     /**
-     * holds the path and the filename of the parent which extends this base
+     * The path and the filename of the parent which extends this base
      *
      * @var string
      * @access private
@@ -111,36 +110,11 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
 
 
     /**
-     * logs a given message to logger-facade-system of DoozR
-     *
-     * This method is intend to log a given message to logger-facade-system of DoozR.
-     *
-     * @param string $message The message to log
-     * @param string $type    The type of the message to log (e.g. null = log, error, warning)
-     *
-     * @return  boolean True if logging was successful, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     */
-    protected function log($message, $type = null)
-    {
-        //$logger = DoozR_Logger::getInstance();
-        //$logger->log($message, $type);
-        return true;
-    }
-
-    /**
-     * returns the path to the child of this "Base"
-     *
      * This method is intend to return the path to the parent (extending class) of this class.
      *
-     * @return  string The path to parent class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The path to parent class
+     * @access public
      */
     public function getPath()
     {
@@ -159,11 +133,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      *
      * This method is intend to return the filename of the parent (extending class) of this class.
      *
-     * @return  string The filename of the parent class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The filename of the parent class
+     * @access public
      */
     public function getFile()
     {
@@ -186,11 +158,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      *
      * This method is intend to return the filename and path (combined) of the parent (extending class) of this class.
      *
-     * @return  string The filename and path of the parent class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The filename and path of the parent class
+     * @access public
      */
     public function getPathAndFile()
     {
@@ -209,11 +179,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      *
      * @param string $method The name of the method to check for existence
      *
-     * @return  boolean True if  method exist, otherwise false
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if  method exist, otherwise false
+     * @access protected
      */
     public function hasMethod($method)
     {
@@ -221,8 +189,6 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     }
 
     /**
-     * generic loader method (generic class instanciation)
-     *
      * This method is a generic instanciation method. It instanciates and
      * returns any class requested.
      *
@@ -231,11 +197,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * @param string $constructor The constructor to use for instanciation
      * @param string $includeFile The file to include before instantiating the class
      *
-     * @return  object Instance of the class ($className) requested
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of the class ($className) requested
+     * @access protected
      */
     protected static function instanciate($className, $arguments = null, $constructor = null, $includeFile = null)
     {
@@ -330,11 +294,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * @param string $method   The methodname to call as string
      * @param mixed  $params   The parameters as anything/mixed
      *
-     * @return  mixed The result of the call
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the call
+     * @access public
      * @static
      */
     public static function dynamicCall($instance, $method, $params = null)
@@ -352,49 +314,14 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     }
 
     /**
-     * gets triggered when invoking inaccessible methods in an object context
-     *
-     * This method is intend to fetch calls to not-existent methods and throw an exception
-     *
-     * @param string $methodSignature The name of the not-existent method called
-     * @param mixed  $arguments       The arguments (optional) as array or null
-     *
-     * @return  void
-     * @throws  Exception
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     */
-    /*
-    public function __call($methodSignature, $arguments)
-    {
-        // check if lambda function defined and requested
-        if (isset($this->{$methodSignature}) === true) {
-            $func = $this->$methodSignature;
-            $func(implode(', ', $arguments));
-        } else {
-            // throw error
-            trigger_error(
-                'call to undefined method '.get_called_class().'::'.
-                $methodSignature.'('.var_export($arguments, true).')',
-                E_USER_ERROR
-            );
-        }
-    }
-    */
-
-    /**
      * gets triggered when serialize() on this class is called
      *
      * This method is intend to fetch calls to not-existent methods and throw an exception.
      * serialize() checks if your class has a function with the magic name __sleep and calls it.
      *
-     * @return  array An empty array
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array An empty array
+     * @access public
      */
     public function __sleep()
     {
@@ -407,11 +334,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * Conversely, unserialize() checks for the presence of a function with the magic name __wakeup.
      * If present, this function can reconstruct any resources that the object may have.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __wakeup()
     {
@@ -425,12 +350,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      *
      * @param mixed $property The accessed property
      *
-     * @return  void
-     * @throws  Exception
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __unset($property)
     {
@@ -440,49 +362,6 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     }
 
     /**
-     * gets triggered when isset() or empty() is invoked on inaccessible properties
-     *
-     * __isset() is invoked when isset() or empty() is used on inaccessible properties.
-     *
-     * @param mixed $property The accessed property
-     *
-     * @return  boolean false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     */
-    /*
-    public function __isset($property)
-    {
-        return false;
-    }
-    */
-
-    /**
-     * gets triggered when trying to read an not-existant property
-     *
-     * __get() is utilized for reading data from inaccessible properties.
-     *
-     * @param mixed $property The accessed property
-     *
-     * @return  void
-     * @throws  Exception
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     */
-    /*
-    public function __get($property)
-    {
-        throw new Exception(
-            __METHOD__ .'(): tried to read an undefined property "'.$property.'"!'
-        );
-    }
-    */
-
-    /**
      * gets triggered when trying to set an not-existant property
      *
      * __set() is utilized when trying to read data from an inaccessible property.
@@ -490,22 +369,12 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * @param mixed $property The accessed property
      * @param mixed $value    The value to set
      *
-     * @return  void
-     * @throws  Exception
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __set($property, $value)
     {
-        /*
-        $logger = DoozR_Logger::getInstance();
-        $logger->log(
-            __METHOD__ .'(): sets property an runtime: "'.$property.'='.var_export($value, true).'"!'
-        );
-        */
-
         // and set
         $this->{$property} = $value;
     }
@@ -515,12 +384,10 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      *
      * This method is intend to allow a class to decide how it will react when it is converted to a string.
      *
-     * @return  array This class-instance as an array
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @todo    remove "_backtrace" content (set to null?) to prevent *RECURSION* message of php when executed
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array This class-instance as an array
+     * @access public
+     * @todo   remove "_backtrace" content (set to null?) to prevent *RECURSION* message of php when executed
      */
     public function __toString()
     {

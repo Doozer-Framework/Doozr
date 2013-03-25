@@ -2,3 +2,7 @@
 *.tmp
 *.log
 __*/
+/.buildpath
+/.project
+_doc/html/*
+/.settings

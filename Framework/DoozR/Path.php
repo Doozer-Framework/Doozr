@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Path
+ * DoozR - Path
  *
  * Path.php - is the Path-Manager of the DoozR-Framework and it is intend for
  * retrieving and setting (maintaining) path's.
@@ -91,9 +91,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     private static $_instance = null;
 
     /**
-     * holds the frameworks default paths
-     *
-     * holds the default paths
+     * The frameworks default paths
      *
      * @var array
      * @access private
@@ -110,9 +108,9 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @param string $pathToRoot        The path to DoozR (DOOZR_DOCUMENT_ROOT)
      * @param string $pathToApplication The path to applications root directory
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     protected function __construct($pathToRoot = null, $pathToApplication = null)
     {
@@ -129,9 +127,9 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @param string $pathToRoot        The path to DoozR (DOOZR_DOCUMENT_ROOT)
      * @param string $pathToApplication The path to applications root directory
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _init($pathToRoot, $pathToApplication)
     {
@@ -172,9 +170,9 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * yet it creates the path by assuming that the Application is one level up from
      * DOOZR_DOCUMENT_ROOT
      *
-     * @return  string Path to Application
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Path to Application
+     * @access private
      */
     private function _retrievePathToApplication()
     {
@@ -200,9 +198,9 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @param integer $level                 The count of levels to move up
      * @param boolean $preserveTrailingSlash TRUE to preserve trailing slash if exist, FALSE to do not
      *
-     * @return  string Path n level up
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Path n level up
+     * @access private
      */
     private function _up($path, $level = 1, $preserveTrailingSlash = false)
     {
@@ -229,9 +227,9 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @param string $pathToRoot        The path to DoozR (DOOZR_DOCUMENT_ROOT)
      * @param string $pathToApplication The path to applications root directory
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _initPaths($pathToRoot, $pathToApplication)
     {
@@ -271,8 +269,11 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         // path to auth
         self::$_path['auth'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Auth'));
 
+        $systemp = sys_get_temp_dir().DIRECTORY_SEPARATOR;
+
         // path to cache
-        self::$_path['cache'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Cache'));
+           //self::$_path['cache'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Cache'));
+        self::$_path['cache'] = $systemp;
 
         // path to config
         self::$_path['config'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Config'));
@@ -281,10 +282,12 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         self::$_path['font'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Font'));
 
         // path to log
-        self::$_path['log'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Log'));
+           //self::$_path['log'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Log'));
+        self::$_path['log'] = $systemp;
 
         // path to temp
-        self::$_path['temp'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Temp'));
+           //self::$_path['temp'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Temp'));
+        self::$_path['temp'] = $systemp;
 
         // path to data-public (APP)
         self::$_path['data_public'] = $this->_combine($pathToApplication, array('Data', 'Public'));
@@ -300,16 +303,14 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * returns a combined path based on input
-     *
      * This method is intend to return a combined path based on input.
      *
      * @param string $base          The base path for combine operation
      * @param array  $relativePaths The path parts as array to add
      *
-     * @return  string The new combined path
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return String The new combined path
+     * @access private
      */
     private function _combine($base = '', array $relativePaths = array())
     {
@@ -325,9 +326,9 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      *
      * setup the inlcude path's of php
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _initIncludePaths()
     {
@@ -358,13 +359,13 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * build valid include path
+     * Build valid include path
      *
      * @param string $path The path which should be formatted as include-path
      *
-     * @return  string with the correct include path
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string with the correct include path
+     * @access private
      * @static
      */
     private static function _buildPath($path)
@@ -373,13 +374,13 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * add a path to php's include searchpaths
+     * Add a path to php's include searchpaths
      *
      * @param string $path The path which should be added as include-path
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      * @static
      */
     public static function addIncludePath($path)
@@ -389,13 +390,13 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * removes a path from php's include searchpaths
+     * Removes a path from php's include searchpaths
      *
      * @param string $path The path which should be removed from include-paths
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      * @static
      */
     public static function removeIncludePath($path)
@@ -404,17 +405,15 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * returns requested path
-     *
-     * returns requested path
+     * Returns requested path
      *
      * @param string  $identifier    The path which should be returned
      * @param string  $add           An extension to the path requested
      * @param boolean $trailingSlash True to add a trailing slash (false = default)
      *
-     * @return  string The path requested
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The path requested
+     * @access private
      * @static
      */
     public function get($identifier, $add = '', $trailingSlash = false)
@@ -436,17 +435,15 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * register an path from external - maybe created at runtime
-     *
-     * register an path from external - maybe created at runtime
+     * Register an path from external - maybe created at runtime
      *
      * @param string  $identifier The name of the path which should be set
      * @param string  $path       The path which should be set
      * @param boolean $force      True to force overwrite of already existing identifier
      *
-     * @return  boolean True if successful otherwise false
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if successful otherwise false
+     * @access private
      * @static
      */
     public function set($identifier, $path, $force = false)
@@ -466,15 +463,13 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * corrects a path's slash direction
-     *
      * This method is intend to correct direction of slashes in given path.
      *
      * @param string $path The path to correct slashes in
      *
-     * @return  string The resulting path
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting path
+     * @access public
      * @static
      */
     public static function correctPath($path)
@@ -483,15 +478,13 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * returns slash-corrected path
-     *
-     * corrects slashes with "wrong" direction in a path and returns it
+     * Corrects slashes with "wrong" direction in a path and returns it
      *
      * @param string $path The path to correct slashes in
      *
-     * @return  string The path with corrected slash-direction
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The path with corrected slash-direction
+     * @access private
      * @static
      */
     private static function _correctPath($path)
@@ -523,17 +516,14 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * merges two path's
-     *
-     * This method is intend to merge two path-settings under consideration
-     * of ../ (n-times)
+     * This method is intend to merge two path-settings under consideration of ../ (n-times)
      *
      * @param string $pathBase  The path used as base
      * @param string $pathMerge The path used as extension to $pathBase
      *
-     * @return  string The corrected new merged path
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The corrected new merged path
+     * @access public
      * @static
      */
     public function mergePath($pathBase, $pathMerge = '')
@@ -561,7 +551,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
             $tmpPathBase = explode(DIRECTORY_SEPARATOR, $pathBase);
 
             // remove empty end-of-array (eoa)
-            if ( empty($tmpPathBase[count($tmpPathBase) - 1])) {
+            if (empty($tmpPathBase[count($tmpPathBase) - 1])) {
                 array_pop($tmpPathBase);
             }
 
@@ -583,7 +573,6 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         return $newPath;
     }
 
-
     /**
      * converts a given module name to a path
      *
@@ -592,9 +581,9 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @param string $moduleName The name of the module to retrieve the path for
      * @param string $namespace  The namespace to use for building path to module
      *
-     * @return  string The path requested
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The path requested
+     * @access public
      * @static
      * @deprecated
      */

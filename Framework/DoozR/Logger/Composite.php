@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Logger Composite
+ * DoozR - Logger - Composite
  *
- * Composite.php - This logger dispatches all log-entries to registered loggers
+ * Composite.php - This logger dispatches all log-entries to attached loggers
  *
  * PHP versions 5
  *
@@ -50,7 +50,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Abstract.php, Interface.php
+ * @see        -
  * @since      -
  */
 
@@ -58,9 +58,9 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
 
 /**
- * Logger Composite
+ * DoozR - Logger - Composite
  *
- * This logger dispatches all log-entries to registered loggers
+ * This logger dispatches all log-entries to attached loggers
  *
  * @category   DoozR
  * @package    DoozR_Logger
@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Abstract.php, Interface.php
+ * @see        -
  * @since      -
  */
 final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements DoozR_Logger_Interface
@@ -115,11 +115,9 @@ final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements Dooz
      *
      * @param integer $level The level to use in general
      *
-     * @return  object instance of this class
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access private
      */
     protected function __construct($level = 1)
     {
@@ -154,11 +152,9 @@ final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements Dooz
      *
      * @param array $rawCollection The raw collection of log-data
      *
-     * @return  boolean True if succesful otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if succesful otherwise false
+     * @access public
      */
     public function inject(array $rawCollection)
     {
@@ -198,11 +194,9 @@ final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements Dooz
      *
      * @param boolean $enabled status of logging-enabled
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      * @static
      */
     public static function setEnabled($enabled = false)
@@ -210,18 +204,15 @@ final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements Dooz
         $this->_enabled = $enabled;
     }
 
-
     /**
      * sorting of loggers
      *
      * sorts the loggers defined in config to log to HEADER-based
      * loggers like firePHP first
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      * @static
      */
     private function _sortLogger()
@@ -258,11 +249,9 @@ final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements Dooz
      * @param string $function The functionname from the function where the log-entry comes
      * @param string $optional The optional content/param to log
      *
-     * @return  boolean True if successful, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if successful, otherwise false
+     * @access public
      */
     public function log(
         $content  = '',
@@ -297,11 +286,9 @@ final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements Dooz
      *
      * @param string $routeName The name of the route to dispatch
      *
-     * @return  boolean True always
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True always
+     * @access public
      */
     public function route($routeName = null)
     {
@@ -327,11 +314,9 @@ final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements Dooz
      *
      * @param string $logger the logger config from Config.ini.php
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      * @static
      */
     private function _factory($logger)
@@ -350,15 +335,15 @@ final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements Dooz
      *
      * @param string $logger list of logger-names to instantiate
      *
-     * @return  array An array of instances of defined loggers
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array An array of instances of defined loggers
+     * @access private
      * @static
      */
     private function _parseLogger($logger)
     {
+        pred('ALALALALAL');
+
         // convert list of logger to array
         $logger = explode(',', mb_strtolower($logger));
 
@@ -402,11 +387,9 @@ final class DoozR_Logger_Composite extends DoozR_Logger_Abstract implements Dooz
      * This method is intend to write data to a defined pipe like STDOUT, a file, browser ...
      * It should be overriden in concrete implementation.
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function output($color = '#7CFC00')
     {

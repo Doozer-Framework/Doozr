@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Front Controller
+ * DoozR - Controller - Front
  *
  * Front.php - The Front-Controller of the DoozR-Framework.
  *
@@ -57,7 +57,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 
 /**
- * DoozR Front-Controller
+ * DoozR - Controller - Front
  *
  * The Front-Controller of the DoozR-Framework.
  *
@@ -153,14 +153,14 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      *
      * constructor builds the class
      *
-     * @param object $config An instance of DoozR_Config
-     * @param object $logger An instance of DoozR_Logger
+     * @param DoozR_Config_Interface &$config An instance of DoozR_Config
+     * @param DoozR_Logger_Interface &$logger An instance of DoozR_Logger
      *
-     * @return  object instance of this class
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access private
      */
-    protected function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    protected function __construct(DoozR_Config_Interface &$config, DoozR_Logger_Interface &$logger)
     {
         // store instance(s)
         $this->_config = $config;
@@ -178,9 +178,9 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * @param string $part The part (request/response)
      * @param string $mode The active mode (web/cli)  of part
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _includeFile($part, $mode)
     {
@@ -194,9 +194,9 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      *
      * @param string $part The part (request/response)
      *
-     * @return  object The new instanciated class of request/response
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object The new instanciated class of request/response
+     * @access private
      */
     private function _initialize($part)
     {
@@ -222,9 +222,9 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * This method is intend to return the instance of DoozR_Request_(Web|Cli)
      * depending on environment
      *
-     * @return  DoozR_Request_Web or DoozR_Request_Cli instance
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_Web or DoozR_Request_Cli instance
+     * @access public
      */
     public function getRequest()
     {
@@ -242,9 +242,9 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      *
      * returns the instanciated response class (web | cli)
      *
-     * @return  object instance of either web or cli
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of either web or cli
+     * @access public
      */
     public function getResponse()
     {
@@ -261,9 +261,9 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      *
      * detects and returns the external address under which the app is accessible
      *
-     * @return  string The external address under which the app is accessible
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The external address under which the app is accessible
+     * @access private
      */
     private function _externalAddress()
     {
@@ -302,11 +302,9 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      *
      * detects the current running-mode
      *
-     * @return boolean
-     *
-     * @return  string The current running-mode either [web | cli]
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The current running-mode either [web | cli]
+     * @access private
      */
     private function _detectRunningMode()
     {
@@ -321,9 +319,9 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * returns the current running-mode
      *
-     * @return  string The current running-mode either [web | cli]
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The current running-mode either [web | cli]
+     * @access private
      */
     public function getRunningMode()
     {

@@ -50,7 +50,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Alogger.class.php, ILogger.class.php
+ * @see        -
  * @since      -
  */
 
@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Alogger.class.php, ILogger.class.php
+ * @see        -
  * @since      -
  */
 final class DoozR_Logger_Client extends DoozR_Logger_Abstract implements DoozR_Logger_Interface
@@ -97,13 +97,12 @@ final class DoozR_Logger_Client extends DoozR_Logger_Abstract implements DoozR_L
      *
      * This method is the constructor and responsible for building the instance.
      *
-     * @param integer $level The level to use for this logger
+     * @param integer $level       The level to use for this logger
+     * @param string  $fingerprint The fingerprint of the client
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function __construct($level, $fingerprint)
     {
@@ -125,11 +124,9 @@ final class DoozR_Logger_Client extends DoozR_Logger_Abstract implements DoozR_L
      *
      * This method is intend to add the defined line-separator to log-content.
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function separate()
     {
@@ -146,17 +143,14 @@ final class DoozR_Logger_Client extends DoozR_Logger_Abstract implements DoozR_L
      *
      * @param string $color The color of the ouput as hexadecimal string reprensentation
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The parent-call result
-     *
-     * @see Framework/Core/Controller/Logger/ALogger::output()
+     * @access protected
      */
     protected function output($color = '#7CFC00')
     {
         $color = $this->typeToColor($this->contentType);
         return parent::output($color);
-
-        // default result
-        return true;
     }
 }
 

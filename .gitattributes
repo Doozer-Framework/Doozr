@@ -1,10 +1,14 @@
-* text=auto
-*.java text ident diff=java
-*.xml text ident diff=html
-*.vm text ident
-*.php text ident diff=php
-*.properties text ident
-*.js text ident
-*.css text ident
-*.sh eol=lf ident
-*.bat eol=crlf ident
+*                       text=auto
+*.java        eol=lf    text       ident  diff=java
+*.c           eol=lf    text       ident  diff=cpp
+*.h           eol=lf    text       ident  diff=cpp
+*.cpp         eol=lf    text       ident  diff=cpp
+*.xml         eol=lf    text       ident  diff=html
+*.vm                    text       ident
+*.php         eol=lf    text       ident  diff=php
+*.properties            text       ident
+*.js                    text       ident  diff=html
+*.css                   text       ident  diff=html
+*.sh          eol=lf    text       ident
+*.bat         eol=crlf  text       ident
+*.vcproj      eol=crlf  text       ident

@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Abstract-Logger
+ * DoozR - Logger - Abstract
  *
- * Abstract.php - Abstract-Logger
+ * Abstract.php - Abstract-Logger base for logger of the DoozR framework
  *
  * PHP versions 5
  *
@@ -58,9 +58,9 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Moduleloader.php';
 
 /**
- * DoozR Abstract-Logger
+ * DoozR - Logger - Abstract
  *
- * Abstract Logger class as base for building Loggers for the DoozR-Framework
+ * Abstract-Logger base for logger of the DoozR framework
  *
  * @category   DoozR
  * @package    DoozR_Logger
@@ -76,7 +76,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Moduleloader.php';
 abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
 {
     /**
-     * holds the name of this logger
+     * The name of this logger
      *
      * @var string
      * @access protected
@@ -84,7 +84,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $name = 'NAME_NOT_DEFINED';
 
     /**
-     * holds the version of this logger
+     * The version of this logger
      *
      * @var string
      * @access protected
@@ -92,7 +92,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $version = '$Rev$';
 
     /**
-     * holds the content of the current log call
+     * The content of the current log call
      * and only this content. if you need access to the complete
      * collection of log-entries have a look at $collection
      * Enter description here ...
@@ -103,7 +103,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $content = array();
 
     /**
-     * holds the raw content of the current log call
+     * The raw content of the current log call
      *
      * @var array
      * @access protected
@@ -111,7 +111,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $contentRaw = array();
 
     /**
-     * holds the last calls log-type
+     * The last calls log-type
      *
      * @var string
      * @access protected
@@ -119,7 +119,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $contentType;
 
     /**
-     * holds the content of all logger call's (collection).
+     * The content of all logger call's (collection).
      * if you need only the last call's content have a look at
      * $content.
      *
@@ -129,7 +129,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $collection = array();
 
     /**
-     * holds the raw log-content collection
+     * The raw log-content collection
      *
      * @var array
      * @access protected
@@ -137,7 +137,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $collectionRaw = array();
 
     /**
-     * holds clean log content
+     * Clean log content
      *
      * holds the clean content to log. without any special chars (e.g. for use in firePHP-logger)
      *
@@ -147,7 +147,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $logClean = '';
 
     /**
-     * holds the line separator
+     * The line separator
      *
      * holds the line separator which is used to seperate single log entries (e.g. a row of - or *)
      *
@@ -157,7 +157,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $lineSeparator;
 
     /**
-     * holds the instance of the datetime module required for time/date calculations
+     * The instance of the datetime module required for time/date calculations
      *
      * @var object
      * @access protected
@@ -165,7 +165,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $dateTime;
 
     /**
-     * holds the line break char
+     * The line break char
      *
      * holds the line break char (e.g. default = \n possible = <br /> or anything else)
      *
@@ -175,7 +175,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $lineBreak = "\n";
 
     /**
-     * holds the line width
+     * The line width
      *
      * holds the line width. following our coding standards - the line width default = 120 char
      *
@@ -185,7 +185,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $lineWidth = 120;
 
     /**
-     * holds the level specific for this logger
+     * The level specific for this logger
      *
      * @var integer
      * @access private
@@ -218,7 +218,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected static $config;
 
     /**
-     * holds the translation from [type to level]
+     * The translation from [type to level]
      *
      * @var integer
      * @access const
@@ -242,17 +242,15 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     );
 
     /**
-     * constructs the class
-     *
      * This method is the constructor and responsible for building the instance.
      *
      * @param integer      $level       The loglevel of the logger extending this class
      * @param string       $fingerprint The fingerprint of the client
      * @param DoozR_Config $config      The configuration instance
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function __construct($level = 1, $fingerprint = '', $config = null)
     {
@@ -286,9 +284,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param string $function The functionname from the function where the log-entry comes
      * @param string $optional The optional content/param to log
      *
-     * @return  boolean True if successful, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function log(
         $content = '',
@@ -369,9 +367,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * This method is intend to store the current raw log-content in raw log-content collection.
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function storeRaw()
     {
@@ -390,9 +388,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param string $what   The type to store
      * @param string $string The content to store
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function concatRaw($what, $string)
     {
@@ -408,9 +406,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param array $rawCollection The raw collection with log-information
      *
-     * @return  boolean Always true
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean Always true
+     * @access protected
      */
     protected function inject(array $rawCollection)
     {
@@ -474,9 +472,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * This method is intend to add the defined line-separator to log-content.
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function separate()
     {
@@ -490,9 +488,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param string $type The type to translate as string
      *
-     * @return  integer The corresponding level
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The corresponding level
+     * @access protected
      */
     protected function typeToLevel($type)
     {
@@ -510,9 +508,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param string $type The type to translate as string
      *
-     * @return  string The corresponding color
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The corresponding color
+     * @access protected
      */
     protected function typeToColor($type)
     {
@@ -535,9 +533,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * This method is intend to return the logger-name.
      *
-     * @return  string The name of logger that extends this abstract class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of logger that extends this abstract class
+     * @access public
      * @final
      */
     public final function getName()
@@ -553,9 +551,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param boolean $returnArray TRUE to retrieve array, false to retrieve string
      * @param boolean $lineBreak   TRUE to break each part of the single log-entry with a line break
      *
-     * @return  mixed string if $returnArray false, otherwise array
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed string if $returnArray false, otherwise array
+     * @access public
      * @final
      */
     public final function getContent($returnArray = false, $lineBreak = false)
@@ -577,9 +575,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param boolean $returnArray True to retrieve array, false to retrieve string
      * @param boolean $returnRaw   True to retrieve the raw content -> not preformatted
      *
-     * @return  mixed string if $returnArray false, otherwise array
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed string if $returnArray false, otherwise array
+     * @access public
      */
     public function getCollection($returnArray = false, $returnRaw = false)
     {
@@ -603,9 +601,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * This method is intend to return the loggers version.
      *
-     * @return  string The version of the logger-class that extends this abstract class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The version of the logger-class that extends this abstract class
+     * @access public
      * @final
      */
     public final function getVersion()
@@ -620,9 +618,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param string $content The content to concat
      * @param string $type    The type to concat
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      * @final
      */
     protected final function concat($content = '', $type = false)
@@ -650,9 +648,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param boolean $clearCollection True to clear the collection too, otherwise false to keep the collection
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      * @final
      */
     public final function clear($clearCollection = false)
@@ -677,9 +675,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param string  $type      The type to format
      * @param boolean $lineBreak TRUE to use defined line break, FALSE to do not
      *
-     * @return  string The formatted string to log
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formatted string to log
+     * @access protected
      */
     protected function format($content = '', $type = '', $lineBreak = false)
     {
@@ -703,9 +701,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param string $color The color of the output as hexadecimal string representation
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function output($color = '#7CFC00')
     {
@@ -726,9 +724,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param mixed $content array|object to convert to string
      *
-     * @return  string serialized array|object if correct type to convert given, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string serialized array|object if correct type to convert given, otherwise false
+     * @access public
      */
     public function string($content)
     {

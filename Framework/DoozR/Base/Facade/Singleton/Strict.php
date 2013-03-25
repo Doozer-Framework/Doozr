@@ -80,18 +80,14 @@ class DoozR_Base_Facade_Singleton_Strict extends DoozR_Base_Class_Singleton_Stri
      ******************************************************************************************************************/
 
     /**
-     * generic facade - for all non-implemented methods
-     *
      * This method is intend to act as generic facade - for all non-implemented methods
      *
      * @param string $signature The signature (name of the method) originally called
      * @param mixed  $arguments The arguments used for call (can be either an ARRAY of values or NULL)
      *
-     * @return  mixed Result of called method if exists, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of called method if exists, otherwise NULL
+     * @access public
      */
     public function __call($signature, $arguments)
     {
@@ -108,8 +104,6 @@ class DoozR_Base_Facade_Singleton_Strict extends DoozR_Base_Class_Singleton_Stri
             // transform => call => return result
             return $transformer->transform(null, $signature, $arguments);
         } else {
-            $logger = DoozR_Logger::getInstance();
-            $logger->log(__CLASS__.' fetched unknown-method call to method: '.$signature.'()');
             trigger_error('Call to undefined function '.$signature.'()', E_USER_ERROR);
         }
 
@@ -117,17 +111,12 @@ class DoozR_Base_Facade_Singleton_Strict extends DoozR_Base_Class_Singleton_Stri
         return null;
     }
 
-
     /**
-     * retrieves and stores the children (counterpart of parent::) of this class
-     *
      * This method is intend to retrieve and store the children (counterpart of parent::) of this class
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _getChild()
     {

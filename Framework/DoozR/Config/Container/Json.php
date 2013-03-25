@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Config Container JSON
+ * DoozR - Config - Container - Json
  *
  * Json.php - Config container for managing JSON-Type configurations
  *
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Container/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 
 /**
- * DoozR Config Container JSON
+ * DoozR - Config - Container - Json
  *
  * Config container for managing JSON-Type configurations
  *

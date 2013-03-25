@@ -2,10 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR-Handler-Errorhandler
+ * DoozR - Handler - Error
  *
- * Error.php - Error-Handler of the DoozR-Framework which overrides
- * the PHP default error-handler (handling)
+ * Error.php - Error-Handler of the DoozR-Framework which overrides PHP's
+ * default error-handler (handling)
  *
  * PHP versions 5
  *
@@ -58,9 +58,9 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
 
 /**
- * DoozR-Handler-Errorhandler
+ * DoozR - Handler - Error
  *
- * Error-Handler of the DoozR-Framework which overrides the PHP default error-handler.
+ * Error-Handler of the DoozR-Framework which overrides PHP's default error-handler (handling)
  *
  * @category   DoozR
  * @package    DoozR_Handler
@@ -111,13 +111,14 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * @param integer $line    Line in which the error occured
      * @param array   $context The variables with name and value from error context
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE always
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     public static function handle($number = '', $message = '', $file = '', $line = 0, $context = array())
     {
+        /*
         // get all required foreign instances
         $logger = DoozR_Logger::getInstance();
 
@@ -159,6 +160,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
                 );
             }
         }
+        */
 
         /**
          * PHP Changelog

@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Logger Interface
+ * DoozR - Logger - Interface
  *
- * Interface.php - Logger-Interface-Class of the DoozR-Framework
+ * Interface.php - Logger-Interface for all Logger compliant to requirements of
+ * DoozR
  *
  * PHP versions 5
  *
@@ -55,9 +56,9 @@
  */
 
 /**
- * DoozR Logger-Interface
+ * DoozR - Logger - Interface
  *
- * Logger-Interface-Class of the DoozR-Framework.
+ * Logger-Interface for all Logger compliant to requirements of DoozR
  *
  * @category   DoozR
  * @package    DoozR_Logger
@@ -86,11 +87,9 @@ interface DoozR_Logger_Interface
      * @param string $function The functionname from the function where the log-entry comes
      * @param string $optional The optional content/param to log
      *
-     * @return  boolean True if successful, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if successful, otherwise false
+     * @access public
      */
     public function log(
         $content = '',
@@ -103,20 +102,16 @@ interface DoozR_Logger_Interface
         $optional = false
     );
 
-
     /**
      * signature for getVersion
      *
      * This method is intend to return the loggers version.
      *
-     * @return  string The version of the logger-class that use this interface
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The version of the logger-class that use this interface
+     * @access public
      */
     public function getVersion();
-
 
     /**
      * signature for getContent
@@ -125,14 +120,11 @@ interface DoozR_Logger_Interface
      *
      * @param boolean $returnArray True to retrieve array, false to retrieve string
      *
-     * @return  mixed string if $returnArray false, otherwise array
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed string if $returnArray false, otherwise array
+     * @access public
      */
     public function getContent($returnArray = false);
-
 
     /**
      * signature for getCollection
@@ -141,14 +133,11 @@ interface DoozR_Logger_Interface
      *
      * @param boolean $returnArray True to retrieve array, false to retrieve string
      *
-     * @return  mixed string if $returnArray false, otherwise array
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed string if $returnArray false, otherwise array
+     * @access public
      */
     public function getCollection($returnArray = false, $returnRaw = false);
-
 
     /**
      * clears (deletes/resets) the current log-content (and collection if $clearCollection set to true)
@@ -158,14 +147,11 @@ interface DoozR_Logger_Interface
      *
      * @param boolean $clearCollection True to clear the collection too, otherwise false to keep the collection
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function clear($clearCollection = false);
-
 
     /**
      * signature for getInstance
@@ -174,11 +160,9 @@ interface DoozR_Logger_Interface
      *
      * @param integer $level The specific level for logger implementing this interface
      *
-     * @return  object instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access public
      */
     //public static function getInstance($level = 1);
 }

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Back Controller
+ * DoozR - Controller - Back
  *
  * Back.php - The Back-Controller of the DoozR-Framework.
  *
@@ -54,10 +54,10 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 
 /**
- * DoozR Back Controller
+ * DoozR - Controller - Back
  *
  * The Back-Controller of the DoozR-Framework.
  *
@@ -175,14 +175,14 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      *
      * This method is the constructor of this class.
      *
-     * @param DoozR_Config $config The instance of the DoozR core config
-     * @param DoozR_Logger $logger The instance of the DoozR huge logging facade (subsystem)
+     * @param DoozR_Config_Interface &$config The instance of the DoozR core config
+     * @param DoozR_Logger_Interface &$logger The instance of the DoozR huge logging facade (subsystem)
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    public function __construct(DoozR_Config_Interface &$config, DoozR_Logger_Interface &$logger)
     {
         // store instances
         $this->_config = $config;
@@ -201,9 +201,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @param array  $translation The translation used by DoozR to translate request to objects
      * @param string $pattern     The default pattern to use
      *
-     * @return  DoozR_Controller_Back The current instance for chaining
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Controller_Back The current instance for chaining
+     * @access public
      */
     public function dispatch(array $request, array $translation, $pattern = 'MVC')
     {
@@ -275,9 +275,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * at least a connector-instance (Presenter) and an entry point (e.g. Main())
      * to be valid.
      *
-     * @return  mixed TRUE if request is valid, otherwise this method
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE if request is valid, otherwise this method
+     * @access private
      */
     private function _validateRequest()
     {
@@ -311,9 +311,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @param string $layer       The part/layer of the MVC/P structure to instanciate and return
      * @param array  $classParams An array of Parameters to append at instanciation
      *
-     * @return  object An instance of the requested layer (M|V|C|P)
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object An instance of the requested layer (M|V|C|P)
+     * @access private
      */
     private function _initLayer($request, $layer = 'Model', $classParams = null)
     {

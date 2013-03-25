@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base-Class
+ * DoozR - Base - Class
  *
- * Class.php - Base-Class for all ...
+ * Class.php - Base-Class for all classes of the DoozR Framework except
+ * the classes following the singleton pattern.
  *
  * PHP versions 5
  *
@@ -57,15 +58,15 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Tools.php';
 
 /**
- * DoozR Base-Class
+ * DoozR - Base - Class
  *
- * DoozRBase.php - Base-Class for all ...
+ * Base-Class for all classes of the DoozR Framework except the classes following
+ * the singleton pattern.
  *
  * @category   DoozR
  * @package    DoozR_Base
  * @subpackage DoozR_Base_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
@@ -78,19 +79,13 @@ class DoozR_Base_Class extends DoozR_Base_Tools
     /**
      * __construct
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __construct()
     {
-        // log instance creation
-        //$logger = DoozR_Logger::getInstance();
-
-        // log instance creation
-        //$logger->log('created instance of :: '.get_class($this));
+        // ???
     }
 }
 

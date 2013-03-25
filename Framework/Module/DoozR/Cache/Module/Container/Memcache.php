@@ -72,7 +72,6 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Cache/Module/Container/Interface.
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
- * @throws     Module_DoozR_Cache_Module_Exception
  * @DoozRType  Multiple
  */
 class DoozR_Cache_Module_Container_Memcache extends DoozR_Cache_Module_Container
@@ -103,6 +102,15 @@ implements DoozR_Cache_Module_Container_Interface
     private $_memcache;
 
     /**
+     * TRUE  to compress content with zlib from memcache
+     * FALSE to store content uncompressed
+     *
+     * @var boolean
+     * @access private
+     */
+    private $_compress = false;
+
+    /**
      * the allowed options specific for this container
      *
      * @var array
@@ -130,12 +138,10 @@ implements DoozR_Cache_Module_Container_Interface
      *
      * @param array $options Custom configuration options
      *
-     * @return  object instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access public
+     * @throws DoozR_Cache_Module_Exception
      */
     public function __construct(array $options = array())
     {
@@ -159,26 +165,29 @@ implements DoozR_Cache_Module_Container_Interface
      * WARNING: If you supply userdata it must not contain any linebreaks, otherwise it will break the filestructure.
      *
      * @param string  $id      The dataset Id
-     * @param string  $data    The data to write to cache
+     * @param string  $buffer  The data to write to cache
      * @param integer $expires Date/Time on which the cache-entry expires
      * @param string  $group   The dataset group
      *
-     * @return  boolean TRUE on success
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success
+     * @access public
+     * @throws DoozR_Cache_Module_Exception
      */
-    public function create($id, $data, $expires, $group)
+    public function create($id, $buffer, $expires, $group)
     {
         // flush
         $this->flushPreload($id, $group);
 
-         // store in memcache
+        // prepare
+        $buffer = $this->encode($buffer);
+        $flags  = ($this->_compress === true)  ? MEMCACHE_COMPRESSED    : 0;
+
+        // store in memcache
         if (!$this->_memcache->set(
             md5(self::UNIQUE_IDENTIFIER.$group.$id),
-            $this->encode($data),
+            $buffer,
+            $flags,
             $this->getExpiresAbsolute($expires)
         )) {
             throw new DoozR_Cache_Module_Exception(
@@ -198,19 +207,16 @@ implements DoozR_Cache_Module_Container_Interface
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
-     * @return  array The data from cache
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Array containing data from cache on success, otherwise FALSE
+     * @access public
      */
     public function read($id, $group)
     {
         // try to read from cache (server)
         $result = @$this->_memcache->get(md5(self::UNIQUE_IDENTIFIER.$group.$id));
 
-        return $this->decode($result);
+        return ($result !== false) ? $this->decode($result) : $result;
     }
 
     /**
@@ -220,26 +226,24 @@ implements DoozR_Cache_Module_Container_Interface
      * Memcached DB supports updates by calling replace().
      *
      * @param string  $id       The dataset Id
-     * @param string  $data     The data to write to cache
+     * @param string  $buffer   The data to write to cache
      * @param integer $expires  Date/Time on which the cache-entry expires
      * @param string  $group    The dataset group
      * @param string  $userdata The custom userdata to add
      *
-     * @return  boolean TRUE on success
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success
+     * @access public
+     * @throws DoozR_Cache_Module_Exception
      */
-    public function update($id, $data, $expires, $group, $userdata)
+    public function update($id, $buffer, $expires, $group, $userdata)
     {
         return $this->_memcache->replace(
             md5(self::UNIQUE_IDENTIFIER.$group.$id),
             array(
                 $this->getExpiresAbsolute($expires),
                 $userdata,
-                $this->encode($data)
+                $this->encode($buffer)
             ),
             0,
             $expires
@@ -254,12 +258,10 @@ implements DoozR_Cache_Module_Container_Interface
      * @param string $id    The id of the dataset
      * @param string $group The group of the dataset
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     * @throws DoozR_Cache_Module_Exception
      */
     public function delete($id, $group)
     {
@@ -283,12 +285,10 @@ implements DoozR_Cache_Module_Container_Interface
      *
      * This method is intend to return the current status of the memcache server.
      *
-     * @return  mixed Status of server as ARRAY, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Status of server as ARRAY, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Module_Exception
      */
     public function getStatus()
     {
@@ -303,12 +303,10 @@ implements DoozR_Cache_Module_Container_Interface
      * @param string $id    The Id for lookup
      * @param string $group The group for lookup
      *
-     * @return  mixed BOOLEAN false if not found, otherwise the result from cache
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed BOOLEAN false if not found, otherwise the result from cache
+     * @access public
+     * @throws DoozR_Cache_Module_Exception
      */
     public function isCached($id, $group)
     {
@@ -323,12 +321,10 @@ implements DoozR_Cache_Module_Container_Interface
      *
      * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
-     * @return  boolean The result of the operation
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean The result of the operation
+     * @access public
+     * @throws DoozR_Cache_Module_Exception
      */
     public function garbageCollection($maxlifetime)
     {
@@ -389,15 +385,15 @@ implements DoozR_Cache_Module_Container_Interface
      * @param string $id    The id of the dataset
      * @param string $group The group of the dataset
      *
-     * @return  boolean TRUE if file exist, otherwise FALSE
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if file exist, otherwise FALSE
+     * @access protected
+     * @throws DoozR_Cache_Module_Exception
      */
     protected function idExists($id, $group)
     {
+        pre('exist');
+
         // build identifier
         $key = md5(self::UNIQUE_IDENTIFIER.$group.$id);
 
@@ -411,11 +407,9 @@ implements DoozR_Cache_Module_Container_Interface
      *
      * @param string $group The dataset group to flush
      *
-     * @return  mixed Number of removed datasets on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of removed datasets on success, otherwise FALSE
+     * @access public
      */
     public function flush($group)
     {
@@ -436,12 +430,10 @@ implements DoozR_Cache_Module_Container_Interface
      *
      * @param string $group The group of entries to remove
      *
-     * @return  mixed Number of removed entries on success, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of removed entries on success, otherwise FALSE
+     * @access private
+     * @throws DoozR_Cache_Module_Exception
      */
     private function _removeEntries($group)
     {
@@ -478,12 +470,10 @@ implements DoozR_Cache_Module_Container_Interface
      *
      * This method is intend to return all entries from memcache server.
      *
-     * @return  array All entries form memcache server
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array All entries form memcache server
+     * @access private
+     * @throws DoozR_Cache_Module_Exception
      */
     private function _getEntries()
     {
@@ -522,12 +512,10 @@ implements DoozR_Cache_Module_Container_Interface
      * @param string $hostname The hostname to connect to
      * @param string $port     The port to connect to
      *
-     * @return  object The created instance of memcache
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Module_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object The created instance of memcache
+     * @access private
+     * @throws DoozR_Cache_Module_Exception
      */
     private function _connect($hostname, $port)
     {

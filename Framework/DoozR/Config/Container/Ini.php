@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Config Container INI
+ * DoozR - Config - Container - Ini
  *
  * Ini.php - Config container for managing INI-Type configurations
  *
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Container/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 
 /**
- * DoozR Config Container INI
+ * DoozR - Config - Container - Ini
  *
  * Config container for managing INI-Type configurations
  *
@@ -104,9 +104,9 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * @param object $path   An instance of DoozR_Path
      * @param object $logger An instance of DoozR_Logger
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __construct(DoozR_Path_Interface $path, DoozR_Logger_Interface $logger)
     {
@@ -125,9 +125,9 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * @param string $resource The resource to create
      * @param mixed  $data     The data to write
      *
-     * @return  string The content of the file
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The content of the file
+     * @access public
      */
     public function create($resource, $data = '')
     {
@@ -142,9 +142,9 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * @param string  $resource The resource to read
      * @param boolean $merge    TRUE to merge the read configuration into existing configuration
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function read($resource, $merge = true)
     {
@@ -185,7 +185,6 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
         return $this;
     }
 
-
     /**
      * Updates configuration in a file
      *
@@ -194,10 +193,10 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * @param string $resource The resource to update
      * @param string $data     The updated data
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @see     DoozR_Config_Container_Interface::update()
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     * @see    DoozR_Config_Container_Interface::update()
      */
     public function update($resource, $data)
     {
@@ -211,10 +210,10 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      *
      * @param string $resource The resource to delete
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @see     DoozR_Config_Container_Interface::delete()
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     * @see    DoozR_Config_Container_Interface::delete()
      */
     public function delete($resource)
     {
@@ -228,9 +227,9 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      *
      * @param string $data The "raw" config-content (string of data) with already replaced default replacements
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     private function _parseIni($data)
     {
@@ -264,7 +263,7 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
                     if (is_string($value)) {
                         $value = (string)$value;
                     } elseif (is_numeric($value)) {
-                        $value = (float) $value;
+                        $value = (float)$value;
                     } elseif (strtolower($value) == 'true') {
                         $value = true;
                     } elseif (strtolower($value) == 'false') {
@@ -294,9 +293,9 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * @param string  $configuration    The raw configuration
      * @param boolean $multiDimensional TRUE to parse ini file multidimensional, FALSE to do not
      *
-     * @return  array The array containing configuration
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The array containing configuration
+     * @access private
      */
     private function _parse($configuration, $multiDimensional = false)
     {
@@ -321,10 +320,10 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      *
      * @param string $configurationFile The configuration file
      *
-     * @return  string The content of the file
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Config_Container_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The content of the file
+     * @access private
+     * @throws DoozR_Config_Container_Exception
      */
     private function _readConfigurationFile($configurationFile)
     {

@@ -2,10 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Logger - Collecting
+ * Logger for logging to OS' system log
  *
- * Collecting.php - This logger collects log-entries and hold them until the
- * logger-subsystem is finally ready for (real) logging.
+ * System.php - This logger-implementation is intend to log to the OS' logging
+ * subsystem
  *
  * PHP versions 5
  *
@@ -45,13 +45,13 @@
  *
  * @category   DoozR
  * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Collecting
+ * @subpackage DoozR_Logger_System
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Abstract.php, Interface.php
+ * @see        Alogger.class.php, ILogger.class.php
  * @since      -
  */
 
@@ -59,46 +59,67 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
 
 /**
- * DoozR - Logger - Collecting
+ * Logger for logging to OS' system log
  *
- * This logger collects log-entries and hold them until the logger-subsystem is finally
- * ready for (real) logging.
+ * This logger-implementation is intend to log to the OS' logging subsystem
  *
  * @category   DoozR
  * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Collecting
+ * @subpackage DoozR_Logger_System
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Abstract.php, Interface.php
+ * @see        Alogger.class.php, ILogger.class.php
  * @since      -
  */
-final class DoozR_Logger_Collecting extends DoozR_Logger_Abstract implements DoozR_Logger_Interface
+final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_Logger_Interface
 {
     /**
-     * Name of this logger
+     * the name of this logger
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    protected $name = 'Collecting';
+    protected $name = 'System';
 
     /**
-     * Version of this logger
+     * the version of this logger
      *
      * @var string
      * @access protected
      */
     protected $version = '$Rev$';
 
+    /*******************************************************************************************************************
+     * // BEGIN SYSTEM-LOGGER SPECIFIC VARIABLES
+     ******************************************************************************************************************/
 
     /**
-     * This method act as constructor
+     * The type of the message
      *
-     * @param integer $level       The loglevel to use for this instance
-     * @param string  $fingerprint The fingerprint of the client
+     * @var integer
+     * @access private
+     */
+    private $_type;
+
+    /**
+     * The source of the message
+     *
+     * @var integer
+     * @access private
+     */
+    private $_source;
+
+    /*******************************************************************************************************************
+     * \\ END FILE-LOGGER SPECIFIC VARIABLES
+     ******************************************************************************************************************/
+
+    /**
+     * This method is the constructor and responsible for building the instance.
+     *
+     * @param integer $level The level to use for this logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -109,26 +130,61 @@ final class DoozR_Logger_Collecting extends DoozR_Logger_Abstract implements Doo
         // call parents constructor
         parent::__construct($level, $fingerprint);
 
-        // holds the log-level for this logger
+        // store level
         $this->level = $level;
+
+        // the type 0 = php error log
+        $this->_type = 0;
     }
 
     /**
-     * Output log content
+     * This method is intend to add the defined line-separator to log-content.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function separate()
+    {
+        // do nothing to seperate in file logger
+        return true;
+    }
+
+    /**
      * This method is intend to write data to a defined pipe like STDOUT, a file, browser ...
      * It should be overriden in concrete implementation.
      *
-     * @param string $color The color of output text as hex-value string
+     * @param string $color The color of the ouput as hexadecimal string reprensentation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE as dummy return value (empty method are expensive!)
+     * @return void
      * @access protected
      */
     protected function output($color = '#7CFC00')
     {
-        // dummmy return true -> cause not needed for collecting logger
-        return true;
+        // first get content to local var
+        $content = $this->getContent();
+
+        // so we can clear the existing log
+        $this->clear();
+
+        // use persistent write to write content to file?
+        return error_log($this->_source.': '.$content, $this->_type);
+    }
+
+    /**
+     * Dispatches a new route to this logger (e.g. for use as new filename).
+     *
+     * @param string $name The name of the route to dispatch
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True on success, otherwise false
+     * @access public
+     */
+    public function route($name)
+    {
+        // set new logile-name
+        return $this->_source = $name;
     }
 }
 
