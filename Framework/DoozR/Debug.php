@@ -97,8 +97,8 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     /**
      * constructs the class
      *
-     * @param DoozR_Logger_Interface &$logger  An instance of DoozR_Logger
-     * @param boolean                 $enabled Defines it debug mode is enabled or not
+     * @param DoozR_Logger_Interface &$logger An instance of DoozR_Logger
+     * @param boolean                $enabled Defines it debug mode is enabled or not
      *
      * @return  object Instance of this class
      * @access  protected
@@ -175,38 +175,19 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     {
         // set error reporting to maximum output
         error_reporting(DOOZR_PHP_ERROR_MAX);
-        ini_set('display_errors', 'Off');
-        ini_set('log_errors', 'On');
 
-        return true;
+        // ini_set() can only be used if php version is >= 5.3 (cause from PHP 5.3 safemode
+        // is deprecated and from PHP 5.4 it is removed) or if safemode is Off.
+        if (DOOZR_PHP_VERSION >= 5.3 || !ini_get('safemode')) {
+            ini_set('display_errors', 0);
+            ini_set('display_startup_errors', 1);
+            ini_set('log_errors', 1);
+            ini_set('html_errors', 1);
 
-        // safe_mode must be enabled (in PHP < 5.3)
-        // or PHP-version must be >= 5.3
-        // safe_mode
-        /*
-            //ini_set('error_reporting', DOOZR_PHP_ERROR_MAX);
-            // don't display errors => DoozR controls the display of errors through its logger.
-            // just enable the client logger and all errors/warning/... will be displayed in client (browser)
-            //ini_set('display_errors', 'Off');
-            //ini_set('display_errors', 'On');
-            //ini_set('display_startup_errors', 1);
-            //ini_set('html_errors', 0);
-            // don't log errors - we log them through custom logger(s)
-            //ini_set('log_errors', 'Off');
-
-            // and return -> success
             return true;
-
         } else {
-            $log  = 'Safe mode is enabled! So error_reporting + error_handling could\'nt be set at runtime!';
-            $log .= 'Please ensure that you have configured error handling in your php.ini';
-
-            $this->_logger->log($log, 'WARNING');
-
-            // and return -> no success
             return false;
         }
-        */
     }
 
     /**
@@ -220,20 +201,18 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      */
     private function _disable()
     {
-        // if debugging mode is false hide all errors!
+        // if debug-mode is disabled we must hide all errors to prevent the app from information leakage.
         // set error_reporting to null (0) to hide PHP's reports
         error_reporting(0);
 
-        // to ensure that it works set to ini too
-        // TODO: check if really needed
-        ini_set('error_reporting', 0);
-        ini_set('display_errors', 'Off');
-        //ini_set('display_startup_errors', 0);
-        //ini_set('html_errors', 1);
-
-        // TODO: check if really needed
-        // enable PHP's logging of error's?!
-        ini_set('log_errors', 'On');
+        // ini_set() can only be used if php version is >= 5.3 (cause from PHP 5.3 safemode
+        // is deprecated and from PHP 5.4 it is removed) or if safemode is Off.
+        if (DOOZR_PHP_VERSION >= 5.3 || !ini_get('safemode')) {
+            ini_set('display_errors', 0);
+            ini_set('display_startup_errors', 0);
+            ini_set('log_errors', 1);
+            ini_set('html_errors', 0);
+        }
 
         // and return -> success
         return true;

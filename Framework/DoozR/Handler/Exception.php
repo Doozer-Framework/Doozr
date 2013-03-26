@@ -95,6 +95,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
     {
         pred($exception);
 
+
         // defaults
         $file = $line = 'N.A.';
 

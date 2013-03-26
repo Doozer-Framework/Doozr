@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Config
+ * DoozR - Config
  *
  * Config.php - Config bootstrap of the DoozR Framework
  *
@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Facade/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Interface.php';
 
 /**
- * DoozR Config
+ * DoozR - Config
  *
  * Config bootstrap of the DoozR Framework
  *
@@ -103,22 +103,20 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
 
 
     /**
-     * constructor
-     *
      * This method act as constructor.
      *
-     * @param object  $path          An instance of DoozR_Path
-     * @param object  $logger        An instance of DoozR_Logger
-     * @param string  $container     A container e.g. Json or Ini
-     * @param boolean $enableCaching TRUE to enable internal caching, FALSE to do not
+     * @param DoozR_Path_Interface   $path          An instance of DoozR_Path
+     * @param DoozR_Logger_Interface $logger        An instance of DoozR_Logger
+     * @param string                 $container     A container e.g. Json or Ini
+     * @param boolean                $enableCaching TRUE to enable internal caching, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
     protected function __construct(
-        DoozR_Path $path,
-        DoozR_Logger $logger,
+        DoozR_Path_Interface $path,
+        DoozR_Logger_Interface $logger,
         $container = self::DEFAULT_CONTAINER,
         $enableCaching = false
     ) {
@@ -141,8 +139,6 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
     }
 
     /**
-     * container factory
-     *
      * This method is intend to act as factory for creating an instance of a config container.
      *
      * @param string $class     The classname of container

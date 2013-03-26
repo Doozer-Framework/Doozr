@@ -20,7 +20,6 @@ $registry = DoozR_Registry::getInstance();
 // trigger an error manually
 trigger_error('Aloha @ '.microtime(), E_USER_ERROR);
 
-
 //$registry->logger->log('some test');
 
 ?>

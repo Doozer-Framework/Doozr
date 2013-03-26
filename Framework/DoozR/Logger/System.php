@@ -97,14 +97,6 @@ final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_L
      ******************************************************************************************************************/
 
     /**
-     * The type of the message
-     *
-     * @var integer
-     * @access private
-     */
-    private $_type;
-
-    /**
      * The source of the message
      *
      * @var integer
@@ -132,9 +124,6 @@ final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_L
 
         // store level
         $this->level = $level;
-
-        // the type 0 = php error log
-        $this->_type = 0;
     }
 
     /**
@@ -146,7 +135,7 @@ final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_L
      */
     protected function separate()
     {
-        // do nothing to seperate in file logger
+        // do nothing to seperate in system logger
         return true;
     }
 
@@ -162,14 +151,43 @@ final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_L
      */
     protected function output($color = '#7CFC00')
     {
+        /*
+         Constant Description
+        LOG_EMERG   system is unusable
+        LOG_ALERT   action must be taken immediately
+        LOG_CRIT    critical conditions
+        LOG_ERR     error conditions
+        LOG_WARNING warning conditions
+        LOG_NOTICE  normal, but significant, condition
+        LOG_INFO    informational message
+        LOG_DEBUG   debug-level message
+        */
+
+        $flags = LOG_PID;
+        $type  = LOG_INFO;
+
+        // log entries must follow standard UTC timezone settings
+        putenv('TZ=UTC');
+
+        if ($this->contentType === 'ERROR') {
+            $flags = $flags | LOG_PERROR;
+            $type  = LOG_ERR;
+        }
+
+        // connect to syslog
+        openlog($_SERVER['REQUEST_URI'], $flags, LOG_DAEMON);
+
         // first get content to local var
         $content = $this->getContent();
 
         // so we can clear the existing log
         $this->clear();
 
-        // use persistent write to write content to file?
-        return error_log($this->_source.': '.$content, $this->_type);
+        // log to syslog
+        syslog($type, $content);
+
+        // close connection to syslog
+        closelog();
     }
 
     /**

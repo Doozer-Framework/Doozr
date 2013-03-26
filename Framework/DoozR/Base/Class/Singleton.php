@@ -2,12 +2,12 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base-Singleton-Class (Loose)
+ * DoozR - Base - Class - Singleton
  *
  * Singleton.php - Loose Base-Singleton-Class of the DoozR Framework
  * Loose stands for the difference to the strict Version of this class
- * (DoozRBaseSingletonStrict.php) which also use the given parameter at instanciation
- * to check for singleton instance
+ * (DoozRBaseSingletonStrict.php) which also use the given parameter at
+ * instanciation to check for singleton instance
  *
  * PHP versions 5
  *
@@ -60,9 +60,12 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Generic.php';
 
 /**
- * DoozR Base-Singleton-Class (Loose)
+ * DoozR - Base - Class - Singleton
  *
  * Loose Base-Singleton-Class of the DoozR Framework
+ * Loose stands for the difference to the strict Version of this class
+ * (DoozRBaseSingletonStrict.php) which also use the given parameter at
+ * instanciation to check for singleton instance
  *
  * @category   DoozR
  * @package    DoozR_Base

@@ -93,7 +93,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * The version of DoozR (automatic setted by git)
      * !DO NOT MODIFY MANUALLY!
      *
-     * @var string Contains the SVN-Version string
+     * @var string The GIT SHA1 hash of the last commit
      * @access public
      * @static
      */

@@ -85,25 +85,15 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
     private static $_logUnclassified = null;
 
 
-    /**
-     * constructs the class
-     *
-     * constructor builds the class
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __construct()
-    {
-        // operate parents stuff
-        parent::__construct();
-    }
+    protected static $hashOfLastError;
+
 
     /**
-     * handles error(s)
-     *
-     * handles errors which are dispatched to this method
+     * Replacement for PHP's default internal error handler.
+     * All Errors are dispatched to this method - we decide
+     * here what to do with it. We need this hook to stay
+     * informed about DoozR's state and to pipe the Errors
+     * to attached Logger-Subsystem.
      *
      * @param integer $number  Number of Error (constant)
      * @param string  $message Error description as String
@@ -118,57 +108,47 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      */
     public static function handle($number = '', $message = '', $file = '', $line = 0, $context = array())
     {
-        /*
         // get all required foreign instances
         $logger = DoozR_Logger::getInstance();
 
         // get error type
         $errorType = self::getErrorType($number);
 
-        // general log all error(s)
-        $handleThisError = true;
+        // construct message
+        $message = self::_formatMessage($errorType, $number, $message, $file, $line, $context);
 
-        // silenced errors (@) getting always logged
+        // to prevent duplicate handling
+        self::$hashOfLastError = sha1($message.$file.$line);
+
+        // except silenced errors (@) but the will get always logged
         if (($number & error_reporting()) != $number) {
-            // if silence operator @ is used it is used for a special reason
-            // we shouldnt break this PHP native style of functionality!
-            $handleThisError = false;
-
-            // but! we log this in all cases
+            // But we log that this happens in all cases - but not as an error
+            // we log as simple log entry instead!
             $logger->log(
-                self::_formatMessage($errorType, $number, $message, $file, $line, $context)
+                $message.' (IMPORTANT: This error was forwarded from Error-Handler to log by DoozR)'
             );
 
+            // we must return TRUE here cause -> we didn't handled this error
             return true;
         }
 
-        // check for handling required
-        if ($handleThisError) {
-
-            // format the message
-            $message = self::_formatMessage($errorType, $number, $message, $file, $line, $context);
-
-            // ensure that logger is not an collector
-            if ($logger->isCollecting()) {
-                self::pre(
-                    'DoozR - Error:'."\n".$message
-                );
-            } else {
-                $logger->log(
-                    $message,
-                    $errorType
-                );
-            }
+        // ensure that logger is not the collecting logger -> if it is then inform directly!
+        if ($logger->isCollecting()) {
+            self::pre(
+                'DoozR Error:'."\n".$message
+            );
+        } else {
+            $logger->log(
+                $message,
+                $errorType
+            );
         }
-        */
 
-        /**
-         * PHP Changelog
-         * Version 	Beschreibung
-         * 5.2.0 	Die Fehlerbehandlung muss FALSE zurückgeben, um $php_errormsg zu füllen.
-         */
-        // return false - signalize to PHP that error was handled
-        return false;
+        // transform to exception!
+        throw new Exception($message, $number, error_get_last());
+
+        // we must return TRUE here cause -> we didn't handled this error
+        return true;
     }
 
     /**
@@ -227,7 +207,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         $e = error_get_last();
 
         // if not empty ...
-        if (!empty($e)) {
+        if (!empty($e) && !(($e['number'] & error_reporting()) != $e['number'])) {
             // ... log the error
             $logger = DoozR_Logger::getInstance();
             $logger->log($e['message'], 'ERROR', $e['file'], $e['line']);
