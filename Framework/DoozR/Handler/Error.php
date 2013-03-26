@@ -85,9 +85,6 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
     private static $_logUnclassified = null;
 
 
-    protected static $hashOfLastError;
-
-
     /**
      * Replacement for PHP's default internal error handler.
      * All Errors are dispatched to this method - we decide
@@ -116,9 +113,6 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
 
         // construct message
         $message = self::_formatMessage($errorType, $number, $message, $file, $line, $context);
-
-        // to prevent duplicate handling
-        self::$hashOfLastError = sha1($message.$file.$line);
 
         // except silenced errors (@) but the will get always logged
         if (($number & error_reporting()) != $number) {

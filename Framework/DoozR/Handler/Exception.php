@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Handler Exception
+ * DoozR - Handler - Exception
  *
  * Exception.php - Exception-Handler of the DoozR-Framework which overrides
  * the PHP default exception-handler (handling)
@@ -63,9 +63,10 @@ define('E_USER_CORE_EXCEPTION', 235);
 define('E_USER_CORE_FATAL_EXCEPTION', 23523);
 
 /**
- * DoozR-Handler-Exception
+ * DoozR - Handler - Exception
  *
- * Exception-Handler of the DoozR-Framework which overrides the PHP default exception-handler.
+ * Exception-Handler of the DoozR-Framework which overrides
+ * the PHP default exception-handler (handling)
  *
  * @category   DoozR
  * @package    DoozR_Handler
@@ -81,21 +82,20 @@ define('E_USER_CORE_FATAL_EXCEPTION', 23523);
 final class DoozR_Handler_Exception extends DoozR_Base_Class
 {
     /**
-     * handles error(s)
-     *
-     * handles errors which are dispatched to this method
+     * Replacement for PHP's default internal exception handler.
+     * All Exceptions are dispatched to this method - we decide
+     * here what to do with it. We need this hook to stay
+     * informed about DoozR's state and to pipe the Exceptions
+     * to attached Logger-Subsystem.
      *
      * @param object $exception The thrown and uncaught exception object
      *
-     * @return  boolean Everytime TRUE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean Everytime TRUE
+     * @access private
      */
     public static function handle($exception)
     {
-        pred($exception);
-
-
         // defaults
         $file = $line = 'N.A.';
 
@@ -112,9 +112,11 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             $line = $stack[($elements>=1) ? ($elements - 1) : $elements]['line'];
         }
 
+        // TODO: nice output formatted like in xdebug
+        pred($exception);
         // dispatch exception to error_handler for further processing and! logging!
         // return true - signal for exception was handled
-        return DoozR_Handler_Error::handle($error, $exception, $file, $line);
+        //return DoozR_Handler_Error::handle($error, $exception, $file, $line);
     }
 }
 
