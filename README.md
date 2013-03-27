@@ -3,7 +3,7 @@ DoozR - The lightweight MVP PHP-Framework for high-performance websites
 
 
 ## Requirements, install and your 1st request
-See [Wiki: Your first steps with DoozR](https://github.com/clickalicious/DoozR/wiki/Your-first-steps-with-DoozR) in the DoozR Wiki to get a first but detailed overview on "How DoozR works". If you can't wait to get DoozR - Clone it hot and tasty into a webroot of your choice:
+See [Wiki: Your first steps with DoozR](https://github.com/clickalicious/DoozR/wiki/1.-Your-first-steps-with-DoozR) in the DoozR Wiki to get a first but detailed overview on "How DoozR works". If you can't wait to get DoozR - Clone it hot and tasty into a webroot of your choice:
 ```console
 git clone git://github.com/clickalicious/DoozR.git .
 ```
