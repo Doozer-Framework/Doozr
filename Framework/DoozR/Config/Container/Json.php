@@ -114,6 +114,7 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
         // call parent constructor
         parent::__construct($path, $logger, $enableCaching);
 
+        // store information about cache setting (en-/disabled)
         self::$_cacheEnabled = $enableCaching;
 
         // get instance of filesystem module
@@ -163,10 +164,14 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
 
         // check if current resource was cached before
         if ($this->cache->isCached()) {
+            pre('configuration is cached!');
+
             // get configuration from cache
             $configuration = $this->cache->read();
 
         } else {
+            pre('configuration is NOT cached!');
+
             if (is_string($resource)) {
                 // get configuration (JSON)
                 $configuration = $this->_readConfigurationFile($resource);

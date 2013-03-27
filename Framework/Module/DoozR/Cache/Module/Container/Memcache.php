@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module Cache
+ * DoozR - Cache - Module - Container - Memcache
  *
  * Memcache.php - Memcache-Container of the Caching Module.
  *
@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Cache/Module/Container.php';
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Cache/Module/Container/Interface.php';
 
 /**
- * DoozR Module Cache Container Memcache
+ * DoozR - Cache - Module - Container - Memcache
  *
  * Memcache-Container of the Caching Module.
  *
@@ -181,9 +181,21 @@ implements DoozR_Cache_Module_Container_Interface
 
         // prepare
         $buffer = $this->encode($buffer);
-        $flags  = ($this->_compress === true)  ? MEMCACHE_COMPRESSED    : 0;
+        $flags  = ($this->_compress === true) ? MEMCACHE_COMPRESSED : 0;
 
         // store in memcache
+        if (!$this->_memcache->set(
+                         md5(self::UNIQUE_IDENTIFIER.$group.$id),
+                         $buffer,
+                         $this->getExpiresAbsolute($expires)
+            )
+        ) {
+            throw new DoozR_Cache_Module_Exception(
+                'Error while creating dataset!'
+            );
+        }
+
+        /*
         if (!$this->_memcache->set(
             md5(self::UNIQUE_IDENTIFIER.$group.$id),
             $buffer,
@@ -194,6 +206,7 @@ implements DoozR_Cache_Module_Container_Interface
                 'Error while creating dataset!'
             );
         }
+        */
 
         // success
         return true;
@@ -215,7 +228,6 @@ implements DoozR_Cache_Module_Container_Interface
     {
         // try to read from cache (server)
         $result = @$this->_memcache->get(md5(self::UNIQUE_IDENTIFIER.$group.$id));
-
         return ($result !== false) ? $this->decode($result) : $result;
     }
 
@@ -310,7 +322,8 @@ implements DoozR_Cache_Module_Container_Interface
      */
     public function isCached($id, $group)
     {
-        return $this->read($id, $group);
+        $result = $this->read($id, $group);
+        return $result;
     }
 
     /**
