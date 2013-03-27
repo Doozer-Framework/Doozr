@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 4f7d4dba16198d6ef5bcf2544da3af0acf401199 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -69,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 4f7d4dba16198d6ef5bcf2544da3af0acf401199 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -164,14 +164,10 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
 
         // check if current resource was cached before
         if ($this->cache->isCached()) {
-            pre('configuration is cached!');
-
             // get configuration from cache
             $configuration = $this->cache->read();
 
         } else {
-            pre('configuration is NOT cached!');
-
             if (is_string($resource)) {
                 // get configuration (JSON)
                 $configuration = $this->_readConfigurationFile($resource);

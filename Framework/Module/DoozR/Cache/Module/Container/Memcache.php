@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: fbaf3ff85a82d6335ede132758b0144dd5556599 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Cache/Module/Container/Interface.
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: fbaf3ff85a82d6335ede132758b0144dd5556599 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -405,8 +405,6 @@ implements DoozR_Cache_Module_Container_Interface
      */
     protected function idExists($id, $group)
     {
-        pre('exist');
-
         // build identifier
         $key = md5(self::UNIQUE_IDENTIFIER.$group.$id);
 
