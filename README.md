@@ -11,11 +11,11 @@ and browse to it (e.g. [http://localhost/](http://localhost/)).
 
 
 ## More Information
-For more detailed information on how we did things and how DoozR does things and so on visit the [Wiki](https://github.com/clickalicious/DoozR/wiki).
+For more detailed information on how we did things and how DoozR does things and so on visit the [Wiki](https://github.com/clickalicious/DoozR/wiki/_pages).
 
 
 ## Project statistics
-It's always hard to guess how large a project is grown. Here are some interesting statistics of DoozR:
+It's always difficult to guess how large a project is grown. But SLOC helps got get some interesting statistics out of a projects source-code:
 ```php
 Total Physical Source Lines of Code (SLOC)                  = 74.005
 Development Effort Estimate, Person-Years (Person-Months)   = 18,35 (220,26)
