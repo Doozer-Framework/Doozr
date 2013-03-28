@@ -2,7 +2,7 @@
 /***********************************************************************************************************************
  *
 * DEMONSTRATION
-* Module: I18n
+* Core: Registry
 *
 **********************************************************************************************************************/
 
@@ -11,12 +11,10 @@
  */
 require_once '../Framework/DoozR/Bootstrap.php';
 
-
 /**
  * Instanciate DoozR
  */
 $DoozR = DoozR_Core::getInstance();
-
 
 /**
  * Get registry containing DoozR's base object instances
@@ -25,13 +23,21 @@ $registry = DoozR_Registry::getInstance();
 
 
 /**
- * get I18n Module of DoozR -> for translations, converting and formatting values ...
+ *  now we can grab the already stored instances from DoozR core
  */
-$i18n = DoozR_Loader_Moduleloader::load('i18n', array('de', $registry->config));
-$translator = $i18n->getTranslator();
-$translator->setNamespace('demo');
-$localized = $translator->_('x_books_in_my_y_shelves', array(921, 8));
+$logger = $registry->logger;
+$config = $registry->config;
 
-pre($localized);
+/**
+ * add one or more new ones
+ */
+$foo    = new stdClass();
+$foo->bar = 'Hello World!';
+$registry->foo = $foo;
+
+/**
+ * grab and use it direct from registry anywhere else in your followup code ...
+ */
+pre($registry->foo->bar);
 
 ?>

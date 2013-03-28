@@ -144,20 +144,18 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
 
 
     /**
-     * Constructor
-     *
      * This method is the constructor of the class.
      *
-     * @param object  $path          An instance of DoozR_Path
-     * @param object  $logger        An instance of DoozR_Logger
-     * @param boolean $enableCaching TRUE to enable caching, otherwise FALSE to do not
+     * @param DoozR_Path_Interface   $path          An instance of DoozR_Path
+     * @param DoozR_Logger_Interface $logger        An instance of DoozR_Logger
+     * @param boolean                $enableCaching TRUE to enable caching, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @throws  DoozR_Exception
+     * @throws DoozR_Exception
      */
-    protected function __construct(DoozR_Path $path, DoozR_Logger $logger, $enableCaching = false)
+    protected function __construct(DoozR_Path_Interface $path, DoozR_Logger_Interface $logger, $enableCaching = false)
     {
         $this->path   = $path;
         $this->logger = $logger;
@@ -267,9 +265,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The generated unique Id
-     * @access protected
+     * @access public
      */
-    protected function getUid($resource)
+    public function getUid($resource)
     {
         return md5(serialize($resource));
     }
@@ -283,9 +281,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access protected
+     * @access public
      */
-    protected function setRaw($configuration)
+    public function setRaw($configuration)
     {
         $this->configuration['raw'] = $configuration;
     }
@@ -297,9 +295,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The raw configuration of the current instance
-     * @access protected
+     * @access public
      */
-    protected function getRaw()
+    public function getRaw()
     {
         return $this->configuration['raw'];
     }
@@ -313,9 +311,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access protected
+     * @access public
      */
-    protected function setProcessed($configuration)
+    public function setProcessed($configuration)
     {
         $this->configuration['processed'] = $configuration;
     }
@@ -327,9 +325,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The processed configuration of the current instance
-     * @access protected
+     * @access public
      */
-    protected function getProcessed()
+    public function getProcessed()
     {
         return $this->configuration['processed'];
     }
@@ -343,9 +341,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access protected
+     * @access public
      */
-    protected function setParsed($configuration)
+    public function setParsed($configuration)
     {
         $this->configuration['parsed'] = $configuration;
     }
@@ -357,9 +355,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The processed configuration of the current instance
-     * @access protected
+     * @access public
      */
-    protected function getParsed()
+    public function getParsed()
     {
         return $this->configuration['parsed'];
     }
@@ -376,9 +374,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The resulting + merged configuration object
-     * @access protected
+     * @access public
      */
-    protected function mergeConfigurations($configuration1, $configuration2)
+    public function mergeConfigurations($configuration1, $configuration2)
     {
         $a1 = object_to_array($configuration1);
         $a2 = object_to_array($configuration2);

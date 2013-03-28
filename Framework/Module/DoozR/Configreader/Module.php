@@ -76,7 +76,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Configreader/Module/Exception.php
  * @since      -
  * @DoozRType  Multiple
  */
-class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements DoozR_Base_Module_Interface, DoozR_Config_Interface
+class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements DoozR_Base_Module_Interface,
+      DoozR_Config_Interface
 {
     /**
      * contains an instance of the class/object decorated
@@ -142,7 +143,7 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
      * @access  public
      * @author  Benjamin Carl <opensource@clickalicious.de>
      */
-    public function __tearup($type)
+    public function __tearup($type, $enableCaching = false)
     {
         // store path manager
         $this->_path = $this->registry->path;
@@ -157,7 +158,8 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
                 DOOZR_DOCUMENT_ROOT,
                 array(
                     $this->_path,
-                    $this->_logger
+                    $this->_logger,
+                    $enableCaching
                 )
             )
         );

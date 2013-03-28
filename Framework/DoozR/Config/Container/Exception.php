@@ -92,7 +92,7 @@ class DoozR_Config_Container_Exception extends DoozR_Exception
     public function __construct($message = null, $code = 0, $previous = null)
     {
         // add prefix to message
-        $message = 'DoozR_Config_Container: '.$message;
+        $message = __CLASS__.': '.$message;
 
         // check default code = 0
         $code = (!$code) ? 0 : $code;

@@ -1,25 +1,33 @@
 <?php
+/***********************************************************************************************************************
+ *
+* DEMONSTRATION
+* Module: Form
+*
+**********************************************************************************************************************/
 
 /**
  * bootstrap
  */
 require_once '../Framework/DoozR/Bootstrap.php';
 
+
 /**
  * Instanciate DoozR
  */
 $DoozR = DoozR_Core::getInstance();
+
 
 /**
  * Get registry containing DoozR's base object instances
  */
 $registry = DoozR_Registry::getInstance();
 
+
 /**
  * Get the model layer easily through registry - painless
  */
 $config = $registry->config;
-
 
 
 $i18n = DoozR_Loader_Moduleloader::load('i18n', array('de', $registry->config));
