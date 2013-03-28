@@ -201,7 +201,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         $e = error_get_last();
 
         // if not empty ...
-        if (!empty($e) && !(($e['number'] & error_reporting()) != $e['number'])) {
+        if (!empty($e)) {
             // ... log the error
             $logger = DoozR_Logger::getInstance();
             $logger->log($e['message'], 'ERROR', $e['file'], $e['line']);
