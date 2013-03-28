@@ -359,10 +359,29 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      */
     const DEFAULT_UPLOAD_MAX_SIZE = 52428800;
 
-
+    /**
+     * The default step if no step is/was set before
+     *
+     * @var integer
+     * @acces public
+     */
     const DEFAULT_STEP  = 1;
+
+    /**
+     * The default amount of steps till finish is 1 (1/1)
+     *
+     * @var integer
+     * @access public
+     */
     const DEFAULT_STEPS = 1;
 
+    /**
+     * The default name used at init for default (e.g. for optional I18n namespace)
+     *
+     * @var string
+     * @access public
+     */
+    const DEFAULT_NAME = 'Form';
 
     /**
      * The encoding (enctype) for upload-forms -> enctype="multipart/form-data"
@@ -407,16 +426,16 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
      * @return object Instance of this class
      * @access protected
      */
-    public function __tearup($name = 'Form', $i18n = null)
+    public function __tearup($name = self::DEFAULT_NAME, DoozR_I18n_Module $i18n = null)
     {
         // get session
         $this->_store = DoozR_Loader_Moduleloader::load('session');
 
-        // get module for I18n support
-        $this->setI18n($i18n);
-
         // store passed arguments
         $this->setName($name);
+
+        // get module for I18n support
+        $this->setI18n($i18n);
 
         // set the max-upload-filesize to value defined in PHP-ini
         $this->_maxFileSize = ini_get('upload_max_filesize');
@@ -976,15 +995,17 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
         // process only if error(s) exists
         if (!empty($this->_error)) {
             // just the error requested? ...
+            /*
             if ($plainError) {
                 return end($this->_error);
             } else {
+                */
                 // ... otherwise return keyed array with element AND error
                 return array(
                     'element' => @end(array_keys($this->_error)),
                     'error'   => end($this->_error)
                 );
-            }
+            //}
         } else {
             // no error => no result ~ null
             return null;
@@ -1021,7 +1042,7 @@ final class DoozR_Form_Module extends DoozR_Base_Module_Singleton_Facade
     {
         if ($i18n) {
             $this->_i18n = $i18n->getTranslator();
-            $this->_i18n->setNamespace(self::PREFIX.$this->_name);
+            $this->_i18n->setNamespace(self::PREFIX.$this->getName());
             return true;
         }
 

@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Interface - Text
  *
- * Text.php - Translation-Interface
+ * Text.php - Translation-Interface to text
  *
  * PHP versions 5
  *
@@ -167,7 +167,6 @@ class DoozR_I18n_Module_Interface_Text extends DoozR_I18n_Module_Base_Interface
         // return the resulting table
         return $result;
     }
-
 
     /**
      * parses a translationfile

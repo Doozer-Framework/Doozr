@@ -25,13 +25,22 @@ $registry = DoozR_Registry::getInstance();
 
 
 /**
- * Get the model layer easily through registry - painless
+ * Get the config instance easily from registry
  */
 $config = $registry->config;
 
 
+/**
+ * Get the "I18n" module to demonstrate you the nice interaction between
+ * module "Form" and "I18n"
+ */
 $i18n = DoozR_Loader_Moduleloader::load('i18n', array('de', $registry->config));
-$form = DoozR_Loader_Moduleloader::load('form', array($i18n));
+
+
+/**
+ * Get the "Form" module
+ */
+$form = DoozR_Loader_Moduleloader::load('form', array('register', $i18n));
 
 
 /**

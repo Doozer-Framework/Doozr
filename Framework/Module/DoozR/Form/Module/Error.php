@@ -277,13 +277,14 @@ class DoozR_Form_Module_Error extends DoozR_Base_Class
 
         // if additional information exist -> add it here
         if ($this->_errorInfo) {
-            if (is_array($this->_errorInfo)) {
+            if (is_string($this->_errorInfo)) {
+                self::$_errorMessageMatrix[$errorCode] .= ' '.$this->_errorInfo;
+
+            } elseif (count($this->_errorInfo) != 1 || $this->_errorInfo[0] != null) {
                 foreach ($this->_errorInfo as $info) {
                     $info = serialize($info);
                     self::$_errorMessageMatrix[$errorCode] .= ' '.$info;
                 }
-            } else {
-                self::$_errorMessageMatrix[$errorCode] .= ' '.$this->_errorInfo;
             }
         }
 

@@ -1682,7 +1682,6 @@ abstract class DoozR_Form_Module_Element_Abstract
                 $this->valid = true;
             }
         } else {
-            //pred('ne ne ne');
             // not submitted neither "valid" nor "invalid"  just NULL
             $this->valid = true;
             $this->error = false;
