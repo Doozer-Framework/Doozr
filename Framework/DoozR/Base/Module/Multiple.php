@@ -109,7 +109,7 @@ class DoozR_Base_Module_Multiple extends DoozR_Base_Class
                     array(
                         $this,
                         '__tearup'
-	                ),
+                    ),
                     $arguments
                 );
             } else {

@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <html>
   <head>
-    <title tal:content="title">
+    <title>
       Place for the page title
     </title>
   </head>
   <body>
-    <h1 tal:content="title">sample title</h1>
+    <h1 i18n:translate="">headline_1</h1>
+    <div i18n:translate="">Welcome here</div>
     <table>
       <thead>
         <tr>

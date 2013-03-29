@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base-Facade-Singleton
+ * DoozR - Base - Facade - Singleton
  *
- * DoozRBaseFacadeSingleton.class.php - Base-Facade-Singleton for all ...
+ * Singleton.php - Base-Facade-Singleton for all ...
  *
  * PHP versions 5
  *
@@ -57,7 +57,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 
 /**
- * DoozR Base-Facade-Singleton
+ * DoozR - Base - Facade - Singleton
  *
  * Base-Facade-Singleton for all ...
  *
@@ -65,7 +65,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
  * @package    DoozR_Base
  * @subpackage DoozR_Base_Facade
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$ <doozr@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
@@ -81,43 +80,32 @@ class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
      * @var object
      * @access protected
      */
-    //protected static $_decoratedObject;
-    protected $_decoratedObject;
+    protected $decoratedObject;
 
     /**
-     * setter for decorated object
-     *
-     * This method is intend to act as setter for $_decoratedObject.
+     * This method is intend to act as setter for $decoratedObject.
      *
      * @param object $instance An instance of a class to decorate
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function setDecoratedObject($instance)
     {
-        //self::$_decoratedObject = $instance;
-        $this->_decoratedObject = $instance;
+        $this->decoratedObject = $instance;
     }
 
     /**
-     * getter for decorated object
+     * This method is intend to act as getter for $decoratedObject.
      *
-     * This method is intend to act as getter for $_decoratedObject.
-     *
-     * @return  object An instance of a class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object An instance of a class
+     * @access protected
      */
     protected function getDecoratedObject()
     {
-        //return self::$_decoratedObject;
-        return $this->_decoratedObject;
+        return $this->decoratedObject;
     }
 
     /**
@@ -128,24 +116,20 @@ class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
      * @param string $signature The signature (name of the method) originally called
      * @param mixed  $arguments The arguments used for call (can be either an ARRAY of values or NULL)
      *
-     * @return  mixed Result of called method if exists, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of called method if exists, otherwise NULL
+     * @access public
      */
     public function __call($signature, $arguments)
     {
         if ($arguments) {
             $result = call_user_func_array(
-                //array(self::$_decoratedObject, $signature),
-                array($this->_decoratedObject, $signature),
+                array($this->decoratedObject, $signature),
                 $arguments
             );
         } else {
             $result = call_user_func(
-                //array(self::$_decoratedObject, $signature)
-                array($this->_decoratedObject, $signature)
+                array($this->decoratedObject, $signature)
             );
         }
 
@@ -153,24 +137,19 @@ class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * generic facade - for all non-implemented static methods
-     *
      * This method is intend to act as generic facade - for all non-implemented static methods
      *
      * @param string $signature The signature (name of the method) originally called
      * @param mixed  $arguments The arguments used for call (can be either an ARRAY of values or NULL)
      *
-     * @return  mixed Result of called method if exists, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of called method if exists, otherwise NULL
+     * @access public
      * @static
      */
     public static function __callStatic($signature, $arguments)
     {
-        //$targetClassname = get_class(self::$_decoratedObject);
-        $targetClassname = get_class($this->_decoratedObject);
+        $targetClassname = get_class($this->decoratedObject);
 
         if ($arguments) {
             $result = call_user_func_array(
@@ -194,17 +173,14 @@ class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
      *
      * @param string $property The property to return
      *
-     * @return  mixed The data from property
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data from property
+     * @access public
      */
     public function __get($property)
     {
-        if ($property != '_decoratedObject') {
-            //return self::$_decoratedObject->{$property};
-            return $this->_decoratedObject->{$property};
+        if ($property != 'decoratedObject') {
+            return $this->decoratedObject->{$property};
         }
     }
 
@@ -216,17 +192,14 @@ class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
      * @param string $property The property to set
      * @param mixed  $value    The value to set
      *
-     * @return  mixed The data from property
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data from property
+     * @access public
      */
     public function __set($property, $value)
     {
-        if ($property != '_decoratedObject') {
-            //return self::$_decoratedObject->{$property} = $value;
-            return $this->_decoratedObject->{$property} = $value;
+        if ($property != 'decoratedObject') {
+            return $this->decoratedObject->{$property} = $value;
         }
     }
 }

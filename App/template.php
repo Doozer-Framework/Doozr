@@ -19,9 +19,22 @@ $DoozR = DoozR_Core::getInstance();
 
 
 /**
+ * Get registry containing DoozR's base object instances
+ */
+$registry = DoozR_Registry::getInstance();
+
+
+/**
  * Get module session from Moduleloader
  */
 $template = DoozR_Loader_Moduleloader::load('template', array(DOOZR_APP_ROOT.'Data\\Private\\Tpl\\template.tpl'));
+$i18n     = DoozR_Loader_Moduleloader::load('i18n', array('de', $registry->config));
+
+
+/**
+ * Store our PHPTAL compatible I18n module as translator
+ */
+$template->setTranslator($i18n);
 
 
 /**
@@ -48,7 +61,7 @@ $people[] = new Person("baz", "01-389-321-024");
 $people[] = new Person("quz", "05-321-378-654");
 
 // put some data into the template context
-$template->title = 'The title value';
+//$template->title = 'The title value';
 $template->people = $people;
 
 // execute the template

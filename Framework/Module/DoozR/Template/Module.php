@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module Template
+ * DoozR - Template - Module
  *
  * Module.php - Module: Gate for accessing any kind of template library.
  * This module is build upon the deep core integration of
@@ -57,9 +57,10 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Facade/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 
 /**
- * DoozR Module Template
+ * DoozR - Template - Module
  *
  * Module: Gate for accessing any kind of template library.
  * This module is build upon the deep core integration of
@@ -79,6 +80,14 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Facade/Singleton.php';
  */
 final class DoozR_Template_Module extends DoozR_Base_Facade_Singleton
 {
+    /**
+     * The registry for local access
+     *
+     * @var DoozR_Registry
+     * @access private
+     */
+    private $_registry;
+
     /**
      * The resource to process
      *
@@ -114,13 +123,30 @@ final class DoozR_Template_Module extends DoozR_Base_Facade_Singleton
      *
      * @param boolean $return TRUE to return result, FALSE (default) to echo
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Data from template if $return was set to TRUE, otherwise NULL
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @throws DoozR_Exception
      */
     public function fetch($return = false)
     {
-        //$this->template = 'A';
+        switch ($this->_library) {
+        case 'phptal':
+            // execute the template
+            try {
+                $buffer = $this->execute();
+                if ($return === true) {
+                    return $buffer;
+                } else {
+                    echo $buffer;
+                }
+            } catch (Exception $e) {
+                // repack
+                throw new DoozR_Exception($e);
+            }
+            break;
+        }
+
         return null;
     }
 
@@ -133,13 +159,13 @@ final class DoozR_Template_Module extends DoozR_Base_Facade_Singleton
      *
      * @param mixed $resource The resource used as input for template engine library
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setTemplate($resource)
     {
-        $this->resource = $resource;
+        $this->_resource = $resource;
     }
 
     /**
@@ -147,45 +173,59 @@ final class DoozR_Template_Module extends DoozR_Base_Facade_Singleton
      *
      * This method is the constructor of this class.
      *
-     * @param DoozR_Registry $registry The instance of DoozR_Registry
-     * @param string         $resource The resource to set as input (optional)
+     * @param DoozR_Registry &$registry The instance of DoozR_Registry
+     * @param string         $resource  The resource to load
+     * @param array          $config    The resource to set as input (optional)
+     *                                  defaults come from config
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function __tearup($resource = null)
+    public function __construct(DoozR_Registry &$registry, $resource = null, array $config = null)
     {
-        // store settings
-        $this->_config  = $this->registry->config;
-        $this->_path    = $this->_config->base->template->path();
-        $this->_library = $this->_config->base->template->engine->lib();
+        // store registry
+        $this->_registry = $registry;
 
+        // store resource
+        $this->_resource = $resource;
+
+        // detect and store settings
+        if ($config) {
+            $this->_path    = $config['path'];
+            $this->_library = $config['library'];
+        } else {
+            $this->_path    = $this->_registry->config->base->template->path;
+            $this->_library = $this->_registry->config->base->template->engine->library;
+        }
+
+        // get egine running
         $this->_initEngine($this->_library);
-
-        //self::$_decoratedObject = DoozR_Loader_Moduleloader::load($this->mode, array($this->path.$this->resource));
-        /*
-        // call the DoozR Base Template with the resource and the lib as argument
-        parent::__construct(
-            $this->registry->config->base->template->path().$resource,
-            $this->mode
-        );
-        */
     }
 
-
+    /**
+     * Initializes the engine (e.g. smarty or phptal) and store the instance
+     * as decorated object.
+     *
+     * @param string $engine The name/identifier of the engine we use (phptal)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
+     * @throws DoozR_Template_Module_Exception
+     */
     private function _initEngine($engine)
     {
         switch ($engine) {
         case 'phptal':
             //
-            require_once $this->getPath().'Module/Lib/PHPTAL/PHPTAL.php';
+            include_once $this->getPath().'Module/Lib/PHPTAL/PHPTAL.php';
             $this->setDecoratedObject(new PHPTAL($this->_resource));
-        break;
+            break;
         default:
-            throw new DoozR_Template_Module_Exception(
-                'Configured engine "'.$this->_library.'" is currently not supported!'
-            );
+        throw new DoozR_Template_Module_Exception(
+            'Configured engine "'.$this->_library.'" is currently not supported!'
+        );
         }
     }
 
@@ -201,9 +241,9 @@ final class DoozR_Template_Module extends DoozR_Base_Facade_Singleton
      * @param mixed $variable The variable-name to assign
      * @param mixed $value    The variable-value to assign
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if successful, otherwise FALSE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @throws DoozR_Exception
      */
     public function assignVariable($variable = null, $value = null)
@@ -213,7 +253,7 @@ final class DoozR_Template_Module extends DoozR_Base_Facade_Singleton
             return ($this->{$variable} = $value);
         break;
         default:
-            return false;
+        return false;
         }
     }
 
@@ -224,9 +264,9 @@ final class DoozR_Template_Module extends DoozR_Base_Facade_Singleton
      *
      * @param array $variables The variables to assign as array
      *
-     * @return  boolean TRUE if successful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if successful, otherwise FALSE
+     * @access public
      */
     public function assignVariables(array $variables)
     {

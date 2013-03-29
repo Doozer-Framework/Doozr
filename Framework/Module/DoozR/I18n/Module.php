@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module
  *
  * Module.php - I18n Module for internationalization and localization support
  * for your project.
@@ -57,9 +57,10 @@
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Module/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Translator.php';
+require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Template/Module/Lib/PHPTAL/PHPTAL/TranslationService.php';
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module
  *
  * I18n Module for internationalization and localization support for your project.
  *
@@ -75,7 +76,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Translator.php';
  * @since      -
  * @DoozRType  Singleton
  */
-class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
+class DoozR_I18n_Module extends DoozR_Base_Module_Singleton implements PHPTAL_TranslationService
 {
     /**
      * Contains the current active locale
@@ -103,8 +104,22 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
      */
     private static $_configreaderLocales = array();
 
-
+    /**
+     * The default formatter of I18n module
+     *
+     * @var string
+     * @access public
+     */
     const FORMATTER_DEFAULT = 'String';
+
+    /**
+     * The translator singleton for templates
+     *
+     * @var DoozR_I18n_Module_Translator
+     * @access private
+     * @static
+     */
+    private static $_templateTranslator;
 
 
     /*******************************************************************************************************************
@@ -120,11 +135,9 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
      * @param string                 $locale       A valid locale (de, at-de, ...) to bind this instance to
      * @param DoozR_Config_Interface $configreader An instance of a configreader compliant config reader
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __tearup($locale, DoozR_Config_Interface $configreader)
     {
@@ -149,12 +162,10 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $locale The locale to set as active
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception_Module
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     * @throws DoozR_Exception_Module
      */
     public function setActiveLocale($locale)
     {
@@ -169,16 +180,96 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
         return ($this->_activeLocale = $locale);
     }
 
+
+
+
+
+    private function _initTemplateTranslator()
+    {
+        if (!self::$_templateTranslator) {
+            self::$_templateTranslator = $this->getTranslator();
+            self::$_templateTranslator->setNamespace('default');
+        }
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see PHPTAL_TranslationService::setLanguage()
+     */
+    public function setLanguage()
+    {
+        /*
+        $this->_initTemplateTranslator();
+
+        $locales = func_get_args();
+        pred($locales);
+        //return $this->setActiveLocale($locale);
+        */
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see PHPTAL_TranslationService::setEncoding()
+     */
+    public function setEncoding($encoding)
+    {
+        //$this->_initTemplateTranslator();
+        //pre('setEncoding(): '.$encoding);
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see PHPTAL_TranslationService::useDomain()
+     */
+    public function useDomain($domain)
+    {
+        //$this->_initTemplateTranslator();
+        //self::$_templateTranslator->setNamespace($domain);
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see PHPTAL_TranslationService::setVar()
+     */
+    public function setVar($key, $value_escaped)
+    {
+        $this->_initTemplateTranslator();
+
+        /*
+        if ($value_escaped === true) {
+            return self::$_templateTranslator->($string);
+        } else {
+            return self::$_templateTranslator->($string)
+        }
+        */
+    }
+
+    public function translate($key, $htmlescape = true)
+    {
+        $this->_initTemplateTranslator();
+
+        $value  = '';
+        $lookup = str_replace(' ', '_', strtolower($key));
+
+        if ($htmlescape === true) {
+            $value = self::$_templateTranslator->__($lookup);
+        } else {
+            $value = self::$_templateTranslator->_($lookup);
+        }
+
+        return (strlen($value) && $value !== $lookup) ? $value : $key;
+    }
+
+
+
     /**
      * returns the current active locale
      *
      * This method is intend to return the current active locale.
      *
-     * @return  string The active locale
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The active locale
+     * @access public
      */
     public function getActiveLocale()
     {
@@ -205,11 +296,9 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the instance of the locale-detector.
      *
-     * @return  object The instance of the locale-detector
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object The instance of the locale-detector
+     * @access public
      */
     public function getDetector()
     {
@@ -219,18 +308,14 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
     }
 
     /**
-     * returns the detector
-     *
      * This method is intend to return the instance of the locale-detector.
      *
      * @param string $type   The type of the formatter to return
      * @param string $locale The locale to use for formatter
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return  object The instance of the locale-detector
      * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
      * @throws  DoozR_I18n_Module_Exception
      */
     public function getFormatter($type = self::FORMATTER_DEFAULT, $locale = null)
@@ -258,17 +343,13 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
     }
 
     /**
-     * returns a new translator instance
-     *
      * This method is intend to return a new translator instance.
      *
      * @param string $locale The locale to use
      *
-     * @return  DoozR_I18n_Module_Translator The instance of the locale-detector
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_I18n_Module_Translator The instance of the locale-detector
+     * @access public
      */
     public function getTranslator($locale = null)
     {
@@ -294,11 +375,9 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $code de, de-AT, en-us ...
      *
-     * @return  boolean TRUE if valid, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
      */
     public function isValidLocaleCode($code = '')
     {
@@ -317,11 +396,9 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $locale The locale to prepare data for
      *
-     * @return  array The prepared data
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The prepared data
+     * @access private
      */
     private function _validateInput($locale = null)
     {
@@ -367,12 +444,10 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to check if all requirements are fulfilled.
      *
-     * @return  object Instance of this class
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception_Module
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access private
+     * @throws DoozR_Exception_Module
      * @static
      */
     private static function _checkRequirements()

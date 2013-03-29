@@ -460,10 +460,10 @@ class DoozR_I18n_Module_Translator extends DoozR_Base_Class
         // encode result? => check mode
         switch ($mode) {
         case 'translateEncode':
-            $translation = htmlspecialchars($translation);
+            $translation = htmlspecialchars(utf8_encode($translation), null, 'UTF-8');
             break;
         case 'translateEncodePlus':
-            $translation = htmlentities($translation);
+            $translation = htmlentities(utf8_encode($translation));
             break;
         }
 
@@ -488,11 +488,9 @@ class DoozR_I18n_Module_Translator extends DoozR_Base_Class
      * @param DoozR_Config_Interface $configI18n An instance of DoozR_Config_Ini holding the I18n-config
      * @param DoozR_Config_Interface $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      *
-     * @return  object Instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return object Instance of this class
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct($locale, DoozR_Config_Interface $configI18n, DoozR_Config_Interface $configI10n)
     {

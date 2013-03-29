@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Moduleloader
+ * DoozR - Loader - Moduleloader
  *
- * Moduleloader.php - Moduleloader
+ * Moduleloader.php - The Moduleloader is responsible for loading modules no
+ * matter from which namespace and no matter if singleton or multiple.
  *
  * PHP versions 5
  *
@@ -59,9 +60,10 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Factory/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Factory/Multiple.php';
 
 /**
- * DoozR Moduleloader
+ * DoozR - Loader - Moduleloader
  *
- * Moduleloader
+ * The Moduleloader is responsible for loading modules no
+ * matter from which namespace and no matter if singleton or multiple.
  *
  * @category   DoozR
  * @package    DoozR_Loader
@@ -97,19 +99,15 @@ class DoozR_Loader_Moduleloader extends DoozR_Base_Class_Singleton
 
 
     /**
-     * loads DoozR-modules from all namespaces (e.g. DoozR, ...)
-     *
      * This method is intend to load modules used by DoozR-Core, Applications based on DoozR ...
      *
      * @param string $module    The module to load
      * @param mixed  $arguments The arguments to pass to module instance
      * @param string $namespace The namespace to load module from
      *
-     * @return  object An/The instance of the requested module
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object An/The instance of the requested module
+     * @access public
      * @static
      */
     public static function load($module, $arguments = null, $namespace = 'DoozR')
@@ -183,46 +181,37 @@ class DoozR_Loader_Moduleloader extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * conditional includes the module main classfile
-     *
      * This method is intend to conditional includes the module main classfile.
      *
      * @param string $module    The module to include
      * @param string $namespace The namespace to load module from
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access private
      * @static
      */
     private static function _getModule($module, $namespace)
     {
-        if (isset(self::$_loaded[$module.$namespace])) {
-            return;
-
-        } else {
-            // get file
-            include_once DOOZR_DOCUMENT_ROOT.'Module'.DIRECTORY_SEPARATOR.$namespace.DIRECTORY_SEPARATOR.$module.
-                DIRECTORY_SEPARATOR.'Module.php';
-
+        if (!isset(self::$_loaded[$module.$namespace])) {
+            $file = DOOZR_DOCUMENT_ROOT.'Module'.DIRECTORY_SEPARATOR.$namespace.DIRECTORY_SEPARATOR.$module.
+                    DIRECTORY_SEPARATOR.'Module.php';
+            include_once $file;
             self::$_loaded[$module.$namespace] = true;
         }
+
+        // success
+        return true;
     }
 
     /**
-     * parses the annotations (DoozR) out of a DocBlock
-     *
      * This method is intend to parse out the annotations (DoozR) of a DocBlock
      *
      * @param string $docBlock The DocBlock Comment of the class to instanciate (module)
      *
-     * @return  array The parsed (DoozR) annotations
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The parsed (DoozR) annotations
+     * @access private
      * @static
      */
     private static function _parseAnnotations($docBlock = '')
