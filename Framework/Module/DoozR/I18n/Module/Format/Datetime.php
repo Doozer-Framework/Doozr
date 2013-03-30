@@ -705,6 +705,8 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
         // set type of format-class
         $this->type = 'Datetime';
 
+        pre($translator);
+
         // store the default and active timeset
         $this->_timeset = $configI10n->DATETIME->DEFAULT_TIMESET();
 

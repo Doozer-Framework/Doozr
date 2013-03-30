@@ -38,7 +38,9 @@ pre($translated);
  * available formatter: datetime, currency, measure, number, string
  */
 $formatter = $i18n->getFormatter('datetime');
-pre($formatter->getConfig());
-pre($formatter->shortTime(time()));
+$time = $formatter->shortTime(time());
+$day = $formatter->dayName(time());
+
+pre($day);
 
 ?>
