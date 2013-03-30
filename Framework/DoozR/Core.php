@@ -806,9 +806,8 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
             return self::$version;
         } else {
             // etxract the version from svn-Id
-            preg_match('/\d+/', self::$version, $version);
-            //return $version[0];
-            return 123;
+            //preg_match('/\d+/', self::$version, $version);
+            return self::$version;
         }
     }
 
