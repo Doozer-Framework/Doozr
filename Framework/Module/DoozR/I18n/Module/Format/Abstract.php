@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - Abstract
  *
- * Format.php - Format-Class-Base
+ * Abstract.php - Abstract base class for formatter of the I18n module
  *
  * PHP versions 5
  *
@@ -57,9 +57,9 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - Abstract
  *
- * Format-Class-Base
+ * Abstract base class for formatter of the I18n module
  *
  * @category   DoozR
  * @package    DoozR_Module
@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
  * @see        -
  * @since      -
  */
-class DoozR_I18n_Module_Base_Format extends DoozR_Base_Class
+abstract class DoozR_I18n_Module_Format_Abstract extends DoozR_Base_Class
 {
     /**
      * the type of the format-class
@@ -144,17 +144,13 @@ class DoozR_I18n_Module_Base_Format extends DoozR_Base_Class
      ******************************************************************************************************************/
 
     /**
-     * reads the config
-     *
      * This method is intend to create the bad-word table
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
-    protected function getConfig()
+    public function getConfig()
     {
         // check if we must load localized config (I10n) was already retrieved
         if (!$this->config) {
@@ -184,24 +180,21 @@ class DoozR_I18n_Module_Base_Format extends DoozR_Base_Class
      ******************************************************************************************************************/
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
-     * @param string $locale     The locale this instance is working with
-     * @param string $namespace  The active namespace of this format-class
-     * @param object $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object $translator An instance of a translator (for locale)
+     * @param DoozR_Registry_Interface &$registry  The registry
+     * @param string                   $locale     The locale this instance is working with
+     * @param string                   $namespace  The active namespace of this format-class
+     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object                   $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $translator An instance of a translator (for locale)
      *
-     * @return  object Instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access public
      */
     public function __construct(
-        $registry = null,
+        DoozR_Registry_Interface &$registry = null,
         $locale = null,
         $namespace = null,
         $configI18n = null,

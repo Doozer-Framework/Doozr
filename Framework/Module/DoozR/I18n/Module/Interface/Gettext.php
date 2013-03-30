@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Interface - Gettext
  *
  * Gettext.php - Translation interface to => gettext™
  *
@@ -54,12 +54,12 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Interface/Base.php';
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Interface - Gettext
  *
- * Translation interface to => gettext™
+ * Gettext.php - Translation interface to => gettext™
  *
  * @category   DoozR
  * @package    DoozR_Module
@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Interface.php';
  * @see        -
  * @since      -
  */
-class DoozR_I18n_Module_Interface_Gettext extends DoozR_I18n_Module_Base_Interface
+class DoozR_I18n_Module_Interface_Gettext extends DoozR_I18n_Module_Interface_Base
 {
     /**
      * path to locale files (filesystem)
@@ -89,19 +89,15 @@ class DoozR_I18n_Module_Interface_Gettext extends DoozR_I18n_Module_Base_Interfa
      ******************************************************************************************************************/
 
     /**
-     * looks up the translation of the given combination of values
-     *
      * This method is intend to look-up the translation of the given combination of values.
      *
      * @param string $string    The string to translate
      * @param string $key       The key (hash) identifier for translation-table
      * @param mixed  $arguments The arguments for inserting values into translation (vsprintf) or null
      *
-     * @return  string The translation of the input or the input string on failure
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The translation of the input or the input string on failure
+     * @access public
      */
     public function lookup($string, $key, $arguments = null)
     {
@@ -128,18 +124,14 @@ class DoozR_I18n_Module_Interface_Gettext extends DoozR_I18n_Module_Base_Interfa
      ******************************************************************************************************************/
 
     /**
-     * builds a translation-tables for giving locale and namespace
-     *
      * This method is intend to build a translation-tables for giving locale and namespace.
      *
      * @param string $locale     The locale the table get build for
      * @param array  $namespaces The namespace(s) of the table get build for
      *
-     * @return  array The final translationtable for given locale + namespace
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The final translationtable for given locale + namespace
+     * @access protected
      */
     protected function buildTranslationtable($locale, array $namespaces)
     {
@@ -185,7 +177,6 @@ class DoozR_I18n_Module_Interface_Gettext extends DoozR_I18n_Module_Base_Interfa
 
     private function _initI18n($locale, $namespace, $path)
     {
-
         setlocale (LC_ALL, $locale);
 
         pre($locale);
@@ -204,17 +195,13 @@ class DoozR_I18n_Module_Interface_Gettext extends DoozR_I18n_Module_Base_Interfa
 
 
     /**
-     * parses a translationfile
-     *
      * This method is intend to parse a translationfile and return the result as array.
      *
      * @param string $filename The name of the file to parse
      *
-     * @return  array The content of the given file
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The content of the given file
+     * @access private
      */
     private function _parseTranslationfile($filename)
     {
@@ -243,16 +230,11 @@ class DoozR_I18n_Module_Interface_Gettext extends DoozR_I18n_Module_Base_Interfa
     }
 
     /**
-     * checks if all requirements are fulfilled
-     *
      * This method is intend to check if all requirements are fulfilled.
      *
-     * @return  object Instance of this class
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception_Module
+     * @return object Instance of this class
+     * @access private
+     * @throws DoozR_I18n_Module_Exception
      * @static
      */
     private static function _checkRequirements()
@@ -278,17 +260,13 @@ class DoozR_I18n_Module_Interface_Gettext extends DoozR_I18n_Module_Base_Interfa
      ******************************************************************************************************************/
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
      * @param string $config The config for this type of interface
      *
-     * @return  object Instance of this class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access protected
      */
     protected function __construct(array $config)
     {

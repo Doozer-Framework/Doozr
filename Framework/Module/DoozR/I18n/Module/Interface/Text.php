@@ -54,12 +54,12 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Interface/Base.php';
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Interface - Text
  *
- * Translation-Interface
+ * Translation-Interface to text
  *
  * @category   DoozR
  * @package    DoozR_Module
@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Interface.php';
  * @see        -
  * @since      -
  */
-class DoozR_I18n_Module_Interface_Text extends DoozR_I18n_Module_Base_Interface
+class DoozR_I18n_Module_Interface_Text extends DoozR_I18n_Module_Interface_Base
 {
     /**
      * path to locale files (filesystem)

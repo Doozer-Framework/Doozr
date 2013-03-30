@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - Measure
  *
  * Measure.php - Measurement formatter
  *
@@ -54,10 +54,10 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Format.php';
+require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Format/Abstract.php';
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - Measure
  *
  * Measurement formatter
  *
@@ -123,15 +123,13 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * sets the input measure system for current instance
-     *
      * This method is intend to set the measure system for input of the current instance. Can be either uscs or si.
      *
      * @param string $system The system used for input
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function setInputMeasureSystem($system = null)
     {
@@ -145,13 +143,11 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * returns the input measure system
-     *
      * This method is intend to return the measure system for input.
      *
-     * @return  string The measure system used for input
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The measure system used for input
+     * @access public
      */
     public function getInputMeasureSystem()
     {
@@ -159,15 +155,13 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * sets the output measure system for current instance
-     *
      * This method is intend to set the measure system for output of the current instance. Can be either uscs or si.
      *
      * @param string $system The system used for output
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function setOutputMeasureSystem($system = null)
     {
@@ -181,13 +175,11 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * returns the output measure system
-     *
      * This method is intend to return the measure system for output.
      *
-     * @return  string The measure system used for output
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The measure system used for output
+     * @access public
      */
     public function getOutputMeasureSystem()
     {
@@ -195,15 +187,13 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * returns state of validity for a given measure system
-     *
      * This method is intend to return the state of validity for a given measure system.
      *
      * @param string $system A measure system to check
      *
-     * @return  boolean TRUE if given measure system is valid, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if given measure system is valid, otherwise FALSE
+     * @access public
      */
     public function isValidMeasureSystem($system = null)
     {
@@ -211,13 +201,11 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * returns a list of available measure systems
-     *
      * This method is intend to return a list of available measure systems.
      *
-     * @return  array A list (collection) of available measure systems
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array A list (collection) of available measure systems
+     * @access public
      */
     public function getAvailableSystems()
     {
@@ -225,16 +213,14 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * checks the validity of a choosen format
-     *
      * This method is intend to check the validity of a choosen format.
      *
      * @param integer $countChoices The count of choices maximum possible
      * @param integer $format       The format (choice) of user
      *
-     * @return  integer The given input if valid, otherwise 0
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The given input if valid, otherwise 0
+     * @access public
      */
     public function validunit($countChoices, $format)
     {
@@ -249,8 +235,6 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a liquid value from the input system to the output system
-     *
      * This method is intend to convert a liquid value from the input system to the output system.
      *
      * @param integer $input        The input
@@ -268,9 +252,9 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      * 6: hl|gal,
      * 7: hl|barrel
      *
-     * @return  double The result of the conversion
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return double The result of the conversion
+     * @access public
      */
     public function liquid($input = 0, $inputFormat = 0, $outputFormat = 0)
     {
@@ -309,8 +293,6 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a linear value from the input system to the output system
-     *
      * This method is intend to convert a liquid value from the input system to the output system.
      *
      * @param integer $input        The input
@@ -325,9 +307,9 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      * 3: m|fur,
      * 4: km|mi,
      *
-     * @return  double The result of the conversion
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return double The result of the conversion
+     * @access public
      */
     public function linear($input = 0, $inputFormat = 0, $outputFormat = 0)
     {
@@ -360,15 +342,13 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a temperature value from the input system to the output system
-     *
      * This method is intend to convert a temperature value from the input system to the output system.
      *
      * @param integer $input The input
      *
-     * @return  double The result of the conversion
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return double The result of the conversion
+     * @access public
      */
     public function temperature($input = 0)
     {
@@ -395,15 +375,13 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * returns the localized (translated) unit for the last conversion
-     *
      * This method is intend to return the localized (translated) unit for the last conversion.
      *
      * @param integer $type The type to use for retrieving the unit (1 = short, 2 = long, 3 = abbr long)
      *
-     * @return  string The requested unit
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested unit
+     * @access public
      */
     public function unit($type = 3)
     {
@@ -438,8 +416,6 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * converts a cooking value to teaspoon (is)|teaspoon (uscs)
-     *
      * This method is intend to convert a cooking value to teaspoon (is)|teaspoon (uscs).
      *
      * @param integer $input  The input to convert
@@ -451,9 +427,9 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      * 1: tablespoon (is)|tablespoon (uscs),
      * 2: tablespoon (is)|cup
      *
-     * @return  double The converted result
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return double The converted result
+     * @access private
      */
     private function _cookingDownsize($input = 0, $format = 0)
     {
@@ -469,8 +445,6 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a capacity value to mm³|cu in
-     *
      * This method is intend to convert a capacity value to mm³|cu in.
      *
      * @param integer $input  The input to convert
@@ -484,9 +458,9 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      * 3: m³|acre fd,
      * 4: km³|cu mi
      *
-     * @return  double The converted result
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return double The converted result
+     * @access private
      */
     private function _capacityDownsize($input = 0, $format = 0)
     {
@@ -502,8 +476,6 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a linear value to mm|in
-     *
      * This method is intend to convert a linear value to mm|in
      *
      * @param integer $input  The input to convert
@@ -517,9 +489,9 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      * 3: m|fur,
      * 4: km|mi
      *
-     * @return  double The converted result
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return double The converted result
+     * @access private
      */
     private function _linearDownsize($input = 0, $format = 0)
     {
@@ -535,8 +507,6 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a surface value to mm²|sq in
-     *
      * This method is intend to convert a surface value to mm²|sq in
      *
      * @param integer $input  The input to convert
@@ -552,9 +522,9 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      * 5: ha|sq mi,
      * 6: km²|sq mi
      *
-     * @return  double The converted result
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return double The converted result
+     * @access private
      */
     private function _surfaceDownsize($input = 0, $format = 0)
     {
@@ -571,8 +541,6 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a weight value to mg|grain (no british weights!)
-     *
      * This method is intend to convert a weight value to mg|grain (no british weights!).
      *
      * @param integer $input  The input to convert
@@ -588,9 +556,9 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      * 5: kg|cwt,
      * 6: ton_is|ton_us
      *
-     * @return  double The converted result
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return double The converted result
+     * @access private
      */
     private function _weightDownsize($input = 0, $format = 0)
     {
@@ -606,8 +574,6 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a liquid value to ml|min
-     *
      * This method is intend to convert a liquid value to ml|min.
      *
      * @param integer $input  The input to convert
@@ -624,9 +590,9 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      * 6: hl|gal,
      * 7: hl|barrel
      *
-     * @return  double The converted result
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return double The converted result
+     * @access private
      */
     private function _liquidDownsize($input = 0, $format = 0)
     {
@@ -650,23 +616,21 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry $registry   The DoozR_Registry instance
-     * @param string         $locale     The locale this instance is working with
-     * @param string         $namespace  The active namespace of this format-class
-     * @param object         $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object         $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object         $translator An instance of a translator (for locale)
+     * @param DoozR_Registry_Interface &$registry  The DoozR_Registry instance
+     * @param string                   $locale     The locale this instance is working with
+     * @param string                   $namespace  The active namespace of this format-class
+     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object                   $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $translator An instance of a translator (for locale)
      *
-     * @return  object Instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access public
      */
     public function __construct(
-        $registry = null,
+        DoozR_Registry_Interface &$registry = null,
         $locale = null,
         $namespace = null,
         $configI18n = null,

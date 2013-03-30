@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Interface - Base
  *
- * Interface.php - I18n Translation Base Interface
+ * Base.php - I18n Translation Base Interface
  *
  * PHP versions 5
  *
@@ -57,9 +57,9 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 
 /**
- * DoozR Module I18n - Translation-Interface-Base
+ * DoozR - I18n - Module - Interface - Base
  *
- * Translation-Interface-Base
+ * I18n Translation Base Interface
  *
  * @category   DoozR
  * @package    DoozR_Module
@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
  * @see        -
  * @since      -
  */
-class DoozR_I18n_Module_Base_Interface extends DoozR_Base_Class_Singleton
+class DoozR_I18n_Module_Interface_Base extends DoozR_Base_Class_Singleton
 {
     /**
      * the translation table collection (for all locale!)
@@ -174,17 +174,13 @@ class DoozR_I18n_Module_Base_Interface extends DoozR_Base_Class_Singleton
      ******************************************************************************************************************/
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
      * @param string $config The config for this type of interface
      *
-     * @return  object Instance of this class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access protected
      */
     protected function __construct($config)
     {

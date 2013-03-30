@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - String
  *
  * String.php - String formatter
  *
@@ -54,10 +54,10 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Format.php';
+require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Format/Abstract.php';
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - String
  *
  * String formatter
  *
@@ -75,7 +75,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Format.php';
 class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
 {
     /**
-     * holds the bad-word-table
+     * The bad-word-table
      *
      * @var array
      * @access private
@@ -83,7 +83,7 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
     private $_badWordTable;
 
     /**
-     * holds the special-word-table
+     * The special-word-table
      *
      * @var array
      * @access private
@@ -91,7 +91,7 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
     private $_specialWordTable;
 
     /**
-     * holds the tags for special-word replacement
+     * The tags for special-word replacement
      *
      * @var array
      * @access private
@@ -103,7 +103,7 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
     );
 
     /**
-     * holds the code templates used by highlightSpecialWords()
+     * The code templates used by highlightSpecialWords()
      *
      * @var array
      * @access private
@@ -120,17 +120,13 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * returns a string with highlighted acronyms, definitions and abbreviations
-     *
      * This method is intend to return a string with highlighted acronyms, definitions and abbreviations.
      *
      * @param string $string The string to highlight words in
      *
-     * @return  string The processed string
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The processed string
+     * @access public
      */
     public function highlightSpecialWords($string)
     {
@@ -164,19 +160,14 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
         return $string;
     }
 
-
     /**
-     * removes a bad-word from a given string
-     *
      * This method is intend to remove a bad-word from a given string.
      *
      * @param string $string The string to check for containing bad-word
      *
-     * @return  string The replaced value if bad-word found, otherwise the original-input
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The replaced value if bad-word found, otherwise the original-input
+     * @access public
      */
     public function removeBadWords($string)
     {
@@ -217,15 +208,11 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * creates the special-word table
-     *
      * This method is intend to create the special-word table
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _createSpecialWordTable()
     {
@@ -242,17 +229,12 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
         }
     }
 
-
     /**
-     * creates the bad-word table
-     *
      * This method is intend to create the bad-word table
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _createBadWordTable()
     {
@@ -280,25 +262,21 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry $registry   The DoozR_Registry instance
-     * @param string         $locale     The locale this instance is working with
-     * @param string         $namespace  The active namespace of this format-class
-     * @param object         $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object         $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object         $translator An instance of a translator (for locale)
+     * @param DoozR_Registry_Interface &$registry  The DoozR_Registry instance
+     * @param string                   $locale     The locale this instance is working with
+     * @param string                   $namespace  The active namespace of this format-class
+     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object                   $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $translator An instance of a translator (for locale)
      *
-     * @return  object Instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access public
      */
     public function __construct(
-        $registry = null,
+        DoozR_Registry_Interface &$registry = null,
         $locale = null,
         $namespace = null,
         $configI18n = null,

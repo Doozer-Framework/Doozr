@@ -31,7 +31,6 @@ $i18n = DoozR_Loader_Moduleloader::load('i18n', array('de', $registry->config));
 $translator = $i18n->getTranslator();
 $translator->setNamespace('default');
 $translated = $translator->_('x_books_in_my_y_shelves', array(921, 8));
-
 pre($translated);
 
 /**
@@ -39,6 +38,7 @@ pre($translated);
  * available formatter: datetime, currency, measure, number, string
  */
 $formatter = $i18n->getFormatter('datetime');
+pre($formatter->getConfig());
 pre($formatter->shortTime(time()));
 
 ?>

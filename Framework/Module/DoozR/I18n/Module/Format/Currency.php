@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - Currency
  *
  * Currency.php - Currency formatter
  *
@@ -54,10 +54,10 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Format.php';
+require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Format/Abstract.php';
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - Currency
  *
  * Currency.php - Currency formatter
  *
@@ -72,15 +72,13 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Format.php';
  * @see        -
  * @since      -
  */
-class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Base_Format
+class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstract
 {
     /*******************************************************************************************************************
      * // BEGIN PUBLIC INTERFACES
      ******************************************************************************************************************/
 
     /**
-     * formats a given value as correct currency
-     *
      * This method is intend to format a given value as correct currency.
      *
      * @param string  $value          The value to format as currency
@@ -89,11 +87,9 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Base_Format
      * @param string  $encoding       The encoding use to display the currency - null, html, ascii, unicode (ansi)
      * @param string  $symbolPosition set to "before" to show symbols on the left, or to "after" to show on right side
      *
-     * @return  string The correct formatted currency
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The correct formatted currency
+     * @access public
      */
     public function format(
         $value,
@@ -145,15 +141,11 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * returns the currency-code for the current active locale
-     *
      * This method is intend to return the currency-code for the current active locale.
      *
-     * @return  integer The currency-code
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The currency-code
+     * @access public
      */
     public function getCurrencyCode()
     {
@@ -170,18 +162,14 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * format dispatcher
-     *
      * This method is intend to act as format-dispatcher.
      *
      * @param integer $timestamp The timestamp to format
      * @param string  $format    The format to use for formatting input
      *
-     * @return  mixed Result of request
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of request
+     * @access private
      */
     private function _formatDate($timestamp = 0, $format = '')
     {
@@ -210,25 +198,21 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry $registry   The DoozR_Registry instance
-     * @param string         $locale     The locale this instance is working with
-     * @param string         $namespace  The active namespace of this format-class
-     * @param object         $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object         $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object         $translator An instance of a translator (for locale)
+     * @param DoozR_Registry_Interface &$registry  The DoozR_Registry instance
+     * @param string                   $locale     The locale this instance is working with
+     * @param string                   $namespace  The active namespace of this format-class
+     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object                   $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $translator An instance of a translator (for locale)
      *
-     * @return  object Instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access public
      */
     public function __construct(
-        $registry = null,
+        DoozR_Registry_Interface &$registry = null,
         $locale = null,
         $namespace = null,
         $configI18n = null,

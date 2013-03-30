@@ -54,7 +54,7 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Format.php';
+require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Format/Abstract.php';
 
 /**
  * DoozR - I18n - Module - Format - Datetime
@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Format.php';
  * @see        -
  * @since      -
  */
-class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
+class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstract
 {
     /**
      * holds the active timeformat

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - Number
  *
  * Number.php - Number formatter
  *
@@ -54,10 +54,10 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Format.php';
+require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Format/Abstract.php';
 
 /**
- * DoozR Module I18n - Format-Number
+ * DoozR - I18n - Module - Format - Number
  *
  * Format-Number-Class
  *
@@ -79,19 +79,15 @@ class DoozR_I18n_Module_Format_Number extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * formats a given value as percentage value
-     *
      * This method is intend to format a given value as percentage value.
      *
      * @param string  $value      The value to format as percentage value
      * @param boolean $showSymbol TRUE to show %-symbol, FALSE to hide
      * @param string  $spacer     The spacer placed between value and symbol
      *
-     * @return  string The formatted percentage value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formatted percentage value
+     * @access public
      */
     public function percent($value, $showSymbol = false, $spacer = ' ')
     {
@@ -113,18 +109,14 @@ class DoozR_I18n_Module_Format_Number extends DoozR_I18n_Module_Base_Format
 
 
     /**
-     * formats a given value as percentage value
-     *
      * This method is intend to format a given value as percentage value.
      *
      * @param string  $value                 The value to format as percentage value
      * @param boolean $floatingPointNotation Controls if the number should be formatted by floating point notation
      *
-     * @return  string The formatted percentage value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formatted percentage value
+     * @access public
      */
     public function number($value, $floatingPointNotation = false)
     {
