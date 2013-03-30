@@ -232,7 +232,7 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
      * sets PHP's default-mimetype (php.ini) to our configured value (default = text/html)
      *
      * This method is intend to set the default-mimetype (default_mimetype) for PHP's output operations to the value
-     * configured (Config.ini.php)
+     * configured
      *
      * @param string $mimetype The mimetype to define as PHP's default
      *
@@ -259,10 +259,10 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
      * @author  Benjamin Carl <opensource@clickalicious.de>
      * @since   Method available since Release 1.0.0
      * @version 1.0
-     */    
+     */
     private function _setOutputHandler($handler = 'mb_output_handler')
     {
-    	ob_start($handler);
+        ob_start($handler);
     }
 }
 

@@ -93,7 +93,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract implements DoozR_Logger_I
     protected $version = '$Rev$';
 
     /**
-     * holds the logger retrieved from Config.ini.php
+     * holds the logger retrieved from configuration
      *
      * @var array
      * @access private

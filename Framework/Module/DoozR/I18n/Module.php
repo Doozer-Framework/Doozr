@@ -323,6 +323,8 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton implements PHPTAL_Tr
         // retrieve valid input
         $input = $this->_validateInput($locale);
 
+        $type = ucfirst(strtolower($type));
+
         if ($input['redirect']) {
             return $this->getFormatter($type, $this->getActiveLocale());
 

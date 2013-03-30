@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - Datetime
  *
  * Datetime.php - Datetime formatter
  *
@@ -57,7 +57,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Base/Format.php';
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module - Format - Datetime
  *
  * Datetime formatter
  *
@@ -136,15 +136,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * checks if a given timecode is valid
-     *
      * This method is intend to check if a given timecode is valid.
      *
      * @param integer $timecode The timecode to check
      *
-     * @return  boolean TRUE if valid, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
      */
     public function isValidTimeCode($timecode = 0)
     {
@@ -152,15 +150,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * checks if a string is a valid iso date
-     *
      * This method is intend to check if a string is a valid iso date.
      *
      * @param string $date The date to check
      *
-     * @return  boolean TRUE if valid, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
      */
     public function isValidIsoDate($date)
     {
@@ -168,15 +164,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * checks if a string is a valid iso date
-     *
      * This method is intend to check if a string is a valid iso date.
      *
      * @param string $date The date to check
      *
-     * @return  boolean TRUE if valid, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
      */
     public function isValidIsoDatetime($date)
     {
@@ -184,15 +178,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * checks if a timestamp is valid
-     *
      * This method is intend to check if timestamp is valid.
      *
      * @param integer $timestamp The timestamp to check
      *
-     * @return  boolean TRUE if valid, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
      */
     public function isValidUnixTimestamp($timestamp)
     {
@@ -200,15 +192,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts an iso-date to unix-timestamp
-     *
      * This method is intend to convert an iso-date to unix-timestamp.
      *
      * @param string $date The date to convert
      *
-     * @return  integer The resulting unix-timestamp
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The resulting unix-timestamp
+     * @access public
      */
     public function isoDateToUnixTimestamp($date = '1900-01-01')
     {
@@ -216,15 +206,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts an iso-datetime to unix-timestamp
-     *
      * This method is intend to convert an iso-datetime to unix-timestamp.
      *
      * @param string $date The datetime to convert
      *
-     * @return  integer The resulting unix-timestamp
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The resulting unix-timestamp
+     * @access public
      */
     public function isoDatetimeToUnixTimestamp($date = '1900-01-01 00:00:00')
     {
@@ -238,9 +226,9 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
      *
      * @param integer $timestamp The timestamp to convert to an iso-date
      *
-     * @return  string The resulting iso-date
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting iso-date
+     * @access public
      */
     public function unixTimestampToIsodate($timestamp = 0)
     {
@@ -248,15 +236,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a timestamp to an iso-time
-     *
      * This method is intend to convert a timestamp to an iso-time.
      *
      * @param integer $timestamp The timestamp to convert to an iso-time
      *
-     * @return  string The resulting iso-time
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting iso-time
+     * @access public
      */
     public function unixTimestampToIsoTime($timestamp = 0)
     {
@@ -264,15 +250,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a timestamp to an iso-datetime
-     *
      * This method is intend to convert a timestamp to an iso-datetime.
      *
      * @param integer $timestamp The timestamp to convert to an iso-datetime
      *
-     * @return  string The resulting iso-datetime
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting iso-datetime
+     * @access public
      */
     public function unixTimestampToIsoDatetime($timestamp = 0)
     {
@@ -280,19 +264,17 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a timestamp to a short-date
-     *
      * This method is intend to convert a timestamp to a short-date.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting short-date
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting short-date
+     * @access public
      */
     public function shortDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configI10n->date->short_date());
+        return $this->_formatDate($timestamp, $this->configI10n->DATETIME->SHORT_DATE());
     }
 
     /**
@@ -308,151 +290,133 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
      */
     public function middleDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configI10n->date->middle_date());
+        return $this->_formatDate($timestamp, $this->configI10n->DATETIME->middle_date());
     }
 
     /**
-     * converts a timestamp to a long-date
-     *
      * This method is intend to convert a timestamp to a long-date.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting long-date
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting long-date
+     * @access public
      */
     public function longDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configI10n->date->long_date());
+        return $this->_formatDate($timestamp, $this->configI10n->DATETIME->long_date());
     }
 
     /**
-     * converts a timestamp to short-time
-     *
      * This method is intend to convert a timestamp to short-time.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting short-time
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting short-time
+     * @access public
      */
     public function shortTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configI10n->date->short_time());
+        return $this->_formatTime($timestamp, $this->configI10n->DATETIME->SHORT_TIME());
     }
 
     /**
-     * converts a timestamp to middle-time
-     *
      * This method is intend to convert a timestamp to middle-time.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting middle-time
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting middle-time
+     * @access public
      */
     public function middleTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configI10n->date->middle_time());
+        return $this->_formatTime($timestamp, $this->configI10n->DATETIME->middle_time());
     }
 
     /**
-     * converts a timestamp to long-time
-     *
      * This method is intend to convert a timestamp to long-time.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting long-time
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting long-time
+     * @access public
      */
     public function longTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configI10n->date->long_time());
+        return $this->_formatTime($timestamp, $this->configI10n->DATETIME->long_time());
     }
 
     /**
-     * converts a timestamp to short-Datetime
-     *
      * This method is intend to convert a timestamp to short-Datetime.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting short-Datetime
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting short-Datetime
+     * @access public
      */
     public function shortDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configI10n->date->short_datetime());
+        return $this->_formatDatetime($timestamp, $this->configI10n->DATETIME->SHORT_DATETIME());
     }
 
     /**
-     * converts a timestamp to middle-Datetime
-     *
      * This method is intend to convert a timestamp to middle-Datetime.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting middle-Datetime
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting middle-Datetime
+     * @access public
      */
     public function middleDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configI10n->date->middle_datetime());
+        return $this->_formatDatetime($timestamp, $this->configI10n->DATETIME->MIDDLE_DATETIME());
     }
 
     /**
-     * converts a timestamp to long-Datetime
-     *
      * This method is intend to convert a timestamp to long-Datetime.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting long-Datetime
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting long-Datetime
+     * @access public
      */
     public function longDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configI10n->date->long_datetime());
+        return $this->_formatDatetime($timestamp, $this->configI10n->DATETIME->long_datetime());
     }
 
     /**
-     * converts a timestamp to localized (I10n) month name
-     *
      * This method is intend to convert a timestamp to localized (I10n) month name.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting month name
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting month name
+     * @access public
      */
     public function monthName($timestamp = 0)
     {
         // get month from timestamp
-        $month = (int) date('n', $timestamp) - 1;
+        $month = (int)date('n', $timestamp) - 1;
 
         // return translated (localized) month-name
         return $this->translator->_($this->_month[$month]);
     }
 
     /**
-     * converts a timestamp to localized (I10n) day name
-     *
      * This method is intend to convert a timestamp to localized (I10n) day name.
      *
      * @param integer $timestamp The timestamp to convert
      *
-     * @return  string The resulting day name
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting day name
+     * @access public
      */
     public function dayName($timestamp = 0)
     {
@@ -461,13 +425,11 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * returns a list of available timesets
-     *
      * This method is intend to return a list of available timesets.
      *
-     * @return  array List/collection of available timesets
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array List/collection of available timesets
+     * @access public
      */
     public function getAvailableTimesets()
     {
@@ -485,13 +447,11 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * returns the active timeset
-     *
      * This method is intend to return the active timeset.
      *
-     * @return  string The currently active timeset
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The currently active timeset
+     * @access public
      */
     public function getTimeset()
     {
@@ -501,15 +461,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * sets the active timeset
-     *
      * This method is intend to set the active timeset.
      *
      * @param integer $timeset The timeset to set active
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function setTimeset($timeset = 0)
     {
@@ -517,15 +475,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a timestamp to swatch-time
-     *
      * This method is intend to convert a timestamp to swatch-time.
      *
      * @param integer $timestamp The timestamp to convert to swatch-time
      *
-     * @return  string Beats of swatch-time for given timestamp
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Beats of swatch-time for given timestamp
+     * @access public
      */
     public function swatchTime($timestamp = 0)
     {
@@ -533,15 +489,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * converts a timestamp to swatch-date
-     *
      * This method is intend to convert a timestamp to swatch-date.
      *
      * @param integer $timestamp The timestamp to convert to swatch-time
      *
-     * @return  string Swatch-date for given timestamp
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Swatch-date for given timestamp
+     * @access public
      */
     public function swatchDate($timestamp = 0)
     {
@@ -557,16 +511,14 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * format dispatcher
-     *
      * This method is intend to act as format-dispatcher.
      *
      * @param integer $timestamp The timestamp to format
      * @param string  $format    The format to use for formatting input
      *
-     * @return  mixed Result of request
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of request
+     * @access private
      */
     private function _formatDate($timestamp = 0, $format = '')
     {
@@ -587,16 +539,14 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * format dispatcher
-     *
      * This method is intend to act as format-dispatcher.
      *
      * @param integer $timestamp The timestamp to format
      * @param string  $format    The format to use for formatting input
      *
-     * @return  mixed Result of request
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of request
+     * @access private
      */
     private function _formatTime($timestamp = 0, $format = '')
     {
@@ -617,16 +567,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * format dispatcher
-     *
      * This method is intend to act as format-dispatcher.
      *
      * @param integer $timestamp The timestamp to format
      * @param string  $format    The format to use for formatting input
      *
-     * @return  mixed Result of request
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of request
+     * @access private
      */
     private function _formatDatetime($timestamp = 0, $format = '')
     {
@@ -647,15 +594,13 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * encodes a datestring
-     *
      * This method is intend to encode a datestring.
      *
      * @param string $string The string to encode
      *
-     * @return  string The encoded string
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The encoded string
+     * @access private
      */
     private function _encodeDate($string = '')
     {
@@ -672,16 +617,14 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
     }
 
     /**
-     * applies a filter
-     *
      * This method is intend to encode a datestring.
      *
      * @param string  $format    The format to use for formatting timestamp
      * @param integer $timestamp The timestamp to convert/format
      *
-     * @return  mixed Result of request
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of request
+     * @access private
      */
     private function _dateFilter($format = '', $timestamp = 0)
     {
@@ -738,8 +681,6 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
      ******************************************************************************************************************/
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
      * @param DoozR_Registry $registry   The DoozR_Registry instance
@@ -749,23 +690,23 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Base_Format
      * @param object         $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      * @param object         $translator An instance of a translator (for locale)
      *
-     * @return  object Instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access public
      */
     public function __construct(
         $registry = null,
         $locale = null,
         $namespace = null,
-        $configI18n = null,
-        $configI10n = null,
+        $configI18n = null,                    // THIS is the config of DoozR (main .config) including section "I18n"
+        $configI10n = null,                   //  THIS is the I18n/L10n configuration of the current active locale
         $translator = null
     ) {
         // set type of format-class
         $this->type = 'Datetime';
 
         // store the default and active timeset
-        $this->_timeset = $configI10n->date->default_timeset();
+        $this->_timeset = $configI10n->DATETIME->DEFAULT_TIMESET();
 
         // call parents construtor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configI10n, $translator);
