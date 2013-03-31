@@ -81,11 +81,11 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
     /**
      * This method is intend to format a given value as correct currency.
      *
-     * @param string  $value          The value to format as currency
-     * @param boolean $notation       Defines which notation is shown - can be either null, long, short, symbol
-     * @param string  $country        The countrycode of the country of the current processed currency
-     * @param string  $encoding       The encoding use to display the currency - null, html, ascii, unicode (ansi)
-     * @param string  $symbolPosition set to "before" to show symbols on the left, or to "after" to show on right side
+     * @param string $value          The value to format as currency
+     * @param mixed  $notation       Notation to be shown - can be either (null = no), long, short, symbol
+     * @param string $country        The countrycode of the country of the current processed currency
+     * @param string $encoding       The encoding use to display the currency - null, html, ascii, unicode (ansi)
+     * @param string $symbolPosition Set to "l" to show symbols on the left, or to "r" to show on right side
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The correct formatted currency
@@ -104,9 +104,9 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
         // format the given value
         $formatted = number_format(
             $value,
-            $this->configI10n->currency->minor_unit(),
-            $this->configI10n->currency->decimal_point(),
-            $this->configI10n->currency->thousands_seperator()
+            $this->configL10n->CURRENCY->MINOR_UNIT(),
+            $this->configL10n->CURRENCY->DECIMAL_POINT(),
+            $this->configL10n->CURRENCY->THOUSANDS_SEPERATOR()
         );
 
         // is value = major (1) or minor (0)
@@ -114,19 +114,19 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
 
         // check for position override
         if (!$symbolPosition) {
-            $symbolPosition = $this->configI10n->currency->symbol_position();
+            $symbolPosition = $this->configL10n->CURRENCY->SYMBOL_POSITION();
         }
 
         // if notation set overwrite it with the concrete notation
         if ($notation) {
-            // get notation from currency-table
+            // get notation from CURRENCY-table
             $encoding = ($notation == 'symbol' && $encoding) ? '_'.strtoupper($encoding) : '';
 
-            // get notation from translator
-            $notation = $this->translator->_($country.'_'.$type.'_'.$notation.$encoding);
+            // get notation
+            $notation = $this->getConfig()->{strtoupper($country)}->MAJOR_SYMBOL();
 
             // spacing between curreny-symbol and value
-            $notationSpace = $this->configI10n->currency->notation_space();
+            $notationSpace = $this->configL10n->CURRENCY->NOTATION_SPACE();
 
             // check where to add the symbol ...
             if ($symbolPosition == 'l') {
@@ -146,11 +146,17 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The currency-code
      * @access public
+     * @throws DoozR_I18n_Module_Exception
      */
     public function getCurrencyCode()
     {
-        // return currency code of current active locale
-        return $this->configI10n->currency->code();
+        try {
+            return $this->configL10n->CURRENCY->CODE();
+        } catch (Exception $e) {
+            throw new DoozR_I18n_Module_Exception('Error reading currency code from L10N config.', null, $e);
+        }
+
+        return null;
     }
 
     /*******************************************************************************************************************
@@ -160,34 +166,6 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
     /*******************************************************************************************************************
      * // BEGIN TOOLS + HELPER
      ******************************************************************************************************************/
-
-    /**
-     * This method is intend to act as format-dispatcher.
-     *
-     * @param integer $timestamp The timestamp to format
-     * @param string  $format    The format to use for formatting input
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Result of request
-     * @access private
-     */
-    private function _formatDate($timestamp = 0, $format = '')
-    {
-        switch ($this->_timeset) {
-        case 1:
-            // swatch date
-        return $this->swatchDate($timestamp) . ' – ' . $this->swatchTime($timestamp);
-        break;
-        case 2:
-            // iso date
-        return $this->unixTimestampToIsoDatetime($timestamp);
-        break;
-        default:
-            // default time
-        return date($this->_dateFilter($format, $timestamp), $timestamp);
-        break;
-        }
-    }
 
     /*******************************************************************************************************************
      * \\ BEGIN TOOLS + HELPER
@@ -200,11 +178,11 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface &$registry  The DoozR_Registry instance
+     * @param DoozR_Registry_Interface $registry  The DoozR_Registry instance
      * @param string                   $locale     The locale this instance is working with
      * @param string                   $namespace  The active namespace of this format-class
      * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -212,18 +190,18 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
      * @access public
      */
     public function __construct(
-        DoozR_Registry_Interface &$registry = null,
+        DoozR_Registry_Interface $registry = null,
         $locale = null,
         $namespace = null,
         $configI18n = null,
-        $configI10n = null,
+        $configL10n = null,
         $translator = null
     ) {
         // set type of format-class
         $this->type = 'Currency';
 
         // call parents construtor
-        parent::__construct($registry, $locale, $namespace, $configI18n, $configI10n, $translator);
+        parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
 
     /*******************************************************************************************************************

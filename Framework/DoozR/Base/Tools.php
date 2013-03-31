@@ -275,7 +275,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
                     $arguments = array($arguments);
                 }
 
-                // return instance with parameter
+                // return instance with parameter}
                 return $reflectionOfClass->newInstanceArgs($arguments);
             } else {
                 // return instance without parameter

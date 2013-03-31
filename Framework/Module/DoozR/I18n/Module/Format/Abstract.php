@@ -120,7 +120,7 @@ abstract class DoozR_I18n_Module_Format_Abstract extends DoozR_Base_Class
      * @var array
      * @access protected
      */
-    protected $configI10n;
+    protected $configL10n;
 
     /**
      * translator instance for active locale
@@ -182,11 +182,11 @@ abstract class DoozR_I18n_Module_Format_Abstract extends DoozR_Base_Class
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface &$registry  The registry
+     * @param DoozR_Registry_Interface $registry  The registry
      * @param string                   $locale     The locale this instance is working with
      * @param string                   $namespace  The active namespace of this format-class
      * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -194,11 +194,11 @@ abstract class DoozR_I18n_Module_Format_Abstract extends DoozR_Base_Class
      * @access public
      */
     public function __construct(
-        DoozR_Registry_Interface &$registry = null,
+        DoozR_Registry_Interface $registry = null,
         $locale = null,
         $namespace = null,
         $configI18n = null,
-        $configI10n = null,
+        $configL10n = null,
         $translator = null
     ) {
         // store registry
@@ -214,7 +214,7 @@ abstract class DoozR_I18n_Module_Format_Abstract extends DoozR_Base_Class
         $this->configI18n = $configI18n;
 
         // store configuration I10n
-        $this->configI10n = $configI10n;
+        $this->configL10n = $configL10n;
 
         // store translator
         $this->translator = $translator;

@@ -75,19 +75,15 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 class DoozR_I18n_Module_Exception extends DoozR_Exception
 {
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
      * @param string  $message  The exception-message
      * @param integer $code     The code of the exception
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
      *
-     * @return  object instance of this exception
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this exception
+     * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {

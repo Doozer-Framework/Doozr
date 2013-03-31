@@ -274,7 +274,7 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
      */
     public function shortDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configI10n->DATETIME->SHORT_DATE());
+        return $this->_formatDate($timestamp, $this->configL10n->DATETIME->SHORT_DATE());
     }
 
     /**
@@ -290,7 +290,7 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
      */
     public function middleDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configI10n->DATETIME->middle_date());
+        return $this->_formatDate($timestamp, $this->configL10n->DATETIME->middle_date());
     }
 
     /**
@@ -304,7 +304,7 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
      */
     public function longDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configI10n->DATETIME->long_date());
+        return $this->_formatDate($timestamp, $this->configL10n->DATETIME->long_date());
     }
 
     /**
@@ -318,7 +318,7 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
      */
     public function shortTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configI10n->DATETIME->SHORT_TIME());
+        return $this->_formatTime($timestamp, $this->configL10n->DATETIME->SHORT_TIME());
     }
 
     /**
@@ -332,7 +332,7 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
      */
     public function middleTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configI10n->DATETIME->middle_time());
+        return $this->_formatTime($timestamp, $this->configL10n->DATETIME->middle_time());
     }
 
     /**
@@ -346,7 +346,7 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
      */
     public function longTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configI10n->DATETIME->long_time());
+        return $this->_formatTime($timestamp, $this->configL10n->DATETIME->long_time());
     }
 
     /**
@@ -360,7 +360,7 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
      */
     public function shortDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configI10n->DATETIME->SHORT_DATETIME());
+        return $this->_formatDatetime($timestamp, $this->configL10n->DATETIME->SHORT_DATETIME());
     }
 
     /**
@@ -374,7 +374,7 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
      */
     public function middleDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configI10n->DATETIME->MIDDLE_DATETIME());
+        return $this->_formatDatetime($timestamp, $this->configL10n->DATETIME->MIDDLE_DATETIME());
     }
 
     /**
@@ -388,7 +388,7 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
      */
     public function longDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configI10n->DATETIME->long_datetime());
+        return $this->_formatDatetime($timestamp, $this->configL10n->DATETIME->long_datetime());
     }
 
     /**
@@ -421,7 +421,8 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
     public function dayName($timestamp = 0)
     {
         $day = (int)date('w', $timestamp);
-        return $this->translator->_($this->_day[$day]);
+        return $this->getConfig()->DATETIME->{$this->_day[$day]};
+        //return $this->translator->_($this->_day[$day]);
     }
 
     /**
@@ -683,35 +684,33 @@ class DoozR_I18n_Module_Format_Datetime extends DoozR_I18n_Module_Format_Abstrac
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry $registry   The DoozR_Registry instance
-     * @param string         $locale     The locale this instance is working with
-     * @param string         $namespace  The active namespace of this format-class
-     * @param object         $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object         $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object         $translator An instance of a translator (for locale)
+     * @param DoozR_Registry_Interface $registry   The DoozR_Registry instance
+     * @param string                   $locale     The locale this instance is working with
+     * @param string                   $namespace  The active namespace of this format-class
+     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of this class
      * @access public
      */
     public function __construct(
-        $registry = null,
+        DoozR_Registry_Interface $registry = null,
         $locale = null,
         $namespace = null,
         $configI18n = null,                    // THIS is the config of DoozR (main .config) including section "I18n"
-        $configI10n = null,                   //  THIS is the I18n/L10n configuration of the current active locale
-        $translator = null
+        $configL10n = null,                   //  THIS is the I18n/L10n configuration of the current active locale
+        DoozR_I18n_Module_Translator $translator = null
     ) {
         // set type of format-class
         $this->type = 'Datetime';
 
-        pre($translator);
-
         // store the default and active timeset
-        $this->_timeset = $configI10n->DATETIME->DEFAULT_TIMESET();
+        $this->_timeset = $configL10n->DATETIME->DEFAULT_TIMESET();
 
         // call parents construtor
-        parent::__construct($registry, $locale, $namespace, $configI18n, $configI10n, $translator);
+        parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
 
     /*******************************************************************************************************************

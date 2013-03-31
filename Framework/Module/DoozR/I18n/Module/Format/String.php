@@ -264,11 +264,11 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface &$registry  The DoozR_Registry instance
+     * @param DoozR_Registry_Interface $registry  The DoozR_Registry instance
      * @param string                   $locale     The locale this instance is working with
      * @param string                   $namespace  The active namespace of this format-class
      * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -276,18 +276,18 @@ class DoozR_I18n_Module_Format_String extends DoozR_I18n_Module_Base_Format
      * @access public
      */
     public function __construct(
-        DoozR_Registry_Interface &$registry = null,
+        DoozR_Registry_Interface $registry = null,
         $locale = null,
         $namespace = null,
         $configI18n = null,
-        $configI10n = null,
+        $configL10n = null,
         $translator = null
     ) {
         // set type of format-class
         $this->type = 'String';
 
         // call parents construtor
-        parent::__construct($registry, $locale, $namespace, $configI18n, $configI10n, $translator);
+        parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
 
     /*******************************************************************************************************************

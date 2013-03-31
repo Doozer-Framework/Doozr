@@ -139,7 +139,7 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
         }
 
         // otherwise set default measure-system of I10n
-        return ($this->_input = $this->configI10n->measure->measure_system());
+        return ($this->_input = $this->configL10n->measure->measure_system());
     }
 
     /**
@@ -171,7 +171,7 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
         }
 
         // otherwise set default measure-system of I10n
-        return ($this->_output = $this->configI10n->measure->measure_system());
+        return ($this->_output = $this->configL10n->measure->measure_system());
     }
 
     /**
@@ -618,11 +618,11 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface &$registry  The DoozR_Registry instance
+     * @param DoozR_Registry_Interface $registry  The DoozR_Registry instance
      * @param string                   $locale     The locale this instance is working with
      * @param string                   $namespace  The active namespace of this format-class
      * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -630,11 +630,11 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
      * @access public
      */
     public function __construct(
-        DoozR_Registry_Interface &$registry = null,
+        DoozR_Registry_Interface $registry = null,
         $locale = null,
         $namespace = null,
         $configI18n = null,
-        $configI10n = null,
+        $configL10n = null,
         $translator = null
     ) {
         // set type of format-class
@@ -645,7 +645,7 @@ class DoozR_I18n_Module_Format_Measure extends DoozR_I18n_Module_Base_Format
         $this->setOutputMeasureSystem($this->_defaultMeasureSystem);
 
         // call parents construtor
-        parent::__construct($registry, $locale, $namespace, $configI18n, $configI10n, $translator);
+        parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
 
     /*******************************************************************************************************************

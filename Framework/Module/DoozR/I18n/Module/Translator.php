@@ -104,7 +104,7 @@ class DoozR_I18n_Module_Translator extends DoozR_Base_Class
      * @var object
      * @access private
      */
-    private $_configI10n;
+    private $_configL10n;
 
     /**
      * the namespace(s) used by this instance
@@ -486,21 +486,21 @@ class DoozR_I18n_Module_Translator extends DoozR_Base_Class
      *
      * @param string                 $locale     The locale this instance is working with
      * @param DoozR_Config_Interface $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param DoozR_Config_Interface $configI10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param DoozR_Config_Interface $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      *
      * @return object Instance of this class
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function __construct($locale, DoozR_Config_Interface $configI18n, DoozR_Config_Interface $configI10n)
+    public function __construct($locale, DoozR_Config_Interface $configI18n, DoozR_Config_Interface $configL10n)
     {
         // store the locale of this instance assume no redirect -> work on given locale
         $this->_locale         = $locale;
-        $this->_redirectLocale = isset($configI10n->redirect) ? $configI10n->redirect->target() : null;
+        $this->_redirectLocale = isset($configL10n->redirect) ? $configL10n->redirect->target() : null;
 
         // store configurations
         $this->_configI18n = $configI18n;
-        $this->_configI10n = $configI10n;
+        $this->_configL10n = $configL10n;
 
         // call parents constructor
         parent::__construct();

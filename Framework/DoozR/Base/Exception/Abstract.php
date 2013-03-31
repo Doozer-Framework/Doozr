@@ -129,7 +129,7 @@ abstract class DoozR_Base_Exception_Generic_Abstract extends Exception
         }
 
         // call parents constructor
-        parent::__construct($message, $code);
+        parent::__construct($message, $code, $previous);
     }
 
 

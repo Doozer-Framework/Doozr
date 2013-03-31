@@ -337,7 +337,7 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton implements PHPTAL_Tr
                     null,
                     self::$_configreader,
                     $input['configreader'],
-                    null
+                    $this->getTranslator()
                 ),
                 'getInstance'
             );

@@ -245,7 +245,7 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
             $firstCharOfLine = substr($line, 0, 1);
 
             // jump if comment ; or #
-            if ($firstCharOfLine != ';' && $firstCharOfLine != '#') {
+            if ($firstCharOfLine !== ';' && $firstCharOfLine !== '#') {
                 // parse line
                 if (preg_match('/^\s*\[\s*(.*)\s*\]\s*$/', $line, $matches)) {
                     // section header
