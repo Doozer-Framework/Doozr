@@ -33,14 +33,24 @@ $translator->setNamespace('default');
 $translated = $translator->_('x_books_in_my_y_shelves', array(921, 8));
 pre($translated);
 
+
 /**
  * demonstrate some formatter stuff:
  * available formatter: datetime, currency, measure, number, string
+ *
+ * Demonstrate - formatter: Datetime
  */
-$formatter = $i18n->getFormatter('datetime');
-$time = $formatter->shortTime(time());
-$day = $formatter->dayName(time());
-
+$formatterDatetime = $i18n->getFormatter('datetime');
+$time = $formatterDatetime->shortTime(time());
+$day = $formatterDatetime->dayName(time());
 pre($day);
+
+
+/**
+ * Demonstrate - formatter: Currency
+ */
+$formatterCurrency = $i18n->getFormatter('currency');
+$currencyCode = $formatterCurrency->getCurrencyCode();
+pre($formatterCurrency->format(127, 'symbol', 'gb'));
 
 ?>
