@@ -4,7 +4,7 @@
 /**
  * DoozR - Demo - Controller
  *
- * ControllerDemo.class.php - This is an example controller for Demo-
+ * Demo.php - This is an example controller for Demo
  *
  * PHP versions 5
  *
@@ -73,47 +73,35 @@
 final class Controller_Demo extends DoozR_Base_Controller implements DoozR_Base_Controller_Interface
 {
     /**
-     * initializes the class
-     *
      * __init initializes the class and get automatic called on
      * instanciation. DO NOT USE __construct (in MVC)
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
-	protected function __init()
-	{
-	    /*
+    protected function __init()
+    {
         pre(
-            __init() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.$this->object.
+            '__init() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.$this->object.
             ' and the action '.$this->action
         );
-        */
-	}
+    }
 
 
     /**
-     * magic on __cleanup
-     *
      * This method is intend to __cleanup
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __destroy()
     {
-        /*
         pre(
             '__destroy() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.$this->object.
             ' and the action '.$this->action
         );
-        */
     }
 }
 

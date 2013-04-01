@@ -4,7 +4,7 @@
 /**
  * DoozR - Default - Controller
  *
- * ControllerDefault.class.php - This is an example controller "Default"
+ * Default.php - This is the default controller
  *
  * PHP versions 5
  *
@@ -57,7 +57,7 @@
 /**
  * DoozR - Default - Controller
  *
- * This is an example controller "Default"
+ * This is the default controller
  *
  * @category   DoozR
  * @package    DoozR_Default
@@ -73,16 +73,12 @@
 final class Controller_Default extends DoozR_Base_Controller implements DoozR_Base_Controller_Interface
 {
     /**
-     * initializes the class
-     *
      * __init initializes the class and get automatic called on
      * instanciation. DO NOT USE __construct (in MVC)
      *
-     * @return  void
-     * @access  protected
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access protected
      */
     protected function __init()
     {
@@ -94,15 +90,11 @@ final class Controller_Default extends DoozR_Base_Controller implements DoozR_Ba
 
 
     /**
-     * magic on __cleanup
-     *
      * This method is intend to __cleanup
      *
+     * @author  Benjamin Carl <opensource@clickalicious.de>
      * @return  void
      * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
      */
     public function __destroy()
     {

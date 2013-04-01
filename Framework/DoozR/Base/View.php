@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base View
+ * DoozR - Base - View
  *
  * View.php - Base class for view-layers from MV(C|P)
  *
@@ -57,9 +57,9 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/View/Observer.php';
 
 /**
- * DoozR - Base-View
+ * DoozR - Base - View
  *
- * Base/master-class for building a View
+ * Base master-class for building a view
  *
  * @category   DoozR
  * @package    DoozR_Base
@@ -149,8 +149,6 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
 
 
     /**
-     * Constructor of this class
-     *
      * This method is the constructor of this class.
      *
      * @param array                  $request     The whole request as processed by "Route"
@@ -159,9 +157,9 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      * @param DoozR_Cache_Module     $cache       An instance of DoozR_Cache
      * @param DoozR_Controller_Front $front       An instance of DoozR_Front
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(
         array $request,
@@ -185,13 +183,11 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
     }
 
     /**
-     * called on destruction of the class
-     *
      * This method is intend to call the teardown method of a model if exist
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __destruct()
     {
@@ -202,16 +198,14 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
     }
 
     /**
-     * sets the data to used by the action method
-     *
      * This method is the setter for the data to use in the action method.
      *
      * @param mixed   $data   The data to set
      * @param boolean $render Controls if renderer (if exist) should be called (set to TRUE)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if successful, otherwise FALSE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setData($data = null, $render = true)
     {
@@ -235,8 +229,6 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
     }
 
     /**
-     * Renders the current view
-     *
      * This method is intend to render the current state of the view as html.
      * For this it makes use of the base template engine, and html5 template
      * files. If you need another output or something like this, you must
@@ -244,11 +236,11 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      *
      * @param array $data The data as override for internal stored data
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if successful, otherwise FALSE
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function render(array $data = array())
+    protected function render(array $data = array(), DoozR_I18n_Module $i18n = null)
     {
         // store given fingerprint
         $this->fingerprint = $this->getFingerprint(1);
@@ -265,10 +257,19 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
             // load the template (generic template engine)
             $tpl = DoozR_Loader_Moduleloader::load('template', array($tplFile));
 
+            if ($i18n) {
+                $tpl->setTranslator($i18n);
+            }
+
             // set data for template
-            $tpl->assignVariables(
-                $data
-            );
+            foreach ($data as $key => $value) {
+                $tpl->{$key} = $value;
+                /*
+                $tpl->assignVariables(
+                    $data
+                );
+                */
+            }
 
             // setup template compile output dir
             $tpl->setPhpCodeDestination(
@@ -319,13 +320,11 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
     }
 
     /**
-     * translates the current object and action pair to a filename
-     *
      * This method is intend to translate the current object and action pair to a filename
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The filename constructed
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function translateToTemplatefile()
     {
@@ -340,16 +339,14 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
     }
 
     /**
-     * Returns the fingerprint for the current instance
-     *
      * This method is intend to return the fingerprint for the current instance.
      *
      * @param string $uniqueId An unique Id like a session-id or user-id which
      *                         makes the template unique to this single user
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The calculated fingerprint
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function getFingerprint($uniqueId)
     {

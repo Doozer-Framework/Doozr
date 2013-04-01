@@ -239,15 +239,13 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      ******************************************************************************************************************/
 
     /**
-     * constructor
-     *
      * This method is the constructor of the core class.
      *
      * @param array $runtimeConfiguration Override-configuration which overrides app- and core-configuration
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function __construct(array $runtimeConfiguration = array())
     {
@@ -262,15 +260,13 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Starts timer
-     *
      * This method is intend to start the timer for measurement.
      *
      * @param boolean $includeWalltime TRUE to start timer including time from routing (absolute request time)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     private static function _startTimer($includeWalltime = true)
@@ -284,8 +280,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * bootstrapping of the core classes
-     *
      * This method is intend to start the bootstrapping process. It enables you to rerun the whole
      * bootstrapping process from outside by implementing this method as public. So you are able
      * to unit-test your application with a fresh bootstrapped core on each run.
@@ -348,8 +342,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes the registry
-     *
      * This method is intend to initialize the registry of the DoozR Framework. The registry itself
      * is intend to store the instances mainly used by core classes like DoozR_Path, DoozR_Config,
      * DoozR_Logger and this instances are always accessible by its name after the underscore (_ - written lowercase)
@@ -367,8 +359,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes the logger
-     *
      * This method is intend to initialize the logger-manager of the DoozR Framework. The first initialized logger
      * is of type collecting. So it collects all entries as long as the config isn't parsed and the real
      * configured loggers are attached.
@@ -388,8 +378,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes the path
-     *
      * This method is intend to initialize the path-manager of the DoozR Framework. The path-manager returns
      * always the correct path to predefined parts of the framework and it is also cappable of combining paths
      * in correct slashed writing.
@@ -409,8 +397,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes the configuration
-     *
      * This method is intend to initialize and prepare the config used for running the framework and the app.
      *
      * @param mixed $runtimeConfiguration The runtime configuration passed as ARRAY or OBJECT
@@ -453,8 +439,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * configures the logging
-     *
      * This method is intend configure the logging. It attaches the real configured loggers from config and removes
      * the collecting logger. This method also injects the collected entries into the new attached loggers.
      *
@@ -494,8 +478,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes the encoding
-     *
      * This method is intend to initialize the encoding used internal and external (e.g. output)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -512,8 +494,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes locale
-     *
      * This method is intend to initialize the locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -531,8 +511,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * manage debug settings
-     *
      * This method is intend to configure the debug-behavior of PHP. I tries to runtime patch php.ini-settings
      * (ini_set) for error_reporting, display_errors, log_errors. If debug is enabled, the highest possible reporting
      * level (inlcuding E_STRICT) is set. It also logs a warning-level message - if safe-mode is detected and setup
@@ -553,8 +531,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * manage security settings
-     *
      * This method is intend to manage security related setting and instanciate DoozR_Security which
      * protects the framework and handles security related operations like en- / decryption ...
      *
@@ -573,8 +549,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes front-controller
-     *
      * This method is intend to initialize the front-controller. The front-controller
      * is mainly responsible for retrieving data from and sending data to the client.
      *
@@ -592,8 +566,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes back-controller
-     *
      * This method is intend to initialize the back-controller. The back-controller
      * is mainly responsible for managing access to the MVC/MVP part and used as interface
      * to model as well.
@@ -613,8 +585,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes the model layer
-     *
      * This method is intend to initialize the model layer. It provides access to a database through a
      * ORM (Object-Relational-Mapper) like Doctrine, ... or a ODM (like PHPillow)
      *
@@ -643,8 +613,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Initializes the default modules
-     *
      * This method is intend to initialize the default modules for current running-mode.
      * Running mode depends on used interface. It can be either CLI (Console) or WEB (Browser).
      *
@@ -667,8 +635,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * Stops timer
-     *
      * This method is intend to stop the timer for measurements and log the core-execution time.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -686,9 +652,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * triggers an core-error
-     *
-     * this method triggers an error (delegate as exception). in default it throws an
+     * This method triggers an error (delegate as exception). in default it throws an
      * E_USER_CORE_EXCEPTION if $fatal set to true it will throw an E_USER_CORE_FATAL_EXCEPTION
      *
      * @param string $error The error-message to throw as core-error
@@ -744,8 +708,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      ******************************************************************************************************************/
 
     /**
-     * external interface for throwing core-exception(s)/error(s)
-     *
      * This method is intend as external interface for throwing core-exception(s)/error(s).
      *
      * @param string  $error The error-message
@@ -762,8 +724,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * returns the starttime of core execution
-     *
      * This method is intend to return the starttime of core execution.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -776,8 +736,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * returns the total-time of core execution
-     *
      * This method is intend to return the total-time of core execution.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -790,8 +748,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * returns the version of current used DoozR-installation (core)
-     *
      * This method is intend to return the version of DoozR.
      *
      * @param boolean $justRevision If set to true the method returns the revision as integer, otherwise full rev-string
@@ -816,8 +772,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      ******************************************************************************************************************/
 
     /**
-     * called on class-destruction
-     *
      * This method gets calles on class desctruct.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

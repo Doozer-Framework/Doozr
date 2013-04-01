@@ -4,7 +4,7 @@
 /**
  * DoozR - Demo - View
  *
- * ViewDemo.class.php - This is an example model for Demo
+ * Demo.php - This is an example view for demo
  *
  * PHP versions 5
  *
@@ -73,49 +73,39 @@
 final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interface
 {
     /**
-     * initializes the class
-     *
      * __init initializes the class and get automatic called on
      * instanciation. DO NOT USE __construct (in MVC)
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function __init()
     {
         // here for example you can define a path to use for loading templates
         //$this->pathTemplates = PATH_TO_YOUR_TEMPLATES;
 
-        /*
         pre(
             '__init() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.
             $this->object.' and the action '.$this->action
         );
-        */
     }
 
-
     /**
-     * automatic data presentation demo method
-     *
      * This method is intend to demonstrate how data could be automatic
      * be displayed.
      *
-     * @return  boolean TRUE if successful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if successful, otherwise FALSE
+     * @access public
      */
     public function Screen()
     {
+        pred('ja man');
+
         // retrieve data for context Screen
         $data = $this->getData();
 
-        /*
         // just a simple - we automatic show data from model function
         if (is_array($data)) {
             $data = var_export($data, true);
@@ -125,7 +115,6 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
         $html = pre(
             __CLASS__.' proudly present: '.$data.' directly from Model :) through Response ...', true
         );
-        */
 
         $html = $data;
 
@@ -133,51 +122,37 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
         return DoozR_Core::front()->getResponse()->sendHtml($html);
     }
 
-
     /**
-     * magic renderer for View = Screen
-     *
      * This method is the magic renderer von View = Screen.
      * Upon creating this metod it get automatically called when data is set to view via setData()
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __renderScreen()
     {
         // data before
         //$data = $this->getData();
+        $i18n = DoozR_Loader_Moduleloader::load('i18n', array('de', $this->config));
 
         // magically transformation - parameter "true" stands for: overwrite stored data (TRUE) or just return (FALSE)
-        $this->render(true);
-
-        // data altered after
-        //$this->setData($data, false);
+        $this->render($this->data, $i18n);
     }
 
-
     /**
-     * magic on __cleanup
-     *
      * This method is intend to __cleanup
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __destroy()
     {
-        /*
         pre(
             '__destroy() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.
             $this->object.' and the action '.$this->action
         );
-        */
     }
 }
 

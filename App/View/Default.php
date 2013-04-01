@@ -73,19 +73,15 @@
 final class View_Default extends DoozR_Base_View implements DoozR_Base_View_Interface
 {
     /**
-     * called at initialization
-     *
      * This method is the replacement for construct. It is called right on construction of
      * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
      * @param array $request     The original request
      * @param array $translation The translation to read the request
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function __tearup(array $request, array $translation)
     {
@@ -118,16 +114,12 @@ final class View_Default extends DoozR_Base_View implements DoozR_Base_View_Inte
     }
 
     /**
-     * called on destruction
-     *
      * This method is the replacement for construct. It is called right on construction of
      * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     public function __teardown()
     {
@@ -137,22 +129,15 @@ final class View_Default extends DoozR_Base_View implements DoozR_Base_View_Inte
     }
 
     /**
-     * automatic data presentation demo method
-     *
      * This method is intend to demonstrate how data could be automatic
      * be displayed.
      *
-     * @return  boolean True if successful, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if successful, otherwise false
+     * @access public
      */
     public function screen()
     {
-        pred('got it!');
-
-        /*
         // retrieve data for context Screen
         $data = $this->getData();
 
@@ -166,7 +151,6 @@ final class View_Default extends DoozR_Base_View implements DoozR_Base_View_Inte
 
         // deliver the HTML code through response
         return DoozR_Core::front()->getResponse()->sendText($text);
-        */
     }
 }
 

@@ -250,7 +250,7 @@ function object_to_array($object, $recursive = true)
             $value = object_to_array($value, $recursive);
         }
     }
-    return $object;    
+    return $object;
 }
 
 /**

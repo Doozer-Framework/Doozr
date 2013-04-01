@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Model
+ * DoozR - Base - Model
  *
  * Model.php - Base class for model-layers from MV(C|P)
  *

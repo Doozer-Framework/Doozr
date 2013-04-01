@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Route
+ * DoozR - Route
  *
  * Route.php - Extends Apache/IIS/... mod_rewrite.
  * This script takes the argument(s) passed to by mod_rewrite (.htaccess) and
@@ -77,7 +77,6 @@ $runningMode = $front->getRunningMode();
 if ($runningMode == DoozR_Controller_Front::RUNNING_MODE_WEB
     || $runningMode == DoozR_Controller_Front::RUNNING_MODE_CLI
 ) {
-
     // now begin generic parsing of pattern
     // get exclude(s) and build exclude-regexp of it/them
     $exclude = regexp($config->router->exclude(), 'exclude');

@@ -853,6 +853,10 @@ class DoozR_Response_Web extends DoozR_Base_Response
                 for ($i = 0; $i < $elements; ++$i) {
                     header($header[$i]);
                 }
+            } elseif (is_object($header)) {
+                foreach ($header as $property) {
+                    header($property);
+                }
             } else {
                 header($header);
             }

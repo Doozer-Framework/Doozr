@@ -116,8 +116,6 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
 
 
     /**
-     * Constructor of this class
-     *
      * This method is the constructor of this class.
      *
      * @param array                  $request     The whole request as processed by "Route"
@@ -126,9 +124,9 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * @param DoozR_Base_Model       $model       The model to communicate with backend (db)
      * @param DoozR_Base_View        $view        The view to display results
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(
         array $request,
@@ -151,13 +149,11 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
-     * called on destruction of the class
-     *
      * This method is intend to call the teardown method of a model if exist
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __destruct()
     {
@@ -168,8 +164,6 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
-     * create
-     *
      * Create of Crud
      *
      * @param mixed $data The data for create
@@ -188,8 +182,6 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
-     * read
-     *
      * Read of cRud
      *
      * @return  mixed Data on success, otherwise null
@@ -206,8 +198,6 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
-     * delete
-     *
      * Delete of cruD
      *
      * @return  boolean TRUE on success, otherwise FALSE
@@ -224,13 +214,11 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
-     * returns the data for requested mode
-     *
      * This method (container) is intend to return the data for a requested mode.
      *
-     * @return  mixed The data for the mode requested
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data for the mode requested
+     * @access public
      */
     public function getData()
     {
@@ -238,15 +226,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
-     * sets the data for requested mode
-     *
      * This method (container) is intend to set the data for a requested mode.
      *
      * @param mixed $data The data (array prefered) to set
      *
-     * @return  boolean True if everything wents fine, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if everything wents fine, otherwise false
+     * @access public
      */
     public function setData($data)
     {

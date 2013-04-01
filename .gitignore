@@ -6,3 +6,4 @@ __*/
 /.project
 _doc/html/*
 /.settings
+/App/Data/Private/Temp/*.php

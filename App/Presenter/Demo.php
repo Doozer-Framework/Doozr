@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Default - Presenter
+ * DoozR - Demo - Presenter
  *
- * Default.php - Default Presenter Demonstration
+ * Demo.php - Demo Presenter Demonstration
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Default
- * @subpackage DoozR_Default_Presenter
+ * @package    DoozR_Demo
+ * @subpackage DoozR_Demo_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,13 +55,13 @@
  */
 
 /**
- * DoozR - Default - Presenter
+ * DoozR - Demo - Presenter
  *
- * Default Presenter Demonstration
+ * Demo Presenter Demonstration
  *
  * @category   DoozR
- * @package    DoozR_Default
- * @subpackage DoozR_Default_Presenter
+ * @package    DoozR_Demo
+ * @subpackage DoozR_Demo_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -70,81 +70,64 @@
  * @see        -
  * @since      -
  */
-final class Presenter_Default extends DoozR_Base_Presenter implements DoozR_Base_Presenter_Interface
+final class Presenter_Demo extends DoozR_Base_Presenter implements DoozR_Base_Presenter_Interface
 {
     /**
-     * called at initialization
-     *
      * This method is the replacement for construct. It is called right on construction of
      * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
      * @param array $request     The original request
      * @param array $translation The translation to read the request
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function __tearup(array $request, array $translation)
     {
-        pre(
-            '__tearup() in '.__CLASS__.' called! :: '.__CLASS__.' start processing of: '.var_export($request, true).
-            ' translation: '.var_export($translation, true)
-        );
+        /*...*/
     }
 
     /**
-     * called on destruction
-     *
      * This method is the replacement for construct. It is called right on construction of
      * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     public function __teardown()
     {
-        pre(
-            '__teardown() in '.__CLASS__.' called! :: '.__CLASS__
-        );
+        /*...*/
     }
 
     /**
-     * automatic data presentation demo method
-     *
      * This method is intend to demonstrate how data could be automatic
      * be displayed.
      *
-     * @return  boolean True if successful, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if successful, otherwise false
+     * @access public
      */
     public function screen()
     {
-        /*
         // retrieve data for context Screen
-        $data = $this->getData();
+        $data = $this->model->getData();
 
-        // just a simple - we automatic show data from model function
-        if (is_array($data)) {
-            $data = var_export($data, true);
-        }
+        return $this->view->setData($data);
 
+        //pred($this->request);
+
+        // dispatch to
+        //$run = $this->view->{$this->ac}($data);
+
+        //
+        //$registry = DoozR_Registry::getInstance();
         // get pre - html
-        $text = pre(__CLASS__.' proudly present: '.$data.' directly from Model :) through Response ...', true);
-
+        //$text = pre(__CLASS__.' proudly present: '.$data.' directly from Model :) through Response ...', true);
         // deliver the HTML code through response
-        return DoozR_Core::front()->getResponse()->sendText($text);
-        */
+        //return $registry->front->getResponse()->sendText($text);
 
-        //pred('und? was jetzt?');
     }
 }
 

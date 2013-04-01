@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Default Model
+ * DoozR - Default - Model
  *
  * Default.php - Default Model Demonstration
  *
@@ -55,7 +55,7 @@
  */
 
 /**
- * DoozR - Default Model
+ * DoozR - Default - Model
  *
  * Default Model Demonstration
  *
@@ -73,39 +73,31 @@
 final class Model_Default extends DoozR_Base_Model implements DoozR_Base_Model_Interface
 {
     /**
-     * called at initialization
-     *
      * This method is the replacement for construct. It is called right on construction of
      * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
      * @param array $request     The original request
      * @param array $translation The translation to read the request
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     public function __tearup(array $request, array $translation)
     {
         pre(
             '__tearup() in '.__CLASS__.' called! :: '.__CLASS__.' start processing of: '.var_export($request, true).
-        	' translation: '.var_export($translation, true)
+            ' translation: '.var_export($translation, true)
         );
     }
 
     /**
-     * called on destruction
-     *
      * This method is the replacement for construct. It is called right on construction of
      * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     public function __teardown()
     {
@@ -115,15 +107,11 @@ final class Model_Default extends DoozR_Base_Model implements DoozR_Base_Model_I
     }
 
     /**
-     * action-method for action = Screen
-     *
      * This method is intend to return data for the action show.
      *
-     * @return  array data for requested action
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array data for requested action
+     * @access public
      */
     public function screen()
     {

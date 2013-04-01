@@ -4,7 +4,7 @@
 /**
  * DoozR - Demo - Model
  *
- * ModelDemo.class.php - This is an example model for demonstration purposes
+ * Demo.php - This is an example model for demonstration purposes
  *
  * PHP versions 5
  *
@@ -54,6 +54,17 @@
  * @since      -
  */
 
+// the Person class
+class Person {
+    public $name;
+    public $phone;
+
+    function Person($name, $phone) {
+        $this->name = $name;
+        $this->phone = $phone;
+    }
+}
+
 /**
  * DoozR - Demo - Model
  *
@@ -63,7 +74,6 @@
  * @package    DoozR_Demo
  * @subpackage DoozR_Demo_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
@@ -74,70 +84,55 @@
 final class Model_Demo extends DoozR_Base_Model implements DoozR_Base_Model_Interface
 {
     /**
-     * initializes the class
-     *
-     * __init initializes the class and get automatic called on
+     * __tearup initializes the class and get automatic called on
      * instanciation. DO NOT USE __construct (in MVC)
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
-    protected function __init()
+    protected function __tearup()
     {
-        /*
-        pre(
-            '__init() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.$this->object.
-            ' and the action '.$this->action
-        );
-        */
-    }
+        // let's create an array of objects for test purpose
+        $people = array();
+        $people[] = new Person("foo", "01-344-121-021");
+        $people[] = new Person("bar", "05-999-165-541");
+        $people[] = new Person("baz", "01-389-321-024");
+        $people[] = new Person("quz", "05-321-378-654");
 
-
-    /**
-     * action-method for action = Screen
-     *
-     * This method is intend to return data for the action show.
-     *
-     * @return  array data for requested action
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     */
-    public function Screen()
-    {
         $data = array(
-            'title'     => 'Demo Headline for Template assigned in Demo-MODEL',
-            'text_nr_1' => 'Nun ergänze ich die hier im Model enthaltenen Daten ... - time() = '.time()
+            'title'  => 'This is a demonstration headline (e.g. h1)!',
+            'people' => $people
         );
 
         // set data (can e.g. retrieved by controller through ->getData())
         $this->setData($data);
     }
 
+    /**
+     * This method is intend to return data for the action show.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array data for requested action
+     * @access public
+     */
+    public function screen()
+    {
+        /*...*/
+    }
 
     /**
-     * magic on __cleanup
+     * magic on __teardown
      *
      * This method is intend to __cleanup
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    public function __destroy()
+    public function __teardown()
     {
-        /*
-        pre(
-            '__destroy() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.$this->object.
-            ' and the action '.$this->action
-        );
-        */
+        /*...*/
     }
 }
 
