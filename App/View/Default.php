@@ -150,6 +150,8 @@ final class View_Default extends DoozR_Base_View implements DoozR_Base_View_Inte
      */
     public function screen()
     {
+        pred('got it!');
+
         /*
         // retrieve data for context Screen
         $data = $this->getData();

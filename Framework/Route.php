@@ -73,7 +73,6 @@ $config   = $registry->config;
 // retrieve current runningmode (can be either WEB or CLI (but lowercase)
 $runningMode = $front->getRunningMode();
 
-
 // check for running-mode and retrieve request-uri
 if ($runningMode == DoozR_Controller_Front::RUNNING_MODE_WEB
     || $runningMode == DoozR_Controller_Front::RUNNING_MODE_CLI

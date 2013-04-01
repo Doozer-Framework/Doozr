@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Api - Controller
+ * DoozR - Default - Presenter
  *
- * ControllerApi.class.php - This is an example controller for Api-
+ * Default.php - Default Presenter Demonstration
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Api
- * @subpackage DoozR_Api_Controller
+ * @package    DoozR_Default
+ * @subpackage DoozR_Default_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,13 +55,13 @@
  */
 
 /**
- * DoozR - Api - Controller
+ * DoozR - Default - Presenter
  *
- * This is an example controller for Api
+ * Default Presenter Demonstration
  *
  * @category   DoozR
- * @package    DoozR_Api
- * @subpackage DoozR_Api_Controller
+ * @package    DoozR_Default
+ * @subpackage DoozR_Default_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -70,13 +70,16 @@
  * @see        -
  * @since      -
  */
-final class Controller_Api extends DoozR_Base_Controller implements DoozR_Base_Controller_Interface
+final class Presenter_Default extends DoozR_Base_Presenter implements DoozR_Base_Presenter_Interface
 {
     /**
-     * initializes the class
+     * called at initialization
      *
-     * __init initializes the class and get automatic called on
-     * instanciation. DO NOT USE __construct (in MVC)
+     * This method is the replacement for construct. It is called right on construction of
+     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
+     *
+     * @param array $request     The original request
+     * @param array $translation The translation to read the request
      *
      * @return  void
      * @access  protected
@@ -84,26 +87,64 @@ final class Controller_Api extends DoozR_Base_Controller implements DoozR_Base_C
      * @since   Method available since Release 1.0.0
      * @version 1.0
      */
-    protected function __init()
+    protected function __tearup(array $request, array $translation)
     {
-        //pre('__init() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.$this->object.' and the action '.$this->action);
+        pre(
+            '__tearup() in '.__CLASS__.' called! :: '.__CLASS__.' start processing of: '.var_export($request, true).
+            ' translation: '.var_export($translation, true)
+        );
     }
 
-
     /**
-     * magic on __cleanup
+     * called on destruction
      *
-     * This method is intend to __cleanup
+     * This method is the replacement for construct. It is called right on construction of
+     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
      * @return  void
+     * @access  protected
+     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @since   Method available since Release 1.0.0
+     * @version 1.0
+     */
+    public function __teardown()
+    {
+        pre(
+            '__teardown() in '.__CLASS__.' called! :: '.__CLASS__
+        );
+    }
+
+    /**
+     * automatic data presentation demo method
+     *
+     * This method is intend to demonstrate how data could be automatic
+     * be displayed.
+     *
+     * @return  boolean True if successful, otherwise false
      * @access  public
      * @author  Benjamin Carl <opensource@clickalicious.de>
      * @since   Method available since Release 1.0.0
      * @version 1.0
      */
-    public function __destroy()
+    public function screen()
     {
-        //pre('__destroy() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.$this->object.' and the action '.$this->action);
+        /*
+        // retrieve data for context Screen
+        $data = $this->getData();
+
+        // just a simple - we automatic show data from model function
+        if (is_array($data)) {
+            $data = var_export($data, true);
+        }
+
+        // get pre - html
+        $text = pre(__CLASS__.' proudly present: '.$data.' directly from Model :) through Response ...', true);
+
+        // deliver the HTML code through response
+        return DoozR_Core::front()->getResponse()->sendText($text);
+        */
+
+        //pred('und? was jetzt?');
     }
 }
 
