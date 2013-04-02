@@ -187,6 +187,7 @@ implements DoozR_Cache_Module_Container_Interface
         if (!$this->_memcache->set(
                          md5(self::UNIQUE_IDENTIFIER.$group.$id),
                          $buffer,
+                         $flags,
                          $this->getExpiresAbsolute($expires)
             )
         ) {
