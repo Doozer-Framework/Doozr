@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Module - Filesystem
+ * DoozR - Filesystem - Module
  *
  * Module.php - DoozR Module for all filesystem operations with virtual-filesystem
  * support (e.g. for unit-testing).
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Module/Singleton/Strict.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 
 /**
- * DoozR - Module - Filesystem
+ * DoozR - Filesystem - Module
  *
  * DoozR Module for all filesystem operations with virtual-filesystem support (e.g. for
  * unit-testing).

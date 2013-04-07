@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Password Module
+ * DoozR - Password - Module
  *
  * Module.php - Password Module of the DoozR Framework.
  *
@@ -57,7 +57,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Module/Multiple/Facade.php';
 
 /**
- * DoozR Password Module
+ * DoozR - Password - Module
  *
  * Module.php - Password Module of the DoozR Framework.
  *

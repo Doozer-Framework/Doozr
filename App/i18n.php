@@ -27,15 +27,34 @@ $registry = DoozR_Registry::getInstance();
 /**
  * get I18n Module of DoozR -> for translations, converting and formatting values ...
  */
-$i18n = DoozR_Loader_Moduleloader::load('i18n', array('de', $registry->config));
-$translator = $i18n->getTranslator();
+$i18n = DoozR_Loader_Moduleloader::load('i18n', array($registry->config));
+
+
+/**
+ * Demonstrate detect clients prefered locale
+ * Detects the prefered locale and echo out
+ *
+ * Demonstrate - detector
+ */
+$locale = $i18n->getClientPreferedLocale();
+pre($locale);
+
+
+/**
+ * Demonstrate translate a string
+ * Translate the string "x_books_in_my_y_shelves" to detected locale and echo out
+ *
+ * Demonstrate - translator
+ */
+$translator = $i18n->getTranslator('en-gb');
+//$translator = $i18n->getTranslator();
 $translator->setNamespace('default');
 $translated = $translator->_('x_books_in_my_y_shelves', array(921, 8));
 pre($translated);
 
 
 /**
- * demonstrate some formatter stuff:
+ * Demonstrate some formatter stuff:
  * available formatter: datetime, currency, measure, number, string
  *
  * Demonstrate - formatter: Datetime

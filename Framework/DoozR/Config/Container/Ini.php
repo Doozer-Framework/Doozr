@@ -249,7 +249,7 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
                 // parse line
                 if (preg_match('/^\s*\[\s*(.*)\s*\]\s*$/', $line, $matches)) {
                     // section header
-                    $currentSection = $matches[1];
+                    $currentSection = strtolower($matches[1]);
 
                 } elseif (preg_match('/^([a-z0-9_.\[\]-]+)\s*=\s*(.*)$/i', $line, $matches)) {
                     // parse value
@@ -259,24 +259,13 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
                         $value = preg_replace('/^["\']|\s*;.*$/', '', $matches[2]);
                     }
 
-                    // parse data types
-                    if (is_string($value)) {
-                        $value = (string)$value;
-                    } elseif (is_numeric($value)) {
-                        $value = (float)$value;
-                    } elseif (strtolower($value) == 'true') {
-                        $value = true;
-                    } elseif (strtolower($value) == 'false') {
-                        $value = false;
-                    } elseif (is_json($value)) {
-                        $value = json_decode($value);
-                    }
+                    $values = ($value) ? $this->_autoCast($value) : $matches[2];
 
                     if (!isset($parsed[$currentSection])) {
                         $parsed[$currentSection] = array();
                     }
 
-                    $parsed[$currentSection][$matches[1]] = $matches[2];
+                    $parsed[$currentSection][strtolower($matches[1])] = $value;
                 }
             }
         }
@@ -284,6 +273,33 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
         // return the parsed data
         return $parsed;
     }
+
+
+    private function _autoCast($input)
+    {
+        // parse data types
+        if (is_string($input)) {
+            $input = (string)$input;
+
+        } elseif (is_numeric($input)) {
+            $input = (float)$input;
+
+        } elseif (strtolower($input) == 'true') {
+            $input = true;
+
+        } elseif (strtolower($input) == 'false') {
+            $input = false;
+
+        } elseif (is_json($input)) {
+            $input = json_decode($input);
+
+        }
+
+        // return casted
+        return $input;
+    }
+
+
 
     /**
      * returns parsed configuration

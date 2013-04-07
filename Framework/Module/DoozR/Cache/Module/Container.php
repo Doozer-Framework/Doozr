@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module Cache Container Base
+ * DoozR - Cache - Module - Container
  *
  * Container.php - Base class of all cache storage container.
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * DoozR Module Cache Container File
+ * DoozR - Cache - Module - Container
  *
- * File-Container of the Caching Module.
+ * Base class of all cache storage container.
  *
  * @category   DoozR
  * @package    DoozR_Module
@@ -182,9 +182,9 @@ abstract class DoozR_Cache_Module_Container
      *
      * @param array $options The options passed to this instance at runtime
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of this class
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(array $options = array())
     {
@@ -199,16 +199,14 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * loads a dataset from cache
-     *
      * This method is intend to load a dataset from cache.
      *
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The dataset value, NULL on failure
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function read($id, $group)
     {
@@ -227,8 +225,6 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * updates a dataset
-     *
      * This method is intend to write data to cache. It's just a facade to create() cause
      * update isn't fully implemented yet.
      *
@@ -238,9 +234,9 @@ abstract class DoozR_Cache_Module_Container
      * @param string  $group    The dataset group
      * @param string  $userdata The custom userdata to add
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @throws DoozR_Cache_Module_Exception
      */
     public function update($id, $data, $expires, $group, $userdata)
@@ -249,16 +245,14 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * getter for userdata from preloaded dataset
-     *
      * This method returns the userdata from preloaded dataset.
      *
      * @param string $id    The dataset id
      * @param string $group The dataset group
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getUserdata($id, $group)
     {
@@ -271,24 +265,19 @@ abstract class DoozR_Cache_Module_Container
         }
 
         $ret = $this->read($id, $group);
-        if (PEAR::isError($ret)) {
-            return $ret;
-        }
 
         list( , , $userdata) = $ret;
         return $userdata;
     }
 
     /**
-     * setter for id
-     *
      * This method sets the id.
      *
      * @param string $id The id to set
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setId($id)
     {
@@ -296,13 +285,11 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * getter for id
-     *
      * This method returns the id.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The current id
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getId()
     {
@@ -310,16 +297,14 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * checks if a dataset is cached
-     *
      * This method is intend to check if a dataset is cached.
      *
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if cached, otherwise FALSE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function isCached($id, $group)
     {
@@ -335,17 +320,15 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * checks if a dataset is expired
-     *
      * This method is intend to check if a dataset is expired.
      *
      * @param string  $id     The dataset Id
      * @param string  $group  The dataset group
      * @param integer $maxAge Maximum age timestamp
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The dataset value, NULL on failure
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function isExpired($id, $group, $maxAge)
     {
@@ -364,9 +347,6 @@ abstract class DoozR_Cache_Module_Container
             }
             // I'm lazy...
             $ret = $this->read($id, $group);
-            if (PEAR::isError($ret)) {
-                return $ret;
-            }
 
             list($this->_expires, , ) = $ret;
         }
@@ -375,8 +355,11 @@ abstract class DoozR_Cache_Module_Container
         if (0 == $this->_expires) {
             return false;
         }
+
+        $expired  = ($this->_expires <= time()) || ($maxAge && ($this->_expires <= $maxAge));
+
         // you feel fine, Ulf?
-        if ($expired  = ($this->_expires <= time() || ($maxAge && ($this->_expires <= $maxAge))) ) {
+        if ($expired) {
             // call remove in container
             $this->delete($id, $group);
             $this->flushPreload();
@@ -386,16 +369,14 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * preloads a dataset
-     *
      * This method is intend to preload a dataset.
      *
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     private function _preload($id, $group)
     {
@@ -422,17 +403,15 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * does a checked preload
-     *
      * This method is intend to do a checked preload. This means that this
      * method first checks if the current request was already loaded before.
      *
      * @param string $id    The dataset id
      * @param string $group The dataset group
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     private function _checkedPreload($id, $group)
     {
@@ -443,16 +422,14 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * imports the requested datafields as object variables if allowed
-     *
      * This method is intend to import the requested datafields as object variables if allowed.
      *
      * @param array $requested The values which should be imported as variable into class-namespace
      * @param array $allowed   The allowed keys (variable-names) - allowed to import
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function setOptions(array $requested = array(), array $allowed = array())
     {
@@ -464,8 +441,6 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * flushes the internal preload buffer
-     *
      * This method is intend to flush the internal preload buffer.
      * create(), delete() and flush() must call this method to preevent differences between the preloaded values and
      * the real cache contents.
@@ -474,9 +449,9 @@ abstract class DoozR_Cache_Module_Container
      *                      values will only be flushed if they are equal to the given id and group
      * @param string $group The dataset group
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function flushPreload($id = '', $group = 'Default')
     {
@@ -492,15 +467,13 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * encodes the data for the storage container
-     *
      * This method is intend to encode the data for the storage container.
      *
      * @param string $data The dataset to encode
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Encoded data input
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function encode($data)
     {
@@ -512,15 +485,13 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * decodes the data for the storage container
-     *
      * This method is intend to decode the data for the storage container.
      *
      * @param string $data The dataset to encode
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Encoded data input
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function decode($data)
     {
@@ -532,8 +503,6 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * translates human-readable/relative times in UNIX-time
-     *
      * This method is intend to translate human-readable/relative times into UNIX-time
      *
      * @param mixed $expires This can be in the following formats:
@@ -543,9 +512,9 @@ abstract class DoozR_Cache_Module_Container
      *                       absolute unixtime       : x < 2147483648   eg: 2147483648
      *                       see comments in code for details
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer UNIX-Timestamp
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function getExpiresAbsolute($expires)
     {
@@ -574,17 +543,15 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * Starts the garbage collection.
-     *
      * This method is intend to start the garbageCollection in child container(s). Please override this
      * method in your container and call parent::garbageCollection($maxlifetime) or $this->flushPreload() on
      * every call first.
      *
      * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function garbageCollection($maxlifetime)
     {
@@ -593,45 +560,39 @@ abstract class DoozR_Cache_Module_Container
     }
 
     /**
-     * checks if a dataset exists
-     *
      * This method is intend to check if a dataset exists.
      *
      * @param string $id    The id of the dataset
      * @param string $group The group of the dataset
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if Id exist, otherwise FALSE
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @abstract
      */
     abstract protected function idExists($id, $group);
 
     /**
-     * removes an dataset finally from container
-     *
      * This method is intend to remove an dataset finally from container.
      *
      * @param string $id    The id of the dataset
      * @param string $group The group of the dataset
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @abstract
      */
     //abstract protected function delete($id, $group);
 
     /**
-     * flushes the cache
-     *
      * This method is intend to flush the cache. It removes all caches datasets from the cache.
      *
      * @param string $group The dataset group to flush
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of removed datasets on success, otherwise FALSE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @abstract
      */
     abstract public function flush($group);

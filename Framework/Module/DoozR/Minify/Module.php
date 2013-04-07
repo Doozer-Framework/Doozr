@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module Minify
+ * DoozR - Minify - Module
  *
  * Module.php - Module for interfacing Minify
  *
@@ -58,7 +58,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Minify/Module/';
 
 /**
- * DoozR Module Minify
+ * DoozR - Minify - Module
  *
  * Module for interfacing Minify
  *

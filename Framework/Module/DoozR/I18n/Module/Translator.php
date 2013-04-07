@@ -159,11 +159,9 @@ class DoozR_I18n_Module_Translator extends DoozR_Base_Class
      *
      * @param mixed $namespace STRING single namespace, or ARRAY collection of namespaces
      *
-     * @return  boolean TRUE on
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function setNamespace($namespace)
     {
@@ -366,15 +364,11 @@ class DoozR_I18n_Module_Translator extends DoozR_Base_Class
      ******************************************************************************************************************/
 
     /**
-     * re-initializes the namespaces in translation-tables
-     *
      * This method is intend to re-initialize the namespaces in translation-tables.
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _namespaceChanged()
     {
@@ -496,7 +490,7 @@ class DoozR_I18n_Module_Translator extends DoozR_Base_Class
     {
         // store the locale of this instance assume no redirect -> work on given locale
         $this->_locale         = $locale;
-        $this->_redirectLocale = isset($configL10n->redirect) ? $configL10n->redirect->target() : null;
+        $this->_redirectLocale = (isset($configL10n->redirect)) ? $configL10n->redirect->target() : null;
 
         // store configurations
         $this->_configI18n = $configI18n;

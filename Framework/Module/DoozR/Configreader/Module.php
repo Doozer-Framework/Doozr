@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module Configreader
+ * DoozR - Configreader - Module
  *
  * Module.php - Configreader Module
  *
@@ -60,7 +60,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Configreader/Module/Exception.php';
 
 /**
- * DoozR Module Configreader
+ * DoozR - Configreader - Module
  *
  * Configreader Module
  *
@@ -132,16 +132,15 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
     ******************************************************************************************************************/
 
     /**
-     * replacement for __construct
-     *
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
      *
-     * @param string $type The type of config container (Ini, Json, ...)
+     * @param string  $type          The type of config container (Ini, Json, ...)
+     * @param boolean $enableCaching TRUE to enable caching, FALSE to disable it
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __tearup($type, $enableCaching = false)
     {
@@ -172,15 +171,13 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
     ******************************************************************************************************************/
 
     /**
-     * setter for decorated object
-     *
      * This method is intend to act as setter for $_decoratedObject.
      *
      * @param object $instance An instance of a class to decorate
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function setDecoratedObject($instance)
     {
@@ -188,13 +185,11 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
     }
 
     /**
-     * getter for decorated object
-     *
      * This method is intend to act as getter for $_decoratedObject.
      *
-     * @return  object An instance of a class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object An instance of a class
+     * @access protected
      */
     protected function getDecoratedObject()
     {
@@ -202,16 +197,14 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
     }
 
     /**
-     * generic facade - for all non-implemented methods
-     *
      * This method is intend to act as generic facade - for all non-implemented methods
      *
      * @param string $signature The signature (name of the method) originally called
      * @param mixed  $arguments The arguments used for call (can be either an ARRAY of values or NULL)
      *
-     * @return  mixed Result of called method if exists, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of called method if exists, otherwise NULL
+     * @access public
      */
     public function __call($signature, $arguments)
     {
@@ -231,16 +224,14 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
     }
 
     /**
-     * generic facade - for all non-implemented static methods
-     *
      * This method is intend to act as generic facade - for all non-implemented static methods
      *
      * @param string $signature The signature (name of the method) originally called
      * @param mixed  $arguments The arguments used for call (can be either an ARRAY of values or NULL)
      *
-     * @return  mixed Result of called method if exists, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result of called method if exists, otherwise NULL
+     * @access public
      * @static
      */
     public static function __callStatic($signature, $arguments)
@@ -269,9 +260,9 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
      *
      * @param string $property The property to return
      *
-     * @return  mixed The data from property
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data from property
+     * @access public
      */
     public function __get($property)
     {
@@ -293,9 +284,9 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
      *
      * @param string $property The property to check if set
      *
-     * @return  boolean TRUE if set, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if set, otherwise FALSE
+     * @access public
      */
     public function __isset($property)
     {
@@ -312,9 +303,9 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
      * @param string $property The property to set
      * @param mixed  $value    The value to set
      *
-     * @return  mixed The data from property
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data from property
+     * @access public
      */
     public function __set($property, $value)
     {
@@ -328,17 +319,15 @@ class DoozR_Configreader_Module extends DoozR_Base_Module_Multiple implements Do
     ******************************************************************************************************************/
 
     /**
-     * container factory
-     *
      * This method is intend to act as factory for creating an instance of a config container.
      *
      * @param string $class     The classname of container
      * @param string $path      The base path to Framework
      * @param mixed  $arguments Arguments to pass to instance
      *
-     * @return  object The fresh created instance
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object The fresh created instance
+     * @access private
      */
     private function _factory($class, $path, $arguments = null)
     {

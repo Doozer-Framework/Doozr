@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module Cache
+ * DoozR - Cache - Module
  *
  * Cache.php - Caching Module for caching operations with support for
  * different container like "Filesystem", "Memcache" ...
@@ -60,7 +60,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Psr/Cache/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Cache/Module/Exception.php';
 
 /**
- * DoozR Module Cache
+ * DoozR - Cache - Module
  *
  * Caching Module for caching operations with support for
  * different container like "Filesystem", "Memcache" ...

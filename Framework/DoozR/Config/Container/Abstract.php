@@ -196,8 +196,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      ******************************************************************************************************************/
 
     /**
-     * attaches the default transformations
-     *
      * This method is called from constructor to attach the default transformations
      * like DOCUMENT_ROOT or SERVERNAME (DOMAIN). The so called "transforms" are applied to each
      * part of the config (section or value) and replaces placeholder with runtime information(s).
@@ -227,8 +225,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * replaces the current defined replaces in a given mixed var
-     *
      * This method is intend to replace the current defined replaces in a given mixed var
      *
      * @param mixed $configuration The content to replace the replacements in
@@ -236,7 +232,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The content including the concrete replaces
      * @access protected
-     * @throws  DoozR_Exception
+     * @throws DoozR_Exception
      */
     protected function doReplacement($configuration)
     {
@@ -257,8 +253,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Returns an unique Id for a given resource
-     *
      * This method is intend to generate and return an unique Id for a given resource.
      *
      * @param mixed $resource Any type of variable
@@ -273,8 +267,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Stores the raw-configuration of the current instance
-     *
      * This method is intend to store the raw configuration of the current instance.
      *
      * @param mixed $configuration The configuration to store
@@ -289,8 +281,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Returns the raw-configuration of the current instance
-     *
      * This method is intend to store the raw configuration of the current instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -303,8 +293,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Stores the processed-configuration of the current instance
-     *
      * This method is intend to store the processed configuration of the current instance.
      *
      * @param mixed $configuration The configuration to store
@@ -319,8 +307,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Returns the processed-configuration of the current instance
-     *
      * This method is intend to store the processed configuration of the current instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -333,8 +319,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Stores the parsed-configuration of the current instance
-     *
      * This method is intend to store the parsed configuration of the current instance.
      *
      * @param mixed $configuration The configuration to store
@@ -349,8 +333,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Returns the processed-configuration of the current instance
-     *
      * This method is intend to store the processed configuration of the current instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -363,8 +345,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Merges two configuration objects
-     *
      * This method is intend to merge to objects of configurations recursive to a new one.
      * Where new keys are created in configuration-1 and existing values! are overwritten
      * by values of configuration-2 (smart override).
@@ -396,8 +376,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      ******************************************************************************************************************/
 
     /**
-     * attaches a concrete transform (replace X with Y || from => to)
-     *
      * This method is used to attach a transformation (replacement) for a given string
      *
      * @param string $from The value which should be replaced
@@ -413,8 +391,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Stores a complete configuration
-     *
      * This method is intend to store a complete configuration array with all it parts (e.g.
      * raw, processed, parsed).
      *
@@ -440,8 +416,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Returns complete configuration or a part of it
-     *
      * This method is intend to return either the full configuration or parts of it.
      *
      * @param array $part The configuration array to store

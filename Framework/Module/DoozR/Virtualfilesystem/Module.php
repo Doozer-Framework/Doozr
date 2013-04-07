@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Module - Virtualfilesystem
+ * DoozR - Virtualfilesystem - Module
  *
  * Module.php - DoozR Module for all virtual filesystem operations.
  *
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Virtualfilesystem/Lib/vfsStream.php';
 
 /**
- * DoozR - Module - Virtualfilesystem
+ * DoozR - Virtualfilesystem - Module
  *
  * DoozR Module for all virtual filesystem operations.
  *
@@ -77,9 +77,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Virtualfilesystem/Lib/vfsStream.p
  */
 class DoozR_Virtualfilesystem_Module extends DoozR_Base_Module_Multiple_Facade
 {
-	/**
-     * constructs the class
-     *
+    /**
      * constructor builds the class
      *
      * @example config-array:
@@ -88,11 +86,9 @@ class DoozR_Virtualfilesystem_Module extends DoozR_Base_Module_Multiple_Facade
      *     'file'  => 'My\Class\Hide\Through\Facade.php' (optional)
      * )
      *
-     * @return  object instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access public
      */
     public function __tearup()
     {
@@ -101,7 +97,7 @@ class DoozR_Virtualfilesystem_Module extends DoozR_Base_Module_Multiple_Facade
         include_once 'Lib/vfsStream.php';
 
         self::setRealObject(
-			new vfsStream()
+            new vfsStream()
         );
     }
 }

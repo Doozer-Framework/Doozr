@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Encoding
+ * DoozR - Encoding
  *
  * Encoding.php - Encoding bootstrap of the DoozR Framework
  *
@@ -57,7 +57,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 
 /**
- * DoozR Encoding
+ * DoozR - Encoding
  *
  * Encoding bootstrap of the DoozR Framework
  *
@@ -92,19 +92,14 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
 
 
     /**
-     * constructor
-     *
      * This method is the constructor
      *
      * @param object $config The config instance
      * @param object $logger The logger instance
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @DoozRInject DoozR_Config,DoozR_Logger
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function __construct($config, $logger)
     {
@@ -112,8 +107,8 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
         $this->_logger = $logger;
 
         // get encoding
-        $encoding = $config->locale->encoding();
-        $mimetype = $config->locale->mimetype();
+        $encoding = $config->locale->encoding;
+        $mimetype = $config->locale->mimetype;
 
         // begin configuration
         $this->_setInternalEncoding($encoding);
@@ -126,17 +121,13 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * sets the internal encoding
-     *
      * This method is intend to set the internal encoding
      *
      * @param string $encoding The encoding to set
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _setInternalEncoding($encoding = 'UTF-8')
     {
@@ -145,17 +136,13 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * sets the output encoding
-     *
      * This method is intend to set the output encoding
      *
      * @param string $encoding The encoding to set
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _setOutputEncoding($encoding = 'UTF-8')
     {
@@ -164,17 +151,13 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * sets the language
-     *
      * This method is intend to set the language
      *
      * @param string $encoding The encoding to set (is converted to language)
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _setLanguage($encoding = 'UTF-8')
     {
@@ -192,17 +175,13 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * sets the regex-encoding
-     *
      * This method is intend to set the regex-encoding
      *
      * @param string $encoding The encoding to set (is converted to language)
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _setRegexEncoding($encoding = 'UTF-8')
     {
@@ -211,17 +190,13 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * sets the default charset
-     *
      * This method is intend to set the default charset
      *
      * @param string $encoding The encoding to set (is converted to language)
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _setDefaultCharset($encoding = 'UTF-8')
     {
@@ -229,18 +204,14 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * sets PHP's default-mimetype (php.ini) to our configured value (default = text/html)
-     *
-     * This method is intend to set the default-mimetype (default_mimetype) for PHP's output operations to the value
-     * configured
+     * This method is intend to set the default-mimetype (default_mimetype) for
+     * PHP's output operations to the value configured
      *
      * @param string $mimetype The mimetype to define as PHP's default
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _setDefaultMimeType($mimetype = 'text/html')
     {
@@ -248,17 +219,13 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * sets the output handler
-     *
      * This method is intend to set the output handler
      *
      * @param string $handler The handler to set
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _setOutputHandler($handler = 'mb_output_handler')
     {

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Crypt Module
+ * DoozR - Crypt - Module
  *
  * Module.php - En- / Decryption Module for DoozR Framework.
  * This module works with container so different ciphers are supported:
@@ -64,7 +64,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Module/Multiple/Facade.php';
 
 /**
- * DoozR Module Crypt
+ * DoozR - Crypt - Module
  *
  * AES Cipher Library - Based on Federal Information Processing Standards Publication
  * 197 - 26th November 2001 - Text cipher class - This class is using AES crypt algoritm

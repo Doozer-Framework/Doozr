@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Module - Session
+ * DoozR - Session - Module
  *
  * Module.php - Session-Management-Class with support for en-/decrypting sessions (+ vars)
  * with high secure encryption standard AES
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Module/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Moduleloader.php';
 
 /**
- * DoozR Module Session
+ * DoozR - Session - Module
  *
  * Session-Management-Class with support for en-/decrypting sessions (+ vars) with high secure encryption standard AES
  *

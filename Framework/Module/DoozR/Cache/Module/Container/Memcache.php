@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: fbaf3ff85a82d6335ede132758b0144dd5556599 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Cache/Module/Container/Interface.
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: fbaf3ff85a82d6335ede132758b0144dd5556599 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -147,6 +147,13 @@ implements DoozR_Cache_Module_Container_Interface
     {
         // do the check and transfer of allowed options
         parent::__construct($options);
+
+        // check requirements!
+        if (!extension_loaded('memcache')) {
+            throw new DoozR_Cache_Module_Exception(
+                'In order to use memcache container for caching, the memcache extension must be loaded.'
+            );
+        }
 
         // init a connection to server
         $this->_memcache = $this->_connect($this->hostname, $this->port);
@@ -247,7 +254,6 @@ implements DoozR_Cache_Module_Container_Interface
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success
      * @access public
-     * @throws DoozR_Cache_Module_Exception
      */
     public function update($id, $buffer, $expires, $group, $userdata)
     {
@@ -301,7 +307,6 @@ implements DoozR_Cache_Module_Container_Interface
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Status of server as ARRAY, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Module_Exception
      */
     public function getStatus()
     {
@@ -319,7 +324,6 @@ implements DoozR_Cache_Module_Container_Interface
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed BOOLEAN false if not found, otherwise the result from cache
      * @access public
-     * @throws DoozR_Cache_Module_Exception
      */
     public function isCached($id, $group)
     {
@@ -338,7 +342,6 @@ implements DoozR_Cache_Module_Container_Interface
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean The result of the operation
      * @access public
-     * @throws DoozR_Cache_Module_Exception
      */
     public function garbageCollection($maxlifetime)
     {
@@ -363,8 +366,6 @@ implements DoozR_Cache_Module_Container_Interface
                 pred($datasets);
             }
         }
-
-        pred($entries);
 
         /*
         // check the space used by the cache entries
@@ -402,7 +403,6 @@ implements DoozR_Cache_Module_Container_Interface
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if file exist, otherwise FALSE
      * @access protected
-     * @throws DoozR_Cache_Module_Exception
      */
     protected function idExists($id, $group)
     {

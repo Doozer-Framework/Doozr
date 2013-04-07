@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR "Datetime" Module
+ * DoozR - Datetime - Module
  *
  * Module.php - Datetime Module-Mainclass
  *
@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Module/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Module/Interface.php';
 
 /**
- * DoozR "Datetime" Module
+ * DoozR - Datetime - Module
  *
  * Datetime Module-Mainclass
  *

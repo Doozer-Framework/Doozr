@@ -134,7 +134,7 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
     {
         // data before
         //$data = $this->getData();
-        $i18n = DoozR_Loader_Moduleloader::load('i18n', array('de', $this->config));
+        $i18n = DoozR_Loader_Moduleloader::load('i18n', array($this->config));
 
         // magically transformation - parameter "true" stands for: overwrite stored data (TRUE) or just return (FALSE)
         $this->render($this->data, $i18n);

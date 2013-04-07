@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module
  *
- * Detector.php - Locale detection part of the module I18n
+ * Detector.php - Locale detection part of the I18n module
  *
  * PHP versions 5
  *
@@ -57,7 +57,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 
 /**
- * DoozR Module I18n
+ * DoozR - I18n - Module
  *
  * Locale detection part of the module I18n
  *
@@ -194,15 +194,11 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
      ******************************************************************************************************************/
 
     /**
-     * returns the current active locale in consideration of order
-     *
      * This method is intend to return the current active locale in consideration of order.
      *
-     * @return  string The current active locale like "de" or "at"
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The current active locale like "de" or "at"
+     * @access public
      */
     public function getLocale()
     {
@@ -210,17 +206,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $this->_locale;
     }
 
-
     /**
-     * returns the weight of the current active locale
-     *
      * This method is intend to return the weight of the current active locale
      *
-     * @return  string The current active locale like "de" or "at"
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The current active locale like "de" or "at"
+     * @access public
      */
     public function getWeight()
     {
@@ -228,17 +219,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $this->_weight;
     }
 
-
     /**
-     * returns all detected locales
-     *
      * This method is intend to return all detected locales
      *
-     * @return  array All detected locales
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array All detected locales
+     * @access public
      */
     public function getLocales()
     {
@@ -246,17 +232,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $this->_detectedLocales;
     }
 
-
     /**
-     * returns the current active country
-     *
      * This method is intend to return the current active country
      *
-     * @return  string The current active country like "de" or "at"
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The current active country like "de" or "at"
+     * @access public
      */
     public function getCountry()
     {
@@ -264,17 +245,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $this->_country;
     }
 
-
     /**
-     * returns all detected countries
-     *
      * This method is intend to return all detected countries
      *
-     * @return  array All detected countries
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array All detected countries
+     * @access public
      */
     public function getCountries()
     {
@@ -282,17 +258,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $this->_detectedCountries;
     }
 
-
     /**
-     * returns the current active language
-     *
      * This method is intend to return the current active language
      *
-     * @return  string The current active language like "de" or "at"
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The current active language like "de" or "at"
+     * @access public
      */
     public function getLanguage()
     {
@@ -300,17 +271,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $this->_language;
     }
 
-
     /**
-     * returns all detected languages
-     *
      * This method is intend to return all detected languages
      *
-     * @return  array All detected languages
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array All detected languages
+     * @access public
      */
     public function getLanguages()
     {
@@ -318,17 +284,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $this->_detectedLanguages;
     }
 
-
     /**
-     * returns the complete set of current active locale, language + country
-     *
      * This method is intend to return the complete set of current active locale, language + country.
      *
-     * @return  array The complete set of current active locale-settings
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The complete set of current active locale-settings
+     * @access public
      */
     public function getLocalePreferences()
     {
@@ -339,38 +300,28 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         );
     }
 
-
     /**
-     * checks if a given locale-code is valid
-     *
      * This method is intend to check if all requirements are fulfilled.
      *
      * @param string $code de, de-AT, en-us ...
      *
-     * @return  boolean TRUE if valid, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
      */
     public function isValidLocaleCode($code = '')
     {
         return (preg_match('(^([a-zA-Z]{2})((_|-)[a-zA-Z]{2})?$)', $code) > 0) ? true : false;
     }
 
-
     /**
-     * detect the user-prefered locale
-     *
      * This method is intend to detect the user prefered locale.
      *
      * @param boolean $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
-     * @return  boolean TRUE if detection was succesful
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if detection was succesful
+     * @access public
      */
     public function detect($lookupAlternative = true)
     {
@@ -383,7 +334,6 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return true;
     }
 
-
     /*******************************************************************************************************************
      * \\ END PUBLIC INTERFACE
      ******************************************************************************************************************/
@@ -393,17 +343,13 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
      ******************************************************************************************************************/
 
     /**
-     * initializes and starts the detection
-     *
      * This method is intend to initialize and start the detection.
      *
      * @param boolean $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
-     * @return  boolean TRUE if detection was succesful
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if detection was succesful
+     * @access private
      */
     private function _init($lookupAlternative)
     {
@@ -470,19 +416,14 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return true;
     }
 
-
     /**
-     * writes the given preferences to all configured stores
-     *
      * This method is intend to write the given preferences to all configured stores.
      *
      * @param array $preferences The preferences to store
      *
-     * @return  boolean TRUE if storing was successful, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if storing was successful, otherwise FALSE
+     * @access private
      */
     private function _writePreferences(array $preferences)
     {
@@ -502,17 +443,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $result;
     }
 
-
     /**
-     * controls the detection of the users locale preferences
-     *
      * This method is intend to control the detection of the users locale preferences.
      *
-     * @return  array An array containing the prefered "locale" + "weight", "language" and "country"
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array An array containing the prefered "locale" + "weight", "language" and "country"
+     * @access private
      */
     private function _detectPreferences()
     {
@@ -529,17 +465,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $detectedPreferences;
     }
 
-
     /**
-     * returns the user's prefered locale from store
-     *
      * This method is intend to return the user's prefered, previously stored, locale from store.
      *
-     * @return  mixed ARRAY containing the prefered-config, otherwise NULL
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed ARRAY containing the prefered-config, otherwise NULL
+     * @access private
      */
     private function _readPreferences()
     {
@@ -564,17 +495,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $storedPreferences;
     }
 
-
     /**
-     * returns an instance of the session module
-     *
      * This method is intend to return an instance of the session module.
      *
-     * @return  object An instance of the module DoozR_Session
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object An instance of the module DoozR_Session
+     * @access private
      */
     private function _getSession()
     {
@@ -585,17 +511,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return self::$_session;
     }
 
-
     /**
-     * detects the available locales by request-header
-     *
      * This method is intend to detect the available locales by request-header.
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _detectByRequestHeader()
     {
@@ -660,17 +581,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         );
     }
 
-
     /**
-     * detects available locale(s) by requesting hostname/client-ip|domain
-     *
      * This method is intend to detect available locale(s) by requesting hostname/client-ip|domain.
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access private
      */
     private function _detectByUserIp()
     {
@@ -702,19 +618,14 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return true;
     }
 
-
     /**
-     * sorts the detected locales by it's weight
-     *
      * This method is intend to sort the detected locales by it's weight
      *
      * @param array $locales The locales array to sort by weight
      *
-     * @return  array By weight sorted elements
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array By weight sorted elements
+     * @access private
      */
     private function _sortByWeight(array $locales)
     {
@@ -747,20 +658,15 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $locales;
     }
 
-
     /**
-     * adds a locale (and its language + country) to the list of available locales
-     *
      * adds a locale (and its language + country) to the list of available locales
      *
      * @param string $locale The locale to add
      * @param double $weight The weight as double (e.g. 0.8 [q=0.8])
      *
-     * @return  object Instance of this class
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access private
      */
     private function _addLocale($locale, $weight = 0)
     {
@@ -774,19 +680,14 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         );
     }
 
-
     /**
-     * translates a given domain (like "de" or "com") to countrycode
-     *
      * This method is intend to translate a given domain (like "de" or "com") to countrycode.
      *
      * @param string $domain The domain to retrieve countrycode from
      *
-     * @return  mixed STRING countrycode if translation successful, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed STRING countrycode if translation successful, otherwise FALSE
+     * @access private
      */
     private function _translateDomainToCountrycode($domain = '')
     {
@@ -814,19 +715,14 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return false;
     }
 
-
     /**
-     * writes preferences to session
-     *
      * This method is intend to write preferences to session.
      *
      * @param array $preferences The preferences to store in session
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access private
      */
     private function _writeSession(array $preferences)
     {
@@ -834,17 +730,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $this->_getSession()->set(self::$_identifier, $preferences);
     }
 
-
     /**
-     * reads a previous stored locale-config from session
-     *
      * This method is intend to read a previous stored locale-config from session.
      *
-     * @return  mixed ARRAY with locale-settings if previously stored in session, otherwise NULL
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed ARRAY with locale-settings if previously stored in session, otherwise NULL
+     * @access private
      */
     private function _readSession()
     {
@@ -860,19 +751,14 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return $storedSettings;
     }
 
-
     /**
-     * writes preferences to a cookie
-     *
      * This method is intend to write preferences to a cookie on user's client.
      *
      * @param array $preferences The preferences to store in session
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access private
      */
     private function _writeCookie(array $preferences)
     {
@@ -891,17 +777,12 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
         return setcookie(self::$_identifier, $data, $lifetime, $path, $domain);
     }
 
-
     /**
-     * reads a cookie with a previous stored locale-config (state)
-     *
      * This method is intend to read a cookie with a previous stored locale-config (state).
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access private
      */
     private function _readCookie()
     {
@@ -938,39 +819,35 @@ class DoozR_I18n_Module_Detector extends DoozR_Base_Class_Singleton
      ******************************************************************************************************************/
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
      * @param object $config An instance of DoozR_Config_Ini holding the I18n-config
      *
-     * @return  object Instance of this class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access protected
      */
     protected function __construct($config)
     {
         // locale defaults
         self::$_defaults = array(
-            'locale'   => $config->general->default_locale(),
-            'language' => $config->general->default_language(),
-            'country'  => $config->general->default_country(),
-            'weight'   => $config->general->default_weight()
+            'locale'   => $config->i18n->defaults->locale,
+            'language' => $config->i18n->defaults->language,
+            'country'  => $config->i18n->defaults->country,
+            'weight'   => $config->i18n->defaults->weight
         );
 
         // a collection of locales available
-        self::$_availableLocales = explode(',', $config->general->available_locale());
+        self::$_availableLocales = (array)$config->i18n->defaults->available();
 
         // get "prefered-locale"-stores in correct order
-        self::$_stores = explode(',', $config->user->stores());
+        self::$_stores = $config->i18n->user->stores();
 
         // get lifetime for stored preference data
-        self::$_preferenceLifetime = $config->user->preference_lifetime();
+        self::$_preferenceLifetime = $config->i18n->user->lifetime;
 
         // the identifier for stores
-        self::$_identifier = $config->user->identifier();
+        self::$_identifier = $config->i18n->user->identifier;
     }
 
     /*******************************************************************************************************************

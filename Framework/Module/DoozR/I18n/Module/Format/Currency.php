@@ -104,9 +104,9 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
         // format the given value
         $formatted = number_format(
             $value,
-            $this->configL10n->CURRENCY->MINOR_UNIT(),
-            $this->configL10n->CURRENCY->DECIMAL_POINT(),
-            $this->configL10n->CURRENCY->THOUSANDS_SEPERATOR()
+            $this->configL10n->currency->minor_unit(),
+            $this->configL10n->currency->decimal_point(),
+            $this->configL10n->currency->thousands_seperator()
         );
 
         // is value = major (1) or minor (0)
@@ -114,19 +114,19 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
 
         // check for position override
         if (!$symbolPosition) {
-            $symbolPosition = $this->configL10n->CURRENCY->SYMBOL_POSITION();
+            $symbolPosition = $this->configL10n->currency->symbol_position();
         }
 
         // if notation set overwrite it with the concrete notation
         if ($notation) {
-            // get notation from CURRENCY-table
+            // get notation from currency-table
             $encoding = ($notation == 'symbol' && $encoding) ? '_'.strtoupper($encoding) : '';
 
             // get notation
-            $notation = $this->getConfig()->{strtoupper($country)}->MAJOR_SYMBOL();
+            $notation = $this->getConfig()->{$country}->major_symbol();
 
             // spacing between curreny-symbol and value
-            $notationSpace = $this->configL10n->CURRENCY->NOTATION_SPACE();
+            $notationSpace = $this->configL10n->currency->notation_space();
 
             // check where to add the symbol ...
             if ($symbolPosition == 'l') {
@@ -151,7 +151,7 @@ class DoozR_I18n_Module_Format_Currency extends DoozR_I18n_Module_Format_Abstrac
     public function getCurrencyCode()
     {
         try {
-            return $this->configL10n->CURRENCY->CODE();
+            return $this->configL10n->currency->code();
         } catch (Exception $e) {
             throw new DoozR_I18n_Module_Exception('Error reading currency code from L10N config.', null, $e);
         }

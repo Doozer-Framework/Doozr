@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Module Phptal
+ * DoozR - Phptal - Module
  *
  * Module.php - Module for interfacing PHPTAL (PHP Template Attribute Language)
  *
@@ -58,7 +58,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Phptal/Module/Lib/PHPTAL.php';
 
 /**
- * DoozR Module Phptal
+ * DoozR - Phptal - Module
  *
  * Module for interfacing PHPTAL (PHP Template Attribute Language)
  *
@@ -76,11 +76,15 @@ require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Phptal/Module/Lib/PHPTAL.php';
  */
 final class DoozR_Phptal_Module extends PHPTAL
 {
+    /**
+     * The DoozR registry for storing elements
+     *
+     * @var DoozR_Registry
+     * @access public
+     */
     public $registry;
 
     /**
-     * Constructor of this class
-     *
      * This method just intercepts while instanciation for
      * filtering out the registry as argument to PHPTAL.
      * PHPTAL takes only one argument -> the filename of the
@@ -101,16 +105,14 @@ final class DoozR_Phptal_Module extends PHPTAL
     }
 
     /**
-     * Assigns a variable to the template instance
-     *
      * This method is intend to assign a variable to the template instance.
      *
      * @param mixed $variable The variable-name to assign
      * @param mixed $value    The variable-value to assign
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if successful, otherwise FALSE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @throws DoozR_Exception
      */
     public function assignVariable($variable = null, $value = null)
@@ -119,15 +121,13 @@ final class DoozR_Phptal_Module extends PHPTAL
     }
 
     /**
-     * method to assign more than one variable at once
-     *
      * This method is intend to assign more than one variable at once
      *
      * @param array $variables The variables to assign as array
      *
-     * @return  boolean TRUE if successful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if successful, otherwise FALSE
+     * @access public
      */
     public function assignVariables(array $variables)
     {

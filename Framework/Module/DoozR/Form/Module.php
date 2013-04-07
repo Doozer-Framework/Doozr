@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Module - Form
+ * DoozR - Form - Module
  *
  * Module.php - Module for generating valid and 100% x-browser compatible
  * HTML-Forms
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Module/Singleton/Facade.php';
 require_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/Form/Module/Validate.php';
 
 /**
- * DoozR - Module - Form
+ * DoozR - Form - Module
  *
  * Module.php - Module for generating valid and 100% x-browser compatible
  * HTML-Forms
