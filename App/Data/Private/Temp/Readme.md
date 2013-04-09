@@ -1,0 +1,3 @@
+Please do not remove this folder. Feel free to remove this file you currently reading.
+It's required cause git does not allow empty folders to be commited. This folder will
+contain temporary files like compiled template files, temporary uploads and so on ...
