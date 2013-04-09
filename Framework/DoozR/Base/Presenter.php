@@ -142,6 +142,9 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         $this->model = $model;
         $this->view  = $view;
 
+        $this->attach($this->view);
+        $this->attach($this->model);
+
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
             $this->__tearup($this->request, $this->translation);

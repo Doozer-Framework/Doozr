@@ -109,6 +109,12 @@ final class Model_Demo extends DoozR_Base_Model implements DoozR_Base_Model_Inte
         $this->setData($data);
     }
 
+    protected function __update($subject)
+    {
+    	pred($subject);
+    }
+
+
     /**
      * This method is intend to return data for the action show.
      *
@@ -119,6 +125,7 @@ final class Model_Demo extends DoozR_Base_Model implements DoozR_Base_Model_Inte
     public function screen()
     {
         /*...*/
+    	pred('Model');
     }
 
     /**
