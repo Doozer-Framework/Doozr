@@ -114,7 +114,9 @@ final class Presenter_Demo extends DoozR_Base_Presenter implements DoozR_Base_Pr
         // retrieve data for context Screen
         $data = $this->model->getData();
 
-        return $this->view->setData($data);
+        pred('aha');
+
+        //return $this->view->setData($data);
 
         //pred($this->request);
 
