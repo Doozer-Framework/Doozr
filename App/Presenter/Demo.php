@@ -109,27 +109,20 @@ final class Presenter_Demo extends DoozR_Base_Presenter implements DoozR_Base_Pr
      * @return boolean True if successful, otherwise false
      * @access public
      */
-    public function screen()
+    public function Screen()
     {
-        // retrieve data for context Screen
+        // retrieve data for context Screen from Model by defined default interface "getData()"
         $data = $this->model->getData();
 
-        pred('aha');
+        // set data here within this instance cause VIEW and MODEL are attached
+        // as Observer to this Subject.
+        $this->setData($data);
 
-        //return $this->view->setData($data);
+        // dispatch data to view
+        //$result = $this->view->setData($data);
 
-        //pred($this->request);
-
-        // dispatch to
-        //$run = $this->view->{$this->ac}($data);
-
-        //
-        //$registry = DoozR_Registry::getInstance();
-        // get pre - html
-        //$text = pre(__CLASS__.' proudly present: '.$data.' directly from Model :) through Response ...', true);
-        // deliver the HTML code through response
-        //return $registry->front->getResponse()->sendText($text);
-
+        // the result from operation above
+        return true;
     }
 }
 

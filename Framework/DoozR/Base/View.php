@@ -229,6 +229,18 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
     }
 
     /**
+     * This method (container) is intend to return the data for a requested mode.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data for the mode requested
+     * @access public
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
      * This method is intend to render the current state of the view as html.
      * For this it makes use of the base template engine, and html5 template
      * files. If you need another output or something like this, you must
@@ -245,7 +257,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
         // store given fingerprint
         $this->fingerprint = $this->getFingerprint(1);
 
-        //
+        // try to get content from our allumfassendes zaubersystem
         try {
             $data = $this->cache->read($this->fingerprint);
 
@@ -257,7 +269,8 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
             // load the template (generic template engine)
             $tpl = DoozR_Loader_Moduleloader::load('template', array($tplFile));
 
-            if ($i18n) {
+            // if I18n passed -> forward to template engine (e.g. PHPTAL)
+            if ($i18n !== null) {
                 $tpl->setTranslator($i18n);
             }
 

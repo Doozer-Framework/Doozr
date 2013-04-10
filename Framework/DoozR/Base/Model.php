@@ -108,16 +108,14 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
 
 
     /**
-     * Constructor of this class
-     *
      * This method is the constructor of this class.
      *
      * @param array $request     The whole request as processed by "Route"
      * @param array $translation The translation required to read the request
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(array $request, array $translation)
     {
@@ -132,13 +130,11 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     }
 
     /**
-     * called on destruction of the class
-     *
      * This method is intend to call the teardown method of a model if exist
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __destruct()
     {
@@ -149,14 +145,12 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     }
 
     /**
-     * create
-     *
      * Create of Crud
      *
      * @param mixed $data The data for create
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  protected
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
      * @abstract
      */
     protected function create($data = null)
@@ -167,12 +161,10 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     }
 
     /**
-     * read
-     *
      * Read of cRud
      *
-     * @return  mixed Data on success, otherwise null
-     * @access  protected
+     * @return mixed Data on success, otherwise null
+     * @access protected
      * @abstract
      */
     protected function read()
@@ -183,12 +175,10 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     }
 
     /**
-     * delete
-     *
      * Delete of cruD
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  protected
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
      * @abstract
      */
     protected function delete()
@@ -199,13 +189,11 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     }
 
     /**
-     * returns the data for requested mode
-     *
      * This method (container) is intend to return the data for a requested mode.
      *
-     * @return  mixed The data for the mode requested
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data for the mode requested
+     * @access public
      */
     public function getData()
     {
@@ -213,15 +201,13 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     }
 
     /**
-     * sets the data for requested mode
-     *
      * This method (container) is intend to set the data for a requested mode.
      *
      * @param mixed $data The data (array prefered) to set
      *
-     * @return  boolean True if everything wents fine, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if everything wents fine, otherwise false
+     * @access public
      */
     public function setData($data)
     {

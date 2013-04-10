@@ -92,6 +92,22 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
     }
 
     /**
+     * Maybe a bit spooky but a good solution to get data into this part of the
+     * MVP structure.
+     *
+     * @param SplSubject $subject The subject which is automatically dispatched
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function __update(SplSubject $subject)
+    {
+        // store data internal and call renderer!
+        $this->setData($subject->getData(), true);
+    }
+
+    /**
      * This method is intend to demonstrate how data could be automatic
      * be displayed.
      *
@@ -99,10 +115,9 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
      * @return boolean TRUE if successful, otherwise FALSE
      * @access public
      */
+    /*
     public function Screen()
     {
-        pred('ja man');
-
         // retrieve data for context Screen
         $data = $this->getData();
 
@@ -132,12 +147,10 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
      */
     public function __renderScreen()
     {
-        // data before
-        //$data = $this->getData();
+        // we need the I18n module -> without locale passed = will autodetect
         $i18n = DoozR_Loader_Moduleloader::load('i18n', array($this->config));
 
-        // magically transformation - parameter "true" stands for: overwrite stored data (TRUE) or just return (FALSE)
-        $this->render($this->data, $i18n);
+        $this->render($this->getData(), $i18n);
     }
 
     /**
