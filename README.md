@@ -7,16 +7,16 @@ DoozR is designed for solving real world problems. It comes bundled with a lot o
 
 
 ## Modules
- - Cache (caching of almost everything - Builtin container for filesystem, memory, ...)
- - Configreader (read configurations - Builtin container for ini, json, ...)
- - Crypt (en-/decryption - Builtin container for AES, ...)
- - Datetime (Date/Time calculations, converting, ...)
- - Filesystem (a perfect OOP Interface to the filesystem, support for virtual filesystem)
- - Form (form utility for creating, maintaining, securing, handling, paginating and validating HTML-Forms)
- - I18n (Internationalization and localization L10n support with builtin interface to PHPTAL, container for text and gettext)
- - Minify (Runtime compressing of JS, CSS, ... files)
- - Password (Generating and hashing/validating of passwords, security checks like strength, similarity to compare-string)
- - Session (Session management, security implementations like bind session to n octets of IP, regenerating Id on random request)
+ - Cache
+ - Configreader
+ - Crypt
+ - Datetime
+ - Filesystem
+ - Form
+ - I18n
+ - Minify
+ - Password
+ - Session
 
 
 ## MVP
