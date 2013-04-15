@@ -2,9 +2,11 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Model
+ * DoozR - Model
  *
- * Model.php - Model of the DoozR Framework.
+ * Model.php - Model of the DoozR Framework. This Model-class provides access
+ * to Database libs in Model/Lib/... - by acting as a configurable (.config)
+ * proxy.
  *
  * PHP versions 5
  *
@@ -58,9 +60,11 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Decorator/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
 
 /**
- * DoozR Model
+ * DoozR - Model
  *
- * Model Manager of the DoozR Framework.
+ * Model.php - Model of the DoozR Framework. This Model-class provides access
+ * to Database libs in Model/Lib/... - by acting as a configurable (.config)
+ * proxy.
  *
  * @category   DoozR
  * @package    DoozR_Core
@@ -101,8 +105,6 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
 
 
     /**
-     * constructor
-     *
      * This method is the constructor of the core class.
      *
      * @param array  $decoratorConfiguration Configuration for the Generic Decorator Class
@@ -110,11 +112,9 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
      * @param object $config                 Instance of DoozR_Config
      * @param object $logger                 Instance of DoozR_Logger
      *
-     * @return  object Instance of this class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access protected
      */
     protected function __construct(
         array $decoratorConfiguration,
@@ -140,16 +140,12 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     }
 
     /**
-     * instance getter for loose (not including parameter!) singleton
-     *
      * This method is intend to setup and call generic singleton-getter and return an instance
      * of the requested class.
      *
-     * @return  object instance/object of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance/object of this class
+     * @access public
      */
     public function __destruct()
     {

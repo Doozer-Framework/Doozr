@@ -1,3 +1,10 @@
+DoozR - Model - Database
+
+
+
+
+
+
 Put generated 
 
 The name of the File must be the same as the Driver Name and also
@@ -19,7 +26,7 @@ Framework\Model\Lib\
                                     Couchdb\
                                             All generated proxy classes ... *
 
-Whenever you see "Couchdb" above its the name i defined for maskign phpillow.
+Whenever you see "Couchdb" above its the name i defined for masking phpillow.
 Just for make phpillow easy replacable without touching any point of the code
 elsewhere. The plan is that we exchange phpillow with a native C/C++ extension
 to speed the process up. So we only need to dispatch to native extension

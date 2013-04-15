@@ -159,15 +159,13 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
      ******************************************************************************************************************/
 
     /**
-     * constructs the class
-     *
-     * constructor builds the class
+     * Constructor builds the class
      *
      * @param array $configuration The configuration for the Database-Connection
      *
-     * @return  object Instance of this class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access protected
      */
     protected function __construct($configuration = null)
     {
@@ -198,14 +196,12 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
      ******************************************************************************************************************/
 
     /**
-     * initializes the transformer-class if exists
+     * This method is intend to initialize the transformer-lass if exists
      *
-     * This method is intend to initialize the transformer-class if exists
-     *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
+     * @throws Exception
      */
     private function _initTransformer()
     {
@@ -241,9 +237,9 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
      *
      * @param string $method The method to return plain name from
      *
-     * @return  string Plain method-name
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Plain method-name
+     * @access private
      */
     private function _getMethod($method)
     {
@@ -251,17 +247,13 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
     }
 
     /**
-     * returns the arguments of a method
-     *
      * This method is intend to return the arguments of a method if exist, otherwise null
      *
      * @param array $arguments The arguments of a method retrieved by func_get_args()
      *
-     * @return  mixed ARRAY arguments if exist, otherwise NULL
-     * @access  private
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return mixed ARRAY arguments if exist, otherwise NULL
+     * @access private
      */
     private function _getArguments($arguments)
     {
@@ -277,14 +269,11 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
      ******************************************************************************************************************/
 
     /**
-     * returns the transformer instance of this class
-     *
      * This method is intend to return the transformer instance of this class.
      *
-     * @return  mixed OBJECT the transformer-instance if exist, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @static
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed OBJECT the transformer-instance if exist, otherwise NULL
+     * @access public
      */
     public static function getTransformer()
     {
@@ -300,14 +289,12 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
      ******************************************************************************************************************/
 
     /**
-     * instance getter for loose (not including parameter!) singleton
-     *
      * This method is intend to setup and call generic singleton-getter and return an instance
      * of the requested class.
      *
-     * @return  object instance/object of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance/object of this class
+     * @access public
      */
     public function __destruct()
     {
@@ -330,16 +317,14 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
      ******************************************************************************************************************/
 
     /**
-     * instance getter for loose (not including parameter!) singleton
-     *
      * This method is intend to setup and call generic singleton-getter and return an instance
      * of the requested class.
      *
      * @param array $configuration The configuration for the Database-Connection
      *
-     * @return  object instance/object of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance/object of this class
+     * @access public
      */
     public static function getInstance($configuration = null)
     {

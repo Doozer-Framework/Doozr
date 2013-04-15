@@ -568,6 +568,9 @@ if (!function_exists('pre')) {
             ob_end_clean();
         }
 
+        // change color to a nicer viewable one!
+        $data = str_replace('cc0000', 'ccc', $data);
+
         // define new-line ctrl-char
         $nl = "\n";
 

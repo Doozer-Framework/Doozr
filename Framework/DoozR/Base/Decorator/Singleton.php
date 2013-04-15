@@ -130,9 +130,10 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
      *
      * @param array &$configuration Reference to the configuration for decorator
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     * @throws DoozR_Exception
      */
     protected function init(array &$configuration, DoozR_Path $path)
     {
@@ -183,9 +184,9 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
      * @param string $signature The signature of the method to translate
      * @param array  $arguments The arguments to pass to method
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function translate($signature, $arguments = null)
     {
@@ -201,14 +202,12 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * initializes the transformer-class if exists
-     *
      * This method is intend to initialize the transformer-class if exists
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
+     * @throws Exception
      */
     private function _initTransformer($docroot, $vendor = 'DoozR')
     {
@@ -246,17 +245,15 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * fetch calls of generic facade
-     *
      * This method is intend to fetch all methods-calls for non-existant methods. This calls
      * get routed by the previously generated matrix of the routing class.
      *
      * @param string $methodSignature The called method
      * @param array  $arguments       The arguments of the method call
      *
-     * @return  mixed The result of the message call
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the message call
+     * @access public
      */
     public function __call($methodSignature, $arguments)
     {
@@ -315,14 +312,11 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
      * This magic method fetches all propertie accesses to this class
      * and pass them to the decorated class - this is done by
      *
-     *
-     * get routed by the previously generated matrix of the routing class.
-     *
      * @param string $chainClassname The requested property
      *
-     * @return  object The current instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object The current instance of this class
+     * @access public
      */
     public function __get($chainClassname)
     {
@@ -336,8 +330,8 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
             self::$chainClassname = $chainClassname;
 
         } else {
-            self::$chainClassname = self::$chainClassname.$this->decoratorConfiguration['glue'].ucfirst($chainClassname);
-
+            self::$chainClassname = self::$chainClassname.$this->decoratorConfiguration['glue'].
+            	ucfirst($chainClassname);
         }
 
         return $this;
