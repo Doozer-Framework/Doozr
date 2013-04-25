@@ -4,7 +4,7 @@
 /**
  * DoozR - Doodi - Database-Wrapper (DoozR's-Object-Oriented-Database-Interface)
  *
- * Doodi.php - This class is the front API of Doodi. Doodi is a acronym for
+ * Doodi.php - This class is the front API of Doodi. Doodi is an acronym for
  * "DoozR's-Object-Oriented-Database-Interface". Doodi can be used with any
  * existing OxM (x = R, D, ...). You only need to generate the Route and the
  * container classes with the tool "RouteGenerator.php".
@@ -177,6 +177,10 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
         $this->_password = $configuration['PASSWORD'];
         $this->_database = $configuration['DATABASE'];
 
+
+        pred('CAN I HAS CODE');
+
+
         // store path to this class
         $this->_path = $this->getPath();
 
@@ -231,7 +235,7 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
     }
 
     /**
-     * returns the plain-method name from given __METHOD__-constant
+     * Returns the plain-method name from given __METHOD__-constant
      *
      * This method is intend to return the plain-method name from given __METHOD__-constant
      *

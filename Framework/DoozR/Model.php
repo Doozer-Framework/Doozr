@@ -62,7 +62,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
 /**
  * DoozR - Model
  *
- * Model.php - Model of the DoozR Framework. This Model-class provides access
+ * Model of the DoozR Framework. This Model-class provides access
  * to Database libs in Model/Lib/... - by acting as a configurable (.config)
  * proxy.
  *
@@ -132,7 +132,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
 
         // is enabled?
         $this->enabled = $this->_config->database->enabled();
-
+        
         // if database is enabled -> start decorating
         if ($this->enabled) {
             $this->init($this->decoratorConfiguration, $this->_path);
