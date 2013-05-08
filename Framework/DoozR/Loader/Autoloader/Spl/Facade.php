@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR-Loader-Autoloader-Spl-Facade
+ * DoozR - Loader - Autoloader - Spl - Facade
  *
- * DoozRLoaderAutoloaderSplFacade.php - Facade to the SPL-Autoload-Subsystem
+ * Facade.php - Facade to the SPL-Autoload-Subsystem
  * A simple and OOP-based Interface for the procedural SPL-functionality.
  *
  * PHP versions 5
@@ -45,9 +45,9 @@
  *
  * @category   DoozR
  * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader_Spl
+ * @subpackage DoozR_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2011 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
@@ -55,17 +55,20 @@
  * @since      -
  */
 
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
+
 /**
- * DoozR-Loader-Autoloader-Spl-Facade
+ * DoozR - Loader - Autoloader - Spl - Facade
  *
- * Facade to the SPL-Autoload-Subsystem.
- * A simple and OOP-based Interface for the procedural SPL-functionality.
+ * Facade to the SPL-Autoload-Subsystem. A simple and OOP-based Interface for
+ * the procedural SPL-functionality.
  *
  * @category   DoozR
  * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader_Spl
+ * @subpackage DoozR_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2011 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
@@ -95,17 +98,13 @@ class DoozR_Loader_Autoloader_Spl_Facade
 
 
     /**
-     * initializes basic setup
-     *
      * This method is intend to initialize the basic setup.
      *
      * @param boolean $checkMagicAutoload TRUE to keep magic function __autoload working, otherwise FALSE
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      * @static
      */
     public static function init($checkMagicAutoload = true)
@@ -125,77 +124,117 @@ class DoozR_Loader_Autoloader_Spl_Facade
         }
     }
 
-
     /**
-     * registers a Autoloader based on given config
+     * Registers a Autoloader based on given config
      *
      * This method is intend to register a new Autoloader to SPL-Subsystem based on the Information (setup) of given
      * config (DoozR_Loader_Autoloader_Spl_Config-Instance).
      *
      * @param DoozR_Loader_Autoloader_Spl_Config $config An instance of the DoozR_Loader_Autoloader_Spl_Config-Class
      *
-     * @return  boolean true if Autoloader was registered successfully, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean true if Autoloader was registered successfully, otherwise false
+     * @access public
      * @static
+     * @throws DoozR_Exception
      */
-    public static function register(DoozR_Loader_Autoloader_Spl_Config $config)
+    public static function attach($config)
     {
-        // retrieve currently configured autoloader
-        $registeredAutoloader = self::getSplAutoloader();
-
         // assume op will fail
-        $result = false;
+        $result   = false;
+        $priorize = false;
 
-        // check if autoloader is already registered (not uid - real check)
-        if (!$registeredAutoloader || !self::_isRegistered(
-            $config->isClass(),
-            $config->getClass(),
-            $config->getMethod(),
-            $registeredAutoloader
-        )) {
-            // construct ...
-            if ($config->isClass()) {
-                $loader = array($config->getClass(), $config->getMethod());
-            } else {
-                $loader = $config->getMethod();
-            }
-
-            // register autoloader
-            if (!$registeredAutoloader || !$config->getPriority()) {
-                // we don't need to worry about the order/priority
-                $result = (is_callable($loader) && spl_autoload_register($loader));
-            } else {
-                // check for order cause we got a specific priority
-
-            }
+        // init if not already done
+        if (!self::$_initialized) {
+            self::init(true);
         }
 
-        // add file-extension from config
-        self::addFileExtensions($config->getExtension());
+        // check input
+        if (is_array($config)) {
+            foreach ($config as $singleConfig) {
+                if (!$singleConfig instanceof DoozR_Loader_Autoloader_Spl_Config) {
+                    throw new DoozR_Exception(
+                        'Passed config must be of type: "DoozR_Loader_Autoloader_Spl_Config_Interface"'
+                    );
+                }
+            }
+        } else {
+            if (!$config instanceof DoozR_Loader_Autoloader_Spl_Config) {
+                throw new DoozR_Exception(
+                    'Passed config must be of type: "DoozR_Loader_Autoloader_Spl_Config_Interface"'
+                );
+            }
 
-        // store config
-        self::$_autoloader[$config->getUid()] = $config;
+            $config = array($config);
+        }
+
+        // iterate passed configurations
+        foreach ($config as $singleConfig) {
+
+            // retrieve currently configured autoloader
+            $registeredAutoloader = self::getSplAutoloader();
+
+            // check if autoloader is already registered (not uid - real check)
+            if (
+                !$registeredAutoloader ||
+                !self::_isRegistered(
+                    $singleConfig->isClass(),
+                    $singleConfig->getClass(),
+                    $singleConfig->getMethod(),
+                    $registeredAutoloader
+                )
+            ) {
+                // build loader construct ...
+                if ($singleConfig->isLoader()) {
+                    $loader = array($singleConfig, $singleConfig->getMethod());
+                } else {
+                    if ($singleConfig->isClass()) {
+                        $loader = array($singleConfig->getClass(), $singleConfig->getMethod());
+                    } else {
+                        $loader = $singleConfig->getMethod();
+                    }
+                }
+
+                // add extension(s) of current config to spl
+                self::addFileExtensions($singleConfig->getExtension());
+
+                // register autoloader
+                $result = (is_callable($loader) && spl_autoload_register($loader));
+
+                //
+                if (
+                    $singleConfig->getPriority() !== null &&
+                    $singleConfig->getPriority() !== count($registeredAutoloader)
+                ) {
+                    $priorize = true;
+                }
+            }
+
+            // add file-extension from config
+            self::addFileExtensions($singleConfig->getExtension());
+
+            // store config
+            self::$_autoloader[$singleConfig->getUid()] = $singleConfig;
+
+            if ($priorize === true) {
+                self::changeAutoloaderPriority($singleConfig->getUid(), $singleConfig->getPriority());
+            }
+        }
 
         // return TRUE = registered successfuly, NULL = already registered, FALSE = error
         return $result;
     }
 
-
     /**
-     * releases a previous registered Autoloader
+     * Releases a previous registered Autoloader
      *
      * This method is intend to release a registered Autoloader by its unique-Id.
      *
      * @param string $uId The unique-id used to identify the Autoloader which should be removed
      *
-     * @return  boolean true if Autoloader was released successfully, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean true if Autoloader was released successfully, otherwise false
+     * @access public
      * @static
      */
     public static function release($uId)
@@ -234,17 +273,14 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return $result;
     }
 
-
     /**
-     * returns the config of the last registered AL (checks current spl-stack)
+     * Returns the config of the last registered AL (checks current spl-stack)
      *
      * This method is intend to return the config of the last registered AL (checks current spl-stack).
      *
-     * @return  mixed DoozR_Loader_Autoloader_Spl_Config of last AL if exist, otherwise boolean FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed DoozR_Loader_Autoloader_Spl_Config of last AL if exist, otherwise boolean FALSE
+     * @access public
      * @static
      */
     public static function getLast()
@@ -265,17 +301,14 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return $result;
     }
 
-
     /**
-     * returns the config of the first registered AL (checks current spl-stack)
+     * Returns the config of the first registered AL (checks current spl-stack)
      *
      * This method is intend to return the config of the first registered AL (checks current spl-stack).
      *
-     * @return  mixed DoozR_Loader_Autoloader_Spl_Config of first AL if exist, otherwise boolean FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed DoozR_Loader_Autoloader_Spl_Config of first AL if exist, otherwise boolean FALSE
+     * @access public
      * @static
      */
     public static function getFirst()
@@ -296,19 +329,16 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return $result;
     }
 
-
     /**
-     * returns a single - or a list of - configuration(s) of registered Autoloaders
+     * Returns a single - or a list of - configuration(s) of registered Autoloaders
      *
      * This method is intend to return a single - or a list of - configurations of currently registered Autoloaders.
      *
      * @param string $uId An unique-Id of an Autoloader to retrieve a single config
      *
-     * @return  mixed a single DoozR_Loader_Autoloader_Spl_Config or a list of (array) DoozR_Loader_Autoloader_Spl_Config's
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed a single DoozR_Loader_Autoloader_Spl_Config or a list of (array) DoozR_Loader_Autoloader_Spl_Config's
+     * @access public
      * @static
      */
     public static function getAutoloader($uId = null)
@@ -323,17 +353,14 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return $autoloader;
     }
 
-
     /**
-     * returns a raw list of currently registered SPL-Autoloader
+     * Returns a raw list of currently registered SPL-Autoloader
      *
      * This method is intend to return a raw list of currently registered SPL-Autoloader.
      *
-     * @return  array A list of registered SPL-Autoloader
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed An array of registered SPL-Autoloader(s) if set, otherwise FALSE
+     * @access public
      * @static
      */
     public static function getSplAutoloader()
@@ -341,19 +368,16 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return spl_autoload_functions();
     }
 
-
     /**
-     * adds a single file-extension to SPL-list of autoload_extensions
+     * Adds a single file-extension to SPL-list of autoload_extensions
      *
      * This method is intend add a single file-extensions to SPL-list of autoload_extensions.
      *
      * @param string $extension The file-extension to add
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      * @static
      */
     public static function addFileExtension($extension)
@@ -366,19 +390,16 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return self::addFileExtensions(array($extension));
     }
 
-
     /**
-     * adds a list of file-extensions to SPL-list of autoload_extensions
+     * Adds a list of file-extensions to SPL-list of autoload_extensions
      *
      * This method is intend to add a list of file-extensions to SPL-list of autoload_extensions.
      *
      * @param array $extensions The extensions to add
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      * @static
      */
     public static function addFileExtensions(array $extensions)
@@ -393,7 +414,6 @@ class DoozR_Loader_Autoloader_Spl_Facade
         spl_autoload_extensions(implode(',', $splExtensions));
     }
 
-
     /**
      * changes the priority (order on spl-autoloader stack) for previously registered ALs
      *
@@ -402,11 +422,9 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * @param string  $uId      The unique-Id of the AL to change priority for
      * @param integer $priority The new priority of the AL
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      * @static
      */
     public static function changeAutoloaderPriority($uId, $priority = 0)
@@ -429,12 +447,19 @@ class DoozR_Loader_Autoloader_Spl_Facade
         $config = self::$_autoloader[$uId];
 
         // find out what we are looking for ...
-        $loader = ($config->isClass()) ? array($config->getClass(), $config->getMethod()) : $config->getFunction();
+        if ($config->isClass()) {
+            $loader = array($config->getClass(), $config->getMethod());
+        } elseif ($config->isLoader()) {
+            $loader = array($config, $config->getMethod());
+        } else {
+            $loader = $config->getFunction();
+        }
 
         // check if reposition needed
-        if (!(isset($autoloaderPriority[$priority]) && $autoloaderPriority[$priority] == $loader)) {
+        if (!(isset($autoloaderPriority[$priority]) && $autoloaderPriority[$priority] === $loader)) {
+
             // if the new prio is 0 = first element we use the fastet way possible
-            if ($priority == 10) {
+            if ($priority === 0) {
                 // remove
                 spl_autoload_unregister($loader);
 
@@ -457,6 +482,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
                     spl_autoload_register($autoloader);
                 }
             }
+
         } else {
             // nothing to do
             return false;
@@ -466,20 +492,17 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return true;
     }
 
-
     /**
-     * changes the file-extension priority (order on spl-file-extension stack)
+     * Changes the file-extension priority (order on spl-file-extension stack)
      *
      * This method is intend to change the file-extension priority (order on spl-file-extension stack).
      *
      * @param string  $fileExtension The file-extension to change priority for
      * @param integer $priority      The new priority of the file-extension
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      * @static
      */
     public static function changeFileExtensionPriority($fileExtension = '.php', $priority = 0)
@@ -512,17 +535,14 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return true;
     }
 
-
     /**
-     * returns the list of file-extension ordered by its priority
+     * Returns the list of file-extension ordered by its priority
      *
      * This method is intend to return the list of file-extension ordered by its priority.
      *
-     * @return  string The list of all file-extensions from spl-stack
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The list of all file-extensions from spl-stack
+     * @access public
      * @static
      */
     public static function getFileExtensionPriority()
@@ -530,19 +550,16 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return spl_autoload_extensions();
     }
 
-
     /**
-     * sets a new list of file-extension ordered by its priority
+     * Sets a new list of file-extension ordered by its priority
      *
      * This method is intend to set a new list of file-extension ordered by its priority.
      *
      * @param string $prioritizedFileExtensions The prioritized list of file-extensions
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      * @static
      */
     public static function setFileExtensionPriority($prioritizedFileExtensions)
@@ -550,9 +567,8 @@ class DoozR_Loader_Autoloader_Spl_Facade
         spl_autoload_extensions($prioritizedFileExtensions);
     }
 
-
     /**
-     * checks if a autoloader is registered
+     * Checks if a autoloader is registered
      *
      * This method is intend to check if a autoloader is registered.
      *
@@ -561,11 +577,9 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * @param string  $method     The name of the Autolaoder-Method (Function)
      * @param mixed   $autoloader A already retrieved list of currently registered SPL-Autoloaders
      *
-     * @return  boolean True if autoloader is regsitered, otherwise false
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if autoloader is regsitered, otherwise false
+     * @access private
      * @static
      */
     private static function _isRegistered($isClass, $class, $method, $autoloader = null)
@@ -586,20 +600,17 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return in_array($needle, $autoloader);
     }
 
-
     /**
-     * returns a config (DoozR_Loader_Autoloader_Spl_Config) of a registered AL by it's AL-function/method
+     * Returns a config (DoozR_Loader_Autoloader_Spl_Config) of a registered AL by it's AL-function/method
      *
      * This method is intend to return return a config (DoozR_Loader_Autoloader_Spl_Config) of a registered AL by
      * it's AL-function/method.
      *
      * @param mixed $function STRING The name of the function, or ARRAY containing Class, Method
      *
-     * @return  mixed DoozR_Loader_Autoloader_Spl_Config of found AL, otherwise boolean FALSE if not found
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed DoozR_Loader_Autoloader_Spl_Config of found AL, otherwise boolean FALSE if not found
+     * @access private
      * @static
      */
     private static function _findAutoloaderByFunction($function)
