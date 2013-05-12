@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Response Web
+ * DoozR - Response - Web
  *
  * Web.php - Response Web - Response-Handler to pass responses to WEB
  *
@@ -57,7 +57,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Response.php';
 
 /**
- * DoozR Response Web
+ * DoozR - Response - Web
  *
  * Response Web - Response-Handler to pass responses to WEB
  *

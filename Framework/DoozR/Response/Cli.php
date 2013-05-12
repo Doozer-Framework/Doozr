@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Response Cli
+ * DoozR - Response - Cli
  *
  * Cli.php - Response Cli - Response-Handler to pass responses to CLI
  *
@@ -54,11 +54,11 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Core/Controller/Response/Response.class.php';
-require_once DOOZR_DOCUMENT_ROOT.'Core/Controller/Response/IResponse.class.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Response.php';
+//require_once DOOZR_DOCUMENT_ROOT.'DoozR/Response/Interface.php';
 
 /**
- * DoozR Response Cli
+ * DoozR - Response - Cli
  *
  * Response Cli - Response-Handler to pass responses to CLI
  *
@@ -73,7 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Core/Controller/Response/IResponse.class.php';
  * @see        -
  * @since      -
  */
-class DoozR_Response_Cli extends Response implements IResponse
+class DoozR_Response_Cli extends DoozR_Base_Response
 {
     /**
      * type of this response
@@ -87,39 +87,30 @@ class DoozR_Response_Cli extends Response implements IResponse
 
 
     /**
-     * constructs the class
+     * Constructor
      *
-     * constructor builds the class
-     *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    public function __construct()
+    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
     {
         // map type
         self::$type = self::TYPE;
 
         // call parents constructor
-        parent::__construct();
+        parent::__construct($config, $logger);
     }
 
-
     /**
-     * returns plain unformatted text
-     *
      * This method is intend to deliver plain unformatted text e.g. to console.
      *
      * @param string  $data The binary-data to send
      * @param boolean $exit Close connection after output?
      *
-     * @return  mixed Bolean True if everything wents fine and $exit = false, otherwise nothing
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Bolean True if everything wents fine and $exit = false, otherwise nothing
+     * @access public
      */
     public function deliverText($data, $exit = false)
     {
@@ -134,17 +125,14 @@ class DoozR_Response_Cli extends Response implements IResponse
         }
     }
 
-
     /**
      * close a connection correctly
      *
      * This method is intend to correctly close an open connection to client.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function closeConnection()
     {
@@ -153,7 +141,6 @@ class DoozR_Response_Cli extends Response implements IResponse
         exit;
     }
 
-
     /**
      * returns a valid + supported encoding/charset
      *
@@ -161,11 +148,9 @@ class DoozR_Response_Cli extends Response implements IResponse
      *
      * @param string $encoding The encoding to check
      *
-     * @return  string A valid encoding to use for content-delivery
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string A valid encoding to use for content-delivery
+     * @access private
      */
     private function _getCharset($encoding = null)
     {
@@ -195,7 +180,6 @@ class DoozR_Response_Cli extends Response implements IResponse
         return strtoupper($encoding);
     }
 
-
     /**
      * returns a valid encoded content for delivery
      *
@@ -204,11 +188,9 @@ class DoozR_Response_Cli extends Response implements IResponse
      * @param mixed  $data    The data to encode to valid + supported target charset
      * @param string $charset The charset to use for encoding (switch)
      *
-     * @return  mixed Valid + supported encoded content
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Valid + supported encoded content
+     * @access private
      */
     private function _fixEncoding($data = null, $charset = 'UTF-8')
     {

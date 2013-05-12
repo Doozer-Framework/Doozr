@@ -149,9 +149,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
 
 
     /**
-     * constructs the class
-     *
-     * constructor builds the class
+     * Constructor
      *
      * @param DoozR_Config_Interface &$config An instance of DoozR_Config
      * @param DoozR_Logger_Interface &$logger An instance of DoozR_Logger
@@ -171,8 +169,6 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * includes required files
-     *
      * This method is intend to include the required files.
      *
      * @param string $part The part (request/response)
@@ -188,8 +184,6 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * initialize request/response
-     *
      * This method is intend to initialize request/response.
      *
      * @param string $part The part (request/response)
@@ -217,8 +211,6 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * Returns the instance depending on environment
-     *
      * This method is intend to return the instance of DoozR_Request_(Web|Cli)
      * depending on environment
      *
@@ -238,9 +230,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * returns the response
-     *
-     * returns the instanciated response class (web | cli)
+     * Returns the instanciated response class (web | cli)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object instance of either web or cli
@@ -257,9 +247,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * detects and returns the external address
-     *
-     * detects and returns the external address under which the app is accessible
+     * Detects and returns the external address under which the app is accessible
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The external address under which the app is accessible

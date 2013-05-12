@@ -83,20 +83,51 @@ define('DOOZR_DOCUMENT_ROOT', str_replace('DoozR'.$s.'Bootstrap.php', '', __FILE
  * // BEGIN AUTOLOADING (SPL)
  **********************************************************************************************************************/
 
-// autoloader files
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader.php';
+// SPL facade files config + facade itself
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Config.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Facade.php';
 
-// autoloader for Framework
-$autoload = new DoozR_Loader_Autoloader('DoozR', substr(DOOZR_DOCUMENT_ROOT, 0, -1));
-$autoload->setNamespaceSeparator('_');
-$autoload->register();
+// now configure a new autoloader spl config
+$autoloaderDoozR = new DoozR_Loader_Autoloader_Spl_Config();
+$autoloaderDoozR
+    ->setNamespace('DoozR')
+    ->setNamespaceSeparator('_')
+    ->addExtension('php')
+    ->setPath(substr(DOOZR_DOCUMENT_ROOT, 0, -1))
+    ->setDescription('DoozR\'s main autoloader and responsible for loading core classes')
+    ->setPriority(0);
 
+$autoloaderModule = new DoozR_Loader_Autoloader_Spl_Config();
+$autoloaderModule
+    ->setNamespace('Module')
+    ->setNamespaceSeparator('_')
+    ->addExtension('php')
+    ->setPath(DOOZR_DOCUMENT_ROOT.'Module')
+    ->setDescription('DoozR\'s module autoloader responsible for loading modules and its classes')
+    ->setPriority(1);
 
-// autoloader for Framework - Modules
-$autoload2 = new DoozR_Loader_Autoloader('DoozR', DOOZR_DOCUMENT_ROOT.'Module');
-$autoload2->setNamespaceSeparator('_');
-$autoload2->register();
+$autoloaderDoodi = new DoozR_Loader_Autoloader_Spl_Config();
+$autoloaderDoodi
+    ->setNamespace('Doodi')
+    ->setNamespaceSeparator('_')
+    ->addExtension('php')
+    ->setPath(DOOZR_DOCUMENT_ROOT.'Model')
+    ->setDescription('Doodi\'s autoloader responsible for loading Doodi\'s + libs classes')
+    ->setPriority(2);
 
+/**
+ * The facade itself is auto instanciating singleton within the
+ * register method if not already instanciated! So don't worry
+ * just call the register() method pass a config and everything
+ * is handled magically (:
+ */
+DoozR_Loader_Autoloader_Spl_Facade::attach(
+    array(
+        $autoloaderDoozR,
+        $autoloaderModule,
+        $autoloaderDoodi,
+    )
+);
 
 /***********************************************************************************************************************
  * \\ END

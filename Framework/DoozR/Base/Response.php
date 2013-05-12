@@ -80,9 +80,13 @@ class DoozR_Base_Response
      */
     protected static $type;
 
-
+    /**
+     * This is ...
+     *
+     * @var DoozR_Registry
+     * @access protected
+     */
     protected $registry;
-
 
     /**
      * holds an instance/handle on logger
@@ -102,18 +106,14 @@ class DoozR_Base_Response
 
 
     /**
-     * constructs the class
-     *
-     * constructor builds the class
+     * Constructor
      *
      * @param object $config An instance of config
      * @param object $logger An instance of config
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __construct(DoozR_Config $config, DoozR_Logger $logger)
     {
@@ -123,14 +123,12 @@ class DoozR_Base_Response
     }
 
     /**
-     * returns the type of current request (web OR cli) as string
+     * Returns the type of current request (web OR cli) as string
      *
      * @return string type of current request CLI or WEB (returns lowercase!)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
      */
     public static function getType()
     {

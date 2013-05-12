@@ -135,18 +135,16 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
 
 
     /**
-     * constructor
-     *
      * This method is intend to act as constructor.
      *
      * @param string $cipher   The cipher (container) to use
      * @param string $encoding The encoding used for output
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function __tearup($cipher, $encoding = 'base64')
+    public function __tearup($cipher = 'Aes', $encoding = 'base64')
     {
         // setup algorithm
         $this->setCipher($cipher);
@@ -162,9 +160,9 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
      *
      * @param string $cipher The (name of) cipher to use
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setCipher($cipher = 'Aes')
     {
@@ -192,9 +190,9 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
      *
      * This method is intend to return the active cipher (algorithm).
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The active cipher (algortihm)
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getCipher()
     {
@@ -202,15 +200,13 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
     }
 
     /**
-     * Sets the encoding
-     *
      * This method is intend to set the encoding.
      *
      * @param string $encoding The (name of) encoding to use
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setEncoding($encoding)
     {
@@ -224,9 +220,9 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
      *
      * This method is intend to return the active encoding.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The active encoding
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getEncoding()
     {
@@ -238,9 +234,9 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
      *
      * @param string $data The data to encode
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Encoded data
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     private function _encode($data)
     {
@@ -249,15 +245,13 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
     }
 
     /**
-     * decodes data
-     *
      * This method is intend to decode data.
      *
      * @param string $data The data to decode
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Decoded data
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     private function _decode($data)
     {
@@ -266,8 +260,6 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
     }
 
     /**
-     * factory for container
-     *
      * This method is intend to act as factory for container.
      *
      * @param string $container        The container to create
@@ -296,17 +288,15 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
     }
 
     /**
-     * encrypts a string of data
-     *
      * This method is intend to encrypt a given string with a given key or default key.
      *
      * @param string  $data   The data to encrypt
      * @param mixed   $key    The key to use for encryption
      * @param boolean $encode TRUE to encode the data, otherwise FALSE to do not
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The encrypted $content
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function encrypt($data, $key = null, $encode = true)
     {
@@ -330,9 +320,9 @@ class DoozR_Crypt_Module extends DoozR_Base_Module_Multiple_Facade
      * @param mixed   $key    The key to use for decryption
      * @param boolean $decode TRUE to decode the data, otherwise FALSE to do not
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The decrypted $data
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function decrypt($data, $key = null, $decode = true)
     {

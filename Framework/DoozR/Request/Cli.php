@@ -92,7 +92,7 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
      * @string
      * @access private
      */
-    private $_forceCommandMode = null;
+    private $_forceCommandMode;
 
     /**
      * holds the list of possible commands seperator
@@ -124,54 +124,53 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
 
 
     /**
-     * constructs the class
+     * Constructor of this class
      *
-     * constructor builds the class
+     * @param DoozR_Config $config An instance of config
+     * @param DoozR_Logger $logger An instance of logger
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    public function __construct()
+    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
     {
-        // set type - TODO: really needed? seems to be senseless
+        // store instance(s)
+        $this->logger = $logger;
+        $this->config = $config;
+
+        // set type
         self::$type = self::TYPE;
+
+        // list of valid request sources and type (native | emulated)
+        $this->_requestSources = array(
+            'CLI'         => self::NATIVE,
+            'ENVIRONMENT' => self::NATIVE,
+            'SERVER'      => self::NATIVE
+        );
 
         // init
         $this->_init();
 
-        // which php-globals should be processed?
-        // $_SERVER currently excluded due too heavy processing-time
-        $this->_requestSources = array(
-            'CLI',
-            'ENVIRONMENT'
-        );
-
         // get securitylayer functionality (htmlpurifier + phpids)
         // sanitize global arrays, retrieve impacts and maybe cancle the whole request
-        parent::__construct();
+        //parent::__construct();
 
-        // replace globals
-        $this->_replacePhpGlobals();
+        // check automatic conversion of input
+        $this->transformToRequestObject($this->getRequestMethod());
     }
 
     /**
-     * initializes the main-settings
+     * Initializes the main-settings.
      *
-     * initializes the main-settings.
-     *
-     * @return  boolean True if everything wents fine, otherwise false
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if everything wents fine, otherwise false
+     * @access private
      */
     private function _init()
     {
         // we need the "global" array of arguments
-        global $argv, $argc, $_CLI;
+        global $argv, $argc, $_CLI, $_REQUEST;
 
         /**
          * check CLI overrides
@@ -205,34 +204,27 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
         // inject the given arguments as $_SERVER['REQUEST_URI']
         $this->_injectRequestUri($argv, $argc);
 
-        /**
-         * create GLOBAL(S)
-         */
-        // in CLI mode we do not have any prefilled global like $_GET / $_POST
-        // so we create one -> $_CLI and we fill also the all-rounder $_REQUEST
-        $_CLI = $argumentsPreprocessed;
+        // in CLI mode we do not have globals like $_GET so we create $_CLI + fill also the all-rounder $_REQUEST
+        $_CLI     = $argumentsPreprocessed;
+        $_REQUEST = $_CLI;
     }
 
     /**
-     * parse the commandline (cl) and return an ordered list of items
-     *
      * This method is intend to parse the commandline and return an ordered list of itmes.
      *
      * @param array   $arguments      The arguments ($argv) to parse
      * @param integer $countArguments The count of arguments
      *
-     * @return  array parsed commandline as ordered list
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array parsed commandline as ordered list
+     * @access private
      */
     private function _parseCommandLine(array $arguments, $countArguments)
     {
         // prefill with static elements
         $result = array(
             'cli_filename' => $arguments[0],
-            'command'      => $arguments[1]
+            'command'      => (isset($arguments[1])) ? $arguments[1] : null
         );
 
         // iterate over remaining arguments
@@ -258,17 +250,13 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * replaces problematic arguments with names usable as array-index
-     *
      * This method is intend to replace problematic arguments with names usable as array-index.
      *
      * @param string $argument The argument to check for replacement
      *
-     * @return  string processed argument-name
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string processed argument-name
+     * @access private
      */
     private function _argumentDefaultReplace($argument)
     {
@@ -290,29 +278,28 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * converts the arguments to a request-uri and stores it in $_SERVER['REQUEST_URI']
-     *
      * This method is intend to convert the arguments to a request-uri and stores it in $_SERVER['REQUEST_URI'].
      *
      * @param array   $arguments The arguments to use for building request-uri
      * @param integer $count     The count of arguments to use for building request-uri
      *
-     * @return  string processed argument-name
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string processed argument-name
+     * @access private
      */
     private function _injectRequestUri(array $arguments, $count)
     {
         global $_SERVER;
+        $requestUri = null;
 
-        $requestUri = $arguments[1];
+        if (isset($arguments[1])) {
+            $requestUri = $arguments[1];
 
-        for ($i = 0; $i < ($count-1); $i=$i+2) {
-            $requestUri .= ($i == 0)
-                ? ('?'.'cli='.$arguments[0])
-                : ('&'.$arguments[$i].'='.(isset($arguments[$i+1]) ? $arguments[$i+1] : ''));
+            for ($i = 0; $i < ($count-1); $i=$i+2) {
+                $requestUri .= ($i == 0)
+                    ? ('?'.'cli='.$arguments[0])
+                    : ('&'.$arguments[$i].'='.(isset($arguments[$i+1]) ? $arguments[$i+1] : ''));
+            }
         }
 
         // store as request-uri in global $_SERVER (used by Route.php)
@@ -324,46 +311,14 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
      *
      * Detects which command-mode (formatting) is used for console mode (CLI).
      *
-     * @return  string "win" if windos is detected as OS, otherwise "other".
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string "win" if windos is detected as OS, otherwise "other".
+     * @access private
      */
     private function _detectCommandMode()
     {
         // get os setting from php
         return (DOOZR_WIN) ? 'win' : 'other';
-    }
-
-    /**
-     * replaces PHP's globals with DoozR's global objects
-     *
-     * This method is intend to inject an OOP-Interface into PHP's global
-     * array's.
-     *
-     * @return  boolean True if everything wents fine, otherwise false
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     */
-    private function _replacePhpGlobals()
-    {
-        /**
-         * iterate over all defined global-replacements and replace
-         * PHP's them with out object
-         */
-        foreach ($this->_requestSources as $global) {
-            switch ($global) {
-            case 'CLI':
-                global $_CLI;
-                global $_REQUEST;
-                $_CLI     = $this->CLI;
-                $_REQUEST = $this->CLI;
-                break;
-            }
-        }
     }
 }
 

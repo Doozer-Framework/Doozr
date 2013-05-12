@@ -597,7 +597,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     {
         // build decorator config
         $decoratorConfig = array(
-            'name'      => self::$_config->database->lib(),
+            'name'      => self::$_config->database->proxy(),
             'translate' => self::$_config->database->oxm(),
             'path'      => self::$_path->get('model', 'Lib\\'.self::$_config->database->oxm().'\\'),
             'bootstrap' => self::$_config->database->bootstrap(),
@@ -780,15 +780,20 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      */
     public function __destruct()
     {
-        /*
         // log request serving time
         self::$_logger->log(
             'Request cycle completed in: '.self::_getDateTime()->getMicrotimeDiff(self::$starttime).' seconds'
         );
 
+        $memoryUsage = number_format(round(memory_get_peak_usage()/1024/1024, 2), 2);
+
+        // log memory usage
+        self::$_logger->log(
+            'Total consumed memory: '.$memoryUsage.' MB.'
+        );
+
         // save session
         session_write_close();
-        */
     }
 }
 

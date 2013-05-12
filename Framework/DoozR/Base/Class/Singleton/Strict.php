@@ -77,19 +77,22 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Generic.php';
  */
 class DoozR_Base_Class_Singleton_Strict extends DoozR_Base_Class_Singleton_Generic
 {
-    protected static $instance = null;
+    /**
+     * The current single instance
+     *
+     * @var object
+     * @access protected
+     * @static
+     */
+    protected static $instance;
+
 
     /**
-     * instance getter for strict (including parameter!) singleton
+     * Constructor for singleton pattern
      *
-     * This method is intend to setup and call generic singleton-getter and return an instance
-     * of the requested class.
-     *
-     * @return  object instance/object of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance/object of this class
+     * @access public
      */
     public static function getInstance()
     {
@@ -110,7 +113,8 @@ class DoozR_Base_Class_Singleton_Strict extends DoozR_Base_Class_Singleton_Gener
         // return instance
         return $instance;
 
-/*
+
+        /*
         // check for instance (requires loading?)
         if (!self::$instance) {
             // decide call-type by given parameter
@@ -123,7 +127,7 @@ class DoozR_Base_Class_Singleton_Strict extends DoozR_Base_Class_Singleton_Gener
 
         // return instance
         return self::$instance;
-*/
+        */
     }
 }
 

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR-Loader-Autoloader
+ * DoozR - Loader - Autoloader
  *
  * Autoloader.php - Class-Autoloader of the DoozR Framework.
  *
@@ -46,7 +46,7 @@
  * @package    DoozR_Loader
  * @subpackage DoozR_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2011 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
@@ -57,15 +57,15 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Interface.php';
 
 /**
-* DoozR-Loader-Autoloader
+ * DoozR - Loader - Autoloader
  *
- * Autoloader class of the DoozR Framework
+ * Autoloader.php - Class-Autoloader of the DoozR Framework.
  *
  * @category   DoozR
  * @package    DoozR_Loader
  * @subpackage DoozR_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2011 Benjamin Carl
+ * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
@@ -156,17 +156,14 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
 
 
     /**
-     * creates a new "Autoload"
-     *
-     * This method is intend to create a new instance which:
-     * load classes of the specified namespace
+     * Constructor
      *
      * @param string $namespace   The namespace to use
      * @param string $includePath The include-path to use as base
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct($namespace = null, $includePath = null)
     {
@@ -175,13 +172,13 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * registers this class loader on the SPL autoload stack
+     * Registers this class loader on the SPL autoload stack
      *
      * This method is intend to register this class loader on the SPL autoload stack.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function register()
     {
@@ -191,15 +188,15 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * loads the given class or interface
+     * Loads the given class or interface
      *
      * This method is intend to load the given class or interface.
      *
      * @param string $classname The name of the class to load.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function load($classname)
     {
@@ -214,7 +211,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
             if (($lastNsPos = strripos($classname, $this->_namespaceSeparator)) !== false) {
                 $namespace = substr($classname, 0, $lastNsPos);
                 $classname = substr($classname, $lastNsPos + 1);
-                $fileName = str_replace($this->_namespaceSeparator, $this->_separator, $namespace).$this->_separator;
+                $fileName  = str_replace($this->_namespaceSeparator, $this->_separator, $namespace).$this->_separator;
             }
 
             $fileName .= str_replace('_', $this->_separator, $classname).$this->_fileExtension;
@@ -223,7 +220,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
                 $fileName = $this->_includePath.$this->_separator.$fileName;
             }
 
-            //pred(__CLASS__.' -> '.$fileName);
+            //pre(__CLASS__.' -> '.$fileName);
 
             // check first if file exists and load it
             //if (file_exists($fileName)) {
@@ -233,13 +230,13 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * returns the active UID
+     * Returns the active UID
      *
      * This method is intend to return the active UID.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The UID
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getUid()
     {
@@ -247,15 +244,15 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * sets the unique-identifier of this autoloader
+     * Sets the unique-identifier of this autoloader
      *
      * This method is intend to set the unique-identifiert of this autoloader instance.
      *
      * @param mixed $uid The unique ID to use for this instance, if no UID given it creates and returns one
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The active UID
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setUid($uid = false)
     {
@@ -268,13 +265,13 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * returns the active namespace separator
+     * Returns the active namespace separator
      *
      * This method is intend to return the namespace separator used for loading classes.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The currently active namespace separator
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getNamespaceSeparator()
     {
@@ -282,15 +279,15 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * sets the namespace separator
+     * Sets the namespace separator
      *
      * This method is intend to set the namespace separator used for loading classes.
      *
      * @param string $separator The separator to use
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setNamespaceSeparator($separator)
     {
@@ -298,13 +295,13 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * returns the active name
+     * Returns the active name
      *
      * This method is intend to return the active name.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The name
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getName()
     {
@@ -312,15 +309,15 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * sets the name
+     * Sets the name
      *
      * This method is intend to set the name of this instance
      *
      * @param string $name The name to set
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setName($name)
     {
@@ -328,13 +325,13 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * returns the active description
+     * Returns the active description
      *
      * This method is intend to return the active description.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The description
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getDescription()
     {
@@ -342,15 +339,15 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * sets the description
+     * Sets the description
      *
      * This method is intend to set the description of this instance.
      *
      * @param string $description The description to set
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setDescription($description)
     {
@@ -358,14 +355,14 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * returns the active priority
+     * Returns the active priority
      *
      * This method is intend to return the active priority of the autoloader instance
      * on the spl stack.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The currently active namespace separator
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getPriority()
     {
@@ -373,15 +370,15 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     }
 
     /**
-     * sets the priority
+     * Sets the priority
      *
      * This method is intend to set the spl-autoloader stack priority of this instance.
      *
      * @param integer $priority The priority to set (0 = highest possible)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setPriority($priority)
     {

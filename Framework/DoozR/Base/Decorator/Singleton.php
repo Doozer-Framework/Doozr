@@ -153,7 +153,7 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
         $name = ucfirst(strtolower($configuration['name']));
 
         // bootstrap script required for decorated class to run
-        if (isset($configuration['bootstrap'])) {
+        if (isset($configuration['bootstrap']) && $configuration['bootstrap'] !== false) {
             include_once $configuration['path'].$configuration['bootstrap'];
         }
 
@@ -167,9 +167,7 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
         if (isset($configuration['docroot']) && isset($configuration['route'])) {
             // include the route
             include_once $configuration['docroot'].$configuration['route'];
-
             $classname = 'Doodi_'.$name.'_Route';
-
             $this->route = new $classname();
         }
 
@@ -238,8 +236,8 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
         } else {
             // no transformer => no function
             throw new Exception(
-                            'No "Transformer ('.$transformationFile.')" for Mode: "'.$vendor.'" // Driver: "'.$vendor.
-                            '" found. Can\'t continue!'
+                'No "Transformer ('.$transformationFile.')" for Mode: "'.$vendor.'" // Driver: "'.$vendor.
+                '" found. Can\'t continue!'
             );
         }
     }

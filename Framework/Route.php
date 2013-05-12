@@ -74,8 +74,9 @@ $config   = $registry->config;
 $runningMode = $front->getRunningMode();
 
 // check for running-mode and retrieve request-uri
-if ($runningMode == DoozR_Controller_Front::RUNNING_MODE_WEB
-    || $runningMode == DoozR_Controller_Front::RUNNING_MODE_CLI
+if (
+    $runningMode == DoozR_Controller_Front::RUNNING_MODE_WEB ||
+    $runningMode == DoozR_Controller_Front::RUNNING_MODE_CLI
 ) {
     // now begin generic parsing of pattern
     // get exclude(s) and build exclude-regexp of it/them

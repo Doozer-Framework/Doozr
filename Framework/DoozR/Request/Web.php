@@ -111,14 +111,12 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     /**
      * Constructor of this class
      *
-     * This method is the constructor of this class.
-     *
      * @param DoozR_Config $config An instance of config
      * @param DoozR_Logger $logger An instance of logger
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(DoozR_Config $config, DoozR_Logger $logger)
     {
@@ -126,27 +124,52 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
         $this->logger = $logger;
         $this->config = $config;
 
-        // set type - TODO: really needed? seems to be senseless
+        // set type
         self::$type = self::TYPE;
 
-        // LIST VALID REQUEST-SOURCES
+        // list of valid request sources and type (native | emulated)
         $this->_requestSources = array(
-            'GET',
-            'POST',
-            'COOKIE',
-            'REQUEST',
-            'SESSION',
-            'ENVIRONMENT',
-            'SERVER'
+            'GET'         => self::NATIVE,
+            'POST'        => self::NATIVE,
+            'HEAD'        => self::EMULATED,
+            'OPTIONS'     => self::EMULATED,
+            'PUT'         => self::EMULATED,
+            'DELETE'      => self::EMULATED,
+            'TRACE'       => self::EMULATED,
+            'COOKIE'      => self::NATIVE,
+            'REQUEST'     => self::NATIVE,
+            'SESSION'     => self::NATIVE,
+            'ENVIRONMENT' => self::NATIVE,
+            'SERVER'      => self::NATIVE
         );
-
-        // get securitylayer functionality (htmlpurifier + phpids)
-        // sanitize global arrays, retrieve impacts and maybe cancle the whole request
-        parent::__construct();
 
         // check for ssl forcement
         $this->_checkForceSecureConnection();
 
+        // prepare non-native request for global PHP like access
+        $this->emulateRequest();
+
+        // get securitylayer functionality (htmlpurifier + phpids)
+        // sanitize global arrays, retrieve impacts and maybe cancle the whole request
+        //parent::__construct();
+
+        // check automatic conversion of input
+        $this->transformToRequestObject($this->getRequestMethod());
+
+        // protocolize the incoming request data
+        $this->_protocolize();
+    }
+
+    /**
+     * This method protocolizes request details if running in debug-mode
+     * enabled. This should help debugging the application.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
+     */
+    private function _protocolize()
+    {
         // this is expensive so only in debug available
         if ($this->config->debug->enabled()) {
 
@@ -165,41 +188,102 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * returns the status of "is current request a get-request"
+     * This method returns TRUE if the current requests type
+     * is GET.
      *
-     * This method is intend to return the status of "is current request a get-request".
-     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if current request is GET, otherwise FALSE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function isGet()
     {
-        return ($this->getRequestMethod() == 'GET');
+        return ($this->getRequestMethod() === 'GET');
     }
 
     /**
-     * returns the status of "is current request a get-request"
+     * This method returns TRUE if the current requests type
+     * is HEAD.
      *
-     * This method is intend to return the status of "is current request a get-request".
-     *
-     * @return boolean TRUE if current request is GET, otherwise FALSE
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if current request is HEAD, otherwise FALSE
+     * @access public
+     */
+    public function isHead()
+    {
+        return ($this->getRequestMethod() === 'HEAD');
+    }
+
+    /**
+     * This method returns TRUE if the current requests type
+     * is PUT.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if current request is PUT, otherwise FALSE
+     * @access public
+     */
+    public function isPut()
+    {
+        return ($this->getRequestMethod() === 'PUT');
+    }
+
+    /**
+     * This method returns TRUE if the current requests type
+     * is POST.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if current request is POST, otherwise FALSE
+     * @access public
      */
     public function isPost()
     {
-        return ($this->getRequestMethod() == 'POST');
+        return ($this->getRequestMethod() === 'POST');
     }
 
     /**
-     * returns the global $_GET vars if current request is of type GET
+     * This method returns TRUE if the current requests type
+     * is DELETE.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if current request is DELETE, otherwise FALSE
+     * @access public
+     */
+    public function isDelete()
+    {
+        return ($this->getRequestMethod() === 'DELETE');
+    }
+
+    /**
+     * This method returns TRUE if the current requests type
+     * is OPTIONS.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if current request is OPTIONS, otherwise FALSE
+     * @access public
+     */
+    public function isOptions()
+    {
+        return ($this->getRequestMethod() == 'OPTIONS');
+    }
+
+    /**
+     * This method returns TRUE if the current requests type
+     * is TRACE.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if current request is TRACE, otherwise FALSE
+     * @access public
+     */
+    public function isTrace()
+    {
+        return ($this->getRequestMethod() == 'TRACE');
+    }
+
+    /**
      * This method is intend to return the global $_GET vars if current request is of type GET.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Request_Parameter ($_GET) if request is of type GET, otherwise NULL
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getGet()
     {
@@ -212,13 +296,11 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * returns the global $_POST vars if current request is of type POST
-     *
      * This method is intend to return the global $_POST vars if current request is of type POST.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Request_Parameter ($_POST) if request is of type POST, otherwise NULL
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getPost()
     {
@@ -231,13 +313,11 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * returns the global $_REQUEST vars if current request is of type REQUEST
-     *
      * This method is intend to return the global $_REQUEST vars if current request is of type REQUEST.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Request_Parameter ($_REQUEST) if request is of type REQUEST, otherwise NULL
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getRequest()
     {
@@ -245,14 +325,12 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * check if ssl forcement is enabled
-     *
-     * if FORCE_SSL is defined in TRANSMISSION part of the core-config and set to true
+     * If FORCE_SSL is defined in TRANSMISSION part of the core-config and set to true
      * every non-ssl request will be redirected to ssl (https)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean true if successful otherwise false
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     private function _checkForceSecureConnection()
     {
@@ -271,9 +349,9 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      *
      * @param bool $string Set to true to retrive header as string, otherwise array is returned
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed All request-headers as: "string" if parameter $string is set to true, otherwise as "array"
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @static
      */
     public static function getRequestHeader($string = false)
@@ -291,9 +369,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * returns the global $_REQUEST as string
-     *
-     * returns the PHP Global Array $_REQUEST as string
+     * Returns the PHP Global Array $_REQUEST as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array All given $_REQUEST-vars as string
@@ -338,13 +414,11 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * returns the SSL-status of the current request
-     *
      * This method is intend to return the SSL-status of the current request.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if the request is SSL, otherwise FALSE
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function isSsl()
     {
@@ -354,13 +428,11 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * checks for protocol and returns it
-     *
      * This method is intend to check for protocol and returns it
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The protocol used while accessing a resource
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getProtocol()
     {
@@ -372,17 +444,13 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * shortcut to request-params
-     *
-     * this is a shortcut to allmost every (public-)method DoozR offers
+     * This is a shortcut to allmost every (public-)method DoozR offers
      *
      * @param string $method    The name of the method called
      * @param array  $arguments The parameter of the method call
      *
-     * @return mixed depends on input!
-     *
-     * @access magic
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access magic
      */
     public function __call($method, $arguments)
     {

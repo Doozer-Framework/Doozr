@@ -75,6 +75,21 @@ define('DOOZR_UNIX', (DIRECTORY_SEPARATOR == '/' && !DOOZR_WIN));
  **********************************************************************************************************************/
 
 /***********************************************************************************************************************
+ * // BEGIN EXTENDING OF PHP SUPERGLOBALS
+ **********************************************************************************************************************/
+
+$_CLI               = array();
+$_PUT               = array();
+$_DELETE            = array();
+$GLOBALS['_CLI']    = &$_CLI;
+$GLOBALS['_PUT']    = &$_PUT;
+$GLOBALS['_DELETE'] = &$_DELETE;
+
+/***********************************************************************************************************************
+ * \\ END EXTENDING OF PHP SUPERGLOBALS
+ **********************************************************************************************************************/
+
+/***********************************************************************************************************************
  * // BEGIN GLOBAL VARIABLES
  **********************************************************************************************************************/
 
@@ -318,7 +333,7 @@ function getdefinedvars($force = true)
  */
 function str_split_camelcase($string)
 {
-    return preg_split('/(?<=\\w)(?=[A-ZÖÄÜ])/', $string);
+    return preg_split('/(?<=\\w)(?=[A-Zï¿½ï¿½ï¿½])/', $string);
 }
 
 /**
@@ -690,8 +705,8 @@ function banner($data = '', $nl = "\n")
         if ((strlen($buffer)+strlen($words[$i])+1 ) <= ($lineCount * $maxWidthWords) - 1) {
             $buffer .= $words[$i].$fillupChar;
         } else {
-            $fillCount = ($lineCount * $maxWidthLine) - (strlen($buffer) + 2);
-            $buffer .= str_repeat($fillupChar, $fillCount).'#'.$nl.'# '.$words[$i].' ';
+            $frame = ($lineCount * $maxWidthLine) - (strlen($buffer) + 2);
+            $buffer .= str_repeat($fillupChar, ($frame >= 0) ? $frame : 0).'#'.$nl.'# '.$words[$i].' ';
             ++$lineCount;
         }
     }

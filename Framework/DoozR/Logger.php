@@ -154,7 +154,9 @@ final class DoozR_Logger extends DoozR_Logger_Abstract implements DoozR_Logger_I
         $this->_defaultLoglevel = $this->level;
 
         // get fingerprint of client as UId
-        self::$_clientFingerprint = checksum($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR']);
+        //@todo: HTTP_USER_AGENT -> REMOTE_ADDR
+        //self::$_clientFingerprint = checksum($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR']);
+        self::$_clientFingerprint = checksum('HIER_SYSTEM_CLI-ODER-HTTP_DATEN');
 
         // attach default collecting logger till subsystem is configurable
         $this->attach('collecting', self::LOG_LEVEL_MAX, null, false);

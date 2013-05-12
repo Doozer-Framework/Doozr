@@ -55,6 +55,10 @@ $model = $registry->model;
  * phpillowConnection::createInstance('localhost', 5984, 'user', 'password');
  */
 
+
+/**
+ * we start by connecting so server on port x with user and password
+ */
 $connection = $model->connect(
     $config->database->host,
     $config->database->port,
@@ -64,32 +68,40 @@ $connection = $model->connect(
 
 
 /**
- * open
+ * now we open a connection to configured database
  */
-$connection = $model->open($config->database->database);
+$databaseHandle = $model->open($config->database->database);
+
+
+/**
+ * get request object
+ */
+$request = $registry->front->getRequest();
 
 
 /**
  * do things
+ * ... the following "inline" class definition and ... is just for demo purposes
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/View/DoodiCouchdbView.class.php';
+//require_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/View/DoodiCouchdbView.class.php';
+//require_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Document/DoodiCouchdbDocument.class.php';
 
+/*
+phpillowStringValidator
+phpillowTextValidator
+phpillowDocumentArrayValidator
+*/
 
 class myBlogView extends Doodi_Couchdb_View
 {
     protected $viewDefinitions = array(
-        // Index blog entries by their title, and list all comments
-        'entries' => 'function(doc)
-        {
+        'entries' => 'function(doc) {
              if (doc.type == "blog_entry") {
-
                  emit(doc.title, doc._id);
-
                  emit([doc._id, 0], doc._id);
-
                  if (doc.comments) {
-                     for ( var i = 0; i &lt; doc.comments.length; ++i ) {
+                     for ( var i = 0; i < doc.comments.length; ++i ) {
                          emit([doc._id, 1], doc.comments[i]);
                      }
                  }
@@ -104,10 +116,70 @@ class myBlogView extends Doodi_Couchdb_View
 }
 
 
-$doc = myBlogView::entries( array( 'key' => 'New blog post' ) );
+class myBlogDocument extends Doodi_Couchdb_Document
+{
+	protected static $type = 'blog_entry';
+
+	protected $requiredProperties = array(
+		'title',
+		'text'
+	);
+
+	public function __construct()
+	{
+        $this->properties = array(
+            'title'     => new Doodi_Couchdb_String_Validator(),
+            'text'      => new Doodi_Couchdb_Text_Validator(),
+            'comments'  => new Doodi_Couchdb_Array_Validator(
+                'myBlogComments'
+            )
+        );
+
+        parent::__construct();
+	}
+
+	protected function generateId()
+	{
+		return $this->stringToId($this->storage->title);
+	}
+
+	protected function getType()
+	{
+		return self::$type;
+	}
+}
+
+/**
+ * create and save a blog document
+ */
+/*
+$doc = new myBlogDocument();
+$doc->title = 'New blog post';
+$doc->text = 'Hello world.';
+$doc->save();
+*/
 
 
-pred($connection);
+/**
+ * query data by map/reduce through our myBlogView-View
+ */
+$result = myBlogView::entries(array('key' => 'New blog post'));
 
+
+foreach ($result->rows as $row) {
+    pre($row);
+}
+
+
+/**
+ * close connection
+ */
+$model->close();
+
+
+/**
+ * close connection
+ */
+$model->disconnect();
 
 ?>

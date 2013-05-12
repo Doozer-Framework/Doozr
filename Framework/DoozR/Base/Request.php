@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Request
+ * DoozR - Base - Request
  *
  * Request.php - Base Request Class (e.g. as base for Web | Cli) of the DoozR Framework.
  *
@@ -57,7 +57,7 @@
 //require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Securitylayer.php';
 
 /**
- * DoozR Base Request
+ * DoozR - Base - Request
  *
  * Base Request Class (e.g. as base for Web | Cli) of the DoozR Framework.
  *
@@ -75,7 +75,7 @@
 class DoozR_Base_Request // extends DoozR_Request_Securitylayer
 {
     /**
-     * holds the URL under which the current project operates
+     * The URL under which the current project operates
      *
      * @var string
      * @access protected
@@ -83,7 +83,7 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     protected $url;
 
     /**
-     * holds the TYPE of the request (can be WEB or CLI)
+     * The TYPE of the request (can be WEB or CLI)
      *
      * @var string
      * @access protected
@@ -101,7 +101,7 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     protected static $initialized = array();
 
     /**
-     * holds an instance/handle on logger
+     * An instance/handle on logger
      *
      * @var object
      * @access protected
@@ -117,7 +117,7 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     protected $config;
 
     /**
-     * holds translation matrix to transform php.ini values
+     * Translation matrix to transform php.ini values
      * to its global
      *
      * @var array
@@ -131,15 +131,29 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
         'E' => 'ENVIRONMENT'
     );
 
+    /**
+     * The type native for PHP request sources
+     *
+     * @var integer
+     * @access const
+     */
+    const NATIVE = 0;
 
     /**
-     * Constructor of this class
+     * The type emulated for PHP request sources
      *
-     * This method is the constructor of this class.
+     * @var integer
+     * @access const
+     */
+    const EMULATED = 1;
+
+
+    /**
+     * Constructor
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct()
     {
@@ -152,8 +166,8 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      *
      * @return string type of current request CLI or WEB (returns lowercase!)
      *
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
      */
     public static function getType()
     {
@@ -161,13 +175,11 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     }
 
     /**
-     * returns the request-method of current process
+     * Returns the method (POST / GET / PUT ... || CLI) of the current processed request.
      *
-     * Returns the method (POST / GET / PUT || CLI) of the current processed request.
-     *
-     * @return  string the method of current processed request (GET / POST / PUT || CLI)
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string the method of current processed request (GET / POST / PUT ... || CLI)
+     * @access public
      */
     public function getRequestMethod()
     {
@@ -184,9 +196,9 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      * This method is intend to transform a given PHP-Global (e.g. SERVER [without "$_"])
      * to an object with an array interface.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function transform()
     {
@@ -217,9 +229,9 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      *
      * @param string $globalVariable The PHP-global to process (POST, GET, COOKIE, SESSION ...)
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function transformToRequestObject($globalVariable)
     {
@@ -242,9 +254,9 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      * @param array  $requesttypes An array of request-types
      * @param string $requesttype  The request type to lookup
      *
-     * @return  boolean TRUE if it is part of collection, otherwise FALSE.
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if it is part of collection, otherwise FALSE.
+     * @access protected
      */
     protected function containsRequesttype(array $requesttypes, $requesttype)
     {
@@ -258,9 +270,9 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      *
      * @param array $sources The sources given for transformation
      *
-     * @return  boolean TRUE if $_REQUEST can be build custom, otherwise FALSE
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if $_REQUEST can be build custom, otherwise FALSE
+     * @access protected
      */
     protected function checkForCustomRequest(array $sources)
     {
@@ -286,9 +298,9 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      *
      * @param string $value The value to translate
      *
-     * @return  string The translated value
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The translated value
+     * @access protected
      */
     protected function translateFromIniToGlobal($value)
     {
@@ -300,9 +312,9 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      *
      * This method is intend to return the order of $_REQUEST from php.ini.
      *
-     * @return  array The values in its order from php.ini
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The values in its order from php.ini
+     * @access protected
      */
     protected function getRequestOrder()
     {
@@ -312,15 +324,40 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     }
 
     /**
+     * This method emulates those requests which are not implemented
+     * in PHP's global by default. So you can access PUT via $_PUT
+     * and DELETE via $_DELETE and so on.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access private
+     */
+    protected function emulateRequest()
+    {
+        global $_PUT, $_DELETE;
+
+        $requestMethod = $this->getRequestMethod();
+        $parameter     = null;
+
+        // check if current request type must be emulated
+        if ($this->_requestSources[$requestMethod] === self::EMULATED) {
+            parse_str(file_get_contents('php://input'), $parameter);
+            $GLOBALS['_'.$requestMethod] = $parameter;
+        }
+
+        return true;
+    }
+
+    /**
      * Returns input prefixed with an underscore
      *
      * This method is intend to add and underscore as prefix.
      *
      * @param string $value The string to add an underscore to
      *
-     * @return  string The prefixed string
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The prefixed string
+     * @access private
      */
     private function _addPrefix($value)
     {
