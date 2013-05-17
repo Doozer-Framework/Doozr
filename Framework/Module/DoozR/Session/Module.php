@@ -452,18 +452,16 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param boolean $autoInit   TRUE to automatically start session, FALSE to do not
      * @param double  $phpVersion The PHP-Version this instance of session module running on
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __tearup($sessionId = null, $autoInit = false, $phpVersion = DOOZR_PHP_VERSION)
     {
         // get instance of logger
         $this->_logger = $this->registry->logger;
 
-        // store session always
+        // store session-id always
         $this->setId($sessionId);
 
         // store settings from PHP global config
@@ -493,11 +491,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param mixed $config The config as object (stdClass) or as array
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function autoInit($config)
     {
@@ -522,7 +518,7 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
                 $config->security->httponly
             );
 
-               // Configure obfuscation of Session-Identifier
+            // Configure obfuscation of Session-Identifier
             if ($config->security->obfuscate) {
                 $this->enableObfuscation();
             } else {
@@ -573,11 +569,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param integer $lifetime   The lifetime of the session
      * @param integer $gcTime     The timeout in seconds of garbage collector
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function configure(
         $identifier,
@@ -605,11 +599,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param boolean $ssl      TRUE to enable ssl flag for cookies/session, FALSE to do not
      * @param boolean $httpOnly TRUE to enable httpOnly flag for cookies/session, FALSE to do not
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function security($ssl = self::DEFAULT_SEC_FLAG_SSL, $httpOnly = self::DEFAULT_SEC_FLAG_HTTPONLY)
     {
@@ -644,11 +636,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param integer $octets The count of octets to use for binding session to ip
      * @param string  $ip     The Ip-Address of the client to bind session to
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function bindToIp($octets = self::DEFAULT_BIND_IP_OCTETS, $ip = null)
     {
@@ -689,11 +679,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param string $mode   The mode. Can be "domain" (uses the full domain) or "subdomain" uses (.subdomain.tld)
      * @param string $domain The domain to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function bindToDomain($mode = self::DEFAULT_BIND_DOMAIN_MODE, $domain = null)
     {
@@ -722,11 +710,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $path The path to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function bindToPath($path = self::DEFAULT_BIND_PATH_PATH)
     {
@@ -742,11 +728,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param string $encoding The encoding to use for safety handable encrypted value
      *                         (can be either "uuencode" or "base64")
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function enableEncryption($cipher = self::DEFAULT_ENCRYPT_CIPHER, $encoding = self::DEFAULT_ENCRYPT_ENCODING)
     {
@@ -771,11 +755,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to disable the encryption for this instance.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function disableEncryption()
     {
@@ -818,15 +800,15 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
 
         if ($sessionId !== null) {
             session_id($sessionId);
-
         } else {
             $sessionId = session_id();
-
         }
 
         if ($sessionId) {
             $this->setId($sessionId);
         } else {
+            // @todo: Wenn einkommentiert dann korrekte logging der session_id möglich aber regenrate on reach request,
+            // wenn auskommentiert, dann ist das logging nicht möglich aber der rgenerate turnus funzt ???!!!???
             /*
             $sessionId = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
             session_id($sessionId);
@@ -853,6 +835,8 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
             throw new DoozR_Exception(
                 'Session could not be started! Please check your configuration (php.ini).'
             );
+        } else {
+            $this->setId(session_id());
         }
 
         // set session-cookie-parameter
@@ -866,6 +850,14 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
             $this->getHttpOnly()
         );
 
+        // check stack for functions to execute
+        $callStack = $this->_callStack['start'];
+
+        // iterate over callstack
+        foreach ($callStack as $call) {
+            call_user_func(array($call[0], $call[1]));
+        }
+
         // log created session-id and defined session parameter (cookie params)
         $this->_logger->log(
             'Session-Id: '.$this->getId().' Session-Cookie-Parameter: '.
@@ -874,14 +866,6 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
                 true
             )
         );
-
-        // check stack for functions to execute
-        $callStack = $this->_callStack['start'];
-
-        // iterate over callstack
-        foreach ($callStack as $call) {
-            call_user_func(array($call[0], $call[1]));
-        }
     }
 
     /**
@@ -889,12 +873,10 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to handle the regeneration process.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @throws DoozR_Exception
      */
     public function handleRegenerate()
     {
@@ -925,12 +907,10 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param boolean $status TRUE if session was started, FALSE if not
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @throws DoozR_Exception
      */
     public function setStarted($status)
     {
@@ -942,12 +922,10 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the status of session started.
      *
-     * @return  boolean TRUE if session was already started, FALSE if not
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if session was already started, FALSE if not
+     * @access public
+     * @throws DoozR_Exception
      */
     public function wasStarted()
     {
@@ -962,11 +940,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param string  $flag   The flag to set status for
      * @param boolean $status The status TRUE or FALSE
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setFlagStatus($flag, $status)
     {
@@ -986,11 +962,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $flag The flag to return status for, NULL to return all flags as array
      *
-     * @return  mixed Boolean TRUE if flag is supported, otherwise FALSE if not - Array of all flags
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Boolean TRUE if flag is supported, otherwise FALSE if not - Array of all flags
+     * @access public
      */
     public function getFlagStatus($flag = null)
     {
@@ -1008,11 +982,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $clientIp The IP to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setClientIp($clientIp)
     {
@@ -1024,11 +996,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the IP of the client.
      *
-     * @return  string The IP of the client
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The IP of the client
+     * @access public
      */
     public function getClientIp()
     {
@@ -1042,11 +1012,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $userAgent The user agent to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setUserAgent($userAgent)
     {
@@ -1058,11 +1026,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the User-Agent of the current client.
      *
-     * @return  string The user-agent
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The user-agent
+     * @access public
      */
     public function getUserAgent()
     {
@@ -1076,11 +1042,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $domain The domain to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setDomain($domain)
     {
@@ -1092,11 +1056,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the Domain to set.
      *
-     * @return  string The domain
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The domain
+     * @access public
      */
     public function getDomain()
     {
@@ -1108,11 +1070,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to enable the obfuscation.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function enableObfuscation()
     {
@@ -1124,11 +1084,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to disable the obfuscation.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function disableObfuscation()
     {
@@ -1140,11 +1098,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the current status of obfuscation.
      *
-     * @return  boolean TRUE if enabled, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if enabled, otherwise FALSE
+     * @access public
      */
     public function useObfuscation()
     {
@@ -1158,11 +1114,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param boolean $status TRUE if SSL is enabled, otherwise FALSE if not
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setSsl($status)
     {
@@ -1174,11 +1128,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the status of SSL-encryption.
      *
-     * @return  boolean TRUE if SSL is enabled, otherwise FALSE if not
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if SSL is enabled, otherwise FALSE if not
+     * @access public
      */
     public function getSsl()
     {
@@ -1192,11 +1144,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param boolean $status TRUE if HTTP-Only is supported, otherwise FALSE if not
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setHttpOnly($status)
     {
@@ -1208,11 +1158,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the status of HTTP-Only support.
      *
-     * @return  boolean TRUE if HTTP-Only is supported, otherwise FALSE if not
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if HTTP-Only is supported, otherwise FALSE if not
+     * @access public
      */
     public function getHttpOnly()
     {
@@ -1227,11 +1175,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param string $variable The name of the session-variable to set
      * @param mixed  $value    The value of the session-variable to set
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function set($variable, $value)
     {
@@ -1256,11 +1202,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param string $variable The name of the session-variable to get from session
      * @param mixed  $default  The default value to return if variable is not set in session
      *
-     * @return  mixed MIXED value of the requested session variable if set, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed MIXED value of the requested session variable if set, otherwise NULL
+     * @access public
      */
     public function get($variable, $default = null)
     {
@@ -1293,11 +1237,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $variable The name of the session-variable to check if set
      *
-     * @return  boolean TRUE if variable is set, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if variable is set, otherwise FALSE
+     * @access public
      */
     public function issetVariable($variable)
     {
@@ -1315,11 +1257,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $variable The name of the session-variable to unset
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function unsetVariable($variable)
     {
@@ -1340,11 +1280,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param mixed $sessionId The Session-Id to set
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function setId($sessionId)
     {
@@ -1356,11 +1294,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the current active Session-Id.
      *
-     * @return  string The current active Session-Id
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The current active Session-Id
+     * @access public
      */
     public function getId()
     {
@@ -1374,11 +1310,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $identifier The identifier to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setIdentifier($identifier)
     {
@@ -1398,11 +1332,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the identifier.
      *
-     * @return  string The identifier to return
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The identifier to return
+     * @access public
      */
     public function getIdentifier()
     {
@@ -1429,11 +1361,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to fingerprint any input. The count of input is unlimited.
      *
-     * @return  string Fingerprint for input
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Fingerprint for input
+     * @access public
      */
     public function getFingerprint()
     {
@@ -1457,11 +1387,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param integer $lifetime The lifetime to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setLifetime($lifetime)
     {
@@ -1473,11 +1401,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the lifetime.
      *
-     * @return  integer The lifetime to return
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The lifetime to return
+     * @access public
      */
     public function getLifetime()
     {
@@ -1491,11 +1417,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param integer $gcTime The time to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setGcTime($gcTime)
     {
@@ -1507,11 +1431,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the garbage collector timeout.
      *
-     * @return  integer The garbage collector timeout in seconds
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The garbage collector timeout in seconds
+     * @access public
      */
     public function getGcLifetime()
     {
@@ -1525,11 +1447,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $path The path to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setPath($path)
     {
@@ -1541,11 +1461,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the path.
      *
-     * @return  string The active path
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The active path
+     * @access public
      */
     public function getPath()
     {
@@ -1557,11 +1475,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * destroy an existing session! clean session garbage collector
      *
-     * @return  boolean True if everything wents fine, otherwise false
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if everything wents fine, otherwise false
+     * @access public
      */
     public function destroy()
     {
@@ -1580,11 +1496,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param integer $cycles The count of cycles used for regeneration. 0 = disabled,
      *                        1 = on every request ... 8 = on each 8th request ...
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setRegenerateCycles($cycles = self::DEFAULT_REGENERATE_CYCLES)
     {
@@ -1611,12 +1525,10 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to returns the count of cycles on which the Session-Id must be regenerated.
      *
-     * @return  integer The count of cycles
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The count of cycles
+     * @access public
+     * @throws DoozR_Exception
      */
     public function getRegenerateCycles()
     {
@@ -1628,12 +1540,10 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * This method is intend to return the status of session id must be regenerated.
      *
-     * @return  boolean TRUE if Session-Id must be regenerated, FALSE if not
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if Session-Id must be regenerated, FALSE if not
+     * @access public
+     * @throws DoozR_Exception
      */
     public function mustRegenerate()
     {
@@ -1660,11 +1570,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param boolean $flush TRUE to flush the whole session content, otherwise FALSE to transfer to new session
      *
-     * @return  boolean TRUE if everything wents fine, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if everything wents fine, otherwise FALSE
+     * @access public
      */
     public function regenerate($flush = false)
     {
@@ -1719,11 +1627,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param boolean $ssl        TRUE to submit cookie via SSL only, otherwise FALSE to do not so
      * @param mixed   $httpOnly   NULL (default) to do not set this flag, TRUE to set, FALSE to do not
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _setSessionCookie($identifier, $sessionId, $lifetime, $path, $domain, $ssl, $httpOnly = null)
     {
@@ -1747,11 +1653,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      *
      * @param string $string The string to translate/encrypt
      *
-     * @return  string The input encrypted or plain if encryption is enabled
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The input encrypted or plain if encryption is enabled
+     * @access private
      */
     private function _translate($string)
     {
@@ -1773,11 +1677,9 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
      * @param integer $parts     The count of parts to return
      * @param string  $direction The direction for processing. Can be either LTR or RTL.
      *
-     * @return  string The resulting String
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting String
+     * @access private
      */
     private function _getDotParts($string, $parts, $direction = 'ltr')
     {
@@ -1789,17 +1691,13 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
     }
 
     /**
-     * Returns hash-value for passed string
-     *
      * This method is intend to return hash-value for passed string.
      *
      * @param string $string The string to hash
      *
-     * @return  string The resulting String
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resulting String
+     * @access privat
      */
     private function _hash($string)
     {
