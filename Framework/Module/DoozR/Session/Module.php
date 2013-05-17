@@ -800,20 +800,10 @@ class DoozR_Session_Module extends DoozR_Base_Module_Singleton
 
         if ($sessionId !== null) {
             session_id($sessionId);
+            $this->setId($sessionId);
+
         } else {
             $sessionId = session_id();
-        }
-
-        if ($sessionId) {
-            $this->setId($sessionId);
-        } else {
-            // @todo: Wenn einkommentiert dann korrekte logging der session_id möglich aber regenrate on reach request,
-            // wenn auskommentiert, dann ist das logging nicht möglich aber der rgenerate turnus funzt ???!!!???
-            /*
-            $sessionId = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
-            session_id($sessionId);
-            $this->setId($sessionId);
-            */
         }
 
         // set params for cookie!
