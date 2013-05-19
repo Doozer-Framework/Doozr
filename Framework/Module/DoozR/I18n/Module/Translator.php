@@ -414,10 +414,13 @@ class DoozR_I18n_Module_Translator extends DoozR_Base_Class
             )
         );
 
+        // include required file -> NO autoloading -> performance!
+        include_once DOOZR_DOCUMENT_ROOT.'Module/DoozR/I18n/Module/Interface/'.$interfaceType.'.php';
+
         // combine classname
         $interfaceClass = 'DoozR_I18n_Module_Interface_'.$interfaceType;
 
-        // instanciate
+        // instanciate and return instance
         return $interfaceClass::getInstance($config);
     }
 

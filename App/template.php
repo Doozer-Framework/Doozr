@@ -27,7 +27,7 @@ $registry = DoozR_Registry::getInstance();
 /**
  * Get module session from Moduleloader
  */
-$template = DoozR_Loader_Moduleloader::load('template', array(DOOZR_APP_ROOT.'Data\\Private\\Tpl\\template.tpl'));
+$template = DoozR_Loader_Moduleloader::load('template', array(DOOZR_APP_ROOT.'Data/Private/Tpl/template.tpl'));
 $i18n     = DoozR_Loader_Moduleloader::load('i18n', array($registry->config, 'de'));
 
 

@@ -87,6 +87,15 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton implements PHPTAL_Tr
     private $_activeLocale;
 
     /**
+     * This modules autoloader id if init, otherwise NULL
+     *
+     * @var string
+     * @access private
+     * @static
+     */
+    private static $_autoloader;
+
+    /**
      * Contains instance of Module Configreader (used for reading INI-Files)
      *
      * @var DoozR_Configreader_Module
@@ -141,6 +150,9 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton implements PHPTAL_Tr
      */
     public function __tearup(DoozR_Config_Interface $configreader, $locale = null)
     {
+        // make modules custom autoloader ready
+        self::_initAutoloader();
+
         // store configreader passed to this instance
         self::$_configreader = $configreader;
 
@@ -426,6 +438,35 @@ class DoozR_I18n_Module extends DoozR_Base_Module_Singleton implements PHPTAL_Tr
     /*******************************************************************************************************************
      * // BEGIN TOOLS + HELPER
      ******************************************************************************************************************/
+
+    /**
+     * This method is intend to validate the input locale and return data
+     * required for running module
+     *
+     * @param string $locale The locale to prepare data for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The prepared data
+     * @access private
+     */
+    private static function _initAutoloader()
+    {
+        if (!self::$_autoloader) {
+            // register modules custom autoloader
+            $autoloaderModule = new DoozR_Loader_Autoloader_Spl_Config();
+            $autoloaderModule
+                ->setNamespace('DoozR_I18n')
+                ->setNamespaceSeparator('_')
+                ->addExtension('php')
+                ->setPath(DOOZR_DOCUMENT_ROOT.'Module')
+                ->setDescription('DoozR\'s Ii8n module autoloader');
+
+            // add to SPL through facade
+            self::$_autoloader = DoozR_Loader_Autoloader_Spl_Facade::attach(
+                $autoloaderModule
+            );
+        }
+    }
 
     /**
      * This method is intend to validate the input locale and return data
