@@ -97,15 +97,6 @@ $autoloaderDoozR
     ->setDescription('DoozR\'s main autoloader and responsible for loading core classes')
     ->setPriority(0);
 
-$autoloaderModule = new DoozR_Loader_Autoloader_Spl_Config();
-$autoloaderModule
-    ->setNamespace('Module')
-    ->setNamespaceSeparator('_')
-    ->addExtension('php')
-    ->setPath(DOOZR_DOCUMENT_ROOT.'Module')
-    ->setDescription('DoozR\'s module autoloader responsible for loading modules and its classes')
-    ->setPriority(1);
-
 $autoloaderDoodi = new DoozR_Loader_Autoloader_Spl_Config();
 $autoloaderDoodi
     ->setNamespace('Doodi')
@@ -113,7 +104,7 @@ $autoloaderDoodi
     ->addExtension('php')
     ->setPath(DOOZR_DOCUMENT_ROOT.'Model')
     ->setDescription('Doodi\'s autoloader responsible for loading Doodi\'s + libs classes')
-    ->setPriority(2);
+    ->setPriority(1);
 
 /**
  * The facade itself is auto instanciating singleton within the
@@ -124,8 +115,7 @@ $autoloaderDoodi
 DoozR_Loader_Autoloader_Spl_Facade::attach(
     array(
         $autoloaderDoozR,
-        $autoloaderModule,
-        $autoloaderDoodi,
+        $autoloaderDoodi
     )
 );
 
