@@ -32,7 +32,7 @@
  * @since       1.0
  * @version     $Revision: 7490 $
  */
-class Doctrine_Transaction extends Doctrine_Connection_Module
+class Doctrine_Transaction extends Doctrine_Connection_Service
 {
     /**
      * Doctrine_Transaction is in sleep state when it has no active transactions

@@ -57,9 +57,9 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception/Generic.php';
 
 /**
- * DoozR - Module - Template - Exception
+ * DoozR - Service - Template - Exception
  *
- * Exception of DoozR Module Template
+ * Exception of DoozR Service Template
  *
  * @category   DoozR
  * @package    DoozR_Base_Exception

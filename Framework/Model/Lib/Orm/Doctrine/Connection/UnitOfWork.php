@@ -37,7 +37,7 @@
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Roman Borschel <roman@code-factory.org>
  */
-class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
+class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Service
 {
     /**
      * Saves the given record and all associated records.

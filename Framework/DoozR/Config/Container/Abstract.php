@@ -104,7 +104,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     /**
      * Contains an instance of cache
      *
-     * @var DoozR_Cache_Module
+     * @var DoozR_Cache_Service
      * @access protected
      */
     protected $cache;
@@ -159,7 +159,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     {
         $this->path   = $path;
         $this->logger = $logger;
-        $this->cache  = DoozR_Loader_Moduleloader::load('cache', array(DOOZR_UNIX));
+        $this->cache  = DoozR_Loader_Serviceloader::load('cache', array(DOOZR_UNIX));
 
         // try to use memcache as container
         try {
@@ -178,7 +178,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
             try {
                 $this->cache->setContainer('file');
 
-            } catch (DoozR_Cache_Module_Exception $e) {
+            } catch (DoozR_Cache_Service_Exception $e) {
                 throw new DoozR_Exception(
                     'Error while initializing cache! Neither file nor memcache container can be used.',
                     null,

@@ -30,5 +30,5 @@
  * @version     $Revision$
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
-class Doctrine_Util extends Doctrine_Connection_Module
+class Doctrine_Util extends Doctrine_Connection_Service
 { }

@@ -31,7 +31,7 @@
  * @since       1.0
  * @version     $Revision: 7490 $
  */
-class Doctrine_Export extends Doctrine_Connection_Module
+class Doctrine_Export extends Doctrine_Connection_Service
 {
     protected $valid_default_values = array(
         'text'      => '',

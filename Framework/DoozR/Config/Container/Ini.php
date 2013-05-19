@@ -114,7 +114,7 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
         parent::__construct($path, $logger);
 
         // get instance of filesystem module
-        $this->filesystem = DoozR_Loader_Moduleloader::load('filesystem');
+        $this->filesystem = DoozR_Loader_Serviceloader::load('filesystem');
     }
 
     /**

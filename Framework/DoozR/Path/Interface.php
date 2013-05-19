@@ -125,14 +125,14 @@ interface DoozR_Path_Interface
      *
      * This method is intend to convert a given module name to a path.
      *
-     * @param string $moduleName The name of the module to retrieve the path for
+     * @param string $serviceName The name of the module to retrieve the path for
      * @param string $namespace  The namespace to use for building path to module
      *
      * @return  string The path requested
      * @access  public
      * @static
      */
-    public static function moduleToPath($moduleName, $namespace = 'DoozR');
+    public static function moduleToPath($serviceName, $namespace = 'DoozR');
 
     /**
      * returns slash-corrected path

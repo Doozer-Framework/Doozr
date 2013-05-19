@@ -20,7 +20,7 @@
  */
 
 /**
- * Doctrine_Connection_Module
+ * Doctrine_Connection_Service
  *
  * @package     Doctrine
  * @subpackage  Connection
@@ -30,7 +30,7 @@
  * @version     $Revision: 7490 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
-class Doctrine_Connection_Module
+class Doctrine_Connection_Service
 {
     /**
      * @var Doctrine_Connection $conn       Doctrine_Connection object, every connection
@@ -71,12 +71,12 @@ class Doctrine_Connection_Module
     }
 
     /**
-     * getModuleName
+     * getServiceName
      * returns the name of this module
      *
      * @return string       the name of this module
      */
-    public function getModuleName()
+    public function getServiceName()
     {
         return $this->moduleName;
     }

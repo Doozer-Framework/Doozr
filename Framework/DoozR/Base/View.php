@@ -131,9 +131,9 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
     protected $translation;
 
     /**
-     * Contains an instance of the module DoozR_Cache_Module
+     * Contains an instance of the module DoozR_Cache_Service
      *
-     * @var DoozR_Cache_Module
+     * @var DoozR_Cache_Service
      * @access protected
      */
     protected $cache;
@@ -154,7 +154,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      * @param array                  $request     The whole request as processed by "Route"
      * @param array                  $translation The translation required to read the request
      * @param DoozR_Config           $config      An instance of DoozR_Config with Core-Configuration
-     * @param DoozR_Cache_Module     $cache       An instance of DoozR_Cache
+     * @param DoozR_Cache_Service    $cache       An instance of DoozR_Cache
      * @param DoozR_Controller_Front $front       An instance of DoozR_Front
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -165,7 +165,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
         array $request,
         array $translation,
         DoozR_Config $config,
-        DoozR_Cache_Module $cache,
+        DoozR_Cache_Service $cache,
         DoozR_Controller_Front $front
     ) {
         // store original request
@@ -252,7 +252,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      * @return boolean TRUE if successful, otherwise FALSE
      * @access protected
      */
-    protected function render(array $data = array(), DoozR_I18n_Module $i18n = null)
+    protected function render(array $data = array(), DoozR_I18n_Service $i18n = null)
     {
         // store given fingerprint
         $this->fingerprint = $this->getFingerprint(1);
@@ -261,13 +261,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
         try {
             $data = $this->cache->read($this->fingerprint);
 
-        } catch(DoozR_Cache_Module_Exception $e) {
+        } catch(DoozR_Cache_Service_Exception $e) {
 
             // get name of tpl file
             $tplFile = $this->config->base->template->path().$this->translateToTemplatefile().'.html';
 
             // load the template (generic template engine)
-            $tpl = DoozR_Loader_Moduleloader::load('template', array($tplFile));
+            $tpl = DoozR_Loader_Serviceloader::load('template', array($tplFile));
 
             // if I18n passed -> forward to template engine (e.g. PHPTAL)
             if ($i18n !== null) {
@@ -364,7 +364,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
     protected function getFingerprint($uniqueId)
     {
         // the session id is unique and special to each user
-        //$session = DoozR_Loader_Moduleloader::load('session');
+        //$session = DoozR_Loader_Serviceloader::load('session');
 
         // this hash is unique for this current user, the request (e.g. /a/b/) and
         // its arguments (e.g. ?a=b).

@@ -30,7 +30,7 @@
  * @version     $Revision$
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
-class Doctrine_Expression_Driver extends Doctrine_Connection_Module
+class Doctrine_Expression_Driver extends Doctrine_Connection_Service
 {
     public function getIdentifier($column)
     {

@@ -254,8 +254,8 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         // path to model
         self::$_path['model'] = $this->_combine($root, array('Framework', 'Model'));
 
-        // path to modules
-        self::$_path['module'] = $this->_combine($root, array('Framework', 'Module'));
+        // path to services
+        self::$_path['module'] = $this->_combine($root, array('Framework', 'Service'));
 
         // path to controller
         self::$_path['controller'] = $this->_combine($root, array('Framework', 'DoozR', 'Controller'));
@@ -578,7 +578,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      *
      * This method is intend to convert a given module name to a path.
      *
-     * @param string $moduleName The name of the module to retrieve the path for
+     * @param string $serviceName The name of the module to retrieve the path for
      * @param string $namespace  The namespace to use for building path to module
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -587,10 +587,10 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @static
      * @deprecated
      */
-    public static function moduleToPath($moduleName, $namespace = 'DoozR')
+    public static function moduleToPath($serviceName, $namespace = 'DoozR')
     {
-        $module = ucfirst(str_replace('_', self::$_separator, $moduleName));
-        return self::_correctPath(self::$_path['module'].$namespace.self::$_separator.$module.self::$_separator);
+        $service = ucfirst(str_replace('_', self::$_separator, $serviceName));
+        return self::_correctPath(self::$_path['module'].$namespace.self::$_separator.$service.self::$_separator);
     }
 }
 

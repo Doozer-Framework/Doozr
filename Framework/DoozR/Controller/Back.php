@@ -138,9 +138,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     private $_pattern;
 
     /**
-     * Contains an instance of module DoozR_Cache_Module
+     * Contains an instance of module DoozR_Cache_Service
      *
-     * @var DoozR_Cache_Module
+     * @var DoozR_Cache_Service
      * @access private
      */
     private $_cache;
@@ -189,7 +189,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         $this->_logger = $logger;
 
         // load and store instance of module filesystem
-        $this->_filesystem = DoozR_Loader_Moduleloader::load('filesystem');
+        $this->_filesystem = DoozR_Loader_Serviceloader::load('filesystem');
     }
 
     /**
@@ -211,7 +211,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         $this->_request     = $request;
         $this->_translation = $translation;
         $this->_pattern     = $pattern;
-        $this->_cache       = DoozR_Loader_Moduleloader::load(
+        $this->_cache       = DoozR_Loader_Serviceloader::load(
             'cache', array(DOOZR_UNIX, $this->_config->cache->container())
         );
 

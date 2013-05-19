@@ -147,8 +147,8 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
      */
     public function __renderScreen()
     {
-        // we need the I18n module -> without locale passed = will autodetect
-        $i18n = DoozR_Loader_Moduleloader::load('i18n', array($this->config));
+        // we need the I18n service -> without locale passed = will autodetect
+        $i18n = DoozR_Loader_Serviceloader::load('i18n', array($this->config));
 
         $this->render($this->getData(), $i18n);
     }

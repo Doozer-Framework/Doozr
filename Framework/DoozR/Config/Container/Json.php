@@ -118,7 +118,7 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
         self::$_cacheEnabled = $enableCaching;
 
         // get instance of filesystem module
-        $this->filesystem = DoozR_Loader_Moduleloader::load('filesystem');
+        $this->filesystem = DoozR_Loader_Serviceloader::load('filesystem');
     }
 
     /**
@@ -161,14 +161,10 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
 
         // check if current resource was cached before
         if ($this->cache->isCached($uid)) {
-            pre('cached');
-
             // get configuration from cache
             $configuration = $this->cache->read($uid);
 
         } else {
-            pre('not cached');
-
             if (is_string($resource)) {
                 // get configuration (JSON)
                 $configuration = $this->_readConfigurationFile($resource);

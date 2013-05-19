@@ -2,7 +2,7 @@
 /***********************************************************************************************************************
  *
 * DEMONSTRATION
-* Module: Config
+* Service: Config
 *
 **********************************************************************************************************************/
 
@@ -19,10 +19,10 @@ $DoozR = DoozR_Core::getInstance();
 
 
 /**
- * create new instance of module configreader, pass 'json' as argument to it -> this means we
+ * create new instance of service configreader, pass 'json' as argument to it -> this means we
  * want to use a json-container for CRUD-operations (currently available container: json, ini)
  */
-$configreader = DoozR_Loader_Moduleloader::load('configreader', array('json', true));
+$configreader = DoozR_Loader_Serviceloader::load('configreader', array('json', true));
 
 
 /**

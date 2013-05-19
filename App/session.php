@@ -2,7 +2,7 @@
 /***********************************************************************************************************************
  *
  * DEMONSTRATION
- * Module: Session
+ * Service: Session
  *
  **********************************************************************************************************************/
 
@@ -17,9 +17,9 @@ require_once '../Framework/DoozR/Bootstrap.php';
 $DoozR = DoozR_Core::getInstance();
 
 /**
- * Get module session from Moduleloader
+ * Get module session from Serviceloader
  */
-$session = DoozR_Loader_Moduleloader::load('session');
+$session = DoozR_Loader_Serviceloader::load('session');
 
 /**
  * Check if session variable is set -> echo out if exist

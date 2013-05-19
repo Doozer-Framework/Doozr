@@ -41,8 +41,8 @@
  *
  * 4. Modular structure
  *    Higher level functionality such as schema importing, exporting, sequence handling etc.
- *    is divided into modules. For a full list of connection modules see
- *    Doctrine_Connection::$_modules
+ *    is divided into services. For a full list of connection services see
+ *    Doctrine_Connection::$_services
  *
  * @package     Doctrine
  * @subpackage  Connection
@@ -102,7 +102,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     protected $pendingAttributes  = array();
 
     /**
-     * @var array $modules                      an array containing all modules
+     * @var array $services                      an array containing all services
      *              transaction                 Doctrine_Transaction driver, handles savepoint and transaction isolation abstraction
      *
      *              expression                  Doctrine_Expression_Driver, handles expression abstraction
@@ -129,7 +129,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * @see Doctrine_Connection_UnitOfWork
      * @see Doctrine_Formatter
      */
-    private $modules = array('transaction' => false,
+    private $services = array('transaction' => false,
                              'expression'  => false,
                              'dataDict'    => false,
                              'export'      => false,
@@ -391,10 +391,10 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * @see Doctrine_Expression_Driver
      * @see Doctrine_Export
      * @see Doctrine_Transaction
-     * @see Doctrine_Connection::$modules       all availible modules
+     * @see Doctrine_Connection::$services       all availible services
      * @param string $name                      the name of the module to get
      * @throws Doctrine_Connection_Exception    if trying to get an unknown module
-     * @return Doctrine_Connection_Module       connection module
+     * @return Doctrine_Connection_Service       connection module
      */
     public function __get($name)
     {
@@ -402,24 +402,24 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
             return $this->properties[$name];
         }
 
-        if ( ! isset($this->modules[$name])) {
+        if ( ! isset($this->services[$name])) {
             throw new Doctrine_Connection_Exception('Unknown module / property ' . $name);
         }
-        if ($this->modules[$name] === false) {
+        if ($this->services[$name] === false) {
             switch ($name) {
                 case 'unitOfWork':
-                    $this->modules[$name] = new Doctrine_Connection_UnitOfWork($this);
+                    $this->services[$name] = new Doctrine_Connection_UnitOfWork($this);
                     break;
                 case 'formatter':
-                    $this->modules[$name] = new Doctrine_Formatter($this);
+                    $this->services[$name] = new Doctrine_Formatter($this);
                     break;
                 default:
                     $class = 'Doctrine_' . ucwords($name) . '_' . $this->getDriverName();
-                    $this->modules[$name] = new $class($this);
+                    $this->services[$name] = new $class($this);
                 }
         }
 
-        return $this->modules[$name];
+        return $this->services[$name];
     }
 
     /**

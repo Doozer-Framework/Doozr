@@ -34,7 +34,7 @@
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Jukka Hassinen <Jukka.Hassinen@BrainAlliance.com>
  */
-class Doctrine_Import extends Doctrine_Connection_Module
+class Doctrine_Import extends Doctrine_Connection_Service
 {
     protected $sql = array();
 

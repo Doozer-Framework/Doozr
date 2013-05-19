@@ -2,7 +2,7 @@
 /***********************************************************************************************************************
  *
  * DEMONSTRATION
- * Module: Template
+ * Service: Template
  *
  **********************************************************************************************************************/
 
@@ -25,10 +25,10 @@ $registry = DoozR_Registry::getInstance();
 
 
 /**
- * Get module session from Moduleloader
+ * Get module session from Serviceloader
  */
-$template = DoozR_Loader_Moduleloader::load('template', array(DOOZR_APP_ROOT.'Data/Private/Tpl/template.tpl'));
-$i18n     = DoozR_Loader_Moduleloader::load('i18n', array($registry->config, 'de'));
+$template = DoozR_Loader_Serviceloader::load('template', array(DOOZR_APP_ROOT.'Data/Private/Tpl/template.tpl'));
+$i18n     = DoozR_Loader_Serviceloader::load('i18n', array($registry->config, 'de'));
 
 
 /**

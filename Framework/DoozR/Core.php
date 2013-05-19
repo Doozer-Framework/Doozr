@@ -219,7 +219,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     /**
      * An instance of module datetime
      *
-     * @var DoozR_Datetime_Module
+     * @var DoozR_Datetime_Service
      * @access private
      * @static
      */
@@ -336,8 +336,8 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
             // init model (database layer)
             self::_initModel();
 
-            // init default modules
-            self::_initModules();
+            // init default services
+            self::_initservices();
         }
     }
 
@@ -613,7 +613,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
-     * This method is intend to initialize the default modules for current running-mode.
+     * This method is intend to initialize the default services for current running-mode.
      * Running mode depends on used interface. It can be either CLI (Console) or WEB (Browser).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -621,16 +621,16 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * @access private
      * @static
      */
-    private static function _initModules()
+    private static function _initservices()
     {
         // get mode app currently runs in
         $runningMode = self::$_front->getRunningMode();
 
-        // get default modules for mode
-        $modules = self::$_config->base->modules->{$runningMode}();
+        // get default services for mode
+        $services = self::$_config->base->services->{$runningMode}();
 
-        foreach ($modules as $module) {
-            self::$_registry->{$module} = DoozR_Loader_Moduleloader::load($module);
+        foreach ($services as $service) {
+            self::$_registry->{$service} = DoozR_Loader_Serviceloader::load($service);
         }
     }
 
@@ -686,14 +686,14 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * Returns instance of Datetime module
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Datetime_Module An instance of module Datetime
+     * @return DoozR_Datetime_Service An instance of module Datetime
      * @access private
      * @static
      */
     private static function _getDateTime()
     {
         if (!self::$_dateTime) {
-            self::$_dateTime = DoozR_Loader_Moduleloader::load('datetime');
+            self::$_dateTime = DoozR_Loader_Serviceloader::load('datetime');
         }
 
         return self::$_dateTime;

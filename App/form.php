@@ -2,7 +2,7 @@
 /***********************************************************************************************************************
  *
 * DEMONSTRATION
-* Module: Form
+* Service: Form
 *
 **********************************************************************************************************************/
 
@@ -34,13 +34,13 @@ $config = $registry->config;
  * Get the "I18n" module to demonstrate you the nice interaction between
  * module "Form" and "I18n"
  */
-$i18n = DoozR_Loader_Moduleloader::load('i18n', array($registry->config, 'de'));
+$i18n = DoozR_Loader_Serviceloader::load('i18n', array($registry->config, 'de'));
 
 
 /**
  * Get the "Form" module
  */
-$form = DoozR_Loader_Moduleloader::load('form', array('register', $i18n));
+$form = DoozR_Loader_Serviceloader::load('form', array('register', $i18n));
 
 
 /**
@@ -70,7 +70,7 @@ if ($form->submitted('register') && $form->valid() && $form->finished()) {
             ->action($_SERVER['PHP_SELF'])
             ->step()
             ->steps(2)
-            ->onInvalidToken(DoozR_Form_Module::TOKEN_BEHAVIOR_DENY)
+            ->onInvalidToken(DoozR_Form_Service::TOKEN_BEHAVIOR_DENY)
             //->i18n($i18n)
             ->setFieldsetBegin('fieldset1', 'Jetzt kostenlos registrieren:', 'myclass')
                 // radio 1 (gender)
@@ -141,7 +141,7 @@ if ($form->submitted('register') && $form->valid() && $form->finished()) {
             ->action($_SERVER['PHP_SELF'])
             ->step()
             ->steps(2)
-            ->onInvalidToken(DoozR_Form_Module::TOKEN_BEHAVIOR_DENY)
+            ->onInvalidToken(DoozR_Form_Service::TOKEN_BEHAVIOR_DENY)
             ->i18n($i18n)
             ->setFieldsetBegin('fieldset1', 'Nur noch vervollst&auml;ndigen:', 'myclass')
                 ->add('text', true)
@@ -155,7 +155,7 @@ if ($form->submitted('register') && $form->valid() && $form->finished()) {
                 ->add('label', true)
                 ->name('jump')
                 ->id('jump')
-                ->html('<a href="form.php?DoozR_Form_Module_Step=1">jump jump</a>')
+                ->html('<a href="form.php?DoozR_Form_Service_Step=1">jump jump</a>')
                 ->done()
 
                 ->add('submit', true)
@@ -171,7 +171,7 @@ if ($form->submitted('register') && $form->valid() && $form->finished()) {
 ?>
 <html>
 <head>
-<title>DoozR Module Form - Form: register</title>
+<title>DoozR Service Form - Form: register</title>
 <style>
     /* general form n1ce pimp ups */
     label {
@@ -185,14 +185,14 @@ if ($form->submitted('register') && $form->valid() && $form->finished()) {
         /*margin-bottom: 12px;*/
     }
 
-    .DoozR_Form_Module_Fieldset_Container {
+    .DoozR_Form_Service_Fieldset_Container {
         float: left;
         margin-bottom: 18px;
         width: 100%;
     }
 
-    .DoozR_Form_Module_Fieldset_Container label,
-    .DoozR_Form_Module_Fieldset_Container input {
+    .DoozR_Form_Service_Fieldset_Container label,
+    .DoozR_Form_Service_Fieldset_Container input {
         float: left;
         width: 100%;
     }

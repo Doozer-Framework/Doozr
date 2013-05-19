@@ -140,7 +140,7 @@ if ($config->base->pattern->enabled()) {
     $applicationFile = DOOZR_APP_ROOT.implode(DIRECTORY_SEPARATOR, $requestVariables).'.php';
 
     // get filesystem module
-    $filesystem = DoozR_Loader_Moduleloader::load('filesystem');
+    $filesystem = DoozR_Loader_Serviceloader::load('filesystem');
 
     // validate the existence of the application file and ...
     if (!$filesystem->exists($applicationFile)) {

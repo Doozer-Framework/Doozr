@@ -2,7 +2,7 @@
 /***********************************************************************************************************************
  *
  * DEMONSTRATION
- * Module: Database
+ * Service: Database
  *
  **********************************************************************************************************************/
 
@@ -84,91 +84,33 @@ $request = $registry->front->getRequest();
  * ... the following "inline" class definition and ... is just for demo purposes
  */
 
-//require_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/View/DoodiCouchdbView.class.php';
-//require_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Document/DoodiCouchdbDocument.class.php';
 
-/*
-phpillowStringValidator
-phpillowTextValidator
-phpillowDocumentArrayValidator
-*/
+require_once DOOZR_APP_ROOT.'Class/DoozR/User.php';
+require_once DOOZR_APP_ROOT.'Class/DoozR/User/View.php';
 
-class myBlogView extends Doodi_Couchdb_View
-{
-    protected $viewDefinitions = array(
-        'entries' => 'function(doc) {
-             if (doc.type == "blog_entry") {
-                 emit(doc.title, doc._id);
-                 emit([doc._id, 0], doc._id);
-                 if (doc.comments) {
-                     for ( var i = 0; i < doc.comments.length; ++i ) {
-                         emit([doc._id, 1], doc.comments[i]);
-                     }
-                 }
-             }
-        }',
-    );
-
-    protected function getViewName()
-    {
-        return 'blog_entries';
-    }
-}
-
-
-class myBlogDocument extends Doodi_Couchdb_Document
-{
-	protected static $type = 'blog_entry';
-
-	protected $requiredProperties = array(
-		'title',
-		'text'
-	);
-
-	public function __construct()
-	{
-        $this->properties = array(
-            'title'     => new Doodi_Couchdb_String_Validator(),
-            'text'      => new Doodi_Couchdb_Text_Validator(),
-            'comments'  => new Doodi_Couchdb_Array_Validator(
-                'myBlogComments'
-            )
-        );
-
-        parent::__construct();
-	}
-
-	protected function generateId()
-	{
-		return $this->stringToId($this->storage->title);
-	}
-
-	protected function getType()
-	{
-		return self::$type;
-	}
-}
 
 /**
  * create and save a blog document
  */
-/*
-$doc = new myBlogDocument();
-$doc->title = 'New blog post';
-$doc->text = 'Hello world.';
-$doc->save();
-*/
+$user = new DoozR_User();
+$user->fetchById('user-ben.c_gmx.de');
+pred($user);
 
 
 /**
  * query data by map/reduce through our myBlogView-View
  */
-$result = myBlogView::entries(array('key' => 'New blog post'));
+//$result = DoozR_User_View::entries(array('key' => $_GET->email));
+//pre($result->rows);
 
-
-foreach ($result->rows as $row) {
-    pre($row);
+/*
+if (isset($result->rows[0])) {
+    $user = new DoozR_User($result->rows[0]['value']);
+    pre($user->firstname.' '.$user->lastname);
+} else {
+    echo 'Lookup (view) user by email: "'.$_GET->email.'" failed!';
 }
+*/
 
 
 /**

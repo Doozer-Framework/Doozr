@@ -31,7 +31,7 @@
  * @since       1.0
  * @version     $Revision: 7490 $
  */
-class Doctrine_Sequence extends Doctrine_Connection_Module
+class Doctrine_Sequence extends Doctrine_Connection_Service
 {
     /**
      * Returns the next free id of a sequence

@@ -167,7 +167,7 @@ final class DoozR_Logger_File extends DoozR_Logger_Abstract implements DoozR_Log
         $this->_setLogfile($_SERVER['PHP_SELF']);
 
         // get module filesystem
-        $this->_filesystem = DoozR_Loader_Moduleloader::load('filesystem');
+        $this->_filesystem = DoozR_Loader_Serviceloader::load('filesystem');
     }
 
     /**

@@ -6,7 +6,7 @@
 <h1>Demonstrations</h1>
 This is an overview to DoozR's feature subset.
 
-<h2>Modules</h2>
+<h2>services</h2>
 <a href="config.php">Configuration</a><br />
 <a href="database.php">Database</a><br />
 <a href="debug.php">Debug</a><br />

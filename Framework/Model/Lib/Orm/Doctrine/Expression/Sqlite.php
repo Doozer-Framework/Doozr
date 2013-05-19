@@ -44,7 +44,7 @@ class Doctrine_Expression_Sqlite extends Doctrine_Expression_Driver
     }
 
     /**
-     * Returns the modules of the data that SQLite's mod() function receives.
+     * Returns the services of the data that SQLite's mod() function receives.
      *
      * @param integer $dividend
      * @param integer $divisor

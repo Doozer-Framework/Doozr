@@ -55,7 +55,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Moduleloader.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Serviceloader.php';
 
 /**
  * DoozR - Logger - Abstract
@@ -255,7 +255,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected function __construct($level = 1, $fingerprint = '', $config = null)
     {
         // get datetime module
-        $this->dateTime = DoozR_Loader_Moduleloader::load('datetime');
+        $this->dateTime = DoozR_Loader_Serviceloader::load('datetime');
 
         // set date
         $this->date = $this->dateTime->getDate('c');

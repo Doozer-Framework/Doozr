@@ -179,7 +179,7 @@ class DoozR_Base_Template_Engine extends DoozR_Base_Facade_Singleton
         //       decorated object
 
         // initialize and store the instance of template engine for further access
-        self::$instance = DoozR_Loader_Moduleloader::load($this->library, array($this->resource));
+        self::$instance = DoozR_Loader_Serviceloader::load($this->library, array($this->resource));
 
         // set this instance as decorated object of our generic Facade and
         // so we can access all the base methods of any lib easily!
