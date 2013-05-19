@@ -789,7 +789,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
 
         // log memory usage
         self::$_logger->log(
-            'Total consumed memory: '.$memoryUsage.' MB.'
+            'Total consumed memory: '.$memoryUsage.' MB'
         );
 
         // save session
