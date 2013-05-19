@@ -912,16 +912,13 @@ class DoozR_Cache_Module extends DoozR_Base_Module_Multiple implements DoozR_Psr
     private function _createExt($id, $data, $expires = null, $group = 'Default', $userdata = '')
     {
         try {
-            if ($this->_id = $this->_container->create($id, $data, $expires, $group, $userdata)) {
-                return true;
-            }
+            $this->_id = $this->_container->create($id, $data, $expires, $group, $userdata);
 
         } catch (Exception $e) {
             throw new DoozR_Cache_Module_Exception('Error creating dataset!');
         }
 
-        // failed
-        return false;
+        return ($this->_id !== false) ? true : false;
     }
 }
 

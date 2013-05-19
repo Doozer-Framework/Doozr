@@ -99,7 +99,7 @@ implements DoozR_Cache_Module_Container_Interface
      * @var object
      * @access private
      */
-    private $_memcache;
+    private $_connection;
 
     /**
      * TRUE  to compress content with zlib from memcache
@@ -108,7 +108,7 @@ implements DoozR_Cache_Module_Container_Interface
      * @var boolean
      * @access private
      */
-    private $_compress = false;
+    private $_compress = true;
 
     /**
      * the allowed options specific for this container
@@ -156,23 +156,24 @@ implements DoozR_Cache_Module_Container_Interface
         }
 
         // init a connection to server
-        $this->_memcache = $this->_connect($this->hostname, $this->port);
+        /* @var $this->_connection Memcache */
+        $this->_connection = $this->_connect($this->hostname, $this->port);
 
         // if highwater = max -> retrieve configuration from server to define highwater
-        if ($this->highwater == 'max') {
-            $serverConfiguration = $this->_memcache->getExtendedStats();
+        if ($this->highwater === 'max') {
+            $serverConfiguration = $this->_connection->getExtendedStats();
             $this->highwater     = $serverConfiguration[$this->hostname.':'.$this->port]['limit_maxbytes'];
         }
     }
 
     /**
-     * stores a dataset
+     * Stores a dataset
      *
      * This method is intend to write data to cache.
      * WARNING: If you supply userdata it must not contain any linebreaks, otherwise it will break the filestructure.
      *
      * @param string  $id      The dataset Id
-     * @param string  $buffer  The data to write to cache
+     * @param string  $value   The data to write to cache
      * @param integer $expires Date/Time on which the cache-entry expires
      * @param string  $group   The dataset group
      *
@@ -181,48 +182,34 @@ implements DoozR_Cache_Module_Container_Interface
      * @access public
      * @throws DoozR_Cache_Module_Exception
      */
-    public function create($id, $buffer, $expires, $group)
+    public function create($id, $value, $expires, $group)
     {
+        // unique key
+        $key = $this->_uniquifyId($id, $group);
+
         // flush
         $this->flushPreload($id, $group);
 
         // prepare
-        $buffer = $this->encode($buffer);
         $flags  = ($this->_compress === true) ? MEMCACHE_COMPRESSED : 0;
 
-        // store in memcache
-        if (!$this->_memcache->set(
-                         md5(self::UNIQUE_IDENTIFIER.$group.$id),
-                         $buffer,
-                         $flags,
-                         $this->getExpiresAbsolute($expires)
-            )
+        if (
+            $this->_connection->set(
+                $key,
+                $value,
+                $flags,
+                $expires    //$this->getExpiresAbsolute($expires)
+            ) !== true
         ) {
             throw new DoozR_Cache_Module_Exception(
                 'Error while creating dataset!'
             );
         }
 
-        /*
-        if (!$this->_memcache->set(
-            md5(self::UNIQUE_IDENTIFIER.$group.$id),
-            $buffer,
-            $flags,
-            $this->getExpiresAbsolute($expires)
-        )) {
-            throw new DoozR_Cache_Module_Exception(
-                'Error while creating dataset!'
-            );
-        }
-        */
-
-        // success
         return true;
     }
 
     /**
-     * reads a dataset
-     *
      * This method is intend to read data from cache.
      *
      * @param string $id    The dataset Id
@@ -234,9 +221,16 @@ implements DoozR_Cache_Module_Container_Interface
      */
     public function read($id, $group)
     {
-        // try to read from cache (server)
-        $result = @$this->_memcache->get(md5(self::UNIQUE_IDENTIFIER.$group.$id));
-        return ($result !== false) ? $this->decode($result) : $result;
+        // construct uid
+        $key = $this->_uniquifyId($id, $group);
+
+        // try to read from cache (server) by uid
+        $result = $this->_connection->get(
+            $key
+        );
+
+        return $result;
+        //return ($result !== false) ? $this->decode($result) : $result;
     }
 
     /**
@@ -246,7 +240,7 @@ implements DoozR_Cache_Module_Container_Interface
      * Memcached DB supports updates by calling replace().
      *
      * @param string  $id       The dataset Id
-     * @param string  $buffer   The data to write to cache
+     * @param string  $value    The data to write to cache
      * @param integer $expires  Date/Time on which the cache-entry expires
      * @param string  $group    The dataset group
      * @param string  $userdata The custom userdata to add
@@ -255,14 +249,14 @@ implements DoozR_Cache_Module_Container_Interface
      * @return boolean TRUE on success
      * @access public
      */
-    public function update($id, $buffer, $expires, $group, $userdata)
+    public function update($id, $value, $expires, $group, $userdata)
     {
-        return $this->_memcache->replace(
+        return $this->_connection->replace(
             md5(self::UNIQUE_IDENTIFIER.$group.$id),
             array(
                 $this->getExpiresAbsolute($expires),
                 $userdata,
-                $this->encode($buffer)
+                $this->encode($value)
             ),
             0,
             $expires
@@ -290,7 +284,7 @@ implements DoozR_Cache_Module_Container_Interface
         // build identifier
         $key = md5(self::UNIQUE_IDENTIFIER.$group.$id);
 
-        if ($this->_memcache->delete($key, 0)) {
+        if ($this->_connection->delete($key, 0)) {
             return true;
         } else {
             throw new DoozR_Cache_Module_Exception(
@@ -310,7 +304,7 @@ implements DoozR_Cache_Module_Container_Interface
      */
     public function getStatus()
     {
-        return $this->_memcache->getExtendedStats();
+        return $this->_connection->getExtendedStats();
     }
 
     /**
@@ -327,8 +321,7 @@ implements DoozR_Cache_Module_Container_Interface
      */
     public function isCached($id, $group)
     {
-        $result = $this->read($id, $group);
-        return $result;
+        return $this->read($id, $group);
     }
 
     /**
@@ -345,6 +338,8 @@ implements DoozR_Cache_Module_Container_Interface
      */
     public function garbageCollection($maxlifetime)
     {
+        pred('GARBAGECOLLECTOR!');
+
         // do the flush
         parent::garbageCollection($maxlifetime);
 
@@ -409,7 +404,7 @@ implements DoozR_Cache_Module_Container_Interface
         // build identifier
         $key = md5(self::UNIQUE_IDENTIFIER.$group.$id);
 
-        return ($this->_memcache->get($key) === false) ? false : true;
+        return ($this->_connection->get($key) === false) ? false : true;
     }
 
     /**
@@ -433,6 +428,21 @@ implements DoozR_Cache_Module_Container_Interface
 
         // return count of removed entries
         return $removedEntries;
+    }
+
+    /**
+     * Returns an unique id for passed id and group
+     *
+     * @param string $id    The id to generate id for
+     * @param string $group The group to generate id for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The unique identifier
+     * @access private
+     */
+    private function _uniquifyId($id, $group)
+    {
+        return md5(self::UNIQUE_IDENTIFIER.serialize($id));
     }
 
     /**
@@ -463,7 +473,7 @@ implements DoozR_Cache_Module_Container_Interface
 
         foreach ($entries as $key => $entry) {
             if (substr($key, 0, $length) == $identifier) {
-                if ($this->_memcache->delete($key, 0)) {
+                if ($this->_connection->delete($key, 0)) {
                     ++$entriesRemoved;
                 } else {
                     throw new DoozR_Cache_Module_Exception(
@@ -490,12 +500,12 @@ implements DoozR_Cache_Module_Container_Interface
     private function _getEntries()
     {
         $list     = array();
-        $allSlabs = $this->_memcache->getExtendedStats('slabs');
-        $items    = $this->_memcache->getExtendedStats('items');
+        $allSlabs = $this->_connection->getExtendedStats('slabs');
+        $items    = $this->_connection->getExtendedStats('items');
 
         foreach ($allSlabs as $server => $slabs) {
             foreach ($slabs as $slabId => $slabMeta) {
-                $cdump = $this->_memcache->getExtendedStats('cachedump', (int)$slabId);
+                $cdump = $this->_connection->getExtendedStats('cachedump', (int)$slabId);
                 foreach ($cdump as $server => $entries) {
                     if ($entries) {
                         foreach ($entries as $eName => $eData) {
@@ -525,7 +535,7 @@ implements DoozR_Cache_Module_Container_Interface
      * @param string $port     The port to connect to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object The created instance of memcache
+     * @return Memcache The created instance of memcache
      * @access private
      * @throws DoozR_Cache_Module_Exception
      */

@@ -495,6 +495,8 @@ abstract class DoozR_Cache_Module_Container
      */
     protected function decode($data)
     {
+        pre($data);
+
         if ($this->encodingMode == 'base64') {
             return unserialize(base64_decode($data));
         } else {
