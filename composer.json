@@ -1,0 +1,17 @@
+{
+	"authors": [{
+		"name": "Benjamin Carl",
+		"email": "opensource@clickalicious.de",
+		"homepage": "http://www.clickalicious.de",
+		"role": "Developer"
+	}],
+	"repositories": [{
+		"type": "vcs",
+		"url": "https://github.com/clickalicious/DoozR.git"
+	}],
+	"require": {
+	},
+	"autoload": {
+		"classmap": ["classes"]
+	}
+}
