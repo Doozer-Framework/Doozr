@@ -1,4 +1,9 @@
 {
+    "name": "clickalicious/DoozR",
+    "description": "DoozR - The lightweight MVP PHP-Framework for high-performance websites.",
+    "keywords": ["php", "framework", "mvp", "doozr"],
+    "homepage": "http://doozr.clickalicious.de/",
+    "license": "The BSD License",
 	"authors": [{
 		"name": "Benjamin Carl",
 		"email": "opensource@clickalicious.de",
