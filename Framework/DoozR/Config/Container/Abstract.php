@@ -104,7 +104,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     /**
      * Contains an instance of cache
      *
-     * @var object
+     * @var DoozR_Cache_Module
      * @access protected
      */
     protected $cache;

@@ -159,15 +159,16 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
         // get uid for requested resource
         $uid = $this->getUid($resource);
 
-        // translate to cache-uid and set as active in cache module
-        $cUid = $this->cache->generateId($uid);
-
         // check if current resource was cached before
-        if ($this->cache->isCached()) {
+        if ($this->cache->isCached($uid)) {
+            pre('cached');
+
             // get configuration from cache
-            $configuration = $this->cache->read();
+            $configuration = $this->cache->read($uid);
 
         } else {
+            pre('not cached');
+
             if (is_string($resource)) {
                 // get configuration (JSON)
                 $configuration = $this->_readConfigurationFile($resource);
@@ -183,7 +184,7 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
 
             // store to cache for next hit if enabled
             if (self::$_cacheEnabled === true) {
-                $this->cache->create($configuration);
+                $result = $this->cache->create($configuration, $uid);
             }
         }
 
