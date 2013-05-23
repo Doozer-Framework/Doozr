@@ -169,22 +169,6 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      */
     private $_filesystem;
 
-    /**
-     * HTTP STATUS 400
-     *
-     * @var integer
-     * @access const
-     */
-    const HTTP_STATUS_400 = 400;
-
-    /**
-     * HTTP STATUS 404
-     *
-     * @var integer
-     * @access const
-     */
-    const HTTP_STATUS_404 = 404;
-
 
     /**
      * Constructor of this class
@@ -277,7 +261,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             ($this->_view) ? $this->_connector->attach($this->_view) : null;
 
             // and finally call the main() entry point
-            $this->_connector->{$request[$translation[1]]}();
+            $this->_connector->{$request[$translation[1]]}($request[$translation[1]]);
         }
 
         // return instance for chaining
@@ -306,11 +290,11 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
 
         // no connector instance = Bad Request = 400
         if (!$this->_connector) {
-            $valid = self::HTTP_STATUS_400;
+            $valid = 400;
 
             // no action to call after existing connector exist = Not Found = 404
         } elseif (!method_exists($class, $method) || !is_callable(array($class, $method))) {
-            $valid = self::HTTP_STATUS_404;
+            $valid = 404;
 
         }
 
