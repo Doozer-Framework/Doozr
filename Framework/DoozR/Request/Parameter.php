@@ -127,9 +127,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @param mixed $global String (name of a global-array) or (global)-Array to parse
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object An instance of this class
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct($global = null)
     {
@@ -149,9 +149,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @param mixed $global The input (string or array) to transform to object
      *
-     * @return  void
-     * @access private
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _processInput($global)
     {
@@ -186,9 +186,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * re-sets the iterator position to 0
      *
-     * @return  void
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function rewind()
     {
@@ -201,9 +201,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * validates the position of the iterator
      *
-     * @return  boolean True if valid, otherwise false
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if valid, otherwise false
+     * @access public
      */
     public function valid()
     {
@@ -215,9 +215,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * returns the current position of iterator
      *
-     * @return  integer Current position of the iterator
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer Current position of the iterator
+     * @access public
      */
     public function key()
     {
@@ -235,9 +235,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * returns the current value
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The value
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function current()
     {
@@ -255,9 +255,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * increase the position of iterator (+1)
      *
-     * @return  void
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function next()
     {
@@ -280,9 +280,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      * @param string $offset The offset (key) to set
      * @param mixed  $value  The value to set
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function offsetSet($offset, $value)
     {
@@ -307,9 +307,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @param string $offset The offset (key) to check
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      */
     public function offsetExists($offset)
     {
@@ -323,9 +323,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @param string $offset The offset (key) to unset
      *
-     * @return  void
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function offsetUnset($offset)
     {
@@ -339,9 +339,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @param string $offset The offset (key) to return
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed MIXED value of requested key if set, otherwise NULL
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function offsetGet($offset)
     {
@@ -360,16 +360,21 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @param array $input The input to transform to object
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array A transformed array containing values of type DoozR_Request_Value instead of values.
      * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    private function _transformToObject(array $input)
+    private function _transformToObject($input)
     {
-        // parse input contents
-        foreach ($input as $key => $value) {
-            // transform each key/value-pair from array to object of type DoozR_Request_Value
-            $input[$key] = new DoozR_Request_Value($value);
+        // transform only once (!REMARK! do not use typehint due the fact
+        // that this method can be called twice and would exit the execution
+        // if an invalid (already converted) value is passed!
+        if (is_array($input)) {
+            // parse input contents
+            foreach ($input as $key => $value) {
+                // transform each key/value-pair from array to object of type DoozR_Request_Value
+                $input[$key] = new DoozR_Request_Value($value);
+            }
         }
 
         // return input with replaced values
@@ -386,8 +391,8 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @return mixed depends on input!
      *
-     * @access magic
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access magic
      */
     public function __call($method, $parameter)
     {
@@ -414,8 +419,8 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @return mixed NULL if the parameter isn't defined otherwise the parameter
      *
-     * @access magic
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access magic
      */
     public function __get($propertyName)
     {
@@ -447,8 +452,8 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @return boolean TRUE if property is set, otherwise FALSE
      *
-     * @access magic
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access magic
      */
     public function __isset($propertyName)
     {
@@ -462,9 +467,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * @param string $parameter The parameter to return the value for
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The value for the parameter if parameter exist, otherwise NULL
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function get($parameter = null)
     {
@@ -485,9 +490,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * this method returns all defined parameters! the whole array of Request_Value('s)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getAll()
     {
@@ -499,9 +504,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * This method is intend to return the parameter of this class as string
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The defined parameter-name and -value
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __toString()
     {
@@ -513,9 +518,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      *
      * This method is intend to return the original input array.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The original input
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getArray()
     {
@@ -526,9 +531,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      * if serialize is called - we need to re-transform the class vars to a $_GET like array.
      * Some other applications e.g. XHProf want the information exactly as such an array.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The original input
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __sleep()
     {
@@ -541,9 +546,9 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
      * This method is intend to restore the original global before
      * the class is destructed. So
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The original restored global
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __destruct()
     {

@@ -2,14 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Route
+ * DoozR - Index
  *
- * Route.php - Extends Apache/IIS/... mod_rewrite.
- * This script takes the argument(s) passed to by mod_rewrite (.htaccess) and
- * parse the Object, Action ... out of it. For this it makes use of the
- * configuration, which contains the excludes, the pattern, translation and the
- * regexp. Afterwards it checks for configured pattern (MVP, MVC, or none) and
- * dispatches the call accordingly.
+ * Index.php - Lazy Index default route implementation.
  *
  * PHP versions 5
  *
@@ -59,43 +54,16 @@
  * @since      -
  */
 
-require_once 'DoozR/Bootstrap.php';
-require_once 'DoozR/Route.php';
+// override defaults
+$_SERVER['QUERY_STRING'] = (
+		!isset($_SERVER['QUERY_STRING']) ||
+		$_SERVER['QUERY_STRING'] === '/' ||
+		$_SERVER['QUERY_STRING'] === ''
+	) ?
+	'/Index/Read/' :
+	$_SERVER['QUERY_STRING'];
 
-
-// get an instance of DoozR (Core-Class)
-$DoozR = DoozR_Core::getInstance();
-
-// get registry and some required objects
-$registry = DoozR_Registry::getInstance();
-$front    = $registry->front;
-$config   = $registry->config;
-
-// retrieve current runningmode (can be either WEB or CLI (but lowercase)
-$runningMode = $front->getRunningMode();
-
-
-// check for supported running-mode
-if (
-    $runningMode === DoozR_Controller_Front::RUNNING_MODE_WEB ||
-    $runningMode === DoozR_Controller_Front::RUNNING_MODE_CLI
-) {
-    // run route init
-    DoozR_Route::init(
-        (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : '/',
-        $config->route(),
-        $registry,
-        $config->base->pattern->autorun()
-    );
-
-} else {
-
-    // UNKNOWN and/or currently not supported!
-    $msg  = 'DoozR - The PHP-Framework - Git-Version: $'.DoozR_Core::getVersion(true).' (on '.php_uname().') - ';
-    $msg .= 'Running a DoozR-based application in "'.mb_strtoupper($runningMode).'"-mode is not supported!';
-
-    // show message
-    pred($msg);
-}
+// now call our Route with overridden defailt values
+require_once 'Framework/Route.php';
 
 ?>

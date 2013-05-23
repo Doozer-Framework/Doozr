@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 9ab05fae1d0ac21cf1cea343813af46991931a86 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -65,7 +65,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 9ab05fae1d0ac21cf1cea343813af46991931a86 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -108,36 +108,6 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
     }
 
     /**
-     * This method is intend to demonstrate how data could be automatic
-     * be displayed.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
-     * @access public
-     */
-    /*
-    public function Screen()
-    {
-        // retrieve data for context Screen
-        $data = $this->getData();
-
-        // just a simple - we automatic show data from model function
-        if (is_array($data)) {
-            $data = var_export($data, true);
-        }
-
-        // get pre - html
-        $html = pre(
-            __CLASS__.' proudly present: '.$data.' directly from Model :) through Response ...', true
-        );
-
-        $html = $data;
-
-        // deliver the HTML code through response
-        return DoozR_Core::front()->getResponse()->sendHtml($html);
-    }
-
-    /**
      * This method is the magic renderer von View = Screen.
      * Upon creating this metod it get automatically called when data is set to view via setData()
      *
@@ -150,6 +120,7 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
         // we need the I18n service -> without locale passed = will autodetect
         $i18n = DoozR_Loader_Serviceloader::load('i18n', array($this->config));
 
+        // call the final render after the preparation above
         $this->render($this->getData(), $i18n);
     }
 
