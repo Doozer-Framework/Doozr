@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 31c88aec95b617197b0992828b1b898dc4757cc6 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Presenter/Subject.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 31c88aec95b617197b0992828b1b898dc4757cc6 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -168,6 +168,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      *
      * @param mixed $data The data for create
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access protected
      */
@@ -184,8 +185,9 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     /**
      * Read of cRud
      *
-     * @return  mixed Data on success, otherwise null
-     * @access  protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Data on success, otherwise null
+     * @access protected
      */
     protected function read()
     {
@@ -200,8 +202,9 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     /**
      * Delete of cruD
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
      */
     protected function delete()
     {

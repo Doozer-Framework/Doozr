@@ -55,6 +55,7 @@
  */
 
 //require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Securitylayer.php';
+include_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Parameter.php';
 
 /**
  * DoozR - Base - Request
@@ -235,13 +236,10 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      */
     protected function transformToRequestObject($globalVariable)
     {
-        // include Request_Parameter class right here
-        include_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Parameter.php';
-
         // get prefix
         $globalVariable = $this->_addPrefix($globalVariable);
 
-        // new way?
+        // store as global
         $GLOBALS[$globalVariable] = new DoozR_Request_Parameter($globalVariable);
     }
 

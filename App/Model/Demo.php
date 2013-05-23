@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 6b6c7dbe66d52ea11fe4e72020b7b05aa129261f $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -76,7 +76,7 @@ class Person {
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 6b6c7dbe66d52ea11fe4e72020b7b05aa129261f $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -109,22 +109,18 @@ final class Model_Demo extends DoozR_Base_Model implements DoozR_Base_Model_Inte
         $this->setData($data);
     }
 
+    /**
+     * Observer notification
+     *
+     * @param SplSubject $subject The subject which notifies this observer (Presenter)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     protected function __update(SplSubject $subject)
     {
         $this->setData($subject->getData());
-    }
-
-    /**
-     * This method is intend to return data for the action show.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array data for requested action
-     * @access public
-     */
-    public function screen()
-    {
-        /*...*/
-        pred('Model');
     }
 
     /**

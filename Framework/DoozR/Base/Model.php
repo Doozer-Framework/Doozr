@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 10b862d26aa88dcc5a3f5432a06aa7648ac9b870 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Model/Observer.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 10b862d26aa88dcc5a3f5432a06aa7648ac9b870 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -149,9 +149,9 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      *
      * @param mixed $data The data for create
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access protected
-     * @abstract
      */
     protected function create($data = null)
     {
@@ -163,9 +163,9 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     /**
      * Read of cRud
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Data on success, otherwise null
      * @access protected
-     * @abstract
      */
     protected function read()
     {
@@ -177,9 +177,9 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     /**
      * Delete of cruD
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access protected
-     * @abstract
      */
     protected function delete()
     {
