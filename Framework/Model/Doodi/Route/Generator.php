@@ -640,7 +640,7 @@ class Doodi_Route_Generator
     private function _parseTemplate($template, $scope)
     {
         foreach ($scope as $from => $to) {
-            $template = str_replace('[['.$from.']]', $to, $template);
+            $template = str_replace('{{'.$from.'}}', $to, $template);
         }
 
         return $template;

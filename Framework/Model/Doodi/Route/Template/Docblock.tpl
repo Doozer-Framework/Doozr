@@ -1,16 +1,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Doodi - [[name]] - [[splitted-name]]
+ * DoozR - Doodi - {{name}} - {{splitted-name}}
  *
- * [[filename]] - [[splitted-name]]
+ * {{filename}} - {{splitted-name}}
  *
  * PHP versions 5
  *
  * LICENSE:
  * DoozR - The PHP-Framework
  *
- * Copyright (c) 2005 - [[YEAR]], Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - {{YEAR}}, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -45,25 +45,25 @@
  * @package    DoozR_Model
  * @subpackage DoozR_Model_Doodi
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - [[YEAR]] Benjamin Carl
+ * @copyright  2005 - {{YEAR}} Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
  */
-[[bootstrap]][[require]]
+{{bootstrap}}{{require}}
 
 /**
- * DoozR - Doodi - [[name]] - [[splitted-name]]
+ * DoozR - Doodi - {{name}} - {{splitted-name}}
  *
- * [[splitted-name]]
+ * {{splitted-name}}
  *
  * @category   DoozR
  * @package    DoozR_Model
  * @subpackage DoozR_Model_Doodi
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - [[YEAR]] Benjamin Carl
+ * @copyright  2005 - {{YEAR}} Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/

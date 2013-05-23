@@ -2,9 +2,9 @@
 
 /* This is the Autoloader which takes a static file/class mapping matrix from ./Autoload/Matrix.php */
 
-[[docblock.tpl]]
+{{docblock.tpl}}
 
-function Doodi_[[proxy-name]]_Autoload($class)
+function Doodi_{{proxy-name}}_Autoload($class)
 {
     // holds the classes map static in memory
     static $classes;
@@ -18,7 +18,7 @@ function Doodi_[[proxy-name]]_Autoload($class)
     if (!isset($classes[$class])) {
         // try here to load file by name
         $folder = dirname(__FILE__).DIRECTORY_SEPARATOR.
-                  str_replace('_', DIRECTORY_SEPARATOR, str_replace('Doodi_[[proxy-name]]_', '', $class)).DIRECTORY_SEPARATOR;
+                  str_replace('_', DIRECTORY_SEPARATOR, str_replace('Doodi_{{proxy-name}}_', '', $class)).DIRECTORY_SEPARATOR;
         $file = $folder.str_replace('_', '', $class).'.php';
 
         if (!file_exists($file)) {
@@ -40,6 +40,6 @@ function Doodi_[[proxy-name]]_Autoload($class)
 /**
  * register the autoloader
  */
-spl_autoload_register('Doodi_[[proxy-name]]_Autoload');
+spl_autoload_register('Doodi_{{proxy-name}}_Autoload');
 
 ?>
