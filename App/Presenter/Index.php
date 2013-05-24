@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Default - Controller
+ * DoozR - Index - Presenter
  *
- * Default.php - This is the default controller
+ * Index.php - Index Presenter Demonstration
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Default
- * @subpackage DoozR_Default_Controller
+ * @package    DoozR_Index
+ * @subpackage DoozR_Index_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,13 +55,13 @@
  */
 
 /**
- * DoozR - Default - Controller
+ * DoozR - Index - Presenter
  *
- * This is the default controller
+ * Index Presenter Demonstration
  *
  * @category   DoozR
- * @package    DoozR_Default
- * @subpackage DoozR_Default_Controller
+ * @package    DoozR_Index
+ * @subpackage DoozR_Index_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -70,38 +70,65 @@
  * @see        -
  * @since      -
  */
-final class Controller_Default extends DoozR_Base_Controller implements DoozR_Base_Controller_Interface
+final class Presenter_Index extends DoozR_Base_Presenter implements DoozR_Base_Presenter_Interface
 {
     /**
-     * __init initializes the class and get automatic called on
-     * instanciation. DO NOT USE __construct (in MVC)
+     * This method is the replacement for construct. It is called right on construction of
+     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @param array $request     The original request
+     * @param array $translation The translation to read the request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function __init()
+    protected function __tearup(array $request, array $translation)
     {
         pre(
-            '__init() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.
-            $this->object.' and the action '.$this->action
+            '__tearup() in '.__CLASS__.' called! :: '.__CLASS__.' start processing of: '.var_export($request, true).
+            ' translation: '.var_export($translation, true)
         );
     }
 
-
     /**
-     * This method is intend to __cleanup
+     * This method is the replacement for construct. It is called right on construction of
+     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @return  void
-     * @access  public
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
-    public function __destroy()
+    public function __teardown()
     {
         pre(
-            '__destroy() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.
-            $this->object.' and the action '.$this->action
+            '__teardown() in '.__CLASS__.' called! :: '.__CLASS__
         );
+    }
+
+    /**
+     * This method is intend to demonstrate how data could be automatic
+     * be displayed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if successful, otherwise false
+     * @access public
+     */
+    public function screen()
+    {
+        // retrieve data for context Screen
+        $data = $this->getData();
+
+        // just a simple - we automatic show data from model function
+        if (is_array($data)) {
+            $data = var_export($data, true);
+        }
+
+        // get pre - html
+        $text = pre(__CLASS__.' proudly present: '.$data.' directly from Model :) through Response ...', true);
+
+        // deliver the HTML code through response
+        return DoozR_Core::front()->getResponse()->sendText($text);
     }
 }
 

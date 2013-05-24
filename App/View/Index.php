@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Demo - Controller
+ * DoozR - Index - View
  *
- * Demo.php - This is an example controller for Demo
+ * Index.php - Index View Demonstration
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Demo
- * @subpackage DoozR_Demo_Controller
+ * @package    DoozR_Index
+ * @subpackage DoozR_Index_View
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,13 +55,13 @@
  */
 
 /**
- * DoozR - Demo - Controller
+ * DoozR - Index - View
  *
- * This is an example controller for Demo
+ * Index View Demonstration
  *
  * @category   DoozR
- * @package    DoozR_Demo
- * @subpackage DoozR_Demo_Controller
+ * @package    DoozR_Index
+ * @subpackage DoozR_Index_View
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -70,37 +70,61 @@
  * @see        -
  * @since      -
  */
-final class Controller_Demo extends DoozR_Base_Controller implements DoozR_Base_Controller_Interface
+final class View_Index extends DoozR_Base_View implements DoozR_Base_View_Interface
 {
     /**
-     * __init initializes the class and get automatic called on
-     * instanciation. DO NOT USE __construct (in MVC)
+     * This method is the replacement for construct. It is called right on construction of
+     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
+     *
+     * @param array $request     The original request
+     * @param array $translation The translation to read the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function __init()
+    protected function __tearup(array $request, array $translation)
     {
         pre(
-            '__init() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.$this->object.
-            ' and the action '.$this->action
+            '__tearup() in '.__CLASS__.' called! :: '.__CLASS__.' start processing of: '.var_export($request, true).
+            ' translation: '.var_export($translation, true)
         );
+
+        /******/
+        /* @var $model DoozR_Model */
+        /*
+        $model = DoozR_Model::getInstance();
+
+        // get connection
+        $connection = $model->phpillowConnection->___createInstance('localhost', 5984);
+
+        // set database
+        $model->phpillowConnection->setDatabase('doozr');
+
+        // get base structure/object for documents
+        require_once 'App/myBlogDocument.php';
+
+        // create new doc
+        $doc = new myBlogDocument();
+        $doc->title = 'New blog post 2';
+        $doc->text = 'Hello world.';
+        $doc->save();
+        */
+        /******/
     }
 
-
     /**
-     * This method is intend to __cleanup
+     * This method is the replacement for construct. It is called right on construction of
+     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function __destroy()
+    public function __teardown()
     {
         pre(
-            '__destroy() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.$this->object.
-            ' and the action '.$this->action
+            '__teardown() in '.__CLASS__.' called! :: '.__CLASS__
         );
     }
 }

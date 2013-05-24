@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 6b6c7dbe66d52ea11fe4e72020b7b05aa129261f $
+ * @version    Git: $Id: b21a0e795a3d7c5919c2a4265dd40c46a2ab7db4 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -76,7 +76,7 @@ class Person {
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 6b6c7dbe66d52ea11fe4e72020b7b05aa129261f $
+ * @version    Git: $Id: b21a0e795a3d7c5919c2a4265dd40c46a2ab7db4 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -

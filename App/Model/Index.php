@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Demo - View
+ * DoozR - Index - Model
  *
- * Demo.php - This is an example view for demo
+ * Index.php - Index Model Demonstration
  *
  * PHP versions 5
  *
@@ -43,99 +43,66 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Demo
- * @subpackage DoozR_Demo_View
+ * @package    DoozR_Index
+ * @subpackage DoozR_Index_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: f14de77c81cdbf629aeb8c12cc6390cb25aa9034 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
  */
 
 /**
- * DoozR - Demo - View
+ * DoozR - Index - Model
  *
- * This is an example model for Demo-
+ * Index Model Demonstration
  *
  * @category   DoozR
- * @package    DoozR_Demo
- * @subpackage DoozR_Demo_View
+ * @package    DoozR_Index
+ * @subpackage DoozR_Index_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: f14de77c81cdbf629aeb8c12cc6390cb25aa9034 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
  */
-final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interface
+final class Model_Index extends DoozR_Base_Model implements DoozR_Base_Model_Interface
 {
     /**
-     * __init initializes the class and get automatic called on
-     * instanciation. DO NOT USE __construct (in MVC)
+     * This method is the replacement for construct. It is called right on construction of
+     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
+     *
+     * @param array $request     The original request
+     * @param array $translation The translation to read the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function __init()
+    public function __tearup(array $request, array $translation)
     {
-        // here for example you can define a path to use for loading templates
-        //$this->pathTemplates = PATH_TO_YOUR_TEMPLATES;
-
         pre(
-            '__init() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.
-            $this->object.' and the action '.$this->action
+            '__tearup() in '.__CLASS__.' called! :: '.__CLASS__.' start processing of: '.var_export($request, true).
+            ' translation: '.var_export($translation, true)
         );
     }
 
     /**
-     * Maybe a bit spooky but a good solution to get data into this part of the
-     * MVP structure.
-     *
-     * @param SplSubject $subject The subject which is automatically dispatched
+     * This method is the replacement for construct. It is called right on construction of
+     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function __update(SplSubject $subject)
-    {
-        // store data internal and call renderer!
-        $this->setData($subject->getData(), true);
-    }
-
-    /**
-     * This method is the magic renderer von View = Screen.
-     * Upon creating this metod it get automatically called when data is set to view via setData()
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __renderScreen()
-    {
-        // we need the I18n service -> without locale passed = will autodetect
-        $i18n = DoozR_Loader_Serviceloader::load('i18n', array($this->config));
-
-        // call the final render after the preparation above
-        $this->render($this->getData(), $i18n);
-    }
-
-    /**
-     * This method is intend to __cleanup
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __destroy()
+    public function __teardown()
     {
         pre(
-            '__destroy() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.
-            $this->object.' and the action '.$this->action
+            '__teardown() in '.__CLASS__.' called! :: '.__CLASS__
         );
     }
 }
