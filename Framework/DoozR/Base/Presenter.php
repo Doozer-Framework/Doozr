@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 31c88aec95b617197b0992828b1b898dc4757cc6 $
+ * @version    Git: $Id: c3b7e5d84cd534c30d7cc98a6ce6fc9a3fab1921 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Presenter/Subject.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 31c88aec95b617197b0992828b1b898dc4757cc6 $
+ * @version    Git: $Id: c3b7e5d84cd534c30d7cc98a6ce6fc9a3fab1921 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
