@@ -97,9 +97,7 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
 
 
     /**
-     * constructor
-     *
-     * This method is the constructor.
+     * The constructor
      *
      * @param object  $path          An instance of DoozR_Path
      * @param object  $logger        An instance of DoozR_Logger

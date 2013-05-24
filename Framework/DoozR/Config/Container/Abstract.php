@@ -142,6 +142,24 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      */
     protected $dirty = false;
 
+    /**
+     * The marker for the begin of a replacement/placeholder
+     * e.g. {{REPLACE_ME}}
+     *
+     * @var string
+     * @access const
+     */
+    const PLACEHOLDER_BEGIN = '{{';
+
+    /**
+     * The marker for the end of a replacement/placeholder
+     * e.g. {{REPLACE_ME}}
+     *
+     * @var string
+     * @access const
+     */
+    const PLACEHOLDER_END = '}}';
+
 
     /**
      * This method is the constructor of the class.
@@ -214,12 +232,12 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
 
         // add for replacement
         foreach ($contants as $constant => $value) {
-            $this->attachReplacement('{'.$constant.'}', $value);
+            $this->attachReplacement(self::PLACEHOLDER_BEGIN.$constant.self::PLACEHOLDER_END, $value);
         }
 
         // server-name
         $this->attachReplacement(
-            '{DOOZR_SERVERNAME}',
+            self::PLACEHOLDER_BEGIN.'DOOZR_SERVERNAME'.self::PLACEHOLDER_END,
             (isset($_SERVER['SERVER_NAME'])) ? $_SERVER['SERVER_NAME'] : 'SERVER_NAME'
         );
     }
@@ -239,8 +257,8 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         // only string work for current versions
         if (!is_string($configuration)) {
             throw new DoozR_Exception(
-                'Error while replacing placeholder in configuration. Replacement currently only works with strings ("'.
-                gettype($configuration).'" was given).'
+                'Error while replacing placeholder in configuration. Replacement currently only works with strings but'.
+                ' a "'.gettype($configuration).'" was passed.'
             );
         }
 
