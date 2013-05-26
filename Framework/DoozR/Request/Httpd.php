@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Request - Web
+ * DoozR - Request - Httpd
  *
- * Web.php - Request-Handler for requests passed through WEB to Front-Controller.
+ * Httpd.php - Request-Handler for requests passed through CLI to Front-Controller.
  *
  * PHP versions 5
  *
@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Request
- * @subpackage DoozR_Request_Web
+ * @subpackage DoozR_Request_Httpd
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -58,13 +58,14 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Request.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Interface.php';
 
 /**
- * DoozR Request-Web
+ * DoozR Request Httpd
  *
- * Request-Web of the DoozR-Framework
+ * Httpd.php - Request Httpd - Request-Handler for requests passed through CLI to
+ * Front-Controller.
  *
  * @category   DoozR
  * @package    DoozR_Request
- * @subpackage DoozR_Request_Web
+ * @subpackage DoozR_Request_Httpd
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -73,31 +74,45 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Interface.php';
  * @see        -
  * @since      -
  */
-class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Interface
+class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_Interface
 {
     /**
-     * need to identify HTML Redirect Type
+     * holds the type of os-mode for commands
+     * e.g. -- for other and / for windows
      *
-     * @var string
-     * @access const
+     * @string
+     * @access private
      */
-    const REDIRECT_TYPE_HTML = 'html';
+    private $_commandMode;
 
     /**
-     * need to identify Header Redirect Type
+     * holds the forced command-mode
+     * e.g. -- for other and / for windows
      *
-     * @var string
-     * @access const
+     * @string
+     * @access private
      */
-    const REDIRECT_TYPE_HEADER = 'header';
+    private $_forceCommandMode;
 
     /**
-     * need to identify HTML Redirect Type
+     * holds the list of possible commands seperator
+     * e.g. -- for other and / for windows
      *
-     * @var string
-     * @access const
+     * @array
+     * @access private
      */
-    const REDIRECT_TYPE_JS = 'js';
+    private $_commandSeps = array(
+        'win'   => '/',
+        'other' => '--'
+    );
+
+    /**
+     * holds the current used commands seperator
+     *
+     * @array
+     * @access private
+     */
+    private $_commandSep;
 
     /**
      * holds the own type of Request
@@ -105,7 +120,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      * @var string
      * @access const
      */
-    const TYPE = 'web';
+    const TYPE = 'httpd';
 
 
     /**
@@ -294,30 +309,60 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * This method protocolizes request details if running in debug-mode
-     * enabled. This should help debugging the application.
+     * This method is intend to replace problematic arguments with names usable as array-index.
+     *
+     * @param string $argument The argument to check for replacement
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return string processed argument-name
      * @access private
      */
-    private function _protocolize()
+    private function _argumentDefaultReplace($argument)
     {
-        // this is expensive so only in debug available
-        if ($this->config->debug->enabled()) {
-
-            // log Request-Parameter and Request-Header
-            $this->logger->log(
-                "Request-Header: \n".self::getRequestHeader(true)
-            );
-
-            // if request defined -> log its parameter (all)
-            if (count($_REQUEST) > 0) {
-                $this->logger->log(
-                    "Request-Parameter: \n".self::getRequestAsString()
-                );
+        // check argument for replacements
+        if ($argument == '?') {
+            $argument = 'help';
+        } else {
+            // get first char's ascii code
+            $firstCharAscii = ord($argument);
+            if (($firstCharAscii < 65 || $firstCharAscii > 90)
+                && ($firstCharAscii < 97 || $firstCharAscii > 122)
+            ) {
+                $argument = '_'.$argument;
             }
         }
+
+        // return processed argument
+        return $argument;
+    }
+
+    /**
+     * This method is intend to convert the arguments to a request-uri and stores it in $_SERVER['REQUEST_URI'].
+     *
+     * @param array   $arguments The arguments to use for building request-uri
+     * @param integer $count     The count of arguments to use for building request-uri
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string processed argument-name
+     * @access private
+     */
+    private function _injectRequestUri(array $arguments, $count)
+    {
+        global $_SERVER;
+        $requestUri = null;
+
+        if (isset($arguments[1])) {
+            $requestUri = $arguments[1];
+
+            for ($i = 0; $i < ($count-1); $i=$i+2) {
+                $requestUri .= ($i == 0)
+                    ? ('?'.'cli='.$arguments[0])
+                    : ('&'.$arguments[$i].'='.(isset($arguments[$i+1]) ? $arguments[$i+1] : ''));
+            }
+        }
+
+        // store as request-uri in global $_SERVER (used by Route.php)
+        $_SERVER['REQUEST_URI'] = $requestUri;
     }
 
     /**
@@ -411,54 +456,45 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * This method is intend to return the SSL-status of the current request.
+     * This method protocolizes request details if running in debug-mode
+     * enabled. This should help debugging the application.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the request is SSL, otherwise FALSE
-     * @access public
+     * @return void
+     * @access private
      */
-    public function isSsl()
+    private function _protocolize()
     {
-        return (
-            isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == '1' || strtolower($_SERVER['HTTPS']) == 'on')
-        );
-    }
+        // this is expensive so only in debug available
+        if ($this->config->debug->enabled()) {
 
-    /**
-     * This method is intend to check for protocol and returns it
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The protocol used while accessing a resource
-     * @access public
-     */
-    public function getProtocol()
-    {
-        if ($this->isSsl()) {
-            return 'https://';
-        } else {
-            return 'http://';
+            // log Request-Parameter and Request-Header
+            $this->logger->log(
+                "Request-Header: \n".self::getRequestHeader(true)
+            );
+
+            // if request defined -> log its parameter (all)
+            if (count($_REQUEST) > 0) {
+                $this->logger->log(
+                    "Request-Parameter: \n".self::getRequestAsString()
+                );
+            }
         }
     }
 
     /**
-     * This is a shortcut to allmost every (public-)method DoozR offers
+     * detects command-mode from OS
      *
-     * @param string $method    The name of the method called
-     * @param array  $arguments The parameter of the method call
+     * Detects which command-mode (formatting) is used for console mode (CLI).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access magic
+     * @return string "win" if windos is detected as OS, otherwise "other".
+     * @access private
      */
-    public function __call($method, $arguments)
+    private function _detectCommandMode()
     {
-        // check if init done for requested source;
-        if (!isset(self::$initialized[$method])) {
-            self::$initialized[$method] = $this->transform($method);
-        }
-
-        if (in_array($method, $this->_requestSources) && count($arguments)==0) {
-            return $GLOBALS['_'.$method];
-        }
+        // get os setting from php
+        return (DOOZR_WIN) ? 'win' : 'other';
     }
 }
 

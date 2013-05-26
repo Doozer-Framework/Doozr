@@ -147,18 +147,28 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      */
     const RUNNING_MODE_WEB = 'web';
 
+    /**
+     * constant RUNNING_MODE_HTTPD
+     *
+     * holds the key for "httpd" running mode
+     *
+     * @var string
+     * @access public
+     */
+    const RUNNING_MODE_HTTPD = 'httpd';
+
 
     /**
      * Constructor
      *
-     * @param DoozR_Config_Interface &$config An instance of DoozR_Config
-     * @param DoozR_Logger_Interface &$logger An instance of DoozR_Logger
+     * @param DoozR_Config_Interface $config An instance of DoozR_Config
+     * @param DoozR_Logger_Interface $logger An instance of DoozR_Logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object instance of this class
      * @access private
      */
-    protected function __construct(DoozR_Config_Interface &$config, DoozR_Logger_Interface &$logger)
+    protected function __construct(DoozR_Config_Interface $config, DoozR_Logger_Interface $logger)
     {
         // store instance(s)
         $this->_config = $config;
@@ -211,11 +221,11 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to return the instance of DoozR_Request_(Web|Cli)
+     * This method is intend to return the instance of DoozR_Request_(Web|Cli|Httpd)
      * depending on environment
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Web or DoozR_Request_Cli instance
+     * @return DoozR_Request_Web or DoozR_Request_Cli or DoozR_Request_Httpd instance
      * @access public
      */
     public function getRequest()
@@ -286,22 +296,27 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * detect running-mode
-     *
-     * detects the current running-mode
+     * Detects the current running-mode
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The current running-mode either [web | cli]
+     * @return string The current running-mode either [web | cli | cli-server]
      * @access private
      */
     private function _detectRunningMode()
     {
         // detect running mode through php functionality
-        if (php_sapi_name() == 'cli') {
-            return self::RUNNING_MODE_CLI;
+        if (PHP_SAPI === 'cli') {
+            $runningMode = self::RUNNING_MODE_CLI;
+
+        } elseif (PHP_SAPI === 'cli-server') {
+            $runningMode = self::RUNNING_MODE_HTTPD;
+
         } else {
-            return self::RUNNING_MODE_WEB;
+            $runningMode = self::RUNNING_MODE_WEB;
+
         }
+
+        return $runningMode;
     }
 
     /**

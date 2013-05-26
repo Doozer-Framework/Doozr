@@ -128,14 +128,14 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
      * Library (e.g. boostrap.php or something like that). If a boot-
      * strapper is found it is executed.
      *
-     * @param array &$configuration Reference to the configuration for decorator
+     * @param array $configuration Reference to the configuration for decorator
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      * @throws DoozR_Exception
      */
-    protected function init(array &$configuration, DoozR_Path $path)
+    protected function init(array $configuration, DoozR_Path $path)
     {
         // the path to the class to decorate
         if (!isset($configuration['path'])) {

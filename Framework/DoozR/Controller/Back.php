@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: de1d604b7ce4520afc3558bedfb73b444629fad9 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: de1d604b7ce4520afc3558bedfb73b444629fad9 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -198,7 +198,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @return void
      * @access public
      */
-    public function __construct(DoozR_Config_Interface &$config, DoozR_Logger_Interface &$logger)
+    public function __construct(DoozR_Config_Interface $config, DoozR_Logger_Interface $logger)
     {
         // store instances
         $this->_config = $config;
