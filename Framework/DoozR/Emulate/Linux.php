@@ -84,7 +84,7 @@ if (!function_exists('getallheaders')) {
 
         // iterate over $_SERVER to parse header from there
         foreach ($_SERVER as $header => $value) {
-            if (preg_match('HTTP_(.+)', $header, $headerParsed)) {
+            if (preg_match('/HTTP_(.+)/i', $header, $headerParsed)) {
                 $headers[$headerParsed[1]] = $value;
             }
         }
