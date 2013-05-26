@@ -337,7 +337,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
             self::_initModel();
 
             // init default services
-            self::_initservices();
+            self::_initServices();
         }
     }
 
@@ -621,7 +621,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * @access private
      * @static
      */
-    private static function _initservices()
+    private static function _initServices()
     {
         // get mode app currently runs in
         $runningMode = self::$_front->getRunningMode();

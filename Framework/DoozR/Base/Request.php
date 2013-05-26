@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 51019320361945f6dc0dc0809a4b3437848295c0 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -68,7 +68,7 @@ include_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Parameter.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 51019320361945f6dc0dc0809a4b3437848295c0 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -182,7 +182,7 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      * @return string the method of current processed request (GET / POST / PUT ... || CLI)
      * @access public
      */
-    public function getRequestMethod()
+    public function getMethod()
     {
         if ($requestMethod = (isset($_SERVER['REQUEST_METHOD'])) ? $_SERVER['REQUEST_METHOD'] : null) {
             return strtoupper($requestMethod);
@@ -334,7 +334,7 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     {
         global $_PUT, $_DELETE;
 
-        $requestMethod = $this->getRequestMethod();
+        $requestMethod = $this->getMethod();
         $parameter     = null;
 
         // check if current request type must be emulated

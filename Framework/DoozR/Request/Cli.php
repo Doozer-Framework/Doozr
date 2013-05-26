@@ -157,7 +157,7 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
         //parent::__construct();
 
         // check automatic conversion of input
-        $this->transformToRequestObject($this->getRequestMethod());
+        $this->transformToRequestObject($this->getMethod());
     }
 
     /**
