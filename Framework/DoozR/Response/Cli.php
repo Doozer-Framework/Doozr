@@ -136,8 +136,6 @@ class DoozR_Response_Cli extends DoozR_Base_Response
      */
     public function closeConnection()
     {
-        @session_write_close();
-        @header('Connection: close');
         exit;
     }
 
