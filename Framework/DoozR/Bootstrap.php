@@ -72,8 +72,28 @@ $_SERVER['REQUEST_TIME'] = microtime();
 // systems directory separator
 $s = DIRECTORY_SEPARATOR;
 
-// retrieve absolute path to DoozR - make it our new document root
-define('DOOZR_DOCUMENT_ROOT', str_replace('DoozR'.$s.'Bootstrap.php', '', __FILE__));
+// retrieve path to file without! resolving possible symlinks
+$partial = explode($s,__FILE__);
+$root    = $_SERVER['DOCUMENT_ROOT'];
+$path    = '';
+
+for ($i = count($partial)-1; $i > -1; --$i) {
+    $path = $s.$partial[$i].$path;
+
+    if (realpath($root.$path) === __FILE__) {
+        $path = ($s === '\\')
+            ? str_replace('/', '\\', $root.$path)
+            : str_replace('\\', '/', $root.$path);
+        define('__FILE_LINK__', $path);
+    }
+}
+
+if (!defined('__FILE_LINK__')) {
+    define('__FILE_LINK__', __FILE__);
+}
+
+// retrieve absolute path to DoozR - make it our new document root -> by file link
+define('DOOZR_DOCUMENT_ROOT', str_replace('DoozR'.$s.'Bootstrap.php', '', __FILE_LINK__));
 
 /***********************************************************************************************************************
  * \\ END

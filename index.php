@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 05556f23ea89dcfbec30f203f7fcd4d4783c51e2 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -56,12 +56,12 @@
 
 // override defaults
 $_SERVER['QUERY_STRING'] = (
-		!isset($_SERVER['QUERY_STRING']) ||
-		$_SERVER['QUERY_STRING'] === '/' ||
-		$_SERVER['QUERY_STRING'] === ''
-	) ?
-	'/Index/Read/' :
-	$_SERVER['QUERY_STRING'];
+        !isset($_SERVER['QUERY_STRING']) ||
+        $_SERVER['QUERY_STRING'] === '/' ||
+        $_SERVER['QUERY_STRING'] === ''
+    ) ?
+    '/Index/Read/' :
+    $_SERVER['QUERY_STRING'];
 
 // now call our Route with overridden defailt values
 require_once 'Framework/Route.php';
