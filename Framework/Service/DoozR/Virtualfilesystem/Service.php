@@ -55,8 +55,8 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Virtualfilesystem/Lib/vfsStream.php';
 
 /**
  * DoozR - Virtualfilesystem - Service
