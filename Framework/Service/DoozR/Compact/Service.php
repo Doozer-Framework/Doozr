@@ -77,6 +77,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Minify/Service/';
 final class DoozR_Minify_Service extends Minify
 {
     //
+
 }
 
 ?>
