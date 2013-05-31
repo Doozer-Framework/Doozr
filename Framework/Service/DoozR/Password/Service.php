@@ -805,7 +805,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
     {
         // already loaded phpass?
         if (self::$_passwordhash === null) {
-            include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Password/Service/Hash.php';
+            include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Password/Service/Lib/Hash.php';
             self::$_passwordhash = new DoozR_Password_Service_Hash(8, false);
         }
 
