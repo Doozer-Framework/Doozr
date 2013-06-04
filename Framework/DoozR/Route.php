@@ -237,9 +237,11 @@ final class DoozR_Route extends DoozR_Base_Class
 
         // Check for usage of DoozR's MVC-/MVP-structure ...
         if (self::$_registry->config->base->pattern->enabled()) {
+
             // ... dispatch request (MVP/MVC) to DoozR's Back_Controller
             self::$_registry->back->dispatch(
                 self::$_activeRoute,
+                self::$_request,
                 self::$_translationMatrix,
                 self::$_registry->config->base->pattern->type()
             );
@@ -337,21 +339,23 @@ final class DoozR_Route extends DoozR_Base_Class
         // the filled up route
         $result = array();
 
-        // case1: object + action is set
-        if (isset($route[1])) {
-            $result[0] = $route[0];
-            $result[1] = $route[1];
+        // the count of nodes (e.g. X/Y/Z ..)
+        $countNodes = count($route);
 
-        } elseif (isset($route[0])) {
-        // case 2: only object set
+        // case1: at least object + action is set
+        if ($countNodes > 1) {
+            // at least "object" and "action" found -> don't worry be happy
+            $result = $route;
+
+        } elseif ($countNodes === 1) {
+            // case 2: only object set
             $result[0] = $route[0];
             $result[1] = self::DEFAULT_ACTION;
 
         } else {
-        // case 3: nothin was set
+            // case 3: nothin was set
             $result[0] = self::DEFAULT_OBJECT;
             $result[1] = self::DEFAULT_ACTION;
-
         }
 
         return $result;
@@ -375,38 +379,18 @@ final class DoozR_Route extends DoozR_Base_Class
         // check if redirect is required
         if (count($routeRedirects)) {
 
-            $route = self::_fillUp($route[1]);
-            $node1 = $route[0];
-            $node2 = $route[1];
+            $route      = self::_fillUp($route[1]);
+            $countNodes = count($route);
 
-            // check for route redirects for "object"
-            if (isset($routeRedirects[$node1])) {
+            // check for existing route redirects for "object" & "action"
+            if (isset($routeRedirects[$route[0]][$route[1]])) {
+                $node = $routeRedirects[$route[0]][$route[1]];
+                $route = array_merge($node, array_slice($route, 2));
 
-                // check for existing route redirects for "action"
-                if (isset($routeRedirects[$node1][$node2])) {
+            } elseif (isset($routeRedirects[$route[0]])) {
+                $node = $routeRedirects[$route[0]];
+                $route = array_merge($node, array_slice($route, 1));
 
-                    // route has redirect for object and action
-                    $route = self::_buildRoutingProfile(
-                        $routeRedirects[$node1][$node2]['object'],
-                        $routeRedirects[$node1][$node2]['action']
-                    );
-
-                } else {
-                    // route has redirect for object but not for action
-                    // so we need to check if found entry is a redirect for
-                    // object and action on object level
-                    $route = $routeRedirects[$node1];
-
-                    if (!isset($route['object']) && !isset($route['action'])) {
-                        $route = self::_buildRoutingProfile();
-
-                    } elseif (!isset($route['action'])) {
-                        $route = self::_buildRoutingProfile($route['object']);
-
-                    } else {
-                        $route = self::_buildRoutingProfile(null, $route['action']);
-                    }
-                }
             }
         }
 
