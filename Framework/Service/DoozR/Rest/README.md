@@ -1,6 +1,6 @@
-# Module: Api
-## (DoozR\_Api\_Module)
-This is the information for the DoozR default module "Api". *Api* provides ...
+# Module: Rest
+## (DoozR\_Rest\_Module)
+This is the information for the DoozR default module "Rest". *Rest* provides ...
 
 - automatic session regenerating 
 - custom client specific session identifier to prevent session hijacking

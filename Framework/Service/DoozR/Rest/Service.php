@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Api - Service
+ * DoozR - Rest - Service
  *
- * Api.php - ...
+ * Rest.php - ...
  *
  * PHP versions 5
  *
@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Api
+ * @subpackage DoozR_Service_Rest
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -57,14 +57,14 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple.php';
 
 /**
- * DoozR - Api - Service
+ * DoozR - Rest - Service
  *
  * Caching Service for caching operations with support for
  * different container like "Filesystem", "Memcache" ...
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Api
+ * @subpackage DoozR_Service_Rest
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -72,31 +72,54 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple.php';
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
- * @throws     DoozR_Api_Service_Exception
+ * @throws     DoozR_Rest_Service_Exception
  * @DoozRType  Multiple
  */
-class DoozR_Api_Service extends DoozR_Base_Service_Multiple
+class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
 {
-    private $_apiConfiguration;
+    /**
+     * Request object to use with DoozR Rest or Soap
+     *
+     * @var object
+     * @access private
+     */
+    private $_requestObject;
 
     /**
      * This method is intend to act as constructor.
      *
-     * @param array $apiConfiguration The configuration of the Webservice
+     * @param array   $request        The original request
+     * @param integer $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means
+     *                                that /Foo/Bar/ will be taken as root and ripped)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __tearup(array $apiConfiguration)
+    public function __tearup(array $request, $countRootNodes = 2)
     {
-        // store configuration we running this type of service
-        $this->_apiConfiguration = $apiConfiguration;
-
         // get hands on request object
-        $request = $this->registry->front->getRequest();
+        $requestObject = $this->registry->front->getRequest();
 
-        pred( $request->getRequest() );
+        // extract real API request
+        // so at this very specific and no longer generic routing way we
+        // can be sure that the following works
+        $this->_requestObject = new stdClass();
+        $this->_requestObject->resource  = array_slice($request, $countRootNodes);
+        $this->_requestObject->method    = $requestObject->getMethod();
+        $this->_requestObject->arguments = $requestObject->getGet();
+    }
+
+    /**
+     * Returns the current request object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function getRequestObject()
+    {
+        return $this->_requestObject;
     }
 
     /**
