@@ -246,7 +246,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      */
     public function containerExists($container)
     {
-        // coreect format filename
+        // correct format filename
         $container = ucfirst(strtolower($container));
 
         return file_exists(
