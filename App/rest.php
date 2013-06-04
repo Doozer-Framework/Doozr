@@ -27,7 +27,7 @@ $registry = DoozR_Registry::getInstance();
 /**
  * Get module API from Serviceloader
  */
-$api = DoozR_Loader_Serviceloader::load('api', array(
+$api = DoozR_Loader_Serviceloader::load('rest', array(
         array(
             'port'   => '8080',
             'domain' => 'api.doozr.de',
@@ -56,7 +56,5 @@ DoozR_Route::init(
     if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"]))
         return false; // Liefere die angefragte Ressource direkt aus
 */
-
-
 
 ?>
