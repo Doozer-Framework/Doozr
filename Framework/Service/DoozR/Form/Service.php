@@ -2288,7 +2288,7 @@ final class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade
 
                 // try to send correct 404 status ...
                 try {
-                    $this->registry->front->getResponse()->sendHTTPStatus(400);
+                    $this->registry->front->getResponse()->sendHttpStatus(400, null, true);
                 } catch (Exception $e) {
                     // ... if this fails (header already sent) break execution - hard
                     exit;
