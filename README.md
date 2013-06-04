@@ -7,16 +7,19 @@
 
 
 ## Services
+ - **Acl**
  - **Cache**
+ - **Compact**
  - **Configreader**
  - **Crypt**
  - **Datetime**
  - **Filesystem**
  - **Form**
  - **I18n**
- - **Minify**
  - **Password**
+ - **Rest**
  - **Session**
+ - **Template**
 
 
 ## MVP
