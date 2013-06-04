@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Minify - Service
+ * DoozR - Compact - Service
  *
  * Service.php - Service for interfacing Minify
  *
@@ -45,7 +45,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Minify
+ * @subpackage DoozR_Service_Compact
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,16 +55,17 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Minify/Service/';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib/Minify.php';
 
 /**
- * DoozR - Minify - Service
+ * DoozR - Compact - Service
  *
  * Service for interfacing Minify
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Minify
+ * @subpackage DoozR_Service_Compact
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -74,10 +75,21 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Minify/Service/';
  * @since      -
  * @DoozRType  Multiple
  */
-final class DoozR_Minify_Service extends Minify
+final class DoozR_Compact_Service extends DoozR_Base_Service_Multiple_Facade
 {
-    //
-
+    /**
+     * Constructor of this class
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access public
+     */
+    public function __tearup()
+    {
+        self::setRealObject(
+            new Minify()
+        );
+    }
 }
 
 ?>
