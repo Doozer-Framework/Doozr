@@ -99,12 +99,28 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     protected $view;
 
     /**
+     * Contains the instance of config
+     *
+     * @var DoozR_Config
+     * @access protected
+     */
+    protected $config;
+
+    /**
      * contains the complete request
      *
      * @var array
      * @access protected
      */
     protected $request;
+
+    /**
+     * The original unmodified request as array
+     *
+     * @var array
+     * @access protected
+     */
+    protected $originalRequest;
 
     /**
      * contains the translation for reading request
@@ -118,11 +134,12 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     /**
      * This method is the constructor of this class.
      *
-     * @param array                  $request     The whole request as processed by "Route"
-     * @param array                  $translation The translation required to read the request
-     * @param DoozR_Config_Interface $config      The DoozR main config instance
-     * @param DoozR_Base_Model       $model       The model to communicate with backend (db)
-     * @param DoozR_Base_View        $view        The view to display results
+     * @param array                  $request         The whole request as processed by "Route"
+     * @param array                  $translation     The translation required to read the request
+     * @param array                  $originalRequest The original untouched request
+     * @param DoozR_Config_Interface $config          The DoozR main config instance
+     * @param DoozR_Base_Model       $model           The model to communicate with backend (db)
+     * @param DoozR_Base_View        $view            The view to display results
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -131,16 +148,18 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     public function __construct(
         array $request,
         array $translation,
+        array $originalRequest,
         DoozR_Config_Interface $config = null,
         DoozR_Base_Model $model = null,
         DoozR_Base_View $view = null
     ) {
-        // store original request
-        $this->request = $request;
-        $this->translation = $translation;
-
-        $this->model = $model;
-        $this->view  = $view;
+        // store
+        $this->request         = $request;
+        $this->translation     = $translation;
+        $this->originalRequest = $originalRequest;
+        $this->config          = $config;
+        $this->model           = $model;
+        $this->view            = $view;
 
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {

@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1bd63cbc5175037a41fb16e39ec28692e476cef0 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/View/Observer.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1bd63cbc5175037a41fb16e39ec28692e476cef0 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -97,6 +97,14 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      * @access protected
      */
     protected $request;
+
+    /**
+     * The original untouched request
+     *
+     * @var array
+     * @access protected
+     */
+    protected $originalRequest;
 
     /**
      * The arguments passed with the request
@@ -149,13 +157,14 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
 
 
     /**
-     * This method is the constructor of this class.
+     * Constructor of this class
      *
-     * @param array                  $request     The whole request as processed by "Route"
-     * @param array                  $translation The translation required to read the request
-     * @param DoozR_Config           $config      An instance of DoozR_Config with Core-Configuration
-     * @param DoozR_Cache_Service    $cache       An instance of DoozR_Cache
-     * @param DoozR_Controller_Front $front       An instance of DoozR_Front
+     * @param array                  $request         The whole request as processed by "Route"
+     * @param array                  $translation     The translation required to read the request
+     * @param array                  $originalRequest The original untouched request
+     * @param DoozR_Cache_Service    $cache           An instance of DoozR_Cache_Service
+     * @param DoozR_Config           $config          An instance of DoozR_Config with Core-Configuration
+     * @param DoozR_Controller_Front $front           An instance of DoozR_Front
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -164,17 +173,20 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
     public function __construct(
         array $request,
         array $translation,
-        DoozR_Config $config,
+        array $originalRequest,
         DoozR_Cache_Service $cache,
+        DoozR_Config $config,
         DoozR_Controller_Front $front
     ) {
-        // store original request
-        $this->config      = $config;
-        $this->request     = $request;
-        $this->translation = $translation;
-        $this->cache       = $cache;
-        $this->front       = $front;
-        $this->arguments   = $this->front->getRequest()->getRequest();
+        // store
+        $this->request         = $request;
+        $this->translation     = $translation;
+        $this->originalRequest = $originalRequest;
+        $this->cache           = $cache;
+        $this->config          = $config;
+        $this->front           = $front;
+
+        $this->arguments       = $this->front->getRequest()->getRequest();
 
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {

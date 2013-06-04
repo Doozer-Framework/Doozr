@@ -99,6 +99,14 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     protected $request;
 
     /**
+     * The original untouched request
+     *
+     * @var array
+     * @access protected
+     */
+    protected $originalRequest;
+
+    /**
      * contains the translation for reading request
      *
      * @var array
@@ -106,22 +114,40 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      */
     protected $translation;
 
+    /**
+     * Contains an instance of the module DoozR_Cache_Service
+     *
+     * @var DoozR_Cache_Service
+     * @access protected
+     */
+    protected $cache;
+
 
     /**
-     * This method is the constructor of this class.
+     * Constructor of this class
      *
-     * @param array $request     The whole request as processed by "Route"
-     * @param array $translation The translation required to read the request
+     * @param array                  $request         The whole request as processed by "Route"
+     * @param array                  $translation     The translation required to read the request
+     * @param array                  $originalRequest The original untouched request
+     * @param DoozR_Cache_Service    $cache           An instance of DoozR_Cache_Service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __construct(array $request, array $translation)
-    {
-        // store original request
-        $this->request = $request;
-        $this->translation = $translation;
+    public function __construct(
+        array $request,
+        array $translation,
+        array $originalRequest,
+        DoozR_Cache_Service $cache,
+        DoozR_Config $config
+    ) {
+        // store
+        $this->request         = $request;
+        $this->translation     = $translation;
+        $this->originalRequest = $originalRequest;
+        $this->cache           = $cache;
+        $this->config          = $config;
 
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
