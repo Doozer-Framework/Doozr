@@ -78,13 +78,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade
 {
     /**
-     * constructor builds the class
-     *
-     * @example config-array:
-     * array(
-     *     'class' => 'My_Class_Hide_Trough_Facade',
-     *     'file'  => 'My\Class\Hide\Through\Facade.php' (optional)
-     * )
+     * Constructor of this class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object instance of this class
@@ -94,7 +88,7 @@ class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade
     {
         // dispatch incoming $realClass to facade.
         // it can be either an configuration array or an instance
-        include_once 'Lib/vfsStream.php';
+        include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
 
         self::setRealObject(
             new vfsStream()
