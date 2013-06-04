@@ -49,7 +49,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 2371f412cc495e00089668f915aaa2bcaaf13bd1 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Value.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 2371f412cc495e00089668f915aaa2bcaaf13bd1 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -427,7 +427,8 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
         // check if passed argument is a valid global post/get/... parameter:value
         if (isset($this->_parameter[$propertyName])) {
             // simply return value
-            return $this->_parameter[$propertyName]->get();
+            //return $this->_parameter[$propertyName]->get();
+            return $this->_parameter[$propertyName];
         }
 
         // if parameter (property) not defined

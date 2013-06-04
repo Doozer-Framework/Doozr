@@ -130,6 +130,14 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     private $_request;
 
     /**
+     * holds the original request
+     *
+     * @var mixed
+     * @access private
+     */
+    private $_originalRequest;
+
+    /**
      * contains the active pattern (MVC/MVP)
      *
      * @var string
@@ -209,25 +217,25 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * dispatch the requestes mvc-resource
+     * This method is intend to dispatch the requested resource
      *
-     * dispatch the requestes mvc-resource and returns ...
-     *
-     * @param array  $request     The complete request including the mapping
-     * @param array  $translation The translation used by DoozR to translate request to objects
-     * @param string $pattern     The default pattern to use
+     * @param array  $request         The complete request including the mapping
+     * @param array  $originalRequest The original request without modification
+     * @param array  $translation     The translation used by DoozR to translate request to objects
+     * @param string $pattern         The default pattern to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Controller_Back The current instance for chaining
      * @access public
      */
-    public function dispatch(array $request, array $translation, $pattern = 'MVC')
+    public function dispatch(array $request, array $originalRequest, array $translation, $pattern = 'MVP')
     {
         // store request and corresponding translation
-        $this->_request     = $request;
-        $this->_translation = $translation;
-        $this->_pattern     = $pattern;
-        $this->_cache       = DoozR_Loader_Serviceloader::load(
+        $this->_request         = $request;
+        $this->_originalRequest = $originalRequest;
+        $this->_translation     = $translation;
+        $this->_pattern         = $pattern;
+        $this->_cache           = DoozR_Loader_Serviceloader::load(
             'cache', array(DOOZR_UNIX, $this->_config->cache->container())
         );
 
@@ -239,22 +247,28 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             $this->_model = $this->_initLayer(
                 $request[$translation[0]],
                 'Model',
-                array($request, $translation, $this->_cache)
+                array($request, $translation, $originalRequest, $this->_cache, $this->_config)
             );
 
             // init layer VIEW (displaying data ...)
             $this->_view = $this->_initLayer(
                 $request[$translation[0]],
                 'View',
-                array($request, $translation, $this->_config, $this->_cache, DoozR_Controller_Front::getInstance())
+                array(
+                    $request,
+                    $translation,
+                    $originalRequest,
+                    $this->_cache,
+                    $this->_config,
+                    DoozR_Controller_Front::getInstance()
+                )
             );
 
             // init connector - can be either PRESENTOR or CONTROLLER
-            // (managing the connection between the two layers -> MODEL and VIEW ...)
             $this->_connector = $this->_initLayer(
                 $request[$translation[0]],
                 'Presenter',
-                array($request, $translation, $this->_config, $this->_model, $this->_view)
+                array($request, $translation, $originalRequest, $this->_config, $this->_model, $this->_view)
             );
 
             break;
@@ -269,7 +283,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         if (($status = $this->_validateRequest()) !== true) {
             // send error status through front controller
             $front = DoozR_Controller_Front::getInstance();
-            $front->getResponse()->sendHTTPStatus($status);
+            $front->getResponse()->sendHttpStatus($status, null, true, implode(DIRECTORY_SEPARATOR, $request));
 
         } else {
             // the request is valid -> attach the observer(s) to subject

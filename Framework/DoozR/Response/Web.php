@@ -83,8 +83,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
     private $_isGzipCompressed = false;
 
     /**
-     * holds the status of GZIP-Initializing
-     * to prevent calling 'ob_gzhandler' twice!
+     * The status of GZIP-Initializing to prevent calling 'ob_gzhandler' twice!
      *
      * @var boolean
      * @access private
@@ -170,12 +169,13 @@ class DoozR_Response_Web extends DoozR_Base_Response
      *
      * @param integer $statusCode  The statuscode of the HTTP header
      * @param string  $httpVersion HTTP version used for transfer
+     * @param boolean $echo        TRUE to echo out the
      *
      * @return DoozR_Response_Web The current instance ($this) for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function sendHttpStatus($statusCode = 418, $httpVersion = null)
+    public function sendHttpStatus($statusCode = 418, $httpVersion = null, $echo = false, $data = '')
     {
         switch ($statusCode) {
         // 1xx: Informational - Request received, continuing process
@@ -363,6 +363,10 @@ class DoozR_Response_Web extends DoozR_Base_Response
         $this->sendHeader(
             'HTTP/'.(($httpVersion) ? $httpVersion : self::HTTP_VERSION).' '.$statusCode.' '.$statusText
         );
+
+        if ($echo === true) {
+            echo '<h1>'.$statusCode.'</h1><h2>'.$statusText.'</h2><h3>'.$data.'</h3>';
+        }
 
         // for chaining
         return $this;
