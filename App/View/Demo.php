@@ -82,13 +82,7 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
      */
     protected function __init()
     {
-        // here for example you can define a path to use for loading templates
-        //$this->pathTemplates = PATH_TO_YOUR_TEMPLATES;
-
-        pre(
-            '__init() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.
-            $this->object.' and the action '.$this->action
-        );
+        /* */
     }
 
     /**
@@ -133,10 +127,7 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
      */
     public function __destroy()
     {
-        pre(
-            '__destroy() in '.__CLASS__.' called! :: '.__CLASS__.' does know object: '.
-            $this->object.' and the action '.$this->action
-        );
+        /* */
     }
 }
 
