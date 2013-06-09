@@ -329,7 +329,7 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
 
         } else {
             self::$chainClassname = self::$chainClassname.$this->decoratorConfiguration['glue'].
-            	ucfirst($chainClassname);
+                ucfirst($chainClassname);
         }
 
         return $this;
