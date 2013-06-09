@@ -1,4 +1,3 @@
-
 <?php
 /**
  * phpillow CouchDB backend
