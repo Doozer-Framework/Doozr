@@ -101,17 +101,27 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     /**
      * This method is intend to load services used by DoozR-Core, Applications based on DoozR ...
      *
-     * @param string $service    The module to load
-     * @param mixed  $arguments The arguments to pass to module instance
-     * @param string $namespace The namespace to load module from
+     * @param mixed $service The service as string or plus additional namespace as array('namespace', 'service')
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object An/The instance of the requested module
+     * @return object An/The instance of the requested service
      * @access public
      * @static
      */
-    public static function load($service, $arguments = null, $namespace = 'DoozR')
+    public static function load($service)
     {
+        // the arguments default
+        $arguments = null;
+
+        // check for namespace in service
+        if (is_array($service)) {
+            $namespace = $service[0];
+            $service   = $service[1];
+
+        } else {
+            $namespace = 'DoozR';
+        }
+
         // allready instanciated?
         if (!self::$instance) {
             self::getInstance();
@@ -120,7 +130,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
             self::$_registry = DoozR_Registry::getInstance();
         }
 
-        // correct module name
+        // correct service name
         $service = ucfirst(strtolower($service));
 
         // load file
@@ -137,18 +147,25 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
             $reflector->getDocComment()
         );
 
-        // inject registry in arguments
-        if (!$arguments) {
-            $arguments = array(
-                self::$_registry
-            );
-        } else {
-            // convert if not is array already
-            if (!is_array($arguments)) {
-                $arguments = array(self::$_registry, $arguments);
+        // check if arguments can be passed to constructor
+        if ($reflector->getConstructor() !== null) {
+
+            // get generic arguments
+            $arguments = array_slice(func_get_args(), 1);
+
+            // inject registry in arguments
+            if (!$arguments) {
+                $arguments = array(
+                    self::$_registry
+                );
             } else {
-                // simply join and done
-                $arguments = array_merge(array(self::$_registry), $arguments);
+                // convert if not is array already
+                if (!is_array($arguments)) {
+                    $arguments = array(self::$_registry, $arguments);
+                } else {
+                    // simply join and done
+                    $arguments = array_merge(array(self::$_registry), $arguments);
+                }
             }
         }
 
@@ -181,10 +198,10 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to conditional includes the module main classfile.
+     * This method is intend to conditional includes the service main classfile.
      *
-     * @param string $service    The module to include
-     * @param string $namespace The namespace to load module from
+     * @param string $service    The service to include
+     * @param string $namespace The namespace to load service from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -207,7 +224,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     /**
      * This method is intend to parse out the annotations (DoozR) of a DocBlock
      *
-     * @param string $docBlock The DocBlock Comment of the class to instanciate (module)
+     * @param string $docBlock The DocBlock Comment of the class to instanciate (service)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The parsed (DoozR) annotations

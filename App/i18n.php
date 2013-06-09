@@ -27,7 +27,7 @@ $registry = DoozR_Registry::getInstance();
 /**
  * get I18n Service of DoozR -> for translations, converting and formatting values ...
  */
-$i18n = DoozR_Loader_Serviceloader::load('i18n', array($registry->config));
+$i18n = DoozR_Loader_Serviceloader::load('i18n', $registry->config);
 
 
 /**

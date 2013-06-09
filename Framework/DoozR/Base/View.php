@@ -279,7 +279,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
             $tplFile = $this->config->base->template->path().$this->translateToTemplatefile().'.html';
 
             // load the template (generic template engine)
-            $tpl = DoozR_Loader_Serviceloader::load('template', array($tplFile));
+            $tpl = DoozR_Loader_Serviceloader::load('template', $tplFile);
 
             // if I18n passed -> forward to template engine (e.g. PHPTAL)
             if ($i18n !== null) {

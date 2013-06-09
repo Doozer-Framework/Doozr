@@ -161,7 +161,7 @@ abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
             $configFile = DOOZR_APP_ROOT.'Data/Private/I18n/'.$this->locale.'/L10nFormat'.$this->type.'.ini';
 
             // get configreader
-            $config = DoozR_Loader_Serviceloader::load('Configreader', array('Ini'));
+            $config = DoozR_Loader_Serviceloader::load('Configreader', 'Ini');
 
             // read config
             $this->config = $config->read($configFile);

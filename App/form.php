@@ -34,13 +34,13 @@ $config = $registry->config;
  * Get the "I18n" module to demonstrate you the nice interaction between
  * module "Form" and "I18n"
  */
-$i18n = DoozR_Loader_Serviceloader::load('i18n', array($registry->config, 'de'));
+$i18n = DoozR_Loader_Serviceloader::load('i18n', $registry->config, 'de');
 
 
 /**
  * Get the "Form" module
  */
-$form = DoozR_Loader_Serviceloader::load('form', array('register', $i18n));
+$form = DoozR_Loader_Serviceloader::load('form', 'register', $i18n);
 
 
 /**

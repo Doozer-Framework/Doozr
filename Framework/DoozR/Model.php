@@ -50,7 +50,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: e784ecf8d08dc686349ae8d5e80a0221bcdcc2ae $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: e784ecf8d08dc686349ae8d5e80a0221bcdcc2ae $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -132,7 +132,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
 
         // is enabled?
         $this->enabled = $this->_config->database->enabled();
-        
+
         // if database is enabled -> start decorating
         if ($this->enabled) {
             $this->init($this->decoratorConfiguration, $this->_path);

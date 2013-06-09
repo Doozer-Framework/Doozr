@@ -111,7 +111,7 @@ final class Presenter_Api extends DoozR_Base_Presenter implements DoozR_Base_Pre
      */
     public function Main()
     {
-        $api = DoozR_Loader_Serviceloader::load('rest', array($this->originalRequest, 2));
+        $api = DoozR_Loader_Serviceloader::load('rest', $this->originalRequest, 2);
 
         pred('ende');
         pred($api->getRequestObject());

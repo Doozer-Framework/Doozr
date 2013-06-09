@@ -177,7 +177,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     {
         $this->path   = $path;
         $this->logger = $logger;
-        $this->cache  = DoozR_Loader_Serviceloader::load('cache', array(DOOZR_UNIX));
+        $this->cache  = DoozR_Loader_Serviceloader::load('cache', DOOZR_UNIX);
 
         // try to use memcache as container
         try {

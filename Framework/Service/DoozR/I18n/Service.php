@@ -495,7 +495,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
             $configreader = self::$_configreaderLocales[$locale];
 
         } else {
-            $configreader = DoozR_Loader_Serviceloader::load('Configreader', array('Ini'));
+            $configreader = DoozR_Loader_Serviceloader::load('Configreader', 'Ini');
             $configreader->read($this->registry->path->get('app', 'Data/Private/I18n/'.$locale.'/L10n.ini'));
             self::$_configreaderLocales[$locale] = $configreader;
         }

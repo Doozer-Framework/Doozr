@@ -22,7 +22,7 @@ $DoozR = DoozR_Core::getInstance();
  * create new instance of service configreader, pass 'json' as argument to it -> this means we
  * want to use a json-container for CRUD-operations (currently available container: json, ini)
  */
-$configreader = DoozR_Loader_Serviceloader::load('configreader', array('json', true));
+$configreader = DoozR_Loader_Serviceloader::load('configreader', 'json', true);
 
 
 /**

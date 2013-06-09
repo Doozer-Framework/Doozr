@@ -187,7 +187,7 @@ class DoozR_I18n_Service_Interface_Base extends DoozR_Base_Class_Singleton
         // if cache enabled - get module cache and setup
         if (!self::$cache && ($config['cache']['enabled'] !== null)) {
             // get module cache
-            self::$cache = DoozR_Loader_Serviceloader::load('cache', array(DOOZR_UNIX, $config['cache']['enabled']));
+            self::$cache = DoozR_Loader_Serviceloader::load('cache', DOOZR_UNIX, $config['cache']['enabled']);
 
             // set its lifetime
             self::$cache->setLifetime($config['cache']['lifetime']);

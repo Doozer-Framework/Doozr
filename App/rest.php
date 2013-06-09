@@ -28,11 +28,9 @@ $registry = DoozR_Registry::getInstance();
  * Get module API from Serviceloader
  */
 $api = DoozR_Loader_Serviceloader::load('rest', array(
-        array(
-            'port'   => '8080',
-            'domain' => 'api.doozr.de',
-            'ssl'    => false
-        )
+        'port'   => '8080',
+        'domain' => 'api.doozr.de',
+        'ssl'    => false
     )
 );
 

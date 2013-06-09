@@ -236,7 +236,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         $this->_translation     = $translation;
         $this->_pattern         = $pattern;
         $this->_cache           = DoozR_Loader_Serviceloader::load(
-            'cache', array(DOOZR_UNIX, $this->_config->cache->container())
+            'cache', DOOZR_UNIX, $this->_config->cache->container()
         );
 
         // init MV(P|C) layer

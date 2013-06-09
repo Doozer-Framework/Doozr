@@ -738,7 +738,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         include_once DOOZR_DOCUMENT_ROOT.'DoozR/Security.php';
 
         // get module crypt
-        $this->_crypt = DoozR_Loader_Serviceloader::load('crypt', array($cipher, $encoding));
+        $this->_crypt = DoozR_Loader_Serviceloader::load('crypt', $cipher, $encoding);
 
         // store private key for en-/decryption
         $this->_privateKey = DoozR_Security::getPrivateKey();
