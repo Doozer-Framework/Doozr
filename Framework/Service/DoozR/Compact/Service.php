@@ -55,8 +55,9 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple/Facade.php';
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib/Minify.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Config.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Facade.php';
 
 /**
  * DoozR - Compact - Service
@@ -75,20 +76,20 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib/Minify.php';
  * @since      -
  * @DoozRType  Multiple
  */
-final class DoozR_Compact_Service extends DoozR_Base_Service_Multiple_Facade
+final class DoozR_Compact_Service extends Minify
 {
-    /**
-     * Constructor of this class
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
-     * @access public
-     */
-    public function __tearup()
+    public function __construct()
     {
-        self::setRealObject(
-            new Minify()
-        );
+        // now configure a new autoloader spl config
+        $autoloader = new DoozR_Loader_Autoloader_Spl_Config();
+        $autoloader
+            ->setNamespace('Minify')
+            ->setNamespaceSeparator('_')
+            ->addExtension('php')
+            ->setPath(DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib')
+            ->setDescription('Minifie\'s autoloader and responsible for loading core classes');
+
+        DoozR_Loader_Autoloader_Spl_Facade::attach($autoloader);
     }
 }
 
