@@ -81,10 +81,13 @@ for ($i = count($partial)-1; $i > -1; --$i) {
     $path = $s.$partial[$i].$path;
 
     if (realpath($root.$path) === __FILE__) {
+        $realpath = realpath($root.$path);
         $path = ($s === '\\')
-            ? str_replace('/', '\\', $root.$path)
-            : str_replace('\\', '/', $root.$path);
+            ? str_replace('/', '\\', $realpath)
+            : str_replace('\\', '/', $realpath);
         define('__FILE_LINK__', $path);
+
+        break;
     }
 }
 
