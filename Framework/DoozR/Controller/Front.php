@@ -85,17 +85,6 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     private $_runningMode = 'web';
 
     /**
-     * contains the init-done status of request, response, ...
-     *
-     * @var array
-     * @access private
-     */
-    private $_initialized = array(
-        'request' => false,
-        'response' => false
-    );
-
-    /**
      * holds the reference to request
      *
      * @var object
@@ -176,6 +165,9 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
 
         // first detect the command source
         $this->_runningMode = $this->_detectRunningMode();
+
+        // init request always
+        $this->_initialize('request');
     }
 
     /**
@@ -231,7 +223,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     public function getRequest()
     {
         // lazy init
-        if (!$this->_initialized['request']) {
+        if ($this->_request === null) {
             $this->_request = $this->_initialize('request');
         }
 
@@ -249,7 +241,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     public function getResponse()
     {
         // lazy init
-        if (!$this->_initialized['response']) {
+        if ($this->_response === null) {
             $this->_response = $this->_initialize('response');
         }
 
