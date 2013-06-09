@@ -75,8 +75,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Factory/Interface.php';
 class DoozR_Factory_Singleton implements DoozR_Factory_Interface
 {
     /**
-     * creates singleton instances of classes
-     *
      * This method is intend to create instances of singleton-classes. You can
      * pass optional arguments to the factory for creating instance and passing arguments
      * to it.
@@ -86,11 +84,9 @@ class DoozR_Factory_Singleton implements DoozR_Factory_Interface
      * @param string $constructor Signature of the instanciation-method (constructor)
      * @param string $reflection  NOT USED but part of interface/contract
      *
-     * @return  object An instance of the requested class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object An instance of the requested class
+     * @access public
      * @static
      */
     public static function create($classname, $arguments = null, $constructor = 'getInstance', $reflection = null)

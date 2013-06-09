@@ -73,8 +73,6 @@
 class DoozR_Factory_Multiple implements DoozR_Factory_Interface
 {
     /**
-     * creates instances of multi-instance-classes
-     *
      * This method is intend to create instances of multi-instance-classes. You can
      * pass optional arguments to the factory for creating instance and passing arguments
      * to it. You can pass an optional already exisiting reflection instance of the class
@@ -86,11 +84,9 @@ class DoozR_Factory_Multiple implements DoozR_Factory_Interface
      * @param string $constructor NOT USED but part of interface/contract
      * @param string $reflection  An optional already existing reflection of the class to create
      *
-     * @return  object An instance of the requested class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object An instance of the requested class
+     * @access public
      * @static
      */
     public static function create($classname, $arguments = null, $constructor = null, $reflection = null)
