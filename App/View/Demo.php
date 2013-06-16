@@ -130,5 +130,3 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
         /* */
     }
 }
-
-?>

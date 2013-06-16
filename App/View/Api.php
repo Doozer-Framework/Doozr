@@ -57,7 +57,7 @@
 /**
  * DoozR - Api - View
  *
- * This is an example model for Api-
+ * This is an example model for Api
  *
  * @category   DoozR
  * @package    DoozR_Api

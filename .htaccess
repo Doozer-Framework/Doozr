@@ -10,7 +10,7 @@ RewriteEngine On
 
 #-------------------------------------------------------------------------------
 # PATH CONFIGURATION/SETUP HERE
-#-------------------------------------------------------------------------------	
+#-------------------------------------------------------------------------------
 RewriteBase /Framework/
 
 RewriteRule .* - [E=DOOZR_PATH_APP:../App/Data/Public/www/]
@@ -44,9 +44,9 @@ RewriteRule . %{env:DOOZR_ROUTER}?mode=htaccess [QSA,L]
 # DoozR - usefull additions - BEGIN                                            -
 #-------------------------------------------------------------------------------
 <FilesMatch "\.(html|htm)$">
-	<IfModule mod_headers.c>
-		Header set imagetoolbar "no"
-	</IfModule>
+    <IfModule mod_headers.c>
+        Header set imagetoolbar "no"
+    </IfModule>
 </FilesMatch>
 
 # mime types

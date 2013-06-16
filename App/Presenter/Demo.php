@@ -118,9 +118,6 @@ final class Presenter_Demo extends DoozR_Base_Presenter implements DoozR_Base_Pr
         // as Observer to this Subject.
         $this->setData($data);
 
-        // dispatch data to view
-        //$result = $this->view->setData($data);
-
         // the result from operation above
         return true;
     }

@@ -65,5 +65,3 @@ $_SERVER['QUERY_STRING'] = (
 
 // now call our Route with overridden defailt values
 require_once 'Framework/Route.php';
-
-?>
