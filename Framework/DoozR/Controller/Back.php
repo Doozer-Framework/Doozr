@@ -239,6 +239,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             'cache', DOOZR_UNIX, $this->_config->cache->container()
         );
 
+
         // init MV(P|C) layer
         switch ($this->_pattern) {
         case 'MVP':

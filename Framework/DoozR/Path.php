@@ -178,8 +178,21 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     {
         // if path to app was defined before return this (prio 1)
         if (!defined('DOOZR_APP_ROOT')) {
-            // assume that path to application is like the default environment (one folder up)
-            $path = $this->mergePath(DOOZR_DOCUMENT_ROOT, '../App/');
+
+            /**
+             * Is environment set?
+             * You can set the DOOZR_APP_ROOT t
+             * SetEnv DOOZR_APP_ROOT /opt/...
+             */
+            if (false !== $environment = getenv('DOOZR_APP_ROOT')) {
+                // assume that path to application is like the default environment (one folder up)
+                $path = $this->mergePath($environment, 'App/');
+
+            } else {
+                // assume that path to application is like the default environment (one folder up)
+                $path = $this->mergePath(DOOZR_DOCUMENT_ROOT, '../App/');
+
+            }
 
             // we need a constant of the path as counterpart to DOOZR_DOCUMENT_ROOT
             define('DOOZR_APP_ROOT', $path);

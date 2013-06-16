@@ -187,6 +187,7 @@ final class DoozR_Route extends DoozR_Base_Class
      */
     public static function init($requestUri, $route, DoozR_Registry_Interface $registry, $autorun = true)
     {
+        // store registry
         self::$_registry = $registry;
 
         // now begin generic parsing of pattern
@@ -308,6 +309,7 @@ final class DoozR_Route extends DoozR_Base_Class
 
         // parse the parts
         for ($i = 0; $i < $countParts; ++$i) {
+
             if (isset($request[$i])) {
                 $$translation[$i] = ucfirst(strtolower($request[$i]));
             } else {
@@ -389,8 +391,11 @@ final class DoozR_Route extends DoozR_Base_Class
 
             } elseif (isset($routeRedirects[$route[0]])) {
                 $node = $routeRedirects[$route[0]];
-                $route = array_merge($node, array_slice($route, 1));
 
+                // check if a redirect array[x,y,z...] is defined on those level
+                if (isset($node[0])) {
+                    $route = array_merge($node, array_slice($route, 1));
+                }
             }
         }
 
@@ -422,5 +427,3 @@ final class DoozR_Route extends DoozR_Base_Class
      * \\ END PRIVATE/PROTECED METHODS
      ******************************************************************************************************************/
 }
-
-?>

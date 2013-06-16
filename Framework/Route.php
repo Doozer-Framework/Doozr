@@ -53,7 +53,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 428927151fa092b4e706683a549ddfa910c88537 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -73,7 +73,6 @@ $config   = $registry->config;
 
 // retrieve current runningmode (can be either WEB or CLI (but lowercase)
 $runningMode = $front->getRunningMode();
-
 
 // check for supported running-mode
 if (
