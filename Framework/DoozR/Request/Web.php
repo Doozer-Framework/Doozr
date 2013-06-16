@@ -150,7 +150,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
         $this->emulateRequest();
 
         // check automatic conversion of input
-        $this->transformToRequestObject($this->getMethod());
+        $this->arguments = $this->transformToRequestObject($this->getMethod());
 
         // protocolize the incoming request data
         $this->_protocolize();

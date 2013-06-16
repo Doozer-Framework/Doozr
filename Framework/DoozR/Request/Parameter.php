@@ -431,6 +431,7 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
             return $this->_parameter[$propertyName];
         }
 
+        /*
         // if parameter (property) not defined
         $trace = debug_backtrace();
 
@@ -441,6 +442,7 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
             ' on line ' . $trace[0]['line'],
             E_USER_NOTICE
         );
+        */
 
         return null;
     }

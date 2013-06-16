@@ -322,15 +322,11 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
             }
         }
 
-        // get registry
-        $registry = DoozR_Registry::getInstance();
-
-        // get response from registry
-        $response = $registry->front->getResponse();
+        $response = $this->front->getResponse();
 
         // header configured?
         try {
-            $headers = $registry->config->transmission->header();
+            $headers = $this->config->transmission->header();
         } catch (Exception $e) {
             $headers = null;
         }

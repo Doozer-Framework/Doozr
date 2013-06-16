@@ -133,6 +133,15 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     );
 
     /**
+     * The arguments as property (get filled by __construct
+     * with $_POST || $_GET ... depending on request type)
+     *
+     * @var mixed
+     * @access public
+     */
+    public $arguments;
+
+    /**
      * The type native for PHP request sources
      *
      * @var integer
@@ -241,6 +250,10 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
 
         // store as global
         $GLOBALS[$globalVariable] = new DoozR_Request_Parameter($globalVariable);
+
+        // this enables us to use a quick preset without the
+        // dependency to run a detection twice
+        return $GLOBALS[$globalVariable];
     }
 
     /**
