@@ -73,7 +73,7 @@ $_SERVER['REQUEST_TIME'] = microtime();
 $s = DIRECTORY_SEPARATOR;
 
 // retrieve path to file without! resolving possible symlinks
-$partial = explode($s,__FILE__);
+$partial = explode($s, __FILE__);
 $root    = $_SERVER['DOCUMENT_ROOT'];
 $path    = '';
 
@@ -81,10 +81,10 @@ for ($i = count($partial)-1; $i > -1; --$i) {
     $path = $s.$partial[$i].$path;
 
     if (realpath($root.$path) === __FILE__) {
-        $realpath = realpath($root.$path);
+        $path = $root.$path;
         $path = ($s === '\\')
-            ? str_replace('/', '\\', $realpath)
-            : str_replace('\\', '/', $realpath);
+            ? str_replace('/', '\\', $path)
+            : str_replace('\\', '/', $path);
         define('__FILE_LINK__', $path);
 
         break;
