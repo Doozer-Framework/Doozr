@@ -27,15 +27,15 @@ $registry = DoozR_Registry::getInstance();
 /**
  * Get module API from Serviceloader
  */
-$api = DoozR_Loader_Serviceloader::load('rest', array(
-        'port'   => '8080',
-        'domain' => 'api.doozr.de',
-        'ssl'    => false
-    )
-);
+$api = DoozR_Loader_Serviceloader::load('rest');
 
 
-pred($api);
+/**
+ * @todo Implement a rerouting here via DoozR_Route
+ *       The goal is to be able to reroute while already
+ *       running a route.
+ */
+//pred($api);
 
 
 /*

@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Rest - Service
+ * DoozR - Base - Presenter - Rest
  *
- * Rest.php - ...
+ * Rest.php - Base class for presenter-layers from MV(C|P) with REST support
  *
  * PHP versions 5
  *
@@ -43,105 +43,72 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Rest
+ * @package    DoozR_Base
+ * @subpackage DoozR_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: c3b7e5d84cd534c30d7cc98a6ce6fc9a3fab1921 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Presenter.php';
 
 /**
- * DoozR - Rest - Service
+ * DoozR - Base Presenter
  *
- * ...
+ * Base Presenter of the DoozR Framework.
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Rest
+ * @package    DoozR_Base
+ * @subpackage DoozR_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: c3b7e5d84cd534c30d7cc98a6ce6fc9a3fab1921 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
- * @throws     DoozR_Rest_Service_Exception
- * @DoozRType  Multiple
  */
-class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
+class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
 {
     /**
-     * Request object to use with DoozR Rest or Soap
+     * The rest service
      *
-     * @var object
-     * @access private
+     * @var DoozR_Rest_Service
+     * @access protected
      */
-    private $_requestObject;
+    protected $rest;
+
 
     /**
-     * This method is intend to act as constructor.
+     * This method is the constructor of this class.
      *
-     * @param array   $request        The original request
-     * @param integer $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means
-     *                                that /Foo/Bar/ will be taken as root and ripped)
+     * @param array                  $request         The whole request as processed by "Route"
+     * @param array                  $translation     The translation required to read the request
+     * @param array                  $originalRequest The original untouched request
+     * @param DoozR_Config_Interface $config          The DoozR main config instance
+     * @param DoozR_Base_Model       $model           The model to communicate with backend (db)
+     * @param DoozR_Base_View        $view            The view to display results
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __tearup(array $request = array(), $countRootNodes = 2)
-    {
-        // if no custom request data/config is passed ...
-        if (empty($request)) {
-            // ... use defeault
-            $request = array(
-                'port'   => $_SERVER['SERVER_PORT'],
-                'ip'     => gethostbyname($_SERVER['SERVER_NAME']),
-                'domain' => $_SERVER['SERVER_NAME'],
-                'ssl'    => is_ssl()
-            );
-        }
+    public function __construct(
+        array $request,
+        array $translation,
+        array $originalRequest,
+        DoozR_Config_Interface $config = null,
+        DoozR_Base_Model $model = null,
+        DoozR_Base_View $view = null
+    ) {
+        // Init REST layer/service => only difference to DoozR_Base_Presenter
+        $this->rest = DoozR_Loader_Serviceloader::load('rest', $originalRequest, count($request));
 
-        // get hands on request object
-        $requestObject = $this->registry->front->getRequest();
-
-        // extract real API request
-        // so at this very specific and no longer generic routing way we
-        // can be sure that the following works
-        $this->_requestObject            = new stdClass();
-        $this->_requestObject->resource  = array_slice($request, $countRootNodes);
-        $this->_requestObject->method    = $requestObject->getMethod();
-        $this->_requestObject->arguments = $requestObject->arguments;
-        $this->_requestObject->request   = $request;
-    }
-
-    /**
-     * Returns the current request object
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function getRequestObject()
-    {
-        return $this->_requestObject;
-    }
-
-    /**
-     * This method is intend to cleanup on class destruct.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __teardown()
-    {
-        /* */
+        // forward call
+        parent::__construct($request, $translation, $originalRequest, $config, $model, $view);
     }
 }
