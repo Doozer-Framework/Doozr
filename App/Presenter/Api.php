@@ -57,7 +57,7 @@
 /**
  * DoozR - Api - Presenter
  *
- * Api Presenter Apinstration
+ * Api Presenter
  *
  * @category   DoozR
  * @package    DoozR_Api
@@ -70,7 +70,7 @@
  * @see        -
  * @since      -
  */
-final class Presenter_Api extends DoozR_Base_Presenter implements DoozR_Base_Presenter_Interface
+final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Base_Presenter_Interface
 {
     /**
      * This method is the replacement for construct. It is called right on construction of
@@ -83,9 +83,10 @@ final class Presenter_Api extends DoozR_Base_Presenter implements DoozR_Base_Pre
      * @return void
      * @access protected
      */
-    protected function __tearup(array $request, array $translation)
+    protected function __tearup(array $request, array $translation, $nodes = 2)
     {
-        /*...*/
+        // setup allowed verbs and define required fields
+        $this->nodes($nodes)->allow('GET')->required(array('id'), 'user')->run();
     }
 
     /**
@@ -111,21 +112,47 @@ final class Presenter_Api extends DoozR_Base_Presenter implements DoozR_Base_Pre
      */
     public function Main()
     {
-        $api = DoozR_Loader_Serviceloader::load('rest', $this->originalRequest, 2);
+        // get registry
+        $registry = DoozR_Registry::getInstance();
 
-        pred('ende');
-        pred($api->getRequestObject());
+        // get response
+        $response = $registry->front->getResponse();
+
+        // get request object (standard notation), object + method
+        $requestObject = $this->rest->getRequestObject();
+        $object        = strtolower($requestObject->resource[0]);
+        $method        = strtolower($requestObject->method);
+
+        // check if verb is allowed
+        if (!$this->allowed($method)) {
+            $response->sendHttpStatus(405, null, true, 'Method not allowed: '.strtoupper($method));
+            exit;
+
+        }
+
+        // get required fields ...
+        $requiredArguments = $this->getRequired($object);
+
+        // ... and iterate them to find missing elements
+        foreach ($requiredArguments as $key => $requiredArgument) {
+            if (!isset($requestObject->arguments->{$requiredArgument[0]})) {
+                // send HTTP-Header "Not-Acceptable" for missing argument
+                $response->sendHttpStatus(406, null, true, 'Missing required argument: '.$requiredArgument[0]);
+                exit;
+            }
+        }
+
+        /**
+         * @todo: Implement the logic for validation (type based) for input!
+         */
 
         // retrieve data for context Screen from Model by defined default interface "getData()"
-        $data = $this->model->getData();
+        $data = $this->model->getData($requestObject);
 
-        // set data here within this instance cause VIEW and MODEL are attached
-        // as Observer to this Subject.
+        // set data here within this instance cause VIEW and MODEL are attached as Observer to this Subject.
         $this->setData($data);
 
         // the result from operation above
         return true;
     }
 }
-
-?>

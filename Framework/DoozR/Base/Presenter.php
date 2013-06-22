@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Presenter
+ * DoozR - Base - Presenter
  *
  * Presenter.php - Base class for presenter-layers from MV(C|P)
  *
@@ -55,6 +55,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Presenter/Subject.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Http.php';
 
 /**
  * DoozR - Base Presenter
@@ -115,6 +116,24 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     protected $request;
 
     /**
+     * This array contains the required arguments
+     * to run a specific action in a specific context
+     *
+     * @var array
+     * @access protected
+     */
+    protected $required = array();
+
+    /**
+     * Allowed request types to execute against this
+     * presenter
+     *
+     * @var array
+     * @access protected
+     */
+    protected $allowed = array('get');
+
+    /**
      * The original unmodified request as array
      *
      * @var array
@@ -129,6 +148,14 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * @access protected
      */
     protected $translation;
+
+    /**
+     * The count of root nodes
+     *
+     * @var integer
+     * @access private
+     */
+    private $_nodes;
 
 
     /**
@@ -219,6 +246,23 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
+     * Update of crUd
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Data on success, otherwise null
+     * @access protected
+     */
+    protected function update()
+    {
+        if ($this->hasMethod('__update') && is_callable(array($this, '__update'))) {
+            return $this->__update();
+        }
+
+        // notify observers about new data
+        $this->notify();
+    }
+
+    /**
      * Delete of cruD
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -263,6 +307,160 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         // notify observers about new data
         $this->notify();
     }
-}
 
-?>
+    /**
+     * Adds a HTTP-method (verb like GET, HEAD, PUT, POST ...) to the list
+     * of allowed methods for this presenter.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter Instance for chaining
+     * @access protected
+     */
+    protected function allow($method)
+    {
+        if (!in_array($method, $this->allowed)) {
+            $this->allowed[] = $method;
+        }
+
+        // chaining
+        return $this;
+    }
+
+    /**
+     * Checks if passed method (HTTP verb) is allowed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if passed method is allowed, otherwise FALSE
+     * @access protected
+     */
+    protected function allowed($method)
+    {
+        return in_array($method, $this->allowed);
+    }
+
+    /**
+     * Checks if passed method (HTTP verb) is allowed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if passed method is allowed, otherwise FALSE
+     * @access protected
+     */
+    protected function isAllowed($method)
+    {
+        return $this->allowed($method);
+    }
+
+    /**
+     * This method is intend to store a single item (argument as string)
+     * or a list of items (array with arguments as string) required to
+     * run the presenter (or parts of model/view).
+     *
+     * @param mixed  $variable A single argument required to execute the presenter or an array of arguments
+     * @param string $scope    The scope (Action) for which the argument is required (* = wildcard = all)
+     * @param string $method   The method (HTTP verb) to bind the requirement to
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if everything wents fine, otherwise false
+     * @access protected
+     */
+    protected function required($argument, $scope = 'Index', $method = DoozR_Http::REQUEST_METHOD_GET)
+    {
+        // prepare storage on method/verb level
+        if (!isset($this->required[$method])) {
+            $this->required[$method] = array();
+        }
+
+        // prepare storage on scope level
+        if (!isset($this->required[$method][$scope])) {
+            $this->required[$method][$scope] = array();
+        }
+
+        // convert input to array if not an array
+        if (!is_array($argument)) {
+            $argument = array($argument);
+        }
+
+        // iterate the passed input to build ordered (scope) ruleset
+        foreach ($argument as $requiredVariable) {
+            // if passed argument does not have a validation set
+            if (!is_array($requiredVariable)) {
+                // prepare default validation => null
+                $requiredVariable = array(
+                    $requiredVariable,      // variable identifier
+                    null                    // validation
+                );
+            }
+
+            // store the combined values for automatic requirement management
+            $this->required[$method][$scope][] = $requiredVariable;
+        }
+
+        // success
+        return $this;
+    }
+
+    protected function isRequired($argument, $scope = 'Index', $method = DoozR_Http::REQUEST_METHOD_GET)
+    {
+        pred($this->required[$method]);
+
+        // prepare storage on method/verb level
+        if (!isset($this->required[$method])) {
+            return false;
+        }
+
+        // prepare storage on scope level
+        if (!isset($this->required[$method][$scope])) {
+            return false;
+        }
+
+        // convert input to array if not an array
+        if (!is_array($argument)) {
+            $argument = array($argument);
+        }
+
+        // iterate the passed input to build ordered (scope) ruleset
+        foreach ($argument as $requiredVariable) {
+            pre($requiredVariable);
+        }
+
+        // success
+        return true;
+    }
+
+    protected function getRequired($scope = 'Index', $method = DoozR_Http::REQUEST_METHOD_GET)
+    {
+        // prepare storage on method/verb level
+        if (!isset($this->required[$method])) {
+            return null;
+        }
+
+        // prepare storage on scope level
+        if (!isset($this->required[$method][$scope])) {
+            return null;
+        }
+
+        return $this->required[$method][$scope];
+    }
+
+    protected function nodes($countOfRootNodes)
+    {
+        $this->_nodes = $countOfRootNodes;
+
+        return $this;
+    }
+
+    protected function getNodes()
+    {
+        return $this->_nodes;
+    }
+
+    protected function setNodes($countOfRootNodes)
+    {
+        return ($this->_nodes = $countOfRootNodes);
+    }
+
+    protected function run()
+    {
+        // runs all the stuff required to setup the API service
+    }
+}

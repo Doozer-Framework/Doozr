@@ -223,6 +223,17 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      */
     public function getData()
     {
+        // custom generic overload solution
+        if (method_exists($this, '__data')) {
+            $arguments = func_get_args();
+
+            if (count($arguments) > 0) {
+                call_user_func_array(array($this, '__data'), $arguments);
+            } else {
+                call_user_func(array($this, '__data'));
+            }
+        }
+
         return $this->data;
     }
 

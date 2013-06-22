@@ -1451,11 +1451,13 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      *
      * This method is intend to return the path.
      *
+     * @param boolean $resolveSymlink NOT USED HERE
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The active path
      * @access public
      */
-    public function getPath()
+    public function getPath($resolveSymlink = false)
     {
         return $this->_path;
     }

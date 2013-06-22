@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Api - Model
+ * DoozR - Http
  *
- * Api.php - This is an example model for demonstration purposes
+ * Http.php - Class for HTTP operations / status codes / and many more
  *
  * PHP versions 5
  *
@@ -43,111 +43,42 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Api
- * @subpackage DoozR_Api_Model
+ * @package    DoozR_Core
+ * @subpackage DoozR_Core_Http
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: b21a0e795a3d7c5919c2a4265dd40c46a2ab7db4 $
+ * @version    Git: $Id: c3b7e5d84cd534c30d7cc98a6ce6fc9a3fab1921 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
  */
+
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
 
 /**
- * DoozR - Api - Model
+ * DoozR - Http
  *
- * This is an example model for demonstration purposes
+ * Http.php - Class for HTTP operations / status codes / and many more
  *
  * @category   DoozR
- * @package    DoozR_Api
- * @subpackage DoozR_Api_Model
+ * @package    DoozR_Core
+ * @subpackage DoozR_Core_Http
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: b21a0e795a3d7c5919c2a4265dd40c46a2ab7db4 $
+ * @version    Git: $Id: c3b7e5d84cd534c30d7cc98a6ce6fc9a3fab1921 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
  */
-final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Interface
+class DoozR_Http extends DoozR_Base_Class
 {
-    /**
-     * __tearup initializes the class and get automatic called on
-     * instanciation. DO NOT USE __construct (in MVC)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function __tearup()
-    {
-        /* maybe enrich data or something like that */
-        $this->data = array(
-            'User' => array(
-                1234  => array(
-                    'user'      => 'jdoe',
-                    'firstname' => 'John',
-                    'lastname'  => 'Doe',
-                    'email'     => 'john.doe@test.com'
-                )
-            )
-        );
-    }
+    const REQUEST_METHOD_GET     = 'GET';
+    const REQUEST_METHOD_PUT     = 'PUT';
+    const REQUEST_METHOD_POST    = 'POST';
+    const REQUEST_METHOD_HEAD    = 'HEAD';
+    const REQUEST_METHOD_OPTIONS = 'OPTIONS';
+    const REQUEST_METHOD_DELETE  = 'DELETE';
 
-    public function __data($requestObject = null)
-    {
-        // @todo: ACL check 1st
-
-        // resource
-        $resource = $requestObject->resource[0];
-
-        //
-        if (isset($this->data[$resource])) {
-            // get data for resource
-            $data = $this->data[$resource];
-
-            // get data for specific arguments filter? ...
-            if (isset($data[$requestObject->arguments->id])) {
-                $data = $data[$requestObject->arguments->id];
-
-            } else {
-                $data = json_decode('{"error": {"code": 1, "message": "Invalid ID: '.$requestObject->arguments->id.'"}}');
-
-            }
-
-            // set data (can e.g. retrieved by controller through ->getData())
-            $this->setData($data);
-        }
-    }
-
-    /**
-     * Observer notification
-     *
-     * @param SplSubject $subject The subject which notifies this observer (Presenter)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    protected function __update(SplSubject $subject)
-    {
-        $this->setData($subject->getData());
-    }
-
-    /**
-     * magic on __teardown
-     *
-     * This method is intend to __cleanup
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __teardown()
-    {
-        /* */
-    }
 }
-
-?>

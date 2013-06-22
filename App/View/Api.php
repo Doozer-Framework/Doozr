@@ -102,6 +102,43 @@ final class View_Api extends DoozR_Base_View implements DoozR_Base_View_Interfac
     }
 
     /**
+     * This method is the magic renderer von View = Main.
+     * Upon creating this method gets automagically called when data
+     * is set to view via setData()
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function __renderMain()
+    {
+        // get response
+        $response = $this->front->getResponse();
+
+        // custom default header configured?
+        try {
+            $headers = $this->config->transmission->header();
+        } catch (Exception $e) {
+            $headers = null;
+        }
+
+        // send configured header
+        foreach ($headers as $type => $header) {
+            $response->sendHeader($header);
+        }
+
+        $data = $this->getData();
+
+        if (isset($data->error)) {
+            $response->sendHttpStatus(400, null, true, $data->error->message);
+
+        } else {
+            // send our data as HTML through response
+            $response->sendJson($this->getData(), $this->fingerprint);
+        }
+    }
+
+    /**
      * This method is intend to __cleanup
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -113,5 +150,3 @@ final class View_Api extends DoozR_Base_View implements DoozR_Base_View_Interfac
         /* */
     }
 }
-
-?>

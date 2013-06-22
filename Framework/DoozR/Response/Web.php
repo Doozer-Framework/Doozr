@@ -55,6 +55,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Response.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 
 /**
  * DoozR - Response - Web
@@ -645,6 +646,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * This method is intend to correctly send json-encoded data to the client.
      *
      * @param mixed   $buffer             The data to json_encode (optional) and send
+     * @param string  $etag               The Etag to send, null to prevent sending
      * @param string  $charset            charset for output data
      * @param boolean $alreadyJsonEncoded The current status of data JSON-encoded = true, not = false
      * @param boolean $exit               Close connection after output?
@@ -654,8 +656,20 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function sendJson($buffer, $charset = null, $alreadyJsonEncoded = false, $exit = false, $addHeader = true)
+    public function sendJson($buffer, $etag = null, $charset = null, $alreadyJsonEncoded = false, $exit = false, $addHeader = true)
     {
+        /**
+         * check if we can deliver just a simple 304 Not modified
+         */
+        if ($etag && $etag === $etagReceived = $_SERVER->HTTP_IF_NONE_MATCH()) {
+
+            // send header and close connection
+            $this->sendHttpStatus(304)
+            ->sendHeader('ETag: '.$etag)
+            ->sendHeader('Cache-Control: must-revalidate, post-check=0, pre-check=0')
+            ->closeConnection();
+        }
+
         // retrieve charset
         $charset = $this->_getCharset($charset);
 
@@ -669,11 +683,11 @@ class DoozR_Response_Web extends DoozR_Base_Response
         }
 
         // get length of content
-        //$contentLength = strlen(serialize($buffer));
+        $contentLength = mb_strlen($buffer);
 
         // send correct header(s)
         // content-length
-        //header('Content-Length: '.$contentLength);
+        header('Content-Length: '.$contentLength);
         // content-type
         //header('Content-type: application/json');
         if ($addHeader) {
@@ -848,6 +862,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @return DoozR_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @throws DoozR_Exception
      */
     public function sendHeader($header)
     {
@@ -866,10 +881,12 @@ class DoozR_Response_Web extends DoozR_Base_Response
             }
 
         } else {
-            $this->logger->log(
-                __CLASS__.': Failed while sending HTTP-Header ['.self::HTTP_VERSION.'] "'.var_export($header, true).
-                '. Headers already sent in file: '.$file.' on line: '.$line
-            );
+            $message = __CLASS__.': Failed while sending HTTP-Header ['.self::HTTP_VERSION.'] "'.
+                var_export($header, true).'. Headers already sent in file: '.$file.' on line: '.$line;
+
+            throw new DoozR_Exception($message);
+
+            $this->logger->log($message);
         }
 
         // return this for chaining
