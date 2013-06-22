@@ -90,7 +90,10 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * @var string
      * @access private
      */
-    private $_path = null;
+    private $_path = array(
+        'realpath' => null,
+        'symlink'  => null
+    );
 
     /**
      * The filename of the parent which extends this base
@@ -111,21 +114,34 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
 
     /**
      * This method is intend to return the path to the parent (extending class) of this class.
+     * WARNING! This method returns the resolved path to the current file (the file where you
+     * execute the method! It does not return symlinked path'.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The path to parent class
      * @access public
+     * @todo   Implement a new way of retrieving the
      */
-    public function getPath()
+    public function getPath($resolveSymlinks = false)
     {
-        if (is_null($this->_path)) {
-            if (is_null($this->_backtrace)) {
+        $mode = ($resolveSymlinks === false) ? 'symlink' : 'realpath';
+
+        // @todo: seek and destroy: is_null() against === null
+        if ($this->_path[$mode] === null) {
+            if ($this->_backtrace === null) {
                 $this->_backtrace = debug_backtrace();
             }
-            $fileAndPath = $this->_backtrace[0]['file'];
-            $this->_path = substr($fileAndPath, 0, strrpos($fileAndPath, DIRECTORY_SEPARATOR)+1);
+
+            if ($resolveSymlinks === false) {
+                $path = realpath_ext($this->_backtrace[0]['file']);
+            } else {
+                $path = realpath_ext($this->_backtrace[0]['file'], true);
+            }
+
+            $this->_path[$mode] = dirname($path).DIRECTORY_SEPARATOR;
         }
-        return $this->_path;
+
+        return $this->_path[$mode];
     }
 
     /**
@@ -143,13 +159,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
             if (is_null($this->_backtrace)) {
                 $this->_backtrace = debug_backtrace();
             }
-            $fileAndPath = $this->_backtrace[0]['file'];
-            $this->_file = substr(
-                $fileAndPath,
-                (strrpos($fileAndPath, DIRECTORY_SEPARATOR)+1),
-                (strlen($fileAndPath) - strrpos($fileAndPath, DIRECTORY_SEPARATOR)+1)
-            );
+            $this->_file = filename($this->_backtrace[0]['file']);
         }
+
         return $this->_file;
     }
 
@@ -158,14 +170,16 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      *
      * This method is intend to return the filename and path (combined) of the parent (extending class) of this class.
      *
+     * @param boolean $resolveSymlinks TRUE to resolve symlinks to real path FALSE to do not
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The filename and path of the parent class
      * @access public
      */
-    public function getPathAndFile()
+    public function getPathAndFile($resolveSymlinks = false)
     {
         if (is_null($this->_pathAndFile)) {
-            $this->_pathAndFile = $this->getPath().$this->getFile();
+            $this->_pathAndFile = $this->getPath($resolveSymlinks).$this->getFile();
         }
 
         return $this->_pathAndFile;

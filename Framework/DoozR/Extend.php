@@ -141,8 +141,6 @@ function merge_array(array $array_1, array $array_2)
     return $array_1;
 }
 
-
-
 /**
  * A recursive array_change_key_case function
  *
@@ -175,6 +173,51 @@ function array_change_key_case_recursive($input, $case = CASE_LOWER)
     }
 
     return $input;
+}
+
+/**
+ * realpath with a switch to not resolve symlinks.
+ *
+ * @param string $path             The path to return without resolving symlinks
+ * @param boolean $resolveSymlinks TRUE to resolve, FALSE to do not
+ *
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return string|null The resulting path as string or NULL if failed
+ * @access public
+ */
+function realpath_ext($path, $resolveSymlinks = false)
+{
+    if ($resolveSymlinks === false) {
+        // retrieve path to file without! resolving possible symlinks
+        $partial  = explode(DIRECTORY_SEPARATOR, $path);
+        $root     = $_SERVER['DOCUMENT_ROOT'];
+        $prepared = '';
+
+        for ($i = count($partial)-1; $i > -1; --$i) {
+            $prepared = DIRECTORY_SEPARATOR.$partial[$i].$prepared;
+
+            if (realpath($root.$prepared) === $path) {
+                $prepared = $root.$prepared;
+                $prepared = (DIRECTORY_SEPARATOR === '\\')
+                ? str_replace('/', '\\', $prepared)
+                : str_replace('\\', '/', $prepared);
+                break;
+            }
+        }
+
+        if (!file_exists($prepared)) {
+            $prepared = null;
+        }
+
+        $path = $prepared;
+
+    } else {
+        $path = realpath($path);
+
+    }
+
+    // return path
+    return $path;
 }
 
 /**
