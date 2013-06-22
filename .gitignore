@@ -8,3 +8,4 @@ _doc/html/*
 /.settings
 /App/Data/Private/Temp/*.php
 /.externalToolBuilders
+/.idea
