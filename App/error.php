@@ -30,5 +30,3 @@ try {
     pred($e->getTrace());
 
 }
-
-?>

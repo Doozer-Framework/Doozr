@@ -71,5 +71,3 @@ pre($day);
 $formatterCurrency = $i18n->getFormatter('currency');
 $currencyCode = $formatterCurrency->getCurrencyCode();
 pre($formatterCurrency->format(127, 'symbol', 'gb'));
-
-?>

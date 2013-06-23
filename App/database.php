@@ -123,5 +123,3 @@ $model->close();
  * close connection
  */
 $model->disconnect();
-
-?>

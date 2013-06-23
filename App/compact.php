@@ -53,5 +53,3 @@ DoozR_Compact_Service::$isDocRootSet = true;
 DoozR_Compact_Service::setCache(isset($min_cachePath) ? $min_cachePath : '',$min_cacheFileLocking);
 
 DoozR_Compact_Service::serve(new Minify_Controller_MinApp(), $min_serveOptions);
-
-?>

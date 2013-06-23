@@ -39,5 +39,3 @@ $registry->foo = $foo;
  * grab and use it direct from registry anywhere else in your followup code ...
  */
 pre($registry->foo->bar);
-
-?>

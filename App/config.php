@@ -48,6 +48,3 @@ if ($configreader->read($filename)) {
 } else {
     pre('Configuration could not be read ...');
 }
-
-
-?>

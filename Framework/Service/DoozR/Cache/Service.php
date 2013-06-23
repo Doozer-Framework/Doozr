@@ -921,5 +921,3 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
         return ($this->_id !== false) ? true : false;
     }
 }
-
-?>

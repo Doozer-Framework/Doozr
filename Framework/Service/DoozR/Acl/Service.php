@@ -84,12 +84,10 @@ final class DoozR_Acl_Service extends DoozR_Base_Service_Multiple_Facade
      * @return object instance of this class
      * @access public
      */
-    public function __tearup(array $actions, $permission = 0)
+    public function __tearup(array $actions = array('create', 'read', 'update', 'delete'), $permission = 0)
     {
         self::setRealObject(
             new Acl($actions, $permission)
         );
     }
 }
-
-?>

@@ -104,5 +104,3 @@ class DoozR_Cache_Service_Exception extends DoozR_Exception
         parent::__construct($message, $code, $previous);
     }
 }
-
-?>

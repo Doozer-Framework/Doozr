@@ -59,5 +59,3 @@ foreach ($actions as $action) {
         echo $action . ' is NOT allowed <br>';
     }
 }
-
-?>
