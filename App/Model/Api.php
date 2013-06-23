@@ -73,7 +73,7 @@
 final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Interface
 {
     /**
-     * __tearup initializes the class and get automatic called on
+     * __tearup() initializes the class and get automatic called on
      * instanciation. DO NOT USE __construct (in MVC)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -95,24 +95,43 @@ final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Inter
         );
     }
 
+    /**
+     * __data() is the generic __data proxy and is called on each access via
+     * getData().
+     *
+     * @param DoozR_Request_Api $requestObject The default request object for APIs
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     public function __data($requestObject = null)
     {
-        // @todo: ACL check 1st
+        // @todo: ACL check 1st - default all operations (CRUD) possible - current access-level = 0
+        $acl = DoozR_Loader_Serviceloader::load('acl');
 
-        // resource
-        $resource = $requestObject->resource[0];
+        $model = $this;
+
+        // get the resource which we want to use for ...
+        $resource = $requestObject->get('/api/{{object}}/{{id}}', function ($object, $id) use ($model) {
+            //$model->escape($id);
+            return array($object, $id);
+        });
 
         //
-        if (isset($this->data[$resource])) {
+        if (isset($this->data[$resource[0]])) {
             // get data for resource
-            $data = $this->data[$resource];
+            $data = $this->data[$resource[0]];
 
             // get data for specific arguments filter? ...
-            if (isset($data[$requestObject->arguments->id])) {
-                $data = $data[$requestObject->arguments->id];
+            //if (isset($data[$requestObject->arguments->id])) {
+            //    $data = $data[$requestObject->arguments->id];
+            if (isset($data[$resource[1]])) {
+                $data = $data[$resource[1]];
 
             } else {
-                $data = json_decode('{"error": {"code": 1, "message": "Invalid ID: '.$requestObject->arguments->id.'"}}');
+                //$data = json_decode('{"error": {"code": 1, "message": "Invalid ID: '.$requestObject->arguments->id.'"}}');
+                $data = json_decode('{"error": {"code": 1, "message": "Invalid ID: '.$resource[1].'"}}');
 
             }
 
@@ -149,5 +168,3 @@ final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Inter
         /* */
     }
 }
-
-?>

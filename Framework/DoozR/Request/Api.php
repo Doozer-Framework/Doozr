@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Rest - Service
+ * DoozR - Request - Api
  *
- * Rest.php - ...
+ * Api.php - Container for preprocessed API request data.
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Rest
+ * @package    DoozR_Request
+ * @subpackage DoozR_Request_Api
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -54,17 +54,16 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Api.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 
 /**
- * DoozR - Rest - Service
+ * DoozR - Request - Api
  *
- * ...
+ * Container for preprocessed API request data.
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Rest
+ * @package    DoozR_Request
+ * @subpackage DoozR_Request_Api
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -72,91 +71,119 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Api.php';
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
- * @throws     DoozR_Rest_Service_Exception
- * @DoozRType  Multiple
  */
-class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
+class DoozR_Request_Api
 {
     /**
-     * Request object to use with DoozR Rest or Soap
+     * Arguments passed to script via GET, POST, CLI ...
      *
-     * @var object
-     * @access private
-     */
-    private $_requestObject;
-
-    /**
-     * This method is intend to act as constructor.
-     *
-     * @param array   $request        The original request
-     * @param integer $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means
-     *                                that /Foo/Bar/ will be taken as root and ripped)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @var DoozR_Request_Parameter
      * @access public
      */
-    public function __tearup(array $request = array(), $countRootNodes = 2)
+    public $arguments;
+
+    /**
+     * Method (verb) used to request data (GET, POST, ...)
+     *
+     * @var string
+     * @access public
+     */
+    public $method;
+
+    /**
+     * The original unmodified request as array
+     *
+     * @var array
+     * @access public
+     */
+    public $originalRequest;
+
+    /**
+     * The current processed request (after redirects ...)
+     *
+     * @var array
+     * @access public
+     */
+    public $request;
+
+    /**
+     * The requested resource/endpoint
+     *
+     * @var string
+     * @access public
+     */
+    public $resource;
+
+    /**
+     * The URL of the current request
+     *
+     * @var string
+     * @access public
+     */
+    public $url;
+
+
+    /**
+     * Extracts variables from current requests URL
+     *
+     * @param string  $pattern  The pattern to use for extracting variables from URL (e.g. /{{foo}}/{{bar}}/
+     * @param closure $callback The callback/closure to execute
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed
+     * @access public
+     * @throws DoozR_Exception
+     */
+    public function get($pattern, $callback = null)
     {
-        // if no custom request data/config is passed ...
-        if (empty($request)) {
-            // ... use defeault
-            $request = array(
-                'port'   => $_SERVER['SERVER_PORT'],
-                'ip'     => gethostbyname($_SERVER['SERVER_NAME']),
-                'domain' => $_SERVER['SERVER_NAME'],
-                'ssl'    => is_ssl()
-            );
+        // check for required url
+        if ($this->url === null) {
+            throw new DoozR_Exception('Set URL ($this->url) first.');
+
         }
 
-        // get hands on request object
-        $requestObject = $this->registry->front->getRequest();
+        $pattern = explode('/', trim($pattern));
+        $url     = explode('/', $this->url);
 
-        // extract real API request
-        // so at this very specific and no longer generic routing way we
-        // can be sure that the following works
-        $this->_requestObject = new DoozR_Request_Api();
+        array_shift($pattern);
+        array_shift($url);
 
-        $this->_requestObject->set(
-            array(
-                'resource'  => array_slice($request, $countRootNodes),
-                'method'    => $requestObject->getMethod(),
-                'arguments' => $requestObject->arguments,
-                'request'   => $request,
-                'url'       => $requestObject->getUrl()
-            )
-        );
+        $result = array();
+        $matrix = array();
 
-        /*
-        $this->_requestObject->resource  = array_slice($request, $countRootNodes);
-        $this->_requestObject->method    = $requestObject->getMethod();
-        $this->_requestObject->arguments = $requestObject->arguments;
-        $this->_requestObject->request   = $request;
-        $this->_requestObject->url       = $requestObject->getUrl();
-        */
+        foreach ($pattern as $key => $partial) {
+            $variable = preg_match('/{{(.*)}}/i', $partial, $result);
+            if ($variable === 1 && isset($url[$key])) {
+                //$$result[1] = $url[$key];
+                $matrix[] = $url[$key];
+            }
+        }
+
+        if ($callback !== null) {
+            return call_user_func_array($callback, $matrix);
+
+        } else {
+            return $matrix;
+
+        }
     }
 
     /**
-     * Returns the current request object
+     * Set a list (array) of properties.
+     *
+     * @param array $config The properties to set as array (key => value)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return DoozR_Request_Api
      * @access public
      */
-    public function getRequestObject()
+    public function set(array $config)
     {
-        return $this->_requestObject;
-    }
+        // iterate config and set properties
+        foreach ($config as $property => $value) {
+            $this->{$property} = $value;
+        }
 
-    /**
-     * This method is intend to cleanup on class destruct.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __teardown()
-    {
-        /* */
+        return $this;
     }
 }

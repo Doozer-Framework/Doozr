@@ -11,12 +11,18 @@
  - **Cache**
  - **Compact**
  - **Configreader**
+ - **Database**
+ - **Debug**
  - **Crypt**
  - **Datetime**
+ - **Error**
  - **Filesystem**
  - **Form**
  - **I18n**
+ - **OAuth2**
  - **Password**
+ - **Registry**
+ - **REST**
  - **Rest**
  - **Session**
  - **Template**

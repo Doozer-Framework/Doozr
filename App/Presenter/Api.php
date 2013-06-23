@@ -86,7 +86,7 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
     protected function __tearup(array $request, array $translation, $nodes = 2)
     {
         // setup allowed verbs and define required fields
-        $this->nodes($nodes)->allow('GET')->required(array('id'), 'user')->run();
+        $this->nodes($nodes)->allow('GET')->run(); //->required(array('id'), 'user')->run();
     }
 
     /**

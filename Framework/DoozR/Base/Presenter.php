@@ -399,10 +399,19 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         return $this;
     }
 
+    /**
+     * Returns TRUE if a passed arguments is required by presenter, FALSE if not
+     *
+     * @param string $argument The argument to check
+     * @param string $scope    The scope used for lookup
+     * @param string $method   The method (HTTP verb) to use for lookup
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if required, otherwise FALSE
+     * @access protected
+     */
     protected function isRequired($argument, $scope = 'Index', $method = DoozR_Http::REQUEST_METHOD_GET)
     {
-        pred($this->required[$method]);
-
         // prepare storage on method/verb level
         if (!isset($this->required[$method])) {
             return false;
@@ -427,21 +436,44 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         return true;
     }
 
+    /**
+     * Returns all required fields of presenter.
+     *
+     * @param string $scope  The scope used for lookup
+     * @param string $method The method (HTTP verb) to use for lookup
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array List of required fields
+     * @access protected
+     */
     protected function getRequired($scope = 'Index', $method = DoozR_Http::REQUEST_METHOD_GET)
     {
         // prepare storage on method/verb level
         if (!isset($this->required[$method])) {
-            return null;
+            return array();
         }
 
         // prepare storage on scope level
         if (!isset($this->required[$method][$scope])) {
-            return null;
+            return array();
         }
 
         return $this->required[$method][$scope];
     }
 
+    /**
+     * Sets the count of root nodes for request.
+     *
+     * @param integer $countOfRootNodes The count of root nodes
+     *
+     * @example if request is /foo/bar/1234 and the root node count
+     *          is 2 then all operations will use /foo and /bar as
+     *          root.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
     protected function nodes($countOfRootNodes)
     {
         $this->_nodes = $countOfRootNodes;
@@ -449,18 +481,47 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         return $this;
     }
 
+    /**
+     * Returns the count of root nodes.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The count of root nodes
+     * @access protected
+     */
     protected function getNodes()
     {
         return $this->_nodes;
     }
 
+    /**
+     * Sets the count of root nodes for request.
+     *
+     * @param integer $countOfRootNodes The count of root nodes
+     *
+     * @example if request is /foo/bar/1234 and the root node count
+     *          is 2 then all operations will use /foo and /bar as
+     *          root.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     */
     protected function setNodes($countOfRootNodes)
     {
         return ($this->_nodes = $countOfRootNodes);
     }
 
+    /**
+     * Runs/executes all operations. Should be overwritten by
+     * child on demand.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
     protected function run()
     {
         // runs all the stuff required to setup the API service
+        return $this;
     }
 }

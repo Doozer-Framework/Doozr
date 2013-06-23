@@ -154,6 +154,9 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
 
         // protocolize the incoming request data
         $this->_protocolize();
+
+        // store URL (the base of all requests)
+        $this->url = strtok($_SERVER['REQUEST_URI'], '?');
     }
 
     /**
@@ -383,6 +386,16 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
         }
 
         return $request;
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
     }
 
     /**
