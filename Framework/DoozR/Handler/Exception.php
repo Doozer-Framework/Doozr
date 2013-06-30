@@ -107,16 +107,47 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
 
         if ($stack) {
             $elements = count($stack);
-
             $file = $stack[($elements>=1) ? ($elements - 1) : $elements]['file'];
             $line = $stack[($elements>=1) ? ($elements - 1) : $elements]['line'];
         }
 
-        // TODO: nice output formatted like in xdebug
-        pred($exception);
-        // dispatch exception to error_handler for further processing and! logging!
-        // return true - signal for exception was handled
-        //return DoozR_Handler_Error::handle($error, $exception, $file, $line);
+        echo '
+        <table width="100%" style="background-color: #333;border: 1px solid #666; font-family: Calibri, Candara, Segoe, Optima, Arial, sans-serif;">
+            <tr colspan="0" rowspan="0" style="color: #777; height:30px;">
+                <td width="25%"><h1>Exception</h1></td>
+                <td width="75%">&nbsp;</td>
+            </tr>
+            <tr colspan="0" rowspan="0" style="color: #777; height:30px;">
+                <th width="25%" align="left" valign="middle">Description</th>
+                <td width="75%" style="font-size: 1.5em; color:#fff;"><em>'.$exception->getMessage().'</em><br /></td>
+            </tr>
+            <tr colspan="0" rowspan="0" style="color: #777; height:30px;">
+                <th width="25%" align="left" valign="middle">File</th>
+                <td width="75%" style="color:#1C82D6;"><a style="color:#1C82D6;" href="file:///'.$exception->getFile().'" target="_blank">'.$exception->getFile().'</a></td>
+            </tr>
+            <tr colspan="0" rowspan="0" style="color: #777; height:30px;">
+                <th width="25%" align="left" valign="middle">Code</th>
+                <td width="75%" style="color: #DB14D5;">'.$exception->getCode().'</td>
+            </tr>
+            <tr colspan="0" rowspan="0" style="color: #777; height:30px;">
+                <th width="25%" align="left" valign="middle">Line</th>
+                <td width="75%" style="color: #FA7211;">'.$exception->getLine().'</td>
+            </tr>
+            <tr colspan="0" rowspan="0" style="color: #777; height:30px;">
+                <th width="25%" align="left" valign="middle">Memory consumed</th>
+                <td width="75%" style="color:#0CB08C;">'.(round(memory_get_peak_usage() / 1024 / 1024, 4)).' MB</td>
+            </tr>
+            <tr colspan="0" rowspan="0" style="color: #777;">
+                <th width="25%" align="left" valign="middle">Stacktrace</th>
+                <td width="75%" style="color: #fff;">'.$exception->getTraceAsString().'</td>
+            </tr>
+            <tr>
+                <td style="color: #222 !important; height:30px;">
+                    '.( ($exception->xdebug_message) ? $exception->xdebug_message : '' ).'
+                </td>
+            </tr>
+        </table>
+        ';
     }
 }
 

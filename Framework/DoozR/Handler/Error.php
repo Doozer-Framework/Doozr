@@ -111,15 +111,16 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         // get error type
         $errorType = self::getErrorType($number);
 
+        /*
         // construct message
-        $message = self::_formatMessage($errorType, $number, $message, $file, $line, $context);
+        $logMessage = self::_formatMessage($errorType, $number, $message, $file, $line, $context);
 
         // except silenced errors (@) but the will get always logged
         if (($number & error_reporting()) != $number) {
             // But we log that this happens in all cases - but not as an error
             // we log as simple log entry instead!
             $logger->log(
-                $message.' (IMPORTANT: This error was forwarded from Error-Handler to log by DoozR)'
+                $logMessage.' (IMPORTANT: This error was forwarded from Error-Handler to log by DoozR)'
             );
 
             // we must return TRUE here cause -> we didn't handled this error
@@ -129,17 +130,34 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         // ensure that logger is not the collecting logger -> if it is then inform directly!
         if ($logger->isCollecting()) {
             self::pre(
-                'DoozR Error:'."\n".$message
+                'DoozR Error:'."\n".$logMessage
             );
         } else {
             $logger->log(
-                $message,
+                $logMessage,
                 $errorType
             );
         }
+        */
+
+        // build  a exception object fake from error
+        $e          = new StdClass();
+        $e->message = $message;
+        $e->code    = $number;
+        $e->line    = $line;
+        $e->file    = $file;
+        $e->context = $context;
+
+        if ($error = error_get_last()) {
+            $lastError          = StdClass();
+            $lastError->type    = $error['type'];
+            $lastError->message = $error['message'];
+            $lastError->file    = $error['file'];
+            $lastError->line    = $error['line'];
+        }
 
         // transform to exception!
-        throw new Exception($message, $number, error_get_last());
+        throw new DoozR_Exception($e->message, $e->code);
 
         // we must return TRUE here cause -> we didn't handled this error
         return true;

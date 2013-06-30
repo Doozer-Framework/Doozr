@@ -18,6 +18,9 @@ require_once '../Framework/DoozR/Bootstrap.php';
 $DoozR = DoozR_Core::getInstance();
 
 
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
+
+
 /**
  * Show error handling example error is triggered but exception
  * is thrown and get catched afterwards
@@ -27,6 +30,7 @@ try {
     trigger_error('Aloha @ '.microtime(), E_USER_ERROR);
 
 } catch (Exception $e) {
-    pred($e->getTrace());
+    // throw a new DoozR Exception and look at the nice new exeption screen
+    throw new DoozR_Exception($e->getMessage(), $e->getCode(), $e);
 
 }
