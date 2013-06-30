@@ -142,6 +142,7 @@ class DoozR_Request_Api
 
         }
 
+        $count   = 0;
         $pattern = explode('/', trim($pattern));
         $url     = explode('/', $this->url);
 
@@ -153,6 +154,7 @@ class DoozR_Request_Api
 
         foreach ($pattern as $key => $partial) {
             $variable = preg_match('/{{(.*)}}/i', $partial, $result);
+            $count += $variable;
             if ($variable === 1 && isset($url[$key])) {
                 //$$result[1] = $url[$key];
                 $matrix[] = $url[$key];
@@ -160,6 +162,9 @@ class DoozR_Request_Api
         }
 
         if ($callback !== null) {
+            while (count($matrix) < $count) {
+                $matrix[] = null;
+            }
             return call_user_func_array($callback, $matrix);
 
         } else {

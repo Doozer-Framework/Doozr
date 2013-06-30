@@ -137,6 +137,10 @@ final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Inter
 
             // set data (can e.g. retrieved by controller through ->getData())
             $this->setData($data);
+        } else {
+            $data = json_decode('{"error": {"code": 1, "message": "Invalid resource: '.$resource[0].'"}}');
+            $this->setData($data);
+
         }
     }
 

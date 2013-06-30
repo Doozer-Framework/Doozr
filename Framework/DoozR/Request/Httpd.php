@@ -431,6 +431,32 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
     }
 
     /**
+     * Returns the url of the current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The url
+     * @access public
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Sets the url of the current request
+     *
+     * @param string $url The URL to set as active URL of current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The url
+     * @access public
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    /**
      * Cleans the input variable. This method removes tags with strip_tags and afterwards
      * it turns all non-safe characters to its htmlentities.
      *

@@ -388,11 +388,27 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
         return $request;
     }
 
+    /**
+     * Returns the url of the current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The url
+     * @access public
+     */
     public function getUrl()
     {
         return $this->url;
     }
 
+    /**
+     * Sets the url of the current request
+     *
+     * @param string $url The URL to set as active URL of current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The url
+     * @access public
+     */
     public function setUrl($url)
     {
         $this->url = $url;
