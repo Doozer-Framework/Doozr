@@ -84,10 +84,8 @@ class DoozR_Exception extends DoozR_Base_Exception
      * @param object  $previous An previos throw exception which should be repacked
      *
      * @return  void
-     * @access  public
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @access  public
      * @static
      */
     public function __construct($message = null, $code = 0, $previous = null)

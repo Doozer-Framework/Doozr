@@ -35,7 +35,7 @@ $api = DoozR_Loader_Serviceloader::load('rest');
  *       The goal is to be able to reroute while already
  *       running a route.
  */
-//pred($api);
+pred($api);
 
 
 /*
