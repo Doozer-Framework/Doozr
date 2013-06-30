@@ -10,13 +10,12 @@ This is an overview to DoozR's feature set.
 <h2>Services</h2>
 <a href="acl.php">ACL</a><br />
 <a href="compact.php">Compact</a><br />
-<a href="config.php">Configuration</a><br />
+<a href="configreader.php">Configreader</a><br />
 <a href="database.php">Database</a><br />
 <a href="debug.php">Debug</a><br />
 <a href="error.php">Error</a><br />
 <a href="form.php">Form</a><br />
 <a href="i18n.php">I18n</a><br />
-<a href="oauth2.php">OAuth2</a><br />
 <a href="registry.php">Registry</a><br />
 <a href="rest.php">REST</a><br />
 <a href="session.php">Session</a><br />
