@@ -85,11 +85,9 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * @param integer $code     The code of the exception
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
-     * @return  object instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {
@@ -113,11 +111,9 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * @param string  $file The exception-message
      * @param integer $code The error-code of the exception
      *
-     * @return  integer An unique error-code
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer An unique error-code
+     * @access protected
      */
     protected function generateUniqueCode($file, $code)
     {
@@ -138,11 +134,9 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      *
      * @param string $string The data as string
      *
-     * @return  string The calculated checksum
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The calculated checksum
+     * @access private
      */
     private function _getChecksum($string)
     {
@@ -163,16 +157,12 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      *
      * @param string $file The file to return nesting level for
      *
-     * @return  string The nesting level of file
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The nesting level of file
+     * @access private
      */
     private function _getFileNestingLevel($file)
     {
         return substr_count($file, DIRECTORY_SEPARATOR);
     }
 }
-
-?>

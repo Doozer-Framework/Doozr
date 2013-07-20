@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Exception Abtsract
+ * DoozR - Error - Exception
  *
- * DoozRBaseExceptionAbstract.class.php - Abstract Class for Base-Exception of the DoozR Framework
+ * Exception.php - Error Exception used for Exceptions which are forwarded
+ * from Error_Handler
  *
  * PHP versions 5
  *
@@ -43,8 +44,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Exception_Generic
+ * @package    DoozR_Error
+ * @subpackage DoozR_Error_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,17 +54,18 @@
  * @see        -
  * @since      -
  */
+
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 
 /**
- * DoozR Base Exception Abtsract
+ * DoozR - Error - Exception
  *
- * Abstract Class for Base-Exception of the DoozR Framework
+ * Error Exception used for Exceptions which are forwarded from Error_Handler
  *
  * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Exception_Generic
+ * @package    DoozR_Error
+ * @subpackage DoozR_Error_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$ <doozr@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
@@ -71,76 +73,7 @@
  * @see        -
  * @since      -
  */
-abstract class DoozR_Base_Exception_Generic_Abstract extends Exception
+final class DoozR_Error_Exception extends DoozR_Exception
 {
-    /**
-     * holds the exception-message
-     *
-     * @var string
-     * @access protected
-     */
-    protected $message = 'DoozR -> unknown exception';
 
-    /**
-     * holds the exception error-code/nr/#
-     *
-     * @var integer
-     * @access protected
-     */
-    protected $code = 0;
-
-    /**
-     * filename where the exception was initially thrown
-     *
-     * @var string
-     * @access protected
-     */
-    protected $file;
-
-    /**
-     * line of the file where the exception was initially thrown
-     *
-     * @var integer
-     * @access protected
-     */
-    protected $line;
-
-
-    /**
-     * constructs the class
-     *
-     * constructor builds the class
-     *
-     * @param string  $message  The exception-message
-     * @param integer $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
-     * @access public
-     */
-    public function __construct($message = null, $code = 0, $previous = null)
-    {
-        // if no message set set default message!
-        if (!$message) {
-            throw new $this('Exception => "'.get_class($this).'" without message!');
-        }
-
-        // call parents constructor
-        parent::__construct($message, $code, $previous);
-    }
-
-    /**
-     * returns a string representation of this class content
-     *
-     * This method is intend to return a string representation of this class content
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string A string representation of this class content
-     * @access public
-     */
-    public function __toString()
-    {
-        return get_class($this)." '{$this->message}' in {$this->file}({$this->line})\n"."{$this->getTraceAsString()}";
-    }
 }

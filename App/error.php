@@ -18,9 +18,6 @@ require_once '../Framework/DoozR/Bootstrap.php';
 $DoozR = DoozR_Core::getInstance();
 
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
-
-
 /**
  * Show error handling example error is triggered but exception
  * is thrown and get catched afterwards

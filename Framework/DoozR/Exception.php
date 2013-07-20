@@ -75,6 +75,63 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
 class DoozR_Exception extends DoozR_Base_Exception
 {
     /**
+     * The type of the exception (is in 99% the classname)
+     *
+     * @var string
+     * @access public
+     */
+    public $type;
+
+    /**
+     * The message of the exception
+     *
+     * @var string
+     * @access public
+     */
+    public $message;
+
+    /**
+     * The filename in which the exception was thrown
+     *
+     * @var string
+     * @access public
+     */
+    public $file;
+
+    /**
+     * The line where the exception was thrown
+     *
+     * @var integer
+     * @access public
+     */
+    public $line;
+
+    /**
+     * The code of the exception
+     *
+     * @var integer
+     * @access public
+     */
+    public $code;
+
+    /**
+     * The last exception if the exception was forwarded
+     *
+     * @var Exception
+     * @access public
+     */
+    public $previous;
+
+    /**
+     * The arguments passed to the last executed method
+     *
+     * @var array
+     * @access public
+     */
+    public $arguments;
+
+
+    /**
      * constructor
      *
      * This method is intend to act as constructor.
@@ -93,5 +150,3 @@ class DoozR_Exception extends DoozR_Base_Exception
         parent::__construct($message, $code, $previous);
     }
 }
-
-?>

@@ -105,59 +105,34 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      */
     public static function handle($number = '', $message = '', $file = '', $line = 0, $context = array())
     {
-        // get all required foreign instances
-        $logger = DoozR_Logger::getInstance();
+        // get all required foreign instanceso
+        //$logger = DoozR_Logger::getInstance();
 
         // get error type
         $errorType = self::getErrorType($number);
 
+        /**
+         * pack error into an exception so that the error can be forwarded
+         * to exception handler without trickin PHP's default behavior
+         */
+        $error          = new DoozR_Exception($message, $number);
+        $error->type    = $errorType;
+        $error->message = $message;
+        $error->file    = $file;
+        $error->line    = $line;
+
+        // overwrite values above with real error values
         /*
-        // construct message
-        $logMessage = self::_formatMessage($errorType, $number, $message, $file, $line, $context);
-
-        // except silenced errors (@) but the will get always logged
-        if (($number & error_reporting()) != $number) {
-            // But we log that this happens in all cases - but not as an error
-            // we log as simple log entry instead!
-            $logger->log(
-                $logMessage.' (IMPORTANT: This error was forwarded from Error-Handler to log by DoozR)'
-            );
-
-            // we must return TRUE here cause -> we didn't handled this error
-            return true;
-        }
-
-        // ensure that logger is not the collecting logger -> if it is then inform directly!
-        if ($logger->isCollecting()) {
-            self::pre(
-                'DoozR Error:'."\n".$logMessage
-            );
-        } else {
-            $logger->log(
-                $logMessage,
-                $errorType
-            );
+        if ($error = error_get_last()) {
+            $exception->type    = $error['type'];
+            $exception->message = $error['message'];
+            $exception->file    = $error['file'];
+            $exception->line    = $error['line'];
         }
         */
 
-        // build  a exception object fake from error
-        $e          = new StdClass();
-        $e->message = $message;
-        $e->code    = $number;
-        $e->line    = $line;
-        $e->file    = $file;
-        $e->context = $context;
-
-        if ($error = error_get_last()) {
-            $lastError          = StdClass();
-            $lastError->type    = $error['type'];
-            $lastError->message = $error['message'];
-            $lastError->file    = $error['file'];
-            $lastError->line    = $error['line'];
-        }
-
         // transform to exception!
-        throw new DoozR_Exception($e->message, $e->code);
+        throw new DoozR_Error_Exception($message, $number, $error);
 
         // we must return TRUE here cause -> we didn't handled this error
         return true;
@@ -348,5 +323,3 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         return 'UNCLASSIFIED';
     }
 }
-
-?>
