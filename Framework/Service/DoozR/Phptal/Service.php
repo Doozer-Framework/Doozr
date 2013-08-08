@@ -73,6 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Phptal/Service/Lib/PHPTAL.php';
  * @see        -
  * @since      -
  * @DoozRType  Multiple
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 final class DoozR_Phptal_Service extends PHPTAL
 {
@@ -143,5 +144,3 @@ final class DoozR_Phptal_Service extends PHPTAL
         return $result;
     }
 }
-
-?>

@@ -73,7 +73,8 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
- * @DoozRType  Multi
+ * @DoozRType  Multiple
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade
 {
@@ -95,5 +96,3 @@ class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade
         );
     }
 }
-
-?>

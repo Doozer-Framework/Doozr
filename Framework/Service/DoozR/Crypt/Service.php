@@ -81,6 +81,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple/Facade.php';
  * @see        -
  * @since      -
  * @DoozRType  Multiple
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
 {
@@ -341,5 +342,3 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
         return $data;
     }
 }
-
-?>

@@ -75,6 +75,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Validate.php';
  * @see        -
  * @since      -
  * @DoozRType  Singleton
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 final class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade
 {
@@ -2759,5 +2760,3 @@ final class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade
      * \\ END - HELPER METHODS
      ******************************************************************************************************************/
 }
-
-?>

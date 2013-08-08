@@ -74,6 +74,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Api.php';
  * @since      -
  * @throws     DoozR_Rest_Service_Exception
  * @DoozRType  Multiple
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
 {

@@ -73,6 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Oauth2/Service/Lib/Oauth2/Autolo
  * @see        -
  * @since      -
  * @DoozRType  Multiple
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 final class DoozR_Oauth2_Service extends DoozR_Base_Service_Multiple_Facade
 {

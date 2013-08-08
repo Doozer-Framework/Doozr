@@ -74,6 +74,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Serviceloader.php';
  * @see        -
  * @since      -
  * @DoozRType  Singleton
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 class DoozR_Session_Service extends DoozR_Base_Service_Singleton
 {
@@ -1700,5 +1701,3 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * \\ END PRIVATE METHODS
      ******************************************************************************************************************/
 }
-
-?>

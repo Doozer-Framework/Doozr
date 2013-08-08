@@ -75,6 +75,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Facade.php';
  * @see        -
  * @since      -
  * @DoozRType  Multiple
+ *
  */
 final class DoozR_Compact_Service extends Minify
 {
@@ -92,5 +93,3 @@ final class DoozR_Compact_Service extends Minify
         DoozR_Loader_Autoloader_Spl_Facade::attach($autoloader);
     }
 }
-
-?>

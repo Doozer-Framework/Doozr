@@ -56,5 +56,3 @@ class Clickalicious_Datetime_Service extends DoozR_Loader_Serviceloader_Multiple
     }
 
 }
-
-?>

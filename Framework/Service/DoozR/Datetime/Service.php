@@ -73,6 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Interface.php';
  * @see        -
  * @since      -
  * @DoozRType  Multiple
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
 {
@@ -1002,5 +1003,3 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
         );
     }
 }
-
-?>

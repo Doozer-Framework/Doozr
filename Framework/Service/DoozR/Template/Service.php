@@ -77,6 +77,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @see        -
  * @since      -
  * @DoozRType  Singleton
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 final class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
 {
@@ -282,5 +283,3 @@ final class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
         return $result;
     }
 }
-
-?>

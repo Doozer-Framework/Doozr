@@ -75,6 +75,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @see        -
  * @since      -
  * @DoozRType  Singleton
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
 {
@@ -1501,5 +1502,3 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * \\ END MAGIC METHODS
      ******************************************************************************************************************/
 }
-
-?>

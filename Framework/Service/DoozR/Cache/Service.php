@@ -77,6 +77,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Exception.php';
  * @since      -
  * @throws     DoozR_Cache_Service_Exception
  * @DoozRType  Multiple
+ * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_Psr_Cache_Interface
 {
