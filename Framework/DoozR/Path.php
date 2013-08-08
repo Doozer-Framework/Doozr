@@ -606,5 +606,3 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         return self::_correctPath(self::$_path['module'].$namespace.self::$_separator.$service.self::$_separator);
     }
 }
-
-?>

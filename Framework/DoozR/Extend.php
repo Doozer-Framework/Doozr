@@ -54,7 +54,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 27cf692fcd65060b8db90fd03e0b9aaec17c8c6f $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -807,5 +807,3 @@ if (DOOZR_WIN) {
 /***********************************************************************************************************************
  * \\ END LINUX EMULATION IF WE RUN ON WINDOWS OS'
  **********************************************************************************************************************/
-
-?>

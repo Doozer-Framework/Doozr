@@ -158,5 +158,3 @@ class DoozR_Locale extends DoozR_Base_Class_Singleton
         );
     }
 }
-
-?>

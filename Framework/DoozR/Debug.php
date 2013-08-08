@@ -218,5 +218,3 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         return true;
     }
 }
-
-?>

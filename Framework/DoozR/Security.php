@@ -144,5 +144,3 @@ class DoozR_Security extends DoozR_Base_Class_Singleton
         return substr($key, (strlen($key) - $bytes), $bytes);
     }
 }
-
-?>

@@ -520,5 +520,3 @@ final class DoozR_Logger extends DoozR_Logger_Abstract implements DoozR_Logger_I
         $this->clear();
     }
 }
-
-?>

@@ -232,5 +232,3 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
         ob_start($handler);
     }
 }
-
-?>

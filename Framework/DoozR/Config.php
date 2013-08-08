@@ -162,5 +162,3 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
         }
     }
 }
-
-?>
