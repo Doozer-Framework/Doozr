@@ -222,11 +222,17 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
     {
         self::$_registry = DoozR_Registry::getInstance();
 
+        $requestAsString = '<n.a.>';
+        $requestMethod   = '<n.a.>';
 
+        if (self::$_registry->front !== null) {
+            $requestAsString = self::$_registry->front->getRequest()->getRequestAsString();
+            $requestMethod   = self::$_registry->front->getRequest()->getMethod();
+        }
 
         $headers = array(
             'REQUEST-URI' => $_SERVER['REQUEST_URI'],
-            'REQUEST-DATA' => self::$_registry->front->getRequest()->getRequestAsString()
+            'REQUEST-DATA' => $requestAsString
         );
 
         // iterate over $_SERVER to parse header from there
@@ -248,13 +254,11 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         }
 
         $data = array(
-            'request-type'     => self::$_registry->front->getRequest()->getMethod(),
+            'request-type'     => $requestMethod,
             'request-elements' => implode('', $collection)
         );
 
         $request = self::parseTemplate(self::$_templates['request'], $data);
-
-
 
 
         // extract unpack real exception if required
@@ -263,7 +267,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         // put the type into the exception object
         $exception = self::enrichException($exception);
 
-        if ($exception->arguments) {
+        if (isset($exception->arguments)) {
             // get HTML of arguments
             $argumentsHtml = self::getArgumentHtml($exception->arguments, $exception->signature);
 
@@ -271,8 +275,10 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             $argumentsHtml = '';
         }
 
+        $trace = $exception->getTrace();
+
         // get callflow HTML
-        $callflowHtml = self::getCallflowHtml($exception->getTrace());
+        $callflowHtml = self::getCallflowHtml($trace);
 
         // combine the HTML from callflow with exception box html
         $data = array(
@@ -349,9 +355,15 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         // extract details of execution from callflow and enrich the exception so it can be handled better
         $profiled = self::extractDetails($exception);
 
+        // get accessible parts/properties
+        $accessible = get_object_vars($exception);
+
         // prepare the details by adding not already retrieved values right here
         foreach ($profiled as $element => $value) {
-            if (!isset($exception->{$element}) || ($exception->{$element} === '' && $value != '')) {
+            if (
+                (!isset($exception->{$element}) || ($exception->{$element} === '' && $value != '')) &&
+                in_array($element, $accessible)
+            ) {
                 $exception->{$element} = $value;
             }
         }
@@ -366,7 +378,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         }
 
         // is some cases (small software) there is no function/method invoked
-        if (isset($exception->function)) {
+        if (isset($exception->function) && $exception->getFile() !== null) {
             // enrich with signature and arguments ...
             $exception->signature = self::extractSignature($exception->getFile(), $exception->function);
 
@@ -407,17 +419,34 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      */
     protected static function getFilenameFromCallflowElement(array $element)
     {
-        if (self::isDoozRErrorException($element['class'], $element['function'])) {
+        $class  = isset($element['class']) ? $element['class'] : null;
+        $method = isset($element['function']) ? $element['function'] : null;
+
+        if (self::isDoozRErrorException($class, $method)) {
             $filename = realpath_ext(
                 realpath(
                     DOOZR_DOCUMENT_ROOT.str_replace('_', DIRECTORY_SEPARATOR, self::DOOZR_ERROR_HANDLER).'.php'
                 )
             );
         } else {
-            $filename = $element['file'];
+            $filename = isset($element['file']) ? $element['file'] : null;
         }
 
         return $filename;
+    }
+
+    protected static function getLinenumberFromCallflowElement(array $element)
+    {
+        $class  = isset($element['class']) ? $element['class'] : null;
+        $method = isset($element['function']) ? $element['function'] : null;
+
+        if (self::isDoozRErrorException($class, $method)) {
+            $linenumber = 106;
+        } else {
+            $linenumber = null;
+        }
+
+        return $linenumber;
     }
 
     /**
@@ -432,7 +461,10 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      */
     protected static function getFunctionFromCallflowElement(array $element)
     {
-        if (self::isDoozRErrorException($element['class'], $element['function'])) {
+        $class  = isset($element['class']) ? $element['class'] : null;
+        $method = isset($element['function']) ? $element['function'] : null;
+
+        if (self::isDoozRErrorException($class, $method)) {
             $function = self::DOOZR_ERROR_METHOD;
         } else {
             $function = $element['function'];
@@ -479,21 +511,27 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         for ($i = 1; $i < $countCallflowElements; ++$i) {
 
             // get filename and function from callflow element (+ default)
-            $filename  = self::getFilenameFromCallflowElement($callflowElements[$i]);
-            $function  = self::getFunctionFromCallflowElement($callflowElements[$i]);
-            $classname = self::extractClassFromArray($callflowElements[$i]);
+            $filename   = self::getFilenameFromCallflowElement($callflowElements[$i]);
+            $linenumber = self::getLinenumberFromCallflowElement($callflowElements[$i]);
+            $function   = self::getFunctionFromCallflowElement($callflowElements[$i]);
+            $classname  = self::extractClassFromArray($callflowElements[$i]);
 
-            // get HTML for arguments
-            $argumentsHtml = self::getArgumentHtml(
-                $callflowElements[$i]['args'],
-                self::extractSignature($filename, $function)
-            );
+            if ($filename !== null) {
+                // get HTML for arguments
+                $argumentsHtml = self::getArgumentHtml(
+                    $callflowElements[$i]['args'],
+                    self::extractSignature($filename, $function)
+                );
+            } else {
+                $argumentsHtml = '';
+            }
 
-            // make all complex datatypes printable (to string)
+            // make call complex datatypes printable (to string)
             $callflowElements[$i] = self::convertArrayOfPhpTypesToStrings($callflowElements[$i]);
 
             // merge in the data required to fully complete the template
             $callflowElements[$i] = array_merge($callflowElements[$i], array(
+                    'file'           => $filename,
                     'message'        => '',
                     'title'          => '↕ Callflow (e.g. executed elements)',
                     'class'          => $classname,
@@ -503,6 +541,10 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
                     'callflow'       => ''
                 )
             );
+
+            if ($linenumber !== null) {
+                $callflowElements[$i]['line'] = $linenumber;
+            }
 
             // parse template and put result into collection
             $callflowElementsHtml[] = self::getExceptionBoxHtml($callflowElements[$i]);
@@ -537,12 +579,15 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         // get arguments
         for ($i = 0; $i < $countArguments; ++$i) {
 
+            // check if safe for recursion
+            $safe = self::isSafe($data[$i]);
+
             $templateVars = array(
                 'argument-number'     => $i+1,
-                'argument-size-bytes' => self::getSize($data[$i]),
+                'argument-size-bytes' => ($safe) ? self::getSize($data[$i]) : '? *recursion*',
                 'argument-datatype'   => gettype($data[$i]),
                 'argument-name'       => (isset($signature['arguments'][$i])) ? $signature['arguments'][$i] : '???',
-                'argument-value'      => self::realValue($data[$i], gettype($data[$i]))
+                'argument-value'      => ($safe) ? self::realValue($data[$i], gettype($data[$i])) : '?&nbsp;'
             );
 
             $argumentsHtml .= self::parseTemplate(self::$_templates['arguments'], $templateVars);
@@ -556,6 +601,51 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         // return parsed content
         return self::parseTemplate(self::$_templates['argument-table'], $templateVars);
     }
+
+
+    protected static function isSafe($variable)
+    {
+        $result = true;
+        if (is_array($variable)) { // || is_object($variable)) {
+            $result = !self::isRecursiveArray($variable);
+        }
+
+        return $result;
+    }
+
+    protected static function removeLastElementIfSame(array & $array, $reference) {
+        if(end($array) === $reference) {
+            unset($array[key($array)]);
+        }
+    }
+
+    protected static function isRecursiveArrayIteration(array & $array, $reference) {
+        $last_element   = end($array);
+        if($reference === $last_element) {
+            return true;
+        }
+        $array[]    = $reference;
+
+        foreach($array as &$element) {
+            if(is_array($element)) {
+                if(self::isRecursiveArrayIteration($element, $reference)) {
+                    self::removeLastElementIfSame($array, $reference);
+                    return true;
+                }
+            }
+        }
+
+        self::removeLastElementIfSame($array, $reference);
+
+        return false;
+    }
+
+
+    protected static function isRecursiveArray(array $array) {
+        $some_reference = new stdclass();
+        return self::isRecursiveArrayIteration($array, $some_reference);
+    }
+
 
     /**
      * Returns the HTML of the memory bar
@@ -608,7 +698,11 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
     protected static function convertArrayOfPhpTypesToStrings(array $elements)
     {
         foreach ($elements as $element => $value) {
-            $elements[$element] = self::realValue($value, gettype($value));
+            if (self::isSafe($value)) {
+                $elements[$element] = self::realValue($value, gettype($value));
+            } else {
+                $elements[$element] = '? ('.gettype($value).')';
+            }
         }
 
         return $elements;
@@ -660,7 +754,8 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
 
             case 'array':
             case 'object':
-                $value = var_export($value, true);
+                //$value = var_export($value, true);
+                $value = '???';
             break;
 
             default:
@@ -684,7 +779,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      */
     protected static function extractSignature($file, $function)
     {
-        //
+        // @TODO: check if file exists before we try to get it contents
         $source    = file_get_contents($file);
         $arguments = array();
 
