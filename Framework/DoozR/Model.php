@@ -156,5 +156,3 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
         $this->disconnect();
     }
 }
-
-?>

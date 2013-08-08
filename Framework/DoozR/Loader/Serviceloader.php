@@ -97,6 +97,33 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      */
     private static $_loaded = array();
 
+    /**
+     * @var DoozR_Di_Map_Annotation
+     */
+    private static $_map;
+    /**
+     * @var DoozR_Di_Container
+     */
+    private static $_container;
+
+
+
+    protected function initDependencyInjection()
+    {
+        /*
+        // get required dependency container for annotations!
+        require_once DI_PATH_LIB_DI.'Map/Annotation.php';
+        require_once DI_PATH_LIB_DI.'Parser/Annotation.php';
+        require_once DI_PATH_LIB_DI.'Dependency.php';
+
+        $collection       = new DoozR_Di_Collection();
+        $parser           = new DoozR_Di_Parser_Annotation();
+        $dependency       = new DoozR_Di_Dependency();
+
+        self::$_map       = new DoozR_Di_Map_Annotation($collection, $parser, $dependency);
+        self::$_container = DoozR_Di_Container::getInstance(__CLASS__);
+        */
+    }
 
     /**
      * This method is intend to load services used by DoozR-Core, Applications based on DoozR ...
@@ -124,10 +151,26 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
 
         // allready instanciated?
         if (!self::$instance) {
+            // create instance like we would by calling getInstance()
             self::getInstance();
 
             // get the singleton instance of registry - containing important object instances
+            // every module instance is also stored in registry for faster access
             self::$_registry = DoozR_Registry::getInstance();
+
+            // get DI
+            // get required dependency container for annotations!
+            require_once DI_PATH_LIB_DI.'Map/Annotation.php';
+            require_once DI_PATH_LIB_DI.'Parser/Annotation.php';
+            require_once DI_PATH_LIB_DI.'Dependency.php';
+
+            $collection       = new DoozR_Di_Collection();
+            $parser           = new DoozR_Di_Parser_Annotation();
+            $dependency       = new DoozR_Di_Dependency();
+
+            self::$_map       = new DoozR_Di_Map_Annotation($collection, $parser, $dependency);
+            self::$_container = DoozR_Di_Container::getInstance(__CLASS__);
+            self::$_container->setFactory(new DoozR_Di_Factory());
         }
 
         // correct service name
@@ -169,7 +212,49 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
             }
         }
 
+        /**
+         * @Todo: This here is a hard part to integrate Di => we should parse existing
+         * dependency map of the service if exist
+         */
+        //generate map from annotations in source of class "Foo"
+        self::$_map->generate($classname);
+
+        // define dependencies by it's identifier
+        self::$_map->wire(
+            DoozR_Di_Container::MODE_STATIC,
+            array(
+                'DoozR_Registry' => self::$_registry
+            )
+        );
+
+        self::$_container->setMap(self::$_map);
+
+        $instance = self::$_container->build($classname);
+
+
+
+        // update map => intentionally this method is used for setting a new map but it
+        // does also work for our usecase ... to inject an updated map on each call
+        if (isset(self::$_registry->{$classname})) {
+            $current = self::$_registry->{$classname};
+
+            if (is_array($current)) {
+                $current[] = $instance;
+            } else {
+                $current = array($instance);
+            }
+
+            self::$_registry->{$classname} = $current;
+
+        } else {
+            self::$_registry->{$classname} = $instance;
+        }
+
+        return $instance;
+
+
         // get correct type if no type explicit given
+        /*
         if (!isset($properties['type']) || $properties['type'] != 'singleton') {
 
             // return fresh (multi) instance
@@ -179,7 +264,6 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
                 null,
                 $reflector
             );
-
         } else {
             // custom instanciate method given?
             if (!isset($properties['call'])) {
@@ -193,8 +277,8 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
                 $properties['call'],
                 null
             );
-
         }
+        */
     }
 
     /**
@@ -208,17 +292,29 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      * @access private
      * @static
      */
-    private static function _getService($service, $namespace)
+    private static function _getService($service, $namespace = 'DoozR')
     {
         if (!isset(self::$_loaded[$service.$namespace])) {
-            $file = DOOZR_DOCUMENT_ROOT.'Service'.DIRECTORY_SEPARATOR.$namespace.DIRECTORY_SEPARATOR.$service.
-                    DIRECTORY_SEPARATOR.'Service.php';
-            include_once $file;
+            include_once self::_getPathAndFile($service, $namespace);
             self::$_loaded[$service.$namespace] = true;
         }
 
         // success
         return true;
+    }
+
+
+    private static function _getPathAndFile($service, $namespace = 'DoozR')
+    {
+        return self::_getPath($service, $namespace).'Service.php';
+    }
+
+    private static function _getPath($service, $namespace = 'DoozR')
+    {
+        return DOOZR_DOCUMENT_ROOT.
+            'Service'.DIRECTORY_SEPARATOR.
+            $namespace.DIRECTORY_SEPARATOR.
+            $service.DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -261,5 +357,3 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
         return $properties;
     }
 }
-
-?>

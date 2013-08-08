@@ -163,6 +163,24 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static $_registry;
 
     /**
+     * Instance of Dependeny-Injection map
+     *
+     * @var DoozR_Di_Map_Static
+     * @access private
+     * @static
+     */
+    private static $_map;
+
+    /**
+     * The dependency injection container
+     *
+     * @var DoozR_Di_Container
+     * @access private
+     * @static
+     */
+    private static $_container;
+
+    /**
      * Instance of DoozR_Front
      *
      * @var DoozR_Front
@@ -297,6 +315,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
         // check if rerun is given (e.g. to support unit-testing on each run with fresh bootstrap!)
         // @see: http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
         if ($rerun) {
+            // prepare container
+            self::_initDiContainer();
+
             // init registry
             self::_initRegistry();
 
@@ -342,6 +363,44 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     }
 
     /**
+     * initialize the Dependency-Injection container and load the map
+     * for wiring from a static JSON-representation.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
+     * @static
+     */
+    private static function _initDiContainer()
+    {
+        // simple absolute path bootstrapping for better performance
+        require_once DOOZR_DOCUMENT_ROOT.'DoozR/Di/Bootstrap.php';
+
+        // Required classes (files) for static demonstration #3
+        require_once DI_PATH_LIB_DI.'Collection.php';
+        require_once DI_PATH_LIB_DI.'Importer/Json.php';
+        require_once DI_PATH_LIB_DI.'Map/Static.php';
+        require_once DI_PATH_LIB_DI.'Factory.php';
+        require_once DI_PATH_LIB_DI.'Container.php';
+
+        /**
+         * create instances of required classes
+         * create instance of Di_Map_Annotation and pass required classes as arguments to constructor
+         * The Di-Map builder requires two objects Collection + Importer
+         */
+        $collection = new DoozR_Di_Collection();
+        $importer   = new DoozR_Di_Importer_Json();
+        self::$_map = new DoozR_Di_Map_Static($collection, $importer);
+
+        // generate map from static JSON map of DoozR
+        self::$_map->generate(DOOZR_DOCUMENT_ROOT.'Data/Private/Config/.dependencies');
+
+        // create
+        self::$_container = DoozR_Di_Container::getInstance();
+        self::$_container->setFactory(new DoozR_Di_Factory());
+    }
+
+    /**
      * This method is intend to initialize the registry of the DoozR Framework. The registry itself
      * is intend to store the instances mainly used by core classes like DoozR_Path, DoozR_Config,
      * DoozR_Logger and this instances are always accessible by its name after the underscore (_ - written lowercase)
@@ -356,6 +415,12 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static function _initRegistry()
     {
         self::$_registry = DoozR_Registry::getInstance();
+
+        /**
+         * join => DI-stuff
+         */
+        self::$_registry->container = self::$_container;
+        self::$_registry->map       = self::$_map;
     }
 
     /**
@@ -408,13 +473,20 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      */
     private static function _initConfig($runtimeConfiguration)
     {
-        // first get master config
-        self::$_config = DoozR_Config::getInstance(
-            self::$_path,
-            self::$_logger,
-            self::DEFAULT_CONFIG_CONTAINER,
-            true
+        // add required dependencies
+        self::$_map->wire(
+            DoozR_Di_Container::MODE_STATIC,
+            array(
+                'DoozR_Path'   => self::$_path,
+                'DoozR_Logger' => self::$_logger
+            )
         );
+
+        // store map with fresh instances
+        self::$_container->setMap(self::$_map);
+
+        // get config reader
+        self::$_config = self::$_container->build('DoozR_Config', array(self::DEFAULT_CONFIG_CONTAINER, true));
 
         // read config from: DoozR
         self::$_config->read(
@@ -487,7 +559,20 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      */
     private static function _initEncoding()
     {
-        self::$_encoding = DoozR_Encoding::getInstance(self::$_config, self::$_logger);
+        // define dependencies by it's identifier
+        self::$_map->wire(
+            DoozR_Di_Container::MODE_STATIC,
+            array(
+                'DoozR_Config' => self::$_config,
+                'DoozR_Logger' => self::$_logger
+            )
+        );
+
+        // update map => intentionally this method is used for setting a new map but it
+        // does also work for our usecase ... to inject an updated map on each call
+        self::$_container->setMap(self::$_map);
+
+        self::$_encoding = self::$_container->build('DoozR_Encoding');
 
         // setup + store encoding in registry
         self::$_registry->encoding = self::$_encoding;
@@ -504,7 +589,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      */
     private static function _initLocale()
     {
-        self::$_locale = DoozR_Locale::getInstance(self::$_config, self::$_logger);
+        self::$_locale = self::$_container->build('DoozR_Locale');
 
         // setup + store locale in registry
         self::$_registry->locale = self::$_locale;
@@ -524,7 +609,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static function _initDebug()
     {
         // get debug manager
-        self::$_debug = DoozR_Debug::getInstance(self::$_logger, self::$_config->debug->enabled());
+        self::$_debug = self::$_container->build('DoozR_Debug', array(self::$_config->debug->enabled()));
 
         // store in registry
         self::$_registry->debug = self::$_debug;
@@ -542,7 +627,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static function _initSecurity()
     {
         // get security manager
-        self::$_security = DoozR_Security::getInstance(self::$_config, self::$_logger);
+        self::$_security = self::$_container->build('DoozR_Security');
 
         // store in registry
         self::$_registry->security = self::$_security;
@@ -555,11 +640,12 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
+     * @static
      */
     private static function _initFrontController()
     {
         // get instance of front controller
-        self::$_front = DoozR_Controller_Front::getInstance(self::$_config, self::$_logger);
+        self::$_front = self::$_container->build('DoozR_Controller_Front');
 
         // store in registry
         self::$_registry->front = self::$_front;
@@ -578,7 +664,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     private static function _initBackController()
     {
         // get instance of back controller
-        self::$_back = DoozR_Controller_Back::getInstance(self::$_config, self::$_logger);
+        self::$_back = self::$_container->build('DoozR_Controller_Back');
 
         // store in registry
         self::$_registry->back = self::$_back;
@@ -605,8 +691,19 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
             'docroot'   => self::$_config->database->docroot()
         );
 
+        // define dependencies by it's identifier
+        self::$_map->wire(
+            DoozR_Di_Container::MODE_STATIC,
+            array(
+                'DoozR_Path' => self::$_path
+            )
+        );
+
+        // update existing map with newly added dependencies
+        self::$_container->setMap(self::$_map);
+
         // get instance of model (is decorator!)
-        self::$_model = DoozR_Model::getInstance($decoratorConfig, self::$_path, self::$_config, self::$_logger);
+        self::$_model = self::$_container->build('DoozR_Model', array($decoratorConfig));
 
         // store in registry
         self::$_registry->model = self::$_model;
@@ -767,6 +864,19 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
         }
     }
 
+    /**
+     * Returns the registry of the current execution
+     * prefilled with all the base services of DoozR
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Registry
+     * @access public
+     */
+    public function getRregistry()
+    {
+        return self::$_registry;
+    }
+
     /*******************************************************************************************************************
      * \\ END PUBLIC API
      ******************************************************************************************************************/
@@ -780,21 +890,21 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      */
     public function __destruct()
     {
-        // log request serving time
-        self::$_logger->log(
-            'Request cycle completed in: '.self::_getDateTime()->getMicrotimeDiff(self::$starttime).' seconds'
-        );
+        // log request serving time -> but only if logger available!
+        if (self::$_logger) {
+            self::$_logger->log(
+                'Request cycle completed in: '.self::_getDateTime()->getMicrotimeDiff(self::$starttime).' seconds'
+            );
 
-        $memoryUsage = number_format(round(memory_get_peak_usage()/1024/1024, 2), 2);
+            $memoryUsage = number_format(round(memory_get_peak_usage()/1024/1024, 2), 2);
 
-        // log memory usage
-        self::$_logger->log(
-            'Total consumed memory: '.$memoryUsage.' MB'
-        );
+            // log memory usage
+            self::$_logger->log(
+                'Total consumed memory: '.$memoryUsage.' MB'
+            );
+        }
 
         // save session
         session_write_close();
     }
 }
-
-?>

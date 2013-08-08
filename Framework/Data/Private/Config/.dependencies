@@ -1,0 +1,189 @@
+{
+    "map": [
+        {
+            "DoozR_Encoding": {
+                "constructor": "getInstance",
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Config",
+                        "classname": "DoozR_Config",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Logger",
+                        "classname": "DoozR_Logger",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Debug": {
+                "constructor": "getInstance",
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Logger",
+                        "classname": "DoozR_Logger",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Locale": {
+                "constructor": "getInstance",
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Config",
+                        "classname": "DoozR_Config",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Logger",
+                        "classname": "DoozR_Logger",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Security": {
+                "constructor": "getInstance",
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Config",
+                        "classname": "DoozR_Config",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Logger",
+                        "classname": "DoozR_Logger",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Controller_Back": {
+                "constructor": "getInstance",
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Config",
+                        "classname": "DoozR_Config",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Logger",
+                        "classname": "DoozR_Logger",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Config": {
+                "constructor": "getInstance",
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Path",
+                        "classname": "DoozR_Path",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Logger",
+                        "classname": "DoozR_Logger",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Model": {
+                "constructor": "getInstance",
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Path",
+                        "classname": "DoozR_Path",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor",
+                            "position": 2
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Config",
+                        "classname": "DoozR_Config",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor",
+                            "position": 3
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Logger",
+                        "classname": "DoozR_Logger",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor",
+                            "position": 4
+                        }
+                    }
+                ]
+            },
+            "DoozR_Controller_Front": {
+                "constructor": "getInstance",
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Config",
+                        "classname": "DoozR_Config",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Logger",
+                        "classname": "DoozR_Logger",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "Bar": {
+                "dependencies": [
+                    {
+                        "identifier": "data",
+                        "classname": "Foo",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
