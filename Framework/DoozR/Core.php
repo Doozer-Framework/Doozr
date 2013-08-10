@@ -70,6 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Security.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Controller/Front.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Controller/Back.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Model.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Parameter.php';
 
 /**
  * DoozR - Core
@@ -419,8 +420,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
         /**
          * join => DI-stuff
          */
-        self::$_registry->container = self::$_container;
-        self::$_registry->map       = self::$_map;
+        self::$_registry->container        = self::$_container;
+        self::$_registry->map              = self::$_map;
+        self::$_registry->requestParameter = new DoozR_Request_Parameter();
     }
 
     /**
