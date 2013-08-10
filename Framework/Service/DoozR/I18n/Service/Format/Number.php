@@ -133,5 +133,3 @@ class DoozR_I18n_Service_Format_Number extends DoozR_I18n_Service_Base_Format
      * \\ END PUBLIC INTERFACES
      ******************************************************************************************************************/
 }
-
-?>

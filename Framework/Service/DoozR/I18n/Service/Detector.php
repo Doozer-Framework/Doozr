@@ -854,5 +854,3 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      ******************************************************************************************************************/
 }
-
-?>

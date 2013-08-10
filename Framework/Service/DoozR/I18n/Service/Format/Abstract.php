@@ -224,5 +224,3 @@ abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
      * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      ******************************************************************************************************************/
 }
-
-?>

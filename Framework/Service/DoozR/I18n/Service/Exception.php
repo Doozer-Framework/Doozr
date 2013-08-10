@@ -100,5 +100,3 @@ class DoozR_I18n_Service_Exception extends DoozR_Exception
         parent::__construct($message, $code, $previous);
     }
 }
-
-?>

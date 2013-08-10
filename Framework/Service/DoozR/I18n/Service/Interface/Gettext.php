@@ -284,5 +284,3 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      ******************************************************************************************************************/
 }
-
-?>

@@ -717,5 +717,3 @@ class DoozR_I18n_Service_Format_Datetime extends DoozR_I18n_Service_Format_Abstr
      * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      ******************************************************************************************************************/
 }
-
-?>

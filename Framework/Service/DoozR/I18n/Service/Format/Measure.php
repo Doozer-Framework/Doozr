@@ -652,5 +652,3 @@ class DoozR_I18n_Service_Format_Measure extends DoozR_I18n_Service_Base_Format
      * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      ******************************************************************************************************************/
 }
-
-?>

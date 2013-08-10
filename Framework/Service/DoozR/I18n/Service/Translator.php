@@ -507,5 +507,3 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      ******************************************************************************************************************/
 }
-
-?>

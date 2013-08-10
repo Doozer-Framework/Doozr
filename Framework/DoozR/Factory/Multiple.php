@@ -114,5 +114,3 @@ class DoozR_Factory_Multiple implements DoozR_Factory_Interface
         }
     }
 }
-
-?>

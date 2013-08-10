@@ -106,5 +106,3 @@ class DoozR_Factory_Singleton implements DoozR_Factory_Interface
         }
     }
 }
-
-?>

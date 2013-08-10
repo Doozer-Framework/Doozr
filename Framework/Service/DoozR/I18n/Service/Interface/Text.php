@@ -243,5 +243,3 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Bas
      * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      ******************************************************************************************************************/
 }
-
-?>
