@@ -285,5 +285,3 @@ final class DoozR_Logger_Firephp extends DoozR_Logger_Abstract implements DoozR_
         return $content;
     }
 }
-
-?>

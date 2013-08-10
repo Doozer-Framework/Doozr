@@ -354,5 +354,3 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
         return $this->filesystem->read($configurationFile);
     }
 }
-
-?>

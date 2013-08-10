@@ -559,5 +559,3 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * \\ END CHAINING SUPPORT FOR READING CONFIG
      ******************************************************************************************************************/
 }
-
-?>

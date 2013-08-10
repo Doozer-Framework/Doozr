@@ -251,5 +251,3 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
         return ($this->data = $data);
     }
 }
-
-?>

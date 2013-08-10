@@ -74,5 +74,3 @@ interface DoozR_Base_View_Interface
 {
     public function setData($data = null);
 }
-
-?>

@@ -95,5 +95,3 @@ interface DoozR_Base_Model_Interface
      */
     public function getData();
 }
-
-?>

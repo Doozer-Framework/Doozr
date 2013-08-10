@@ -83,7 +83,7 @@ final class Model_Doodi_Route
      * for: Doodi (DoozR's-object-oriented-database-interface)
      */
     public $matrix = array(
-        
+
         '307e95f2061cb3d22ae2b21daba98425' => array(
             'class'       => 'Object_Freezer_Cache',
             'method'      => 'get',
@@ -91,7 +91,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'a8609f6c2f6ed48da61696c98f054d26' => array(
             'class'       => 'Object_Freezer_Cache',
             'method'      => 'put',
@@ -99,7 +99,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'cafc4b441b65e31d4e8a5a406c991744' => array(
             'class'       => 'Object_Freezer_HashGenerator_NonRecursiveSHA1',
             'method'      => 'getHash',
@@ -107,7 +107,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'd2c484cbf0cc5609bd0d81494f0210c2' => array(
             'class'       => 'Object_Freezer_IdGenerator_UUID',
             'method'      => 'getId',
@@ -115,7 +115,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '845c77bfdc8d0bc049a5a1e3b16875af' => array(
             'class'       => 'Object_Freezer_LazyProxy',
             'method'      => 'getObject',
@@ -123,7 +123,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'a0151706683392d388458a95ba4ab427' => array(
             'class'       => 'Object_Freezer_Storage_CouchDB',
             'method'      => 'send',
@@ -131,7 +131,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '32de99b9436647b6b6ec1798dec78444' => array(
             'class'       => 'Object_Freezer_Storage_CouchDB',
             'method'      => 'setDebug',
@@ -139,7 +139,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'e1b46169a6764edfe61c9035c1639255' => array(
             'class'       => 'Object_Freezer_Storage',
             'method'      => 'setUseLazyLoad',
@@ -147,7 +147,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'd1e4ba7eaa1e27dc5980221b89e160a1' => array(
             'class'       => 'Object_Freezer_Storage',
             'method'      => 'store',
@@ -155,7 +155,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '8bb53b3ffa4b6a4e5f762870f3d03a92' => array(
             'class'       => 'Object_Freezer_Storage',
             'method'      => 'fetch',
@@ -163,7 +163,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'fb40b8860a4a646cd99dd3392784d0a0' => array(
             'class'       => 'Object_Freezer_Util',
             'method'      => 'readAttributes',
@@ -171,7 +171,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'b2819a03e1f032c56e7777b177bfcd42' => array(
             'class'       => 'Object_Freezer_Util',
             'method'      => 'getInvalidArgumentException',
@@ -179,7 +179,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '5dd1fe8428fc307fc30bff224599f410' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'freeze',
@@ -187,7 +187,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '67868431806bb06094948181a5a74ac6' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'thaw',
@@ -195,7 +195,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '94d7598c7c2927186f45473631968762' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'getIdGenerator',
@@ -203,7 +203,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '83af336d9b21c5ac907f9c0263925d1b' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'setIdGenerator',
@@ -211,7 +211,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'ac0e39cacaf5c4ea8f3eec468aaa9294' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'getHashGenerator',
@@ -219,7 +219,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '498e5e3a705c77ff648b943cf5aabb98' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'setHashGenerator',
@@ -227,7 +227,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '7de106d1fa51fe8926c6050451a27398' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'getBlacklist',
@@ -235,7 +235,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '2c43ec758da684f44a9f852380de8c72' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'setBlacklist',
@@ -243,7 +243,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '0f0d1a4dabfb75e1967e1ecbec301383' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'getUseAutoload',
@@ -251,7 +251,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         '963c6b2f8a9ff457d0796e64d6d802d6' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'setUseAutoload',
@@ -259,7 +259,7 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
         'ccf4f8d6a3d4af33c83533cb43ff1721' => array(
             'class'       => 'Object_Freezer',
             'method'      => 'isDirty',
@@ -267,8 +267,6 @@ final class Model_Doodi_Route
             'constructor' => false,
             'instance'    => null
         ),
-    
+
     );
 }
-
-?>

@@ -84,5 +84,3 @@ class DoozR_Factory_Generic
 
     }
 }
-
-?>

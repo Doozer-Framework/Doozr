@@ -132,5 +132,3 @@ class DoozR_Base_Class_Singleton extends DoozR_Base_Class_Singleton_Generic
         */
     }
 }
-
-?>

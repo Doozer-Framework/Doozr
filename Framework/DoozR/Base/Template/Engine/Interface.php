@@ -113,5 +113,3 @@ interface DoozR_Base_Template_Engine_Interface
      */
     public function fetch($return = false);
 }
-
-?>

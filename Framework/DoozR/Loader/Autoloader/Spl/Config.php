@@ -655,5 +655,3 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
         return false;
     }
 }
-
-?>

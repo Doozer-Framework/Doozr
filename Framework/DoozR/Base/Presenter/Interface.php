@@ -87,5 +87,3 @@ interface DoozR_Base_Presenter_Interface
     public function XYZ($data);
     */
 }
-
-?>

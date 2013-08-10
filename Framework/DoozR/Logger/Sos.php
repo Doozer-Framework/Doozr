@@ -439,5 +439,3 @@ final class DoozR_Logger_Sos extends DoozR_Logger_Abstract implements DoozR_Logg
         }
     }
 }
-
-?>

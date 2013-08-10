@@ -323,5 +323,3 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
         return $this->_runningMode;
     }
 }
-
-?>

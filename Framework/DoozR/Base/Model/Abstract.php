@@ -81,5 +81,3 @@ abstract class DoozR_Base_Model_Abstract extends DoozR_Base_Class
 	abstract protected function delete();
 	*/
 }
-
-?>

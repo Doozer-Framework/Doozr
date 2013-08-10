@@ -1090,5 +1090,3 @@ class DoozR_Response_Web extends DoozR_Base_Response
         exit;
     }
 }
-
-?>

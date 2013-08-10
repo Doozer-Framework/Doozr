@@ -321,5 +321,3 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
         return (DOOZR_WIN) ? 'win' : 'other';
     }
 }
-
-?>

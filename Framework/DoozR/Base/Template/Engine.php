@@ -187,5 +187,3 @@ class DoozR_Base_Template_Engine extends DoozR_Base_Facade_Singleton
     }
 
 }
-
-?>

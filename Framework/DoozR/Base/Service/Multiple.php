@@ -141,5 +141,3 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_Class
         }
     }
 }
-
-?>

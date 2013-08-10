@@ -242,5 +242,3 @@ final class DoozR_Logger_File extends DoozR_Logger_Abstract implements DoozR_Log
         return ($this->_logfile = $logfile);
     }
 }
-
-?>

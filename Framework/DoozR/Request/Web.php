@@ -490,5 +490,3 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
         }
     }
 }
-
-?>

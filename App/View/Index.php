@@ -128,5 +128,3 @@ final class View_Index extends DoozR_Base_View implements DoozR_Base_View_Interf
         );
     }
 }
-
-?>

@@ -369,5 +369,3 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         return $instance;
     }
 }
-
-?>

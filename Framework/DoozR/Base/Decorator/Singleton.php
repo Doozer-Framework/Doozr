@@ -335,5 +335,3 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
         return $this;
     }
 }
-
-?>

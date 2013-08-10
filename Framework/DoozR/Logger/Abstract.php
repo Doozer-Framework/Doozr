@@ -740,5 +740,3 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
         return $content;
     }
 }
-
-?>

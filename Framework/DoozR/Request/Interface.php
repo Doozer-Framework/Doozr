@@ -79,5 +79,3 @@ interface DoozR_Request_Interface
      */
     public static function getType();
 }
-
-?>

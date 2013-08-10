@@ -77,5 +77,3 @@ interface DoozR_Interface
 {
     // TODO: remove interface?
 }
-
-?>

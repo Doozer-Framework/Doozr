@@ -199,5 +199,3 @@ class DoozR_Base_Service_Singleton_Facade extends DoozR_Base_Service_Singleton
         }
     }
 }
-
-?>

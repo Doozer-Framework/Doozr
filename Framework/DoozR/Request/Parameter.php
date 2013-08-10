@@ -580,5 +580,3 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
         $GLOBALS[$this->_target] = $this->_input;
     }
 }
-
-?>

@@ -162,5 +162,3 @@ interface DoozR_Path_Interface
      */
     public function mergePath($pathBase, $pathMerge = '');
 }
-
-?>

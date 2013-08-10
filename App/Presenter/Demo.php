@@ -122,5 +122,3 @@ final class Presenter_Demo extends DoozR_Base_Presenter implements DoozR_Base_Pr
         return true;
     }
 }
-
-?>

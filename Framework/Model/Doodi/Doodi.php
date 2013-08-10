@@ -51,7 +51,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: e8ce8c8fd855ee013f30d2c4348fd0d2aa0cab49 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -73,7 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Facade/Singleton/Strict.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: e8ce8c8fd855ee013f30d2c4348fd0d2aa0cab49 $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -340,5 +340,3 @@ final class Doodi extends DoozR_Base_Facade_Singleton_Strict
      * \\ END SINGLETON PATTERN INSTANCE GETTER
      ******************************************************************************************************************/
 }
-
-?>

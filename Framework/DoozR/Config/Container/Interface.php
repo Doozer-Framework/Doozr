@@ -136,5 +136,3 @@ interface DoozR_Config_Container_Interface
      */
     public function delete($resource);
 }
-
-?>

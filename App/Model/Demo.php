@@ -137,5 +137,3 @@ final class Model_Demo extends DoozR_Base_Model implements DoozR_Base_Model_Inte
         /*...*/
     }
 }
-
-?>

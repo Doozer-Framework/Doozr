@@ -131,5 +131,3 @@ final class Presenter_Default extends DoozR_Base_Presenter implements DoozR_Base
         return DoozR_Core::front()->getResponse()->sendText($text);
     }
 }
-
-?>

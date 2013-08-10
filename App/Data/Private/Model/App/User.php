@@ -164,5 +164,3 @@ class App_User extends Doodi_Couchdb_Document
         return self::$type;
     }
 }
-
-?>

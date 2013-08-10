@@ -76,5 +76,3 @@ interface DoozR_Psr_Cache_Interface
 {
     // nuttin
 }
-
-?>

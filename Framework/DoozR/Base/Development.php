@@ -234,5 +234,3 @@ class DoozR_Base_Development
         }
     }
 }
-
-?>

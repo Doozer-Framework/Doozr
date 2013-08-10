@@ -74,5 +74,3 @@ interface DoozR_Factory_Interface
 {
     public static function create($classname, $arguments = null, $constructor = null, $reflection = null);
 }
-
-?>

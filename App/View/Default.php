@@ -153,5 +153,3 @@ final class View_Default extends DoozR_Base_View implements DoozR_Base_View_Inte
         return DoozR_Core::front()->getResponse()->sendText($text);
     }
 }
-
-?>

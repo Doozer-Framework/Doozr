@@ -135,5 +135,3 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
         }
     }
 }
-
-?>

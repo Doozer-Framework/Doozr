@@ -385,5 +385,3 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
         $this->_priority = $priority;
     }
 }
-
-?>

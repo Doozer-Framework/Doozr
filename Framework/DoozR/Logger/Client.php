@@ -153,5 +153,3 @@ final class DoozR_Logger_Client extends DoozR_Logger_Abstract implements DoozR_L
         return parent::output($color);
     }
 }
-
-?>

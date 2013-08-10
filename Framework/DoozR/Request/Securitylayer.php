@@ -319,5 +319,3 @@ class DoozR_Request_Securitylayer
         }
     }
 }
-
-?>

@@ -218,5 +218,3 @@ interface DoozR_Loader_Autoloader_Interface
      */
     public function setPriority($priority);
 }
-
-?>

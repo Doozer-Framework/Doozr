@@ -131,5 +131,3 @@ final class DoozR_Logger_Collecting extends DoozR_Logger_Abstract implements Doo
         return true;
     }
 }
-
-?>

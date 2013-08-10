@@ -205,5 +205,3 @@ final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_L
         return $this->_source = $name;
     }
 }
-
-?>

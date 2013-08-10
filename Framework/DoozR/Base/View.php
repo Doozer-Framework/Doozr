@@ -383,5 +383,3 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
         );
     }
 }
-
-?>

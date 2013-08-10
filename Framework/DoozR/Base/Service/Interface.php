@@ -98,5 +98,3 @@ interface DoozR_Base_Service_Interface
      */
     //public function __teardown();
 }
-
-?>

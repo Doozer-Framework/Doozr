@@ -106,5 +106,3 @@ final class Model_Index extends DoozR_Base_Model implements DoozR_Base_Model_Int
         );
     }
 }
-
-?>

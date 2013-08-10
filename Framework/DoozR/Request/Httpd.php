@@ -523,5 +523,3 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
         return (DOOZR_WIN) ? 'win' : 'other';
     }
 }
-
-?>

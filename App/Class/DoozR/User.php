@@ -60,5 +60,3 @@ class DoozR_User extends Doodi_Couchdb_Document
     }
 	*/
 }
-
-?>

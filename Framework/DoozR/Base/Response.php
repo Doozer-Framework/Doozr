@@ -135,5 +135,3 @@ class DoozR_Base_Response
         return self::$type;
     }
 }
-
-?>

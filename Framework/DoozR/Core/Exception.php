@@ -106,5 +106,3 @@ class DoozR_Core_Exception extends DoozR_Base_Exception_Generic
     }
 
 }
-
-?>

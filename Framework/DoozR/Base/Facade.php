@@ -211,5 +211,3 @@ class DoozR_Base_Facade extends DoozR_Base_Class
         }
     }
 }
-
-?>

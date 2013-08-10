@@ -347,5 +347,3 @@ interface DoozR_Autoload_Spl_Config_Interface
      */
     public function isLoader();
 }
-
-?>

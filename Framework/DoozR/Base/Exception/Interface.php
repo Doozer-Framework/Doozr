@@ -90,5 +90,3 @@ interface DoozR_Base_Exception_Generic_Interface
     // returns the trace of the exception (string)
     public function getTraceAsString();
 }
-
-?>

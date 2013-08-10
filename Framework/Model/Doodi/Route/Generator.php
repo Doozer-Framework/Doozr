@@ -1046,5 +1046,3 @@ class Doodi_Route_Generator
         return $classes;
     }
 }
-
-?>

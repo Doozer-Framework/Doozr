@@ -216,7 +216,7 @@ function get_called_class($backtrace = false, $level = 1)
 /**
  * lcfirst support for php-version < 5.3
  *
- * lcfirst — Make a string's first character lowercase
+ * lcfirst ï¿½ Make a string's first character lowercase
  *
  * @param string $string The string to lower the first character in
  *
@@ -308,5 +308,3 @@ function getmxrr($host, array &$mxhosts, array &$mxweight)
 /***********************************************************************************************************************
  * \\ END EMULATING PHP 5.3 ONLY FUNCTIONALITY FOR PHP-INSTALLATIONS <= 5.2
  **********************************************************************************************************************/
-
-?>

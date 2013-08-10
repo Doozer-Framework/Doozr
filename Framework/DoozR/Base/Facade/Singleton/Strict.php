@@ -129,5 +129,3 @@ class DoozR_Base_Facade_Singleton_Strict extends DoozR_Base_Class_Singleton_Stri
      * \\ END GENERIC FACADE
      ******************************************************************************************************************/
 }
-
-?>

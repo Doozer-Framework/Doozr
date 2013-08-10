@@ -280,5 +280,3 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
         return $this->filesystem->read($configurationFile);
     }
 }
-
-?>

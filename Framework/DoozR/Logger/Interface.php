@@ -166,5 +166,3 @@ interface DoozR_Logger_Interface
      */
     //public static function getInstance($level = 1);
 }
-
-?>

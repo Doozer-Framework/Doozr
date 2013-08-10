@@ -88,5 +88,3 @@ class DoozR_Base_Class extends DoozR_Base_Tools
         // ???
     }
 }
-
-?>

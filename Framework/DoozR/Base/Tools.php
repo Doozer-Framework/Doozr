@@ -410,5 +410,3 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
         return '';
     }
 }
-
-?>

@@ -102,5 +102,3 @@ class DoozR_Response_Httpd extends DoozR_Base_Response
         parent::__construct($config, $logger);
     }
 }
-
-?>

@@ -209,5 +209,3 @@ class DoozR_Response_Cli extends DoozR_Base_Response
         return $data;
     }
 }
-
-?>

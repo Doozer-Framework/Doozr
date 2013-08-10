@@ -89,5 +89,3 @@ interface DoozR_Base_Database_Interface
      */
     public function dispatch();
 }
-
-?>

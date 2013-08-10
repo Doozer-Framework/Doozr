@@ -634,5 +634,3 @@ class DoozR_Loader_Autoloader_Spl_Facade
         return false;
     }
 }
-
-?>

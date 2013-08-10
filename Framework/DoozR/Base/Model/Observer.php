@@ -93,5 +93,3 @@ class DoozR_Base_Model_Observer extends DoozR_Base_Class implements SplObserver
         }
     }
 }
-
-?>

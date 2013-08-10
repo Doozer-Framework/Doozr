@@ -379,5 +379,3 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
         return self::$ormConfig[$instanceIdentifier];
     }
 }
-
-?>

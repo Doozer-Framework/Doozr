@@ -280,5 +280,3 @@ class DoozR_Request_Value
         return $this->_impact;
     }
 }
-
-?>

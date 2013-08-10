@@ -212,5 +212,3 @@ class DoozR_Base_Service_Multiple_Facade extends DoozR_Base_Service_Multiple
         }
     }
 }
-
-?>

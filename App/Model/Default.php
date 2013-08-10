@@ -123,5 +123,3 @@ final class Model_Default extends DoozR_Base_Model implements DoozR_Base_Model_I
         $this->setData($data);
     }
 }
-
-?>
