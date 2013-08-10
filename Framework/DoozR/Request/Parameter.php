@@ -49,7 +49,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 2371f412cc495e00089668f915aaa2bcaaf13bd1 $
+ * @version    Git: $Id: dffaf98902c8e5edf6495016780423420a9a716c $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Value.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 2371f412cc495e00089668f915aaa2bcaaf13bd1 $
+ * @version    Git: $Id: dffaf98902c8e5edf6495016780423420a9a716c $
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -141,6 +141,8 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
         // default
         return false;
     }
+
+
 
     /**
      * transforms input to object
@@ -486,6 +488,25 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
 
         // otherwise we return NULL not FALSE!
         return null;
+    }
+
+    /**
+     * sets the global for this instance and process it
+     *
+     * @param string $global The name of the global to parse
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function set($global)
+    {
+        if (is_string($global)) {
+            // start processing input
+            $this->_processInput($global);
+        }
+
+        return true;
     }
 
     /**
