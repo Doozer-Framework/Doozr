@@ -101,16 +101,15 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      * @var DoozR_Di_Map_Annotation
      */
     private static $_map;
+
     /**
      * @var DoozR_Di_Container
      */
     private static $_container;
 
 
-
-    protected function initDependencyInjection()
+    protected static function initDependencyInjection()
     {
-        /*
         // get required dependency container for annotations!
         require_once DI_PATH_LIB_DI.'Map/Annotation.php';
         require_once DI_PATH_LIB_DI.'Parser/Annotation.php';
@@ -122,7 +121,32 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
 
         self::$_map       = new DoozR_Di_Map_Annotation($collection, $parser, $dependency);
         self::$_container = DoozR_Di_Container::getInstance(__CLASS__);
-        */
+        self::$_container->setFactory(new DoozR_Di_Factory());
+    }
+
+
+    protected static function getNamespacedService($service)
+    {
+        if (is_array($service)) {
+            $namespace = $service[0];
+            $service   = $service[1];
+        } else {
+            $namespace = 'DoozR';
+            $service   = $service;
+        }
+
+        return array(
+            'namespace' => $namespace,
+            'service'   => $service
+        );
+    }
+
+    public static function init()
+    {
+        // create instance like we would by calling getInstance()
+        self::getInstance();
+        self::$_registry = DoozR_Registry::getInstance();
+        self::initDependencyInjection();
     }
 
     /**
@@ -139,87 +163,40 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     {
         // the arguments default
         $arguments = null;
+        $classname = null;
 
         // check for namespace in service
-        if (is_array($service)) {
-            $namespace = $service[0];
-            $service   = $service[1];
-
-        } else {
-            $namespace = 'DoozR';
-        }
+        $namespacedService = self::getNamespacedService($service);
 
         // allready instanciated?
         if (!self::$instance) {
-            // create instance like we would by calling getInstance()
-            self::getInstance();
-
-            // get the singleton instance of registry - containing important object instances
-            // every module instance is also stored in registry for faster access
-            self::$_registry = DoozR_Registry::getInstance();
-
-            // get DI
-            // get required dependency container for annotations!
-            require_once DI_PATH_LIB_DI.'Map/Annotation.php';
-            require_once DI_PATH_LIB_DI.'Parser/Annotation.php';
-            require_once DI_PATH_LIB_DI.'Dependency.php';
-
-            $collection       = new DoozR_Di_Collection();
-            $parser           = new DoozR_Di_Parser_Annotation();
-            $dependency       = new DoozR_Di_Dependency();
-
-            self::$_map       = new DoozR_Di_Map_Annotation($collection, $parser, $dependency);
-            self::$_container = DoozR_Di_Container::getInstance(__CLASS__);
-            self::$_container->setFactory(new DoozR_Di_Factory());
+            self::init();
         }
 
         // correct service name
         $service = ucfirst(strtolower($service));
 
         // load file
-        self::_getService($service, $namespace);
+        self::_getService($service, $namespacedService['namespace']);
 
         // combine Service name
-        $classname = $namespace.'_'.$service.'_Service';
+        $classname = $namespacedService['namespace'].'_'.$namespacedService['service'].'_Service';
 
         // get reflection
         $reflector = new ReflectionClass($classname);
 
-        // parse DoozR-Annotations out of it
+        // parse DoozR-Annotations out of
         $properties = self::_parseAnnotations(
             $reflector->getDocComment()
         );
 
-        // check if arguments can be passed to constructor
-        if ($reflector->getConstructor() !== null) {
+        // get arguments generic way rip off 1st this is the service name
+        $arguments = array_slice(func_get_args(), 1);
 
-            // get generic arguments
-            $arguments = array_slice(func_get_args(), 1);
-
-            // inject registry in arguments
-            if (!$arguments) {
-                $arguments = array(
-                    self::$_registry
-                );
-            } else {
-                // convert if not is array already
-                if (!is_array($arguments)) {
-                    $arguments = array(self::$_registry, $arguments);
-                } else {
-                    // simply join and done
-                    $arguments = array_merge(array(self::$_registry), $arguments);
-                }
-            }
-        }
-
-        /**
-         * @Todo: This here is a hard part to integrate Di => we should parse existing
-         * dependency map of the service if exist
-         */
-        //generate map from annotations in source of class "Foo"
+        //generate map from annotations in source of current service main entry
         self::$_map->generate($classname);
 
-        // define dependencies by it's identifier
+        // we support only mapping of registry - this is the funnel. each
         self::$_map->wire(
             DoozR_Di_Container::MODE_STATIC,
             array(
@@ -227,58 +204,17 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
             )
         );
 
+        // store map
         self::$_container->setMap(self::$_map);
 
-        $instance = self::$_container->build($classname);
-
-
-
-        // update map => intentionally this method is used for setting a new map but it
-        // does also work for our usecase ... to inject an updated map on each call
-        if (isset(self::$_registry->{$classname})) {
-            $current = self::$_registry->{$classname};
-
-            if (is_array($current)) {
-                $current[] = $instance;
-            } else {
-                $current = array($instance);
-            }
-
-            self::$_registry->{$classname} = $current;
-
+        // create instance with arguments ...
+        if ($arguments !== null) {
+            $instance = self::$_container->build($classname, $arguments);
         } else {
-            self::$_registry->{$classname} = $instance;
+            $instance = self::$_container->build($classname);
         }
 
         return $instance;
-
-
-        // get correct type if no type explicit given
-        /*
-        if (!isset($properties['type']) || $properties['type'] != 'singleton') {
-
-            // return fresh (multi) instance
-            return DoozR_Factory_Multiple::create(
-                $classname,
-                $arguments,
-                null,
-                $reflector
-            );
-        } else {
-            // custom instanciate method given?
-            if (!isset($properties['call'])) {
-                $properties['call'] = 'getInstance';
-            }
-
-            // return singleton instance
-            return DoozR_Factory_Singleton::create(
-                $classname,
-                $arguments,
-                $properties['call'],
-                null
-            );
-        }
-        */
     }
 
     /**
