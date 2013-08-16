@@ -72,31 +72,55 @@ $_SERVER['REQUEST_TIME'] = microtime();
 // systems directory separator
 $s = DIRECTORY_SEPARATOR;
 
-// retrieve path to file without! resolving possible symlinks
-$partial = explode($s, __FILE__);
-$root    = $_SERVER['DOCUMENT_ROOT'];
-$path    = '';
+// try to get from env => priorized
+$documentRoot = getenv('DOOZR_DOCUMENT_ROOT');
 
-for ($i = count($partial)-1; $i > -1; --$i) {
-    $path = $s.$partial[$i].$path;
+// if document root not passed via env:
+if ($documentRoot === false) {
 
-    if (realpath($root.$path) === __FILE__) {
-        $path = $root.$path;
-        $path = ($s === '\\')
-            ? str_replace('/', '\\', $path)
-            : str_replace('\\', '/', $path);
-        define('__FILE_LINK__', $path);
+    // retrieve path to file without! resolving possible symlinks
+    $partial = explode($s, __FILE__);
+    $root    = $_SERVER['DOCUMENT_ROOT'];
+    $path    = '';
 
-        break;
+    for ($i = count($partial)-1; $i > -1; --$i) {
+        $path = $s.$partial[$i].$path;
+
+        if (realpath($root.$path) === __FILE__) {
+            $path = $root.$path;
+            $path = ($s === '\\')
+                ? str_replace('/', '\\', $path)
+                : str_replace('\\', '/', $path);
+            define('__FILE_LINK__', $path);
+
+            break;
+        }
     }
+
+    if (!defined('__FILE_LINK__')) {
+        define('__FILE_LINK__', __FILE__);
+    }
+
+    // retrieve absolute path to DoozR - make it our new document root -> by file link
+    $documentRoot = str_replace('DoozR'.$s.'Bootstrap.php', '', __FILE_LINK__);
 }
 
-if (!defined('__FILE_LINK__')) {
-    define('__FILE_LINK__', __FILE__);
-}
+// store as constant
+define('DOOZR_DOCUMENT_ROOT', $documentRoot);
 
-// retrieve absolute path to DoozR - make it our new document root -> by file link
-define('DOOZR_DOCUMENT_ROOT', str_replace('DoozR'.$s.'Bootstrap.php', '', __FILE_LINK__));
+/***********************************************************************************************************************
+ * \\ END
+ **********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * // BEGIN CHECK FOR PASSED APP PATH
+ **********************************************************************************************************************/
+
+$pathAppRoot = getenv('DOOZR_APP_ROOT');
+
+if ($pathAppRoot !== false) {
+    define('DOOZR_APP_ROOT', $pathAppRoot);
+}
 
 /***********************************************************************************************************************
  * \\ END
