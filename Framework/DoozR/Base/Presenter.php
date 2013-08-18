@@ -210,6 +210,30 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
+     * Returns the current active processed request as array.
+     * If passed FALSE ($original = false) this method will
+     * return the modified (already rewritten request) when
+     * TRUE is passed then this method will return the original
+     * request.
+     *
+     * @param boolean $original TRUE [default] to retrieve the raw request, FALSE to retrieve rewritten request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The request
+     * @access public
+     */
+    public function getRequest($original = true)
+    {
+        if ($original === true) {
+            $request = $this->originalRequest;
+        } else {
+            $request = $this->request;
+        }
+
+        return $request;
+    }
+
+    /**
      * Create of Crud
      *
      * @param mixed $data The data for create

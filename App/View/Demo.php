@@ -103,7 +103,8 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
 
     /**
      * This method is the magic renderer von View = Screen.
-     * Upon creating this metod it get automatically called when data is set to view via setData()
+     * Upon creating this method it will get automatically called when data is set
+     * to view via setData().
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -111,6 +112,7 @@ final class View_Demo extends DoozR_Base_View implements DoozR_Base_View_Interfa
      */
     public function __renderScreen()
     {
+        //pre('custom renderer: '.__METHOD__.' called().');
         // we need the I18n service -> without locale passed = will autodetect
         $i18n = DoozR_Loader_Serviceloader::load('i18n', $this->config);
 

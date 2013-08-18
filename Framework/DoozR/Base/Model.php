@@ -245,6 +245,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean True if everything wents fine, otherwise false
      * @access public
+     * @deprecated
      */
     public function setData($data)
     {

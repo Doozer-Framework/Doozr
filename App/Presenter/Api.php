@@ -119,7 +119,7 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
         $response = $registry->front->getResponse();
 
         // get request object (standard notation), object + method
-        $requestObject = $this->rest->getRequestObject();
+        $requestObject = $this->rest->getRequest();
         $object        = strtolower($requestObject->resource[0]);
         $method        = strtolower($requestObject->method);
 

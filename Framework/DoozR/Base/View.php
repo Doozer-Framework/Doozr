@@ -221,6 +221,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      */
     public function setData($data = null, $render = true)
     {
+        //pre(__METHOD__.' in View called');
         // store data (reached) from model in this view!
         $this->data = $data;
 
@@ -266,6 +267,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      */
     protected function render(array $data = array(), DoozR_I18n_Service $i18n = null)
     {
+        //pre('native renderer: '.__METHOD__.' called().');
         // store given fingerprint
         $this->fingerprint = $this->getFingerprint(1);
 

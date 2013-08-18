@@ -106,7 +106,20 @@ final class Model_Demo extends DoozR_Base_Model implements DoozR_Base_Model_Inte
         );
 
         // set data (can e.g. retrieved by controller through ->getData())
-        $this->setData($data);
+        //$this->setData($data);
+        $this->create($data);
+    }
+
+    /**
+     * implementation of Create of Crud (__create())
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     */
+    protected function __create(array $data)
+    {
+        return ($this->data = $data);
     }
 
     /**
@@ -120,7 +133,8 @@ final class Model_Demo extends DoozR_Base_Model implements DoozR_Base_Model_Inte
      */
     protected function __update(SplSubject $subject)
     {
-        $this->setData($subject->getData());
+        //pre(__METHOD__.' in Model called checking if data returned was modified.');
+        $this->data = $subject->getData();
     }
 
     /**

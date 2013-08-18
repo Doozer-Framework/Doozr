@@ -77,10 +77,10 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
     /**
      * Contains all attached observers
      *
-     * @var array
+     * @var SplObserver[]
      * @access protected
      */
-    protected $observers= array();
+    protected $observers = array();
 
 
     /**
@@ -90,9 +90,9 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
      *
      * @param SplObserver $observer The observer instance to attach
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function attach(SplObserver $observer)
     {
@@ -106,13 +106,15 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
      *
      * @param SplObserver $observer The observer instance to remove
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function detach(SplObserver $observer)
     {
+        // iterate observer ...
         foreach ($this->observers as $observer) {
+            // ... and remove the one
             if ($observer === $observer) {
                 $this->observers = array_remove_value($this->observers, $observer);
             }
@@ -124,13 +126,15 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
      *
      * This method is intend to notify all registered observers about an update.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function notify()
     {
+        // iterate the observer within the collection ...
         foreach ($this->observers as $observer) {
+            // ... and trigger update
             $observer->update($this);
         }
     }
