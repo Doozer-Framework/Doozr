@@ -4,7 +4,8 @@
 /**
  * DoozR - Rest - Service
  *
- * Rest.php - ...
+ * Rest.php - Contains some nice REST helper methods and prepares the request
+ * in a way which makes it easier processable in the further process.
  *
  * PHP versions 5
  *
@@ -60,7 +61,8 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Api.php';
 /**
  * DoozR - Rest - Service
  *
- * ...
+ * Contains some nice REST helper methods and prepares the request
+ * in a way which makes it easier processable in the further process.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -76,33 +78,33 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Api.php';
  * @DoozRType  Multiple
  * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
+final class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
 {
     /**
      * Request object to use with DoozR Rest or Soap
      *
-     * @var object
+     * @var DoozR_Request_Api
      * @access private
      */
-    private $_requestObject;
+    private $_request;
 
     /**
      * This method is intend to act as constructor.
      *
      * @param array   $request        The original request
      * @param integer $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means
-     *                                that /Foo/Bar/ will be taken as root and ripped)
+     *                                that /Foo/Bar/ will be taken as root and ripped out)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __tearup(array $request = array(), $countRootNodes = 2)
+    public function __tearup(array $route = array(), $countRootNodes = 2)
     {
         // if no custom request data/config is passed ...
-        if (empty($request)) {
+        if (empty($route)) {
             // ... use defeault
-            $request = array(
+            $route = array(
                 'port'   => $_SERVER['SERVER_PORT'],
                 'ip'     => gethostbyname($_SERVER['SERVER_NAME']),
                 'domain' => $_SERVER['SERVER_NAME'],
@@ -111,42 +113,47 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
         }
 
         // get hands on request object
-        $requestObject = $this->registry->front->getRequest();
+        $request = $this->registry->front->getRequest();
 
         // extract real API request
-        // so at this very specific and no longer generic routing way we
-        // can be sure that the following works
-        $this->_requestObject = new DoozR_Request_Api();
+        // so at this very specific and no longer generic routing way we can be sure that the following works
+        $this->_request = new DoozR_Request_Api();
 
-        $this->_requestObject->set(
+        // set the request =>
+        $this->_request->set(
             array(
-                'resource'  => array_slice($request, $countRootNodes),
-                'method'    => $requestObject->getMethod(),
-                'arguments' => $requestObject->arguments,
+                'resource'  => array_slice($route, $countRootNodes),
+                'method'    => $request->getMethod(),
+                'arguments' => $request->arguments,
                 'request'   => $request,
-                'url'       => $requestObject->getUrl()
+                'url'       => $request->getUrl()
             )
         );
-
-        /*
-        $this->_requestObject->resource  = array_slice($request, $countRootNodes);
-        $this->_requestObject->method    = $requestObject->getMethod();
-        $this->_requestObject->arguments = $requestObject->arguments;
-        $this->_requestObject->request   = $request;
-        $this->_requestObject->url       = $requestObject->getUrl();
-        */
     }
 
     /**
      * Returns the current request object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return DoozR_Request_Api
      * @access public
+     * @deprecated
      */
     public function getRequestObject()
     {
-        return $this->_requestObject;
+        return $this->getRequest();
+    }
+
+    /**
+     * Returns the prepared request object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_Api
+     * @access public
+     */
+    public function getRequest()
+    {
+        return $this->_request;
     }
 
     /**
