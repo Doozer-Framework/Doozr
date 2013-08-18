@@ -236,7 +236,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         $this->_translation     = $translation;
         $this->_pattern         = $pattern;
         $this->_cache           = DoozR_Loader_Serviceloader::load(
-            'cache', DOOZR_UNIX, $this->_config->cache->container()
+            'cache',
+            DOOZR_UNIX,
+            $this->_config->cache->container()
         );
 
         // init MV(P|C) layer
@@ -247,7 +249,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             $this->_model = $this->_initLayer(
                 $request[$translation[0]],
                 'Model',
-                array($request, $translation, $originalRequest, $this->_cache, $this->_config)
+                array(
+                    $request,
+                    $translation,
+                    $originalRequest,
+                    $this->_cache,
+                    $this->_config
+                )
             );
 
             // init layer VIEW (displaying data ...)
@@ -268,7 +276,14 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             $this->_connector = $this->_initLayer(
                 $request[$translation[0]],
                 'Presenter',
-                array($request, $translation, $originalRequest, $this->_config, $this->_model, $this->_view)
+                array(
+                    $request,
+                    $translation,
+                    $originalRequest,
+                    $this->_config,
+                    $this->_model,
+                    $this->_view
+                )
             );
 
             break;
