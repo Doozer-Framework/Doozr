@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: $
+ * @version    Git: $Id: 618b341e3281f9f88aa0a0e84a4778959303b18a $
  * @link       https://github.com/clickalicious/Di
  * @see        -
  * @since      -
