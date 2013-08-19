@@ -1,6 +1,9 @@
 # DoozR
 *DoozR* - The lightweight **MVP** PHP-Framework for **high-performance** websites
 
+<a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=Check+out+DoozR+-+The+lightweight+MVP+PHP-Framework+for+high-performance+websites+@phpfluesterer+%23clickalicious+%23DoozR+%23php&tw_p=tweetbutton&url=https%3A%2F%2Fgithub.com%2clickalicious%2DoozR" target="_blank">
+  <img src="http://jpillora.com/github-twitter-button/img/tweet.png"></img>
+</a>
 
 ## Features
 *DoozR* is designed for solving real world problems. *DoozR* comes with a huge set of preimplemented **services**. These services enable you to build high-scalable applications with PHP with no pain. DoozR supports two different running modes - **CLI** and **CGI**. A powerful routing mechanism with builtin *I18n* support empowers you to build internationalized applications (on url level!). But *DoozR* has so much more to offer ...
