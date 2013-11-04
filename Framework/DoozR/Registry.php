@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 428927151fa092b4e706683a549ddfa910c88537 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Registry/Interface.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: e784ecf8d08dc686349ae8d5e80a0221bcdcc2ae $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
@@ -226,9 +226,9 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
         return self::get($identifier);
     }
 
-    /*******************************************************************************************************************
-     * Fulfill ArrayAccess interface requirements
-    \******************************************************************************************************************/
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill ArrayAccess
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns the TRUE if the passed offset exists otherwise FALSE
@@ -241,6 +241,10 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function offsetExists($offset)
     {
+        if (!is_int($offset)) {
+            $offset = array_search($offset, self::$_reverseLookup);
+        }
+
         return (isset(self::$_references[$offset]));
     }
 
@@ -255,6 +259,10 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function offsetGet($offset)
     {
+        if (!is_int($offset)) {
+            $offset = array_search($offset, self::$_reverseLookup);
+        }
+
         return self::$_references[$offset];
     }
 
@@ -270,8 +278,11 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function offsetSet($offset, $value)
     {
-        self::$_references[$offset] = $value;
+        if (!is_int($offset) && $exist = array_search($offset, self::$_reverseLookup)) {
+            $offset = $exist;
+        }
 
+        self::$_references[$offset] = $value;
     }
 
     /**
@@ -291,9 +302,9 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
         unset(self::$_references[$identifier]);
     }
 
-    /*******************************************************************************************************************
-     * Fulfill Iterator interface requirements
-    \******************************************************************************************************************/
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Iterator
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Rewinds the position to 0
@@ -355,9 +366,9 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
         self::$position++;
     }
 
-    /*******************************************************************************************************************
-     * Fulfill Countable interface requirements
-    \******************************************************************************************************************/
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Countable
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns the count of elements in registry

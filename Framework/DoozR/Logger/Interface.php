@@ -51,14 +51,13 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
  * DoozR - Logger - Interface
  *
- * Logger-Interface for all Logger compliant to requirements of DoozR
+ * Logger-Interface for all Logger compliant to requirements of
+ * DoozR
  *
  * @category   DoozR
  * @package    DoozR_Logger
@@ -68,44 +67,11 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 interface DoozR_Logger_Interface
 {
     /**
-     * signature for logging of messages
-     *
-     * This method is intend to log a message.
-     *
-     * @param string $content  The content/text/message to log
-     * @param string $type     The type of the log-entry
-     * @param string $file     The filename of the file from where the log entry comes
-     * @param string $line     The linenumber from where log-entry comes
-     * @param string $class    The classname from the class where the log-entry comes
-     * @param string $method   The methodname from the method where the log-entry comes
-     * @param string $function The functionname from the function where the log-entry comes
-     * @param string $optional The optional content/param to log
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if successful, otherwise false
-     * @access public
-     */
-    public function log(
-        $content = '',
-        $type = 'LOG',
-        $file = false,
-        $line = false,
-        $class = false,
-        $method = false,
-        $function = false,
-        $optional = false
-    );
-
-    /**
-     * signature for getVersion
-     *
-     * This method is intend to return the loggers version.
+     * Should return the Version of the Logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The version of the logger-class that use this interface
@@ -114,55 +80,74 @@ interface DoozR_Logger_Interface
     public function getVersion();
 
     /**
-     * signature for getContent
-     *
-     * getContent is responsible for returning the current log-content to caller
-     *
-     * @param boolean $returnArray True to retrieve array, false to retrieve string
+     * Should log to a channel of choice.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed string if $returnArray false, otherwise array
+     * @return boolean TRUE on success, otherwise FALSE
      * @access public
      */
-    public function getContent($returnArray = false);
+    public function log($level, $message, array $context = array());
 
     /**
-     * signature for getCollection
-     *
-     * getCollection is responsible for returning the complete collection of log-content to caller
-     *
-     * @param boolean $returnArray True to retrieve array, false to retrieve string
+     * Should return the current collection.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed string if $returnArray false, otherwise array
+     * @return array|string The collection as string or as array if $asArray is set to true
      * @access public
      */
-    public function getCollection($returnArray = false, $returnRaw = false);
+    public function getCollection($asArray = false);
 
     /**
-     * clears (deletes/resets) the current log-content (and collection if $clearCollection set to true)
+     * Should return the current collection in its raw format.
      *
-     * This method is intend to clear (delete/reset) the current log-content
-     * (and collection if $clearCollection set to true).
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|array The collection in its raw format
+     * @access public
+     */
+    public function getCollectionRaw();
+
+    /**
+     * Should return the current content.
      *
-     * @param boolean $clearCollection True to clear the collection too, otherwise false to keep the collection
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array|string The content as string or as array if $asArray is set to true
+     * @access public
+     */
+    public function getContent($asArray = false);
+
+    /**
+     * Should return the current content in its raw format.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The content in its raw format
+     * @access public
+     */
+    public function getContentRaw();
+
+    /**
+     * Should clear the collection.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function clear($clearCollection = false);
+    public function clearCollection();
 
     /**
-     * signature for getInstance
-     *
-     * This method is the interface define for getInstance (singleton-pattern)
-     *
-     * @param integer $level The specific level for logger implementing this interface
+     * Should clear the content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
+     * @return void
      * @access public
      */
-    //public static function getInstance($level = 1);
+    public function clearContent();
+
+    /**
+     * Should clear the collection AND the content.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function clear();
 }

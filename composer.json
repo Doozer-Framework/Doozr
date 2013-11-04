@@ -1,36 +1,39 @@
 {
-	"name" : "clickalicious/doozr",
-	"description" : "DoozR - The lightweight MVP PHP-Framework for high-performance websites.",
-	"authors" : [{
-			"name" : "Benjamin Carl",
-			"email" : "opensource@clickalicious.de",
-			"homepage" : "http://www.clickalicious.de",
-			"role" : "Developer"
-		}
-	],
-	"keywords" : [
-		"php",
-		"framework",
-		"mvp",
-		"doozr"
-	],
-	"homepage" : "http://doozr.clickalicious.de/",
-	"license" : [
-		"The BSD License"
-	],
-	"autoload" : {
-		"classmap" : [
-			"classes"
-		]
-	},
-	"support" : {
-		"email" : "opensource@clickalicious.de",
-		"issues" : "https://github.com/clickalicious/DoozR/issues",
-		"wiki" : "https://github.com/clickalicious/DoozR/wiki"
-	},
-	"repositories" : [{
-			"type" : "vcs",
-			"url" : "https://github.com/clickalicious/DoozR.git"
-		}
-	]
+  "name": "clickalicious/doozr",
+  "description": "DoozR - The lightweight MVP PHP-Framework for high-performance websites.",
+  "authors": [
+    {
+      "name": "Benjamin Carl",
+      "email": "opensource@clickalicious.de",
+      "homepage": "http://www.clickalicious.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "doctrine/couchdb": "1.0.*@dev",
+    "doctrine/dbal": "2.5.*@dev",
+    "doctrine/orm": "2.5.*@dev",
+    "firephp/firephp-core": "dev-master"
+  },
+  "keywords": [
+    "php",
+    "framework",
+    "mvp",
+    "doozr"
+  ],
+  "homepage": "http://doozr.clickalicious.de/",
+  "license": [
+    "The BSD License"
+  ],
+  "support": {
+    "email": "opensource@clickalicious.de",
+    "issues": "https://github.com/clickalicious/DoozR/issues",
+    "wiki": "https://github.com/clickalicious/DoozR/wiki"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/clickalicious/DoozR.git"
+    }
+  ]
 }

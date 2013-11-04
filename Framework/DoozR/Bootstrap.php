@@ -171,6 +171,17 @@ DoozR_Loader_Autoloader_Spl_Facade::attach(
  **********************************************************************************************************************/
 
 /***********************************************************************************************************************
+ * // BEGIN COMPOSER INTEGRATION
+ **********************************************************************************************************************/
+
+// try to include composer's autoloader to make all the composer stuff easy available
+include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
+
+/***********************************************************************************************************************
+ * \\ END
+ **********************************************************************************************************************/
+
+/***********************************************************************************************************************
  * // BEGIN EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
  **********************************************************************************************************************/
 
@@ -184,8 +195,10 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Extend.php';
  * // BEGIN ERROR-HANDLING (HOOK)
  **********************************************************************************************************************/
 
+/*
 // include required files
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Handler/Error.php';
+
 
 // register DoozR's Error-Handler
 set_error_handler(
@@ -202,6 +215,7 @@ register_shutdown_function(
         'handleUnhandable'
     )
 );
+*/
 
 /***********************************************************************************************************************
  * \\ END ERROR-HANDLING (HOOK)
@@ -212,8 +226,9 @@ register_shutdown_function(
  **********************************************************************************************************************/
 
 // EXCEPTION-HANDLER: register exception-handler (dispatches calls to error-handler)
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Handler/Exception.php';
+#require_once DOOZR_DOCUMENT_ROOT.'DoozR/Handler/Exception.php';
 
+/*
 // set the own exception_handler
 set_exception_handler(
     array(
@@ -221,6 +236,14 @@ set_exception_handler(
         'handle'
     )
 );
+*/
+
+
+#require_once DOOZR_DOCUMENT_ROOT.'DoozR/Handler/php_error.php';
+#if ( function_exists('\php_error\reportErrors') ) {
+#    \php_error\reportErrors();
+#}
+
 
 /***********************************************************************************************************************
  * \\ END EXCEPTION-HANDLING (HOOK)

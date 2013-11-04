@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Logger for client based logging operations
+ * DoozR - Logger - Client
  *
- * Client.php - This logger-implementation is intend to log to the client
+ * Client.php - This logger logs all passed content to the current client:
+ * Browser, Cli, ...
  *
  * PHP versions 5
  *
@@ -50,17 +51,18 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/PsrInterface.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Constant.php';
 
 /**
- * Logger for client based logging operations
+ * DoozR - Logger - Client
  *
- * This logger-implementation is intend to log to the client
+ * This logger logs all passed content to systems (OS) default
+ * log system.
  *
  * @category   DoozR
  * @package    DoozR_Logger
@@ -70,16 +72,18 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
+ * @see        Abstract.php, Interface.php
  */
-final class DoozR_Logger_Client extends DoozR_Logger_Abstract implements DoozR_Logger_Interface
+class DoozR_Logger_Client extends DoozR_Logger_Abstract implements
+    DoozR_Logger_Interface,
+    DoozR_Logger_PsrInterface,
+    SplObserver
 {
     /**
      * Name of this logger
      *
      * @var string
-     * @access private
+     * @access protected
      */
     protected $name = 'Client';
 
@@ -89,67 +93,89 @@ final class DoozR_Logger_Client extends DoozR_Logger_Abstract implements DoozR_L
      * @var string
      * @access protected
      */
-    protected $version = '$Rev$';
+    protected $version = '$Id$';
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | Fulfill SplObserver
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * constructs the class
+     * Update of SplObserver
      *
-     * This method is the constructor and responsible for building the instance.
-     *
-     * @param integer $level       The level to use for this logger
-     * @param string  $fingerprint The fingerprint of the client
+     * @param SplSubject $subject The subject we work on
+     * @param null       $event   The event to process (optional)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
+     * @access public
+     */
+    public function update(SplSubject $subject, $event = null)
+    {
+        switch ($event) {
+            case 'log':
+                /* @var DoozR_Logger $subject */
+                $logs = $subject->getCollectionRaw();
+
+                foreach ($logs as $log) {
+                    $this->log(
+                        $log['type'],
+                        $log['message'],
+                        unserialize($log['context']),
+                        $log['time'],
+                        $log['fingerprint'],
+                        $log['separator']
+                    );
+                }
+                break;
+        }
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Internal Tools & Helper
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the separator for this very specific logger
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The line separator -> empty in this case
      * @access protected
      */
-    protected function __construct($level, $fingerprint)
+    protected function getLineSeparator()
     {
-        // call parents constructor
-        parent::__construct($level, $fingerprint);
-
-        // level
-        $this->level = $level;
-
-        // set line seperator
-        $this->lineSeparator = '';
-
-        // set line break
-        $this->lineBreak = '<br />';
+        return '';
     }
 
     /**
-     * Adds the defined line-separator to log-content
-     *
      * This method is intend to add the defined line-separator to log-content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function separate()
     {
-        // do nothing to seperate in file logger
+        // do nothing to seperate in system logger
         return true;
     }
 
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Abstract Requirements
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * override for parent::output()
+     * Dispatches a new route to this logger (e.g. for use as new filename).
      *
-     * we need to control what is send before the header is sent! if we have a critical output like "error"
-     * or "warning" we send the content with no matter if headers was already send or not. simple content like
-     * "log", "notice" and so on doesn't get delivered!
-     *
-     * @param string $color The color of the ouput as hexadecimal string reprensentation
+     * @param string $name The name of the route to dispatch
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The parent-call result
-     * @access protected
+     * @return void
+     * @access public
      */
-    protected function output($color = '#7CFC00')
+    public function route($name)
     {
-        $color = $this->typeToColor($this->contentType);
-        return parent::output($color);
+        /**
+         * This logger does not need to be re-routed
+         */
     }
 }

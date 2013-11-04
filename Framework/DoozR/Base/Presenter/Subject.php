@@ -77,11 +77,25 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
     /**
      * Contains all attached observers
      *
-     * @var SplObserver[]
+     * @var SplObjectStorage
      * @access protected
      */
-    protected $observers = array();
+    protected $observer;
 
+
+    /**
+     * Constructor override for SplObjectStorage instantiation.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter_Subject Subject
+     * @access public
+     */
+    public function __construct()
+    {
+        $this->observer = new SplObjectStorage();
+
+        parent::__construct();
+    }
 
     /**
      * Attaches a new observer instance
@@ -96,11 +110,11 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
      */
     public function attach(SplObserver $observer)
     {
-        $this->observers[]= $observer;
+        $this->observer->attach($observer);
     }
 
     /**
-     * Dettaches an observer
+     * Detaches an observer
      *
      * This method is intend to detach an observer
      *
@@ -112,13 +126,7 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
      */
     public function detach(SplObserver $observer)
     {
-        // iterate observer ...
-        foreach ($this->observers as $observer) {
-            // ... and remove the one
-            if ($observer === $observer) {
-                $this->observers = array_remove_value($this->observers, $observer);
-            }
-        }
+        $this->observer->detach($observer);
     }
 
     /**
@@ -133,7 +141,7 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
     public function notify()
     {
         // iterate the observer within the collection ...
-        foreach ($this->observers as $observer) {
+        foreach ($this->observer as $observer) {
             // ... and trigger update
             $observer->update($this);
         }

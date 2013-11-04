@@ -9,3 +9,6 @@ _doc/html/*
 /App/Data/Private/Temp/*.php
 /.externalToolBuilders
 /.idea
+/vendor
+
+/composer.lock

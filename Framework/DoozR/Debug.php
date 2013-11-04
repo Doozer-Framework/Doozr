@@ -110,7 +110,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         $this->_logger = $logger;
 
         // log debug state
-        $this->_logger->log(
+        $this->_logger->debug(
             'Debug-Manager - debug-mode enabled = '.strtoupper(var_export($enabled, true))
         );
 
@@ -135,7 +135,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     {
         if ($this->_enable()) {
             $this->_enabled = true;
-            $this->_logger->log('Debug-mode successfully enabled.');
+            $this->_logger->debug('Debug-mode successfully enabled.');
         } else {
             $this->_enabled = false;
             throw new Exception('Debug-mode could not be enabled! Your system isn\'t configurable at runtime.');
@@ -155,7 +155,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     {
         if ($this->_disable()) {
             $this->_enabled = false;
-            $this->_logger->log('Debug-mode successfully disabled!');
+            $this->_logger->debug('Debug-mode successfully disabled!');
         } else {
             $this->_enabled = true;
             throw new Exception('Debug-mode could not be disabled!');

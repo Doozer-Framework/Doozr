@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Locale
+ * DoozR - Logger - Constant
  *
- * Locale.php - Locale bootstrap of the DoozR Framework
+ * Constant.php - Logger constants
  *
  * PHP versions 5
  *
@@ -43,118 +43,104 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Locale
+ * @package    DoozR_Logger
+ * @subpackage DoozR_Logger_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
-
 /**
- * DoozR Locale
+ * DoozR - Logger - Constant
  *
- * Locale bootstrap of the DoozR Framework
+ * Constant.php - Logger constants
  *
  * @category   DoozR
  * @package    DoozR_Core
- * @subpackage DoozR_Core_Locale
+ * @subpackage DoozR_Core_Logger
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class DoozR_Locale extends DoozR_Base_Class_Singleton
+class DoozR_Logger_Constant
 {
-    /**
-     * Instance of config
-     *
-     * @var object
-     * @access private
-     */
-    private $_config;
+    /*------------------------------------------------------------------------------------------------------------------
+    | Available Loglevel following PSR-3
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Instance of logger
+     * Emergency
      *
-     * @var object
-     * @access private
+     * @var string
+     * @access public
+     * @const
      */
-    private $_logger;
-
+    const EMERGENCY = 'emergency';                          // level 0
 
     /**
-     * constructor
+     * Alert
      *
-     * This method is the constructor
-     *
-     * @param object $config The config instance
-     * @param object $logger The logger instance
-     *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @DoozRInject DoozR_Config,DoozR_Logger
+     * @var string
+     * @access public
+     * @const
      */
-    protected function __construct($config, $logger)
-    {
-        $this->_config = $config;
-        $this->_logger = $logger;
-
-        // retrieve timezone from config
-        $timezone = $this->_config->locale->timezone();
-
-        // setup
-        $this->_setTimezone($timezone);
-    }
+    const ALERT     = 'alert';                              // level 1
 
     /**
-     * sets the default timezone
+     * Critical
      *
-     * This method is intend to set the default timezone
-     * (e.g. to prevent E_NOTICE from mktime() + time())
-     *
-     * @param string $timezone The timezone to set
-     *
-     * @return  boolean TRUE if timezone could be set, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @var string
+     * @access public
+     * @const
      */
-    private function _setTimezone($timezone = 'Europe/Berlin')
-    {
-        return date_default_timezone_set($timezone);
-    }
+    const CRITICAL  = 'critical';                           // level 2
 
     /**
-     * returns the current locale setup
+     * Error
      *
-     * This method is intend to return the current locale setup.
-     *
-     * @return  array Current locale configuration
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @var string
+     * @access public
+     * @const
      */
-    public function getActiveSetup()
-    {
-        return array(
-            'charset'  => $this->_config->locale->charset(),
-            'encoding' => $this->_config->locale->encoding(),
-            'language' => $this->_config->locale->language(),
-            'locale'   => $this->_config->locale->locale()
-        );
-    }
+    const ERROR     = 'error';                              // level 3
+
+    /**
+     * Warning
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const WARNING   = 'warning';                            // level 4
+
+    /**
+     * Notice
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const NOTICE    = 'notice';                             // level 5
+
+    /**
+     * Info
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const INFO      = 'info';                               // level 6
+
+    /**
+     * Debug
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const DEBUG     = 'debug';                              // level 7
 }

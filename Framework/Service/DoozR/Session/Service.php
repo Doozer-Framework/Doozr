@@ -661,7 +661,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         if ($ipFromSession) {
             // found ip in session! try to validate and destroy if suspicious
             if ($ipFromSession != $ip) {
-                $this->_logger->log('Session seems to be hijacked! Destroying session and closing connection!');
+                $this->_logger->debug('Session seems to be hijacked! Destroying session and closing connection!');
                 $this->destroy();
             }
         } else {
@@ -850,7 +850,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         }
 
         // log created session-id and defined session parameter (cookie params)
-        $this->_logger->log(
+        $this->_logger->debug(
             'Session-Id: '.$this->getId().' Session-Cookie-Parameter: '.
             var_export(
                 session_get_cookie_params(),

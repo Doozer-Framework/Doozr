@@ -310,13 +310,13 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
         if ($this->config->debug->enabled()) {
 
             // log Request-Parameter and Request-Header
-            $this->logger->log(
+            $this->logger->debug(
                 "Request-Header: \n".self::getRequestHeader(true)
             );
 
             // if request defined -> log its parameter (all)
             if (count($_REQUEST) > 0) {
-                $this->logger->log(
+                $this->logger->debug(
                     "Request-Parameter: \n".self::getRequestAsString()
                 );
             }

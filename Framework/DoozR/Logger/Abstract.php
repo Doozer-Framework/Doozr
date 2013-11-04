@@ -50,12 +50,10 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
+ *             http://tools.ietf.org/html/rfc5424
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Serviceloader.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
 
 /**
  * DoozR - Logger - Abstract
@@ -70,10 +68,11 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Serviceloader.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
+ *             http://tools.ietf.org/html/rfc5424
  */
-abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
+abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
+    implements
+    Countable
 {
     /**
      * The name of this logger
@@ -89,7 +88,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @var string
      * @access protected
      */
-    protected $version = '$Rev$';
+    protected $version = 'Git: $Id$';
 
     /**
      * The content of the current log call
@@ -111,14 +110,6 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $contentRaw = array();
 
     /**
-     * The last calls log-type
-     *
-     * @var string
-     * @access protected
-     */
-    protected $contentType;
-
-    /**
      * The content of all logger call's (collection).
      * if you need only the last call's content have a look at
      * $content.
@@ -135,6 +126,14 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @access protected
      */
     protected $collectionRaw = array();
+
+    /**
+     * The instance of the datetime module required for time/date calculations
+     *
+     * @var DoozR_Datetime_Service
+     * @access protected
+     */
+    protected $dateTime;
 
     /**
      * Clean log content
@@ -155,14 +154,6 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @access protected
      */
     protected $lineSeparator;
-
-    /**
-     * The instance of the datetime module required for time/date calculations
-     *
-     * @var object
-     * @access protected
-     */
-    protected $dateTime;
 
     /**
      * The line break char
@@ -208,38 +199,27 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      */
     protected $date;
 
-    /**
-     * An instance of DoozR_Config
-     *
-     * @var DoozR_Config
-     * @access protected
-     * @static
-     */
-    protected static $config;
 
     /**
      * The translation from [type to level]
      *
+     * @example: 'emergency' => 0 means that emergency is level 0
+     *           as 'debug' is level 7
+     *
      * @var integer
      * @access const
      */
-    protected $logtypes = array(
-        'UNCLASSIFIED' => 9, // the unclassified php messages
-        'FINE'         => 8, // java like logging
-        'FINER'        => 8,
-        'FINEST'       => 8,
-        'TRACE'        => 7, // trace + logger messages
-        'DEBUG'        => 7,
-        'INFO'         => 7,
-        'LOG'          => 7,
-        'IMPORTANT'    => 3,
-        'WARN'         => 2, // warnings
-        'WARNING'      => 2,
-        'EXCEPTION'    => 1, // concrete errors
-        'ERROR'        => 1,
-        'FATAL'        => 1,
-        'SEVERE'       => 1
+    protected $availableLogtypes = array(
+        'emergency' => 7,   // 0,
+        'alert'     => 6,   // 1,
+        'critical'  => 5,   // 2,
+        'error'     => 4,   // 3,
+        'warning'   => 3,   // 4,
+        'notice'    => 2,   // 5,
+        'info'      => 1,   // 6,
+        'debug'     => 0,   // 7,
     );
+
 
     /**
      * This method is the constructor and responsible for building the instance.
@@ -250,109 +230,117 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access protected
+     * @access public
      */
-    protected function __construct($level = 1, $fingerprint = '', $config = null)
+    public function __construct(DoozR_Datetime_Service $datetime, $level = null, $fingerprint = null)
     {
-        // get datetime module
-        $this->dateTime = DoozR_Loader_Serviceloader::load('datetime');
+        // store config
+        $this->dateTime = $datetime;
 
         // set date
-        $this->date = $this->dateTime->getDate('c');
+        $this->setDate(
+            $this->dateTime->getDate('c')
+        );
 
-        // store config
-        self::$config = $config;
+        // set level to upper bound (max) if not passed
+        $this->setLevel(
+            ($level !== null) ? $level : 0
+        );
 
         // store fingerprint
-        $this->fingerprint = $fingerprint;
+        $this->setFingerprint(
+            ($fingerprint !== null) ? $fingerprint : $this->generateFingerprint()
+        );
 
         // set line seperator
-        $this->lineSeparator = str_repeat('-', $this->lineWidth);
+        $this->setLineSeparator(
+            str_repeat('-', $this->lineWidth)
+        );
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * logs a given message/content
+     * Logs a given message/content
      *
      * This method is intend to log a message.
      *
-     * @param string $content  The content/text/message to log
-     * @param string $type     The type of the log-entry
-     * @param string $file     The filename of the file from where the log entry comes
-     * @param string $line     The linenumber from where log-entry comes
-     * @param string $class    The classname from the class where the log-entry comes
-     * @param string $method   The methodname from the method where the log-entry comes
-     * @param string $function The functionname from the function where the log-entry comes
-     * @param string $optional The optional content/param to log
+     * @param string $type        The level/type of the log entry
+     * @param string $message     The message to log
+     * @param array  $context     The context with variables used for interpolation
+     * @param string $time        The time to use for logging
+     * @param string $fingerprint The fingerprint to use/set
+     * @param string $separator   The separator to use/set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
+     * @throws DoozR_Logger_InvalidArgumentException
      */
     public function log(
-        $content = '',
-        $type = 'LOG',
-        $file = false,
-        $line = false,
-        $class = false,
-        $method = false,
-        $function = false,
-        $optional = false
+        $type,
+        $message,
+        array $context = array(),
+        $time          = null,
+        $fingerprint   = null,
+        $separator     = null
     ) {
-        // check if we should log this
-        if ($this->typeToLevel($type) <= $this->level) {
-            // store the type
-            $this->contentType = $type;
+        // prevent misuse
+        if (!array_key_exists($type, $this->availableLogtypes)) {
+            throw new DoozR_Logger_InvalidArgumentException('Invalid log type: '.$type.' passed to '.__METHOD__);
+        }
 
-            // add raw content for collection
-            $this->concatRaw('type', $type);
+        /*
+        echo 'Level by type: '.$this->getLevelByType($type).'<br />';
+        echo 'Type: '.$type.'<br />';
+        echo '$this->level: '.$this->level.'<br />';
+        echo '$this->name: '.$this->getName(). '<br />';
+        */
+
+        // check if we should log this
+        if ($this->getLevelByType($type) >= $this->level) {
 
             // get given log content (array / object) as string
-            $content = $this->string($content);
-            $content = wordwrap($content, $this->lineWidth, $this->lineBreak, true);
-            $this->concatRaw('content', $content);
+            $message = $this->interpolate(
+                $this->string($message),
+                $context
+            );
+
+            // message
+            $message = wordwrap($message, $this->lineWidth, $this->lineBreak, true);
 
             // log date time
-            $time = $this->date.' ['.$this->dateTime->getMicrotimeDiff($_SERVER['REQUEST_TIME']).']';
-            $this->concat($time);
-            $this->concatRaw('time', $time);
+            $time = ($time !== null) ?
+                $time :
+                $this->date.' ['.$this->dateTime->getMicrotimeDiff($_SERVER['REQUEST_TIME']).']';
 
             // add fingerprint of client (to identify logs from same client)
-            $fingerprint = '['.$this->fingerprint.']';
-            $this->concat($fingerprint);
-            $this->concatRaw('fingerprint', $fingerprint);
+            $fingerprint = ($fingerprint !== null) ? $fingerprint : '['.$this->fingerprint.']';
 
-            // add main log-content (information)
-            $this->concat('['.$type.'] '.$content);
+            // format separator
+            $separator = ($separator !== null) ? $separator : $this->getLineSeparator();
 
-            // add file if given
-            $this->concat($file, 'File');
-            $this->concatRaw('file', $file);
+            // this is one accumulated log-entry
+            $logEntry = array(
+                'type'        => $type,
+                'message'     => $message,
+                'context'     => serialize($context),
+                'time'        => $time,
+                'fingerprint' => $fingerprint,
+                'separator'   => $separator
+            );
 
-            // add line if given
-            $this->concat($line, 'Line');
-            $this->concatRaw('line', $line);
+            // store the log-entry as whole string = one string
+            $this->concat(
+                implode(' ', $logEntry)
+            );
 
-            // add class if given
-            $this->concat($class, 'Class');
-            $this->concatRaw('class', $class);
-
-            // add method if given
-            $this->concat($method, 'Method');
-            $this->concatRaw('method', $method);
-
-            // add function if given
-            $this->concat($function, 'Function');
-            $this->concatRaw('function', $function);
-
-            // add optional information if given
-            $this->concat($optional, 'Optional');
-            $this->concatRaw('optional', $optional);
-
-            // add separator
-            $this->separate();
-
-            // store raw content to in raw collection
-            $this->storeRaw();
+            // store the array as
+            $this->concatRaw(
+                $logEntry
+            );
 
             // write log content append
             $this->output();
@@ -363,108 +351,278 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * stores the current raw log-content
-     *
-     * This method is intend to store the current raw log-content in raw log-content collection.
+     * Returns the collection of the logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @return array The collection
+     * @access public
      */
-    protected function storeRaw()
+    public function getCollection($asArray = false)
     {
-        // store
-        $this->collectionRaw[] = $this->contentRaw;
-
-        // reset/clear
-        $this->contentRaw = array();
+        return $this->collection;
     }
 
     /**
-     * concats the given raw log-content to curent raw log-content array
-     *
-     * This method is intend to concat the given raw log-content to curent raw log-content array.
-     *
-     * @param string $what   The type to store
-     * @param string $string The content to store
+     * Returns the raw collection of the logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @return array The raw collection
+     * @access public
      */
-    protected function concatRaw($what, $string)
+    public function getCollectionRaw()
     {
-        $this->contentRaw[$what] = $string;
+        return $this->collectionRaw;
     }
 
     /**
-     * injects log-content from an other logger (e.g. collecting logger) to the concrete
-     * logger extending this abstract class
-     *
-     * This method is intend to inject log-content from an other logger (e.g. collecting logger) to the concrete
-     * logger extending this abstract class.
-     *
-     * @param array $rawCollection The raw collection with log-information
+     * Returns the content of the logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Always true
-     * @access protected
+     * @return array The content
+     * @access public
      */
-    protected function inject(array $rawCollection)
+    public final function getContent($asArray = false)
     {
-        // iterate over raw collection and process
-        foreach ($rawCollection as $entry) {
-            // check if we should log this
-            if ($this->typeToLevel($entry['type']) <= $this->level) {
+        return $this->content;
+    }
 
-                // iterate over log content and concat content
-                foreach ($entry as $key => $value) {
-                    $this->concatRaw($key, $value);
-                }
+    /**
+     * Returns the raw content of the logger
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The raw content
+     * @access public
+     */
+    public function getContentRaw()
+    {
+        return $this->contentRaw;
+    }
 
-                // inject last type
-                $this->contentType = $entry['type'];
+    /**
+     * Clears the collections - Both the raw and the normal one.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public final function clearCollection()
+    {
+        $reset = array(
+            &$this->collection,
+            &$this->collectionRaw,
+        );
 
-                // inject time
-                $this->concat($entry['time']);
-
-                // inject fingerprint
-                $this->concat($entry['fingerprint']);
-
-                // add main log-content (information)
-                $this->concat('['.$entry['type'].'] '.$entry['content']);
-
-                // inject file if given
-                $this->concat($entry['file'], 'File');
-
-                // inject line if given
-                $this->concat($entry['line'], 'Line');
-
-                // inject class if given
-                $this->concat($entry['class'], 'Class');
-
-                // inject method if given
-                $this->concat($entry['method'], 'Method');
-
-                // inject function if given
-                $this->concat($entry['function'], 'Function');
-
-                // inject optional information if given
-                $this->concat($entry['optional'], 'Optional');
-
-                // add separator
-                $this->separate();
-
-                // store raw content to in raw collection
-                $this->storeRaw();
-
-                // write log content append
-                $this->output();
-            }
+        foreach ($reset as &$property) {
+            $property = array();
         }
+    }
 
-        // success
-        return true;
+    /**
+     * Clears the contents - Both the raw and the normal one.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public final function clearContent()
+    {
+        $reset = array(
+            &$this->content,
+            &$this->contentRaw,
+        );
+
+        foreach ($reset as &$property) {
+            $property = array();
+        }
+    }
+
+    /**
+     * Clears the whole log contents - The collection and the content.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public final function clear()
+    {
+        $this->clearContent();
+        $this->clearCollection();
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | GETTER & SETTER
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for fingerprint.
+     *
+     * @param string $fingerprint The fingerprint to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setFingerprint($fingerprint)
+    {
+        $this->fingerprint = $fingerprint;
+    }
+
+    /**
+     * Getter for fingerprint.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Fingerprint
+     * @access public
+     */
+    public function getFingerprint()
+    {
+        return $this->fingerprint;
+    }
+
+    /**
+     * Setter for lineSeparator.
+     *
+     * @param string $lineSeparator The lineSeparator to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setLineSeparator($lineSeparator)
+    {
+        $this->lineSeparator = $lineSeparator;
+    }
+
+    /**
+     * Getter for lineSeparator.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string lineSeparator
+     * @access protected
+     */
+    protected function getLineSeparator()
+    {
+        return $this->lineSeparator;
+    }
+
+    /**
+     * Setter for level.
+     *
+     * @param integer $level The level to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setLevel($level)
+    {
+        $this->level = $level;
+    }
+
+    /**
+     * Getter for level.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer level
+     * @access public
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * Setter for date.
+     *
+     * @param string $date The date to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * Getter for date.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string date
+     * @access public
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Setter for name.
+     *
+     * @param string $name The name to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Getter for name.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of logger that extends this abstract class
+     * @access public
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Setter for version.
+     *
+     * @param string $version The version to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+    }
+
+    /**
+     * Getter for version.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The version of the logger-class that extends this abstract class
+     * @access public
+     */
+    public function getVersion()
+    {
+        return preg_replace('/\D/', '', $this->version);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL HELPER / TOOLS
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Generates a fingerprint
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Generated fingerprint
+     * @access protected
+     */
+    protected function generateFingerprint()
+    {
+        return sha1(implode('', $_SERVER));
     }
 
     /**
@@ -482,7 +640,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * converts/translates a given type to its level
+     * Returns the level (integer) for a passed type.
      *
      * This method is intend to translate a given log-type to its level.
      *
@@ -492,243 +650,60 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @return integer The corresponding level
      * @access protected
      */
-    protected function typeToLevel($type)
+    protected function getLevelByType($type)
     {
-        if (isset($this->logtypes[$type])) {
-            return $this->logtypes[$type];
-        } else {
-            return '0';
+        $level = 0;
+
+        if (isset($this->availableLogtypes[$type])) {
+            $level = $this->availableLogtypes[$type];
         }
+
+        return $level;
     }
 
     /**
-     * converts/translates a given type to its corresponding color
+     * Returns the color hex-code for a passed type.
      *
-     * This method is intend to convert/translate a given type to its corresponding color.
-     *
-     * @param string $type The type to translate as string
+     * @param string $type The type to return color hex-code for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The corresponding color
+     * @return string The corresponding color hex-code
      * @access protected
      */
-    protected function typeToColor($type)
+    protected function getColorByType($type)
     {
         switch ($type) {
-        case 'EXCEPTION':
-        case 'ERROR':
-        case 'FATAL':
-        case 'SEVERE':
-        return '#EF4A4A';
-        break;
+            case 'emergency':
+            case 'alert':
+            case 'critical';
+            case 'error':
+            case 'warning':
+            case 'notice':
+                return '#EF4A4A';
+                break;
 
-        default:
-        return '#7CFC00';
-        break;
+            case 'info':
+            case 'debug':
+                return '#EEEEEE';
+                break;
+
+            default:
+                return '#7CFC00';
+                break;
         }
     }
 
     /**
-     * returns the logger-name
+     * Takes the passed content and return it as string.
+     * This method instrumentalizes the var_export PHP function.
      *
-     * This method is intend to return the logger-name.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The name of logger that extends this abstract class
-     * @access public
-     * @final
-     */
-    public final function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * returns the log-content of the last logger-call
-     *
-     * This method is intend to return the log-content of the last logger-call.
-     *
-     * @param boolean $returnArray TRUE to retrieve array, false to retrieve string
-     * @param boolean $lineBreak   TRUE to break each part of the single log-entry with a line break
+     * @param mixed|array|object $content The content to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed string if $returnArray false, otherwise array
-     * @access public
-     * @final
-     */
-    public final function getContent($returnArray = false, $lineBreak = false)
-    {
-        // return as string?
-        if (!$returnArray) {
-            return implode(($lineBreak) ? $this->lineBreak : '', $this->content);
-        }
-
-        // return the content as array
-        return $this->content;
-    }
-
-    /**
-     * returns the complete collection of log-content as string or array
-     *
-     * This method is intend to return the complete collection of log-content as string or array.
-     *
-     * @param boolean $returnArray True to retrieve array, false to retrieve string
-     * @param boolean $returnRaw   True to retrieve the raw content -> not preformatted
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed string if $returnArray false, otherwise array
-     * @access public
-     */
-    public function getCollection($returnArray = false, $returnRaw = false)
-    {
-        if (!$returnRaw) {
-            $content = $this->collection;
-        } else {
-            $content = $this->collectionRaw;
-        }
-
-        // return as string?
-        if (!$returnArray) {
-            return implode($this->lineBreak, $content);
-        }
-
-        // return the content as array
-        return $content;
-    }
-
-    /**
-     * returns the logger's version
-     *
-     * This method is intend to return the loggers version.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The version of the logger-class that extends this abstract class
-     * @access public
-     * @final
-     */
-    public final function getVersion()
-    {
-        return preg_replace('/\D/', '', $this->version);
-    }
-    /**
-     * concats a given string including it's type to current log-content
-     *
-     * This method is intend to concat a given string including it's type to current log-content.
-     *
-     * @param string $content The content to concat
-     * @param string $type    The type to concat
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     * @final
-     */
-    protected final function concat($content = '', $type = false)
-    {
-        // check for type
-        if ($type) {
-            $content = $this->format($content, $type);
-        }
-
-        // log only if content not empty
-        if ($content) {
-            // finally append to current log-content
-            $this->content[] = $content;
-
-            // and to the collection
-            $this->collection[] = $content;
-        }
-    }
-
-    /**
-     * clears (deletes/resets) the current log-content (and collection if $clearCollection set to true)
-     *
-     * This method is intend to clear (delete/reset) the current log-content
-     * (and collection if $clearCollection set to true).
-     *
-     * @param boolean $clearCollection True to clear the collection too, otherwise false to keep the collection
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     * @final
-     */
-    public final function clear($clearCollection = false)
-    {
-        // check if collection also should be cleared
-        if ($clearCollection) {
-            // then clear collection
-            $this->collection = array();
-        }
-
-        // and clear current content always
-        $this->content = array();
-    }
-
-
-    /**
-     * formats a logging parameter and it's value to a loggable string
-     *
-     * This method is intend to format a given parameter and it's value to a loggable string.
-     *
-     * @param string  $content   The content to format
-     * @param string  $type      The type to format
-     * @param boolean $lineBreak TRUE to use defined line break, FALSE to do not
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The formatted string to log
+     * @return string serialized The result as string
      * @access protected
      */
-    protected function format($content = '', $type = '', $lineBreak = false)
-    {
-        // holds the formatted log entry
-        $formatted = '';
-
-        // format only if value if gven
-        if (strlen($content)) {
-            $formatted = ' '.(strlen($type) ? $type.':' : '').' '.$content.(($lineBreak) ? $this->lineBreak : '');
-        }
-
-        // return the formatted log-content
-        return $formatted;
-    }
-
-    /**
-     * abstract output container method
-     *
-     * This method is intend to write data to a defined pipe like STDOUT, a file, browser ...
-     * It should be overriden in concrete implementation.
-     *
-     * @param string $color The color of the output as hexadecimal string representation
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function output($color = '#7CFC00')
-    {
-        // first get content to local var
-        $content = $this->getContent();
-
-        // so we can clear the existing log
-        $this->clear();
-
-        // and echo out the fetched content
-        pre($content, false, $color);
-    }
-
-    /**
-     * serialize array|object for logger
-     *
-     * serializes (array|object to string) for logger to make them loggable
-     *
-     * @param mixed $content array|object to convert to string
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string serialized array|object if correct type to convert given, otherwise false
-     * @access public
-     */
-    public function string($content)
+    protected function string($content)
     {
         // check if not is string ...
         if (!is_string($content)) {
@@ -739,4 +714,290 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class_Singleton_Strict
         // and return it
         return $content;
     }
+
+    /**
+     * Adds the passed content to content & collection.
+     *
+     * @param string $logentry The content to add
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function concat($logentry)
+    {
+        // finally append to current log-content
+        $this->content[] = $logentry;
+
+        // and to the collection
+        $this->collection[] = $logentry;
+    }
+
+    /**
+     * concats the given raw log-content to curent raw log-content array
+     *
+     * This method is intend to concat the given raw log-content to curent raw log-content array.
+     *
+     * @param string $what   The type to store
+     * @param string $string The content to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function concatRaw(array $array)
+    {
+        $this->contentRaw[] = $array;
+
+        // and to the collection
+        $this->collectionRaw[] = $array;
+    }
+
+    /**
+     * Formats the passed string with the passed type and the line-break
+     * to a complete log-line.
+     *
+     * @param string  $content   The string to be formatted
+     * @param string  $type      The type to be formatted
+     * @param boolean $lineBreak TRUE to use defined line break, FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formatted string to log
+     * @access protected
+     */
+    protected function format($string = '', $type = '', $lineBreak = false)
+    {
+        // holds the formatted log entry
+        $formatted = $string;
+
+        // format only if value is passed
+        if (isset($string[1])) {
+            $formatted = ' '.(strlen($type) ? $type.':' : '').' '.$string.(($lineBreak) ? $this->lineBreak : '');
+        }
+
+        // return the formatted log-content
+        return $formatted;
+    }
+
+    /**
+     * Basic output method which takes the current content and displays
+     * it via pre().
+     *
+     * @param string $color The color of the output as hexadecimal string representation
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function output($color = '#7CFC00')
+    {
+        // first get content to local var
+        $content = $this->getContentRaw();
+
+        // iterate log content
+        foreach ($content as $logEntry) {
+
+            // get color
+            $color = $this->getColorByType($logEntry['type']);
+
+            // show the message
+            pre(
+                $logEntry['time'].' '.
+                '['.$logEntry['type'].'] '.
+                $logEntry['fingerprint'].' '.
+                $logEntry['message'].
+                $this->getLineSeparator(),
+                false,
+                $color
+            );
+        }
+
+        // so we can clear the existing log
+        $this->clear();
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PSR-3 Interface
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Interpolates context values into the message placeholders.
+     *
+     * @param string $message The message to log
+     * @param array  $context The context (e.g. template variables)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    protected function interpolate($message, array $context = array())
+    {
+        // build a replacement array with braces around the context keys
+        $replace = array();
+
+        foreach ($context as $key => $val) {
+            $replace['{' . $key . '}'] = $val;
+        }
+
+        // interpolate replacement values into the message and return
+        return strtr($message, $replace);
+    }
+
+    /**
+     * System is unusable.
+     *
+     * @param string $message The message to log
+     * @param array  $context The context (e.g. template variables)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function emergency($message, array $context = array())
+    {
+        return $this->log(DoozR_Logger_Constant::EMERGENCY, $message, $context);
+    }
+
+    /**
+     * Action must be taken immediately.
+     * Example: Entire website down, database unavailable, etc. This should
+     * trigger the SMS alerts and wake you up.
+     *
+     * @param string $message The message to log
+     * @param array  $context The context (e.g. template variables)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function alert($message, array $context = array())
+    {
+        return $this->log(DoozR_Logger_Constant::ALERT, $message, $context);
+    }
+
+    /**
+     * Critical conditions.
+     * Example: Application component unavailable, unexpected exception.
+     *
+     * @param string $message The message to log
+     * @param array  $context The context (e.g. template variables)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function critical($message, array $context = array())
+    {
+        return $this->log(DoozR_Logger_Constant::CRITICAL, $message, $context);
+    }
+
+    /**
+     * Runtime errors that do not require immediate action but should typically
+     * be logged and monitored.
+     *
+     * @param string $message The message to log
+     * @param array  $context The context (e.g. template variables)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function error($message, array $context = array())
+    {
+        return $this->log(DoozR_Logger_Constant::ERROR, $message, $context);
+    }
+
+    /**
+     * Exceptional occurrences that are not errors.
+     * Example: Use of deprecated APIs, poor use of an API, undesirable things
+     * that are not necessarily wrong.
+     *
+     * @param string $message The message to log
+     * @param array  $context The context (e.g. template variables)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function warning($message, array $context = array())
+    {
+        return $this->log(DoozR_Logger_Constant::WARNING, $message, $context);
+    }
+
+    /**
+     * Normal but significant events.
+     *
+     * @param string $message The message to log
+     * @param array  $context The context (e.g. template variables)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function notice($message, array $context = array())
+    {
+        return $this->log(DoozR_Logger_Constant::NOTICE, $message, $context);
+    }
+
+    /**
+     * Interesting events.
+     * Example: User logs in, SQL logs.
+     *
+     * @param string $message The message to log
+     * @param array  $context The context (e.g. template variables)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function info($message, array $context = array())
+    {
+        return $this->log(DoozR_Logger_Constant::INFO, $message, $context);
+    }
+
+    /**
+     * Detailed debug information.
+     *
+     * @param string $message The message to log
+     * @param array  $context The context (e.g. template variables)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function debug($message, array $context = array())
+    {
+        return $this->log(DoozR_Logger_Constant::DEBUG, $message, $context);
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Countable
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the count of elements in registry
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function count()
+    {
+        return count($this->content);
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Abstract Requirements
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Dispatches a new route to this logger (e.g. for use as new filename).
+     *
+     * @param string $name The name of the route to dispatch
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True on success, otherwise false
+     * @access public
+     */
+    abstract public function route($name);
 }
