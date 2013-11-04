@@ -886,7 +886,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
 
             throw new DoozR_Exception($message);
 
-            $this->logger->log($message);
+            $this->logger->debug($message);
         }
 
         // return this for chaining
@@ -912,7 +912,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
             header('Connection: close');
 
         } else {
-            $this->logger->log(
+            $this->logger->debug(
                 __CLASS__.': Failed while sending HTTP-Header "Connection: close". Headers already sent in file: '.
                 $file.' on line: '.$line
             );

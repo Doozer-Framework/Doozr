@@ -88,7 +88,9 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Parameter.php';
  * @see        -
  * @since      -
  */
-final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Interface
+final class DoozR_Core extends DoozR_Base_Class_Singleton
+    implements
+    DoozR_Interface
 {
     /**
      * The version of DoozR (automatic setted by git)
@@ -326,7 +328,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
             self::_initLogger();
 
             // log bootstrapping
-            self::$_logger->log('Bootstrapping of DoozR (v '.self::getVersion(true).')');
+            self::$_logger->debug('Bootstrapping of DoozR (v '.self::getVersion(true).')');
 
             // init path-manager
             self::_initPath();
@@ -437,8 +439,26 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      */
     private static function _initLogger()
     {
-        // get collecting logger with max log-level till logger subsystem is ready
-        self::$_logger = DoozR_Logger::getInstance();
+        // add required dependencies
+        self::$_map->wire(
+            DoozR_Di_Container::MODE_STATIC,
+            array(
+                'DoozR_Datetime_Service' => DoozR_Loader_Serviceloader::load('datetime')
+            )
+        );
+
+        // store map with fresh instances
+        self::$_container->setMap(self::$_map);
+
+        // get config reader
+        self::$_logger = self::$_container->build('DoozR_Logger');
+
+        /**
+         * Now attach the Collecting Logger
+         */
+        self::$_logger->attach(
+            self::$_container->build('DoozR_Logger_Collecting')
+        );
 
         // store in registry
         self::$_registry->logger = self::$_logger;
@@ -523,6 +543,15 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
      */
     private static function _configureLogging()
     {
+        // 1st get collecting logger
+        $collectingLogger = self::$_logger->getLogger('collecting');
+
+        // 2nd get existing log content
+        $collection = $collectingLogger->getCollectionRaw();
+
+        // 3rd remove collecting logger
+        self::$_logger->detachAll(true);
+
         // check if logging enabled
         if (self::$_config->logging->enabled()) {
 
@@ -534,16 +563,29 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
 
             // iterate and attach to subsystem
             foreach ($loggers as $logger) {
-                self::$_logger->attach(
-                    $logger->name,
-                    (isset($logger->level)) ? $logger->level : null,
-                    self::$_registry->config,
-                    (isset($logger->header)) ? $logger->header : false
+
+                // @todo: DI
+                $classname = 'DoozR_Logger_'.ucfirst(strtolower($logger->name));
+
+                $logger = new $classname(
+                    DoozR_Loader_Serviceloader::load('datetime'),
+                    (isset($logger->level)) ? $logger->level : self::$_logger->getDefaultLoglevel()
                 );
+
+                // attach the logger
+                self::$_logger->attach($logger);
             }
 
-            // detach the attached collecting logger (not longer needed!)
-            self::$_logger->detach('collecting');
+            foreach ($collection as $key => $entry) {
+                self::$_logger->log(
+                    $entry['type'],
+                    $entry['message'],
+                    unserialize($entry['context']),
+                    $entry['time'],
+                    $entry['fingerprint'],
+                    $entry['separator']
+                );
+            }
 
         } else {
             // disable logging (+ dispatching ...)
@@ -747,7 +789,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
         self::$coreExecutionTime = self::_getDateTime()->getMicrotimeDiff(self::$starttime);
 
         // log core execution time
-        self::$_logger->log('Core execution-time: '.self::$coreExecutionTime.' seconds');
+        self::$_logger->debug('Core execution-time: '.self::$coreExecutionTime.' seconds');
     }
 
     /**
@@ -894,14 +936,14 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton implements DoozR_Inter
     {
         // log request serving time -> but only if logger available!
         if (self::$_logger) {
-            self::$_logger->log(
+            self::$_logger->debug(
                 'Request cycle completed in: '.self::_getDateTime()->getMicrotimeDiff(self::$starttime).' seconds'
             );
 
             $memoryUsage = number_format(round(memory_get_peak_usage()/1024/1024, 2), 2);
 
             // log memory usage
-            self::$_logger->log(
+            self::$_logger->debug(
                 'Total consumed memory: '.$memoryUsage.' MB'
             );
         }

@@ -270,7 +270,7 @@ class DoozR_Request_Securitylayer
             // log if result wasn't empty
             $logger = DoozR_Logger::getInstance();
 
-            $logger->log('DoozR core-protection (IDS) -> detected an impact of: '.$phpIdsResult->getImpact());
+            $logger->debug('DoozR core-protection (IDS) -> detected an impact of: '.$phpIdsResult->getImpact());
 
 			// store result! for setting the impact later ...
 			self::$idsResult = $phpIdsResult;
@@ -310,7 +310,7 @@ class DoozR_Request_Securitylayer
 
         	$logger = DoozR_Logger::getInstance();
 
-			$logger->log(
+			$logger->debug(
                 'DoozR core-protection -> '.__CLASS__.' (IDS) detected an overall-impact of: '.$totalImpact.
                 ' and send: '.$httpHeader.' to client: '.$_SERVER['REMOTE_ADDR']
 			);

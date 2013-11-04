@@ -52,17 +52,18 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        Abstract.php, Interface.php
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/PsrInterface.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Constant.php';
 
 /**
  * DoozR - Logger - Collecting
  *
- * This logger collects log-entries and hold them until the logger-subsystem is finally
- * ready for (real) logging.
+ * This logger collects log-entries and hold them until the
+ * logger-subsystem is finally ready for (real) logging.
  *
  * @category   DoozR
  * @package    DoozR_Logger
@@ -73,9 +74,11 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        Abstract.php, Interface.php
- * @since      -
  */
-final class DoozR_Logger_Collecting extends DoozR_Logger_Abstract implements DoozR_Logger_Interface
+final class DoozR_Logger_Collecting extends DoozR_Logger_Abstract implements
+     DoozR_Logger_Interface,
+     DoozR_Logger_PsrInterface,
+     SplObserver
 {
     /**
      * Name of this logger
@@ -91,33 +94,50 @@ final class DoozR_Logger_Collecting extends DoozR_Logger_Abstract implements Doo
      * @var string
      * @access protected
      */
-    protected $version = '$Rev$';
+    protected $version = 'Git: $Id$';
 
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Fulfill SplObserver
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method act as constructor
+     * SplOberserver
      *
-     * @param integer $level       The loglevel to use for this instance
-     * @param string  $fingerprint The fingerprint of the client
+     * @param SplSubject  $subject The subject containing the data
+     * @param null|string $event   The event triggered (optional)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access public
      */
-    protected function __construct($level, $fingerprint)
+    public function update(SplSubject $subject, $event = null)
     {
-        // call parents constructor
-        parent::__construct($level, $fingerprint);
+        switch ($event) {
+            case 'log':
+                /* @var DoozR_Logger $subject */
+                $logs = $subject->getCollectionRaw();
 
-        // holds the log-level for this logger
-        $this->level = $level;
+                foreach ($logs as $log) {
+                    $this->log(
+                        $log['type'],
+                        $log['message'],
+                        unserialize($log['context']),
+                        $log['time'],
+                        $log['fingerprint'],
+                        $log['separator']
+                    );
+                }
+                break;
+        }
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | Internal Tools & Helper
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * Output log content
-     *
-     * This method is intend to write data to a defined pipe like STDOUT, a file, browser ...
-     * It should be overriden in concrete implementation.
+     * Prevent content from being echoed or something like this.
      *
      * @param string $color The color of output text as hex-value string
      *
@@ -129,5 +149,25 @@ final class DoozR_Logger_Collecting extends DoozR_Logger_Abstract implements Doo
     {
         // dummmy return true -> cause not needed for collecting logger
         return true;
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Abstract Requirements
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Dispatches a new route to this logger (e.g. for use as new filename).
+     *
+     * @param string $name The name of the route to dispatch
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function route($name)
+    {
+        /**
+         * This logger does not need to be re-routed
+         */
     }
 }

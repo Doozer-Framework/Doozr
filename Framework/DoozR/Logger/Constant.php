@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Presenter Subject
+ * DoozR - Logger - Constant
  *
- * Subject.php - Base subject-template for "Presenter" build (MVP pattern)
+ * Constant.php - Logger constants
  *
  * PHP versions 5
  *
@@ -40,110 +40,107 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
+ * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @package    DoozR_Logger
+ * @subpackage DoozR_Logger_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
 
 /**
- * DoozR Base Presenter Subject
+ * DoozR - Logger - Constant
  *
- * Base subject-template for "Presenter" build (MVP pattern)
+ * Constant.php - Logger constants
  *
  * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @package    DoozR_Core
+ * @subpackage DoozR_Core_Logger
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements SplSubject
+class DoozR_Logger_Constant
 {
-    /**
-     * Contains all attached observers
-     *
-     * @var SplObjectStorage
-     * @access protected
-     */
-    protected $observer;
-
+    /*------------------------------------------------------------------------------------------------------------------
+    | Available Loglevel following PSR-3
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor override for SplObjectStorage instantiation.
+     * Emergency
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Subject Subject
+     * @var string
      * @access public
+     * @const
      */
-    public function __construct()
-    {
-        $this->observer = new SplObjectStorage();
-
-        parent::__construct();
-    }
+    const EMERGENCY = 'emergency';                          // level 0
 
     /**
-     * Attaches a new observer instance
+     * Alert
      *
-     * This method is intend to register a new observer instance.
-     *
-     * @param SplObserver $observer The observer instance to attach
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @var string
      * @access public
+     * @const
      */
-    public function attach(SplObserver $observer)
-    {
-        $this->observer->attach($observer);
-    }
+    const ALERT     = 'alert';                              // level 1
 
     /**
-     * Detaches an observer
+     * Critical
      *
-     * This method is intend to detach an observer
-     *
-     * @param SplObserver $observer The observer instance to remove
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @var string
      * @access public
+     * @const
      */
-    public function detach(SplObserver $observer)
-    {
-        $this->observer->detach($observer);
-    }
+    const CRITICAL  = 'critical';                           // level 2
 
     /**
-     * Notifies all registered observers about an update
+     * Error
      *
-     * This method is intend to notify all registered observers about an update.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @var string
      * @access public
+     * @const
      */
-    public function notify()
-    {
-        // iterate the observer within the collection ...
-        foreach ($this->observer as $observer) {
-            // ... and trigger update
-            $observer->update($this);
-        }
-    }
+    const ERROR     = 'error';                              // level 3
+
+    /**
+     * Warning
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const WARNING   = 'warning';                            // level 4
+
+    /**
+     * Notice
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const NOTICE    = 'notice';                             // level 5
+
+    /**
+     * Info
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const INFO      = 'info';                               // level 6
+
+    /**
+     * Debug
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const DEBUG     = 'debug';                              // level 7
 }

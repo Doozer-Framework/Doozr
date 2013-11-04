@@ -119,6 +119,42 @@
                     }
                 ]
             },
+            "DoozR_Logger": {
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Datetime_Service",
+                        "classname": "DoozR_Datetime_Service",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Logger_System": {
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Datetime_Service",
+                        "classname": "DoozR_Datetime_Service",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Logger_Collecting": {
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Datetime_Service",
+                        "classname": "DoozR_Datetime_Service",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
             "DoozR_Model": {
                 "constructor": "getInstance",
                 "dependencies": [

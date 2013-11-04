@@ -2,10 +2,12 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Logger
+ * DoozR - Logger - Composite
  *
- * Logger.php - This logger is the composite for accessing the logging-subsystem
- * of the DoozR-Framework
+ * Logger.php - This logger is the composite for accessing the logging-
+ * subsystem of the DoozR-Framework. This logger is the main entry point
+ * for all log-content. This logger takes any log and dispatch this to
+ * the attached loggers.
  *
  * PHP versions 5
  *
@@ -44,40 +46,63 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Logger
+ * @package    DoozR_Logger
+ * @subpackage DoozR_Logger_Composite
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Abstract.php, Interface.php
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Constant.php';
 
 /**
- * DoozR - Logger
+ * DoozR - Logger - Composite
  *
- * This logger is the composite for accessing the logging-subsystem of the DoozR-Framework
+ * This logger is the composite for accessing the logging-
+ * subsystem of the DoozR-Framework. This logger is the main entry point
+ * for all log-content. This logger takes any log and dispatch this to
+ * the attached loggers.
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Logger
+ * @package    DoozR_Logger
+ * @subpackage DoozR_Logger_Composite
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @see        Abstract.php, Interface.php
- * @since      -
  */
-final class DoozR_Logger extends DoozR_Logger_Abstract implements DoozR_Logger_Interface
+final class DoozR_Logger extends DoozR_Logger_Abstract
+    implements
+    DoozR_Logger_Interface,
+    SplSubject,
+    ArrayAccess,
+    Iterator,
+    Countable
 {
     /**
-     * name of this logger
+     * The observer storage.
+     *
+     * @var SplObjectStorage
+     * @access protected
+     */
+    protected $observer;
+
+    /**
+     * The default log level from config (once set)
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $defaultLoglevel;
+
+    /**
+     * Name of this logger
      *
      * @var string
      * @access protected
@@ -85,81 +110,122 @@ final class DoozR_Logger extends DoozR_Logger_Abstract implements DoozR_Logger_I
     protected $name = 'Composite';
 
     /**
-     * the version of this logger
+     * Version of this logger
      *
      * @var string
      * @access protected
      */
-    protected $version = '$Rev$';
+    protected $version = 'Git: $Id$';
 
     /**
-     * holds the logger retrieved from configuration
-     *
-     * @var array
-     * @access private
-     */
-    private $_logger = array();
-
-    /**
-     * holds the current status of logging (true if logging enabled otherwise false).
-     *
-     * @var boolean
-     * @access private
-     */
-    private $_enabled = true;
-
-    /**
-     * holds the default log level from config (once set)
+     * The position of the iterator for iterating
+     * elements.
      *
      * @var integer
-     * @access private
+     * @access protected
      */
-    private $_defaultLoglevel;
-
-    /**
-     * Fingerprint of client
-     *
-     * @var string
-     * @access private
-     */
-    private static $_clientFingerprint;
-
-    /**
-     * maximum loglevel
-     *
-     * @var integer
-     * @access const
-     */
-    const LOG_LEVEL_MAX = 9;
+    protected $position = 0;
 
 
     /**
-     * Constructor builds the class
+     * Constructor.
      *
-     * @param integer $level The level to use in general
+     * @param DoozR_Datetime_Service $datetime    Instance of Datetime-Service for date-operations
+     * @param integer|null           $level       The logger level | if not passed the max is set
+     * @param string|null            $fingerprint The fingerprint of the current client|will be
+     *                                            generated if not passed
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
-     * @access private
+     * @return void
+     * @access public
      */
-    protected function __construct($level = null)
+    public function __construct(DoozR_Datetime_Service $datetime = null, $level = null, $fingerprint = null)
     {
-        // call parents constructor
-        parent::__construct($level);
+        // instanciate the SplObjectStorage
+        $this->observer = new SplObjectStorage();
 
-        // holds the log-level for this logger
-        $this->level = ($level) ? $level : self::LOG_LEVEL_MAX;
+        // and then call the original constructor
+        parent::__construct($datetime, $level, $fingerprint);
+    }
 
-        // temporary set default loglevel to current level
-        $this->_defaultLoglevel = $this->level;
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
-        // get fingerprint of client as UId
-        //@todo: HTTP_USER_AGENT -> REMOTE_ADDR
-        //self::$_clientFingerprint = checksum($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR']);
-        self::$_clientFingerprint = checksum('HIER_SYSTEM_CLI-ODER-HTTP_DATEN');
+    /**
+     * Dispatches a passed message and all arguments to attached loggers.
+     *
+     * @param string $type        The level/type of the log entry
+     * @param string $message     The message to log
+     * @param array  $context     The context with variables used for interpolation
+     * @param string $time        The time to use for logging
+     * @param string $fingerprint The fingerprint to use/set
+     * @param string $separator   The separator to use/set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function log(
+        $type,
+        $message,
+        array $context = array(),
+        $time          = null,
+        $fingerprint   = null,
+        $separator     = null
+    ) {
+        // call parents log just as normal => so content, raw ... gets filled
+        parent::log($type, $message, $context, $time, $fingerprint, $separator);
 
-        // attach default collecting logger till subsystem is configurable
-        $this->attach('collecting', self::LOG_LEVEL_MAX, null, false);
+        // and now the tricky hook -> notify all observers about the log-event
+        $this->notify('log');
+
+        // return always success
+        return true;
+    }
+
+    /**
+     * Removes all attached loggers. Optionally it removes
+     * all contents as well.
+     *
+     * @param boolean $clearContents TRUE to remove all content from logger,
+     *                               FALSE to keep it
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function detachAll($clearContents = false)
+    {
+        $this->observer = new SplObjectStorage();
+
+        if ($clearContents === true) {
+            $this->clear();
+        }
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Getter & Setter
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns a logger by its name
+     *
+     * @param string $name The name of the logger
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Logger_Interface|null The logger if exist, otherwise NULL
+     * @access public
+     */
+    public function getLogger($name)
+    {
+        foreach ($this->observer as $logger) {
+            if (strtolower($logger->getName()) === strtolower($name)) {
+                return $logger;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -173,7 +239,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract implements DoozR_Logger_I
      */
     public function setDefaultLoglevel($level)
     {
-        $this->_defaultLoglevel = $level;
+        $this->defaultLoglevel = $level;
     }
 
     /**
@@ -185,338 +251,266 @@ final class DoozR_Logger extends DoozR_Logger_Abstract implements DoozR_Logger_I
      */
     public function getDefaultLoglevel()
     {
-        return $this->_defaultLoglevel;
+        return $this->defaultLoglevel;
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | Fulfill SplSubject
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * attachs a logger to the logger-subsystem
+     * Attaches an observer instance.
      *
-     * This method is intend to attach a logger to the logger-subsystem.
-     *
-     * @param mixed   $logger The name of the logger
-     * @param mixed   $level  The log-level of the logger
-     * @param mixed   $config An instance of DoozR_Config
-     * @param boolean $header TRUE to reorder the list (required if type = HTTP-Header-Logger)
+     * @param SplObserver $observer The observer to attach
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function attach($logger, $level = false, $config = null, $header = true)
+    public function attach(SplObserver $observer)
     {
-        // is config string (our defaults) or is it custom array config
-        if (!is_array($logger)) {
-            $logger = array(
-                'name'  => $logger,
-                'level' => $level
-            );
-        }
-
-        // return hash of created logger instance
-        return $this->_factory($logger, $config, $header);
+        $this->observer->attach($observer);
     }
 
     /**
-     * detaches a logger from the logger-subsystem
+     * Detaches an observer instance.
      *
-     * This method is intend to detach a logger from the logger-subsystem.
-     *
-     * @param string  $name   The name of the logger to remove
-     * @param boolean $inject Affects 'collecting': Injects the collected logs to attached logger if TRUE
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if logger was removed, otherwise FALSE
-     * @access public
-     */
-    public function detach($name, $inject = true)
-    {
-        // check for automatic collection dispatching/injection
-        if ($name == 'collecting' && $inject) {
-            $this->inject($this->getCollection(true, true));
-        }
-
-        // remove logger from array and store
-        $this->_logger = array_remove_value($this->_logger, $name);
-
-        // return success
-        return true;
-    }
-
-    /**
-     * Creates and stores instances of loggers
-     *
-     * @param array   $setup  The config of logger
-     * @param mixed   $config An instance of DoozR_Config, or NULL
-     * @param boolean $header TRUE if logger is header based, otherwise FALSE
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
-     * @static
-     */
-    private function _factory(array $setup, $config, $header)
-    {
-        // level set?
-        if (!isset($setup['level']) || !$setup['level'] ) {
-            $setup['level'] = $this->getDefaultLoglevel();
-        }
-
-        if (!isset($setup['class'])) {
-            $setup['class'] = __CLASS__.'_'.ucfirst($setup['name']);
-        }
-
-        if (!isset($setup['file'])) {
-            $setup['file'] = DOOZR_DOCUMENT_ROOT.str_replace('_', DIRECTORY_SEPARATOR, $setup['class']).'.php';
-        }
-
-        if (!isset($setup['constructor'])) {
-            $setup['constructor'] = 'getInstance';
-        }
-
-        // get file
-        include_once $setup['file'];
-
-        // get instance of the given logger and store
-        $loggerInstance = $this->instanciate(
-            $setup['class'],
-            array($setup['level'], self::$_clientFingerprint, $config),
-            $setup['constructor']
-        );
-
-        // some of the loggers (e.g. firePHP which works with HTTP-Header) need to be dispatched
-        // before an output by an other logger is generated
-        if ($header) {
-            $this->_logger = array_merge(array($loggerInstance), $this->_logger);
-
-        } else {
-            $this->_logger[$setup['name']] = $loggerInstance;
-
-        }
-
-        // return id/hash of logger
-        return md5($setup['name']);
-    }
-
-    /**
-     * This method is intend to parse defined logger(s) and instantiate them.
-     *
-     * @param string $logger list of logger-names to instantiate
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array An array of instances of defined loggers
-     * @access private
-     * @static
-     */
-    private function _parseLogger($logger)
-    {
-        // convert list of logger to array
-        $logger = explode(',', mb_strtolower($logger));
-
-        // temp array of logger-instances
-        $loggerInstances = array();
-
-        // get default logginglevel
-        $defaultLoglevel = DoozR_Core::config()->get('LOGGING.LEVEL');
-
-        // get loggers as defined! in users order!
-        foreach ($logger as $currentLogger) {
-            // check for an individual level?
-            if (mb_stristr($currentLogger, ':')) {
-                $loggerConfig = explode(':', $currentLogger);
-            } else {
-                // else default log level = 1
-                $loggerConfig = array(
-                    $currentLogger,
-                    $defaultLoglevel
-                );
-            }
-
-            // prepare config-settings of current logger
-            $name = ucfirst($loggerConfig[0]);
-            $loglevel = $loggerConfig[1];
-
-            // instanciate the logger
-            $loggerInstances[$name] = call_user_func('Logger_'.$name.'::getInstance', $loglevel);
-        }
-
-        // return array of logger-instances
-        return $loggerInstances;
-    }
-
-    /**
-     * This method is intend to inject the raw logdata into all attached loggers.
-     *
-     * @param array $rawCollection The raw collection of log-data
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if succesful otherwise false
-     * @access public
-     */
-    public function inject(array $rawCollection)
-    {
-        // assume that result is true
-        $result = true;
-
-        // iterate over attached logger and inject log-content
-        foreach ($this->_logger as $name => $logger) {
-            // inject into all but collecting
-            if ($name != 'collecting') {
-                $result &= $this->_logger[$name]->inject($rawCollection);
-            }
-        }
-
-        // return the result
-        return $result;
-    }
-
-    /**
-     * This method is intend to return the current defined logger as array.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Defined logger(s) as array
-     * @access public
-     */
-    public function getLogger()
-    {
-        return $this->_logger;
-    }
-
-    /**
-     * This method is intend to return TRUE if current logger is collecting, otherwise FALSE.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current logger is collecting, otherwise FALSE
-     * @access public
-     */
-    public function isCollecting()
-    {
-        return (count($this->_logger) == 1 && isset($this->_logger['collecting']));
-    }
-
-    /**
-     * This method is intend to set the status of logging to enabled.
+     * @param SplObserver $observer The observer to detach
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function enable()
+    public function detach(SplObserver $observer)
     {
-        $this->_enabled = true;
+        $this->observer->detach($observer);
     }
 
     /**
-     * This method is intend to set the status of logging to disabled.
+     * Notifies the attached observers about changes.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function disable()
+    public function notify($event = null)
     {
-        $this->_enabled = false;
-    }
-
-    /**
-     * This method is intend to log a message to all appended loggers.
-     *
-     * @param string $content  The content/text/message to log
-     * @param string $type     The type of the log-entry
-     * @param string $file     The filename of the file from where the log entry comes
-     * @param string $line     The linenumber from where log-entry comes
-     * @param string $class    The classname from the class where the log-entry comes
-     * @param string $method   The methodname from the method where the log-entry comes
-     * @param string $function The functionname from the function where the log-entry comes
-     * @param string $optional The optional content/param to log
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if successful, otherwise false
-     * @access public
-     */
-    public function log(
-        $content  = '',
-        $type     = 'LOG',
-        $file     = false,
-        $line     = false,
-        $class    = false,
-        $method   = false,
-        $function = false,
-        $optional = false
-    ) {
-        // check if debug enabled - otherwise log to dev/null
-        if ($this->_enabled) {
-            // dispatch log-call to all real logger
-            foreach ($this->_logger as $logger) {
-                if ($logger->getName() != 'Firephp' || !defined('DISABLE_FIREPHP')) {
-                    $log = $logger->log($content, $type, $file, $line, $class, $method, $function, $optional);
-                }
-            }
+        foreach ($this->observer as $observer) {
+            $observer->update($this, $event);
         }
 
-        // success
-        return true;
+        $this->clear();
+        #$this->clearContent();
     }
 
-    /**
-     * This method is intend to return the complete collection of log-content as string or array.
-     *
-     * @param boolean $returnArray True to retrieve array, false to retrieve string
-     * @param boolean $returnRaw   True to retrieve the raw content -> not preformatted
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed string if $returnArray false, otherwise array
-     * @access public
-     */
-    public function getCollection($returnArray = false, $returnRaw = false)
-    {
-        return $this->_logger['collecting']->getCollection($returnArray, $returnRaw);
-    }
+    /*------------------------------------------------------------------------------------------------------------------
+    | Internal Tools & Helpers
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Dispatches a new route to all defined logger (e.g. for use as new file
-     * name [file-logger]). e.g. to prevent that (if DoozR-MVC is active) file-logger
-     * logs everything to the same file(-name).
+     * Suppress the output.
+     * This logger implementation is Composite and does not echo any
+     * log-content it just dispatch the stuff to its attached observers.
      *
-     * @param string $routeName The name of the route to dispatch
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True always
-     * @access public
-     */
-    public function route($routeName = null)
-    {
-        // check if debug enabled - otherwise log to dev/null
-        if ($this->_enabled === true && $routeName) {
-            // dispatch log-call to all real logger
-            foreach ($this->_logger as $logger) {
-                // only try to add route if route()-method exists
-                if (method_exists($logger, 'route')) {
-                    $logger->route($routeName);
-                }
-            }
-        }
-
-        // success
-        return true;
-    }
-
-    /**
-     * This method is intend to write data to a defined pipe like STDOUT, a file, browser ...
-     * It should be overriden in concrete implementation.
-     *
-     * @param string $color The color used as font-color for output
+     * @param string $color The color of output text as hex-value string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean TRUE as dummy return value
      * @access protected
-     *
      */
     protected function output($color = '#7CFC00')
     {
-        // first get content to local var
-        $content = $this->getContent();
+        // return true -> cause not needed for collecting logger
+        return true;
+    }
 
-        // so we can clear the existing log
-        $this->clear();
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill ArrayAccess
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the TRUE if the passed offset exists otherwise FALSE
+     *
+     * @param mixed $offset The offset to check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function offsetExists($offset)
+    {
+        foreach ($this->observer as $observer) {
+            if (strtolower($observer->getName()) === strtolower($offset)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the value for the passed offset
+     *
+     * @param mixed $offset The offset to return value for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function offsetGet($offset)
+    {
+        foreach ($this->observer as $observer) {
+            if (strtolower($observer->getName()) === strtolower($offset)) {
+                return $observer;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Sets the value for the passed offset
+     *
+     * @param integer $offset The offset to set value for
+     * @param mixed   $value  The value to write
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function offsetSet($offset, $value)
+    {
+        foreach ($this->observer as $observer) {
+            if (strtolower($observer->getName()) === strtolower($offset)) {
+                $this->observer->offsetSet($value);
+            }
+        }
+    }
+
+    /**
+     * Unsets an offset
+     *
+     * @param mixed $offset The offset to unset
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function offsetUnset($offset)
+    {
+        foreach ($this->observer as $observer) {
+            if (strtolower($observer->getName()) === strtolower($offset)) {
+                $this->observer->detach($observer);
+            }
+        }
+
+        return null;
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Iterator
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Rewinds the position to 0
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    /**
+     * Checks if current position is still valid
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function valid()
+    {
+        return $this->position < count($this->observer);
+    }
+
+    /**
+     * Returns the key for the current position
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function key()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Returns the current element
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function current()
+    {
+        $offset = 0;
+
+        foreach ($this->observer as $observer) {
+            if ($offset === $this->position) {
+                return $observer;
+            }
+            ++$offset;
+        }
+    }
+
+    /**
+     * Goes to next element
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function next()
+    {
+        $this->position++;
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Countable
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the count of elements in registry
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of the operation
+     * @access public
+     */
+    public function count()
+    {
+        return count($this->observer);
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Abstract Requirements
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Dispatches a new route to this logger (e.g. for use as new filename).
+     *
+     * @param string $name The name of the route to dispatch
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function route($name)
+    {
+        /**
+         * This logger does not need to be re-routed
+         */
     }
 }

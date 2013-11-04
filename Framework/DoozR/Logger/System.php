@@ -2,10 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Logger for logging to OS' system log
+ * DoozR - Logger - System
  *
- * System.php - This logger-implementation is intend to log to the OS' logging
- * subsystem
+ * System.php - This logger logs all passed content to systems (OS) default
+ * log system.
  *
  * PHP versions 5
  *
@@ -51,17 +51,18 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Alogger.class.php, ILogger.class.php
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/PsrInterface.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Constant.php';
 
 /**
- * Logger for logging to OS' system log
+ * DoozR - Logger - System
  *
- * This logger-implementation is intend to log to the OS' logging subsystem
+ * This logger logs all passed content to systems (OS) default
+ * log system.
  *
  * @category   DoozR
  * @package    DoozR_Logger
@@ -71,13 +72,15 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Alogger.class.php, ILogger.class.php
- * @since      -
+ * @see        Abstract.php, Interface.php
  */
-final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_Logger_Interface
+class DoozR_Logger_System extends DoozR_Logger_Abstract implements
+    DoozR_Logger_Interface,
+    DoozR_Logger_PsrInterface,
+    SplObserver
 {
     /**
-     * the name of this logger
+     * Name of this logger
      *
      * @var string
      * @access protected
@@ -85,65 +88,18 @@ final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_L
     protected $name = 'System';
 
     /**
-     * the version of this logger
+     * Version of this logger
      *
      * @var string
      * @access protected
      */
-    protected $version = '$Rev$';
+    protected $version = '$Id$';
 
-    /*******************************************************************************************************************
-     * // BEGIN SYSTEM-LOGGER SPECIFIC VARIABLES
-     ******************************************************************************************************************/
 
     /**
-     * The source of the message
+     * Writes the log-content to systems log.
      *
-     * @var integer
-     * @access private
-     */
-    private $_source;
-
-    /*******************************************************************************************************************
-     * \\ END FILE-LOGGER SPECIFIC VARIABLES
-     ******************************************************************************************************************/
-
-    /**
-     * This method is the constructor and responsible for building the instance.
-     *
-     * @param integer $level The level to use for this logger
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
-     */
-    protected function __construct($level, $fingerprint)
-    {
-        // call parents constructor
-        parent::__construct($level, $fingerprint);
-
-        // store level
-        $this->level = $level;
-    }
-
-    /**
-     * This method is intend to add the defined line-separator to log-content.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function separate()
-    {
-        // do nothing to seperate in system logger
-        return true;
-    }
-
-    /**
-     * This method is intend to write data to a defined pipe like STDOUT, a file, browser ...
-     * It should be overriden in concrete implementation.
-     *
-     * @param string $color The color of the ouput as hexadecimal string reprensentation
+     * @param string $color The color of the output as hexadecimal string representation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -152,7 +108,7 @@ final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_L
     protected function output($color = '#7CFC00')
     {
         /*
-         Constant Description
+        Constant Description
         LOG_EMERG   system is unusable
         LOG_ALERT   action must be taken immediately
         LOG_CRIT    critical conditions
@@ -164,31 +120,141 @@ final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_L
         */
 
         $flags = LOG_PID;
-        $type  = LOG_INFO;
 
         // log entries must follow standard UTC timezone settings
         putenv('TZ=UTC');
 
-        if ($this->contentType === 'ERROR') {
-            $flags = $flags | LOG_PERROR;
-            $type  = LOG_ERR;
-        }
-
         // connect to syslog
+        #$flags = $flags | LOG_PERROR;
         openlog($_SERVER['REQUEST_URI'], $flags, LOG_DAEMON);
 
         // first get content to local var
-        $content = $this->getContent();
+        $content = $this->getContentRaw();
+
+        // iterate log content
+        foreach ($content as $logEntry) {
+            // convert our type to systems log type
+            $type = $this->typeToSystemType($logEntry['type']);
+
+            // log to syslog
+            syslog($type, $logEntry['message']);
+        }
 
         // so we can clear the existing log
-        $this->clear();
-
-        // log to syslog
-        syslog($type, $content);
+        $this->clearContent();
 
         // close connection to syslog
         closelog();
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Fulfill SplObserver
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Update of SplObserver
+     *
+     * @param SplSubject $subject The subject we work on
+     * @param null       $event   The event to process (optional)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function update(SplSubject $subject, $event = null)
+    {
+        switch ($event) {
+            case 'log':
+                /* @var DoozR_Logger $subject */
+                $logs = $subject->getCollectionRaw();
+
+                foreach ($logs as $log) {
+                    $this->log(
+                        $log['type'],
+                        $log['message'],
+                        unserialize($log['context']),
+                        $log['time'],
+                        $log['fingerprint'],
+                        $log['separator']
+                    );
+                }
+                break;
+        }
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Internal Tools & Helper
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * This method is intend to add the defined line-separator to log-content.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     */
+    protected function separate()
+    {
+        // do nothing to seperate in system logger
+        return true;
+    }
+
+    /**
+     * Converts the passed type to systems log type and returns
+     * this type.
+     *
+     * @param string $type The type to convert to systems log type.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The systems log type
+     * @access protected
+     */
+    protected function typeToSystemType($type)
+    {
+        /*
+        'emergency' => 7,
+        'alert'     => 6,
+        'critical'  => 5,
+        'error'     => 4,
+        'warning'   => 3,
+        'notice'    => 2,
+        'info'      => 1,
+        'debug'     => 0,
+         */
+        switch ($type) {
+            case 'emergency':
+                $type = LOG_EMERG;
+                break;
+            case 'alert':
+                $type = LOG_ALERT;
+                break;
+            case 'critical':
+                $type = LOG_CRIT;
+                break;
+            case 'error':
+                $type = LOG_ERR;
+                break;
+            case 'warning':
+                $type = LOG_WARNING;
+                break;
+            case 'notice':
+                $type = LOG_NOTICE;
+                break;
+            case 'info':
+                $type = LOG_INFO;
+                break;
+            default:
+            case 'debug':
+                $type = LOG_DEBUG;
+                break;
+        }
+
+        return $type;
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Abstract Requirements
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Dispatches a new route to this logger (e.g. for use as new filename).
@@ -196,12 +262,13 @@ final class DoozR_Logger_System extends DoozR_Logger_Abstract implements DoozR_L
      * @param string $name The name of the route to dispatch
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True on success, otherwise false
+     * @return void
      * @access public
      */
     public function route($name)
     {
-        // set new logile-name
-        return $this->_source = $name;
+        /**
+         * This logger does not need to be re-routed
+         */
     }
 }
