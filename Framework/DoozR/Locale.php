@@ -75,7 +75,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 class DoozR_Locale extends DoozR_Base_Class_Singleton
 {
     /**
-     * holds instance of config
+     * Instance of config
      *
      * @var object
      * @access private
@@ -83,7 +83,7 @@ class DoozR_Locale extends DoozR_Base_Class_Singleton
     private $_config;
 
     /**
-     * holds instance of logger
+     * Instance of logger
      *
      * @var object
      * @access private
