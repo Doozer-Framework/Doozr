@@ -114,7 +114,7 @@ final class Presenter_Index extends DoozR_Base_Presenter implements DoozR_Base_P
      * @return boolean True if successful, otherwise false
      * @access public
      */
-    public function screen()
+    public function Read()
     {
         // retrieve data for context Screen
         $data = $this->getData();
@@ -127,7 +127,11 @@ final class Presenter_Index extends DoozR_Base_Presenter implements DoozR_Base_P
         // get pre - html
         $text = pre(__CLASS__.' proudly present: '.$data.' directly from Model :) through Response ...', true);
 
+        // get registry
+        $registry = DoozR_Registry::getInstance();
+
+        // get front-controller +
         // deliver the HTML code through response
-        return DoozR_Core::front()->getResponse()->sendText($text);
+        return $registry->front->getResponse()->sendText($text);
     }
 }

@@ -175,7 +175,7 @@ DoozR_Loader_Autoloader_Spl_Facade::attach(
  **********************************************************************************************************************/
 
 // try to include composer's autoloader to make all the composer stuff easy available
-include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
+@include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
 
 /***********************************************************************************************************************
  * \\ END
