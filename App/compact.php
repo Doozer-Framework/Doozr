@@ -4,7 +4,7 @@
  * DEMONSTRATION
  * Service: Compact (Demo of compacting resources like CSS, JS + HTML)
  * Example call to this demonstration
- * http://127.0.0.1:81/Projekte/DoozR/App/compact.php?f=js/jquery-1.10.0.js,js/less-1.3.3.js
+ * [e.g. http://127.0.0.1:81/Projekte/DoozR...]/App/compact.php?f=js/vendor/jquery-1.10.1.min.js,js/vendor/less-1.3.3.js
  *
  **********************************************************************************************************************/
 
