@@ -86,7 +86,11 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
     protected function __tearup(array $request, array $translation, $nodes = 2)
     {
         // setup allowed verbs and define required fields
-        $this->nodes($nodes)->allow('GET')->run(); //->required(array('id'), 'user')->run();
+        $this->nodes($nodes)->allow('GET')->run();
+        #$this->nodes($nodes)->allow('GET')->required(array('id'), 'user')->run();
+
+        // we could also try this if we expect a concrete value!:
+        #$this->nodes($nodes)->allow('GET')->required(array('id' => '123456'), 'user')->run();
     }
 
     /**
@@ -133,9 +137,19 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
         // get required fields ...
         $requiredArguments = $this->getRequired($object);
 
+        /**
+         * The first Argument in an API is the last part in the URI if
+         * not an index action. So we take the nodes which are the root,
+         * rip them off from the current URI/URL from request and what
+         * stays is the argument(s) for the API ...
+         */
+
         // ... and iterate them to find missing elements
         foreach ($requiredArguments as $key => $requiredArgument) {
-            if (!isset($requestObject->arguments->{$requiredArgument[0]})) {
+            if (
+                !isset($requestObject->arguments->{$requiredArgument[0]}) &&
+                $requestObject->get('/api/x/{{id}}', function ($id) { return $id; }) === null
+            ) {
                 // send HTTP-Header "Not-Acceptable" for missing argument
                 $response->sendHttpStatus(406, null, true, 'Missing required argument: '.$requiredArgument[0]);
                 exit;
