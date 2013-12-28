@@ -737,5 +737,3 @@ extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_I
         $w &= 0x00000000FFFFFFFF;
     }
 }
-
-?>

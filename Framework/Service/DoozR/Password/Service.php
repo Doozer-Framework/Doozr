@@ -271,7 +271,12 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      */
     private static $_passwordhash = null;
 
-
+    /**
+     * An instance of DoozR_Config
+     *
+     * @var DoozR_Config
+     * @access private
+     */
     private $_config;
 
 
@@ -286,7 +291,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      */
     public function __tearup()
     {
-        //
+        // get current active DoozR config from registry
         $this->_config = $this->registry->config;
 
         // construct password matrices
