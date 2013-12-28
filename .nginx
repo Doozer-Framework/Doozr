@@ -1,0 +1,10 @@
+# nginx configuration (automatic converted - just a dummy! does not work!)
+
+location /Framework/ {
+  if (!-e $request_filename){
+    rewrite ^/Framework/www\/([\/a-zA-Z0-9_\-\.]*)$ /Framework/$env_doozr_path_app$1 break;
+  }
+  if (!-e $request_filename){
+    rewrite ^/Framework/(.*)$ /Framework/$env_doozr_router?mode=htaccess break;
+  }
+}
