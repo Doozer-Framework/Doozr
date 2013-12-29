@@ -622,7 +622,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     protected function generateFingerprint()
     {
-        return sha1(implode('', $_SERVER));
+        return sha1(serialize('', $_SERVER));
     }
 
     /**
