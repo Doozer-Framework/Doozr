@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Template/Service/Lib/PHPTAL/PHPT
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @service    Singleton
- * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
+ * @DiInject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_TranslationService
 {
@@ -315,6 +315,9 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
     {
         if (!self::$_templateTranslator) {
             self::$_templateTranslator = $this->getTranslator();
+
+            pred('AAA');
+
             self::$_templateTranslator->setNamespace(
                 self::$_config->i18n->defaults->namespace()
             );
@@ -360,7 +363,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
      */
     public function getDetector()
     {
-        #require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Detector.php';
+        require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Detector.php';
         return DoozR_I18n_Service_Detector::getInstance(self::$_config, $this->registry);
     }
 
@@ -429,6 +432,8 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
 
         // retrieve valid input
         $input = $this->_validateInput($locale);
+
+        pred('hah');
 
         // check for redirect
         if (isset($input['redirect'])) {
@@ -514,6 +519,8 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
     public function setEncoding($encoding)
     {
         $this->_initTemplateTranslator();
+
+        pred($encoding);
 
         $this->_encoding = $encoding;
 
@@ -702,6 +709,8 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
                 'app',
                 'Data/Private/I18n/' . $locale . '/' . self::FILE_NAME_L10N . '.' . self::FILE_EXTENSION_L10N
             );
+
+            pred($file);
 
             $config->read($file);
 

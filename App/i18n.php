@@ -77,6 +77,9 @@ echo '<p>Get active encoding: "'.var_export($encoding, true).'"</p>';
 $encoding = $i18n->setEncoding($encoding);
 echo '<p>Set encoding -> result: "'.var_export($encoding, true).'"</p>';
 
+
+die;
+
 /*----------------------------------------------------------------------------------------------------------------------
 | I18n give me the capability to translate to auto locale
 +---------------------------------------------------------------------------------------------------------------------*/

@@ -1,0 +1,109 @@
+# FLP Translation file.
+# Copyright (C) 2004 Flaimo.com.
+# Flaimo <flaimo@gmx.net>, 2004.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FLP\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2004-04-04 04:04+0100\n"
+"Last-Translator: Flaimo <flaimo@gmx.net>\n"
+"Language-Team: Russian <flaimo@gmx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "time"
+msgstr "время"
+
+msgid "standard_time"
+msgstr "временя"
+
+#: class.FormatDate.inc.php:817
+msgid "swatch_time"
+msgstr "время swatch"
+
+#: class.FormatDate.inc.php:818
+msgid "ISO_time"
+msgstr "время ISO"
+
+#: class.FormatDate.inc.php:570
+msgid "sunday"
+msgstr "воскресенье"
+
+#: class.FormatDate.inc.php:570
+msgid "monday"
+msgstr "понедельник"
+
+#: class.FormatDate.inc.php:570
+msgid "tuesday"
+msgstr "вторник"
+
+#: class.FormatDate.inc.php:570
+msgid "wednesday"
+msgstr "среда"
+
+#: class.FormatDate.inc.php:570
+msgid "thursday"
+msgstr "четверг"
+
+#: class.FormatDate.inc.php:570
+msgid "friday"
+msgstr "пятница"
+
+#: class.FormatDate.inc.php:570
+msgid "saturday"
+msgstr "суббота"
+
+#: class.FormatDate.inc.php:527
+msgid "january"
+msgstr "январь"
+
+#: class.FormatDate.inc.php:527
+msgid "february"
+msgstr "февраль"
+
+#: class.FormatDate.inc.php:527
+msgid "march"
+msgstr "марш"
+
+#: class.FormatDate.inc.php:527
+msgid "april"
+msgstr "апрель"
+
+#: class.FormatDate.inc.php:527
+msgid "may"
+msgstr "смогите"
+
+#: class.FormatDate.inc.php:527
+msgid "june"
+msgstr "июнь"
+
+#: class.FormatDate.inc.php:527
+msgid "july"
+msgstr "июль"
+
+#: class.FormatDate.inc.php:527
+msgid "august"
+msgstr "август"
+
+#: class.FormatDate.inc.php:527
+msgid "september"
+msgstr "сентябрь"
+
+#: class.FormatDate.inc.php:527
+msgid "october"
+msgstr "октябрь"
+
+#: class.FormatDate.inc.php:527
+msgid "november"
+msgstr "ноябрь"
+
+#: class.FormatDate.inc.php:527
+msgid "december"
+msgstr "декабрь"
+
+#: class.FormatDate.inc.php:654
+msgid "hour"
+msgstr "час"
