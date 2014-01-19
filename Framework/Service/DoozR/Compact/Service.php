@@ -74,7 +74,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Facade.php';
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
- * @DoozRType  Multiple
+ * @service  Multiple
  *
  */
 final class DoozR_Compact_Service extends Minify

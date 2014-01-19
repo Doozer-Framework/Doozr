@@ -51,8 +51,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple.php';
@@ -73,16 +71,14 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Exception.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  * @throws     DoozR_Cache_Service_Exception
- * @DoozRType  Multiple
- * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
+ * @service    Multiple
+ * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_Psr_Cache_Interface
 {
     /**
-     * Contains the current working status
+     * Current working status
      *
      * @var boolean
      * @access private
@@ -90,7 +86,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     private $_enabled = true;
 
     /**
-     * contains the currently active id
+     * Currently active id
      *
      * @var string
      * @access private
@@ -98,7 +94,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     private $_id;
 
     /**
-     * contains the currently active group
+     * Currently active group
      *
      * @var string
      * @access private
@@ -106,7 +102,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     private $_group;
 
     /**
-     * contains the current container
+     * Current container
      *
      * @var object
      * @access private
@@ -114,7 +110,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     private $_container;
 
     /**
-     * contains the current container options
+     * Current container options
      *
      * @var array
      * @access private
@@ -130,7 +126,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     private $_isUnix;
 
     /**
-     * contains the content from a cache recording
+     * Content from a cache recording
      *
      * @var string
      * @access private
@@ -157,20 +153,20 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     private $_gcProbability = 1;
 
     /**
-    * Garbage collection: probability in seconds
-    *
-    * If set to a value above 0 a garbage collection will
-    * flush all cache entries older than the specified number
-    * of seconds.
-    *
-    * @see $_gcProbability, $_gcMaxlifetime
-    * @var integer
-    * @access public
-    */
+     * Garbage collection: probability in seconds
+     *
+     * If set to a value above 0 a garbage collection will
+     * flush all cache entries older than the specified number
+     * of seconds.
+     *
+     * @see $_gcProbability, $_gcMaxlifetime
+     * @var integer
+     * @access public
+     */
     private $_gcTime = 1;
 
     /**
-     * contains the time of the last run
+     * Time of the last run
      *
      * @var integer
      * @access private
@@ -180,7 +176,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
 
 
     /**
-     * constructor
+     * Constructor
      *
      * This method is intend to act as constructor.
      *
@@ -188,9 +184,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param string  $container        The container to use for caching
      * @param array   $containerOptions The configuration/options for the container instance
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __tearup($isUnix = true, $container = null, array $containerOptions = array())
     {
@@ -211,9 +207,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * @param array $containerOptions The options to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setContainerOptions(array $containerOptions = array())
     {
@@ -225,9 +221,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * This method is intend to return the options for cache container.
      *
-     * @return  array The container options
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The container options
+     * @access public
      */
     public function getContainerOptions()
     {
@@ -241,9 +237,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * @param string $container The container name to check
      *
-     * @return  boolean TRUE if $container exists, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if $container exists, otherwise FALSE
+     * @access public
      */
     public function containerExists($container)
     {
@@ -263,9 +259,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param string $container        The container to set
      * @param array  $containerOptions The options to use for container
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setContainer($container, array $containerOptions = array())
     {
@@ -292,13 +288,13 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * cleanup
+     * Cleanup
      *
      * This method is intend to cleanup on class destruct.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __teardown()
     {
@@ -306,7 +302,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * stores the given data in the cache
+     * Stores the given data in the cache
      *
      * This method is intend to store data to cache.
      *
@@ -315,10 +311,10 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param integer $expires The time to expire
      * @param string  $group   The dataset group
      *
-     * @return  boolean TRUE if dataset could be written, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if dataset could be written, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function create($data, $id = null, $expires = null, $group = 'Default')
     {
@@ -354,10 +350,10 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
-     * @return  mixed Data from cache, NULL on failure
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Data from cache, NULL on failure
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function read($id = null, $group = 'Default')
     {
@@ -383,7 +379,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * updates a dataset
+     * Updates a dataset
      *
      * This method is intend to update a dataset.
      *
@@ -392,10 +388,10 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param integer $expires The time to expire
      * @param string  $group   The dataset group
      *
-     * @return  boolean TRUE if dataset could be written, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if dataset could be written, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function update($data, $id, $expires = 0, $group = 'Default')
     {
@@ -409,16 +405,16 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * deletes a dataset from cache
+     * Deletes a dataset from cache
      *
      * This method is intend to delete an entry from cache.
      *
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
-     * @return  boolean TRUE if entry was deleted succesful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was deleted succesful, otherwise FALSE
+     * @access public
      */
     public function delete($id, $group = 'Default')
     {
@@ -441,10 +437,10 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param string $id    The dataset-Id
      * @param string $group The cache group
      *
-     * @return  boolean TRUE if dataset is cached, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if dataset is cached, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function isCached($id = null, $group = 'Default')
     {
@@ -474,9 +470,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param string $id    The id of the object to check
      * @param string $group The group of the object to check
      *
-     * @return  boolean TRUE if exists, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if exists, otherwise FALSE
+     * @access public
      */
     public function exists($id = null, $group = 'Default')
     {
@@ -496,10 +492,10 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *                       it's expire date and will be removed automatically. Use this only if you know what
      *                       you're doing...
      *
-     * @return  boolean TRUE if dataset is expired, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if dataset is expired, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function isExpired($id, $group = 'Default', $maxAge = 0)
     {
@@ -513,15 +509,15 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * setter for group
+     * Setter for group
      *
-     * used to generate and set the group
+     * This method is intend to generate and set the group.
      *
      * @param string $group The dataset group to use
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setGroup($group)
     {
@@ -530,13 +526,13 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * getter for group
+     * Getter for group
      *
-     * returns the group of the current dataset
+     * This method returns the group of the current dataset
      *
-     * @return  string The group
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The group
+     * @access public
      */
     public function getGroup()
     {
@@ -544,15 +540,15 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * setter for Id
+     * Setter for Id
      *
-     * used to generate and set the (unique-)ID for the current cache operation
+     * Generates and set the (unique-)ID for the current cache operation
      *
      * @param string $id A predefined ID to generate a unique ID for
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setId($id)
     {
@@ -564,13 +560,13 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * getter for Id
+     * Getter for Id
      *
-     * returns the (unique-)ID _id of the current cache operation
+     * Returns the (unique-)ID _id of the current cache operation
      *
-     * @return  string The (unique-)ID _id of the current cache operation
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The (unique-)ID _id of the current cache operation
+     * @access public
      */
     public function getId()
     {
@@ -578,13 +574,13 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * getter for status
+     * Getter for status
      *
-     * returns the current status of the cache-module (enabled = TRUE|FALSE)
+     * Returns the current status of the cache-module (enabled = TRUE|FALSE)
      *
-     * @return  boolean TRUE if enabled, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if enabled, otherwise FALSE
+     * @access public
      */
     public function getStatus()
     {
@@ -592,15 +588,15 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * setter for lifetime
+     * Setter for lifetime
      *
      * This method sets the given Lifetime.
      *
      * @param integer $lifetime The Lifetime to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setLifetime($lifetime)
     {
@@ -612,9 +608,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * This method is intend to return the current active lifetime.
      *
-     * @return  integer The lifetime
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The lifetime
+     * @access public
      */
     public function getLifetime()
     {
@@ -622,7 +618,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * generates a unique-Id for the given value
+     * Generates a unique-Id for the given value
      *
      * This is a quick but dirty hack to get a "unique" ID for a any kind of variable.
      * ID clashes might occur from time to time although they are extreme unlikely!
@@ -630,9 +626,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param mixed   $value     Value to generate Id for
      * @param boolean $setActive TRUE to store Id directly, otherwise FALSE
      *
-     * @return  string An unique-Id
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string An unique-Id
+     * @access public
      */
     public function generateId($value = false, $setActive = true)
     {
@@ -650,14 +646,14 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * enables cache
+     * Enables cache
      *
      * This method is intend to enable the cache
      *
-     * @return  boolean TRUE if cache was enabled, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if cache was enabled, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function enable()
     {
@@ -673,14 +669,14 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * disables cache
+     * Disables cache
      *
      * This method is intend to disable the cache
      *
-     * @return  boolean TRUE if cache was disabled, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if cache was disabled, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function disable()
     {
@@ -696,14 +692,14 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * switches the status - from enabled to disabled and vice versa
+     * Switches the status - from enabled to disabled and vice versa
      *
      * This method is intend to switch the status - from enabled to disabled and vice versa.
      *
-     * @return  boolean TRUE if cache was disabled, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if cache was disabled, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function switchStatus()
     {
@@ -723,10 +719,10 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param string $id    The id to use for this dataset when it is stored
      * @param string $group The dataset group
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function recordStart($id = false, $group = 'Default')
     {
@@ -745,15 +741,15 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * records content for cache
+     * Records content for cache
      *
      * This method is intend to record content from PHP's output buffer for
      * cache.
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function recordStop()
     {
@@ -773,15 +769,15 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * removes all group datasets from cache
+     * Removes all group datasets from cache
      *
      * This method is intend to remove all group datasets from cache.
      *
      * @param string $group The group of the cache item
      *
-     * @return  integer Number of removed entries
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer Number of removed entries
+     * @access public
      */
     public function flush($group = 'Default')
     {
@@ -789,15 +785,15 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * calls the garbage-collector of the cache-container
+     * Calls the garbage-collector of the cache-container
      *
      * This method is intend to call the garbage-collector of the cache-container.
      *
      * @param boolean $force TRUE to force a garbage collection run, otherwise FALSE (default)
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _garbageCollection($force = false)
     {
@@ -817,16 +813,16 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * resets the cache-module
+     * Resets the cache-module
      *
      * This method is intend to reset this module.
      *
      * @param boolean $return TRUE if this method should return TRUE on success,
      *                        otherwise FALSE to return FALSE value
      *
-     * @return  boolean TRUE|FALSE on success
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE|FALSE on success
+     * @access private
      */
     private function _reset($return = true)
     {
@@ -838,16 +834,16 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * factory for container
+     * Factory for container
      *
      * This method is intend to act as factory for container.
      *
      * @param string $container        The container to create
      * @param array  $containerOptions The configuration/options for the container
      *
-     * @return  object Instance of the container
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of the container
+     * @access private
      */
     private function _containerFactory($container, array $containerOptions = array())
     {
@@ -867,17 +863,17 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * returns the active id
+     * Returns the active id
      *
      * This method is intend to return the $id used for input or the internal
      * stored if given id is null.
      *
      * @param string $id The id to use for check
      *
-     * @return  string The id
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The id
+     * @access private
+     * @throws DoozR_Cache_Service_Exception
      */
     private function _getId($id)
     {
@@ -896,7 +892,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     }
 
     /**
-     * stores a dataset with additional userdefined data
+     * Stores a dataset with additional userdefined data
      *
      * This method is intend to store a dataset with additional userdefined data.
      *
@@ -906,9 +902,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param string  $group    The dataset group
      * @param string  $userdata The userdata to add
      *
-     * @return  boolean TRUE if dataset could be written, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if dataset could be written, otherwise FALSE
+     * @access public
      */
     private function _createExt($id, $data, $expires = null, $group = 'Default', $userdata = '')
     {

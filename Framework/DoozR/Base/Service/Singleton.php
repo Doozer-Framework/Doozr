@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Service Singleton
+ * DoozR - Base - Service - Singleton
  *
  * Singleton.php - Base-Service for building single-instance services
  *
@@ -50,16 +50,14 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 
 /**
- * DoozR Base Service Singleton
+ * DoozR - Base - Service - Singleton
  *
- * Base-Service for building single-instance services
+ * Base-Service for building single-instance services.
  *
  * @category   DoozR
  * @package    DoozR_Base
@@ -69,37 +67,55 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
 {
     /**
-     * Contains the instance of DoozR_Registry
+     * Instance of DoozR_Registry
      *
      * @var object
      * @access protected
      */
     protected $registry;
 
+    /**
+     * @var bool
+     */
+    protected $autoloader = false;
+
+    protected $name;
+
+
+    protected function getServiceName()
+    {
+        if ($this->name === null) {
+            $class      = get_called_class();
+            if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
+                $this->name = $matches[1];
+            } else {
+                $this->name = '';
+            }
+        }
+
+        return $this->name;
+    }
+
 
     /**
-     * constructs the class
+     * Constructor
      *
-     * constructor builds the class
-     *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access protected
      */
     protected function __construct()
     {
         // filter out registry and store accessible through static $registry!
-        $arguments = func_get_args();
+        $arguments      = func_get_args();
         $this->registry = &$arguments[0];
-        $arguments = array_slice($arguments, 1);
+        $arguments      = array_slice($arguments, 1);
+
+        $this->initAutoloader($this->getServiceName());
 
         // dispatch remaining stuff
         if ($this->hasMethod('__tearup')) {
@@ -116,6 +132,33 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
                     array($this, '__tearup')
                 );
             }
+        }
+    }
+
+    /**
+     * Initializes the autoloader for classes of this service.
+     * Autoloader initialize for classes of I18n service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function initAutoloader($service)
+    {
+        if ($this->autoloader === true) {
+            // register services custom autoloader
+            $autoloaderService = new DoozR_Loader_Autoloader_Spl_Config();
+            $autoloaderService
+                ->setNamespace('DoozR_'.$service)
+                ->setNamespaceSeparator('_')
+                ->addExtension('php')
+                ->setPath(DOOZR_DOCUMENT_ROOT.'Service')
+                ->setDescription('DoozR\'s '.$service.' service autoloader. Timestamp: '.time());
+
+            // add to SPL through facade
+            $this->autoloader = DoozR_Loader_Autoloader_Spl_Facade::attach(
+                $autoloaderService
+            );
         }
     }
 

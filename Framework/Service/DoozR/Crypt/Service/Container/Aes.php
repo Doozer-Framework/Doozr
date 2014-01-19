@@ -91,7 +91,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Crypt/Service/Container/Interfac
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
- * @DoozRType  Multiple
+ * @service  Multiple
  */
 class DoozR_Crypt_Service_Container_Aes
 extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_Interface

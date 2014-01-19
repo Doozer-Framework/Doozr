@@ -4,8 +4,8 @@
 /**
  * DoozR - Loader - Serviceloader
  *
- * Serviceloader.php - The Serviceloader is responsible for loading services no
- * matter from which namespace and no matter if singleton or multiple.
+ * Serviceloader.php - The Serviceloader loads services within the DoozR
+ * world. No matter which namespace and no matter if singleton or multiple.
  *
  * PHP versions 5
  *
@@ -51,8 +51,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
@@ -62,8 +60,8 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Factory/Multiple.php';
 /**
  * DoozR - Loader - Serviceloader
  *
- * The Serviceloader is responsible for loading services no
- * matter from which namespace and no matter if singleton or multiple.
+ * The Serviceloader loads services within the DoozR world. No matter which
+ * namespace and no matter if singleton or multiple.
  *
  * @category   DoozR
  * @package    DoozR_Loader
@@ -73,41 +71,142 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Factory/Multiple.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
 {
     /**
-     * Contains an instance of DoozR_Registry.
-     * It contains instances of all important objects.
+     * The DoozR registry containing important references.
      *
-     * @var object
-     * @access private
+     * @var DoozR_Registry
+     * @access protected
      * @static
      */
-    private static $_registry;
+    protected static $registry;
 
     /**
-     * Contains the Status
+     * Runtime cache for loaded services status/history.
      *
      * @var array
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_loaded = array();
+    private static $loaded = array();
 
     /**
+     * The deoendency map
+     *
      * @var DoozR_Di_Map_Annotation
+     * @access private
+     * @static
      */
     private static $_map;
 
     /**
+     * The dependency-injection container
+     *
      * @var DoozR_Di_Container
+     * @private
+     * @static
      */
     private static $_container;
 
+    /**
+     * The default Namespace to load from
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const DEFAULT_NAMESPACE = 'DoozR';
 
+
+    /**
+     * Loads a service from any namespace.
+     *
+     * This method is intend to load services. Its possible to pass a string with just a name of a service
+     * to this method or you pass an array with namespace like this -> array('namespace', 'service').
+     *
+     * @param string|array $service Just the name of the service if a DoozR default service or
+     *                              as an array with additional namespace like: array('namespace', 'service')
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object An/the instance of the requested service
+     * @access public
+     * @static
+     */
+    public static function load($service)
+    {
+        // get arguments generic way rip off 1st this is the service name
+        $arguments         = array_slice(func_get_args(), 1);
+        $namespacedService = self::getNamespacedService($service);
+        $classname         = $namespacedService['namespace'].'_'.ucfirst($namespacedService['service']).'_Service';
+
+        // allready instanciated?
+        if (!self::$instance) {
+            self::init();
+        }
+
+        // load file
+        self::getService(ucfirst(strtolower($service)), $namespacedService['namespace']);
+
+        // get reflection
+        #$reflector = new ReflectionClass($classname);
+
+        // parse DoozR-Annotations out of
+        #$properties = self::parseAnnotations($reflector->getDocComment());
+
+        //generate map from annotations in source of current service main entry
+        self::$_map->generate($classname);
+
+        // we support only mapping of registry - this is sad :(
+        self::$_map->wire(
+            DoozR_Di_Container::MODE_STATIC,
+            array(
+                'DoozR_Registry' => self::$registry
+            )
+        );
+
+        // TODO: inject the name of the service into arguments
+
+        // store map
+        self::$_container->setMap(self::$_map);
+
+        // create instance with arguments ...
+        if ($arguments !== null) {
+            $instance = self::$_container->build($classname, $arguments);
+        } else {
+            $instance = self::$_container->build($classname);
+        }
+
+        return $instance;
+    }
+
+
+    /**
+     * Initializer
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @static
+     */
+    public static function init()
+    {
+        // create instance like we would by calling getInstance()
+        self::getInstance();
+        self::$registry = DoozR_Registry::getInstance();
+        self::initDependencyInjection();
+    }
+
+
+    /**
+     * Initializes the dependency injection path' parser, map, ...
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     * @static
+     */
     protected static function initDependencyInjection()
     {
         // get required dependency container for annotations!
@@ -124,14 +223,24 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
         self::$_container->setFactory(new DoozR_Di_Factory());
     }
 
-
+    /**
+     * Completes DoozR's default services with namespace (DoozR).
+     *
+     * This method is intend to format a passed service configuration to a named index array.
+     * It will automatic inject "DoozR" as namespace for default services.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Full qualified namespaced service
+     * @access protected
+     * @static
+     */
     protected static function getNamespacedService($service)
     {
         if (is_array($service)) {
             $namespace = $service[0];
             $service   = $service[1];
         } else {
-            $namespace = 'DoozR';
+            $namespace = self::DEFAULT_NAMESPACE;
             $service   = $service;
         }
 
@@ -139,82 +248,6 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
             'namespace' => $namespace,
             'service'   => $service
         );
-    }
-
-    public static function init()
-    {
-        // create instance like we would by calling getInstance()
-        self::getInstance();
-        self::$_registry = DoozR_Registry::getInstance();
-        self::initDependencyInjection();
-    }
-
-    /**
-     * This method is intend to load services used by DoozR-Core, Applications based on DoozR ...
-     *
-     * @param mixed $service The service as string or plus additional namespace as array('namespace', 'service')
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object An/The instance of the requested service
-     * @access public
-     * @static
-     */
-    public static function load($service)
-    {
-        // the arguments default
-        $arguments = null;
-        $classname = null;
-
-        // check for namespace in service
-        $namespacedService = self::getNamespacedService($service);
-
-        // allready instanciated?
-        if (!self::$instance) {
-            self::init();
-        }
-
-        // correct service name
-        $service = ucfirst(strtolower($service));
-
-        // load file
-        self::_getService($service, $namespacedService['namespace']);
-
-        // combine Service name
-        $classname = $namespacedService['namespace'].'_'.$namespacedService['service'].'_Service';
-
-        // get reflection
-        $reflector = new ReflectionClass($classname);
-
-        // parse DoozR-Annotations out of
-        $properties = self::_parseAnnotations(
-            $reflector->getDocComment()
-        );
-
-        // get arguments generic way rip off 1st this is the service name
-        $arguments = array_slice(func_get_args(), 1);
-
-        //generate map from annotations in source of current service main entry
-        self::$_map->generate($classname);
-
-        // we support only mapping of registry - this is the funnel. each
-        self::$_map->wire(
-            DoozR_Di_Container::MODE_STATIC,
-            array(
-                'DoozR_Registry' => self::$_registry
-            )
-        );
-
-        // store map
-        self::$_container->setMap(self::$_map);
-
-        // create instance with arguments ...
-        if ($arguments !== null) {
-            $instance = self::$_container->build($classname, $arguments);
-        } else {
-            $instance = self::$_container->build($classname);
-        }
-
-        return $instance;
     }
 
     /**
@@ -225,27 +258,53 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _getService($service, $namespace = 'DoozR')
+    protected static function getService($service, $namespace = self::DEFAULT_NAMESPACE)
     {
-        if (!isset(self::$_loaded[$service.$namespace])) {
-            include_once self::_getPathAndFile($service, $namespace);
-            self::$_loaded[$service.$namespace] = true;
+        $key = $service.$namespace;
+
+        if (!isset(self::$loaded[$key]) || self::$loaded[$key] !== true) {
+            include_once self::getServiceFile($service, $namespace);
+            self::$loaded[$key] = true;
         }
 
-        // success
         return true;
     }
 
-
-    private static function _getPathAndFile($service, $namespace = 'DoozR')
+    /**
+     * Comnbines the passed service name and namespace with the path to the services.
+     *
+     * This method is intend ...
+     *
+     * @param string $service   The name of the service to return the path for
+     * @param string $namespace The (optional) namespace to use. Default is namespace "DoozR"
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The full path to the service library file.
+     * @access protected
+     * @static
+     */
+    protected static function getServiceFile($service, $namespace = self::DEFAULT_NAMESPACE)
     {
-        return self::_getPath($service, $namespace).'Service.php';
+        return self::getServicePath($service, $namespace).'Service.php';
     }
 
-    private static function _getPath($service, $namespace = 'DoozR')
+    /**
+     * Returns the path to a service.
+     *
+     * This method is intend to return the path to a passed service and (optional) namespace.
+     *
+     * @param        $service   Name of the service to return path for
+     * @param string $namespace The (optional) namespace (default "DoozR")
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The full path to the service library file.
+     * @access protected
+     * @static
+     */
+    protected static function getServicePath($service, $namespace = self::DEFAULT_NAMESPACE)
     {
         return DOOZR_DOCUMENT_ROOT.
             'Service'.DIRECTORY_SEPARATOR.
@@ -254,16 +313,18 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to parse out the annotations (DoozR) of a DocBlock
+     * Parses out annotations (e.g. @inject ...).
      *
-     * @param string $docBlock The DocBlock Comment of the class to instanciate (service)
+     * This method is intend to parse out the annotations from a passed DocBlock.
+     *
+     * @param string $docBlock The DocBlock Comment of the class (service)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The parsed (DoozR) annotations
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _parseAnnotations($docBlock = '')
+    protected static function parseAnnotations($docBlock = '')
     {
         // holds parsed annotations (raw)
         $annotations = array();
@@ -271,7 +332,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
 
         // parse out annotations
         $result = preg_match_all(
-            '/@DoozR(.*?)(\n|$)/i',
+            '/@service(.*?)(\n|$)/i',
             $docBlock,
             $annotations
         );
@@ -284,6 +345,10 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
                         explode(' ', $annotations[1][$i])
                     )
                 );
+
+                /* TODO: remove this maybe whole block with something more useful */
+                $processed[1] = $processed[0];
+                $processed[0] = 'type';
 
                 // set at runtime
                 $properties[strtolower($processed[0])] = strtolower($processed[1]);

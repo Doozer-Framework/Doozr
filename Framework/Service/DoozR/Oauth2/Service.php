@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple/Facade.php';
@@ -70,10 +68,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Oauth2/Service/Lib/Oauth2/Autolo
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
- * @DoozRType  Multiple
- * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
+ * @service    Multiple
+ * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 final class DoozR_Oauth2_Service extends DoozR_Base_Service_Multiple_Facade
 {

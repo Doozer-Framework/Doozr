@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service Configreader
+ * DoozR Service Config
  *
- * Exception.php - Base exception of module Configreader
+ * Exception.php - Base exception of module Config
  *
  * PHP versions 5
  *
@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Configreader
+ * @subpackage DoozR_Service_Config
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -57,13 +57,13 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 
 /**
- * DoozR Service Configreader
+ * DoozR Service Config
  *
- * Base exception of module Configreader
+ * Base exception of module Config
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Configreader
+ * @subpackage DoozR_Service_Config
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @see        -
  * @since      -
  */
-class DoozR_Configreader_Service_Exception extends DoozR_Exception
+class DoozR_Config_Service_Exception extends DoozR_Exception
 {
     /**
      * constructor
@@ -92,7 +92,7 @@ class DoozR_Configreader_Service_Exception extends DoozR_Exception
     public function __construct($message = null, $code = 0, $previous = null)
     {
         // add prefix to message
-        $message = 'DoozR_Configreader_Service: '.$message;
+        $message = 'DoozR_Config_Service: '.$message;
 
         // check default code = 0
         $code = (!$code) ? 0 : $code;
