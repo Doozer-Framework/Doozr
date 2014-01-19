@@ -1,0 +1,165 @@
+# FLP Translation file.
+# Copyright (C) 2004 Flaimo.com.
+# Flaimo <flaimo@gmx.net>, 2004.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FLP\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2004-04-04 04:04+0100\n"
+"Last-Translator: Flaimo <flaimo@gmx.net>\n"
+"Language-Team: Russian <flaimo@gmx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "at_currency_major_long"
+msgstr "Euro"
+
+msgid "at_currency_major_short"
+msgstr "EUR"
+
+msgid "at_currency_minor_long"
+msgstr "Цент"
+
+msgid "at_currency_minor_short"
+msgstr "c"
+
+msgid "at_currency_major_symbol"
+msgstr "€"
+
+msgid "at_currency_minor_symbol"
+msgstr "¢"
+
+msgid "de_currency_major_long"
+msgstr "Euro"
+
+msgid "de_currency_major_short"
+msgstr "EUR"
+
+msgid "de_currency_minor_long"
+msgstr "Цент"
+
+msgid "de_currency_minor_short"
+msgstr "c"
+
+msgid "de_currency_major_symbol"
+msgstr "€"
+
+msgid "de_currency_minor_symbol"
+msgstr "¢"
+
+msgid "it_currency_major_long"
+msgstr "Euro"
+
+msgid "it_currency_major_short"
+msgstr "EUR"
+
+msgid "it_currency_minor_long"
+msgstr "Цент"
+
+msgid "it_currency_minor_short"
+msgstr "c"
+
+msgid "it_currency_major_symbol"
+msgstr "€"
+
+msgid "it_currency_minor_symbol"
+msgstr "¢"
+
+msgid "fr_currency_major_long"
+msgstr "Euro"
+
+msgid "fr_currency_major_short"
+msgstr "EUR"
+
+msgid "fr_currency_minor_long"
+msgstr "Цент"
+
+msgid "fr_currency_minor_short"
+msgstr "c"
+
+msgid "fr_currency_major_symbol"
+msgstr "€"
+
+msgid "fr_currency_minor_symbol"
+msgstr "¢"
+
+msgid "es_currency_major_long"
+msgstr "Euro"
+
+msgid "es_currency_major_short"
+msgstr "EUR"
+
+msgid "es_currency_minor_long"
+msgstr "Цент"
+
+msgid "es_currency_minor_short"
+msgstr "c"
+
+msgid "es_currency_major_symbol"
+msgstr "€"
+
+msgid "es_currency_minor_symbol"
+msgstr "¢"
+
+msgid "gb_currency_major_long"
+msgstr "Фунт"
+
+msgid "gb_currency_major_short"
+msgstr "GBP"
+
+msgid "gb_currency_minor_long"
+msgstr "Пеннио"
+
+msgid "gb_currency_minor_short"
+msgstr "p"
+
+msgid "gb_currency_major_symbol"
+msgstr "£"
+
+msgid "gb_currency_minor_symbol"
+msgstr "p"
+
+msgid "us_currency_major_long"
+msgstr "Доллар"
+
+msgid "us_currency_major_short"
+msgstr "USD"
+
+msgid "us_currency_minor_long"
+msgstr "Цент"
+
+msgid "us_currency_minor_short"
+msgstr "c"
+
+msgid "us_currency_major_symbol"
+msgstr "$"
+
+msgid "us_currency_minor_symbol"
+msgstr "¢"
+
+msgid "sa_currency_major_long"
+msgstr "Dirham"
+
+msgid "sa_currency_major_short"
+msgstr "SAR"
+
+msgid "sa_currency_minor_long"
+msgstr "Fils"
+
+msgid "sa_currency_major_symbol"
+msgstr "SAR"
+
+msgid "ru_currency_major_long"
+msgstr "Рублевка"
+
+msgid "ru_currency_major_short"
+msgstr "RUB"
+
+msgid "ru_currency_minor_long"
+msgstr "Копейки"
+
+msgid "ru_currency_major_symbol"
+msgstr "RUB"

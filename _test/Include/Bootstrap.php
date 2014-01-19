@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Unit-Test - Bootstrap
  *
- * RunAllTests.php - The main test-suite which runs all tests
+ * Bootstrap.php - The bootstrapper for Unit-Testing DoozR
  *
  * PHP versions 5
  *
@@ -44,50 +44,33 @@
  *
  * @category   DoozR
  * @package    DoozR_Test
- * @subpackage DoozR_Test_Runner
+ * @subpackage DoozR_Test_Bootstrapper
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
+ * @see        -
+ * @since      -
  */
-
-// get PHPUnit test-framework
-require_once 'PHPUnit/Autoload.php';
-
-// get test-suite
-require_once 'Test/RunAllTests.php';
-
-// get our boostrapping files
-require_once 'Include/Bootstrap.php';
 
 /**
- * DoozR - Unit-Tests
- *
- * The main test-suite which runs all tests
- *
- * @category   DoozR
- * @package    DoozR_Test
- * @subpackage DoozR_Test_Runner
- * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2013 Benjamin Carl
- * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * detect path to DoozR
  */
-class AllTests
-{
-    /**
-     * the test suite
-     *
-     * @return object $suite The suite containing all tests
-     */
-    public static function suite()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('Framework');
+$pathToDoozR = str_replace('_test'.DIRECTORY_SEPARATOR.'Include'.DIRECTORY_SEPARATOR.'Bootstrapper.php',
+                           '',
+                           realpath(__FILE__)
+                          );
 
-        $suite->addTest(DoozR_AllTests::suite());
-
-        return $suite;
-    }
+/**
+ * some basic pre-unit-test check
+ */
+if (file_exists($pathToDoozR)) {
+	// define DoozR root folder
+    define('DOOZR_UT_DOCUMENT_ROOT', $pathToDoozR);
+} else {
+    // STOP execution -> show error
+    pred('Execution STOPPED. Please check path to DoozR (automatic detected "'.$pathToDoozR.'")');
 }
+
+?>

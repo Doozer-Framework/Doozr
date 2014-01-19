@@ -136,7 +136,6 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * Initializes the autoloader for classes of this service.
      * Autoloader initialize for classes of I18n service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -163,15 +162,11 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * called on destruction of the instance
+     * Called on destruction
      *
-     * This method is called on desctruction of the class
-     *
-     * @return  object instance of this class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access protected
      */
     protected function __desctruct()
     {
