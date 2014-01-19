@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
@@ -69,13 +67,11 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
 {
     /**
-     * Contains the instance of DoozR_Registry
+     * Instance of DoozR_Registry
      *
      * @var object
      * @access protected
@@ -84,15 +80,11 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
 
 
     /**
-     * constructs the class
+     * Constructor
      *
-     * constructor builds the class
-     *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function __construct()
     {
@@ -120,15 +112,11 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * called on destruction of the instance
+     * Called on destruction
      *
-     * This method is called on desctruction of the class
-     *
-     * @return  object instance of this class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access protected
      */
     protected function __desctruct()
     {

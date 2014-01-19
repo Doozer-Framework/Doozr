@@ -207,6 +207,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
         // store map
         self::$_container->setMap(self::$_map);
 
+
         // create instance with arguments ...
         if ($arguments !== null) {
             $instance = self::$_container->build($classname, $arguments);
