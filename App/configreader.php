@@ -19,10 +19,10 @@ $DoozR = DoozR_Core::getInstance();
 
 
 /**
- * create new instance of service configreader, pass 'json' as argument to it -> this means we
+ * create new instance of service config, pass 'json' as argument to it -> this means we
  * want to use a json-container for CRUD-operations (currently available container: json, ini)
  */
-$configreader = DoozR_Loader_Serviceloader::load('configreader', 'json', true);
+$config = DoozR_Loader_Serviceloader::load('config', 'json', true);
 
 
 /**
@@ -36,13 +36,13 @@ $runtime  = array('transmission' => array('gzip' => array('enabled' => false)));
 /**
  * read configuration from file in JSON-format and merge with some runtime parameter
  */
-if ($configreader->read($filename)) {
+if ($config->read($filename)) {
 
-    pre($configreader->transmission->gzip->enabled);
+    pre($config->transmission->gzip->enabled);
 
-    $configreader->read($runtime);
+    $config->read($runtime);
 
-    pre($configreader->transmission->gzip->enabled);
+    pre($config->transmission->gzip->enabled);
     exit;
 
 } else {

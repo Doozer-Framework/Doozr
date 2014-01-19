@@ -13,7 +13,7 @@
  - **Acl**
  - **Cache**
  - **Compact**
- - **Configreader**
+ - **Config**
  - **Database**
  - **Debug**
  - **Crypt**
