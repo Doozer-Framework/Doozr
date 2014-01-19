@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Index - View
+ * App - View - Index
  *
- * Index.php - Index View Demonstration
+ * Index.php - Index View for Installation-/Demonstration-Page.
+ * This View ...
  *
  * PHP versions 5
  *
@@ -42,33 +43,29 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Index
- * @subpackage DoozR_Index_View
+ * @category   App
+ * @package    App_View
+ * @subpackage App_View_Index
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
- * DoozR - Index - View
+ * App - View - Index
  *
- * Index View Demonstration
+ * Index View for Installation-/Demonstration-Page.
  *
- * @category   DoozR
- * @package    DoozR_Index
- * @subpackage DoozR_Index_View
+ * @category   App
+ * @package    App_View
+ * @subpackage App_View_Index
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 final class View_Index extends DoozR_Base_View implements DoozR_Base_View_Interface
 {
@@ -85,32 +82,7 @@ final class View_Index extends DoozR_Base_View implements DoozR_Base_View_Interf
      */
     protected function __tearup(array $request, array $translation)
     {
-        pre(
-            '__tearup() in '.__CLASS__.' called! :: '.__CLASS__.' start processing of: '.var_export($request, true).
-            ' translation: '.var_export($translation, true)
-        );
-
-        /******/
-        /* @var $model DoozR_Model */
-        /*
-        $model = DoozR_Model::getInstance();
-
-        // get connection
-        $connection = $model->phpillowConnection->___createInstance('localhost', 5984);
-
-        // set database
-        $model->phpillowConnection->setDatabase('doozr');
-
-        // get base structure/object for documents
-        require_once 'App/myBlogDocument.php';
-
-        // create new doc
-        $doc = new myBlogDocument();
-        $doc->title = 'New blog post 2';
-        $doc->text = 'Hello world.';
-        $doc->save();
-        */
-        /******/
+        # foo
     }
 
     /**
@@ -123,8 +95,6 @@ final class View_Index extends DoozR_Base_View implements DoozR_Base_View_Interf
      */
     public function __teardown()
     {
-        pre(
-            '__teardown() in '.__CLASS__.' called! :: '.__CLASS__
-        );
+        # foo
     }
 }

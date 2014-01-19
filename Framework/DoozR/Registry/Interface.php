@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Registry Interface
+ * DoozR - Registry - Interface
  *
  * Interface.php - Registry Interface of the DoozR Framework
  *
@@ -50,12 +50,10 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
- * DoozR Registry Interface
+ * DoozR - Registry - Interface
  *
  * Registry Interface of the DoozR Framework
  *
@@ -67,14 +65,21 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 interface DoozR_Registry_Interface
 {
     /**
-     * EMPTY but IMPORTANT contract for Registry Pattern used in DoozR
-     * for fullfilment of DI contracts
+     * @param null $identifier
+     *
+     * @return mixed
      */
+    public static function get($identifier = null);
 
+    /**
+     * @param      $variable
+     * @param null $identifier
+     *
+     * @return mixed
+     */
+    public static function set(&$variable, $identifier = null);
 }

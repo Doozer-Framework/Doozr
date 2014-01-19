@@ -10,15 +10,15 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="Data/Public/www/view/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/www/view/assets/css/bootstrap.min.css">
     <style>
         body {
             padding-top: 50px;
             padding-bottom: 20px;
         }
     </style>
-    <link rel="stylesheet" href="Data/Public/www/view/assets/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="Data/Public/www/view/assets/css/main.css">
+    <link rel="stylesheet" href="/www/view/assets/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/www/view/assets/css/main.css">
 
     <!--[if lt IE 9]>
     <script src="js/vendor/html5-3.6-respond-1.1.0.min.js"></script>
@@ -47,7 +47,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="acl.php">ACL</a></li>
                         <li><a href="compact.php">Compact</a></li>
-                        <li><a href="configreader.php">Configreader</a></li>
+                        <li><a href="config.php">Config</a></li>
                         <li><a href="database.php">Database</a></li>
                         <li><a href="form.php">Form</a></li>
                         <li><a href="i18n.php">I18n</a></li>
@@ -189,17 +189,17 @@
         <div class="col-lg-4">
             <h3>Form</h3>
             <p>This service is a powerful tool which enables you to collect information from visitors easy as never before. High usability, secure forms, tokens, pagination and many more...</p>
-            <p><a class="btn btn-default" href="form.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/form.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>I18n</h3>
             <p>DoozR provides I18n support from URL/URI, over routing down to the templates. Every single part can be translated/localized - gettext support.</p>
-            <p><a class="btn btn-default" href="i18n.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/i18n.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>Oauth2</h3>
             <p>Fully standard compliant Oauth2 service with client & server. The demo of this service is a small application.</p>
-            <p><a class="btn btn-default" href="oauth2.php">Big Info before &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/oauth2.php">Big Info before &raquo;</a></p>
         </div>
     </div>
 
@@ -208,17 +208,17 @@
         <div class="col-lg-4">
             <h3>Datetime</h3>
             <p>Sometimes it's pain to handle Dates/Time-Values and calculate with or convert them to other formats. This service provides all the functionality you need to handle Date/Time-values easily.</p>
-            <p><a class="btn btn-default" href="database.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/database.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>REST</h3>
             <p>The REST service is a simple transformer service which transforms a HTTP request to a valid API request which for example is then ready to be passed to DoozR_Base_Presenter_Rest.</p>
-            <p><a class="btn btn-default" href="rest.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/rest.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>Compact</h3>
             <p>The compact service helps you compressing JavaScript- & CSS-Files and combining single files to a large one to reduce the amount of requests and reduce the load on the server. This service can be used by adding a route to DoozR e.g. <i>/Compress/</i>.</p>
-            <p><a class="btn btn-default" href="compact.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/compact.php">Try &raquo;</a></p>
         </div>
     </div>
 
@@ -227,36 +227,36 @@
         <div class="col-lg-4">
             <h3>ACL</h3>
             <p>This service provides features for handling permissions of a user or a group. The service provides a nice fluent API to ask for and check permissions. All permissions are stored in a single integer.</p>
-            <p><a class="btn btn-default" href="acl.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/acl.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>Session</h3>
             <p>This service is a handy helper for easy and secure sessions with PHP. This service is default enabled in Web-Environment.</p>
-            <p><a class="btn btn-default" href="session.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/session.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>Template</h3>
             <p>Proxy to PHPTAL library. This service provides an easy access to PHPTAL library of DoozR. Currently only PHPTAL support. More libraries will be added soon.</p>
-            <p><a class="btn btn-default" href="template.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/template.php">Try &raquo;</a></p>
         </div>
     </div>
 
     <!-- Example row of columns -->
     <div class="row">
         <div class="col-lg-4">
-            <h3>Configreader</h3>
+            <h3>Config</h3>
             <p>This service provides a recursive reader for configuration files - supports: INI-, XML- and JSON format.</p>
-            <p><a class="btn btn-default" href="configreader.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/config.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>Cache</h3>
             <p>The caching service is one of the core components of DoozR - realized as a service. It supports caching in filesystem, memcached, Redis and is heavily used by DoozR to improve its performance run for run.</p>
-            <p><a class="btn btn-default" href="cache.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/cache.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>Crypt</h3>
             <p>The Crypt service provides en- & decryption with AES container. This service is used by Session service, Filesystem service, Oauth2 service and by Cache service for en-/decryption of content.</p>
-            <p><a class="btn btn-default" href="crypt.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/crypt.php">Try &raquo;</a></p>
         </div>
     </div>
 
@@ -264,17 +264,17 @@
         <div class="col-lg-4">
             <h3>Filesystem</h3>
             <p>This service provides easy access to the filesystem and default system path'. It supports a virtual mode which is realized using the Virtualfilesystem service. It provides an OOP fluent interface and supports persistent read and write which brings good performance (we use it for filesystem-logging! ;).</p>
-            <p><a class="btn btn-default" href="filesystem.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/filesystem.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>Virtualfilesystem</h3>
             <p>This service provides access to a virtualfilesystem. We've built this service to fetch all write operations to filesystem while processing request and response and flushing write op's after response was served. This also increases the speed of a response served.</p>
-            <p><a class="btn btn-default" href="virtualfilesystem.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/virtualfilesystem.php">Try &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h3>Password</h3>
             <p>This service helps you generating all the different kinds of passwords. With special chars or easy rememberable. It also validates hashes against submitted passwords and checks how similar two passed passwords are.</p>
-            <p><a class="btn btn-default" href="password.php">Try &raquo;</a></p>
+            <p><a class="btn btn-default" href="App/password.php">Try &raquo;</a></p>
         </div>
     </div>
 
@@ -383,9 +383,9 @@ RewriteRule .* - [E=DOOZR_ROUTER:Route.php]
 </div> <!-- /container -->
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="Data/Public/www/view/assets/js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
-<script src="Data/Public/www/view/assets/js/vendor/bootstrap.min.js"></script>
-<script src="Data/Public/www/view/assets/js/main.js"></script>
+<script>window.jQuery || document.write('<script src="/www/view/assets/js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+<script src="/www/view/assets/js/vendor/bootstrap.min.js"></script>
+<script src="/www/view/assets/js/main.js"></script>
 
 </body>
 </html>

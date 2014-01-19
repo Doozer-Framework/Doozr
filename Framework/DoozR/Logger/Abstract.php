@@ -199,7 +199,6 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     protected $date;
 
-
     /**
      * The translation from [type to level]
      *

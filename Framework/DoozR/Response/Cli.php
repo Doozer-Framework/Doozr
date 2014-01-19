@@ -50,12 +50,9 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Response.php';
-//require_once DOOZR_DOCUMENT_ROOT.'DoozR/Response/Interface.php';
 
 /**
  * DoozR - Response - Cli
@@ -70,8 +67,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Response.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Response_Cli extends DoozR_Base_Response
 {
@@ -112,6 +107,7 @@ class DoozR_Response_Cli extends DoozR_Base_Response
      * @return mixed Bolean True if everything wents fine and $exit = false, otherwise nothing
      * @access public
      */
+    /*
     public function deliverText($data, $exit = false)
     {
         echo $data;
@@ -124,6 +120,7 @@ class DoozR_Response_Cli extends DoozR_Base_Response
             return true;
         }
     }
+    */
 
     /**
      * close a connection correctly

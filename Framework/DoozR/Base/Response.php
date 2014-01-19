@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Response
+ * DoozR - Base - Response
  *
- * Response.php - Basic Response class of the DoozR Framework
+ * Response.php - Base response class of the DoozR Framework.
  *
  * PHP versions 5
  *
@@ -50,14 +50,12 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
- * DoozR Base Response
+ * DoozR - Base - Response
  *
- * Basic Response class of the DoozR Framework
+ * Base response class of the DoozR Framework.
  *
  * @category   DoozR
  * @package    DoozR_Base
@@ -67,8 +65,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Base_Response
 {
@@ -81,7 +77,7 @@ class DoozR_Base_Response
     protected static $type;
 
     /**
-     * This is ...
+     * The registry
      *
      * @var DoozR_Registry
      * @access protected
