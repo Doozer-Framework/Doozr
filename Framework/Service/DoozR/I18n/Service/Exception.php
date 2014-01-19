@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service I18n
+ * DoozR - Service - I18n
  *
  * Exception.php - Base exception of module I18n
  *
@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
@@ -69,8 +67,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_I18n_Service_Exception extends DoozR_Exception
 {

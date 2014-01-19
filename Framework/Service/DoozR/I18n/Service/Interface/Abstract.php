@@ -4,7 +4,7 @@
 /**
  * DoozR - I18n - Service - Interface - Base
  *
- * Base.php - I18n Translation Base Interface
+ * Abstract.php - I18n Translation Base Interface
  *
  * PHP versions 5
  *
@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
@@ -69,10 +67,8 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class DoozR_I18n_Service_Interface_Base extends DoozR_Base_Class_Singleton
+class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
 {
     /**
      * the translation table collection (for all locale!)
@@ -94,18 +90,18 @@ class DoozR_I18n_Service_Interface_Base extends DoozR_Base_Class_Singleton
     protected static $translations = array();
 
     /**
-     * module cache
+     * Cache service instance for caching
      *
-     * @var object
-     * @access private
+     * @var DoozR_Cache_Service
+     * @access protected
      * @static
      */
     protected static $cache;
 
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | PUBLIC INTERFACES
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * starts the initializing of given locale and namespace
@@ -126,6 +122,7 @@ class DoozR_I18n_Service_Interface_Base extends DoozR_Base_Class_Singleton
 
         // if the table wasn't loaded before
         if (!isset(self::$translationTables[$crc])) {
+
             // caching enabled?
             if (self::$cache) {
                 // identify cache content by internal crc
@@ -140,20 +137,19 @@ class DoozR_I18n_Service_Interface_Base extends DoozR_Base_Class_Singleton
 
             // if we did not receive a valid result from cache parse file(s)
             if ($cachedContent === false) {
-
-                if (!method_exists($this, 'buildTranslationtable')) {
-                    throw new Exception('EXCEPTION_MODULE_DOOZR_I18N', 123456);
-
-                } else {
-
+                if (method_exists($this, 'buildTranslationtable') &&
+                    is_callable(array($this, 'buildTranslationtable'))
+                ) {
                     // build translationtable
                     $translationTable = $this->buildTranslationtable($locale, $namespace, $crc);
 
-                    // cache translationtable
-                    self::$cache->create($translationTable);
+                    if ($translationTable !== false) {
+                        // cache translationtable
+                        self::$cache->create($translationTable);
 
-                    // set local
-                    self::$translationTables[$crc] = $translationTable;
+                        // set local
+                        self::$translationTables[$crc] = $translationTable;
+                    }
                 }
             } else {
                 // put the cached content into local translationtable
@@ -165,13 +161,9 @@ class DoozR_I18n_Service_Interface_Base extends DoozR_Base_Class_Singleton
         return $crc;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as constructor.
@@ -193,8 +185,4 @@ class DoozR_I18n_Service_Interface_Base extends DoozR_Base_Class_Singleton
             self::$cache->setLifetime($config['cache']['lifetime']);
         }
     }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

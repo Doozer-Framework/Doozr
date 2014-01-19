@@ -50,11 +50,9 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Interface/Base.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Interface/Abstract.php';
 
 /**
  * DoozR - I18n - Service - Interface - Text
@@ -69,27 +67,42 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Interface/Base.php'
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Base
+class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abstract
 {
     /**
-     * path to locale files (filesystem)
-     * only used in Text and Gettext mode
+     * Path to translation files (filesystem)
      *
      * @var string
      * @access private
      */
     private $_path;
 
-
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /**
+     * Name of the folder where LC_MESSAGES exists
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const FOLDERNAME = 'Text';
 
     /**
-     * looks up the translation of the given combination of values
+     * Extension of the translation files
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const EXTENSION = 'ini';
+
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC INTERFACES
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Looks for the passed looks up the translation of the given combination of values
      *
      * This method is intend to look-up the translation of the given combination of values.
      *
@@ -101,7 +114,7 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Bas
      * @return string The translation of the input or the input string on failure
      * @access public
      */
-    public function lookup($string, $key, $arguments = null)
+    public function lookup($string, $key = null, $arguments = null)
     {
         // cause of german umlauts and special chars in identifier we need to use crc as index
         $id = md5($string);
@@ -117,13 +130,9 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Bas
         return $string;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | TOOLS + HELPER
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * builds a translation-tables for giving locale and namespace
@@ -159,7 +168,8 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Bas
                 $result = array_merge($result, self::$translations[$locale][$namespace]);
             } else {
                 // load fresh from file
-                $translationFile = $this->_path.$locale.DIRECTORY_SEPARATOR.'namespace_'.$namespace.'.inc';
+                $translationFile = $this->_path.$locale.DIRECTORY_SEPARATOR.self::FOLDERNAME.DIRECTORY_SEPARATOR.
+                    'LC_MESSAGES'.DIRECTORY_SEPARATOR.$namespace.'.'.self::EXTENSION;
                 $result = array_merge($result, $this->_parseTranslationfile($translationFile));
             }
         }
@@ -169,7 +179,7 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Bas
     }
 
     /**
-     * parses a translationfile
+     * Parses a translationfile
      *
      * This method is intend to parse a translationfile and return the result as array.
      *
@@ -211,20 +221,14 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Bas
         return $result;
     }
 
-    /*******************************************************************************************************************
-     * \\ END TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * constructor
+     * Constructor
      *
-     * This method is intend to act as constructor.
-     *
-     * @param string $config The config for this type of interface
+     * @param array $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of this class
@@ -238,8 +242,4 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Bas
         // call parents constructor
         parent::__construct($config);
     }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

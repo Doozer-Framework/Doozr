@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service I18n
+ * DoozR - Service - I18n
  *
  * Translator.php - Translator is responsible for translation within module I18n
  *
@@ -50,14 +50,12 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
 
 /**
- * DoozR Service I18n
+ * DoozR - Service - I18n
  *
  * Translator is responsible for translation within the module I18n
  *
@@ -69,13 +67,11 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_I18n_Service_Translator extends DoozR_Base_Class
 {
     /**
-     * the real locale of the translator
+     * Real locale of the translator
      *
      * @var string
      * @access private
@@ -83,7 +79,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     private $_locale;
 
     /**
-     * the locale we use for translation if redirect mode enabled
+     * Locale we use for translation if redirect mode enabled
      *
      * @var string
      * @access private
@@ -91,7 +87,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     private $_redirectLocale;
 
     /**
-     * the I18n-configuration of the I18n-Service
+     * I18n-configuration of the I18n-Service
      *
      * @var object
      * @access private
@@ -99,7 +95,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     private $_configI18n;
 
     /**
-     * the I10n-configuration of the locale of this instance
+     * I10n-configuration of the locale of this instance
      *
      * @var object
      * @access private
@@ -107,7 +103,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     private $_configL10n;
 
     /**
-     * the namespace(s) used by this instance
+     * Namespace(s) used by this instance
      *
      * @var array
      * @access private
@@ -115,36 +111,62 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     private $_namespaces = array();
 
     /**
-     * the translator-interface can be either "Text" or "Gettext" or "MySQL"
+     * Translator-interface can be either "Text" or "Gettext" or "MySQL"
      *
-     * @var object
+     * @var DoozR_I18n_Service_Interface_Gettext|DoozR_I18n_Service_Interface_Text
      * @access private
      * @static
      */
     private static $_translatorInterface;
 
     /**
-     * the key identifier for translation-table
+     * Key identifier for translation-table
      *
      * @var string
      * @access private
      */
     private $_translationTableUid;
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /**
+     * Mode "translate" = default/basic/simple translate
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const MODE_TRANSLATE = 'translate';
+
+    /**
+     * Mode "translateEncode" = encoded outpu/result
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const MODE_TRANSLATE_ENCODE = 'translateEncode';
+
+    /**
+     * Mode "translateEncodePlus" = special encoding return value
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const MODE_TRANSLATE_ENCODE_PLUS = 'translateEncodePlus';
+
+
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN PUBLIC INTERFACES
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * returns the redirect-status of the translator instance
      *
      * This method is intend to return the redirect-status of the translator instance.
      *
-     * @return  boolean TRUE if redirect, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if redirect, otherwise FALSE
+     * @access public
      */
     public function hasRedirect()
     {
@@ -155,7 +177,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * sets a single namespace or an array of namespaces as active
      *
      * This method is intend to set a single namespace or an array of namespaces as active.
-     * These namespace(s) is/are used for reading strings from e.g. (namespace_home.inc).
+     * These namespace(s) is/are used for reading strings from e.g. (home.ini).
      *
      * @param mixed $namespace STRING single namespace, or ARRAY collection of namespaces
      *
@@ -182,17 +204,15 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     }
 
     /**
-     * adds a namespace to the list of active namespaces
+     * Adds a namespace to the list of active namespaces
      *
      * This method is intend to add a namespace to the list of active namespaces.
      *
      * @param mixed $namespace STRING single namespace, or ARRAY collection of namespaces
      *
-     * @return  boolean TRUE if namespace(s) have been added, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if namespace(s) have been added, otherwise FALSE
+     * @access public
      */
     public function addNamespace($namespace)
     {
@@ -229,11 +249,9 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * This method is intend to return the currently active namespace(s).
      *
-     * @return  array List of active namespaces
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array List of active namespaces
+     * @access public
      */
     public function getNamespace()
     {
@@ -247,11 +265,9 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * @param string $namespace The namespace to check its existence
      *
-     * @return  boolean TRUE if namespace is in list, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if namespace is in list, otherwise FALSE
+     * @access public
      */
     public function hasNamespace($namespace)
     {
@@ -265,11 +281,9 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * @param string $namespace The namespace to check its existence
      *
-     * @return  boolean TRUE if namespace is in list, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if namespace is in list, otherwise FALSE
+     * @access public
      */
     public function removeNamespace($namespace)
     {
@@ -299,22 +313,37 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     }
 
     /**
-     * translates a string
+     * Translates a string.
      *
      * This method is intend to translate a string.
      *
-     * @param string $string    The string to translate
+     * @param string $key       The string to translate
      * @param mixed  $arguments The arguments to pass to the translation
      *
-     * @return  mixed STRING translated string on success, otherwise FALSE
+     * @return  string|boolean Translated STRING on success, otherwise FALSE
      * @access  public
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
      */
-    public function _($string, $arguments = null)
+    public function _($key, $arguments = null)
     {
-        return $this->_translate('translate', $string, $arguments);
+        return $this->_translate($key, $arguments, self::MODE_TRANSLATE);
+    }
+
+    /**
+     * Translates a string and encodes it
+     *
+     * This method is intend to translate a string and encode it afterwards.
+     *
+     * @param string $key       The string to translate
+     * @param mixed  $arguments The arguments to pass to the translation
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return  string|boolean Translated STRING on success, otherwise FALSE
+     * @access public
+     */
+    public function __($key, $arguments = null)
+    {
+        return $this->_translate($key, $arguments, self::MODE_TRANSLATE_ENCODE);
     }
 
     /**
@@ -322,46 +351,21 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * This method is intend to translate a string and encode it.
      *
-     * @param string $string    The string to translate
+     * @param string $key       The string to translate
      * @param mixed  $arguments The arguments to pass to the translation
      *
-     * @return  mixed STRING translated string on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return  string|boolean Translated STRING on success, otherwise FALSE
+     * @access public
      */
-    public function __($string, $arguments = null)
+    public function ___($key, $arguments = null)
     {
-        return $this->_translate('translateEncode', $string, $arguments);
+        return $this->_translate($key, $arguments, self::MODE_TRANSLATE_ENCODE_PLUS);
     }
 
-    /**
-     * translates a string and encode it
-     *
-     * This method is intend to translate a string and encode it.
-     *
-     * @param string $string    The string to translate
-     * @param mixed  $arguments The arguments to pass to the translation
-     *
-     * @return  mixed STRING translated string on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     */
-    public function ___($string, $arguments = null)
-    {
-        return $this->_translate('translateEncodePlus', $string, $arguments);
-    }
-
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN TOOLS + HELPER
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to re-initialize the namespaces in translation-tables.
@@ -372,10 +376,10 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      */
     private function _namespaceChanged()
     {
-        if (!self::$_translatorInterface) {
-            // init interface for translation
+        // init interface for translation
+        #if (!self::$_translatorInterface) {
             self::$_translatorInterface = $this->_getTranslatorInterface();
-        }
+        #}
 
         $locale = ($this->_redirectLocale) ? $this->_redirectLocale : $this->_locale;
 
@@ -390,15 +394,13 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     }
 
     /**
-     * initializes the translator (interface to translations [file, gettext, db])
+     * Initializes the translator (interface to translations [file, gettext, db])
      *
      * This method is intend to initialize the translator (interface to translations [file, gettext, db]).
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_I18n_Service_Interface_Gettext|DoozR_I18n_Service_Interface_Text An instance of Gettext or Text I
+     * @access private
      */
     private function _getTranslatorInterface()
     {
@@ -425,41 +427,39 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     }
 
     /**
-     * translates strings
+     * Translates a passes string
      *
      * This method is intend to act as the backend method for translation requests by _() __() and ___().
      *
      * @param integer $mode      The mode in which the translation is requested (normal, encode or encode-plus)
-     * @param string  $string    The string to translate
      * @param mixed   $arguments The arguments used by translator for translation (e.g. inserting values)
+     * @param string  $key       The string to translate
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return  mixed STRING translation on success, otherwise FALSE
      * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
      */
-    private function _translate($mode, $string, $arguments)
+    private function _translate($key, $arguments = null, $mode = self::MODE_TRANSLATE)
     {
         // check if translator is already initialized
         if (!self::$_translatorInterface) {
-            // init interface for translation
             self::$_translatorInterface = $this->_getTranslatorInterface();
         }
 
         // translate
         $translation = self::$_translatorInterface->lookup(
-            $string,
+            $key,
             $this->_translationTableUid,
             $arguments
         );
 
         // encode result? => check mode
         switch ($mode) {
-        case 'translateEncode':
+        case self::MODE_TRANSLATE_ENCODE:
             $translation = htmlspecialchars(utf8_encode($translation), null, 'UTF-8');
             break;
-        case 'translateEncodePlus':
+
+        case self::MODE_TRANSLATE_ENCODE_PLUS:
             $translation = htmlentities(utf8_encode($translation));
             break;
         }
@@ -468,16 +468,12 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         return $translation;
     }
 
-    /*******************************************************************************************************************
-     * \\ END TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * constructor
+     * Constructor
      *
      * This method is intend to act as constructor.
      *
@@ -485,9 +481,9 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @param DoozR_Config_Interface $configI18n An instance of DoozR_Config_Ini holding the I18n-config
      * @param DoozR_Config_Interface $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of this class
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct($locale, DoozR_Config_Interface $configI18n, DoozR_Config_Interface $configL10n)
     {
@@ -498,12 +494,5 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         // store configurations
         $this->_configI18n = $configI18n;
         $this->_configL10n = $configL10n;
-
-        // call parents constructor
-        parent::__construct();
     }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

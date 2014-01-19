@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php';
@@ -69,8 +67,6 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_I18n_Service_Format_Datetime extends DoozR_I18n_Service_Format_Abstract
 {
@@ -316,7 +312,7 @@ class DoozR_I18n_Service_Format_Datetime extends DoozR_I18n_Service_Format_Abstr
      * @return string The resulting short-time
      * @access public
      */
-    public function shortTime($timestamp = 0)
+    public function shorttime($timestamp = 0)
     {
         return $this->_formatTime($timestamp, $this->configL10n->datetime->short_time());
     }
@@ -400,7 +396,7 @@ class DoozR_I18n_Service_Format_Datetime extends DoozR_I18n_Service_Format_Abstr
      * @return string The resulting month name
      * @access public
      */
-    public function monthName($timestamp = 0)
+    public function monthname($timestamp = 0)
     {
         // get month from timestamp
         $month = (int)date('n', $timestamp) - 1;
@@ -418,10 +414,11 @@ class DoozR_I18n_Service_Format_Datetime extends DoozR_I18n_Service_Format_Abstr
      * @return string The resulting day name
      * @access public
      */
-    public function dayName($timestamp = 0)
+    public function dayname($timestamp = 0)
     {
         $day = (int)date('w', $timestamp);
-        return $this->getConfig()->datetime->{$this->_day[$day]};
+
+        return $this->getConfig()->datetime->{$this->_day[$day]}();
         //return $this->translator->_($this->_day[$day]);
     }
 
@@ -696,11 +693,11 @@ class DoozR_I18n_Service_Format_Datetime extends DoozR_I18n_Service_Format_Abstr
      * @access public
      */
     public function __construct(
-        DoozR_Registry_Interface $registry = null,
-        $locale = null,
-        $namespace = null,
-        $configI18n = null,                    // THIS is the config of DoozR (main .config) including section "I18n"
-        $configL10n = null,                   //  THIS is the I18n/L10n configuration of the current active locale
+        DoozR_Registry_Interface $registry        = null,
+        $locale                                   = null,
+        $namespace                                = null,
+        $configI18n                               = null, // THIS is the config of DoozR (main .config) including section "I18n"
+        $configL10n                               = null, // THIS is the I18n/L10n configuration of the current active locale
         DoozR_I18n_Service_Translator $translator = null
     ) {
         // set type of format-class

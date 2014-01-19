@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php';
@@ -69,10 +67,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Base_Format
+class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Format_Abstract
 {
     /**
      * The bad-word-table
@@ -97,9 +93,9 @@ class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Base_Format
      * @access private
      */
     private $_tags = array(
-        'ACRONYM',
-        'DFN',
-        'ABBR'
+        'acronym',
+        'dfn',
+        'abbr'
     );
 
     /**
@@ -109,15 +105,15 @@ class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Base_Format
      * @access private
      */
     private $_templates = array(
-        'ABBR'    => '<abbr title="{$DESC}">{$WORD}</abbr>',
-        'ACRONYM' => '<acronym title="{$DESC}">{$WORD}</acronym>',
-        'DFN'     => '<dfn>{$WORD}</dfn> {$DESC}'
+        'abbr'    => '<abbr title="{$DESC}">{$WORD}</abbr>',
+        'acronym' => '<acronym title="{$DESC}">{$WORD}</acronym>',
+        'dfn'     => '<dfn>{$WORD}</dfn> {$DESC}'
     );
 
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN PUBLIC INTERFACES
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to return a string with highlighted acronyms, definitions and abbreviations.
@@ -131,7 +127,7 @@ class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Base_Format
     public function highlightSpecialWords($string)
     {
         // read specialword-table if not already read-in
-        if (!$this->_specialWordTable) {
+        if ($this->_specialWordTable === null) {
             $this->_createSpecialWordTable();
         }
 
@@ -182,7 +178,7 @@ class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Base_Format
         // get replace character
         try {
             $replacecharacter = $this->getConfig()->words->replacecharacter();
-        } catch (DoozR_Configreader_Service_Exception $e) {
+        } catch (DoozR_Config_Service_Exception $e) {
             $replacecharacter = '*';
         }
 
@@ -199,13 +195,10 @@ class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Base_Format
         return $result;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
 
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN TOOLS + HELPER
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to create the special-word table
@@ -253,13 +246,10 @@ class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Base_Format
         }
     }
 
-    /*******************************************************************************************************************
-     * \\ BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
 
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as constructor.
@@ -277,11 +267,11 @@ class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Base_Format
      */
     public function __construct(
         DoozR_Registry_Interface $registry = null,
-        $locale = null,
-        $namespace = null,
-        $configI18n = null,
-        $configL10n = null,
-        $translator = null
+        $locale                            = null,
+        $namespace                         = null,
+        $configI18n                        = null,
+        $configL10n                        = null,
+        $translator                        = null
     ) {
         // set type of format-class
         $this->type = 'String';
@@ -289,8 +279,4 @@ class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Base_Format
         // call parents construtor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

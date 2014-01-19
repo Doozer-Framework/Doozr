@@ -51,8 +51,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
@@ -71,13 +69,11 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
 {
     /**
-     * Contains the configuration
+     * The configuration
      *
      * @var array
      * @access protected
@@ -85,7 +81,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $configuration = array();
 
     /**
-     * Contains the list of valid resources
+     * The list of valid resources
      * to prevent further filesystem accesses
      *
      * @var array
@@ -94,7 +90,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $validResources = array();
 
     /**
-     * Contains the list replacements
+     * The list replacements
      *
      * @var array
      * @access protected
@@ -102,7 +98,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $replacementMatrix = array();
 
     /**
-     * Contains an instance of cache
+     * An instance of cache
      *
      * @var DoozR_Cache_Service
      * @access protected
@@ -110,7 +106,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $cache;
 
     /**
-     * Contains an instance of DoozR_Path
+     * An instance of DoozR_Path
      *
      * @var object
      * @access protected
@@ -118,7 +114,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $path;
 
     /**
-     * Contains an instance of DoozR_Logger
+     * An instance of DoozR_Logger
      *
      * @var object
      * @access protected
@@ -126,7 +122,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     protected $logger;
 
     /**
-     * Contains the current part of the chain
+     * The current part of the chain
      *
      * @var object
      * @access protected
@@ -205,13 +201,12 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
             }
         }
 
-        //
         $this->attachDefaultReplacements();
     }
 
-    /*******************************************************************************************************************
-     * // BEGIN OVERLOADABLE METHODS OF CONTAINER
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN OVERLOADABLE METHODS OF CONTAINER
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is called from constructor to attach the default transformations
@@ -385,13 +380,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         return $r2;
     }
 
-    /*******************************************************************************************************************
-     * \\ END OVERLOADABLE METHODS OF CONTAINER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is used to attach a transformation (replacement) for a given string
@@ -457,13 +448,9 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         return $data;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC API
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN CHAINING SUPPORT FOR READING CONFIG
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN CHAINING SUPPORT FOR READING CONFIG
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns a node/value from config
@@ -521,7 +508,8 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @return mixed Requested node/value
      * @access public
      */
-    public function __call($node, $returnAsArray)
+    #public function __call($node, $returnAsArray)
+    public function __call($node, $value)
     {
         // get active chain
         if (!$this->currentChainlink) {
@@ -534,6 +522,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
             throw new DoozR_Config_Container_Exception('Config entry "'.$node.'" does not exist!');
         }
 
+        /*
         // get correct transformed argument
         if (count($returnAsArray)) {
             $returnAsArray = $returnAsArray[0];
@@ -547,6 +536,17 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         } else {
             $result = $this->currentChainlink->{$node};
         }
+        */
+
+        // check SET (key,value) or GET (key)
+        if (count($value)) {
+            $value = $value[0];
+            $result = $this->currentChainlink->{$node} = $value;
+
+        } else {
+            $result = $this->currentChainlink->{$node};
+        }
+
 
         // reset after __call()
         $this->currentChainlink = null;
@@ -554,8 +554,4 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         // return the result
         return $result;
     }
-
-    /*******************************************************************************************************************
-     * \\ END CHAINING SUPPORT FOR READING CONFIG
-     ******************************************************************************************************************/
 }
