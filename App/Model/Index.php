@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Index - Model
+ * App - Model - Index
  *
- * Index.php - Index Model Demonstration
+ * Index.php - Index Model for Installation-/Demonstration-Page.
+ * This Model delivers the data (in this case a parsed php page).
  *
  * PHP versions 5
  *
@@ -42,35 +43,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Index
- * @subpackage DoozR_Index_Model
+ * @category   App
+ * @package    App_Model
+ * @subpackage App_Model_Index
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
  * DoozR - Index - Model
  *
- * Index Model Demonstration
+ * Index.php - Index Model for Installation-/Demonstration-Page.
+ * This Model delivers the data (in this case a parsed php page).
  *
- * @category   DoozR
- * @package    DoozR_Index
- * @subpackage DoozR_Index_Model
+ * @category   App
+ * @package    App_Model
+ * @subpackage App_Model_Index
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-final class Model_Index extends DoozR_Base_Model implements DoozR_Base_Model_Interface
+final class Model_Index extends DoozR_Base_Model
+    implements
+    DoozR_Base_Model_Interface
 {
     /**
      * This method is the replacement for construct. It is called right on construction of
@@ -85,10 +85,7 @@ final class Model_Index extends DoozR_Base_Model implements DoozR_Base_Model_Int
      */
     public function __tearup(array $request, array $translation)
     {
-        pre(
-            '__tearup() in '.__CLASS__.' called! :: '.__CLASS__.' start processing of: '.var_export($request, true).
-            ' translation: '.var_export($translation, true)
-        );
+        # suess
     }
 
     /**
@@ -101,8 +98,16 @@ final class Model_Index extends DoozR_Base_Model implements DoozR_Base_Model_Int
      */
     public function __teardown()
     {
-        pre(
-            '__teardown() in '.__CLASS__.' called! :: '.__CLASS__
-        );
+        # suess
+    }
+
+
+    public function __data()
+    {
+        $filesystem = DoozR_Loader_Serviceloader::load('filesystem');
+
+        $buffer = $filesystem->parse(DOOZR_APP_ROOT.'index.php');
+
+        $this->data = $buffer;
     }
 }

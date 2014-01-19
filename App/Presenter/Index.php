@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Index - Presenter
+ * App - Presenter - Index
  *
- * Index.php - Index Presenter Demonstration
+ * Index.php - Index Presenter for Installation-/Demonstration-Page.
+ * This Presenter combines the data and the view.
  *
  * PHP versions 5
  *
@@ -42,33 +43,30 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Index
- * @subpackage DoozR_Index_Presenter
+ * @category   App
+ * @package    App_Presenter
+ * @subpackage App_Presenter_Index
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
- * DoozR - Index - Presenter
+ * App - Presenter - Index
  *
- * Index Presenter Demonstration
+ * Index Presenter for Installation-/Demonstration-Page.
+ * This Presenter combines the data and the view.
  *
- * @category   DoozR
- * @package    DoozR_Index
- * @subpackage DoozR_Index_Presenter
+ * @category   App
+ * @package    App_Presenter
+ * @subpackage App_Presenter_Index
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 final class Presenter_Index extends DoozR_Base_Presenter implements DoozR_Base_Presenter_Interface
 {
@@ -85,10 +83,7 @@ final class Presenter_Index extends DoozR_Base_Presenter implements DoozR_Base_P
      */
     protected function __tearup(array $request, array $translation)
     {
-        pre(
-            '__tearup() in '.__CLASS__.' called! :: '.__CLASS__.' start processing of: '.var_export($request, true).
-            ' translation: '.var_export($translation, true)
-        );
+        # foo
     }
 
     /**
@@ -101,37 +96,28 @@ final class Presenter_Index extends DoozR_Base_Presenter implements DoozR_Base_P
      */
     public function __teardown()
     {
-        pre(
-            '__teardown() in '.__CLASS__.' called! :: '.__CLASS__
-        );
+        # foo
     }
 
     /**
-     * This method is intend to demonstrate how data could be automatic
-     * be displayed.
+     * The Read-Action (taken from /Index/Read/)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if successful, otherwise false
+     * @return void
      * @access public
      */
     public function Read()
     {
-        // retrieve data for context Screen
-        $data = $this->getData();
+        // get data from model
+        $buffer = $this->model->getData();
 
-        // just a simple - we automatic show data from model function
-        if (is_array($data)) {
-            $data = var_export($data, true);
-        }
+        // set data to trigger events in view (and maybe also model)
+        $this->setData($buffer);
 
-        // get pre - html
-        $text = pre(__CLASS__.' proudly present: '.$data.' directly from Model :) through Response ...', true);
+        // get response object to send response
+        $response = $this->getResponse();
 
-        // get registry
-        $registry = DoozR_Registry::getInstance();
-
-        // get front-controller +
-        // deliver the HTML code through response
-        return $registry->front->getResponse()->sendText($text);
+        // send response
+        $response->sendHtml($buffer);
     }
 }

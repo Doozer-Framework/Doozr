@@ -237,6 +237,21 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
+     *
+     *
+     * @return DoozR_Response_Web|DoozR_Response_Cli|DoozR_Response_Httpd
+     */
+    protected function getResponse()
+    {
+        // get registry
+        $registry = DoozR_Registry::getInstance();
+
+        // get front-controller and return it
+        #->sendText($text)
+        return $registry->front->getResponse();
+    }
+
+    /**
      * Create of Crud
      *
      * @param mixed $data The data for create
@@ -315,7 +330,9 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      */
     public function getData()
     {
-        return $this->data;
+        pred('# ERROR CHECK FOR THIS STRING: oidsafd8fz8sniemxfeio #');
+        # CHECK HERE IF WE MUST CALL Model->getData() INSTEAD
+        #return $this->data;
     }
 
     /**
