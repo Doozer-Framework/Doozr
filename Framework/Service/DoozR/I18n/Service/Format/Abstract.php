@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
@@ -69,8 +67,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
 {
@@ -139,9 +135,9 @@ abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
     protected $config;
 
 
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN TOOLS + HELPER
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to create the bad-word table
@@ -158,31 +154,27 @@ abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
             include_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Container/Ini.php';
 
             // configuration-file
-            $configFile = DOOZR_APP_ROOT.'Data/Private/I18n/'.$this->locale.'/L10nFormat'.$this->type.'.ini';
+            $configurationFile = DOOZR_APP_ROOT.'Data/Private/I18n/'.$this->locale.'/Localization/'.$this->type.'.ini';
 
             // get configreader
-            $config = DoozR_Loader_Serviceloader::load('Configreader', 'Ini');
+            $config = DoozR_Loader_Serviceloader::load('Config', 'Ini');
 
             // read config
-            $this->config = $config->read($configFile);
+            $this->config = $config->read($configurationFile);
         }
 
         // return the configuration
         return $this->config;
     }
 
-    /*******************************************************************************************************************
-     * \\ END TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface $registry  The registry
+     * @param DoozR_Registry_Interface $registry   The registry
      * @param string                   $locale     The locale this instance is working with
      * @param string                   $namespace  The active namespace of this format-class
      * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
@@ -190,16 +182,16 @@ abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return DoozR_ Instance of this class
      * @access public
      */
     public function __construct(
         DoozR_Registry_Interface $registry = null,
-        $locale = null,
-        $namespace = null,
-        $configI18n = null,
-        $configL10n = null,
-        $translator = null
+        $locale                            = null,
+        $namespace                         = null,
+        $configI18n                        = null,
+        $configL10n                        = null,
+        $translator                        = null
     ) {
         // store registry
         $this->registry = $registry;
@@ -219,8 +211,4 @@ abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
         // store translator
         $this->translator = $translator;
     }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: $
+ * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
  * @see        -
  * @since      -
@@ -81,7 +81,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
      * @var string
      * @access const
      */
-    const BASE_PATTERN = 'DiInject';
+    const BASE_PATTERN = 'inject';
 
     /**
      * The range to parse from
@@ -148,9 +148,9 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     }
 
     /**
-     * Checks if the string has a DiInject command
+     * Checks if the string has a Inject command
      *
-     * This method is intend to check if a given string contains a DiInject command.
+     * This method is intend to check if a given string contains a Inject command.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the dependencies build from annotations
@@ -162,9 +162,9 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     }
 
     /**
-     * Returns the count of DiInject commands
+     * Returns the count of Inject commands
      *
-     * This method is intend to return the count of DiInject commands from last
+     * This method is intend to return the count of Inject commands from last
      * parsing.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

@@ -4,7 +4,7 @@
 /**
  * DoozR - I18n - Service - Interface - Gettext
  *
- * Gettext.php - Translation interface to => gettext�
+ * Gettext.php - Translation interface to => gettext™
  *
  * PHP versions 5
  *
@@ -50,16 +50,14 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Interface/Base.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Interface/Abstract.php';
 
 /**
  * DoozR - I18n - Service - Interface - Gettext
  *
- * Gettext.php - Translation interface to => gettext�
+ * Gettext.php - Translation interface to => gettext™
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -69,14 +67,11 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Interface/Base.php'
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_Base
+class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_Abstract
 {
     /**
-     * path to locale files (filesystem)
-     * only used in Text and Gettext mode
+     * Path to locale files (filesystem)
      *
      * @var string
      * @access private
@@ -84,9 +79,9 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     private $_path;
 
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN PUBLIC INTERFACES
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to look-up the translation of the given combination of values.
@@ -99,15 +94,12 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * @return string The translation of the input or the input string on failure
      * @access public
      */
-    public function lookup($string, $key, $arguments = null)
+    public function lookup($string, $key = null, $arguments = null)
     {
-        // cause of german umlauts and special chars in identifier we need to use crc as index
-        $id = md5($string);
+        // get translation by "string"
+        $string = gettext($string);
 
-        // get translation by "string" and the corresponding "key"
-        $string = (isset(self::$translationTables[$key][$id])) ? self::$translationTables[$key][$id] : $string;
-
-        if ($arguments) {
+        if ($arguments !== null) {
             $string = vsprintf($string, $arguments);
         }
 
@@ -115,13 +107,9 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         return $string;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | TOOLS + HELPER
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to build a translation-tables for giving locale and namespace.
@@ -135,6 +123,9 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      */
     protected function buildTranslationtable($locale, array $namespaces)
     {
+        /*
+        pred('not required!');
+
         // the resulting array
         $result = array();
 
@@ -155,81 +146,53 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
                 $result = array_merge($result, self::$translations[$locale][$namespace]);
 
             } else {
-                // :D
-                $gettextDomain = 'namespace_'.$namespace;
-                $path          = realpath($this->_path);
+                $path = realpath($this->_path);
                 $this->_initI18n($locale, $namespace, $path);
-
-                //setlocale(LC_MESSAGES, 'de');
-                //setlocale(LC_ALL, $locale);
-                //putenv('LC_ALL='.$locale);
-                //bindtextdomain('*', $path);
-                //textdomain($gettextDomain);
-
-                pred( _("no_records_found") );
+                $result = '?';
             }
         }
 
-        // return the resulting table
         return $result;
+        */
+
+        $path = realpath($this->_path);
+        // iterate over given namespace(s) and parse them
+        foreach ($namespaces as $namespace) {
+            $this->_initI18n($locale, $namespace, $path);
+        }
+
+        return false;
     }
 
-
+    /**
+     * Initializes the I18n functionality
+     *
+     * This method is intend to initialize the I18n functionality for/of gettext.
+     *
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access private
+     * @static
+     */
     private function _initI18n($locale, $namespace, $path)
     {
-        setlocale (LC_ALL, $locale);
+        $path .= DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'Gettext';
 
-        pre($locale);
+        putenv('LANG='.$locale);
+        setlocale(LC_ALL, $locale);
+        bindtextdomain($namespace, $path);
+        textdomain($namespace);
+        bind_textdomain_codeset($namespace, 'UTF-8');
 
-        //putenv('LANG='.$locale);
-        //setlocale(LC_ALL, $locale);
-        //setlocale(LC_CTYPE, $locale);
-        //$domains = glob($path.'/'.$locale.'/LC_MESSAGES/namespace-*.mo');
-        $gettextDomain = 'namespace_'.$namespace;
+        glob(
+            $path . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . '*.mo'
+        );
 
-        pre($gettextDomain);
-
-        bindtextdomain($gettextDomain, $path);
-        textdomain($gettextDomain);
-    }
-
-
-    /**
-     * This method is intend to parse a translationfile and return the result as array.
-     *
-     * @param string $filename The name of the file to parse
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The content of the given file
-     * @access private
-     */
-    private function _parseTranslationfile($filename)
-    {
-        // assume empty resulting array
-        $result = array();
-
-        // open read handle to file
-        $fileHandle = fopen($filename, 'r');
-
-        // read till end of file (eof)
-        while (!feof($fileHandle)) {
-            // read current line
-            $line = fgets($fileHandle);
-
-            if (!$line === false && strlen(trim($line))) {
-                $parts = explode('=', $line);
-                $result[md5(trim($parts[0]))] = trim($parts[1]);
-            }
-        }
-
-        // close handle to file
-        fclose($fileHandle);
-
-        // return parsed array
-        return $result;
+        return true;
     }
 
     /**
+     * Checks the requirements of this translator interface
+     *
      * This method is intend to check if all requirements are fulfilled.
      *
      * @return object Instance of this class
@@ -240,29 +203,25 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     private static function _checkRequirements()
     {
         // test if gettext extension is installed with php
-        if (!function_exists('gettext')) {
-            // Error: multibyte-string extension not installed!
+        if (extension_loaded('gettext') !== true) {
             throw new DoozR_I18n_Service_Exception(
-                'Error while checking requirements. "gettext"-extension could not be found.'
+                'Error while checking requirements: gettext™ extension not loaded.'
             );
         }
 
-        // success everything's fine!
         return true;
     }
 
-    /*******************************************************************************************************************
-     * \\ END TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
+     * Constructor
+     *
      * This method is intend to act as constructor.
      *
-     * @param string $config The config for this type of interface
+     * @param array $config The configuration for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of this class
@@ -279,8 +238,4 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         // call parents constructor
         parent::__construct($config);
     }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

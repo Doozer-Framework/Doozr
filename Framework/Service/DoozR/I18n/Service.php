@@ -4,8 +4,7 @@
 /**
  * DoozR - I18n - Service
  *
- * Service.php - I18n Service for internationalization and localization support
- * for your project.
+ * Service.php - I18n Service for internationalization and localization.
  *
  * PHP versions 5
  *
@@ -51,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Singleton.php';
@@ -62,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Template/Service/Lib/PHPTAL/PHPT
 /**
  * DoozR - I18n - Service
  *
- * I18n Service for internationalization and localization support for your project.
+ * I18n Service for internationalization and localization.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -72,13 +69,19 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Template/Service/Lib/PHPTAL/PHPT
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
- * @DoozRType  Singleton
- * @DiInject   DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
+ * @service    Singleton
+ * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_TranslationService
 {
+    /**
+     * The encoding
+     *
+     * @var string
+     * @access private
+     */
+    private $_encoding = 'UTF-8';
+
     /**
      * Contains the current active locale
      *
@@ -97,30 +100,76 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
     private static $_autoloader;
 
     /**
-     * Contains instance of Service Configreader (used for reading INI-Files)
+     * Contains instance of Service Config (used for reading INI-Files)
      *
-     * @var DoozR_Configreader_Service
+     * @var DoozR_Config_Service
      * @access private
      * @static
      */
-    private static $_configreader;
+    private static $_config;
 
     /**
-     * holds the configreader instances indexed by locale
+     * holds the config instances indexed by locale
      *
      * @var array
      * @access private
      * @static
      */
-    private static $_configreaderLocales = array();
+    private static $_configurationByLocale = array();
 
     /**
-     * The default formatter of I18n module
+     * Default formatter of I18n service
      *
      * @var string
      * @access public
+     * @const
      */
-    const FORMATTER_DEFAULT = 'String';
+    const FORMAT_DEFAULT = 'String';
+
+    /**
+     * Formatter for Strings (Bad-Word replacement, Highlighting, ...)
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const FORMAT_STRING = 'String';
+
+    /**
+     * Formatter for Currencies (Thousands-Separator, Decimal-Dot, Currency-Sign + position ...)
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const FORMAT_CURRENCY = 'Currency';
+
+    /**
+     * Formatter for Datetime values (Year-Month-Day date position, start of week [Sun/Mondays] ...)
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const FORMAT_DATETIME = 'Datetime';
+
+    /**
+     * Formatter for Measure values meter, kilometer, miles, inches (...)
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const FORMAT_MEASURE = 'Measure';
+
+    /**
+     * Formatter for Numbers (...)
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const FORMAT_NUMBER = 'Number';
 
     /**
      * The translator singleton for templates
@@ -131,74 +180,131 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
      */
     private static $_templateTranslator;
 
-
-    /*******************************************************************************************************************
-     * // TEARUP
-     ******************************************************************************************************************/
+    /**
+     * The name of the L10n file.
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const FILE_NAME_L10N = 'L10n';
 
     /**
-     * replacement for __construct
+     * The extension of the config file
      *
-     * This method is intend as replacement for __construct
+     * @var string
+     * @access public
+     * @const
+     */
+    const FILE_EXTENSION_L10N = 'ini';
+
+
+    protected $autoloader = true;
+
+
+    /*------------------------------------------------------------------------------------------------------------------
+     | TEARUP
+     +----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructor for services.
+     *
+     * This method is a replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
      *
-     * @param DoozR_Config_Interface $configreader An instance of a configreader compliant config reader
-     * @param string                 $locale       A valid locale (de, at-de, ...) to bind this instance to
+     * @param DoozR_Config_Interface $config An instance of a config compliant config reader
+     * @param string|null            $locale A locale (de, at-de, ...) OR NULL to use autodetection
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __tearup(DoozR_Config_Interface $configreader, $locale = null)
+    public function __tearup(DoozR_Config_Interface $config, $locale = null)
     {
-        // make services custom autoloader ready
-        self::_initAutoloader();
+        // check if requirements fulfilled
+        self::_checkRequirements();
 
-        // store configreader passed to this instance
-        self::$_configreader = $configreader;
+        // store config passed to this instance
+        self::$_config = $config;
 
         // if no locale was passed then we try to read the prefered locale from client
-        if (!$locale) {
+        if ($locale === null) {
             $locale = $this->getClientPreferedLocale();
         }
 
         // store the given locale
         $this->_activeLocale = $locale;
-
-        // check if requirements fulfilled
-        self::_checkRequirements();
     }
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN PUBLIC INTERFACES
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * sets the given locale as active
+     * Returns the available locales defined in config.
      *
-     * This method is intend to set the given locale as active.
+     * This method is intend to retunr all locales defined in configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array An array containing the available locales with numerical index
+     * @access public
+     */
+    public function getAvailableLocales()
+    {
+        return self::$_config->i18n->defaults->available();
+    }
+
+    /**
+     * @param $locales
+     *
+     * @return mixed
+     */
+    public function setAvailableLocales($locales)
+    {
+        return self::$_config->i18n->defaults->available($locales);
+    }
+
+    /**
+     * Sets the active locale.
+     *
+     * This method is intend to set the passed locale as active one.
      *
      * @param string $locale The locale to set as active
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @throws DoozR_Exception_Service
+     * @throws DoozR_I18n_Service_Exception
      */
     public function setActiveLocale($locale)
     {
         // check if locale is valid
-        if (!$this->isValidLocaleCode($locale)) {
-            throw new DoozR_Exception_Service(
+        if (!$this->isValidLocale($locale)) {
+            throw new DoozR_I18n_Service_Exception(
                 'EXCEPTION_MODULE_DOOZR_I18N'
             );
         }
 
-        // set locale
-        return ($this->_activeLocale = $locale);
+        return $this->_activeLocale = $locale;
     }
 
     /**
+     * Returns the currently active locale.
+     *
+     * This method is intend to return the currently active locale.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The active locale if set, otherwise NULL
+     * @access public
+     */
+    public function getActiveLocale()
+    {
+        return $this->_activeLocale;
+    }
+
+    /**
+     * Initializes the template translator.
+     *
      * This method is intend to initialize the template translator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -209,112 +315,10 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
     {
         if (!self::$_templateTranslator) {
             self::$_templateTranslator = $this->getTranslator();
-            self::$_templateTranslator->setNamespace('default');
+            self::$_templateTranslator->setNamespace(
+                self::$_config->i18n->defaults->namespace()
+            );
         }
-    }
-
-    /**
-     * This method is intend to set the language.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     * @see PHPTAL_TranslationService::setLanguage()
-     */
-    public function setLanguage()
-    {
-        // get a translator instance
-        $this->_initTemplateTranslator();
-
-        // get valid locales from arguments
-        $locale = func_get_args();
-
-        if ($locale) {
-            return $this->setActiveLocale($locale);
-        }
-
-        return false;
-    }
-
-    /**
-     * This method is intend to set the language.
-     *
-     * @param string $encoding The encoding to set as active
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     * @see PHPTAL_TranslationService::useDomain()
-     */
-    public function setEncoding($encoding)
-    {
-        //$this->_initTemplateTranslator();
-        //pre('setEncoding(): '.$encoding);
-    }
-
-    /**
-     * This method is intend to set the domain.
-     *
-     * @param string $domain The domain to set as active
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     * @see PHPTAL_TranslationService::useDomain()
-     */
-    public function useDomain($domain)
-    {
-        $this->_initTemplateTranslator();
-        self::$_templateTranslator->setNamespace($domain);
-    }
-
-    /**
-     * This method is intend to set the domain.
-     *
-     * @param string $key           The key of the var
-     * @param string $value_escaped The escaped value for the passed key
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     * @see PHPTAL_TranslationService::setVar()
-     */
-    public function setVar($key, $value_escaped)
-    {
-        $this->_initTemplateTranslator();
-
-        if ($value_escaped === true) {
-            self::$_templateTranslator->{$key} = htmlentities($value_escaped);
-        } else {
-            self::$_templateTranslator->{$key} = $value_escaped;
-        }
-    }
-
-    /**
-     * This method is intend to set the domain.
-     *
-     * @param string $key        The key to translate
-     * @param string $htmlescape TRUE to escape chars, FALSE to do not
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The translation for passed key on success, otherwise passed key
-     * @access public
-     * @see PHPTAL_TranslationService::translate()
-     */
-    public function translate($key, $htmlescape = true)
-    {
-        $this->_initTemplateTranslator();
-
-        $value  = '';
-        $lookup = str_replace(' ', '_', strtolower($key));
-
-        if ($htmlescape === true) {
-            $value = self::$_templateTranslator->__($lookup);
-        } else {
-            $value = self::$_templateTranslator->_($lookup);
-        }
-
-        return (strlen($value) && $value !== $lookup) ? $value : $key;
     }
 
     /**
@@ -345,17 +349,19 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
     }
 
     /**
-     * This method is intend to return the instance of the locale-detector.
+     * Returns an instance of the locale detector.
+     *
+     * This method is intend to return an instance of the locale detector. The locale detector
+     * can be used to detect the clients prefered locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object The instance of the locale-detector
+     * @return DoozR_I18n_Service_Detector Instance of the locale detector
      * @access public
      */
     public function getDetector()
     {
-        /* TODO: Di */
-        // get detector-class
-        return DoozR_I18n_Service_Detector::getInstance(self::$_configreader);
+        #require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Detector.php';
+        return DoozR_I18n_Service_Detector::getInstance(self::$_config, $this->registry);
     }
 
     /**
@@ -365,19 +371,27 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
      * @param string $locale The locale to use for formatter
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object The instance of the locale-detector
+     * @return DoozR_I18n_Service_Format_Abstract The instance of the locale-detector
      * @access public
      * @throws DoozR_I18n_Service_Exception
      */
-    public function getFormatter($type = self::FORMATTER_DEFAULT, $locale = null)
+    public function getFormatter($type = self::FORMAT_DEFAULT, $locale = null)
     {
+        // if no locale was passed use the active one
+        if ($locale === null) {
+            $locale = $this->_activeLocale;
+        }
+
         // retrieve valid input
         $input = $this->_validateInput($locale);
 
+        // convert type to required format
         $type = ucfirst(strtolower($type));
 
+        // check for redirect -> !
         if ($input['redirect']) {
-            return $this->getFormatter($type, $this->getClientPreferedLocale());
+            // return $this->getFormatter($type, $this->getClientPreferedLocale());
+            return $this->getFormatter($type, $input['redirect']);
 
         } else {
             return $this->instanciate(
@@ -386,92 +400,220 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
                     $this->registry,
                     $input['locale'],
                     null,
-                    self::$_configreader,
-                    $input['configreader'],
-                    $this->getTranslator()
-                ),
-                'getInstance'
+                    self::$_config,
+                    $input['config'],
+                    $this->getTranslator($input['locale'])
+                )
             );
         }
     }
 
     /**
-     * This method is intend to return a new translator instance.
+     * Returns an translator instance for passed locale.
      *
-     * @param string $locale The locale to use
+     * This method is intend to return a new translator instance for
+     * locale passed to it..
+     *
+     * @param string $locale The locale to return translator for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_I18n_Service_Translator The instance of the locale-detector
+     * @return DoozR_I18n_Service_Translator An instance of the locale-detector
      * @access public
      */
     public function getTranslator($locale = null)
     {
-        // retrieve valid input
-        $input = $this->_validateInput($locale);
-
+        // if no locale was passed use the active one
         if ($locale === null) {
             $locale = $this->_activeLocale;
         }
 
+        // retrieve valid input
+        $input = $this->_validateInput($locale);
+
+        // check for redirect
         if (isset($input['redirect'])) {
-            $r = $this->getTranslator($input['redirect']);
+            $translator = $this->getTranslator($input['redirect']);
+
         } else {
-            $r = new DoozR_I18n_Service_Translator($locale, self::$_configreader, $input['configreader']);
+            $translator = new DoozR_I18n_Service_Translator($locale, self::$_config, $input['config']);
+
         }
 
-        return $r;
+        return $translator;
     }
 
     /**
-     * This method is intend to check if all requirements are fulfilled.
+     * Installs gettext like shortcuts _() __() ___()
      *
-     * @param string $code de, de-AT, en-us ...
+     * @return bool|mixed
+     * @throws DoozR_I18n_Service_Exception
+     */
+    public function install()
+    {
+        $result = false;
+
+        if (extension_loaded('gettext')) {
+            throw new DoozR_I18n_Service_Exception(
+                'Installation stopped! Please deinstall gettext extension if you want to use I18n service with '.
+                'shortcut functionality _() | __() | ___()'
+            );
+        } else {
+            include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Install.php';
+        }
+
+        return $result;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+     | PHPTAL Interface fulfillment
+     +----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     *
+     * PHPTAL:
+     * Sets the language for translation.
+     *
+     * This method is intend to set the language used for translation.
+     * In our I18n service its normally done by calling setActiveLocale()
+     * which is instrumentalized in this mehtod.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     * @see PHPTAL_TranslationService::setLanguage()
+     */
+    public function setLanguage()
+    {
+        // get a translator instance
+        $this->_initTemplateTranslator();
+
+        // get valid locales from arguments
+        $locale = func_get_args();
+
+        if ($locale) {
+            return $this->setActiveLocale($locale);
+        }
+
+        return false;
+    }
+
+    /**
+     * PHPTAL will inform translation service what encoding page uses.
+     * Output of translate() must be in this encoding.
+     */
+    /**
+     * PHPTAL will inform translation service what encoding page uses.
+     * Output of translate() must be in this encoding.
+     *
+     * @param string $encoding The encoding as string e.g. ...
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
      * @access public
      */
-    public function isValidLocaleCode($code = '')
+    public function setEncoding($encoding)
     {
-        return (preg_match('(^([a-zA-Z]{2})((_|-)[a-zA-Z]{2})?$)', $code) > 0) ? true : false;
+        $this->_initTemplateTranslator();
+
+        $this->_encoding = $encoding;
+
+        return true;
     }
 
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
-
     /**
-     * This method is intend to validate the input locale and return data
-     * required for running module
-     *
-     * @param string $locale The locale to prepare data for
+     * Returns the current active encoding
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The prepared data
-     * @access private
+     * @return string Currently active encoding (e.g. "UTF-8") ...
+     * @access public
      */
-    private static function _initAutoloader()
+    public function getEncoding()
     {
-        if (!self::$_autoloader) {
-            // register services custom autoloader
-            $autoloaderService = new DoozR_Loader_Autoloader_Spl_Config();
-            $autoloaderService
-                ->setNamespace('DoozR_I18n')
-                ->setNamespaceSeparator('_')
-                ->addExtension('php')
-                ->setPath(DOOZR_DOCUMENT_ROOT.'Service')
-                ->setDescription('DoozR\'s Ii8n module autoloader');
+        return $this->_encoding;
+    }
 
-            // add to SPL through facade
-            self::$_autoloader = DoozR_Loader_Autoloader_Spl_Facade::attach(
-                $autoloaderService
-            );
+    /**
+     * Sets the domain used for translation.
+     *
+     * This method is intend to set the domain used for translations (if different parts of application are translated
+     * in different files. This is not for language selection). In our I18n service its normally done by calling
+     * setNamespace() which is instrumentalized by this method.
+     *
+     * @param string $domain The domain to use
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     * @see PHPTAL_TranslationService::useDomain()
+     */
+    public function useDomain($domain)
+    {
+        $this->_initTemplateTranslator();
+
+        self::$_templateTranslator->setNamespace($domain);
+    }
+
+    /**
+     * Set the XHTML-escaped value of a variable used in translation key.
+     *
+     * You should use it to replace all ${key}s with values in translated strings.
+     *
+     * @param string $key           The name of the variable    // key
+     * @param string $value_escaped XHTML markup                \\ value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @see PHPTAL_TranslationService::setVar()
+     */
+    public function setVar($key, $value_escaped)
+    {
+        $this->_initTemplateTranslator();
+
+        if ($value_escaped === true) {
+            self::$_templateTranslator->{$key} = htmlentities($value_escaped);
+        } else {
+            self::$_templateTranslator->{$key} = $value_escaped;
         }
     }
 
     /**
+     * Translate a gettext key and interpolate variables.
+     *
+     * @param string $key        translation key, e.g. "hello ${username}!"
+     * @param string $htmlescape if true, you should HTML-escape translated string. You should never HTML-escape
+     *                           interpolated variables.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The translation for passed key on success, otherwise passed key
+     * @access public
+     * @see PHPTAL_TranslationService::translate()
+     */
+    public function translate($key, $htmlescape = true)
+    {
+        // assume value is empty
+        $value = '';
+
+        $this->_initTemplateTranslator();
+
+        $lookup = str_replace(' ', '_', strtolower($key));
+
+        if ($htmlescape === true) {
+            $value = self::$_templateTranslator->__($lookup);
+        } else {
+            $value = self::$_templateTranslator->_($lookup);
+        }
+
+        return (strlen($value) && $value !== $lookup) ? $value : $key;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN TOOLS + HELPER
+     +----------------------------------------------------------------------------------------------------------------*/
+
+    /**
      * This method is intend to validate the input locale and return data
-     * required for running module
+     * required for running service
      *
      * @param string $locale The locale to prepare data for
      *
@@ -482,62 +624,135 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
     private function _validateInput($locale = null)
     {
         // check for valid locale
-        if ($locale && !$this->isValidLocaleCode($locale)) {
+        if ($locale && !$this->isValidLocale($locale)) {
             throw new DoozR_I18n_Service_Exception('Invalid locale: '.$locale);
         }
 
-        $redirectLocale = null;
-
         // get concrete locale
-        $locale = ($locale) ? $locale : $this->getClientPreferedLocale();
+        $locale = ($locale !== null) ? $locale : $this->getClientPreferedLocale();
 
-        // check if already a config parser exist
-        if (isset(self::$_configreaderLocales[$locale])) {
-            $configreader = self::$_configreaderLocales[$locale];
-
-        } else {
-            $configreader = DoozR_Loader_Serviceloader::load('Configreader', 'Ini');
-            $configreader->read($this->registry->path->get('app', 'Data/Private/I18n/'.$locale.'/L10n.ini'));
-            self::$_configreaderLocales[$locale] = $configreader;
-        }
+        $config = $this->_getL10nConfigurationByLocale($locale);
 
         // check for redirect of current locale (e.g. from "en-gb" -> "en")
         try {
-            $redirectLocale = $configreader->redirect->target();
+            $redirectLocale = $config->redirect->target();
             $this->_activeLocale = $redirectLocale;
 
-        } catch (DoozR_Configreader_Service_Exception $e) {
+        } catch (DoozR_Config_Service_Exception $e) {
             $redirectLocale = null;
 
         }
 
+        // return a valid set of locale, redirect locale and the config
         return array(
-            'locale'       => $locale,
-            'redirect'     => $redirectLocale,
-            'configreader' => $configreader
+            'locale'   => $locale,
+            'redirect' => $redirectLocale,
+            'config'   => $config
         );
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | gettext like shortcuts
+    +-----------------------------------------------------------------------------------------------------------------*/
+    public static function _(array $arguments)
+    {
+        $instance   = self::getInstance();
+        $translator = $instance->getTranslator();
+        #return ->_($arguments[0]);
+    }
+
+    public static function __(array $arguments)
+    {
+        die(__METHOD__);
+    }
+
+    public static function ___(array $arguments)
+    {
+        die(__METHOD__);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Configuration/Management
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * This method is intend to check if all requirements are fulfilled.
+     * Returns the Localization configuration-file (L10n) for passed locale.
+     *
+     * This method returns the L10n configuraton from configuration file for passed
+     * locale if exist. Otherwise an DoozR_I18n_Service_Exception is thrown.
+     *
+     * @param string $locale The locale to return configuration for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return DoozR_Service_Config The instance of the configreader holding the object representation
+     *                                    of L10n configuration
+     * @access public
+     * @throws DoozR_I18n_Service_Exception
+     */
+    private function _getL10nConfigurationByLocale($locale)
+    {
+        // check if already a config parser exist
+        if (isset(self::$_configurationByLocale[$locale])) {
+            $config = self::$_configurationByLocale[$locale];
+
+        } else {
+            $config = DoozR_Loader_Serviceloader::load('Config', 'Ini');
+            $path   = $this->registry->path;
+            $file   = $path->get(
+                'app',
+                'Data/Private/I18n/' . $locale . '/' . self::FILE_NAME_L10N . '.' . self::FILE_EXTENSION_L10N
+            );
+
+            $config->read($file);
+
+            self::$_configurationByLocale[$locale] = $config;
+        }
+
+        return $config;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public Interface/API (Tools)
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Checks for validity of a passed locale string.
+     *
+     * @param string $locale A locale to check for validity (e.g. "de", "de-AT", "en-us", ...)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
+     */
+    public function isValidLocale($locale = '')
+    {
+        return (preg_match('(^([a-zA-Z]{2})((_|-)[a-zA-Z]{2})?$)', $locale) > 0) ? true : false;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Tools & Helper
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Checks for fulfilled requirements of I18n service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if requirements fulfilled, otherwise FALSE
      * @access private
-     * @throws DoozR_Exception_Service
      * @static
+     * @throws DoozR_I18n_Service_Exception
      */
     private static function _checkRequirements()
     {
         // check if extension mbstring => Multibyte String is installed and usable
         if (!extension_loaded('mbstring')) {
             // Error: multibyte-string extension not installed!
-            throw new DoozR_Exception_Service(
-                'Error while checking requirements. "mbstring"-extension could not be found.'
+            throw new DoozR_I18n_Service_Exception(
+                'Error while checking requirements. "mbstring"-extension could not be found. Please install and '.
+                'enable the extension in the "php.ini"'
             );
         }
 
-        // success everything's fine!
         return true;
     }
 }

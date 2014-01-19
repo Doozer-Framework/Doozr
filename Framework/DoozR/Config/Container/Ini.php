@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Container/Abstract.php';
@@ -71,8 +69,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  * @implements DoozR_Path,DoozR_Logger
  */
 class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract implements DoozR_Config_Container_Interface
@@ -108,10 +104,10 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * @return void
      * @access public
      */
-    public function __construct(DoozR_Path_Interface $path, DoozR_Logger_Interface $logger)
+    public function __construct(DoozR_Path_Interface $path, DoozR_Logger_Interface $logger, $enableCaching = false)
     {
         // call parent constructor
-        parent::__construct($path, $logger);
+        parent::__construct($path, $logger, $enableCaching);
 
         // get instance of filesystem module
         $this->filesystem = DoozR_Loader_Serviceloader::load('filesystem');
@@ -162,7 +158,8 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
 
         } else {
             // get configuration (INI)
-            $configuration = $this->_readConfigurationFile($resource);
+            #$configuration = $this->_readConfigurationFile($resource);
+            $configuration = file_get_contents($resource);
 
             // parse the configuration
             $configuration = $this->_parse(
@@ -343,6 +340,7 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      */
     private function _readConfigurationFile($configurationFile)
     {
+
         if (!isset($this->validResources[$this->getUid($configurationFile)])
             && !$this->filesystem->exists($configurationFile)
         ) {
@@ -351,6 +349,8 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
             );
         }
 
-        return $this->filesystem->read($configurationFile);
+        $buffer = $this->filesystem->read($configurationFile);
+
+        return $buffer;
     }
 }

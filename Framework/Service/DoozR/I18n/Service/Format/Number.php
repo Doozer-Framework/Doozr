@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php';
@@ -69,10 +67,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class DoozR_I18n_Service_Format_Number extends DoozR_I18n_Service_Base_Format
+class DoozR_I18n_Service_Format_Number extends DoozR_I18n_Service_Format_Abstract
 {
     /*******************************************************************************************************************
      * // BEGIN PUBLIC INTERFACES

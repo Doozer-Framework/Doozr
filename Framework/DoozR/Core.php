@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Core/Interface.php';
@@ -59,6 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Core/Exception.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 
 // all base stuff
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Di/Bootstrap.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Path.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config.php';
@@ -85,8 +84,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Parameter.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 final class DoozR_Core extends DoozR_Base_Class_Singleton
     implements

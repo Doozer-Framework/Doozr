@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php';
@@ -69,14 +67,31 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_I18n_Service_Format_Currency extends DoozR_I18n_Service_Format_Abstract
 {
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /**
+     * Notation for display currency with symbol like $, €
+     *
+     * @var integer
+     * @access public
+     * @const
+     */
+    const NOTATION_SYMBOL = 1;
+
+    /**
+     * Notation for display currency with text like USD, EUR
+     *
+     * @var integer
+     * @access public
+     * @const
+     */
+    const NOTATION_TEXT   = 2;
+
+
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN PUBLIC INTERFACES
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to format a given value as correct currency.
@@ -93,9 +108,9 @@ class DoozR_I18n_Service_Format_Currency extends DoozR_I18n_Service_Format_Abstr
      */
     public function format(
         $value,
-        $notation = null,
-        $country = null,
-        $encoding = null,
+        $notation       = null,
+        $country        = null,
+        $encoding       = null,
         $symbolPosition = null
     ) {
         // get country
@@ -110,7 +125,7 @@ class DoozR_I18n_Service_Format_Currency extends DoozR_I18n_Service_Format_Abstr
         );
 
         // is value = major (1) or minor (0)
-        $type = ($value < 1) ? 'minor' : 'major';
+        #$type = ($value < 1) ? 'minor' : 'major';
 
         // check for position override
         if (!$symbolPosition) {
@@ -118,12 +133,28 @@ class DoozR_I18n_Service_Format_Currency extends DoozR_I18n_Service_Format_Abstr
         }
 
         // if notation set overwrite it with the concrete notation
-        if ($notation) {
+        if ($notation !== null) {
             // get notation from currency-table
-            $encoding = ($notation == 'symbol' && $encoding) ? '_'.strtoupper($encoding) : '';
+            /*
+            $encoding = (
+                $notation == (self::NOTATION_SYMBOL || self::NOTATION_TEXT) && $encoding
+            ) ? '_'.strtoupper($encoding) : '';
+            */
+
+            $country = ($country !== null) ? $country : $this->locale;
+
+            if ($country === null) {
+                throw new DoozR_I18n_Service_Exception(
+                    'Please pass $country to '.__METHOD__.'.'
+                );
+            }
 
             // get notation
-            $notation = $this->getConfig()->{$country}->major_symbol();
+            if ($notation === self::NOTATION_SYMBOL) {
+                $notation = $this->getConfig()->{$country}->major_symbol();
+            } else {
+                $notation = $this->getConfig()->{$country}->major_short();
+            }
 
             // spacing between curreny-symbol and value
             $notationSpace = $this->configL10n->currency->notation_space();
@@ -159,21 +190,9 @@ class DoozR_I18n_Service_Format_Currency extends DoozR_I18n_Service_Format_Abstr
         return null;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * \\ BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+     | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as constructor.
@@ -190,12 +209,12 @@ class DoozR_I18n_Service_Format_Currency extends DoozR_I18n_Service_Format_Abstr
      * @access public
      */
     public function __construct(
-        DoozR_Registry_Interface $registry = null,
-        $locale = null,
-        $namespace = null,
-        $configI18n = null,
-        $configL10n = null,
-        $translator = null
+        DoozR_Registry_Interface $registry        = null,
+        $locale                                   = null,
+        $namespace                                = null,
+        $configI18n                               = null,
+        $configL10n                               = null,
+        DoozR_I18n_Service_Translator $translator = null
     ) {
         // set type of format-class
         $this->type = 'Currency';
@@ -203,8 +222,4 @@ class DoozR_I18n_Service_Format_Currency extends DoozR_I18n_Service_Format_Abstr
         // call parents construtor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

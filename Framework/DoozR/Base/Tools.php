@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Tools.php - DoozR Base-Tools
- * A toolset which is useful while developing classes which give you features like
- * ...
+ * DoozR - Base - Tools
+ *
+ * Tools.php - This is a toolset which is useful while developing.
  *
  * PHP version 5
  *
@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 //require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Development.php';
@@ -70,8 +68,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Base_Tools // extends DoozR_Base_Development
 {
@@ -206,16 +202,16 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * This method is a generic instanciation method. It instanciates and
      * returns any class requested.
      *
-     * @param string $className   The name of the class to load
+     * @param string $classname   The name of the class to load
      * @param array  $arguments   The arguments to pass to loaded class
      * @param string $constructor The constructor to use for instanciation
      * @param string $includeFile The file to include before instantiating the class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of the class ($className) requested
+     * @return object Instance of the class ($classname) requested
      * @access protected
      */
-    protected static function instanciate($className, $arguments = null, $constructor = null, $includeFile = null)
+    protected static function instanciate($classname, $arguments = null, $constructor = null, $includeFile = null)
     {
         // include file given?
         if (!is_null($includeFile)) {
@@ -223,7 +219,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
         }
 
         // create reflection of class
-        $reflectionOfClass = new ReflectionClass($className);
+        $reflectionOfClass = new ReflectionClass($classname);
 
         // check if class is instantiable
         $instantiable = $reflectionOfClass->isInstantiable();
@@ -234,7 +230,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
             // PERFORMANCE: slow
             if (is_null($constructor)) {
                 // get name of class
-                $className = $reflectionOfClass->getName();
+                $classname = $reflectionOfClass->getName();
 
                 // get filename of class
                 if (is_null($includeFile)) {
@@ -262,7 +258,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
                     }
 
                     // check for instantiation
-                    if (strpos($methodSourcecode, 'new self(') || strpos($methodSourcecode, 'new '.$className.'(')) {
+                    if (strpos($methodSourcecode, 'new self(') || strpos($methodSourcecode, 'new '.$classname.'(')) {
                         $constructor = $possibleConstructor->name;
                         break;
                     }
@@ -271,13 +267,13 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
 
             // and finally instantiate
             if (is_null($arguments)) {
-                return call_user_func($className.'::'.$constructor);
+                return call_user_func($classname.'::'.$constructor);
             } else {
                 // parameter!
                 if (is_array($arguments)) {
-                    return call_user_func_array($className.'::'.$constructor, $arguments);
+                    return call_user_func_array($classname.'::'.$constructor, $arguments);
                 } else {
-                    return call_user_func($className.'::'.$constructor, $arguments);
+                    return call_user_func($classname.'::'.$constructor, $arguments);
                 }
             }
         } else {

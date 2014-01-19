@@ -1,9 +1,10 @@
 <?php
 
+
 class ACL
 {
     private $actions;
-    private $perm;
+    private $permissions;
     private $eval = 0;
 
 
@@ -16,7 +17,7 @@ class ACL
     public function __construct($actions, $perm = 0)
     {
         $this->actions = $actions;
-        $this->perm = intval($perm);
+        $this->permissions = intval($perm);
     }
 
 
@@ -29,7 +30,7 @@ class ACL
     public function hasPermission($action)
     {
         if(in_array($action, $this->actions)){
-            return $this->testPermission($this->perm, $action);
+            return $this->testPermission($this->permissions, $action);
         }else{
             return $this->invalidAction();
         }
@@ -117,7 +118,4 @@ class ACL
         throw new Exception('INVALID ACTION');
         return false;
     }
-
 }
-
-?>

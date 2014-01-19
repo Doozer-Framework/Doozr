@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Configreader - Service
+ * DoozR - Config - Service
  *
- * Service.php - Configreader Service
+ * Service.php - Config Service
  *
  * PHP versions 5
  *
@@ -44,40 +44,36 @@
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Configreader
+ * @subpackage DoozR_Service_Config
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Configreader/Service/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Config/Service/Exception.php';
 
 /**
- * DoozR - Configreader - Service
+ * DoozR - Config - Service
  *
- * Configreader Service
+ * Config Service
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Configreader
+ * @subpackage DoozR_Service_Config
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
- * @DoozRType  Multiple
- * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
+ * @service    Multiple
+ * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Configreader_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface,
+class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface,
       DoozR_Config_Interface
 {
     /**
@@ -128,9 +124,9 @@ class DoozR_Configreader_Service extends DoozR_Base_Service_Multiple implements 
     );
 
 
-    /*******************************************************************************************************************
-     * // TEARUP
-    ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | TEARUP
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend as replacement for __construct
@@ -167,9 +163,9 @@ class DoozR_Configreader_Service extends DoozR_Base_Service_Multiple implements 
         self::$_staticDecoratedObject = $this->getDecoratedObject();
     }
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-    ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN PUBLIC INTERFACES
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as setter for $_decoratedObject.
@@ -273,7 +269,7 @@ class DoozR_Configreader_Service extends DoozR_Base_Service_Multiple implements 
                 return $this->_decoratedObject->{$property};
 
             } catch (DoozR_Config_Container_Exception $e) {
-                throw new DoozR_Configreader_Service_Exception('Error reading property!');
+                throw new DoozR_Config_Service_Exception('Error reading property!');
             }
         }
     }
@@ -315,9 +311,9 @@ class DoozR_Configreader_Service extends DoozR_Base_Service_Multiple implements 
         }
     }
 
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-    ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN TOOLS + HELPER
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as factory for creating an instance of a config container.

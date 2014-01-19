@@ -73,8 +73,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Acl/Service/Lib/class.acl.php';
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
- * @DoozRType  Multiple
- * @DiInject   DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
+ * @service  Multiple
+ * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 final class DoozR_Acl_Service extends DoozR_Base_Service_Multiple_Facade
 {

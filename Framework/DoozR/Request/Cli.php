@@ -202,7 +202,7 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
         $argumentsPreprocessed = $this->_parseCommandLine($argv, $argc);
 
         // inject the given arguments as $_SERVER['REQUEST_URI']
-        $this->_injectRequestUri($argv, $argc);
+        #$this->_injectRequestUri($argv, $argc);
 
         // in CLI mode we do not have globals like $_GET so we create $_CLI + fill also the all-rounder $_REQUEST
         $_CLI     = $argumentsPreprocessed;
@@ -301,6 +301,8 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
                     : ('&'.$arguments[$i].'='.(isset($arguments[$i+1]) ? $arguments[$i+1] : ''));
             }
         }
+
+        pred($requestUri);
 
         // store as request-uri in global $_SERVER (used by Route.php)
         $_SERVER['REQUEST_URI'] = $requestUri;

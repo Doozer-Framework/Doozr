@@ -114,11 +114,9 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
      *
      * This method is intend to return an instance of the requested class
      *
-     * @return  object instance/object of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance/object of this class
+     * @access public
      */
     public static function getInstance()
     {

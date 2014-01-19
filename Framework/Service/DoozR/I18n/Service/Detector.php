@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
@@ -69,8 +67,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
 {
@@ -187,6 +183,15 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private static $_preferenceLifetime = 7776000;
 
     private $_touched = false;
+
+    /**
+     * Blub
+     *
+     * @var DoozR_Registry_Interface
+     */
+    protected static $registry;
+
+    protected static $runningMode;
 
 
     /*******************************************************************************************************************
@@ -430,13 +435,17 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // assume result true
         $result = true;
 
-        // iterate over stores and try to reconstruct the previously stored preferences
-        foreach (self::$_stores as $store) {
-            // construct method-name for current store
-            $method = '_write'.ucfirst($store);
+        if (self::$runningMode !== DoozR_Controller_Front::RUNNING_MODE_CLI) {
 
-            // try to get preferences from store
-            $result = $result && $this->{$method}($preferences);
+            // iterate over stores and try to reconstruct the previously stored preferences
+            foreach (self::$_stores as $store) {
+
+                // construct method-name for current store
+                $method = '_write'.ucfirst($store);
+
+                // try to get preferences from store
+                $result = $result && $this->{$method}($preferences);
+            }
         }
 
         // succesfully retrieved
@@ -452,13 +461,20 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      */
     private function _detectPreferences()
     {
-        // try to detect locale by user-agents header
-        $detectedPreferences = $this->_detectByRequestHeader();
+        // assume empty result
+        $detectedPreferences = false;
 
-        // FALLBACK: try to detect by user's ip/dns-hostname
-        if (!$detectedPreferences) {
+        // prevent access to HEADER and IP in CLI does not make sense
+        if (self::$runningMode !== DoozR_Controller_Front::RUNNING_MODE_CLI) {
+
+            // try to detect locale by user-agents header
+            $detectedPreferences = $this->_detectByRequestHeader();
+
             // FALLBACK: try to detect by user's ip/dns-hostname
-            $detectedPreferences = $this->_detectByUserIp();
+            if (!$detectedPreferences) {
+                // FALLBACK: try to detect by user's ip/dns-hostname
+                $detectedPreferences = $this->_detectByUserIp();
+            }
         }
 
         // and finally store the detected results
@@ -477,17 +493,20 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // assume empty user-preferences
         $storedPreferences = false;
 
-        // iterate over stores and try to reconstruct the previously stored preferences
-        foreach (self::$_stores as $store) {
-            // construct method-name for current store
-            $method = '_read'.ucfirst($store);
+        if (self::$runningMode !== DoozR_Controller_Front::RUNNING_MODE_CLI) {
 
-            // try to get preferences from store
-            $storedPreferences = $this->{$method}();
+            // iterate over stores and try to reconstruct the previously stored preferences
+            foreach (self::$_stores as $store) {
+                // construct method-name for current store
+                $method = '_read'.ucfirst($store);
 
-            // if result was retrieved successfully we can
-            if ($storedPreferences) {
-                break;
+                // try to get preferences from store
+                $storedPreferences = $this->{$method}();
+
+                // if result was retrieved successfully we can
+                if ($storedPreferences) {
+                    break;
+                }
             }
         }
 
@@ -496,10 +515,10 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to return an instance of the session module.
+     * Returns an instance of the Session-Service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object An instance of the module DoozR_Session
+     * @return DoozR_Session_Service Instance of service Session
      * @access private
      */
     private function _getSession()
@@ -810,14 +829,6 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         return (isset($locale)) ? $locale : null;
     }
 
-    /*******************************************************************************************************************
-     * \\ END TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
-
     /**
      * This method is intend to act as constructor.
      *
@@ -827,8 +838,13 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * @return object Instance of this class
      * @access protected
      */
-    protected function __construct($config)
+    protected function __construct(DoozR_Config_Interface $config, DoozR_Registry_Interface $registry)
     {
+        // store registry
+        self::$registry = $registry;
+
+        self::$runningMode = self::$registry->front->getRunningMode();
+
         // locale defaults
         self::$_defaults = array(
             'locale'   => $config->i18n->defaults->locale,
@@ -849,8 +865,4 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // the identifier for stores
         self::$_identifier = $config->i18n->user->identifier;
     }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

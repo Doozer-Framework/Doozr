@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Container/Interfac
  * @link       http://clickalicious.github.com/DoozR/
  * @see        -
  * @since      -
- * @DoozRType  Multiple
+ * @service  Multiple
  */
 class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Container
 implements DoozR_Cache_Service_Container_Interface

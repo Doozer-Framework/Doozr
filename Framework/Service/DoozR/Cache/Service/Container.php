@@ -70,7 +70,7 @@
  * @see        -
  * @since      -
  * @throws     Service_DoozR_Cache_Service_Exception
- * @DoozRType  Multiple
+ * @service  Multiple
  */
 abstract class DoozR_Cache_Service_Container
 {

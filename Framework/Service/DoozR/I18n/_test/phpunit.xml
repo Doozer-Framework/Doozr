@@ -1,0 +1,20 @@
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/3.7/phpunit.xsd"
+    backupGlobals="true"
+    backupStaticAttributes="false">
+    bootstrap="../../../../DoozR/Bootstrap.php">
+    <testsuites>
+        <testsuite name="DoozR_I18n_Service">
+            <file>ServiceTest.php</file>
+            <!--directory>/path/to/*Test.php files</directory-->
+            <!--exclude>/path/to/exclude</exclude-->
+        </testsuite>
+    </testsuites>
+
+    <logging>
+        <log type="coverage-html" target="./log/codeCoverage" charset="UTF-8"
+             yui="true" highlight="true"
+             lowUpperBound="50" highLowerBound="80"/>
+    </logging>
+</phpunit>

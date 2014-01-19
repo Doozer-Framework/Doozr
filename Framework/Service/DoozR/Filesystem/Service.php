@@ -51,8 +51,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Singleton/Strict.php';
@@ -61,8 +59,8 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
 /**
  * DoozR - Filesystem - Service
  *
- * DoozR Service for all filesystem operations with virtual-filesystem support (e.g. for
- * unit-testing).
+ * DoozR Service for all filesystem operations with virtual-filesystem support
+ * (e.g. for unit-testing).
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -72,10 +70,8 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
- * @DoozRType  Singleton
- * @DiInject   DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
+ * @service    Singleton
+ * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
 {
@@ -563,8 +559,10 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
             );
         }
 
+        $buffer = $this->_file_get_contents($file, $use_include_path, $context, $offset, $maxlen);
+
         // return content from file
-        return $this->_file_get_contents($file, $use_include_path, $context, $offset, $maxlen);
+        return $buffer;
     }
 
     /**
@@ -674,15 +672,17 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     }
 
     /**
-     * reads and parse a PHP-file
+     * Reads and parses a PHP file.
      *
      * This method is intend to read and parse a PHP-file.
+     * The content is parsed end executed by PHP runtime and
+     * afterwards the whole buffer is returned.
      *
      * @param string $file The file to parse as php-file
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The content of the file
-     * @access private
+     * @access public
      * @throws DoozR_Exception
      */
     public function parse($file)
