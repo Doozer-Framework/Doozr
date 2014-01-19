@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 // get PHPUnit test-framework
@@ -60,12 +58,8 @@ require_once 'PHPUnit/Autoload.php';
 // get test-suite
 require_once 'Test/RunAllTests.php';
 
-// get extension
-require_once '../Framework/Core/Controller/DoozR.extend.php';
-
 // get our boostrapping files
-require_once 'Include/Bootstrapper.php';
-require_once 'Include/Folderstructure.php';
+require_once 'Include/Bootstrap.php';
 
 /**
  * DoozR - Unit-Tests
@@ -80,8 +74,6 @@ require_once 'Include/Folderstructure.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class AllTests
 {
@@ -99,5 +91,3 @@ class AllTests
         return $suite;
     }
 }
-
-?>
