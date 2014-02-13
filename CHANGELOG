@@ -64,7 +64,7 @@ ADDED
 
 FIXED
  - a minor bug in ConfigManagerIni.class.php while retrieving value via get() a warning was thrown when requesting a
-   configuration-value which does not exist - now NULL is returned
+   config-value which does not exist - now NULL is returned
  - small bugs in DoozR_Session
 
 DEPRECATED

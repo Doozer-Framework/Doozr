@@ -180,23 +180,58 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      */
     private $_detectedCountries;
 
+    /**
+     * The lifetime for stored preferences
+     *
+     * @var integer
+     * @access private
+     */
     private static $_preferenceLifetime = 7776000;
 
+    /**
+     * TRUE if any new value was detected, otherwise
+     * FALSE
+     *
+     * @var boolean
+     * @access private
+     */
     private $_touched = false;
 
     /**
-     * Blub
+     * Instance of Doozr_Registry
      *
      * @var DoozR_Registry_Interface
+     * @access protected
      */
     protected static $registry;
 
+    /**
+     * Running mode (CLI || WEB || HTTPD)
+     * To know if cookie and session is accessible
+     *
+     * @var string
+     * @access protected
+     */
     protected static $runningMode;
 
 
     /*******************************************************************************************************************
      * // BEGIN PUBLIC INTERFACE
      ******************************************************************************************************************/
+
+    /**
+     * Returns the whole collection of detected values
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The collected values
+     * @access public
+     */
+    public function get()
+    {
+        return array(
+            'locale' => $this->getLocale(),
+        );
+    }
 
     /**
      * This method is intend to return the current active locale in consideration of order.
@@ -209,6 +244,25 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     {
         // get the stored locale
         return $this->_locale;
+    }
+
+    /**
+     * Returns the locale as doubled locale value like "de" will be "de-de" to
+     * equalite the format with values like "de-at", "en-gb" ...
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formatted locale e.g. "de-de" ...
+     * @access public
+     */
+    public function getDoubledLocale()
+    {
+        $locale = $this->getLocale();
+
+        if (stristr($locale, '-') === false) {
+            $locale = $locale . '-' . $locale;
+        }
+
+        return $locale;
     }
 
     /**
@@ -325,7 +379,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * @param boolean $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if detection was succesful
+     * @return DoozR_I18n_Service_Detector Instance for chaining
      * @access public
      */
     public function detect($lookupAlternative = true)
@@ -335,8 +389,30 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
             self::$_initialized = $this->_init($lookupAlternative);
         }
 
-        // success
-        return true;
+        return $this;
+    }
+
+    /**
+     * Overrides locale config and stores it to configured stores.
+     *
+     * @param array $preferences The preferences to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_I18n_Service_Detector Instance for chaining
+     * @access public
+     */
+    public function override(array $preferences)
+    {
+
+        // store retrieved data in class and afterwards in store(s)
+        $this->_locale   = $preferences['locale'];
+        $this->_weight   = $preferences['weight'];
+        $this->_language = $preferences['language'];
+        $this->_country  = $preferences['country'];
+
+        $this->_writePreferences($preferences);
+
+        return $this;
     }
 
     /*******************************************************************************************************************
@@ -362,12 +438,12 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         $userPreferences = $this->_readPreferences();
 
         // retrieving of stored preferences failed
-        if (!$userPreferences) {
+        if ($userPreferences === null) {
             // now try to detect
             $userPreferences = $this->_detectPreferences();
 
             // check if retrieved locale exists
-            if (!in_array($userPreferences['locale'], self::$_availableLocales)) {
+            if ($userPreferences === false || !in_array($userPreferences['locale'], self::$_availableLocales)) {
 
                 // look in the list of retrieved locales for the next matching one (alternative = true)
                 if ($lookupAlternative) {
@@ -393,7 +469,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
                 }
 
                 // if we should'nt lookup an alternative OR no locale was detected -> use systems default
-                if (!$lookupAlternative || !$userPreferences) {
+                if (!$lookupAlternative || $userPreferences === null) {
                     // or if we use the systems default locale if auto-detect fails
                     $userPreferences['locale']   = self::$_defaults['locale'];
                     $userPreferences['weight']   = self::$_defaults['weight'];
@@ -491,7 +567,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private function _readPreferences()
     {
         // assume empty user-preferences
-        $storedPreferences = false;
+        $storedPreferences = null;
 
         if (self::$runningMode !== DoozR_Controller_Front::RUNNING_MODE_CLI) {
 

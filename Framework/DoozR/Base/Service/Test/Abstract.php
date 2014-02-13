@@ -2,10 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * App - View - Index
+ * DoozR - Service - I18n - Test
  *
- * Index.php - Index View for Installation-/Demonstration-Page.
- * This View ...
+ * ServiceTest.php - This is the Test-Controller of a Service Test
  *
  * PHP versions 5
  *
@@ -43,9 +42,9 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   App
- * @package    App_View
- * @subpackage App_View_Index
+ * @category   DoozR
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -54,47 +53,96 @@
  */
 
 /**
- * App - View - Index
+ * DoozR - Service - I18n - Test
  *
- * Index View for Installation-/Demonstration-Page.
+ * This is the Test-Controller of a Service Test
  *
- * @category   App
- * @package    App_View
- * @subpackage App_View_Index
+ * @category   DoozR
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-final class View_Index extends DoozR_Base_View implements DoozR_Base_View_Interface
+abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCase
 {
     /**
-     * This method is the replacement for construct. It is called right on construction of
-     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
+     * The Service instance for testing
      *
-     * @param array $request     The original request
-     * @param array $translation The translation to read the request
+     * @var DoozR_Base_Service_Abstract
+     * @access protected
+     */
+    protected static $service;
+
+    /**
+     * The name of the service
+     *
+     * @var string
+     * @access protected
+     */
+    protected static $serviceName;
+
+    /**
+     * The DoozR Core instance
+     *
+     * @var DoozR_Core
+     * @access protected
+     */
+    protected static $core;
+
+    /**
+     * The DoozR Registry
+     *
+     * @var DoozR_Registry
+     * @access protected
+     */
+    protected static $registry;
+
+
+    /**
+     * Prepares setup for Tests
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access protected
+     * @access public
      */
-    protected function __tearup(array $request, array $translation)
+    public function setUp()
     {
-        # foo
+        // init the inner core
+        self::$core = DoozR_Core::getInstance();
+
+        // get registry
+        self::$registry = DoozR_Registry::getInstance();
+
+        // load service
+        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->config);
     }
 
     /**
-     * This method is the replacement for construct. It is called right on construction of
-     * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
+     * Tests if the service is loadable and the existing instance
+     * matches the required instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access protected
+     * @access public
      */
-    public function __teardown()
+    public function testLoadable()
     {
-        # foo
+        $this->assertInstanceOf('DoozR_' . self::$serviceName . '_Service', self::$service);
+    }
+
+    /**
+     * Cleanup after test execution
+     *
+     * This method is intend to clean up after tests was executed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function tearDown()
+    {
+        self::$service = null;
     }
 }

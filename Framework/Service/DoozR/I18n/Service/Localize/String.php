@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Format - String
+ * DoozR - I18n - Service - Localize - String
  *
  * String.php - String formatter
  *
@@ -52,10 +52,10 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Localize/Abstract.php';
 
 /**
- * DoozR - I18n - Service - Format - String
+ * DoozR - I18n - Service - Localize - String
  *
  * String formatter
  *
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Format_Abstract
+class DoozR_I18n_Service_Localize_String extends DoozR_I18n_Service_Localize_Abstract
 {
     /**
      * The bad-word-table
@@ -184,8 +184,20 @@ class DoozR_I18n_Service_Format_String extends DoozR_I18n_Service_Format_Abstrac
 
         // iterate over each word
         foreach ($words as $key => $word) {
-            if (in_array(mb_strtolower($word), $this->_badWordTable)) {
-                $words[$key] = str_repeat($replacecharacter, mb_strlen($word));
+
+            // clean word from special chars
+            $word = preg_replace("/[^a-zA-Z0-9]+/", "", $word);
+
+            foreach ($this->_badWordTable as $badWord) {
+                if (preg_match('/^' . $badWord . '/im', $word)) {
+                    #$words[$key] = str_replace($badWord, str_repeat($replacecharacter, mb_strlen($badWord)), $word);
+                    $words[$key] = preg_replace(
+                        '/^' . $badWord . '+/im',
+                        str_repeat($replacecharacter, mb_strlen($badWord)),
+                        $word
+                    );
+                    break;
+                }
             }
         }
 

@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
@@ -69,8 +67,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Base_Service_Multiple extends DoozR_Base_Class
 {
@@ -83,17 +79,33 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_Class
      */
     protected $registry;
 
+    /**
+     * Autoloader auto install control flag
+     * If set to TRUE in inheritent class the autoloader
+     * will be installed automatically.
+     *
+     * @var boolean
+     * @access protected
+     */
+    protected $autoloader = false;
+
+    /**
+     * The name of this service
+     *
+     * @var string
+     * @access protected
+     */
+    protected $name;
+
 
     /**
      * Constructor
      *
      * This method acts as constructor.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __construct()
     {
@@ -128,11 +140,9 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_Class
      *
      * This method acts as destructor.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function __destruct()
     {

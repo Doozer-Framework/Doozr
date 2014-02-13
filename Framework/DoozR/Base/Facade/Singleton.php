@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
@@ -69,8 +67,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
 {
@@ -200,6 +196,22 @@ class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
     {
         if ($property != 'decoratedObject') {
             return $this->decoratedObject->{$property} = $value;
+        }
+    }
+
+    /**
+     * generic isset dispatch to decorated object
+     *
+     * @param $property The property being checked for existence
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if isset, otherwise FALSE
+     * @access public
+     */
+    public function __isset($property)
+    {
+        if ($property != 'decoratedObject') {
+            return isset($this->decoratedObject->{$property});
         }
     }
 }

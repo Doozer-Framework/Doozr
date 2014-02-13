@@ -508,7 +508,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @return mixed Requested node/value
      * @access public
      */
-    #public function __call($node, $returnAsArray)
     public function __call($node, $value)
     {
         // get active chain
@@ -522,22 +521,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
             throw new DoozR_Config_Container_Exception('Config entry "'.$node.'" does not exist!');
         }
 
-        /*
-        // get correct transformed argument
-        if (count($returnAsArray)) {
-            $returnAsArray = $returnAsArray[0];
-        } else {
-            $returnAsArray = false;
-        }
-
-        // return as array?
-        if ($returnAsArray) {
-            $result = object_to_array($this->currentChainlink->{$node});
-        } else {
-            $result = $this->currentChainlink->{$node};
-        }
-        */
-
         // check SET (key,value) or GET (key)
         if (count($value)) {
             $value = $value[0];
@@ -547,11 +530,25 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
             $result = $this->currentChainlink->{$node};
         }
 
-
         // reset after __call()
         $this->currentChainlink = null;
 
         // return the result
         return $result;
+    }
+
+    /**
+     * Checks if a property exists
+     *
+     * @param string $property The name of the property to check existence of
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if isset, otherwise FALSE
+     * @access public
+     */
+    public function __isset($property)
+    {
+        $base = $this->getConfiguration('parsed');
+        return isset($base->{$property});
     }
 }

@@ -123,40 +123,11 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      */
     protected function buildTranslationtable($locale, array $namespaces)
     {
-        /*
-        pred('not required!');
-
-        // the resulting array
-        $result = array();
-
-        // assume init was done already
-        $fresh = false;
-
-        // check if locale was prepared before
-        if (!isset(self::$translations[$locale])) {
-            self::$translations[$locale] = array();
-            $fresh = true;
-        }
-
-        // iterate over given namespace(s) and parse them
-        foreach ($namespaces as $namespace) {
-            // was this namespace in the current locale loaded before
-            if (!$fresh && isset(self::$translations[$locale][$namespace])) {
-                // we can reuse the exisiting
-                $result = array_merge($result, self::$translations[$locale][$namespace]);
-
-            } else {
-                $path = realpath($this->_path);
-                $this->_initI18n($locale, $namespace, $path);
-                $result = '?';
-            }
-        }
-
-        return $result;
-        */
-
+        // get real path
         $path = realpath($this->_path);
-        // iterate over given namespace(s) and parse them
+
+        /* @TODO: Does not make sense in gettext to iterate different namespaces?! */
+        // iterate over given namespace(s) and configure environment for them
         foreach ($namespaces as $namespace) {
             $this->_initI18n($locale, $namespace, $path);
         }
@@ -165,13 +136,14 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     }
 
     /**
-     * Initializes the I18n functionality
+     * Initializes gettext environment.
      *
-     * This method is intend to initialize the I18n functionality for/of gettext.
+     * This method is intend to initialize the gettext environment and is responsible
+     * for setting all required environment variables and path' to make gettext run.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access private
-     * @static
      */
     private function _initI18n($locale, $namespace, $path)
     {
@@ -195,10 +167,12 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      *
      * This method is intend to check if all requirements are fulfilled.
      *
-     * @return object Instance of this class
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
      * @access private
-     * @throws DoozR_I18n_Service_Exception
      * @static
+     *
+     * @throws DoozR_I18n_Service_Exception
      */
     private static function _checkRequirements()
     {
@@ -219,9 +193,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     /**
      * Constructor
      *
-     * This method is intend to act as constructor.
-     *
-     * @param array $config The configuration for this type of interface
+     * @param array $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of this class

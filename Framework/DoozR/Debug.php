@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Debug
+ * DoozR - Debug
  *
- * Debug.php - Debug Manager - configures PHP dynamic in debug-mode and setup hooks
+ * Debug.php - Configures PHP dynamic in debug-mode and setup hooks
  * on important parts.
  *
  * PHP versions 5
@@ -51,16 +51,14 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
 
 /**
- * DoozR Debug
+ * DoozR - Debug
  *
- * Debug Manager - configures PHP dynamic in debug-mode and setup hooks
+ * Configures PHP dynamic in debug-mode and setup hooks
  * on important parts.
  *
  * @category   DoozR
@@ -71,8 +69,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
 {
@@ -86,23 +82,23 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     private $_enabled = false;
 
     /**
-     * holds an instance of logger
+     * Instance of logger
      *
-     * @var object
+     * @var DoozR_Logger
      * @access private
      */
     private $_logger;
 
 
     /**
-     * constructs the class
+     * Constructor
      *
      * @param DoozR_Logger_Interface &$logger An instance of DoozR_Logger
      * @param boolean                $enabled Defines it debug mode is enabled or not
      *
-     * @return  object Instance of this class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance of this class
+     * @access protected
      */
     protected function __construct(DoozR_Logger_Interface &$logger, $enabled = false)
     {
@@ -123,13 +119,13 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * enables debugging
+     * Enables debugging
      *
      * This method is intend to enable debugging.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function enable()
     {
@@ -143,13 +139,13 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * disables debugging
+     * Disables debugging
      *
      * This method is intend to disable debugging.
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function disable()
     {
@@ -163,13 +159,13 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * responsible for enabling debugging
+     * Enables debugging
      *
-     * This method is responsible for enabling debugging.
+     * This method is to enable debugging.
      *
-     * @return  boolean True if debug was successfully enabled, otherwise false
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if debug was successfully enabled, otherwise FALSE
+     * @access private
      */
     private function _enable()
     {
@@ -179,7 +175,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         // ini_set() can only be used if php version is >= 5.3 (cause from PHP 5.3 safemode
         // is deprecated and from PHP 5.4 it is removed) or if safemode is Off.
         if (DOOZR_PHP_VERSION >= 5.3 || !ini_get('safemode')) {
-            ini_set('display_errors', 0);
+            #ini_set('display_errors', 0);
             ini_set('display_startup_errors', 1);
             ini_set('log_errors', 1);
             ini_set('html_errors', 1);
@@ -191,13 +187,13 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * responsible for disabling debugging
+     * Disables debugging
      *
-     * This method is responsible for disabling debugging.
+     * This method is intend to disable debugging.
      *
-     * @return  boolean True if debug was successfully disabled, otherwise false
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if debug was successfully disabled, otherwise FALSE
+     * @access private
      */
     private function _disable()
     {

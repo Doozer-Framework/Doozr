@@ -67,10 +67,11 @@
         </div><!--/.navbar-collapse -->
     </div>
 </div>
+
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
-        <h1>Say hello to DoozR!</h1>
+        <h1>Say hello to <b>DoozR</b></h1>
         <p>The installation was successful! DoozR - Tiny & lightweight but strong & powerful: Built-In <b>generic Database-Access Layer</b>, native <b>I18n</b> support, <b>ACL</b> by CRUD-principle, <b>Compression</b> for JS and CSS, great <b>Error- and Exception-Handling</b>, secured <b>session</b>, a huge set of <b>pre-implemented loggers</b>, <b>Templating</b> with native I18n support and last but not least a <i>ready-to-use</i> <b>REST-API</b> implementation... Bäm!</p>
         <p>
         <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">

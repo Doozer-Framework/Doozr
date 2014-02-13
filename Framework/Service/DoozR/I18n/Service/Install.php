@@ -27,3 +27,5 @@ function ___()
     $i18n = DoozR_Loader_Serviceloader::load('i18n');
     $i18n->___($arguments);
 }
+
+return true;

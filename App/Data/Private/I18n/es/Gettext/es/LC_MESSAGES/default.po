@@ -1,6 +1,5 @@
-# FLP Translation file.
-# Copyright (C) 2004 Flaimo.com.
-# Flaimo <flaimo@gmx.net>, 2004.
+# DoozR Translation file.
+# Copyright (C) 2005 - 2013 Benjamin Carl <opensource@clickalicious.de>
 #
 msgid ""
 msgstr ""

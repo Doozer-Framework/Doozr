@@ -4,7 +4,7 @@
 /**
  * Di Exporter Json
  *
- * Json.php - Exporter (JSON-Format) of the Di-Framework
+ * Json.php - Exporter (JSON-Localize) of the Di-Framework
  *
  * PHP versions 5
  *
@@ -48,7 +48,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: $
+ * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
  * @see        -
  * @since      -
@@ -67,7 +67,7 @@ require_once DI_PATH_LIB.'Object/Freezer.php';
 /**
  * Di Exporter Json
  *
- * Exporter (JSON-Format) of the Di-Framework
+ * Exporter (JSON-Localize) of the Di-Framework
  *
  * @category   Di
  * @package    DoozR_Di_Framework

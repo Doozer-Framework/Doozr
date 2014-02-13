@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Format - Abstract
+ * DoozR - I18n - Service - Localize - Abstract
  *
  * Abstract.php - Abstract base class for formatter of the I18n module
  *
@@ -55,9 +55,9 @@
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
 
 /**
- * DoozR - I18n - Service - Format - Abstract
+ * DoozR - I18n - Service - Localize - Abstract
  *
- * Abstract base class for formatter of the I18n module
+ * Abstract base class for Localizeter of the I18n module
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,10 +68,10 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
+abstract class DoozR_I18n_Service_Localize_Abstract extends DoozR_Base_Class
 {
     /**
-     * the type of the format-class
+     * the type of the Localize-class
      *
      * @var string
      * @access protected
@@ -127,7 +127,7 @@ abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
     protected $translator;
 
     /**
-     * the localized config of Format_String
+     * the localized config of Localize_String
      *
      * @var object
      * @access protected
@@ -210,5 +210,17 @@ abstract class DoozR_I18n_Service_Format_Abstract extends DoozR_Base_Class
 
         // store translator
         $this->translator = $translator;
+    }
+
+    /**
+     * Returns the active locale
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The current locale as string, otherwise NULL
+     * @access public
+     */
+    public function getLocale()
+    {
+        return $this->locale;
     }
 }

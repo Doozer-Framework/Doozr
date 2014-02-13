@@ -138,7 +138,7 @@ final class Doodi_Couchdb_Transformation extends DoozR_Base_Class
      *
      * constructor builds the class
      *
-     * @param array $configuration The configuration to use
+     * @param array $config The config to use
      *
      * @return  object Instance of this class
      * @access  public
@@ -146,10 +146,10 @@ final class Doodi_Couchdb_Transformation extends DoozR_Base_Class
      * @since   Method available since Release 1.0.0
      * @version 1.0
      */
-    public function __construct($configuration)
+    public function __construct($config)
     {
-        // store the configuration as basic-data
-        $this->_basics = $configuration;
+        // store the config as basic-data
+        $this->_basics = $config;
 
         // call parents constructor
         parent::__construct();

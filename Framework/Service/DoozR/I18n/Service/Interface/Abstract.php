@@ -71,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
 class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
 {
     /**
-     * the translation table collection (for all locale!)
+     * Translation table collection (for all locale!)
      * key = crc of locale + namespace(s)
      *
      * @var array
@@ -81,7 +81,7 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
     protected static $translationTables = array();
 
     /**
-     * the translations
+     * Translations
      *
      * @var array
      * @access protected
@@ -166,9 +166,9 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to act as constructor.
+     * Constructor
      *
-     * @param string $config The config for this type of interface
+     * @param array $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of this class

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Format - Currency
+ * DoozR - I18n - Service - Localize - Currency
  *
  * Currency.php - Currency formatter
  *
@@ -52,10 +52,10 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Localize/Abstract.php';
 
 /**
- * DoozR - I18n - Service - Format - Currency
+ * DoozR - I18n - Service - Localize - Currency
  *
  * Currency.php - Currency formatter
  *
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_I18n_Service_Format_Currency extends DoozR_I18n_Service_Format_Abstract
+class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_Abstract
 {
     /**
      * Notation for display currency with symbol like $, €

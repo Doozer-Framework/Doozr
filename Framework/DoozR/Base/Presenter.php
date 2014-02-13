@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Presenter/Subject.php';
@@ -70,8 +68,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Http.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
 {
@@ -188,6 +184,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         $this->model           = $model;
         $this->view            = $view;
 
+        // Check if an app is configured -> enable autoloading for it automagically
+        if (isset($this->config->app)) {
+            $this->registerAutoloader(
+                $this->config->app()
+            );
+        }
+
         // important! => call parents constructor so SplObjectStorage is created!
         parent::__construct();
 
@@ -234,6 +237,35 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         }
 
         return $request;
+    }
+
+    /**
+     * Registers an autoloader instance SPL with highest priority
+     * for loading classes of the app.
+     *
+     * @param object $app The app configuration object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function registerAutoloader($app)
+    {
+        // now configure a new autoloader spl config
+        $autoloaderApp = new DoozR_Loader_Autoloader_Spl_Config();
+        $autoloaderApp
+            ->setNamespace($app->namespace)
+            ->setNamespaceSeparator('_')
+            ->addExtension('php')
+            ->setPath(substr($app->path, 0, -1))
+            ->setDescription('Autoloader for App classes with namespace: "' . $app->namespace . '"')
+            ->setPriority(0);
+
+        DoozR_Loader_Autoloader_Spl_Facade::attach(
+            array(
+                $autoloaderApp
+            )
+        );
     }
 
     /**
@@ -330,9 +362,9 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      */
     public function getData()
     {
-        pred('# ERROR CHECK FOR THIS STRING: oidsafd8fz8sniemxfeio #');
+        #pred('# ERROR CHECK FOR THIS STRING: oidsafd8fz8sniemxfeio #');
         # CHECK HERE IF WE MUST CALL Model->getData() INSTEAD
-        #return $this->data;
+        return $this->data;
     }
 
     /**

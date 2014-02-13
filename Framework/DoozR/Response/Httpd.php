@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Response.php';
@@ -70,13 +68,11 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Response.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Response_Httpd extends DoozR_Base_Response
 {
     /**
-     * type of this response
+     * Type of this response
      *
      * holds the type of this response
      *

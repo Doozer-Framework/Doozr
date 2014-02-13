@@ -12,3 +12,4 @@ _doc/html/*
 /vendor
 
 /composer.lock
+/_test/Log

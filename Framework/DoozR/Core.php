@@ -252,9 +252,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     const DEFAULT_CONFIG_CONTAINER = 'Json';
 
 
-    /*******************************************************************************************************************
-     * // BEGIN PRIVATE/PROTECED METHODS
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PRIVATE/PROTECED METHODS
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is the constructor of the core class.
@@ -316,7 +316,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         // @see: http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
         if ($rerun) {
             // prepare container
-            self::_initDiContainer();
+            self::_initDependencyInjection();
 
             // init registry
             self::_initRegistry();
@@ -371,7 +371,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @access private
      * @static
      */
-    private static function _initDiContainer()
+    private static function _initDependencyInjection()
     {
         // simple absolute path bootstrapping for better performance
         require_once DOOZR_DOCUMENT_ROOT.'DoozR/Di/Bootstrap.php';
@@ -837,13 +837,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         return self::$_dateTime;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PRIVATE/PROTECTED METHODS
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend as external interface for throwing core-exception(s)/error(s).
@@ -898,6 +894,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     {
         if (!$justRevision) {
             return self::$version;
+
         } else {
             // etxract the version from svn-Id
             //preg_match('/\d+/', self::$version, $version);
@@ -913,14 +910,14 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @return DoozR_Registry
      * @access public
      */
-    public function getRregistry()
+    public function getRegistry()
     {
         return self::$_registry;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAGIC
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method gets calles on class desctruct.
@@ -937,7 +934,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
                 'Request cycle completed in: '.self::_getDateTime()->getMicrotimeDiff(self::$starttime).' seconds'
             );
 
-            $memoryUsage = number_format(round(memory_get_peak_usage()/1024/1024, 2), 2);
+            $memoryUsage = number_format(round(memory_get_peak_usage() / 1024 / 1024, 2), 2);
 
             // log memory usage
             self::$_logger->debug(

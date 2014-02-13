@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Format - Measure
+ * DoozR - I18n - Service - Localize - Measure
  *
  * Measure.php - Measurement formatter
  *
@@ -52,10 +52,10 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Localize/Abstract.php';
 
 /**
- * DoozR - I18n - Service - Format - Measure
+ * DoozR - I18n - Service - Localize - Measure
  *
  * Measurement formatter
  *
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_I18n_Service_Format_Measure extends DoozR_I18n_Service_Format_Abstract
+class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Abstract
 {
     /**
      * available measuring systems
@@ -87,7 +87,7 @@ class DoozR_I18n_Service_Format_Measure extends DoozR_I18n_Service_Format_Abstra
      * @var string
      * @access private
      */
-    private $_displayFormat;
+    private $_displayLocalize;
 
     /**
      * default measure-system

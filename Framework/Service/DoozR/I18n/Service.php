@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Detector.php';
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Translator.php';
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Template/Service/Lib/PHPTAL/PHPTAL/TranslationService.php';
 
@@ -70,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Template/Service/Lib/PHPTAL/PHPT
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @service    Singleton
- * @DiInject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
+ * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_TranslationService
 {
@@ -285,7 +286,8 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
             );
         }
 
-        return $this->_activeLocale = $locale;
+        $result = $this->_activeLocale = $locale;
+        return $result;
     }
 
     /**
@@ -316,8 +318,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
         if (!self::$_templateTranslator) {
             self::$_templateTranslator = $this->getTranslator();
 
-            pred('AAA');
-
             self::$_templateTranslator->setNamespace(
                 self::$_config->i18n->defaults->namespace()
             );
@@ -333,7 +333,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
      */
     public function getClientPreferedLocale()
     {
-        if ($this->_activeLocale) {
+        if ($this->_activeLocale !== null) {
             $locale = $this->_activeLocale;
 
         } else {
@@ -363,7 +363,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
      */
     public function getDetector()
     {
-        require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Detector.php';
         return DoozR_I18n_Service_Detector::getInstance(self::$_config, $this->registry);
     }
 
@@ -378,7 +377,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
      * @access public
      * @throws DoozR_I18n_Service_Exception
      */
-    public function getFormatter($type = self::FORMAT_DEFAULT, $locale = null)
+    public function getLocalizer($type = self::FORMAT_DEFAULT, $locale = null)
     {
         // if no locale was passed use the active one
         if ($locale === null) {
@@ -394,11 +393,11 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
         // check for redirect -> !
         if ($input['redirect']) {
             // return $this->getFormatter($type, $this->getClientPreferedLocale());
-            return $this->getFormatter($type, $input['redirect']);
+            return $this->getLocalizer($type, $input['redirect']);
 
         } else {
             return $this->instanciate(
-                'DoozR_I18n_Service_Format_'.$type,
+                'DoozR_I18n_Service_Localize_'.$type,
                 array(
                     $this->registry,
                     $input['locale'],
@@ -433,8 +432,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
         // retrieve valid input
         $input = $this->_validateInput($locale);
 
-        pred('hah');
-
         // check for redirect
         if (isset($input['redirect'])) {
             $translator = $this->getTranslator($input['redirect']);
@@ -462,8 +459,9 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
                 'Installation stopped! Please deinstall gettext extension if you want to use I18n service with '.
                 'shortcut functionality _() | __() | ___()'
             );
+
         } else {
-            include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Install.php';
+            $result = include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Install.php';
         }
 
         return $result;
@@ -474,7 +472,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     *
      * PHPTAL:
      * Sets the language for translation.
      *
@@ -483,23 +480,27 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
      * which is instrumentalized in this mehtod.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return boolean|string Locale which was set on success, otherwise FALSE
      * @access public
      * @see PHPTAL_TranslationService::setLanguage()
      */
     public function setLanguage()
     {
+        // assume false result
+        $result = false;
+
         // get a translator instance
         $this->_initTemplateTranslator();
 
         // get valid locales from arguments
-        $locale = func_get_args();
+        $locales = func_get_args();
+        $locale  = isset($locales[0]) ? $locales[0] : null;
 
-        if ($locale) {
-            return $this->setActiveLocale($locale);
+        if ($locale !== null) {
+            $result = $this->setActiveLocale($locale);
         }
 
-        return false;
+        return $result;
     }
 
     /**
@@ -519,8 +520,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
     public function setEncoding($encoding)
     {
         $this->_initTemplateTranslator();
-
-        pred($encoding);
 
         $this->_encoding = $encoding;
 
@@ -558,6 +557,8 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
         $this->_initTemplateTranslator();
 
         self::$_templateTranslator->setNamespace($domain);
+
+        return true;
     }
 
     /**
@@ -569,7 +570,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
      * @param string $value_escaped XHTML markup                \\ value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean TRUE on success, otherwise FALSE
      * @access public
      * @see PHPTAL_TranslationService::setVar()
      */
@@ -577,11 +578,13 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
     {
         $this->_initTemplateTranslator();
 
-        if ($value_escaped === true) {
+        #if ($value_escaped === true) {
             self::$_templateTranslator->{$key} = htmlentities($value_escaped);
-        } else {
-            self::$_templateTranslator->{$key} = $value_escaped;
-        }
+        #} else {
+        #    self::$_templateTranslator->{$key} = $value_escaped;
+        #}
+
+        return true;
     }
 
     /**
@@ -603,15 +606,15 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
 
         $this->_initTemplateTranslator();
 
-        $lookup = str_replace(' ', '_', strtolower($key));
+        #$lookup = str_replace(' ', '_', strtolower($key));
 
         if ($htmlescape === true) {
-            $value = self::$_templateTranslator->__($lookup);
+            $value = self::$_templateTranslator->__($key);
         } else {
-            $value = self::$_templateTranslator->_($lookup);
+            $value = self::$_templateTranslator->_($key);
         }
 
-        return (strlen($value) && $value !== $lookup) ? $value : $key;
+        return (strlen($value) && $value !== $key) ? $value : $key;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -659,26 +662,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | gettext like shortcuts
-    +-----------------------------------------------------------------------------------------------------------------*/
-    public static function _(array $arguments)
-    {
-        $instance   = self::getInstance();
-        $translator = $instance->getTranslator();
-        #return ->_($arguments[0]);
-    }
-
-    public static function __(array $arguments)
-    {
-        die(__METHOD__);
-    }
-
-    public static function ___(array $arguments)
-    {
-        die(__METHOD__);
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
     | Configuration/Management
     +-----------------------------------------------------------------------------------------------------------------*/
 
@@ -709,8 +692,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_
                 'app',
                 'Data/Private/I18n/' . $locale . '/' . self::FILE_NAME_L10N . '.' . self::FILE_EXTENSION_L10N
             );
-
-            pred($file);
 
             $config->read($file);
 

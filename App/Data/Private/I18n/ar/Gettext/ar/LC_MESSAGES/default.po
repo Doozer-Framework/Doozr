@@ -1,12 +1,11 @@
-# FLP Translation file.
-# Copyright (C) 2004 Flaimo.com.
-# Flaimo <flaimo@gmx.net>, 2004.
+# DoozR Translation file.
+# Copyright (C) 2005 - 2013 Benjamin Carl <opensource@clickalicious.de>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: DoozR\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-01-18 02:27+0100\n"
+"PO-Revision-Date: 2014-01-21 23:56+0100\n"
 "Last-Translator: Benjamin Carl <opensource@clickalicious.de>\n"
 "Language-Team: Arabic <opensource@clickalicious.de>\n"
 "MIME-Version: 1.0\n"

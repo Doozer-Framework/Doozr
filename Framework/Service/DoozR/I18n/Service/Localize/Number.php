@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Config
+ * DoozR - I18n - Service - Localize - Number
  *
- * Config.php - Config bootstrap of the DoozR Framework
+ * Number.php - Number formatter
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Config
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,109 +52,80 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Facade/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Localize/Abstract.php';
 
 /**
- * DoozR - Config
+ * DoozR - I18n - Service - Localize - Number
  *
- * Config bootstrap of the DoozR Framework
+ * Localize-Number-Class
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Config
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @implements DoozR_Path,DoozR_Logger
  */
-class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_Interface
+class DoozR_I18n_Service_Localize_Number extends DoozR_I18n_Service_Localize_Abstract
 {
-    /**
-     * Contains an instance of DoozR_Path
-     *
-     * @var object
-     * @access private
-     */
-    private $_path;
+    /*******************************************************************************************************************
+     * // BEGIN PUBLIC INTERFACES
+     ******************************************************************************************************************/
 
     /**
-     * Contains an instance of DoozR_Logger
+     * This method is intend to format a given value as percentage value.
      *
-     * @var object
-     * @access private
-     */
-    private $_logger;
-
-    /**
-     * Default container of configuration
-     * Our preferred type is JSON
-     *
-     * @var string
-     * @access const
-     */
-    const DEFAULT_CONTAINER = 'Json';
-
-
-    /**
-     * This method act as constructor.
-     *
-     * @param DoozR_Path_Interface   $path          An instance of DoozR_Path
-     * @param DoozR_Logger_Interface $logger        An instance of DoozR_Logger
-     * @param string                 $container     A container e.g. Json or Ini
-     * @param boolean                $enableCaching TRUE to enable internal caching, FALSE to do not
+     * @param string  $value      The value to format as percentage value
+     * @param boolean $showSymbol TRUE to show %-symbol, FALSE to hide
+     * @param string  $spacer     The spacer placed between value and symbol
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @return string The formatted percentage value
+     * @access public
      */
-    protected function __construct(
-        DoozR_Path_Interface $path,
-        DoozR_Logger_Interface $logger,
-        $container = self::DEFAULT_CONTAINER,
-        $enableCaching = false
-    ) {
-        // store
-        $this->_path   = $path;
-        $this->_logger = $logger;
+    public function percent($value, $showSymbol = false, $spacer = ' ')
+    {
+        // format the given value
+        $formatted = number_format(
+            $value,
+            $this->config->currency->minor_unit(),
+            $this->config->currency->decimal_point(),
+            $this->config->currency->thousands_seperator()
+        );
 
-        // create instance through factory and set as object to decorate!
-        $this->setDecoratedObject(
-            $this->_factory(
-                __CLASS__.'_Container_'.ucfirst(strtolower($container)),
-                $this->_path->get('framework'),
-                array(
-                    $this->_path,
-                    $this->_logger,
-                    $enableCaching
-                )
-            )
+        if ($showSymbol) {
+            $formatted .= $spacer.'%';
+        }
+
+        // return formatted (currency) result
+        return $formatted;
+    }
+
+
+    /**
+     * This method is intend to format a given value as percentage value.
+     *
+     * @param string  $value                 The value to format as percentage value
+     * @param boolean $floatingPointNotation Controls if the number should be formatted by floating point notation
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formatted percentage value
+     * @access public
+     */
+    public function number($value, $floatingPointNotation = false)
+    {
+        // format the given value
+        return number_format(
+            $value,
+            ($floatingPointNotation) ? $this->config->currency->minor_unit() : 0,
+            $this->config->currency->decimal_point(),
+            $this->config->currency->thousands_seperator()
         );
     }
 
-    /**
-     * This method is intend to act as factory for creating an instance of a config container.
-     *
-     * @param string $class     The classname of container
-     * @param string $path      The base path to Framework
-     * @param mixed  $arguments Arguments to pass to instance
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object The fresh created instance
-     * @access private
-     */
-    private function _factory($class, $path, $arguments = null)
-    {
-        // get required file
-        include_once $path.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
-
-        // create and return a fresh instance
-        if ($arguments) {
-            return $this->instanciate($class, $arguments);
-        } else {
-            return new $class();
-        }
-    }
+    /*******************************************************************************************************************
+     * \\ END PUBLIC INTERFACES
+     ******************************************************************************************************************/
 }

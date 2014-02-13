@@ -2,22 +2,17 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/3.7/phpunit.xsd"
     backupGlobals="true"
-    colors="true" 
     backupStaticAttributes="false">
-    bootstrap="../../../../DoozR/Bootstrap.php">
+    bootstrap="../Framework/DoozR/Bootstrap.php">
     <testsuites>
         <testsuite name="DoozR_I18n_Service">
-            <file>ServiceTest.php</file>
-            <file>Service/TranslatorTest.php</file>
-            <file>Service/DetectorTest.php</file>
-            <!--directory>Service/</directory-->
-            <!--exclude>/path/to/exclude</exclude-->
+            <directory>../Framework/Service/DoozR/I18n/_test/</directory>
         </testsuite>
     </testsuites>
 
-    <!--logging>
+    <logging>
         <log type="coverage-html" target="./Log/Coverage" charset="UTF-8"
              yui="true" highlight="true"
              lowUpperBound="50" highLowerBound="80"/>
-    </logging-->
+    </logging>
 </phpunit>

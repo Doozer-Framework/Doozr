@@ -116,7 +116,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     protected $_baseTableClassName = 'Doctrine_Table';
 
     /**
-     * Format to use for generating the model table classes
+     * Localize to use for generating the model table classes
      *
      * @var string
      */
@@ -129,11 +129,11 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      */
     protected $_classPrefix = null;
 
-    /** 
-     * Whether to use the class prefix for the filenames too 
-     * 
-     * @var boolean 
-     **/ 
+    /**
+     * Whether to use the class prefix for the filenames too
+     *
+     * @var boolean
+     **/
     protected $_classPrefixFiles = true;
 
     /**
@@ -425,11 +425,11 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                 if (isset($relation['refClass'])) {
                     $a[] = '\'refClass\' => ' . $this->varExport($relation['refClass']);
                 }
-                
+
                 if (isset($relation['refClassRelationAlias'])) {
                     $a[] = '\'refClassRelationAlias\' => ' . $this->varExport($relation['refClassRelationAlias']);
                 }
-                
+
                 if (isset($relation['deferred']) && $relation['deferred']) {
                     $a[] = '\'default\' => ' . $this->varExport($relation['deferred']);
                 }
@@ -786,17 +786,17 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                         } else {
                             $leftActAs[$name] = $options[$name];
                         }
-                    } 
+                    }
 
                     $optionPHP = $this->varExport($realOptions);
-                    $build .= $this->emitAssign($level, $template, $optionPHP); 
+                    $build .= $this->emitAssign($level, $template, $optionPHP);
                     if ($level == 0) {
                         $emittedActAs[] = $this->emitActAs($level, $template);
                     } else {
                         $build .= $this->emitAddChild($level, $currentParent, $template);
                     }
                     // descend for the remainings actAs
-                    $parent = $template;            
+                    $parent = $template;
                     $build .= $this->innerBuildActAs($leftActAs, $level, $template, $emittedActAs);
                 } else {
                     $build .= $this->emitAssign($level, $template, null);
@@ -805,7 +805,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                     } else {
                         $build .= $this->emitAddChild($level, $currentParent, $template);
                     }
-                    $parent = $template;            
+                    $parent = $template;
                 }
             }
         } else {
@@ -823,20 +823,20 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     /**
      * Build php code for adding record listeners
      *
-     * @param string $listeners 
+     * @param string $listeners
      * @return string $build
      */
     public function buildListeners($listeners)
     {
         $build = '';
-        
+
         foreach($listeners as $name => $options) {
             if ( ! is_array($options) && $options !== null) {
                 $name = $options;
                 $options = null;
             }
 
-            $useOptions = ( ! empty($options) && isset($options['useOptions']) && $options['useOptions'] == true) 
+            $useOptions = ( ! empty($options) && isset($options['useOptions']) && $options['useOptions'] == true)
                 ? '$this->getTable()->getOptions()' : 'array()';
             $class = ( ! empty($options) && isset($options['class'])) ? $options['class'] : $name;
 
@@ -856,7 +856,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     {
         $build = PHP_EOL;
         foreach ($attributes as $key => $value) {
-    
+
             $values = array();
             if (is_bool($value))
             {
@@ -865,7 +865,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                 if ( ! is_array($value)) {
                     $value = array($value);
                 }
-    
+
                 foreach ($value as $attr) {
                     $const = "Doctrine_Core::" . strtoupper($key) . "_" . strtoupper($attr);
                     if (defined($const)) {
@@ -875,11 +875,11 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                     }
                 }
             }
-    
+
             $string = implode(' ^ ', $values);
             $build .= "        \$this->setAttribute(Doctrine_Core::ATTR_" . strtoupper($key) . ", " . $string . ");" . PHP_EOL;
         }
-    
+
         return $build;
     }
 
@@ -965,7 +965,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         }
 
         $setUpCode.= $this->buildToString($definition);
-        
+
         $docs = PHP_EOL . $this->buildPhpDocs($definition);
 
         $content = sprintf(self::$_tpl, $docs, $abstract,
@@ -1115,7 +1115,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         if ($prefix = $this->_classPrefix) {
             $className = $prefix . $definition['tableClassName'];
             if ($this->_classPrefixFiles) {
-                $fileName = $className . $this->_suffix;               
+                $fileName = $className . $this->_suffix;
             } else {
                 $fileName = $definition['tableClassName'] . $this->_suffix;
             }

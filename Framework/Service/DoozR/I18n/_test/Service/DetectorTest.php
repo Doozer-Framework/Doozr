@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Format - Number
+ * DoozR - Service - I18n - Test
  *
- * Number.php - Number formatter
+ * DetectorTest.php - Tests for Detector of the DoozR I18n Service.
  *
  * PHP versions 5
  *
@@ -52,12 +52,20 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php';
+$filename = realpath(dirname(__FILE__) . '../../../../../../DoozR/Bootstrap.php');
+
+if (file_exists($filename)) {
+    require_once $filename;
+} else {
+    require_once '../../../../../DoozR/Bootstrap.php';
+}
+
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Test/Abstract.php';
 
 /**
- * DoozR - I18n - Service - Format - Number
+ * DoozR - Service - I18n - Test
  *
- * Format-Number-Class
+ * Tests for Abstract interface of the DoozR I18n Service.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -65,67 +73,87 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Format/Abstract.php
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_I18n_Service_Format_Number extends DoozR_I18n_Service_Format_Abstract
+class DetectorTest extends DoozR_Base_Service_Test_Abstract
 {
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
     /**
-     * This method is intend to format a given value as percentage value.
+     * Data required for running this test(s)
      *
-     * @param string  $value      The value to format as percentage value
-     * @param boolean $showSymbol TRUE to show %-symbol, FALSE to hide
-     * @param string  $spacer     The spacer placed between value and symbol
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The formatted percentage value
-     * @access public
+     * @var array
+     * @access protected
      */
-    public function percent($value, $showSymbol = false, $spacer = ' ')
-    {
-        // format the given value
-        $formatted = number_format(
-            $value,
-            $this->config->currency->minor_unit(),
-            $this->config->currency->decimal_point(),
-            $this->config->currency->thousands_seperator()
-        );
-
-        if ($showSymbol) {
-            $formatted .= $spacer.'%';
-        }
-
-        // return formatted (currency) result
-        return $formatted;
-    }
+    protected static $fixtures = array(
+        'locale' => array(
+            'default' => 'en',
+            'valid'   => 'de',
+            'invalid' => 'de-11111de-de-de',
+        ),
+        'translation' => array(
+            'missing' => 'This is a not translated string.'
+        ),
+        'namespace' => array(
+            'valid' => 'default',
+        ),
+    );
 
 
     /**
-     * This method is intend to format a given value as percentage value.
-     *
-     * @param string  $value                 The value to format as percentage value
-     * @param boolean $floatingPointNotation Controls if the number should be formatted by floating point notation
+     * Prepares setup for Tests of "I18n"
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The formatted percentage value
+     * @return void
      * @access public
      */
-    public function number($value, $floatingPointNotation = false)
+    public function setUp()
     {
-        // format the given value
-        return number_format(
-            $value,
-            ($floatingPointNotation) ? $this->config->currency->minor_unit() : 0,
-            $this->config->currency->decimal_point(),
-            $this->config->currency->thousands_seperator()
-        );
+        self::$serviceName = 'I18n';
+        parent::setUp();
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /**
+     * Tests ...
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testGetDetector()
+    {
+        $detector = self::$service->getDetector();
+
+        $this->assertInstanceOf('DoozR_I18n_Service_Detector', $detector);
+    }
+
+    public function testiIsValidLocaleCode()
+    {
+        $detector = self::$service->getDetector();
+
+        $this->assertTrue($detector->isValidLocaleCode('de'));
+        $this->assertTrue($detector->isValidLocaleCode('en'));
+        $this->assertTrue($detector->isValidLocaleCode('en-gb'));
+        $this->assertFalse($detector->isValidLocaleCode('fr fr'));
+        $this->assertFalse($detector->isValidLocaleCode('f'));
+        $this->assertFalse($detector->isValidLocaleCode('foo'));
+    }
+
+    public function testDetect()
+    {
+        $detector = self::$service->getDetector();
+        $this->assertTrue($detector->detect());
+    }
+
+    public function testGetLocalePreferences()
+    {
+        $detector = self::$service->getDetector();
+        $preferences = $detector->getLocalePreferences();
+
+        $this->assertArrayHasKey('locale', $preferences);
+        $this->assertArrayHasKey('language', $preferences);
+        $this->assertArrayHasKey('country', $preferences);
+
+        $this->assertEquals('en', $preferences['locale']);
+        $this->assertEquals('en', $preferences['language']);
+        $this->assertEquals('us', $preferences['country']);
+    }
 }

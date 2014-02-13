@@ -160,6 +160,21 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
+     * Returns the active locale of the translator instance
+     *
+     * This method is intend to return the active locale of
+     * the translator instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The active locale if set, otherwise NULL
+     * @access public
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
+    }
+
+    /**
      * returns the redirect-status of the translator instance
      *
      * This method is intend to return the redirect-status of the translator instance.
@@ -269,9 +284,17 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @return boolean TRUE if namespace is in list, otherwise FALSE
      * @access public
      */
-    public function hasNamespace($namespace)
+    public function hasNamespace($namespace = null)
     {
-        return in_array($namespace, $this->_namespaces);
+        if ($namespace === null) {
+            $result = (count($this->_namespaces) > 0);
+
+        } else {
+            $result = in_array($namespace, $this->_namespaces);
+
+        }
+
+        return $result;
     }
 
     /**
@@ -436,11 +459,18 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @param string  $key       The string to translate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return  mixed STRING translation on success, otherwise FALSE
-     * @access  private
+     * @return mixed STRING translation on success, otherwise FALSE
+     * @access private
      */
     private function _translate($key, $arguments = null, $mode = self::MODE_TRANSLATE)
     {
+        if ($this->hasNamespace() === false) {
+            throw new DoozR_I18n_Service_Exception(
+                'Translation without namespace is not possible. Please set a namespace via setNamespace(...) ' .
+                'or addNamespace(...) first.'
+            );
+        }
+
         // check if translator is already initialized
         if (!self::$_translatorInterface) {
             self::$_translatorInterface = $this->_getTranslatorInterface();

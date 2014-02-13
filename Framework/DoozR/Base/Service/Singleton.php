@@ -79,17 +79,38 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
     protected $registry;
 
     /**
-     * @var bool
+     * Autoloader auto install control flag
+     * If set to TRUE in inheritent class the autoloader
+     * will be installed automatically.
+     *
+     * @var boolean
+     * @access protected
      */
     protected $autoloader = false;
 
+    /**
+     * The name of this service
+     *
+     * @var string
+     * @access protected
+     */
     protected $name;
 
 
-    protected function getServiceName()
+    /**
+     * Returns the name of the service
+     *
+     * This method is intend to return the name of the current
+     * active service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the service
+     * @access protected
+     */
+    protected function getName()
     {
         if ($this->name === null) {
-            $class      = get_called_class();
+            $class = get_called_class();
             if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
                 $this->name = $matches[1];
             } else {
@@ -99,7 +120,6 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
 
         return $this->name;
     }
-
 
     /**
      * Constructor
@@ -115,7 +135,12 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
         $this->registry = &$arguments[0];
         $arguments      = array_slice($arguments, 1);
 
-        $this->initAutoloader($this->getServiceName());
+        /**
+         * Check for automagically install autoloader
+         */
+        if ($this->autoloader === true) {
+            $this->initAutoloader($this->getName());
+        }
 
         // dispatch remaining stuff
         if ($this->hasMethod('__tearup')) {
@@ -142,23 +167,21 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
      * @return void
      * @access protected
      */
-    protected function initAutoloader($service)
+    public function initAutoloader($service)
     {
-        if ($this->autoloader === true) {
-            // register services custom autoloader
-            $autoloaderService = new DoozR_Loader_Autoloader_Spl_Config();
-            $autoloaderService
-                ->setNamespace('DoozR_'.$service)
-                ->setNamespaceSeparator('_')
-                ->addExtension('php')
-                ->setPath(DOOZR_DOCUMENT_ROOT.'Service')
-                ->setDescription('DoozR\'s '.$service.' service autoloader. Timestamp: '.time());
+        // register services custom autoloader
+        $autoloaderService = new DoozR_Loader_Autoloader_Spl_Config();
+        $autoloaderService
+            ->setNamespace('DoozR_'.$service)
+            ->setNamespaceSeparator('_')
+            ->addExtension('php')
+            ->setPath(DOOZR_DOCUMENT_ROOT.'Service')
+            ->setDescription('DoozR\'s '.$service.' service autoloader. Timestamp: '.time());
 
-            // add to SPL through facade
-            $this->autoloader = DoozR_Loader_Autoloader_Spl_Facade::attach(
-                $autoloaderService
-            );
-        }
+        // add to SPL through facade
+        $this->autoloader = DoozR_Loader_Autoloader_Spl_Facade::attach(
+            $autoloaderService
+        );
     }
 
     /**

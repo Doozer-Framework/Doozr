@@ -152,7 +152,7 @@ class Doctrine_Import_Schema
 
     /**
      * Returns an array of definition keys that can be applied at the global level.
-     * 
+     *
      * @return array
      */
     public static function getGlobalDefinitionKeys()
@@ -163,7 +163,7 @@ class Doctrine_Import_Schema
     /**
      * getOption
      *
-     * @param string $name 
+     * @param string $name
      * @return void
      */
     public function getOption($name)
@@ -186,8 +186,8 @@ class Doctrine_Import_Schema
     /**
      * setOption
      *
-     * @param string $name 
-     * @param string $value 
+     * @param string $name
+     * @param string $value
      * @return void
      */
     public function setOption($name, $value)
@@ -196,11 +196,11 @@ class Doctrine_Import_Schema
             $this->_options[$name] = $value;
         }
     }
-    
+
     /**
      * setOptions
      *
-     * @param string $options 
+     * @param string $options
      * @return void
      */
     public function setOptions($options)
@@ -216,7 +216,7 @@ class Doctrine_Import_Schema
      * Loop throug directories of schema files and parse them all in to one complete array of schema information
      *
      * @param  string   $schema Array of schema files or single schema file. Array of directories with schema files or single directory
-     * @param  string   $format Format of the files we are parsing and building from
+     * @param  string   $format Localize of the files we are parsing and building from
      * @return array    $array
      */
     public function buildSchema($schema, $format)
@@ -228,7 +228,7 @@ class Doctrine_Import_Schema
                 $e = explode('.', $s);
                 if (end($e) === $format) {
                     $array = array_merge($array, $this->parseSchema($s, $format));
-                }          
+                }
             } else if (is_dir($s)) {
                 $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($s),
                                                       RecursiveIteratorIterator::LEAVES_ONLY);
@@ -256,7 +256,7 @@ class Doctrine_Import_Schema
      * A method to import a Schema and translate it into a Doctrine_Record object
      *
      * @param  string $schema       The file containing the XML schema
-     * @param  string $format       Format of the schema file
+     * @param  string $format       Localize of the schema file
      * @param  string $directory    The directory where the Doctrine_Record class will be written
      * @param  array  $models       Optional array of models to import
      *
@@ -268,20 +268,20 @@ class Doctrine_Import_Schema
         $builder = new Doctrine_Import_Builder();
         $builder->setTargetPath($directory);
         $builder->setOptions($this->getOptions());
-        
+
         $array = $this->buildSchema($schema, $format);
 
-        if (count($array) == 0) { 
+        if (count($array) == 0) {
             throw new Doctrine_Import_Exception(
                 sprintf('No ' . $format . ' schema found in ' . implode(", ", $schema))
-            ); 
+            );
         }
 
         foreach ($array as $name => $definition) {
             if ( ! empty($models) && !in_array($definition['className'], $models)) {
                 continue;
             }
-            
+
             $builder->buildRecord($definition);
         }
     }
@@ -293,7 +293,7 @@ class Doctrine_Import_Schema
      * The function returns that property array.
      *
      * @param  string $schema   Path to the file containing the schema
-     * @param  string $type     Format type of the schema we are parsing
+     * @param  string $type     Localize type of the schema we are parsing
      * @return array  $build    Built array of schema information
      */
     public function parseSchema($schema, $type)
@@ -311,7 +311,7 @@ class Doctrine_Import_Schema
                           'package'             =>  null,
                           'inheritance'         =>  array(),
                           'detect_relations'    =>  false);
-        
+
         $array = Doctrine_Parser::load($schema, $type);
 
         // Loop over and build up all the global values and remove them from the array
@@ -429,14 +429,14 @@ class Doctrine_Import_Schema
                     $build[$className][$key] = isset($build[$className][$key]) ? $build[$className][$key]:$defaultValue;
                 }
             }
-            
+
             $build[$className]['className'] = $className;
             $build[$className]['tableName'] = $tableName;
             $build[$className]['columns'] = $columns;
-            
+
             // Make sure that anything else that is specified in the schema makes it to the final array
             $build[$className] = Doctrine_Lib::arrayDeepMerge($table, $build[$className]);
-            
+
             // We need to keep track of the className for the connection
             $build[$className]['connectionClassName'] = $build[$className]['className'];
         }
@@ -446,11 +446,11 @@ class Doctrine_Import_Schema
 
     /**
      * _processInheritance
-     * 
+     *
      * Perform some processing on inheritance.
      * Sets the default type and sets some default values for certain types
      *
-     * @param string $array 
+     * @param string $array
      * @return void
      */
     protected function _processInheritance($array)
@@ -470,9 +470,9 @@ class Doctrine_Import_Schema
                 if ($array[$className]['inheritance']['type'] == 'column_aggregation') {
                     // Set the keyField to 'type' by default
                     if ( ! isset($array[$className]['inheritance']['keyField'])) {
-                        $array[$className]['inheritance']['keyField'] = 'type';                        
+                        $array[$className]['inheritance']['keyField'] = 'type';
                     }
-                    
+
                     // Set the keyValue to the name of the child class if it does not exist
                     if ( ! isset($array[$className]['inheritance']['keyValue'])) {
                         $array[$className]['inheritance']['keyValue'] = $className;
@@ -508,22 +508,22 @@ class Doctrine_Import_Schema
 
                 // Populate the parents subclasses
                 if ($definition['inheritance']['type'] == 'column_aggregation') {
-                    // Fix for 2015: loop through superclasses' inheritance to the base-superclass to  
-                    // make sure we collect all keyFields needed (and not only the first) 
-                    $inheritanceFields = array($definition['inheritance']['keyField'] => $definition['inheritance']['keyValue']); 
+                    // Fix for 2015: loop through superclasses' inheritance to the base-superclass to
+                    // make sure we collect all keyFields needed (and not only the first)
+                    $inheritanceFields = array($definition['inheritance']['keyField'] => $definition['inheritance']['keyValue']);
 
-                    $superClass = $definition['inheritance']['extends']; 
-                    $multiInheritanceDef = $array[$superClass]; 
+                    $superClass = $definition['inheritance']['extends'];
+                    $multiInheritanceDef = $array[$superClass];
 
-                    while (count($multiInheritanceDef['inheritance']) > 0 && array_key_exists('extends', $multiInheritanceDef['inheritance']) && $multiInheritanceDef['inheritance']['type'] == 'column_aggregation') { 
+                    while (count($multiInheritanceDef['inheritance']) > 0 && array_key_exists('extends', $multiInheritanceDef['inheritance']) && $multiInheritanceDef['inheritance']['type'] == 'column_aggregation') {
                         $superClass = $multiInheritanceDef['inheritance']['extends'];
-                        
+
                         // keep original keyField with it's keyValue
-                        if ( ! isset($inheritanceFields[$multiInheritanceDef['inheritance']['keyField']])) { 
+                        if ( ! isset($inheritanceFields[$multiInheritanceDef['inheritance']['keyField']])) {
                             $inheritanceFields[$multiInheritanceDef['inheritance']['keyField']] = $multiInheritanceDef['inheritance']['keyValue'];
-                        } 
-                        $multiInheritanceDef = $array[$superClass]; 
-                    } 
+                        }
+                        $multiInheritanceDef = $array[$superClass];
+                    }
 
                     $array[$parent]['inheritance']['subclasses'][$definition['className']] = $inheritanceFields;
                 }
@@ -553,10 +553,10 @@ class Doctrine_Import_Schema
      * buildRelationships
      *
      * Loop through an array of schema information and build all the necessary relationship information
-     * Will attempt to auto complete relationships and simplify the amount of information required 
+     * Will attempt to auto complete relationships and simplify the amount of information required
      * for defining a relationship
      *
-     * @param  string $array 
+     * @param  string $array
      * @return void
      */
     protected function _buildRelationships($array)
@@ -589,10 +589,10 @@ class Doctrine_Import_Schema
             if ( ! isset($properties['relations'])) {
                 continue;
             }
-            
+
             $className = $properties['className'];
             $relations = $properties['relations'];
-            
+
             foreach ($relations as $alias => $relation) {
                 $class = isset($relation['class']) ? $relation['class']:$alias;
                 if ( ! isset($array[$class])) {
@@ -600,7 +600,7 @@ class Doctrine_Import_Schema
                 }
                 $relation['class'] = $class;
                 $relation['alias'] = isset($relation['alias']) ? $relation['alias'] : $alias;
-                
+
                 // Attempt to guess the local and foreign
                 if (isset($relation['refClass'])) {
                     $relation['local'] = isset($relation['local']) ? $relation['local']:Doctrine_Inflector::tableize($name) . '_id';
@@ -609,11 +609,11 @@ class Doctrine_Import_Schema
                     $relation['local'] = isset($relation['local']) ? $relation['local']:Doctrine_Inflector::tableize($relation['class']) . '_id';
                     $relation['foreign'] = isset($relation['foreign']) ? $relation['foreign']:'id';
                 }
-                
+
                 if (isset($relation['refClass'])) {
                     $relation['type'] = 'many';
                 }
-                
+
                 if (isset($relation['type']) && $relation['type']) {
                     $relation['type'] = $relation['type'] === 'one' ? Doctrine_Relation::ONE:Doctrine_Relation::MANY;
                 } else {
@@ -623,18 +623,18 @@ class Doctrine_Import_Schema
                 if (isset($relation['foreignType']) && $relation['foreignType']) {
                     $relation['foreignType'] = $relation['foreignType'] === 'one' ? Doctrine_Relation::ONE:Doctrine_Relation::MANY;
                 }
-                
+
                 $relation['key'] = $this->_buildUniqueRelationKey($relation);
-                
+
                 $this->_validateSchemaElement('relation', array_keys($relation), $className . '->relation->' . $relation['alias']);
-                
+
                 $this->_relations[$className][$alias] = $relation;
             }
         }
-        
+
         // Now we auto-complete opposite ends of relationships
         $this->_autoCompleteOppositeRelations();
-        
+
         // Make sure we do not have any duplicate relations
         $this->_fixDuplicateRelations();
 
@@ -642,7 +642,7 @@ class Doctrine_Import_Schema
         foreach ($this->_relations as $className => $relations) {
             $array[$className]['relations'] = $relations;
         }
-        
+
         return $array;
     }
 
@@ -661,22 +661,22 @@ class Doctrine_Import_Schema
                 if ((isset($relation['equal']) && $relation['equal']) || (isset($relation['autoComplete']) && $relation['autoComplete'] === false)) {
                     continue;
                 }
-                
+
                 $newRelation = array();
                 $newRelation['foreign'] = $relation['local'];
                 $newRelation['local'] = $relation['foreign'];
                 $newRelation['class'] = isset($relation['foreignClass']) ? $relation['foreignClass']:$className;
                 $newRelation['alias'] = isset($relation['foreignAlias']) ? $relation['foreignAlias']:$className;
                 $newRelation['foreignAlias'] = $alias;
-                
+
                 // this is so that we know that this relation was autogenerated and
                 // that we do not need to include it if it is explicitly declared in the schema by the users.
-                $newRelation['autogenerated'] = true; 
-                
+                $newRelation['autogenerated'] = true;
+
                 if (isset($relation['refClass'])) {
                     $newRelation['refClass'] = $relation['refClass'];
                     $newRelation['type'] = isset($relation['foreignType']) ? $relation['foreignType']:$relation['type'];
-                } else {                
+                } else {
                     if (isset($relation['foreignType'])) {
                         $newRelation['type'] = $relation['foreignType'];
                     } else {
@@ -718,7 +718,7 @@ class Doctrine_Import_Schema
                     }
                 }
             }
-            
+
             $this->_relations[$className] = $uniqueRelations;
         }
     }
@@ -729,7 +729,7 @@ class Doctrine_Import_Schema
      * Build a unique key to identify a relationship by
      * Md5 hash of all the relationship parameters
      *
-     * @param string $relation 
+     * @param string $relation
      * @return void
      */
     protected function _buildUniqueRelationKey($relation)
@@ -740,8 +740,8 @@ class Doctrine_Import_Schema
     /**
      * _validateSchemaElement
      *
-     * @param string $name 
-     * @param string $value 
+     * @param string $name
+     * @param string $value
      * @return void
      */
     protected function _validateSchemaElement($name, $element, $path)

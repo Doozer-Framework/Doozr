@@ -166,11 +166,8 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
             )
         );
 
-        // TODO: inject the name of the service into arguments
-
         // store map
         self::$_container->setMap(self::$_map);
-
 
         // create instance with arguments ...
         if ($arguments !== null) {
