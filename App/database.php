@@ -37,6 +37,10 @@ $config = $registry->config;
 $model = $registry->model;
 
 
+
+die;
+
+
 /**
  * In DoozR's default configuration (.config) there is a generic database wrapper
  * configured for accessing all kinds of database frameworks in a generic way.
@@ -83,10 +87,9 @@ $request = $registry->front->getRequest();
  * do things
  * ... the following "inline" class definition and ... is just for demo purposes
  */
-
-
-require_once DOOZR_APP_ROOT.'Class/DoozR/User.php';
-require_once DOOZR_APP_ROOT.'Class/DoozR/User/View.php';
+# MySQL Doctrine ORM:
+#require_once DOOZR_APP_ROOT.'Class/DoozR/User.php';
+#require_once DOOZR_APP_ROOT.'Class/DoozR/User/View.php';
 
 
 /**

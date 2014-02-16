@@ -265,11 +265,9 @@ final class Doodi_Couchdb_Transformation extends DoozR_Base_Class
      *
      * This method is intend to return the transformations
      *
-     * @return  array The transformations
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The transformations
+     * @access public
      */
     public function getTransformations()
     {
@@ -284,11 +282,9 @@ final class Doodi_Couchdb_Transformation extends DoozR_Base_Class
      *
      * @param string $variable The name of the variable to return value for
      *
-     * @return  mixed The requested data
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The requested data
+     * @access public
      */
     public function __get($variable)
     {
@@ -308,11 +304,9 @@ final class Doodi_Couchdb_Transformation extends DoozR_Base_Class
      * @param string $context The context (variable-name) on which the error was detected
      * @param array  $trace   The stacktrace-snapshot at moment of error-detected
      *
-     * @return  mixed NULL
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed NULL
+     * @access private
      */
     private function _triggerError($method, $context, $trace)
     {

@@ -108,13 +108,13 @@ $request = $front->getRequest();
  * Create route and proxies
  */
 $generator = new Doodi_Route_Generator(
-    $_CLI->proxy,                                      //'Couchdb2',
-    $_CLI->library,                                    //'phpillow',
-    $_CLI->pathlibrary,                                //'Model\\Lib\\',
-    $_CLI->pathdoodi,                                  //'Model\\Doodi\\',
-    $_CLI->bootstrap,                                  //'bootstrap.php',
-    $_CLI->exclude,                                    //'/test/i',
-    constant('Doodi_Route_Generator::'.$_CLI->pattern) //::SPLIT_BY_CAMELCASE
+    $_CLI->proxy->get(),                                      //'Couchdb2',
+    $_CLI->library->get(),                                    //'phpillow',
+    $_CLI->pathlibrary->get(),                                //'Model\\Lib\\',
+    $_CLI->pathdoodi->get(),                                  //'Model\\Doodi\\',
+    $_CLI->bootstrap->get(),                                  //'bootstrap.php',
+    $_CLI->exclude->get(),                                    //'/test/i',
+    constant('Doodi_Route_Generator::'.$_CLI->pattern->get()) //::SPLIT_BY_CAMELCASE
 );
 
 $generator->run();

@@ -192,12 +192,21 @@ function realpath_ext($path, $resolveSymlinks = false)
         for ($i = count($partial)-1; $i > -1; --$i) {
             $prepared = DIRECTORY_SEPARATOR.$partial[$i].$prepared;
 
+            $path2 = (DIRECTORY_SEPARATOR === '\\')
+                ? str_replace('/', '\\', $path)
+                : str_replace('\\', '/', $path);
+
             if (realpath($root.$prepared) === $path) {
                 $prepared = $root.$prepared;
                 $prepared = (DIRECTORY_SEPARATOR === '\\')
                 ? str_replace('/', '\\', $prepared)
                 : str_replace('\\', '/', $prepared);
                 break;
+
+            } elseif (realpath($root.$path2) !== false) {
+                $prepared = (DIRECTORY_SEPARATOR === '\\')
+                    ? str_replace('/', '\\', $root.$path2)
+                    : str_replace('\\', '/', $root.$path2);
             }
         }
 
