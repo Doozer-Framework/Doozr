@@ -73,7 +73,10 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Template/Service/Lib/PHPTAL/PHPT
  * @service    Singleton
  * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
-class DoozR_I18n_Service extends DoozR_Base_Service_Singleton implements PHPTAL_TranslationService
+class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
+    implements
+    PHPTAL_TranslationService,
+    DoozR_I18n_Service_Interface
 {
     /**
      * The encoding
