@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
@@ -67,8 +65,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 interface DoozR_Cache_Service_Container_Interface
 {
@@ -79,18 +75,18 @@ interface DoozR_Cache_Service_Container_Interface
      *
      * This method is intend to create a cache-entry.
      *
-     * @param string  $id       The dataset Id
-     * @param string  $data     The data to write to cache
-     * @param integer $expires  Date/Time on which the cache-entry expires
-     * @param string  $group    The dataset group
+     * @param string     $id      The dataset Id
+     * @param string     $data    The data to write to cache
+     * @param integer    $expires Date/Time on which the cache-entry expires
+     * @param string     $group   The dataset group
+     * @param null|mixed $userdata The additional userdata
      *
-     * @return  boolean TRUE if entry was created succesful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was created succesful, otherwise FALSE
+     * @access public
      */
-    public function create($id, $data, $expires, $group);
+    public function create($id, $data, $expires, $group, $userdata = null);
+
 
     /**
      * reads a cache-entry
@@ -100,11 +96,9 @@ interface DoozR_Cache_Service_Container_Interface
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
-     * @return  mixed The data from cache if succesful, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data from cache if succesful, otherwise NULL
+     * @access public
      */
     public function read($id, $group);
 
@@ -113,19 +107,18 @@ interface DoozR_Cache_Service_Container_Interface
      *
      * This method is intend to update a cache-entry.
      *
-     * @param string  $id       The dataset Id
-     * @param string  $data     The data to write to cache
-     * @param integer $expires  Date/Time on which the cache-entry expires
-     * @param string  $group    The dataset group
-     * @param string  $userdata The custom userdata to add
+     * @param string     $id       The dataset Id
+     * @param string     $data     The data to write to cache
+     * @param integer    $expires  Date/Time on which the cache-entry expires
+     * @param string     $group    The dataset group
+     * @param string     $userdata The custom userdata to add
+     * @param null|mixed $userdata The additional userdata
      *
-     * @return  boolean TRUE if entry was created succesful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @access public
      */
-    public function update($id, $data, $expires, $group, $userdata);
+    public function update($id, $data, $expires, $group, $userdata = null);
 
     /**
      * deletes a dataset from cache
@@ -135,11 +128,9 @@ interface DoozR_Cache_Service_Container_Interface
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
-     * @return  boolean TRUE if entry was deleted succesful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was deleted succesful, otherwise FALSE
+     * @access public
      */
     public function delete($id, $group);
 
@@ -150,13 +141,9 @@ interface DoozR_Cache_Service_Container_Interface
      *
      * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
-     * @return  boolean TRUE if entry was deleted succesful, otherwise FALSE
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was deleted succesful, otherwise FALSE
+     * @access protected
      */
     public function garbageCollection($maxlifetime);
 }
-
-?>

@@ -55,6 +55,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Serviceloader.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Crud/Interface.php';
 
 /**
  * DoozR - Session - Service
@@ -73,6 +74,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Serviceloader.php';
  * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 class DoozR_Session_Service extends DoozR_Base_Service_Singleton
+    implements DoozR_Base_Crud_Interface
 {
     /**
      * Contains instance of module DoozR_Crypt
@@ -456,7 +458,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     public function __tearup($sessionId = null, $autoInit = false, $phpVersion = DOOZR_PHP_VERSION)
     {
         // get instance of logger
-        $this->_logger = $this->registry->logger;
+        $this->_logger = (isset($this->registry->logger)) ? $this->registry->logger : null;
 
         // store session-id always
         $this->setId($sessionId);
@@ -473,7 +475,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         $this->setFlagStatus('ssl', ($phpVersion >= 4.1));
 
         // automatic start session?
-        if ($autoInit == true || $this->registry->config->session->autoinit()) {
+        if ($autoInit === true || $this->registry->config->session->autoinit()) {
             // start initialization with config from core
             $this->autoInit(
                 $this->registry->config->session()
@@ -657,7 +659,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         if ($ipFromSession) {
             // found ip in session! try to validate and destroy if suspicious
             if ($ipFromSession != $ip) {
-                $this->_logger->debug('Session seems to be hijacked! Destroying session and closing connection!');
+                $this->log('Session seems to be hijacked! Destroying session and closing connection!');
                 $this->destroy();
             }
         } else {
@@ -846,7 +848,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         }
 
         // log created session-id and defined session parameter (cookie params)
-        $this->_logger->debug(
+        $this->log(
             'Session-Id: '.$this->getId().' Session-Cookie-Parameter: '.
             var_export(
                 session_get_cookie_params(),
@@ -1210,7 +1212,8 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
             }
 
             // return the correct unserialized value (so integer keeps integer ...)
-            return unserialize($value);
+            #return unserialize($value);
+            return $value;
         }
 
         // return default = not set = null
@@ -1595,6 +1598,26 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         return $status;
     }
 
+    public function create($key, $value)
+    {
+        return $this->set($key, $value);
+    }
+
+    public function read($key)
+    {
+        return $this->get($key);
+    }
+
+    public function update($key, $value)
+    {
+        return $this->set($key, $value);
+    }
+
+    public function delete($key)
+    {
+        return $this->unsetVariable($key);
+    }
+
     /*******************************************************************************************************************
      * \\ END PUBLIC INTERFACES
      ******************************************************************************************************************/
@@ -1602,6 +1625,22 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     /*******************************************************************************************************************
      * // BEGIN PRIVATE METHODS
      ******************************************************************************************************************/
+
+    /**
+     * Forwards a message to passed logger if exists (not null)
+     *
+     * @param string $message The message to log
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function log($message)
+    {
+        if ($this->_logger !== null) {
+            $this->_logger->log($message);
+        }
+    }
 
     /**
      * Configures the session cookie parameter

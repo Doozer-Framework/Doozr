@@ -165,4 +165,30 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
     {
         return substr_count($file, DIRECTORY_SEPARATOR);
     }
+
+    /**
+     * Setter for type of exception
+     *
+     * @params string $type The type to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Getter for type
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The type
+     * @access private
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

@@ -1,11 +1,10 @@
 <?php
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Phptal - Service
+ * DoozR Crud Interface
  *
- * Service.php - Service for interfacing PHPTAL (PHP Template Attribute Language)
+ * Interface.php - Contract for DoozR compatible CRUD Classes.
  *
  * PHP versions 5
  *
@@ -44,99 +43,64 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Phptal
+ * @package    DoozR_Base
+ * @subpackage DoozR_Base_Crud
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Phptal/Service/Lib/PHPTAL.php';
 
 /**
- * DoozR - Phptal - Service
+ * DoozR Crud Interface
  *
- * Service for interfacing PHPTAL (PHP Template Attribute Language)
+ * Contract for DoozR compatible CRUD Classes.
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Phptal
+ * @package    DoozR_Base
+ * @subpackage DoozR_Base_Crud
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @service    Multiple
- * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Phptal_Service extends PHPTAL
+interface DoozR_Base_Crud_Interface
 {
     /**
-     * The DoozR registry for storing elements
-     *
-     * @var DoozR_Registry
-     * @access public
-     */
-    public $registry;
-
-    /**
-     * This method just intercepts while instanciation for
-     * filtering out the registry as argument to PHPTAL.
-     * PHPTAL takes only one argument -> the filename of the
-     * template.
-     *
-     * @param DoozR_Registry $registry The registry instance to intercept
-     * @param string         $path     The path+file to dispatch to PHPTAL
-     *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function __construct(DoozR_Registry $registry, $path = null)
-    {
-        $this->registry = $registry;
-
-        parent::__construct($path);
-    }
-
-    /**
-     * This method is intend to assign a variable to the template instance.
-     *
-     * @param mixed $variable The variable-name to assign
-     * @param mixed $value    The variable-value to assign
+     * Creates a new key value pair
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @throws DoozR_Exception
      */
-    public function assignVariable($variable = null, $value = null)
-    {
-        return ($this->{$variable} = $value);
-    }
+    public function create($key, $value);
 
     /**
-     * This method is intend to assign more than one variable at once
-     *
-     * @param array $variables The variables to assign as array
+     * Reads the value of the passed key
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return mixed Unknown stored value
      * @access public
      */
-    public function assignVariables(array $variables)
-    {
-        // assume successful result
-        $result = count($variables) ? true : false;
+    public function read($key);
 
-        // iterate and assign
-        foreach ($variables as $variable => $value) {
-            $result = ($result && $this->assignVariable($variable, $value));
-        }
+    /**
+     * Updates the value of a passed key
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function update($key, $value);
 
-        // return result of assigning
-        return $result;
-    }
+    /**
+     * Removes a key value pair
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function delete($key);
 }

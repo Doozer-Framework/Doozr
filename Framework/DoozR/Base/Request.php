@@ -55,7 +55,7 @@
  */
 
 //require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Securitylayer.php';
-include_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Parameter.php';
+include_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Arguments.php';
 
 /**
  * DoozR - Base - Request
@@ -232,7 +232,7 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     }
 
     /**
-     * Transforms a given global variable (e.g. _GET, _POST ...) to an object
+     * Transforms a given superglobal (e.g. _GET, _POST ...) to an object
      *
      * This method is intend to transforms a given global to an object and replace the original
      * PHP-Global with the new object.
@@ -248,8 +248,8 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
         // get prefix
         $globalVariable = $this->_addPrefix($globalVariable);
 
-        // store as global
-        $GLOBALS[$globalVariable] = new DoozR_Request_Parameter($globalVariable);
+        // replace passed superglobal with object-interface
+        $GLOBALS[$globalVariable] = new DoozR_Request_Arguments($globalVariable);
 
         // this enables us to use a quick preset without the
         // dependency to run a detection twice

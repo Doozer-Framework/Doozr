@@ -129,7 +129,7 @@ class DoozR_Di_Factory
         $this->_instanciable = $this->_reflector->isInstantiable();
 
         // default
-        if ($dependencies) {
+        if ($dependencies !== null) {
             // store constructor
             if (isset($dependencies['constructor'])) {
                 $this->_constructor = $dependencies['constructor'];

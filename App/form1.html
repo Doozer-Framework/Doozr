@@ -1,0 +1,43 @@
+
+<form class="DoozR_Form_Service_Form" doozr-step="1" doozr-steps="2" doozr-novalidate="true" doozr-on-invalid-token="1" name="register" method="POST" action="/App/form.php" enctype="application/x-www-form-urlencoded" generated="true" novalidate="true">
+
+    <input type="hidden" name="DoozR_Form_Service_Submitted" id="DoozR_Form_Service_Submitted" value="register" />
+
+    <fieldset id="fieldset1" class="myclass">
+
+        <legend>Jetzt kostenlos registrieren:</legend>
+        <div class="DoozR_Form_Service_Fieldset_Container leftHalf" id="container_">
+            <input type="email" name="mumu" doozr-validate="string,email" doozr-required="true" />
+        </div>
+
+        <div class="DoozR_Form_Service_Fieldset_Container leftHalf" id="container_gender-1">
+            <input type="radio" name="gender" id="gender-1" doozr-required="true" value="mrs" tabindex="1" />
+            <label for="gender-1" id="label_gender-1">Frau</label>
+        </div>
+
+        <div class="DoozR_Form_Service_Fieldset_Container rightHalf" id="container_gender-2">
+            <input type="radio" name="gender" id="gender-2" doozr-required="true" value="mr" tabindex="2" />
+            <label for="gender-2" id="label_gender-2">Herr</label>
+        </div>
+
+        <div class="DoozR_Form_Service_Fieldset_Container" id="container_name">
+            <label for="name" id="label_name">Name:</label>
+            <input type="text" name="name" id="name" autocapitalize="off" doozr-required="true" tabindex="3" />
+        </div>
+
+        <div class="DoozR_Form_Service_Fieldset_Container" id="container_agb">
+            <input type="checkbox" name="agb" id="agb" doozr-required="true" doozr-validate="boolean" value="true" tabindex="7" />
+            <label for="agb" id="label_agb">Ich akzeptiere die <a href="#">AGB</a> und die <a href="#">Datenschutzbestimmungen</a></label>
+        </div>
+
+        <div class="DoozR_Form_Service_Fieldset_Container" id="container_submit-register">
+            <input type="submit" name="submit-register" id="submit-register" value="Weiter zu Schritt 2" tabindex="8" />
+        </div>
+
+        <div class="DoozR_Form_Service_Fieldset_Container" id="container_reset-register">
+            <input type="reset" name="reset-register" id="reset-register" value="abbrechen" tabindex="9">
+        </div>
+
+	</fieldset>
+
+</form>

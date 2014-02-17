@@ -182,7 +182,7 @@ implements DoozR_Cache_Service_Container_Interface
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */
-    public function create($id, $value, $expires, $group)
+    public function create($id, $value, $expires, $group, $userdata = null)
     {
         // unique key
         $key = $this->_uniquifyId($id, $group);
@@ -249,7 +249,7 @@ implements DoozR_Cache_Service_Container_Interface
      * @return boolean TRUE on success
      * @access public
      */
-    public function update($id, $value, $expires, $group, $userdata)
+    public function update($id, $value, $expires, $group, $userdata = null)
     {
         return $this->_connection->replace(
             md5(self::UNIQUE_IDENTIFIER.$group.$id),

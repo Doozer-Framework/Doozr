@@ -73,7 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Validate.php';
  * @service    Singleton
  * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
-final class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade
+class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade
 {
     /**
      * The request method (e.g. POST || GET) for faster access
@@ -546,7 +546,7 @@ final class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade
                     $currentObject = $request->get($name);
 
                     // check if request-object isset - or if is_null
-                    if ($currentObject && $currentObject instanceof DoozR_Request_Value) {
+                    if ($currentObject && $currentObject instanceof DoozR_Request_Argument) {
                         //$this->setImpact(123, $name);
                         $this->setImpact($currentObject->getImpact(), $name);
                     }

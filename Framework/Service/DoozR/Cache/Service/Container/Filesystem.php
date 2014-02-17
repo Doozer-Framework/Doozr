@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Container.php';
@@ -70,10 +68,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Container/Interfac
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  * @throws     Service_DoozR_Cache_Service_Exception
- * @service  Multiple
+ * @service    Multiple
  */
 class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Container
 implements DoozR_Cache_Service_Container_Interface
@@ -172,12 +168,10 @@ implements DoozR_Cache_Service_Container_Interface
      *
      * @param array $options Custom configuration options
      *
-     * @return  object instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function __construct(array $options = array())
     {
@@ -206,12 +200,10 @@ implements DoozR_Cache_Service_Container_Interface
      * @param string $id    The id of the dataset
      * @param string $group The group of the dataset
      *
-     * @return  boolean TRUE if file exist, otherwise FALSE
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if file exist, otherwise FALSE
+     * @access protected
+     * @throws DoozR_Cache_Service_Exception
      */
     protected function idExists($id, $group)
     {
@@ -225,12 +217,10 @@ implements DoozR_Cache_Service_Container_Interface
      *
      * This method is intend to do some very important bug-prevention operations.
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
+     * @throws DoozR_Cache_Service_Exception
      */
     private function _preventiveCorrections()
     {
@@ -260,12 +250,10 @@ implements DoozR_Cache_Service_Container_Interface
      *
      * @param string $directory The directory to delete/remove/unlink
      *
-     * @return  mixed Number of removed entries on success, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of removed entries on success, otherwise FALSE
+     * @access private
+     * @throws DoozR_Cache_Service_Exception
      */
     private function _removeEntries($directory)
     {
@@ -331,11 +319,9 @@ implements DoozR_Cache_Service_Container_Interface
      *
      * @param string $group The dataset group to flush
      *
-     * @return  mixed Number of removed datasets on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of removed datasets on success, otherwise FALSE
+     * @access public
      */
     public function flush($group)
     {
@@ -364,20 +350,19 @@ implements DoozR_Cache_Service_Container_Interface
      * This method is intend to write data to cache.
      * WARNING: If you supply userdata it must not contain any linebreaks, otherwise it will break the filestructure.
      *
-     * @param string  $id       The dataset Id
-     * @param string  $data     The data to write to cache
-     * @param integer $expires  Date/Time on which the cache-entry expires
-     * @param string  $group    The dataset group
-     * @param string  $userdata The custom userdata to add
+     * @param string     $id       The dataset Id
+     * @param string     $data     The data to write to cache
+     * @param integer    $expires  Date/Time on which the cache-entry expires
+     * @param string     $group    The dataset group
+     * @param string     $userdata The custom userdata to add
+     * @param null|mixed $userdata The additional userdata
      *
-     * @return  boolean TRUE on success
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
-    public function create($id, $data, $expires, $group, $userdata)
+    public function create($id, $data, $expires, $group, $userdata = null)
     {
         // flush
         $this->flushPreload($id, $group);
@@ -428,12 +413,10 @@ implements DoozR_Cache_Service_Container_Interface
      * @param string $id    The dataset Id
      * @param string $group The dataset group
      *
-     * @return  array The data from cache
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The data from cache
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function read($id, $group)
     {
@@ -500,11 +483,9 @@ implements DoozR_Cache_Service_Container_Interface
      * @param string $id    The id of the dataset
      * @param string $group The group of the dataset
      *
-     * @return  boolean TRUE on success, otherwise FALSE
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
      */
     public function delete($id, $group)
     {
@@ -541,12 +522,10 @@ implements DoozR_Cache_Service_Container_Interface
      *
      * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
-     * @return  boolean The result of the operation
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean The result of the operation
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function garbageCollection($maxlifetime)
     {
@@ -590,12 +569,10 @@ implements DoozR_Cache_Service_Container_Interface
      * @param string $id    The dataset Id
      * @param string $group The cache group
      *
-     * @return  string The filename
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The filename
+     * @access private
+     * @throws DoozR_Cache_Service_Exception
      */
     private function _getFilename($id, $group)
     {
@@ -641,12 +618,10 @@ implements DoozR_Cache_Service_Container_Interface
      * @param string  $directory   Directory to examine - don't sets this parameter, it's used for a
      *                             recursive function call!
      *
-     * @return  void
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
+     * @throws DoozR_Cache_Service_Exception
      */
     private function _doGarbageCollection($maxlifetime, $directory)
     {
@@ -712,5 +687,3 @@ implements DoozR_Cache_Service_Container_Interface
         clearstatcache();
     }
 }
-
-?>

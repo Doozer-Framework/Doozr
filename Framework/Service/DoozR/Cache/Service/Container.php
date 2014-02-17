@@ -239,7 +239,7 @@ abstract class DoozR_Cache_Service_Container
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */
-    public function update($id, $data, $expires, $group, $userdata)
+    public function update($id, $data, $expires, $group, $userdata = null)
     {
         $this->create($id, $data, $expires, $group, $userdata);
     }
@@ -599,5 +599,3 @@ abstract class DoozR_Cache_Service_Container
      */
     abstract public function flush($group);
 }
-
-?>

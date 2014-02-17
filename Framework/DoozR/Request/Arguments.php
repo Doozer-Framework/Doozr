@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Request Parameter
+ * DoozR Request Arguments
  *
- * Parameter.php - This class is used as replacement for PHP's Globals. It includes
+ * Arguments.php - This class is used as replacement for PHP's Globals. It includes
  * the Iterator- and ArrayAccess-Interface to keep original Globals functionality.
  *
  * PHP versions 5
@@ -45,37 +45,33 @@
  *
  * @category   DoozR
  * @package    DoozR_Request
- * @subpackage DoozR_Request_Parameter
+ * @subpackage DoozR_Request_Arguments
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Value.php';
+require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Argument.php';
 
 /**
- * DoozR Request Parameter
+ * DoozR Request Arguments
  *
  * This class is used as replacement for PHP's Globals. It includes the Iterator-
  * and ArrayAccess-Interface to keep original Globals functionality.
  *
  * @category   DoozR
  * @package    DoozR_Request
- * @subpackage DoozR_Request_Parameter
+ * @subpackage DoozR_Request_Arguments
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, ArrayAccess
+class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, ArrayAccess
 {
     /**
      * holds the parameter(s)
@@ -375,7 +371,7 @@ class DoozR_Request_Parameter extends DoozR_Base_Class implements Iterator, Arra
             // parse input contents
             foreach ($input as $key => $value) {
                 // transform each key/value-pair from array to object of type DoozR_Request_Value
-                $input[$key] = new DoozR_Request_Value($value);
+                $input[$key] = new DoozR_Request_Argument($value);
             }
         }
 

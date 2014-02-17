@@ -74,7 +74,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Api.php';
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-final class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
+class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
 {
     /**
      * Request object to use with DoozR Rest or Soap

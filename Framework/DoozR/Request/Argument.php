@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Request Value
+ * DoozR Request Argument
  *
- * Value.php - The Value part of DoozR_Request_Parameter (Parameter => Value).
+ * Argument.php - The Argument part of DoozR_Request_Arguments (Parameter => Argument).
  *
  * PHP versions 5
  *
@@ -37,7 +37,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Request
- * @subpackage DoozR_Request_Value
+ * @subpackage DoozR_Request_Argument
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -46,20 +46,20 @@
  */
 
 /**
- * DoozR Request Value
+ * DoozR Request Argument
  *
- * The Value part of DoozR_Request_Parameter (Parameter => Value).
+ * The Argument part of DoozR_Request_Arguments (Parameter => Argument).
  *
  * @category   DoozR
  * @package    DoozR_Request
- * @subpackage DoozR_Request_Value
+ * @subpackage DoozR_Request_Argument
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Request_Value
+class DoozR_Request_Argument
 {
     /**
      * holds the sanitized/cleaned value
@@ -93,11 +93,9 @@ class DoozR_Request_Value
      *
      * @param mixed $value The value to set
      *
-     * @return  object An instance of this class
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return object An instance of this class
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct($value)
     {
@@ -147,15 +145,16 @@ class DoozR_Request_Value
      *
      * @param mixed $value The value to set
      *
-     * @return  boolean TRUE if successful set, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return boolean TRUE if successful set, otherwise FALSE
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function set($value)
     {
-        return ($this->_value = $value);
+        return (
+            ($this->_value = $this->clean($value, true, false)) &&
+            ($this->_rawValue = $value)
+        );
     }
 
     /**
@@ -163,15 +162,16 @@ class DoozR_Request_Value
      *
      * returns the (sanitized) value
      *
-     * @return  mixed The value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return mixed The value
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function get()
     {
-        return $this->_value;
+        return array(
+            'sanitized' => $this->_value,
+            'raw'       => $this->_rawValue
+        );
     }
 
     /**
@@ -181,11 +181,9 @@ class DoozR_Request_Value
      *
      * @param mixed $value The value to set
      *
-     * @return  boolean TRUE if successful set, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return boolean TRUE if successful set, otherwise FALSE
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setRaw($value)
     {
@@ -197,11 +195,9 @@ class DoozR_Request_Value
      *
      * returns the raw (original) value
      *
-     * @return  mixed The raw/original value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return mixed The raw/original value
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getRaw()
     {
@@ -215,11 +211,9 @@ class DoozR_Request_Value
      *
      * @param mixed $value The sanitized/cleaned value
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setSanitized($value)
     {
@@ -231,11 +225,9 @@ class DoozR_Request_Value
      *
      * returns the (sanitized) value
      *
-     * @return  mixed The value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return mixed The value
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getSanitized()
     {
@@ -249,11 +241,9 @@ class DoozR_Request_Value
      *
      * @param integer $impact The impact of this Request-Value
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setImpact($impact = 0)
     {
@@ -265,11 +255,9 @@ class DoozR_Request_Value
      *
      * returns the impact of this value
      *
-     * @return  integer The impact of this Request-Value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return integer The impact of this Request-Value
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getImpact()
     {

@@ -77,7 +77,7 @@ class DoozR_Request_Api
     /**
      * Arguments passed to script via GET, POST, CLI ...
      *
-     * @var DoozR_Request_Parameter
+     * @var DoozR_Request_Arguments
      * @access public
      */
     public $arguments;

@@ -107,6 +107,22 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     const TYPE = 'web';
 
+    /**
+     * Request-Method-Types
+     * supported by this controller
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const METHOD_GET     = 'GET';
+    const METHOD_PUT     = 'PUT';
+    const METHOD_POST    = 'POST';
+    const METHOD_HEAD    = 'HEAD';
+    const METHOD_OPTIONS = 'OPTIONS';
+    const METHOD_DELETE  = 'DELETE';
+    const METHOD_TRACE   = 'TRACE';
+
 
     /**
      * Constructor of this class
@@ -140,7 +156,8 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
             'REQUEST'     => self::NATIVE,
             'SESSION'     => self::NATIVE,
             'ENVIRONMENT' => self::NATIVE,
-            'SERVER'      => self::NATIVE
+            'SERVER'      => self::NATIVE,
+            'FILES'       => self::NATIVE,
         );
 
         // check for ssl forcement
@@ -169,7 +186,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     public function isGet()
     {
-        return ($this->getMethod() === 'GET');
+        return ($this->getMethod() === self::METHOD_GET);
     }
 
     /**
@@ -182,7 +199,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     public function isHead()
     {
-        return ($this->getMethod() === 'HEAD');
+        return ($this->getMethod() === self::METHOD_HEAD);
     }
 
     /**
@@ -195,7 +212,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     public function isPut()
     {
-        return ($this->getMethod() === 'PUT');
+        return ($this->getMethod() === self::METHOD_PUT);
     }
 
     /**
@@ -208,7 +225,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     public function isPost()
     {
-        return ($this->getMethod() === 'POST');
+        return ($this->getMethod() === self::METHOD_POST);
     }
 
     /**
@@ -221,7 +238,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     public function isDelete()
     {
-        return ($this->getMethod() === 'DELETE');
+        return ($this->getMethod() === self::METHOD_DELETE);
     }
 
     /**
@@ -234,7 +251,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     public function isOptions()
     {
-        return ($this->getMethod() === 'OPTIONS');
+        return ($this->getMethod() === self::METHOD_OPTIONS);
     }
 
     /**
@@ -247,7 +264,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     public function isTrace()
     {
-        return ($this->getMethod() === 'TRACE');
+        return ($this->getMethod() === self::METHOD_TRACE);
     }
 
     /**
@@ -470,7 +487,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * This is a shortcut to allmost every (public-)method DoozR offers
+     * This is a shortcut to globals conversion
      *
      * @param string $method    The name of the method called
      * @param array  $arguments The parameter of the method call
@@ -485,7 +502,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
             self::$initialized[$method] = $this->transform($method);
         }
 
-        if (in_array($method, $this->_requestSources) && count($arguments)==0) {
+        if (in_array($method, $this->_requestSources) && count($arguments) === 0) {
             return $GLOBALS['_'.$method];
         }
     }
