@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Request.php';
@@ -70,8 +68,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Interface
 {
@@ -167,7 +163,9 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
         $this->emulateRequest();
 
         // check automatic conversion of input
-        $this->arguments = $this->transformToRequestObject($this->getMethod());
+        $this->arguments = $this->transformToRequestObject(
+            $this->getMethod()
+        );
 
         // protocolize the incoming request data
         $this->_protocolize();
@@ -497,6 +495,10 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     public function __call($method, $arguments)
     {
+        throw new Exception(
+            'DANGER: This should not be happened exception :('
+        );
+
         // check if init done for requested source;
         if (!isset(self::$initialized[$method])) {
             self::$initialized[$method] = $this->transform($method);

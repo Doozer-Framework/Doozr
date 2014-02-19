@@ -62,28 +62,28 @@
 class DoozR_Request_Argument
 {
     /**
-     * holds the sanitized/cleaned value
+     * The sanitized/cleaned value
      *
      * @var mixed
-     * @access private
+     * @access protected
      */
-    private $_value;
+    protected $value;
 
     /**
-     * holds the raw (original + unmodified) value
+     * The raw (original + unmodified) value
      *
      * @var mixed
-     * @access private
+     * @access protected
      */
-    private $_rawValue;
+    protected $rawValue;
 
     /**
-     * holds the impact of this parameter-value
+     * The impact of this parameter-value
      *
      * @var integer
-     * @access private
+     * @access protected
      */
-    private $_impact = 0;
+    protected $impact = 0;
 
 
     /**
@@ -100,10 +100,10 @@ class DoozR_Request_Argument
     public function __construct($value)
     {
         // (pre)set value of this request-value
-        $this->_value = $this->clean($value, true, false);
+        $this->value = $this->clean($value, true, false);
 
         // set value of this request-value
-        $this->_rawValue = $value;
+        $this->rawValue = $value;
     }
 
     /**
@@ -152,8 +152,8 @@ class DoozR_Request_Argument
     public function set($value)
     {
         return (
-            ($this->_value = $this->clean($value, true, false)) &&
-            ($this->_rawValue = $value)
+            ($this->value = $this->clean($value, true, false)) &&
+            ($this->rawValue = $value)
         );
     }
 
@@ -169,8 +169,8 @@ class DoozR_Request_Argument
     public function get()
     {
         return array(
-            'sanitized' => $this->_value,
-            'raw'       => $this->_rawValue
+            'sanitized' => $this->value,
+            'raw'       => $this->rawValue
         );
     }
 
@@ -187,7 +187,7 @@ class DoozR_Request_Argument
      */
     public function setRaw($value)
     {
-        return ($this->_rawValue = $value);
+        return ($this->rawValue = $value);
     }
 
     /**
@@ -201,7 +201,7 @@ class DoozR_Request_Argument
      */
     public function getRaw()
     {
-        return $this->_rawValue;
+        return $this->rawValue;
     }
 
     /**
@@ -217,7 +217,7 @@ class DoozR_Request_Argument
      */
     public function setSanitized($value)
     {
-        $this->_value = $value;
+        $this->value = $value;
     }
 
     /**
@@ -231,7 +231,7 @@ class DoozR_Request_Argument
      */
     public function getSanitized()
     {
-        return $this->_value;
+        return $this->value;
     }
 
     /**
@@ -247,7 +247,7 @@ class DoozR_Request_Argument
      */
     public function setImpact($impact = 0)
     {
-        $this->_impact = $impact;
+        $this->impact = $impact;
     }
 
     /**
@@ -261,6 +261,6 @@ class DoozR_Request_Argument
      */
     public function getImpact()
     {
-        return $this->_impact;
+        return $this->impact;
     }
 }

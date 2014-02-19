@@ -71,15 +71,18 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Argument.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, ArrayAccess
+class DoozR_Request_Arguments extends DoozR_Base_Class
+    implements
+    Iterator,
+    ArrayAccess
 {
     /**
-     * holds the parameter(s)
+     * The arguments
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_parameter = array();
+    protected $arguments = array();
 
     /**
      * holds the original input this can be either $_GET, $_POST,
@@ -117,9 +120,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
 
 
     /**
-     * constructs the class
-     *
-     * constructor builds the class
+     * Constrcuctor
      *
      * @param mixed $global String (name of a global-array) or (global)-Array to parse
      *
@@ -138,8 +139,6 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
         return false;
     }
 
-
-
     /**
      * transforms input to object
      *
@@ -153,7 +152,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
      */
     private function _processInput($global)
     {
-        // check if parameter is of type string
+        // check if arguments is of type string
         if (is_array($global)) {
             // we retrieved the array to parse
             $this->_input = $global;
@@ -166,13 +165,10 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
             // we need to reference the global array's like $_GET and $_POST like
             // you see in the following lines (we can reference $_GET in the normal way, but trying to get
             // $_GET referenced at runtime with $$ fails)
-            //global $$global;
-            //$this->_input = $$global;
             $this->_input = $GLOBALS[$global];
         }
 
-        // transform our global input from array to object (with ArrayAccess-Interface)
-        $this->_parameter = $this->_transformToObject($this->_input);
+        $this->arguments = $this->_transformToObject($this->_input);
     }
 
     /*******************************************************************************************************************
@@ -205,7 +201,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
      */
     public function valid()
     {
-        return ($this->_iteratorPosition < count($this->_parameter));
+        return ($this->_iteratorPosition < count($this->arguments));
     }
 
     /**
@@ -220,7 +216,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
     public function key()
     {
         $i = 0;
-        foreach ($this->_parameter as $key => $value) {
+        foreach ($this->arguments as $key => $value) {
             if ($i == $this->_iteratorPosition) {
                 return $key;
             }
@@ -240,7 +236,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
     public function current()
     {
         $i = 0;
-        foreach ($this->_parameter as $key => $value) {
+        foreach ($this->arguments as $key => $value) {
             if ($i == $this->_iteratorPosition) {
                 return $value;
             }
@@ -285,13 +281,13 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
     public function offsetSet($offset, $value)
     {
         // check if offset already exist
-        if (isset($this->_parameter[$offset])) {
+        if (isset($this->arguments[$offset])) {
             // if exist => patch existing entry
-            $this->_parameter[$offset]->set($value);
-            $this->_parameter[$offset]->setRaw($value);
+            $this->arguments[$offset]->set($value);
+            $this->arguments[$offset]->setRaw($value);
         } else {
             // otheriwse => create new entry
-            $this->_parameter[$offset] = new Request_Value($value);
+            $this->arguments[$offset] = new Request_Value($value);
         }
 
         // success
@@ -311,7 +307,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
      */
     public function offsetExists($offset)
     {
-        return isset($this->_parameter[$offset]);
+        return isset($this->arguments[$offset]);
     }
 
     /**
@@ -327,7 +323,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
      */
     public function offsetUnset($offset)
     {
-        unset($this->_parameter[$offset]);
+        unset($this->arguments[$offset]);
     }
 
     /**
@@ -343,11 +339,12 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
      */
     public function offsetGet($offset)
     {
-        return isset($this->_parameter[$offset]) ? $this->_parameter[$offset]->getRaw() : null;
+        $value = isset($this->arguments[$offset]) ? $this->arguments[$offset]->getRaw() : null;
+        return $value;
     }
 
     /*******************************************************************************************************************
-     * \\ END INTERFACE ArrayAcces METHODS
+     * \\ END INTERFACE ArrayAccess METHODS
      ******************************************************************************************************************/
 
     /**
@@ -385,22 +382,22 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
      * this is a shortcut to allmost every (public-)method DoozR offers
      *
      * @param string $method    the name of the method called
-     * @param array  $parameter the parameter of the method call
+     * @param array  $arguments the arguments of the method call
      *
      * @return mixed depends on input!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access magic
      */
-    public function __call($method, $parameter)
+    public function __call($method, $arguments)
     {
-        if (isset($this->_parameter[$method])) {
-            if (isset($parameter) && isset($parameter[0]) && $parameter[0] === true) {
+        if (isset($this->arguments[$method])) {
+            if (isset($arguments) && isset($arguments[0]) && $arguments[0] === true) {
                 // return RAW
-                return $this->_parameter[$method]->getRaw();
+                return $this->arguments[$method]->getRaw();
             } else {
                 // simply return value
-                return $this->_parameter[$method]->get();
+                return $this->arguments[$method]->get();
             }
         }
 
@@ -409,28 +406,28 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
     }
 
     /**
-     * __magic hook - An interface to access parameter as property
+     * __magic hook - An interface to access arguments as property
      *
-     * __magic hook - An interface to access parameter as property
+     * __magic hook - An interface to access arguments as property
      *
      * @param string $propertyName The name of the property requested
      *
-     * @return mixed NULL if the parameter isn't defined otherwise the parameter
+     * @return mixed NULL if the arguments isn't defined otherwise the arguments
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access magic
      */
     public function __get($propertyName)
     {
-        // check if passed argument is a valid global post/get/... parameter:value
-        if (isset($this->_parameter[$propertyName])) {
+        // check if passed argument is a valid global post/get/... arguments:value
+        if (isset($this->arguments[$propertyName])) {
             // simply return value
-            //return $this->_parameter[$propertyName]->get();
-            return $this->_parameter[$propertyName];
+            //return $this->arguments[$propertyName]->get();
+            return $this->arguments[$propertyName];
         }
 
         /*
-        // if parameter (property) not defined
+        // if arguments (property) not defined
         $trace = debug_backtrace();
 
         // trigger error
@@ -447,7 +444,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
 
     /**
      * isset() transformation function for proxying isset() checks on
-     * properties of the instance to _parameter[].
+     * properties of the instance to arguments[].
      *
      * @param string $propertyName The property to check
      *
@@ -458,27 +455,27 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
      */
     public function __isset($propertyName)
     {
-        return (isset($this->_parameter[$propertyName]));
+        return (isset($this->arguments[$propertyName]));
     }
 
     /**
-     * returns the value for the requested parameter
+     * returns the value for the requested arguments
      *
-     * returns the value for the requested parameter if it exists, otherwise NULL
+     * returns the value for the requested arguments if it exists, otherwise NULL
      *
-     * @param string $parameter The parameter to return the value for
+     * @param string $arguments The arguments to return the value for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The value for the parameter if parameter exist, otherwise NULL
+     * @return mixed The value for the arguments if arguments exist, otherwise NULL
      * @access public
      */
-    public function get($parameter = null)
+    public function get($arguments = null)
     {
-        if (!is_null($parameter)) {
-            // check if parameter is defined/set
-            if (isset($this->_parameter[$parameter])) {
-                // if parameter is defined then we return it
-                return $this->_parameter[$parameter];
+        if (!is_null($arguments)) {
+            // check if arguments is defined/set
+            if (isset($this->arguments[$arguments])) {
+                // if arguments is defined then we return it
+                return $this->arguments[$arguments];
             }
         }
 
@@ -506,9 +503,9 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
     }
 
     /**
-     * returns all defined parameter (the whole array)
+     * returns all defined arguments (the whole array)
      *
-     * this method returns all defined parameters! the whole array of Request_Value('s)
+     * this method returns all defined argumentss! the whole array of Request_Value('s)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array
@@ -516,21 +513,33 @@ class DoozR_Request_Arguments extends DoozR_Base_Class implements Iterator, Arra
      */
     public function getAll()
     {
-        return $this->_parameter;
+        return $this->arguments;
     }
 
     /**
-     * returns the parameter of this class as string
-     *
-     * This method is intend to return the parameter of this class as string
+     * Returns the request method from arguments context.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The defined parameter-name and -value
+     * @return string The request method
+     * @access public
+     */
+    public function getSource()
+    {
+        return strtolower(str_replace('_', '', $this->_target));
+    }
+
+    /**
+     * returns the arguments of this class as string
+     *
+     * This method is intend to return the arguments of this class as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The defined arguments-name and -value
      * @access public
      */
     public function __toString()
     {
-        return var_export($this->_parameter, true);
+        return var_export($this->arguments, true);
     }
 
     /**

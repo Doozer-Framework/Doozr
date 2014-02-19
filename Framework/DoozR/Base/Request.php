@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 //require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Securitylayer.php';
@@ -70,8 +68,6 @@ include_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Arguments.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Base_Request // extends DoozR_Request_Securitylayer
 {
@@ -201,6 +197,20 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     }
 
     /**
+     * Returns the arguments of current request
+     *
+     * This method is intend to return the arguments stored
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_Arguments The current set of arguments
+     * @access public
+     */
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+
+    /**
      * Transforms a given PHP-Global (e.g. SERVER [without "$_"]) to an object with an array interface
      *
      * This method is intend to transform a given PHP-Global (e.g. SERVER [without "$_"])
@@ -212,6 +222,8 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      */
     public function transform()
     {
+        pre('Transform 2');
+
         // get dynamic the sources
         $requestSources = array_change_value_case(func_get_args(), CASE_UPPER);
 
@@ -249,7 +261,9 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
         $globalVariable = $this->_addPrefix($globalVariable);
 
         // replace passed superglobal with object-interface
-        $GLOBALS[$globalVariable] = new DoozR_Request_Arguments($globalVariable);
+        if (isset($GLOBALS[$globalVariable]) && !($GLOBALS[$globalVariable] instanceof DoozR_Request_Arguments)) {
+            $GLOBALS[$globalVariable] = new DoozR_Request_Arguments($globalVariable);
+        }
 
         // this enables us to use a quick preset without the
         // dependency to run a detection twice
