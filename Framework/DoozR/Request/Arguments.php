@@ -584,4 +584,22 @@ class DoozR_Request_Arguments extends DoozR_Base_Class
         // restore original array from php here cause on gc otherwise boom ...
         $GLOBALS[$this->_target] = $this->_input;
     }
+
+
+    protected function setProperty($key, $value)
+    {
+        /*
+        pred($value);
+        pre(
+            $this->_transformToObject($value)
+        );
+        pred('so');
+        */
+    }
+
+
+    public function __set($key, $value)
+    {
+        return $this->setProperty($key, $value);
+    }
 }

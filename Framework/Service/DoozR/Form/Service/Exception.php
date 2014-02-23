@@ -2,10 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Form - Validate
+ * DoozR - Form - Service
  *
- * Validate.php - Validation base class for validating basic types and
- * as a base for applications internal validation
+ * Exception.php - Base exception for Form Service.
  *
  * PHP versions 5
  *
@@ -51,16 +50,14 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
 
 /**
- * DoozR - Service - Form - Exception
+ * DoozR - Form - Service
  *
- * Exception-Class of the DoozR Form Service
+ * Base exception for Form Service.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,17 +65,12 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Form_Service_Exception extends DoozR_Base_Exception
 {
     /**
-     *
+     * intentionally left blank - currently only used for structuring
      */
-
-
 }
-
-?>

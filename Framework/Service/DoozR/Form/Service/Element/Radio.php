@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * Radio.php - Radio class for creating fields e.g. of type "Radio"
+ * Radio.php - Extension to default Input-Element <input type="..." ...
+ * but with some specific radio-field tuning.
  *
  * PHP versions 5
  *
@@ -50,17 +51,15 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * Radio class for creating fields e.g. of type "radio"
+ * Extension to default Input-Element <input type="..." ...
+ * but with some specific radio-field tuning.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,204 +67,139 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Release: @package_version@
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class Radio extends DoozR_Form_Service_Element_Abstract implements DoozR_Form_Service_Element_Interface
+class DoozR_Form_Service_Element_Radio extends DoozR_Form_Service_Element_Input
 {
     /**
-     * The checked status for radio-field
+     * Constructor.
      *
-     * @var boolean
-     * @access private
-     */
-    private $_checked = false;
-
-    /**
-     * Positioning array of this element
-     * Default RADIO LABEL ERROR
-     *
-     * @var array
-     * @access protected
-     */
-    protected $position = array(
-        'label'   => 1,
-        'element' => 0,
-        'error'   => 2
-    );
-
-
-    /*******************************************************************************************************************
-     * // BEGIN - PUBLIC TEXTAREA SPECIFIC PROPERTY SETTER AND GETTER
-     ******************************************************************************************************************/
-
-    /**
-     * sets the value of the input field - override for abstract's setValue() cause we need always
-     * overwrite existing value (second parameter TRUE) for correct working radio-fields
-     *
-     * This method is intend to set the value of the input field
-     *
-     * @param mixed   $value                  The value to set for this input-field
-     * @param boolean $overrideSubmittedValue TRUE to override a submitted value
+     * @param string $name      The name of the element
+     * @param array  $arguments The arguments passed with current request (e.g. $_POST, $_GET ...)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return DoozR_Form_Service_Element_Radio Instance of this class
      * @access public
      */
-    public function setValue($value, $overrideSubmittedValue = true)
-    {
-        return parent::setValue($value, true);
+    public function __construct(
+        $name,
+        $arguments = array(),
+        $registry = array()
+    ) {
+        $this->setType('radio');
+        return parent::__construct($name, $arguments, $registry);
     }
 
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * sets the value of the input field - override for abstract's setValue() cause we need always
-     * overwrite existing value (second parameter TRUE) for correct working radio-fields
+     * Checks this element.
      *
-     * This method is intend to set the value of the input field
-     *
-     * @param mixed   $value                  The value to set for this input-field
-     * @param boolean $overrideSubmittedValue TRUE to override a submitted value
+     * @param boolean $override TRUE to force check, FALSE to preserve unchecked state if not active
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Radio The current active instance
+     * @return void
      * @access public
      */
-    public function value($value, $overrideSubmittedValue = true)
+    public function check($override = false)
     {
-        $this->setValue($value, $overrideSubmittedValue);
-
-        // for chaining
-        return $this;
+        if ($override === true || $this->wasSubmitted() === false || $this->isActive() === true) {
+            $this->setAttribute('checked', 'checked');
+        }
     }
 
     /**
-     * preselects this radio-field or removes preselection
+     * Unchecks this element.
      *
-     * This method is intend to preselect this radio-field or removes preselection
-     *
-     * @param boolean $status TRUE to preselect field, otherwise FALSE to remove preselection
+     * @param boolean $override TRUE to force uncheck, FALSE to preserve checked state if not active
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Radio The current active instance
+     * @return void
      * @access public
      */
-    public function preselected($status = true)
+    public function uncheck($override = false)
     {
-        // preselect?
-        if ($status) {
-            // now ensure that form wasn't submitted or no value was submitted
-            if (!$this->submitted || is_null($this->getValue())) {
-                $this->_checked = true;
-            }
-        } else {
-            // remove preselection
-            $this->_checked = false;
+        if ($override === true || $this->wasSubmitted() === false || $this->isActive() === false) {
+            $this->removeAttribute('checked');
+        }
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Setter & Getter
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for value.
+     *
+     * @param string $value The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setValue($value)
+    {
+        // check if element must be checked
+        $arguments = $this->getArguments();
+        $registry  = $this->getRegistry('data', array());
+
+        if (
+            (isset($arguments[$this->getName()]) && $arguments[$this->getName()] == $value) ||
+            (isset($registry[$this->getName()]) && $registry[$this->getName()] == $value)
+        ) {
+            $this->setAttribute('checked', 'checked');
         }
 
-        // for chaining
-        return $this;
+        $this->setAttribute('value', $value);
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Tools & Helper
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the submission status of this element.
+     *
+     * @param string $name The name to use for check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if was submitted, otherwise FALSE
+     * @access protected
+     */
+    protected function wasSubmitted()
+    {
+        $arguments = $this->getArguments();
+
+        return (isset($arguments[$this->getName()]));
     }
 
     /**
-     * checks the input-field is valid
-     *
-     * This method is intend to check if the input-field is valid
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if field is valid, otherwise FALSE
-     * @access protected
-     */
-    public function isValid()
-    {
-        // check if form was submitted
-        if ($this->submitted) {
-
-            // get session module
-            $session = DoozR_Loader_Serviceloader::load('session');
-
-            // get swtup/config of form from session
-            $validationType = $session->get($this->parent);
-
-            // check if field is set and if it is required
-            if (isset($validationType[$this->name]['validType'])) {
-                // retrieve the value we expect for match-check
-                $valueExpected = $validationType[$this->name]['validType'];
-
-                // retrieve the retrieved value from request
-                $valueRetrieved = $this->getValue(true);
-
-                // if both values don't match => return FALSE (invalid)
-                if (!in_array($valueRetrieved, $valueExpected)) {
-                    return false;
-                }
-            }
-        }
-
-        // if not submitted all values are valid ones
-        return true;
-    }
-
-    /**
-     * Renders the label and returns HTML-code
+     * Returns the active status of this element.
+     * Active = TRUE means that this element was selected (from a group of elements).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string generated HTML-code
+     * @return boolean TRUE if the element is active, FALSE if not
      * @access protected
      */
-    protected function renderLabel()
+    protected function isActive()
     {
-        $message = $this->getMessage('label');
-        $id      = ($this->getId()) ? ' id="label_'.$this->getId().'"' : '';
-        $style   = (isset($style['style']) && $style['style'] !== null) ? ' style="'.$style['style'].'"' : '';
-        $css     = (isset($style['css']) && $style['css'] !== null) ? ' class="'.$style['css'].'" ' : '';
-        $html    = '<label for="'.(($this->getId()) ? $this->getId() : $this->getName()).'"'.$id.$css.$style.'>'.
-                        $message.'</label>'.$this->nl();
+        // assume not active
+        $result = false;
 
-        return $html;
+        // check if element must be checked
+        $arguments = $this->getArguments();
+        $registry  = $this->getRegistry('data', array());
+
+        if (
+            (isset($arguments[$this->getName()]) && $arguments[$this->getName()] == $this->getValue()) ||
+            (isset($registry[$this->getName()]) && $registry[$this->getName()] == $this->getValue())
+        ) {
+            $result = true;
+        }
+
+        return $result;
     }
-
-    /**
-     * Renders the element and returns HTML-code
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string generated HTML-code
-     * @access protected
-     */
-    protected function renderElement()
-    {
-        $html = '';
-
-        $message = $this->getMessage('element');
-        $html    = '<input type="'.$this->type.'"';
-
-        foreach ($this->attributes as $attribute => $value) {
-            $html .= ' '.$attribute.'="'.$value.'"';
-        }
-
-        if ($this->submitted) {
-            // get submitted value for element
-            $value = $this->getSubmittedValue();
-
-        } elseif ($this->jumped) {
-            // get jump value for element
-            $value = $this->getJumpValue();
-        }
-
-        // and check if match
-        if ($this->_checked || (($value !== null) && $value == $this->getValue())) {
-            $html .= ' checked="checked"';
-        }
-
-        $html .= ' />'.$this->nl();
-
-        return $html;
-    }
-
-    /*******************************************************************************************************************
-     * \\ END - PUBLIC TEXTAREA SPECIFIC PROPERTY SETTER AND GETTER
-     ******************************************************************************************************************/
 }
-
-?>

@@ -495,10 +495,6 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     public function __call($method, $arguments)
     {
-        throw new Exception(
-            'DANGER: This should not be happened exception :('
-        );
-
         // check if init done for requested source;
         if (!isset(self::$initialized[$method])) {
             self::$initialized[$method] = $this->transform($method);

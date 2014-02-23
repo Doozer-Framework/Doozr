@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * Html.php - Html class for creating block-elements filled with HTML-Code
+ * Html.php - Extension to default Input-Element required if HTML
+ * should be inserted into form.
  *
  * PHP versions 5
  *
@@ -50,17 +51,15 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * Html class for creating block-elements filled with HTML-Code
+ * Extension to default Input-Element required if HTML
+ * should be inserted into form.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,82 +69,119 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class Html extends DoozR_Form_Service_Element_Abstract implements DoozR_Form_Service_Element_Interface
+class DoozR_Form_Service_Element_Html extends DoozR_Form_Service_Element_Input
 {
-    /*******************************************************************************************************************
-     * // BEGIN - PUBLIC HTML-CODE GENERATOR
-     ******************************************************************************************************************/
+    /**
+     * This is the tag-name for HTML output.
+     * e.g. "input" or "form"
+     *
+     * @var string
+     * @access protected
+     */
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_NONE;
 
     /**
-     * returns the generated HTML-code of this element
+     * Another template which supports inner HTML content!
      *
-     * This method is intend to return the generated HTML-code of this element.
+     * @var string
+     * @access protected
+     */
+    protected $template = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
+
+    /**
+     * The inner HTML string
      *
-     * @param integer $tabcount Count of tabulators to add for line intend
+     * @var string
+     * @access protected
+     */
+    protected $innerHtml = '';
+
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Specific renderer for DIV.
+     *
+     * @param boolean $forceRender TRUE to force rerendering of cached content
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The generated HTML-code for this element
+     * @return mixed|string HTML as string if set, otherwise NULL
      * @access public
      */
-    public function render($tabcount = 0)
+    public function render($forceRender = false)
     {
-        // render and return html-code
-        $html = $this->t($tabcount);
+        $html     = '';
+        $rendered = parent::render($forceRender);
 
-        // sort alpha inverted
-        sort($this->additionalHtml);
-        $this->additionalHtml = array_reverse($this->additionalHtml, true);
+        if ($this->innerHtml !== null) {
 
-        // iterate over stored html and add
-        foreach ($this->additionalHtml as $key => $htmlCode) {
-            $html .= $htmlCode;
+            $variables = array(
+                'inner-html' => $this->innerHtml
+            );
+
+            $html = $this->_tpl($rendered, $variables).DoozR_Form_Service_Constant::NEW_LINE;
+            $this->html = $html;
         }
 
-        // finalize with newline
-        $html .= $this->nl();
-
-        // and return the result
         return $html;
     }
 
-    /*******************************************************************************************************************
-     * \\ END - PUBLIC HTML-CODE GENERATOR
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN - RENDERER -> THIS DIFFERS FOR EACH INPUT-FIELD-TYPE
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | Getter & Setter
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * renders the complete HTML-Block for this input-field
+     * Setter for inner-HTML of the DIV
      *
-     * This method is intend to render the complete HTML-Block for this
-     * input-field including optional DIV-Container ...
-     *
-     * @param boolean $output Controls if rendered HTML should be returned (FALSE) or printed (TRUE)
+     * @param string $html The HTML to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string Rendered HTML
+     * @return void
      * @access public
      */
-    public function render($output = false)
+    public function setInnerHtml($html)
     {
-        // add elements html-code
-        $this->html = $this->render(3);
-
-        if (!$output) {
-            return $this->html;
-        } else {
-            echo $this->html;
-        }
+        $this->innerHtml = $html;
     }
 
-    /*******************************************************************************************************************
-     * \\ END - RENDERER -> THIS DIFFERS FOR EACH INPUT-FIELD-TYPE
-     ******************************************************************************************************************/
-}
+    /**
+     * Getter for inner-HTML.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The inner-HTML if set, otherwise NULL
+     * @access public
+     */
+    public function getInnerHtml()
+    {
+        return $this->innerHtml;
+    }
 
-?>
+    /**
+     * Setter for tag.
+     *
+     * @param string $tag The tag of this element
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+    }
+
+    /**
+     * Getter for tag.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The tag if set, otherwise NULL
+     * @access public
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+}

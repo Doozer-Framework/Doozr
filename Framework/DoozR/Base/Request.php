@@ -222,8 +222,6 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      */
     public function transform()
     {
-        pre('Transform 2');
-
         // get dynamic the sources
         $requestSources = array_change_value_case(func_get_args(), CASE_UPPER);
 

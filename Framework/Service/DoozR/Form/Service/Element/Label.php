@@ -2,10 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * Input.php - Input-field class for creating input-fields e.g. of type "text",
- * "password", ...
+ * Label.php - The Label element control layer which adds validation,
+ * and so on to an HTML element.
  *
  * PHP versions 5
  *
@@ -51,17 +51,16 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Label.php';
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * Input-field class for creating input-fields e.g. of type "text", "password", ...
+ * The Label element control layer which adds validation,
+ * and so on to an HTML element.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -71,95 +70,119 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class Label extends DoozR_Form_Service_Element_Abstract implements DoozR_Form_Service_Element_Interface
+class DoozR_Form_Service_Element_Label extends DoozR_Form_Service_Element_Html_Label
+    implements DoozR_Form_Service_Element_Interface, SplObserver
 {
-    protected $position = array(
-        'element' => 0
-    );
-
-    protected $content;
-
-
-    public function isValid()
-    {
-        // return the valid status of this field = alway NULL in this label case
-        return null;
-    }
-
-    public function hasImpact()
-    {
-        return null;
-    }
+    /**
+     * The validations of this field
+     *
+     * @var array
+     * @access protected
+     */
+    protected $validation = array();
 
 
     /**
-     * returns the generated HTML-code of this element
+     * Constructor.
      *
-     * This method is intend to return the generated HTML-code of this element.
-     *
-     * @param integer $tabcount Count of tabulators to add for line intend
+     * @param string $message The message to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The generated HTML-code for this element
+     * @return DoozR_Form_Service_Element_Label $this
      * @access public
      */
-    public function render($tabcount = 0)
+    public function __construct($message = '')
     {
-        // assume empty html output
-        $this->html = '';
+        $this->setInnerHtml($message);
+    }
 
-        // sort types by position
-        asort($this->position);
+    /**
+     * Returns the validity state of the form.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
+     */
+    public function isValid($arguments = array(), $store = array())
+    {
+        // a label is always valid cause the user can't change it's value or something like that
+        return true;
+    }
 
-        // merge existing styles and css-classes for rendering
-        $style = $this->combineStyles();
-
-        // iterate the elements of the current processed field
-        foreach ($this->position as $part => $position) {
-            $this->html .= $this->renderPart($part, $style);
+    /**
+     * Stores/adds the passed validation information.
+     *
+     * @param string      $validation The type of validation
+     * @param null|string $value      The value for validation or NULL
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Element_Input
+     * @access public
+     */
+    public function addValidation($validation, $value = null)
+    {
+        if (!isset($this->validation[$validation])) {
+            $this->validation[$validation] = array();
         }
 
-        // add all elements with surrounding div
-        $this->html = $this->setContainer($this->html);
-
-        // check for direct output or return of value
-        return $this->html;
+        $this->validation[$validation][] = $value;
     }
 
-
-    protected function renderElement()
+    /**
+     * Getter for validation.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Validations as array
+     * @access public
+     */
+    public function getValidation()
     {
-        $html = '';
-
-        $message = $this->content;
-        $html    = '<label';
-
-        foreach ($this->attributes as $attribute => $value) {
-            $html .= ' '.$attribute.'="'.$value.'"';
-        }
-
-        $html .= '>'.$message.'</label>'.$this->nl();
-
-        return $html;
+        return $this->validation;
     }
 
-
-    public function html($html)
+    /**
+     * Setter for value.
+     *
+     * @param mixed $value The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setValue($value)
     {
-        $this->content = $html;
-
-        return $this;
+        $this->setAttribute('value', $value);
     }
 
-    public function text($html)
+    /**
+     * Getter for value.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Value of this element
+     * @access public
+     */
+    public function getValue()
     {
-        $this->content = strip_tags($html);
+        $this->getAttribute('value');
+    }
 
-        return $this;
+    /*------------------------------------------------------------------------------------------------------------------
+    | SPL-Observer
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Update method for SplObserver Interface.
+     *
+     * @param SplSubject $subject The subject
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function update(SplSubject $subject)
+    {
+        var_dump($subject);
+        pred(__METHOD__);
     }
 }
-
-?>

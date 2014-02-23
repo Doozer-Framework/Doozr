@@ -6,7 +6,7 @@
 </a>
 
 ## Features
-*DoozR* is designed for solving real world problems. *DoozR* comes with a huge set of preimplemented **services**. These services enable you to build high-scalable applications with PHP with no pain. DoozR supports two different running modes - **CLI** and **CGI**. A powerful routing mechanism with builtin *I18n* support empowers you to build internationalized applications (on url level!). But *DoozR* has so much more to offer ...
+*DoozR* is designed for solving real world problems. *DoozR* comes with a small but right set of preimplemented **services**. These services enable you to build high-scalable applications with PHP. DoozR supports building **CLI** and **CGI** applications. A powerful routing mechanism with builtin *I18n* support empowers you to build internationalized applications (on URL level!). But *DoozR* has so much more to offer ...
 
 
 ## Services
@@ -14,18 +14,14 @@
  - **Cache**
  - **Compact**
  - **Config**
- - **Database**
- - **Debug**
  - **Crypt**
  - **Datetime**
- - **Error**
  - **Filesystem**
  - **Form**
+ - **Http**
  - **I18n**
  - **OAuth2**
  - **Password**
- - **Registry**
- - **REST**
  - **Rest**
  - **Session**
  - **Template**

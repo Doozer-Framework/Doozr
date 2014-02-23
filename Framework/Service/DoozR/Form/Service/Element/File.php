@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * File.php - Class for creating input-fields e.g. of type "file" (file-uploads)
+ * File.php - Extension to default Input-Element <input type="..." ...
+ * but with some specific file-upload specific.
  *
  * PHP versions 5
  *
@@ -50,17 +51,15 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * Class for creating input-fields e.g. of type "file" (file-uploads)
+ * Extension to default Input-Element <input type="..." ...
+ * but with some specific file-upload specific.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,60 +69,174 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class File extends DoozR_Form_Service_Element_Abstract implements DoozR_Form_Service_Element_Interface
+class DoozR_Form_Service_Element_File extends DoozR_Form_Service_Element_Input
 {
     /**
-     * sets the accept mime-type of a form element
+     * The maximum filesize allowed for fileuploads in Bytes.
      *
-     * This method is intend to set the accept mime-type of a form element.
+     * @var integer
+     * @access protected
+     */
+    protected $maxFilesize = 0;
+
+    /**
+     * The filename
      *
-     * @param string $mimeType Specifies the types of files that can be submitted through a file upload
+     * @var string
+     * @access protected
+     */
+    protected $file;
+
+
+    /**
+     * Constructor.
+     *
+     * @param string $name      The name of the element
+     * @param array  $arguments The arguments passed with current request (e.g. $_POST, $_GET ...)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return File The current active instance
+     * @return DoozR_Form_Service_Element_Radio Instance of this class
      * @access public
      */
-    public function accept($mimeType)
-    {
-        $this->setAccept($mimeType);
+    public function __construct(
+        $name,
+        $arguments = array()
+    ) {
+        $this->setType('file');
+        return parent::__construct($name, $arguments);
+    }
 
-        // for chaining
-        return $this;
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Render to HTML also specific for file.
+     *
+     * @param boolean $forceRender TRUE to force a render also if already rendered, otherwise
+     *                             FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The rendered HTML
+     * @access public
+     */
+    public function render($forceRender = false)
+    {
+        // first we take the rendered html
+        $html = parent::render(true);
+
+        if ($this->getFile() !== null) {
+            $html = '<div id="DoozR-Form-Uploaded-1" class="DoozR-Form-Uploaded">
+                    '.$this->getFile().'
+                </div>'.$html;
+        }
+
+        // and now we add a special field right before this one
+        $html = '<input type="hidden" name="MAX_FILE_SIZE" value="'.$this->getMaxFilesize().'" />' . PHP_EOL . $html;
+
+        return $html;
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Setter & Getter
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for file.
+     *
+     * @param string|null $file The file
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setFile($file = null)
+    {
+        $this->file = $file;
     }
 
     /**
-     * sets the accept mime-type of a form element
-     *
-     * This method is intend to set the accept mime-type of a form element.
-     *
-     * @param string $mimeType Specifies the types of files that can be submitted through a file upload
+     * Getter for file.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return File The current active instance
+     * @return string|null The filename if set, otherwise NULL
      * @access public
      */
-    public function setAccept($mimeType)
+    public function getFile()
     {
-        return $this->setAttribute('accept', $mimeType);
+        return $this->file;
     }
 
     /**
-     * returns the accept mime-type of a form element
+     * Sets the maximum size in bytes a file is allowed to have.
      *
-     * This method is intend to return the accept mime-type of a form element.
+     * @param integer|string $maxFilesize The maximum allowed size in bytes
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return File The current active instance
+     * @return integer The size in bytes
      * @access public
      */
-    public function getAccept()
+    public function setMaxFilesize($maxFilesize = 'auto')
     {
-        return $this->getAttribute('accept');
+        switch ($maxFilesize) {
+            case 'auto':
+                $maxFilesize = $this->convertToBytes(
+                    ini_get('upload_max_filesize')
+                );
+                break;
+        }
+
+        $this->maxFilesize = $maxFilesize;
+        $this->setAttribute('filesize', $maxFilesize);
+    }
+
+    /**
+     * Returns the maximum size in bytes a file is allowed to have.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The size in bytes
+     * @access public
+     */
+    public function getMaxFilesize()
+    {
+        return $this->maxFilesize;
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Tools & Helper
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Converts an INI-Value from string to bytes
+     *
+     * @param string $value The value to convert
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The value in bytes
+     * @access protected
+     */
+    protected function convertToBytes($value)
+    {
+        $value = trim($value);
+
+        $last = strtolower($value[strlen($value)-1]);
+
+        switch ($last) {
+            // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $value *= 1024;
+                break;
+
+            case 'm':
+                $value *= 1024;
+                break;
+
+            case 'k':
+                $value *= 1024;
+                break;
+        }
+
+        return $value;
     }
 }
-
-?>
-

@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * Checkbox.php - Checkbox class for creating fields e.g. of type "Checkbox"
+ * Checkbox.php - Extension to default Input-Element <input type="..." ...
+ * but with some specific checkbox-field tuning.
  *
  * PHP versions 5
  *
@@ -50,17 +51,15 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Radio.php';
 
 /**
- * DoozR - Service - Form
+ * DoozR - Form - Service
  *
- * Checkbox class for creating fields e.g. of type "checkbox"
+ * Checkbox.php - Extension to default Input-Element <input type="..." ...
+ * but with some specific checkbox-field tuning.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,105 +69,209 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-class Checkbox extends DoozR_Form_Service_Element_Abstract implements DoozR_Form_Service_Element_Interface
+class DoozR_Form_Service_Element_Checkbox extends DoozR_Form_Service_Element_Radio
 {
     /**
-     * The checked status for checkbox-field
+     * The addition to name for rendering HTML
+     * code for multiple input checkboxes.
+     *
+     * @example <input type="checkbox" name="foo[]" ...
+     *
+     * @var string
+     * @access protected
+     * @static
+     */
+    protected static $multiMarker = '[]';
+
+    /**
+     * The multiple input
      *
      * @var boolean
-     * @access private
-     */
-    private $_checked = false;
-
-    /**
-     * Positioning array of this element
-     * Default CHECKBOX LABEL ERROR
-     *
-     * @var array
      * @access protected
      */
-    protected $position = array(
-        'label'   => 1,
-        'element' => 0,
-        'error'   => 2
-    );
+    protected $multiple = false;
 
-
-    /*******************************************************************************************************************
-     * // BEGIN - PUBLIC TEXTAREA SPECIFIC PROPERTY SETTER AND GETTER
-     ******************************************************************************************************************/
 
     /**
-     * preselects this checkbox-field or removes preselection
+     * Constructor.
      *
-     * This method is intend to preselect this checkbox-field or removes preselection
-     *
-     * @param boolean $status TRUE to preselect field, otherwise FALSE to remove preselection
+     * @param string $name      The name of this element
+     * @param array  $arguments The arguments passed with current request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return DoozR_Form_Service_Element_Checkbox Instance of this class
      * @access public
      */
-    public function preselected($status = true)
+    public function __construct(
+        $name,
+        $arguments = array(),
+        $registry = array()
+    ) {
+        $instance = parent::__construct($name, $arguments, $registry);
+
+        // override the type
+        $this->setType('checkbox');
+
+        return $instance;
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Setter & Getter
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the name of this element without brackets by default.
+     *
+     * @param boolean $ripBrackets TRUE to remove brackets from name, FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The name of this element with or without brackets, or NULL if not set
+     * @access public
+     */
+    public function getName($ripBrackets = true)
     {
-        // preselect?
-        if ($status) {
-            // now ensure that form wasn't submitted or no value was submitted
-            if (!$this->submitted || is_null($this->getValue())) {
-                $this->_checked = true;
-            }
-        } else {
-            // remove preselection
-            $this->_checked = false;
+        $name = $this->getAttribute('name');
+
+        if ($ripBrackets === true) {
+            $name = str_replace(self::$multiMarker, '', $this->getAttribute('name'));
         }
 
-        // success
-        return true;
+        return $name;
     }
 
     /**
-     * Renders the element and returns HTML-code
+     * Setter for attributes.
+     *
+     * @param string $key   The key/name of the attribute to set
+     * @param string $value The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string generated HTML-code
-     * @access protected
+     * @return void
+     * @access public
      */
-    protected function renderElement()
+    public function setAttribute($key, $value = null)
     {
-        $html = '';
-
-        $message = $this->getMessage('element');
-        $html    = '<input type="'.$this->type.'"';
-
-        foreach ($this->attributes as $attribute => $value) {
-            $html .= ' '.$attribute.'="'.$value.'"';
+        if ($key === 'name' && stristr($value, self::$multiMarker) !== false) {
+            $this->setMultiple(true);
         }
 
-        if ($this->submitted) {
-            // get submitted value for element
-            $value = $this->getSubmittedValue();
-
-        } elseif ($this->jumped) {
-            // get jump value for element
-            $value = $this->getJumpValue();
-        }
-
-            // and check if match
-        if ($this->_checked || (($value !== null) && $value == $this->getValue())) {
-            $html .= ' checked="checked"';
-        }
-
-        $html .= ' />'.$this->nl();
-
-        return $html;
+        parent::setAttribute($key, $value);
     }
 
-    /*******************************************************************************************************************
-     * \\ END - PUBLIC TEXTAREA SPECIFIC PROPERTY SETTER AND GETTER
-     ******************************************************************************************************************/
-}
+    /**
+     * Returns an attribute of this element.
+     *
+     * @param string $key The name of the key/attribute to return value for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|boolean The attributes value if set, FALSE if not
+     * @access public
+     */
+    public function getAttribute($key)
+    {
+        $value = parent::getAttribute($key);
 
-?>
+        if ($key === 'name') {
+            $value = str_replace(self::$multiMarker, '', $value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Sets the value of this element
+     *
+     * @param string $value The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setValue($value)
+    {
+        // check if element was submitted
+        if ($this->wasSubmitted() || $this->existsInRegistry()) {
+
+            if ($this->wasSubmitted()) {
+                // get arguments
+                $arguments = $this->getArguments();
+            } else {
+                $arguments = $this->getRegistry();
+                $arguments = $arguments['data'];
+            }
+
+            if ($this->getMultiple() === true) {
+                $checked = in_array($value, $arguments[$this->getName()]);
+            } else {
+                $checked = $this->isActive();
+            }
+
+            if ($checked === true) {
+                $this->setAttribute('checked', 'checked');
+            }
+        }
+
+        // set value
+        $this->setAttribute('value', $value);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Tools & Helper
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Sets the multiple status of this element.
+     *
+     * @param boolean TRUE to mark this field as multi select field,
+     *                FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setMultiple($status)
+    {
+        $this->multiple = $status;
+    }
+
+    /**
+     * Returns the multiple status of this element.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if field is multi select, FALSE if not
+     * @access protected
+     */
+    protected function getMultiple()
+    {
+        return $this->multiple;
+    }
+
+    /**
+     * Returns the submission status of this element.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if was submitted, otherwise FALSE
+     * @access protected
+     */
+    protected function wasSubmitted()
+    {
+        $arguments = $this->getArguments();
+
+        return (isset($arguments[$this->getName()]));
+    }
+
+    /**
+     * Checks if this element was already stored in registry before
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if this element exists in registry, otherwise FALSE
+     * @access protected
+     */
+    protected function existsInRegistry()
+    {
+        $registry = $this->getRegistry();
+
+        return (isset($registry['data'][$this->getName()]));
+    }
+}
