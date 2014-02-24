@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
@@ -67,8 +65,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Interface
 {
@@ -114,8 +110,7 @@ final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Inter
 
         // get the resource which we want to use for ...
         $resource = $requestObject->get('/api/{{object}}/{{id}}', function ($object, $id) use ($model) {
-            //$model->escape($id);
-            return array($object, $id);
+            return array($model->escape($object), $model->escape($id));
         });
 
         //
@@ -143,6 +138,14 @@ final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Inter
 
         }
     }
+
+
+    protected function escape($string)
+    {
+        $string = mb_convert_encoding($string, 'UTF-8', 'UTF-8');
+        return htmlentities($string, ENT_QUOTES, 'UTF-8');
+    }
+
 
     /**
      * Observer notification
