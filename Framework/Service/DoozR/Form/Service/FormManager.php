@@ -86,21 +86,26 @@ class DoozR_Form_Service_FormManager
      * childs and so on ...
      *
      * @var DoozR_Form_Service_Element_Form
+     * @access protected
      */
     public $form;
 
     /**
-     * The translator used for translating all types
-     * of text within this service.
+     * The translator used for translating all types of text within this service.
      *
      * @var DoozR_I18n_Service_Translator
      * @access protected
      */
     protected $i18n;
 
-
+    /**
+     * Jump status of current request. True = we jumped through a deeplink.
+     * False = no jump
+     *
+     * @var boolean
+     * @access protected
+     */
     protected $wasJumped;
-
 
     /**
      * The token of the form
@@ -119,8 +124,7 @@ class DoozR_Form_Service_FormManager
     protected $error = array();
 
     /**
-     * The store where our data resides while
-     * moving from one page request to the next.
+     * The store where our data resides while moving from one page request to the next.
      * Some sort of temporary persistence.
      *
      * @var DoozR_Form_Service_Store_Interface
@@ -202,8 +206,13 @@ class DoozR_Form_Service_FormManager
      */
     protected $arguments;
 
-
-    protected $formElements;
+    /**
+     * Collection of META fields
+     *
+     * @var array
+     * @access protected
+     */
+    protected $metaFields = array();
 
     /**
      * Validator instance for validation.
@@ -358,7 +367,6 @@ class DoozR_Form_Service_FormManager
         // get request from front-controller
         $submittedData = $this->getArguments();
 
-        //
         $registry = $this->getRegistry(
             $this->getRegistrySkeleton()
         );
@@ -1115,7 +1123,6 @@ class DoozR_Form_Service_FormManager
         $valid = true;
 
         foreach ($elements as $element => $configuration) {
-            #file_put_contents('C:\\Users\Ben\\Desktop\\log.txt', 'what is with: ' . $element . PHP_EOL, FILE_APPEND);
 
             // some elements arrive with empty name ... [Could be a BUG in prser!]
             if ($element !== '') {
@@ -1128,23 +1135,16 @@ class DoozR_Form_Service_FormManager
 
                         $isFile             = true;
                         $emulatedFileUpload = false;
-                        $registry = DoozR_Registry::getInstance();
 
+                        $registry = DoozR_Registry::getInstance();
                         $registry->front->getRequest()->FILES();
 
-
-                        pred($_FILES);
-
-                        $value = $_FILES['file'];
+                        $value = $_FILES[$element];
                         $value['element'] = 'file';
-
-                        $_FILES->file = $value;
-                        pre('adhjshddjashdkasj');
-                        pred($value);
-                        die;
+                        $_FILES->{$element} = $value;
 
                         // check for error and then try to get file information from registry
-                        if (isset($value['error']) && $value['error'] === '4') {
+                        if (isset($value['error']) && $value['error'] === 4) {
 
                             $registry = $this->getRegistry(
                                 $this->getRegistrySkeleton()
@@ -1166,89 +1166,24 @@ class DoozR_Form_Service_FormManager
 
                         $check = $this->validator->validate($value, $configuration['validation']);
 
-                        /**
-                         * CHECK for PHP errors so we dont need to validate through validate
-                         */
-                        /*
-                        if ($value['error'] === 0) {
-                            $check = $this->validator->validate($value, $configuration['validation']);
-
-                        } else {
-                            switch ($value['error']) {
-                                case UPLOAD_ERR_INI_SIZE:
-                                    // Value: 1; The uploaded file exceeds the upload_max_filesize directive
-                                    // in php.ini.
-                                    $error = 'UPLOAD_ERR_INI_SIZE';
-                                    break;
-
-                                case UPLOAD_ERR_FORM_SIZE:
-                                    // Value: 2; The uploaded file exceeds the MAX_FILE_SIZE directive that
-                                    // was specified in the HTML form.
-                                    $error = 'UPLOAD_ERR_FORM_SIZE';
-                                    break;
-
-                                case UPLOAD_ERR_PARTIAL:
-                                    // Value: 3; The uploaded file was only partially uploaded.
-                                    $error = 'UPLOAD_ERR_PARTIAL';
-                                    break;
-
-                                case UPLOAD_ERR_NO_FILE:
-                                    // Value: 4; No file was uploaded.
-                                    $error = 'UPLOAD_ERR_NO_FILE';
-                                    break;
-
-                                case UPLOAD_ERR_NO_TMP_DIR:
-                                    // Value: 6; Missing a temporary folder. Introduced in PHP 4.3.10 and PHP 5.0.3.
-                                    $error = 'UPLOAD_ERR_NO_TMP_DIR';
-                                    break;
-
-                                case UPLOAD_ERR_CANT_WRITE:
-                                    // Value: 7; Failed to write file to disk. Introduced in PHP 5.1.0.
-                                    $error = 'UPLOAD_ERR_CANT_WRITE';
-                                    break;
-
-                                case UPLOAD_ERR_EXTENSION:
-                                    // Value: 8; A PHP extension stopped the file upload. PHP does not provide a way
-                                    // to ascertain which extension caused the file upload to stop; examining the
-                                    // list of loaded extensions with phpinfo() may help. Introduced in PHP 5.2.0.
-                                    $error = 'UPLOAD_ERR_EXTENSION';
-                                    break;
-                            }
-
-                            $check = array(
-                                'error' => strtolower($error),
-                                'value' => $value,
-                                'info'  => ''
-                            );
-                        }
-                        */
-
                     } else {
                         $isFile = false;
                         $value  = isset($arguments[$element]) ? $arguments[$element] : null;
                         $check  = $this->validator->validate($value, $configuration['validation']);
                     }
 
-
+                    // Here we: Check if the validator returned error in element
                     if ($check !== true) {
-
-                        /**
-                         * COMMENT BLOCK REMOVE
-                         * The ERROR case!
-                         */
+                        // The ERROR case!
                         $valid = $valid && false;
+
                         $this->setError($check, $element);
 
-#file_put_contents('C:\\Users\Ben\\Desktop\\log.txt', 'remove: '.$element.PHP_EOL.PHP_EOL, FILE_APPEND);
-
+                        // ON ERROR -> REMOVE
                         $this->removeFromRegistry('data', $element);
 
                     } else {
-
-                        /**
-                         * COMMENT BLOCK REMOVE
-                         * The SUCCESS case!
-                         */
+                        // COMMENT BLOCK REMOVE: The SUCCESS case!
                         if ($isFile === true && $emulatedFileUpload === false) {
                             $value = $this->handleFileUpload($value);
 
@@ -1256,9 +1191,7 @@ class DoozR_Form_Service_FormManager
                             $value = $value['tmp_name'];
                         }
 
-                        // we store each valid field
-#file_put_contents('C:\\Users\Ben\\Desktop\\log.txt', 'add: '.$element.PHP_EOL.PHP_EOL, FILE_APPEND);
-
+                        // ON SUCCESS _> ADD
                         $this->addToRegistry($element, $value);
                     }
                 }
@@ -1268,20 +1201,34 @@ class DoozR_Form_Service_FormManager
         return $valid;
     }
 
-
+    /**
+     * Whats is this for ...
+     *
+     * @param array $file The file upload fields
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array|string
+     * @access protected
+     * @throws DoozR_Form_Service_Exception
+     */
     protected function handleFileUpload($file)
     {
-        // file was uploaded and successful validatet so store it's information in the same way as it would be done
-        // for other elements - but we need some modification on input data to receive this.
-        // some more information right here in place.
+        /**
+         * file was uploaded and successful validatet so store it's information in the same way as it would be done
+         * for other elements - but we need some modification on input data to receive this. some more information
+         * right here in place.
+         */
         $temporaryLocation = $file['tmp_name'];
-        $filename = $file['name'];
+        $filename          = $file['name'];
 
         // get target path + name
-        $finalLocation = explode(DIRECTORY_SEPARATOR, $temporaryLocation);
-        array_pop($finalLocation);
-        array_push($finalLocation, $filename);
-        $finalLocation = implode(DIRECTORY_SEPARATOR, $finalLocation);
+        #$finalLocation = explode(DIRECTORY_SEPARATOR, $temporaryLocation);
+        #array_pop($finalLocation);
+        #array_push($finalLocation, $filename);
+        #$finalLocation = implode(DIRECTORY_SEPARATOR, $finalLocation);
+
+        $pathinfo = pathinfo($temporaryLocation);
+        $finalLocation = $pathinfo['dirname'] . DIRECTORY_SEPARATOR . $filename;
 
         // move
         if (move_uploaded_file($temporaryLocation, $finalLocation) !== true) {
@@ -1290,39 +1237,28 @@ class DoozR_Form_Service_FormManager
             );
         }
 
-        /**
-         * Adds a hidden field with the successful file upload information.
-         * After a upload the file keeps (renamed like it was uploaded) in temp
-         * folder of system for uploads and is afterwards only referenced (like
-         * with this field) to keep the information about active. When the form
-         * is finished it must be moved manually by the dev. This element is
-         * just for DoozR-Form-Service so it can keep track of the successful
-         * uploaded file and prevent the user from the need to re-upload the same
-         * file again if another field isn't valid and throws an error.
-         */
-
-        /*
-        // the form needs a hidden field which tells the service bout the successful upload done before
-        $this->addField(
-            #DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_FILE,
-            $file['element'],
-            $filename
-        );
-        */
-
         // return the final location here so that the service is able to store an information
         // about the "value" of the file element which could be easily transported from step to step
         return $finalLocation;
     }
 
-
-    protected function addToRegistry($element, $value)
+    /**
+     * Adds an element to internal registry with passed value
+     *
+     * @param string $key The name of the element
+     * @param mixed  $value   The value to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     */
+    protected function addToRegistry($key, $value)
     {
         $registry = $this->getRegistry(
             $this->getRegistrySkeleton()
         );
 
-        $registry['data'][$element] = $value;
+        $registry['data'][$key] = $value;
 
         $this->setRegistry(
             $registry
@@ -1331,6 +1267,16 @@ class DoozR_Form_Service_FormManager
         return true;
     }
 
+    /**
+     * Removes an element from internal registry
+     *
+     * @param string $element The name of the element
+     * @param mixed  $value   The value to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     */
     public function removeFromRegistry($key, $element = null)
     {
         $registry = $this->getRegistry(
@@ -1379,6 +1325,12 @@ class DoozR_Form_Service_FormManager
             DoozR_Form_Service_Constant::PREFIX.$this->getNamespace(),
             $registry
         );
+    }
+
+
+    public function invalidateRegistry()
+    {
+        return $this->setRegistry(null);
     }
 
 
@@ -1629,14 +1581,14 @@ class DoozR_Form_Service_FormManager
         $this->addStepsField();
         $this->addSubmittedField();
 
-        // dynamic at runtime added fields
-        // (added at last -> to be able to override service default behavior!)
+        /**
+         * dynamic at runtime added fields
+         * (added at last -> to be able to override service default behavior!)
+         */
         foreach ($this->metaFields as $metaField) {
             $this->form->add($metaField);
         }
     }
-
-    protected $metaFields = array();
 
     /**
      * Generic adding of form element/field.

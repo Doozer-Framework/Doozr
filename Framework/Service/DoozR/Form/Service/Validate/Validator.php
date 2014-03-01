@@ -506,8 +506,9 @@ class DoozR_Form_Service_Validate_Validator
             $validValues = $validValues[0];
         }
 
+        $partials = explode('.', $value['name']);
         $extension = array_pop(
-            explode('.', $value['name'])
+            $partials
         );
 
         return in_array($extension, $validValues);
@@ -598,7 +599,7 @@ class DoozR_Form_Service_Validate_Validator
         if (is_array($value) && array_key_exists('element', $value) && $value['element'] === 'file') {
             $valid = ($value['error'] < UPLOAD_ERR_PARTIAL);
         } else {
-            $valid = (!is_null($value) && ((strlen($value) > 0) || is_array($value) || is_object($value)));
+            $valid = (!is_null($value) && (is_array($value) || is_object($value) || (strlen($value) > 0)));
         }
 
         return $valid;

@@ -127,9 +127,13 @@ class DoozR_Form_Service_Element_File extends DoozR_Form_Service_Element_Input
         $html = parent::render(true);
 
         if ($this->getFile() !== null) {
-            $html = '<div id="DoozR-Form-Uploaded-1" class="DoozR-Form-Uploaded">
-                    '.$this->getFile().'
-                </div>'.$html;
+
+            // transform filename to filename without path ...
+            $pathinfo = pathinfo($this->getFile());
+
+            $html = '<div id="DoozR-Form-Uploaded-1" class="DoozR-Form-Uploaded">' .
+                $pathinfo['basename'] .
+                '</div>' . $html;
         }
 
         // and now we add a special field right before this one
@@ -141,6 +145,32 @@ class DoozR_Form_Service_Element_File extends DoozR_Form_Service_Element_Input
     /*-----------------------------------------------------------------------------------------------------------------+
     | Setter & Getter
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for value.
+     *
+     * @param mixed $value The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setValue($value)
+    {
+        return $this->setFile($value);
+    }
+
+    /**
+     * Getter for value.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Value of this element
+     * @access public
+     */
+    public function getValue()
+    {
+        return $this->getFile();
+    }
 
     /**
      * Setter for file.

@@ -63,42 +63,43 @@ pre(
 pre(
     $parser->getConfiguration()
 );
+die;
 */
-
 
 // create a new form-container which combines the control-layer and the HTML parts
 $formManager = new DoozR_Form_Service_FormManager(
-    'register',
-    $i18n,
-    new DoozR_Form_Service_Element_Input(                       // <- for cloning
+    'register',                                                 // The namespace (used for session, I18n, ...)
+    $i18n,                                                      // The I18n service instance for translation(s) [DI]
+    new DoozR_Form_Service_Element_Input(                       // Input element <- for cloning [DI]
         '',
         $registry->front->getRequest()->getArguments()
     ),
-    new DoozR_Form_Service_Element_Form('register'),
-    new DoozR_Form_Service_Store_Session($session),
-    new DoozR_Form_Service_Renderer_Native(),
-    new DoozR_Form_Service_Validate_Validator(),
-    new DoozR_Form_Service_Validate_Error(),                    // <- for cloning
-    $registry->front->getRequest()->getArguments()
+    new DoozR_Form_Service_Element_Form('register'),            // The form element we operate on [DI]
+    new DoozR_Form_Service_Store_Session($session),             // The session store [DI]
+    new DoozR_Form_Service_Renderer_Native(),                   // A Renderer -> Native = HTML [DI]
+    new DoozR_Form_Service_Validate_Validator(),                // A Validator to validate the elements [DI]
+    new DoozR_Form_Service_Validate_Error(),                    // A Error object <- for cloning [DI]
+    $registry->front->getRequest()->getArguments()              // The currents requests arguments
 );
 
 
-
+/*
 if ($formManager->wasSubmitted()) {
     #$registry->front->getRequest()->FILES();
     #pred( $_FILES->file );
     $arguments = $registry->front->getRequest()->getArguments();
     #pre($arguments);
 }
-
-
-
+*/
 
 
 /**
  * check first if form was submitted - if it is valid - and if it is the last step ...
  */
 if ($formManager->wasSubmitted() && $formManager->isValid() && $formManager->isComplete()) {
+    // required to clear session content as well as other stuff ro prevent resubmitting.
+    $formManager->invalidateRegistry();
+
     pred('Form submitted, valid and complete!');
 }
 
@@ -346,12 +347,6 @@ if ($formManager->getStep() === 1) {
         $formManager->getValue('file')
     );
 
-    /*
-    $element1->setValue(
-        $formManager->getFile('file')
-    );
-    */
-
     $element1->setMaxFilesize(
         'auto'
     );
@@ -377,21 +372,12 @@ if ($formManager->getStep() === 1) {
         500
     );
 
-    /*
     $element1->addValidation(
-        DoozR_Form_Service_Validate_Constant::FILESIZEMIN,
-        2048
+        DoozR_Form_Service_Validate_Constant::VALUE,
+        'MeinAuto.txt'
     );
-    */
 
-    /*
-    $element1->addValidation(
-        DoozR_Form_Service_Validate_Constant::FILESIZE,
-        array('jpg', 'gif', 'pdf')
-    );
-    */
-
-    // Create a message
+   // Create a message
     if ($formManager->getError('file') === null) {
         $error = null;
     } else {
@@ -547,6 +533,20 @@ if ($formManager->getStep() === 1) {
 
 } elseif ($formManager->getStep() === 3) {
 
+
+    // magic sets on form setMethod('post') becomes ->setAttribute('method', 'post');
+    $formManager->getForm()
+        ->setMethod('post')
+        ->setAction($_SERVER['PHP_SELF'])
+        ->setNovalidate();
+
+    // native implemented methods also chain support
+    $formManager->setStep(3);
+    $formManager->setSteps(3);
+    $formManager->setInvalidTokenBehavior(DoozR_Form_Service_Constant::TOKEN_BEHAVIOR_DENY);
+    $formManager->setI18n($i18n);
+
+
     // Create an input field
     $element1 = new DoozR_Form_Service_Element_Html(
         'jump',
@@ -599,6 +599,11 @@ if ($formManager->getStep() === 1) {
 <head>
     <title>DoozR Service Form - Form: register</title>
     <style>
+
+        body {
+            font-family: Arial, Helvetica Neue, Helvetica;
+        }
+
         /* general form n1ce pimp ups */
         label {
             cursor: pointer !important;
@@ -701,6 +706,12 @@ if ($formManager->getStep() === 1) {
             margin-left: -220px;
             margin-top: 22px;
             width: 200px;
+        }
+
+        .DoozR-Form-Uploaded {
+            color: green;
+            font-weight: bold;
+            font-size: 1em;
         }
     </style>
 </head>

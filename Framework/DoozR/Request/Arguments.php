@@ -585,21 +585,47 @@ class DoozR_Request_Arguments extends DoozR_Base_Class
         $GLOBALS[$this->_target] = $this->_input;
     }
 
-
-    protected function setProperty($key, $value)
-    {
-        /*
-        pred($value);
-        pre(
-            $this->_transformToObject($value)
-        );
-        pred('so');
-        */
-    }
-
-
+    /**
+     * Setter for properties
+     *
+     * This method is intend to act as wrapper to reusable setProperty().
+     * This method is invoked when you do something like this:
+     *
+     * $_GET->foo  = 'bar'
+     * $_POST->bar = 'baz'
+     * ...
+     *
+     * @param string $key   The name of the property
+     * @param mixed  $value The value of the property
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function __set($key, $value)
     {
-        return $this->setProperty($key, $value);
+        $this->setProperty($key, $value);
+    }
+
+    /**
+     * Sets a property in arguments.
+     *
+     * This method is intend to set a property and value in the active
+     * instance of Arguments. This instance can be either $_GET, $_POST,
+     * $_FILE or some other superglobal. Due to the nature of superglobals
+     * and the Arguments way of serving objects instead of arrays the value
+     * needs to be transformed once set.
+     *
+     * @param $key   The name of the property
+     * @param $value The value of the property
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setProperty($key, $value)
+    {
+        $this->_input[$key] = $value;
+        $this->arguments = $this->_transformToObject($this->_input);
     }
 }
