@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Input.php - The Input element control layer which adds validation,
- * and so on to an HTML element.
+ * Select.php - Extends Html Base element to build a valid select
+ * element.
  *
  * PHP versions 5
  *
@@ -53,14 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Input.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Base.php';
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
 
 /**
  * DoozR - Form - Service
  *
- * The Input element control layer which adds validation,
- * and so on to an HTML element.
+ * Extends Html Base element to build a valid select element.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -71,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Input extends DoozR_Form_Service_Element_Html_Input
+class DoozR_Form_Service_Element_Select extends DoozR_Form_Service_Element_Html_Base
     implements
     DoozR_Form_Service_Element_Interface,
     SplObserver
@@ -82,7 +81,24 @@ class DoozR_Form_Service_Element_Input extends DoozR_Form_Service_Element_Html_I
      * @var string
      * @access protected
      */
-    protected $template = '<{{TAG}}{{ATTRIBUTES}} />';
+    protected $template = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
+
+    /**
+     * This is the tag-name for HTML output.
+     * e.g. "input" or "form" => in this case = SELECT
+     *
+     * @var string
+     * @access protected
+     */
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_SELECT;
+
+    /**
+     * The inner HTML string
+     *
+     * @var string
+     * @access protected
+     */
+    protected $innerHtml = '';
 
     /**
      * The validations of this field
@@ -107,6 +123,22 @@ class DoozR_Form_Service_Element_Input extends DoozR_Form_Service_Element_Html_I
      * @access protected
      */
     protected $registry;
+
+    /**
+     * The value here is handled slightly different from other elements
+     *
+     * @var string
+     * @access protected
+     */
+    protected $value;
+
+    /**
+     * The options added to select element
+     *
+     * @var array
+     * @access protected
+     */
+    protected $options = array();
 
 
     /**
@@ -153,14 +185,41 @@ class DoozR_Form_Service_Element_Input extends DoozR_Form_Service_Element_Html_I
 
             foreach ($validations as $type => $validValues) {
                 $valid = $valid && $validator->validate(
-                    $type,                                      // the validation type
-                    $value,                                     // the value of submitted element
-                    $validValues                                // the array / set of validation(s)
-                );
+                        $type,                                      // the validation type
+                        $value,                                     // the value of submitted element
+                        $validValues                                // the array / set of validation(s)
+                    );
             }
         }
 
         return $valid;
+    }
+
+    /**
+     * Specific renderer for DIV.
+     *
+     * @param boolean $forceRender TRUE to force rerendering of cached content
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|string HTML as string if set, otherwise NULL
+     * @access public
+     */
+    public function render($forceRender = false)
+    {
+        $html     = '';
+        $rendered = parent::render($forceRender);
+
+        if ($this->innerHtml !== null) {
+
+            $variables = array(
+                'inner-html' => $this->innerHtml
+            );
+
+            $html = $this->_tpl($rendered, $variables).DoozR_Form_Service_Constant::NEW_LINE;
+            $this->html = $html;
+        }
+
+        return $html;
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -186,6 +245,14 @@ class DoozR_Form_Service_Element_Input extends DoozR_Form_Service_Element_Html_I
         $this->validation[$validation][] = $value;
     }
 
+
+    public function addOption(DoozR_Form_Service_Element_Option $option)
+    {
+        $this->options[$option->getKey()] = $option;
+
+        $this->innerHtml = $this->renderInnerHtml($this->options);
+    }
+
     /**
      * Getter for validation.
      *
@@ -209,7 +276,7 @@ class DoozR_Form_Service_Element_Input extends DoozR_Form_Service_Element_Html_I
      */
     public function setValue($value)
     {
-        $this->setAttribute('value', $value);
+        $this->value = $value;
     }
 
     /**
@@ -221,7 +288,7 @@ class DoozR_Form_Service_Element_Input extends DoozR_Form_Service_Element_Html_I
      */
     public function getValue()
     {
-        $this->getAttribute('value');
+        return $this->value;
     }
 
     /**
@@ -302,5 +369,29 @@ class DoozR_Form_Service_Element_Input extends DoozR_Form_Service_Element_Html_I
     {
         var_dump($subject);
         pred(__METHOD__);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Internal Helper
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Renders the inner-HTML of thi select element,
+     *
+     * @param DoozR_Form_Service_Element_Option[] $source The source array containing options
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string HTML of rendered options
+     * @access protected
+     */
+    protected function renderInnerHtml(array $source)
+    {
+        $html = '';
+
+        foreach ($source as $key => $value) {
+            $html .= $value->render();
+        }
+
+        return $html;
     }
 }

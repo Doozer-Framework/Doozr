@@ -116,7 +116,7 @@ if ($pathAppRoot !== false) {
 | BEGIN COMPOSER INTEGRATION
 +---------------------------------------------------------------------------------------------------------------------*/
 
-// try to include composer's autoloader to make all the composer stuff easy available
+// Try to include composer's autoloader to make all the composer stuff easy available
 @include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
 
 /*----------------------------------------------------------------------------------------------------------------------

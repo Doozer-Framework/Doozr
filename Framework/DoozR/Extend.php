@@ -222,7 +222,7 @@ function traverse($path)
  */
 function realpath_ext($path, $resolveSymlinks = false)
 {
-    if ($resolveSymlinks === false) {
+    if ($resolveSymlinks === false && $_SERVER['DOCUMENT_ROOT'] != '') {
         $result   = array();
         $realpath = traverse($path);
         $prepared = '';
@@ -241,7 +241,7 @@ function realpath_ext($path, $resolveSymlinks = false)
         }
 
         // This is important !>
-        if (!file_exists($realpath)) {
+        if (file_exists($realpath) === false) {
             $realpath = null;
         }
 

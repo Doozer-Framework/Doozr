@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Html.php - Extension to default Input-Element required if HTML
- * should be inserted into form.
+ * Option.php - Option part of select field. Extra element cause it
+ * has a similar interface like standard html elements. so recycle.
  *
  * PHP versions 5
  *
@@ -53,13 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html.php';
 
 /**
  * DoozR - Form - Service
  *
- * Extension to default Input-Element required if HTML
- * should be inserted into form.
+ * Option part of select field. Extra element cause it
+ * has a similar interface like standard html elements. so recycle.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,37 +70,46 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Html extends DoozR_Form_Service_Element_Input
+class DoozR_Form_Service_Element_Option extends DoozR_Form_Service_Element_Html
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form"
+     * The tag for this type of element
      *
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_NONE;
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OPTION;
 
     /**
-     * Another template which supports inner HTML content!
+     * The parent elements name.
+     * e.g. to retrieve submitted value.
      *
-     * @var string
+     * @var DoozR_Form_Service_Element_Select
      * @access protected
      */
-    protected $template = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
-
-    /**
-     * The inner HTML string
-     *
-     * @var string
-     * @access protected
-     */
-    protected $innerHtml = '';
+    protected $parent;
 
 
     /*-----------------------------------------------------------------------------------------------------------------+
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructor.
+     *
+     * @param string $name The name to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Element_Input $this
+     * @access public
+     */
+    public function __construct($key, DoozR_Form_Service_Element_Select &$element, $arguments = array(), $registry = array())
+    {
+        $this->setKey($key);
+        $this->setParent($element);
+        $this->setArguments($arguments);
+        $this->setRegistry($registry);
+    }
 
     /**
      * Specific renderer for HTML-Elements.
@@ -113,11 +122,19 @@ class DoozR_Form_Service_Element_Html extends DoozR_Form_Service_Element_Input
      */
     public function render($forceRender = false)
     {
+        // Check if this option must be selected before rendering
+        $submittedValue = $this->getParent()->getValue();
+
+        if ($submittedValue !== null && $this->getValue() === $submittedValue) {
+            $this->setAttribute('selected');
+        } else {
+            $this->removeAttribute('selected');
+        }
+
         $html     = '';
         $rendered = parent::render($forceRender);
 
         if ($this->innerHtml !== null) {
-
             $variables = array(
                 'inner-html' => $this->innerHtml
             );
@@ -134,54 +151,120 @@ class DoozR_Form_Service_Element_Html extends DoozR_Form_Service_Element_Input
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for inner-HTML of the DIV
+     * Setter for name of parent <select> element.
      *
-     * @param string $html The HTML to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setInnerHtml($html)
-    {
-        $this->innerHtml = $html;
-    }
-
-    /**
-     * Getter for inner-HTML.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The inner-HTML if set, otherwise NULL
-     * @access public
-     */
-    public function getInnerHtml()
-    {
-        return $this->innerHtml;
-    }
-
-    /**
-     * Setter for tag.
-     *
-     * @param string $tag The tag of this element
+     * @param string $parent The name of the parent <select> element
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setTag($tag)
+    public function setParent($parent)
     {
-        $this->tag = $tag;
+        $this->parent = $parent;
     }
 
     /**
-     * Getter for tag.
+     * Getter for name of the parent <select> element
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The tag if set, otherwise NULL
+     * @return string The name of the parent <select> element
      * @access public
      */
-    public function getTag()
+    public function getParent()
     {
-        return $this->tag;
+        return $this->parent;
+    }
+
+    /**
+     * Setter for label of this element
+     *
+     * @param string $label The label to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setLabel($label)
+    {
+        $this->setAttribute('label', $label);
+    }
+
+    /**
+     * Getter for label
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The label
+     * @access public
+     */
+    public function getLabel()
+    {
+        return $this->getAttribute('label');
+    }
+
+    /**
+     * Setter for value of this element
+     *
+     * @param string|null $value The value to set or null to use key as value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setValue($value = null)
+    {
+        /*
+        if ($submittedValue !== null &&
+            $submittedValue === $this->getValue()
+        ) {
+            $this->setAttribute('selected');
+        } else {
+            $this->removeAttribute('selected');
+        }
+        */
+
+        if ($value === null) {
+            $value = $this->getKey();
+        }
+
+        $this->setAttribute('value', $value);
+    }
+
+    /**
+     * Getter for value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value
+     * @access public
+     */
+    public function getValue()
+    {
+        return $this->getAttribute('value');
+    }
+
+    /**
+     * Setter for key [<option>KEY</option>] of this element
+     *
+     * @param string $key The key to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setKey($key)
+    {
+        return $this->setInnerHtml($key);
+    }
+
+    /**
+     * Getter for key
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The key
+     * @access public
+     */
+    public function getKey()
+    {
+        return $this->getInnerHtml();
     }
 }

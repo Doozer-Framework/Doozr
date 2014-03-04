@@ -372,11 +372,6 @@ if ($formManager->getStep() === 1) {
         500
     );
 
-    $element1->addValidation(
-        DoozR_Form_Service_Validate_Constant::VALUE,
-        'MeinAuto.txt'
-    );
-
    // Create a message
     if ($formManager->getError('file') === null) {
         $error = null;
@@ -443,6 +438,129 @@ if ($formManager->getStep() === 1) {
     $formManager->setSteps(3);
     $formManager->setInvalidTokenBehavior(DoozR_Form_Service_Constant::TOKEN_BEHAVIOR_DENY);
     $formManager->setI18n($i18n);
+
+
+
+    // Create a label
+    $label = new DoozR_Form_Service_Element_Label('Type:');
+
+    // Create an input field
+    $element = new DoozR_Form_Service_Element_Select(
+        'type',
+        new DoozR_Form_Service_Element_Html(),
+        $registry->front->getRequest()->getArguments(),
+        $formManager->getRegistry()
+    );
+
+    $element->setId('type');
+    $element->setValue(
+        $formManager->getValue('type')
+    );
+
+    $option1 = new DoozR_Form_Service_Element_Option(
+        'key1',
+        $element,
+        $registry->front->getRequest()->getArguments(),
+        $formManager->getRegistry()
+    );
+
+    $option1->setValue(
+        'value1'
+    );
+
+    $element->addOption($option1);
+
+
+    $option2 = new DoozR_Form_Service_Element_Option(
+        'key2',
+        $element,
+        $registry->front->getRequest()->getArguments(),
+        $formManager->getRegistry()
+    );
+
+    $option2->setValue(
+        'value2'
+    );
+
+    $element->addOption($option2);
+
+
+    $element->addValidation(
+        DoozR_Form_Service_Validate_Constant::REQUIRED
+    );
+
+    $element->addValidation(
+        DoozR_Form_Service_Validate_Constant::VALUE,
+        'value2'
+    );
+
+    // Create a message
+    if ($formManager->getError('type') === null) {
+        $error = null;
+    } else {
+        $error = DoozR_Form_Service_Validate_Constant::ERROR_PREFIX.$formManager->getError(
+                'type', null
+            )[0]['error'];
+    }
+
+    $message = new DoozR_Form_Service_Element_Message(
+        $formManager->translate(
+            $error
+        )
+    );
+    $message->setStyle('color:red;');
+
+
+    // Create a group with: Label, Element, Message
+    $group0 = new DoozR_Form_Service_Element_Group(
+        $label,
+        $element,
+        $message
+    );
+
+
+    /**
+     * Begin TEXTAREA: sometext
+     */
+    $textarea = new DoozR_Form_Service_Element_Textarea(
+        'sometext',
+        $registry->front->getRequest()->getArguments(),
+        $formManager->getRegistry()
+    );
+
+    $textarea->addValidation(
+        DoozR_Form_Service_Validate_Constant::REQUIRED
+    );
+
+    $textarea->setValue(
+        $formManager->getValue(
+            'sometext'
+        )
+    );
+
+    // Create a message
+    if ($formManager->getError('sometext') === null) {
+        $error = null;
+    } else {
+        $error = DoozR_Form_Service_Validate_Constant::ERROR_PREFIX.$formManager->getError(
+                'sometext', null
+            )[0]['error'];
+    }
+
+    $message = new DoozR_Form_Service_Element_Message(
+        $formManager->translate(
+            $error
+        )
+    );
+    $message->setStyle('color:red;');
+
+    // Create a group with: Label, Element, Message
+    $group3 = new DoozR_Form_Service_Element_Group(
+        $label,
+        $textarea,
+        $message
+    );
+
 
 
     // Create a label
@@ -524,12 +642,17 @@ if ($formManager->getStep() === 1) {
     $element->setType('submit');
     $element->setValue('Weiter zu Schritt 3/3');
 
+
+
+    $fieldset->add($group0);
+    $fieldset->add($group3);
     $fieldset->add($group1);
     $fieldset->add($group2);
     $fieldset->add($element);
 
     // Add the fieldset to the form -> looks weird ... why to put the form in first ...
     $formManager->getForm()->add($fieldset);
+
 
 } elseif ($formManager->getStep() === 3) {
 

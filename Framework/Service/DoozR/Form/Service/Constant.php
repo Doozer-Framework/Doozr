@@ -192,6 +192,7 @@ class DoozR_Form_Service_Constant
     const HTML_TAG_RADIO    = 'radio';
     const HTML_TAG_CHECKBOX = 'checkbox';
     const HTML_TAG_SELECT   = 'select';
+    const HTML_TAG_OPTION   = 'option';
     const HTML_TAG_TEXTAREA = 'textarea';
     const HTML_TAG_INPUT    = 'input';
     const HTML_TAG_LABEL    = 'label';

@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Html.php - Extension to default Input-Element required if HTML
- * should be inserted into form.
+ * Textarea.php - Extends Html element to build a valid textarea
+ * element.
  *
  * PHP versions 5
  *
@@ -53,13 +53,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html.php';
 
 /**
  * DoozR - Form - Service
  *
- * Extension to default Input-Element required if HTML
- * should be inserted into form.
+ * Extends Html Base element to build a valid select element.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Html extends DoozR_Form_Service_Element_Input
+class DoozR_Form_Service_Element_Textarea extends DoozR_Form_Service_Element_Html
 {
     /**
      * This is the tag-name for HTML output.
@@ -79,109 +78,36 @@ class DoozR_Form_Service_Element_Html extends DoozR_Form_Service_Element_Input
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_NONE;
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_TEXTAREA;
+
 
     /**
-     * Another template which supports inner HTML content!
+     * Setter for value.
      *
-     * @var string
-     * @access protected
-     */
-    protected $template = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
-
-    /**
-     * The inner HTML string
-     *
-     * @var string
-     * @access protected
-     */
-    protected $innerHtml = '';
-
-
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Specific renderer for HTML-Elements.
-     *
-     * @param boolean $forceRender TRUE to force rerendering of cached content
+     * @param mixed $value The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|string HTML as string if set, otherwise NULL
+     * @return void
      * @access public
      */
-    public function render($forceRender = false)
+    public function setValue($value)
     {
-        $html     = '';
-        $rendered = parent::render($forceRender);
-
-        if ($this->innerHtml !== null) {
-
-            $variables = array(
-                'inner-html' => $this->innerHtml
-            );
-
-            $html = $this->_tpl($rendered, $variables).DoozR_Form_Service_Constant::NEW_LINE;
-            $this->html = $html;
+        if ($value === null) {
+            $value = '';
         }
 
-        return $html;
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Getter & Setter
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Setter for inner-HTML of the DIV
-     *
-     * @param string $html The HTML to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setInnerHtml($html)
-    {
-        $this->innerHtml = $html;
+        $this->setInnerHtml($value);
     }
 
     /**
-     * Getter for inner-HTML.
+     * Getter for value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The inner-HTML if set, otherwise NULL
+     * @return mixed Value of this element
      * @access public
      */
-    public function getInnerHtml()
+    public function getValue()
     {
-        return $this->innerHtml;
-    }
-
-    /**
-     * Setter for tag.
-     *
-     * @param string $tag The tag of this element
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setTag($tag)
-    {
-        $this->tag = $tag;
-    }
-
-    /**
-     * Getter for tag.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The tag if set, otherwise NULL
-     * @access public
-     */
-    public function getTag()
-    {
-        return $this->tag;
+        return $this->getInnerHtml();
     }
 }
