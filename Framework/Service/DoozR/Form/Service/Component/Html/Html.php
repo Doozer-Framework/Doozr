@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Class DoozR_Form_Service_Element_Html_Base is a basic HTML-Element
+ * Class DoozR_Form_Service_Component_Html_Html is a basic HTML-Component
  * which provides some simple rendering and templating capabilities.
  * It's a concrete implementation which extends the HTML-skeleton abstract.
  *
@@ -54,13 +54,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Html.php';
 
 /**
  * DoozR - Form - Service
  *
- * Class DoozR_Form_Service_Element_Html_Base is a basic HTML-Element
+ * Class DoozR_Form_Service_Component_Html_Html is a basic HTML-Component
  * which provides some simple rendering and templating capabilities.
  * It's a concrete implementation which extends the HTML-skeleton abstract.
  *
@@ -72,60 +72,43 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Interf
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
+ * @abstract
  */
-class DoozR_Form_Service_Element_Html_Base extends DoozR_Form_Service_Element_Html_Abstract
+abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service_Component_Html_Abstract
     implements
-    DoozR_Form_Service_Element_Html_Interface,
-    ArrayAccess,
-    SplSubject
+    DoozR_Form_Service_Component_Interface_Html,
+    SplSubject,
+    SplObserver,
+    ArrayAccess
 {
     /**
-     * This index is maintained when setting or removing
-     * attributes. Values will be added or removed when
-     * using setAttribute() or getAttribute()
+     * The observers references.
+     * Is array on default so that a access as array
+     * won't fail till construction
      *
-     * The index is structured like this:
-     *
-     * $index[0] => 'id'
-     * ...
-     * $index[3] => 'onclick'
-     *
-     * So we can use an integer based pointer for
-     * Iterator-Loops and lookup in this index for
-     * the relation.
-     *
-     * @var array
-     * @access protected
-     */
-    protected $index = array();
-
-    /**
-     * This is the pointer which points to the last
-     * element in the loop.
-     *
-     * @var int
-     * @access protected
-     */
-    protected $pointer = 0;
-
-    /**
-     * The observers references
-     *
-     * @var array
+     * @var SplObjectStorage
      * @access protected
      */
     protected $observers = array();
 
     /**
-     * The template is required for output. Each HTML-Element inherits
-     * this base template and so every element based on this base class
+     * The template is required for output. Each HTML-Component inherits
+     * this base template and so every component based on this base class
      * is renderable. This template produces at least a correct HTML tag
      * which must not be valid in an other context!
      *
      * @var string
      * @access protected
      */
-    protected $template = '<{{TAG}}{{ATTRIBUTES}}></{{TAG}}>';
+    protected $template = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
+
+    /**
+     * The inner HTML string
+     *
+     * @var string
+     * @access protected
+     */
+    protected $innerHtml = '';
 
     /**
      * This contains the rendered HTML when rendered. Its kept till render
@@ -137,41 +120,70 @@ class DoozR_Form_Service_Element_Html_Base extends DoozR_Form_Service_Element_Ht
     protected $html;
 
 
+    /**
+     * Constructor
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function __construct()
+    {
+        $this->observers = new SplObjectStorage();
+    }
+
     /*-----------------------------------------------------------------------------------------------------------------*
-    | General Functionality
+    | Public API
     *-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Default renderer for all basic HTML-elements. This renderer is capable
-     * of parsing HTML-elements "properties" and makes use of the $template
+     * Default renderer for all basic HTML-components. This renderer is capable
+     * of parsing HTML-components "properties" and makes use of the $template
      * variable and the mini-templating functionality of this class (_tpl()).
      *
-     * @param boolean $forceRender TRUE to override primitive caching (FALSE = default)
+     * @param boolean $force TRUE to override primitive caching (FALSE = default)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed|string
+     * @access public
      * @see _tpl(), $template
      */
-    public function render($forceRender = false)
+    public function render($force = false)
     {
+        // default no attributes
         $attributes = '';
 
-        if ($this->html === null || $forceRender === true) {
+        // Render only if not already rendered OR if forced
+        if ($this->html === null || $force === true) {
+
             foreach ($this->attributes as $attribute => $value) {
+
                 // check value-less attributes to be embedded properly
                 if ($value === null) {
                     $attributes .= ' '.$attribute;
                 } else {
+                    $value = (is_array($value)) ? $value[0] : $value;
                     $attributes .= ' '.$attribute.'="'.$value.'"';
                 }
             }
 
+            // Set template variables for our default template
             $templateVariables = array(
                 'attributes' => $attributes,
                 'tag'        => $this->tag
             );
 
             $html = $this->_tpl($this->template, $templateVariables);
+
+            if ($this->innerHtml !== null) {
+
+                $variables = array(
+                    'inner-html' => $this->innerHtml
+                );
+
+                $html = $this->_tpl($html, $variables);
+            }
+
             $this->html = $html.DoozR_Form_Service_Constant::NEW_LINE;
         }
 
@@ -181,7 +193,7 @@ class DoozR_Form_Service_Element_Html_Base extends DoozR_Form_Service_Element_Ht
     /**
      * Nice shortcut to render with output = true! This method provides
      * us the functionality to be able to just "echo $instance" to get
-     * an element rendered.
+     * an component rendered.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The result of render()
@@ -219,25 +231,50 @@ class DoozR_Form_Service_Element_Html_Base extends DoozR_Form_Service_Element_Ht
     }
 
     /**
-     * Setter for attribute[] which also maintains the index.
-     * This setter also take care for handling references in
-     * index when storing new attributes.
+     * Setter for template.
+     *
+     * @param string $template The template to use for rendering HTML
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+    }
+
+    /**
+     * Getter for template.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The template of the component
+     * @access public
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * Hook on Setter for attribute(s) to intercept calls
+     * and notify observers.
      *
      * @param      $key   The attributes name
      * @param null $value The attributes value
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
+     * @access public
      */
     public function setAttribute($key, $value = null)
     {
-        if (!isset($this->attributes[$key])) {
-            $this->index[] = $key;
-        }
-
+        // Dispatch to real method
         parent::setAttribute($key, $value);
 
-        // notify all elements which observing this element so the observers stay informed
+        // notify all components which observing this component so the observers stay informed
         // about changes in this class an can react => e.g. re-render HTML and so on.
+        // Notify all attached components -> render again
         $this->notify();
     }
 
@@ -255,6 +292,9 @@ class DoozR_Form_Service_Element_Html_Base extends DoozR_Form_Service_Element_Ht
         if (isset($this->attributes[$key])) {
             unset($this->attributes[$key]);
         }
+
+        // Notify all attached components -> render again
+        $this->notify();
     }
 
     /*-----------------------------------------------------------------------------------------------------------------*
@@ -392,7 +432,7 @@ class DoozR_Form_Service_Element_Html_Base extends DoozR_Form_Service_Element_Ht
      */
     public function attach(SplObserver $observer)
     {
-        $this->observers[] = $observer;
+        $this->observers->attach($observer);
     }
 
     /**
@@ -405,9 +445,7 @@ class DoozR_Form_Service_Element_Html_Base extends DoozR_Form_Service_Element_Ht
      */
     public function detach(SplObserver $observer)
     {
-        if (($idx = array_search($observer, $this->observers, true)) !== false) {
-            unset($this->observers[$idx]);
-        }
+        $this->observers->detach($observer);
     }
 
     /**
@@ -420,9 +458,18 @@ class DoozR_Form_Service_Element_Html_Base extends DoozR_Form_Service_Element_Ht
      */
     public function notify()
     {
-        foreach($this->observers as $observer){
+        foreach ($this->observers as $observer){
             $observer->update($this);
         }
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------*
+     | SplSubject Fullfilment
+     *----------------------------------------------------------------------------------------------------------------*/
+
+    public function update(SplSubject $subject)
+    {
+        pred($subject);
     }
 
     /*-----------------------------------------------------------------------------------------------------------------*
