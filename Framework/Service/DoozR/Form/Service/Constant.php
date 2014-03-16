@@ -193,6 +193,7 @@ class DoozR_Form_Service_Constant
     const HTML_TAG_CHECKBOX = 'checkbox';
     const HTML_TAG_SELECT   = 'select';
     const HTML_TAG_OPTION   = 'option';
+    const HTML_TAG_OPTGROUP = 'optgroup';
     const HTML_TAG_TEXTAREA = 'textarea';
     const HTML_TAG_INPUT    = 'input';
     const HTML_TAG_LABEL    = 'label';
@@ -258,4 +259,22 @@ class DoozR_Form_Service_Constant
      * @const
      */
     const ENCODING_TYPE_TEXT = 'text/plain';
+
+    /**
+     * Type for generic components like <textare> <select> ...
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const COMPONENT_GENERIC = 'generic';
+
+    /**
+     * Type for default components like <input type="..." ...>
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const COMPONENT_DEFAULT = 'default';
 }

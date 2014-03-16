@@ -4,7 +4,9 @@
 /**
  * DoozR - Form - Service
  *
- * Fieldset.php - The Fieldset implementation of HTML fieldset.
+ * Form.php - Form component to build forms. This component builds
+ * the <form></form> part and provide some more specialized access
+ * like getters and setters for action, method, ...
  *
  * PHP versions 5
  *
@@ -52,12 +54,14 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
 
 /**
  * DoozR - Form - Service
  *
- * The Fieldset implementation of HTML fieldset.
+ * Form component to build forms. This component builds
+ * the <form></form> part and provide some more specialized access
+ * like getters and setters for action, method, ...
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,14 +72,92 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Contai
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Html_Fieldset extends DoozR_Form_Service_Element_Html_Container
+class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_Formcomponent
 {
     /**
      * This is the tag-name for HTML output.
-     * e.g. "input" or "form"
+     * e.g. "input" or "form". Default empty string ""
      *
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_FIELDSET;
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_FORM;
+
+
+
+
+    public function __construct($name = null)
+    {
+        if ($name !== null) {
+            $this->setName($name);
+        }
+
+        // call parents constructor and
+        parent::__construct();
+    }
+
+
+
+    public function enableUpload()
+    {
+        $this->setEncodingType(DoozR_Form_Service_Constant::ENCODING_TYPE_FILEUPLOAD);
+
+        return $this;
+    }
+
+    public function setEncodingType($encodingType = DoozR_Form_Service_Constant::ENCODING_TYPE_DEFAULT)
+    {
+        $this->setAttribute('enctype', $encodingType);
+
+        return $this;
+    }
+
+    public function getEncodingType()
+    {
+        return $this->getAttribute('enctype');
+    }
+
+    /**
+     * Returns the validity state of the component.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
+     */
+    /*
+    public function isValid(
+        $arguments = array(),
+        $store = array(),
+        DoozR_Form_Service_Validate_Validator $validator = null
+    ) {
+        if ($this->valid === null) {
+            // assume a valid state for boolean operator
+            $valid = true;
+
+            # @var DoozR_Form_Service_Component_Interface_Form $child
+            foreach ($this->childs as $child) {
+                $valid = $valid && $child->isValid($arguments, $store, $validator);
+            }
+
+            $this->valid = $valid;
+        }
+
+        // here we would iterate components of the form to check the validity
+        return $this->valid;
+    }
+    */
+
+    /**
+     * Hook on Setter for value.
+     *
+     * @param mixed $value The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setValue($value)
+    {
+        // Intentionally left blank to block access to set value property -> nonsense for <form>
+    }
 }

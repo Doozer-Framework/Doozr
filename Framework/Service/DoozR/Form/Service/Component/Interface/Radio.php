@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Form.php - The Form HTML element <form ...></form>
+ * Radio.php - Interface for Radio components.
  *
  * PHP versions 5
  *
@@ -52,12 +52,10 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Container.php';
-
 /**
  * DoozR - Form - Service
  *
- * The Form HTML element <form ...></form>
+ * Interface for Radio components.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,14 +66,23 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Contai
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Html_Form extends DoozR_Form_Service_Element_Html_Container
+interface DoozR_Form_Service_Component_Interface_Radio
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form"
+     * Checks a radio component
      *
-     * @var string
-     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_FORM;
+    public function check();
+
+    /**
+     * Unchecks a radio component
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function uncheck();
 }

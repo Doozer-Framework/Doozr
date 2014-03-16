@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Legend.php - The Legend element control layer which adds validation,
- * and so on to an HTML element.
+ * Option.php - Interface for Options as well as Optgroup components.
+ * Same contract.
  *
  * PHP versions 5
  *
@@ -53,14 +53,11 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Label.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
-
 /**
  * DoozR - Form - Service
  *
- * The Legend element control layer which adds validation,
- * and so on to an HTML element.
+ * Interface for Options as well as Optgroup components.
+ * Same contract.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -71,118 +68,65 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Legend extends DoozR_Form_Service_Element_Html_Legend
-    implements DoozR_Form_Service_Element_Interface, SplObserver
+interface DoozR_Form_Service_Component_Interface_Option
 {
     /**
-     * The validations of this field
+     * Setter for label
      *
-     * @var array
-     * @access protected
-     */
-    protected $validation = array();
-
-
-    /**
-     * Constructor.
-     *
-     * @param string $message The message to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Label $this
-     * @access public
-     */
-    public function __construct($message = '')
-    {
-        $this->setInnerHtml($message);
-    }
-
-    /**
-     * Returns the validity state of the form.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
-     * @access public
-     */
-    public function isValid($arguments = array(), $store = array())
-    {
-        // here we would iterate elements of the form to check the validity
-        return true;
-    }
-
-    /**
-     * Stores/adds the passed validation information.
-     *
-     * @param string      $validation The type of validation
-     * @param null|string $value      The value for validation or NULL
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Input
-     * @access public
-     */
-    public function addValidation($validation, $value = null)
-    {
-        if (!isset($this->validation[$validation])) {
-            $this->validation[$validation] = array();
-        }
-
-        $this->validation[$validation][] = $value;
-    }
-
-    /**
-     * Getter for validation.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Validations as array
-     * @access public
-     */
-    public function getValidation()
-    {
-        return $this->validation;
-    }
-
-    /**
-     * Setter for value.
-     *
-     * @param mixed $value The value to set
+     * @param string $label The label of the option
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setValue($value)
-    {
-        $this->setAttribute('value', $value);
-    }
+    public function setLabel($label);
 
     /**
-     * Getter for value.
+     * Getter for label
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Value of this element
+     * @return string The label
      * @access public
      */
-    public function getValue()
-    {
-        $this->getAttribute('value');
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | SPL-Observer
-    +-----------------------------------------------------------------------------------------------------------------*/
+    public function getLabel();
 
     /**
-     * Update method for SplObserver Interface.
+     * Setter for disabled status
      *
-     * @param SplSubject $subject The subject
+     * @param boolean $state The status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function update(SplSubject $subject)
-    {
-        var_dump($subject);
-        pred(__METHOD__);
-    }
+    public function setDisabled($state);
+
+    /**
+     * Getter for disabled status
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if disabled, otherwise FALSE
+     * @access public
+     */
+    public function getDisabled();
+
+    /**
+     * Setter for key
+     *
+     * @param string $key The key to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setKey($key);
+
+    /**
+     * Getter for key
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The key
+     * @access public
+     */
+    public function getKey();
 }

@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Interface.php The base interface for the minimum required set
- * of methods must be provided by classes implementing this interface.
+ * Input.php - The Input component control layer which adds validation,
+ * and so on to an HTML component.
  *
  * PHP versions 5
  *
@@ -53,11 +53,14 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Input.php';
+
 /**
  * DoozR - Form - Service
  *
- * The base interface for the minimum required set
- * of methods must be provided by classes implementing this interface.
+ * The Input component control layer which adds validation,
+ * and so on to an HTML component.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,33 +71,22 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-interface DoozR_Form_Service_Element_Html_Interface
+class DoozR_Form_Service_Component_Text extends DoozR_Form_Service_Component_Input
 {
     /**
-     * Intention:
-     * Setter for HTML which is originally created and stored by render(). This
-     * method provides a backdoor to set the HTML code (override).
+     * Constructor
+     *
+     * @param string $name The name of the component (shortcut to $foo->setName(...))
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    public function setHtml($html);
+    public function __construct($name = '', $arguments = array(), $registry = array())
+    {
+        $this->setType('text');
 
-    /**
-     * Intention:
-     * Returns the HTML code of the element
-     */
-    public function getHtml();
-
-    /**
-     * Intention:
-     * The renderer is responsible for rendering the
-     * single parts of an element like attributes to
-     * HTML for example. The result is stored in $html;
-     */
-    public function render();
-
-    /**
-     * Intention:
-     * This magic should be used to return the result
-     * of a render-call.
-     */
-    public function __toString();
+        // Important call so observer storage ... can be initiated
+        parent::__construct($name, $arguments, $registry);
+    }
 }

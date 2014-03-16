@@ -4,7 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Interface.php - The interface for all elements used in userland.
+ * Label.php - The Label element control layer which adds validation,
+ * and so on to an HTML element.
  *
  * PHP versions 5
  *
@@ -52,10 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
+
 /**
  * DoozR - Form - Service
  *
- * The interface for all elements used in userland.
+ * The Label element control layer which adds validation,
+ * and so on to an HTML element.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -66,60 +70,29 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-interface DoozR_Form_Service_Element_Interface
+class DoozR_Form_Service_Component_Label extends DoozR_Form_Service_Component_Formcomponent
 {
-
     /**
-     * Returns the valid state of the element.
+     * This is the tag-name for HTML output.
+     * e.g. "input" or "form". Default empty string ""
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if element state is valid, otherwise FALSE
-     * @access public
+     * @var string
+     * @access protected
      */
-    public function isValid($arguments = array(), $store = array());
-
-
-    #public function hasUpload();
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_LABEL;
 
 
     /**
-     * Stores/adds the passed validation information.
+     * Constructor
      *
-     * @param string      $validation The type of validation
-     * @param null|string $value      The value for validation or NULL
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Input
-     * @access public
-     */
-    public function addValidation($validation, $value = null);
-
-    /**
-     * Getter for validation.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Validations as array
-     * @access public
-     */
-    public function getValidation();
-
-    /**
-     * Setter for value.
-     *
-     * @param mixed $value The value to set
+     * @param string $message The message to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setValue($value);
-
-    /**
-     * Getter for value.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Value of this element
-     * @access public
-     */
-    public function getValue();
+    public function __construct($message = '')
+    {
+        $this->setInnerHtml($message);
+    }
 }

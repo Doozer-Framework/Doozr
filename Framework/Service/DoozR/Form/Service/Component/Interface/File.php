@@ -4,9 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Abstract.php - This abstract class provides the basic and
- * default methods and properties and implements some basic
- * behavior.
+ * File.php - Contract for file upload component.
  *
  * PHP versions 5
  *
@@ -57,9 +55,7 @@
 /**
  * DoozR - Form - Service
  *
- * This abstract class provides the basic and
- * default methods and properties and implements some basic
- * behavior.
+ * Contract for file upload component.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,39 +66,87 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-abstract class DoozR_Form_Service_Element_Abstract extends DoozR_Form_Service_Element_Html_Base
+interface DoozR_Form_Service_Component_Interface_File
 {
     /**
-     * Returns the validity state of the form.
+     * Setter for filename container.
+     *
+     * @param DoozR_Form_Service_Component_Interface_Html $container The container to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return void
      * @access public
      */
-    public function isValid()
-    {
-        // BASIC = everything's valid
-        return true;
-    }
+    public function setFilenameContainer(DoozR_Form_Service_Component_Interface_Html $container);
 
     /**
-     * Returns the name of an element.
+     * Getter for filename container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The name of the element as string,
-     *                     otherwise NULL if not set
+     * @return DoozR_Form_Service_Component_Interface_Html|null The container if set, otherwise NULL
      * @access public
      */
-    public function getName()
-    {
-        pred(__METHOD__);
+    public function getFilenameContainer();
 
-        $result = '';
+    /**
+     * Setter for file.
+     *
+     * @param string|null $file The file
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setFile($filename);
 
-        if ($this->getAttribute('name') !== null) {
-            $result = $this->getAttribute('name');
-        }
+    /**
+     * Getter for file.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The filename if set, otherwise NULL
+     * @access public
+     */
+    public function getFile();
 
-        return $result;
-    }
+    /**
+     * Sets the maximum size in bytes a file is allowed to have.
+     *
+     * @param integer|string $maxFilesize The maximum allowed size in bytes
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The size in bytes
+     * @access public
+     */
+    public function setMaxFilesize($maxFilesize);
+
+    /**
+     * Returns the maximum size in bytes a file is allowed to have.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The size in bytes
+     * @access public
+     */
+    public function getMaxFilesize();
+
+    /**
+     * Setter for hidden component wich is used for transport
+     * the maximum allowed filesize.
+     *
+     * @param DoozR_Form_Service_Component_Interface_Input $component The component (hidden)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Component_Interface_Html|null The container if set, otherwise NULL
+     * @access public
+     */
+    public function setHiddenComponent(DoozR_Form_Service_Component_Interface_Input $component);
+
+    /**
+     * Getter for hidden component wich is used for transport
+     * the maximum allowed filesize.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Component_Interface_Html|null The component if set, otherwise NULL
+     * @access public
+     */
+    public function getHiddenComponent();
 }

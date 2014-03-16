@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Checkbox.php - Extension to default Input-Element <input type="..." ...
- * but with some specific checkbox-field tuning.
+ * Checkbox.php - Extension to default Input-Component <input type="..." ...
+ * but with some specific radio-field tuning.
  *
  * PHP versions 5
  *
@@ -53,13 +53,14 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Radio.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Checkbox.php';
 
 /**
  * DoozR - Form - Service
  *
- * Checkbox.php - Extension to default Input-Element <input type="..." ...
- * but with some specific checkbox-field tuning.
+ * Extension to default Input-Component <input type="..." ...
+ * but with some specific radio-field tuning.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,8 +71,19 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Radio.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Checkbox extends DoozR_Form_Service_Element_Radio
+class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component_Input
+    implements
+    DoozR_Form_Service_Component_Interface_Checkbox
 {
+    /**
+     * Status if component is capable of
+     * submitting multiple values
+     *
+     * @var boolean
+     * @access protected
+     */
+    protected $multiValue = true;
+
     /**
      * The addition to name for rendering HTML
      * code for multiple input checkboxes.
@@ -80,40 +92,57 @@ class DoozR_Form_Service_Element_Checkbox extends DoozR_Form_Service_Element_Rad
      *
      * @var string
      * @access protected
-     * @static
      */
-    protected static $multiMarker = '[]';
-
-    /**
-     * The multiple input
-     *
-     * @var boolean
-     * @access protected
-     */
-    protected $multiple = false;
+    protected $multiMarker = '[]';
 
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param string $name      The name of this element
-     * @param array  $arguments The arguments passed with current request
+     * @param string $name The name of the element
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Checkbox Instance of this class
+     * @return void
      * @access public
      */
     public function __construct(
-        $name,
-        $arguments = array(),
-        $registry = array()
+        $name
     ) {
-        $instance = parent::__construct($name, $arguments, $registry);
-
-        // override the type
         $this->setType('checkbox');
 
-        return $instance;
+        parent::__construct($name);
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Checks this element.
+     *
+     * @param boolean $override TRUE to force check, FALSE to preserve unchecked state if not active
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function check($override = false)
+    {
+        $this->setAttribute('checked');
+    }
+
+    /**
+     * Unchecks this element.
+     *
+     * @param boolean $override TRUE to force uncheck, FALSE to preserve checked state if not active
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function uncheck($override = false)
+    {
+        $this->removeAttribute('checked');
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -121,23 +150,45 @@ class DoozR_Form_Service_Element_Checkbox extends DoozR_Form_Service_Element_Rad
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the name of this element without brackets by default.
+     * Setter for name.
      *
-     * @param boolean $ripBrackets TRUE to remove brackets from name, FALSE to do not
+     * @param string $name The name to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The name of this element with or without brackets, or NULL if not set
+     * @return void
      * @access public
      */
-    public function getName($ripBrackets = true)
+    public function setName($name)
     {
-        $name = $this->getAttribute('name');
+        $name .= '[]';
+        parent::setName($name);
+    }
 
-        if ($ripBrackets === true) {
-            $name = str_replace(self::$multiMarker, '', $this->getAttribute('name'));
-        }
+    /**
+     * Sets the multiple status of this element.
+     *
+     * @param boolean TRUE to mark this field as multi select field,
+     *                FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setMultiple($status)
+    {
+        $this->multiValue = $status;
+    }
 
-        return $name;
+    /**
+     * Returns the multiple status of this element.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if field is multi select, FALSE if not
+     * @access protected
+     */
+    protected function getMultiple()
+    {
+        return $this->multiValue;
     }
 
     /**
@@ -152,7 +203,7 @@ class DoozR_Form_Service_Element_Checkbox extends DoozR_Form_Service_Element_Rad
      */
     public function setAttribute($key, $value = null)
     {
-        if ($key === 'name' && stristr($value, self::$multiMarker) !== false) {
+        if ($key === 'name' && stristr($value, $this->multiMarker) !== false) {
             $this->setMultiple(true);
         }
 
@@ -173,105 +224,70 @@ class DoozR_Form_Service_Element_Checkbox extends DoozR_Form_Service_Element_Rad
         $value = parent::getAttribute($key);
 
         if ($key === 'name') {
-            $value = str_replace(self::$multiMarker, '', $value);
+            $value = str_replace($this->multiMarker, '', $value);
         }
 
         return $value;
     }
 
+
     /**
-     * Sets the value of this element
+     * Returns the name of this element without brackets by default.
      *
-     * @param string $value The value to set
+     * @param boolean $ripBrackets TRUE to remove brackets from name, FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The name of this element with or without brackets, or NULL if not set
+     * @access public
+     */
+    public function getName($ripBrackets = true)
+    {
+        $name = $this->getAttribute('name');
+
+        if ($ripBrackets === true) {
+            $name = str_replace($this->multiMarker, '', $this->getAttribute('name'));
+        }
+
+        return $name;
+    }
+
+    /**
+     * Setter for value.
+     *
+     * @param string $value          The value to set
+     * @param string $submittedValue The value which was submitted
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setValue($value)
+    public function setValue($value, $submittedValue = null)
     {
-        // check if element was submitted
-        if ($this->wasSubmitted() || $this->existsInRegistry()) {
+        if ($submittedValue !== null && is_array($submittedValue)) {
+            $submitted = in_array($value, $submittedValue);
 
-            if ($this->wasSubmitted()) {
-                // get arguments
-                $arguments = $this->getArguments();
-            } else {
-                $arguments = $this->getRegistry();
-                $arguments = $arguments['data'];
-            }
-
-            if ($this->getMultiple() === true) {
-                $checked = in_array($value, $arguments[$this->getName()]);
-            } else {
-                $checked = $this->isActive();
-            }
-
-            if ($checked === true) {
-                $this->setAttribute('checked', 'checked');
+            if ($submitted === true) {
+                $this->check();
             }
         }
 
-        // set value
-        $this->setAttribute('value', $value);
+        return parent::setValue($value);
     }
 
-    /*------------------------------------------------------------------------------------------------------------------
+    /*-----------------------------------------------------------------------------------------------------------------+
     | Tools & Helper
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Sets the multiple status of this element.
-     *
-     * @param boolean TRUE to mark this field as multi select field,
-     *                FALSE to do not
+     * Returns the active status of this element.
+     * Active = TRUE means that this element was selected (from a group of elements).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean TRUE if the element is active, FALSE if not
      * @access protected
      */
-    protected function setMultiple($status)
+    protected function isActive()
     {
-        $this->multiple = $status;
-    }
-
-    /**
-     * Returns the multiple status of this element.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if field is multi select, FALSE if not
-     * @access protected
-     */
-    protected function getMultiple()
-    {
-        return $this->multiple;
-    }
-
-    /**
-     * Returns the submission status of this element.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if was submitted, otherwise FALSE
-     * @access protected
-     */
-    protected function wasSubmitted()
-    {
-        $arguments = $this->getArguments();
-
-        return (isset($arguments[$this->getName()]));
-    }
-
-    /**
-     * Checks if this element was already stored in registry before
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if this element exists in registry, otherwise FALSE
-     * @access protected
-     */
-    protected function existsInRegistry()
-    {
-        $registry = $this->getRegistry();
-
-        return (isset($registry['data'][$this->getName()]));
+        $this->getAttribute('checked');
     }
 }

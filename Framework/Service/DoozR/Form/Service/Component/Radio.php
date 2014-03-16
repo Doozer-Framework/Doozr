@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Radio.php - Extension to default Input-Element <input type="..." ...
+* Radio.php - Extension to default Input-Component <input type="..." ...
  * but with some specific radio-field tuning.
  *
  * PHP versions 5
@@ -53,12 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Radio.php';
 
 /**
  * DoozR - Form - Service
  *
- * Extension to default Input-Element <input type="..." ...
+ * Extension to default Input-Component <input type="..." ...
  * but with some specific radio-field tuning.
  *
  * @category   DoozR
@@ -70,25 +71,46 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Radio extends DoozR_Form_Service_Element_Input
+class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_Input
+    implements
+    DoozR_Form_Service_Component_Interface_Radio
 {
     /**
-     * Constructor.
+     * Status if component is capable of
+     * submitting multiple values
      *
-     * @param string $name      The name of the element
-     * @param array  $arguments The arguments passed with current request (e.g. $_POST, $_GET ...)
+     * @var boolean
+     * @access protected
+     */
+    protected $multiValue = true;
+
+    /**
+     * The addition to name for rendering HTML
+     * code for multiple input checkboxes.
+     *
+     * @example <input type="checkbox" name="foo[]" ...
+     *
+     * @var string
+     * @access protected
+     */
+    protected $multiMarker = '[]';
+
+
+    /**
+     * Constructor
+     *
+     * @param string $name The name of the element
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Radio Instance of this class
+     * @return \DoozR_Form_Service_Component_Radio
      * @access public
      */
     public function __construct(
-        $name,
-        $arguments = array(),
-        $registry = array()
+        $name
     ) {
         $this->setType('radio');
-        return parent::__construct($name, $arguments, $registry);
+
+        parent::__construct($name);
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -98,83 +120,149 @@ class DoozR_Form_Service_Element_Radio extends DoozR_Form_Service_Element_Input
     /**
      * Checks this element.
      *
-     * @param boolean $override TRUE to force check, FALSE to preserve unchecked state if not active
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function check($override = false)
+    public function check()
     {
-        if ($override === true || $this->wasSubmitted() === false || $this->isActive() === true) {
-            $this->setAttribute('checked', 'checked');
-        }
+        $this->setAttribute('checked');
     }
 
     /**
      * Unchecks this element.
      *
-     * @param boolean $override TRUE to force uncheck, FALSE to preserve checked state if not active
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function uncheck($override = false)
+    public function uncheck()
     {
-        if ($override === true || $this->wasSubmitted() === false || $this->isActive() === false) {
-            $this->removeAttribute('checked');
-        }
+        $this->removeAttribute('checked');
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
     | Setter & Getter
     +-----------------------------------------------------------------------------------------------------------------*/
 
+    public function setName($name)
+    {
+        $name .= '[]';
+        return parent::setName($name);
+    }
+
     /**
-     * Setter for value.
+     * Sets the multiple status of this element.
      *
+     * @param boolean TRUE to mark this field as multi select field,
+     *                FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setMultiple($status)
+    {
+        $this->multiValue = $status;
+    }
+
+    /**
+     * Returns the multiple status of this element.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if field is multi select, FALSE if not
+     * @access protected
+     */
+    protected function getMultiple()
+    {
+        return $this->multiValue;
+    }
+
+    /**
+     * Setter for attributes.
+     *
+     * @param string $key   The key/name of the attribute to set
      * @param string $value The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setValue($value)
+    public function setAttribute($key, $value = null)
     {
-        // check if element must be checked
-        $arguments = $this->getArguments();
-        $registry  = $this->getRegistry('data', array());
-
-        if (
-            (isset($arguments[$this->getName()]) && $arguments[$this->getName()] == $value) ||
-            (isset($registry[$this->getName()]) && $registry[$this->getName()] == $value)
-        ) {
-            $this->setAttribute('checked', 'checked');
+        if ($key === 'name' && stristr($value, $this->multiMarker) !== false) {
+            $this->setMultiple(true);
         }
 
-        $this->setAttribute('value', $value);
+        parent::setAttribute($key, $value);
+    }
+
+    /**
+     * Returns an attribute of this element.
+     *
+     * @param string $key The name of the key/attribute to return value for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|boolean The attributes value if set, FALSE if not
+     * @access public
+     */
+    public function getAttribute($key)
+    {
+        $value = parent::getAttribute($key);
+
+        if ($key === 'name') {
+            $value = str_replace($this->multiMarker, '', $value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Returns the name of this element without brackets by default.
+     *
+     * @param boolean $ripBrackets TRUE to remove brackets from name, FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The name of this element with or without brackets, or NULL if not set
+     * @access public
+     */
+    public function getName($ripBrackets = true)
+    {
+        $name = $this->getAttribute('name');
+
+        if ($ripBrackets === true) {
+            $name = str_replace($this->multiMarker, '', $this->getAttribute('name'));
+        }
+
+        return $name;
+    }
+
+    /**
+     * Setter for value.
+     *
+     * @param string $value          The value to set
+     * @param string $submittedValue The value which was submitted
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setValue($value, $submittedValue = null)
+    {
+        if ($submittedValue !== null && is_array($submittedValue)) {
+            $submittedValue = $submittedValue[0];
+
+            if ($submittedValue === $value) {
+                $this->check();
+            }
+        }
+
+        return parent::setValue($value);
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
     | Tools & Helper
     +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Returns the submission status of this element.
-     *
-     * @param string $name The name to use for check
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if was submitted, otherwise FALSE
-     * @access protected
-     */
-    protected function wasSubmitted()
-    {
-        $arguments = $this->getArguments();
-
-        return (isset($arguments[$this->getName()]));
-    }
 
     /**
      * Returns the active status of this element.
@@ -186,20 +274,6 @@ class DoozR_Form_Service_Element_Radio extends DoozR_Form_Service_Element_Input
      */
     protected function isActive()
     {
-        // assume not active
-        $result = false;
-
-        // check if element must be checked
-        $arguments = $this->getArguments();
-        $registry  = $this->getRegistry('data', array());
-
-        if (
-            (isset($arguments[$this->getName()]) && $arguments[$this->getName()] == $this->getValue()) ||
-            (isset($registry[$this->getName()]) && $registry[$this->getName()] == $this->getValue())
-        ) {
-            $result = true;
-        }
-
-        return $result;
+        $this->getAttribute('checked');
     }
 }

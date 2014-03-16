@@ -78,15 +78,15 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 {
     public function testInit()
     {
-        $base = new DoozR_Form_Service_Element_Html_Base();
-        $this->assertInstanceOf('DoozR_Form_Service_Element_Html_Base', $base);
+        $base = new DoozR_Form_Service_Element_Html_Html();
+        $this->assertInstanceOf('DoozR_Form_Service_Element_Html_Html', $base);
     }
 
     public function testSetAndGetAttribute()
     {
         $key   = 'foo';
         $value = 'bar';
-        $base  = new DoozR_Form_Service_Element_Html_Base();
+        $base  = new DoozR_Form_Service_Element_Html_Html();
 
         $this->assertTrue($base->setAttribute($key, $value));
         $this->assertEquals($value, $base->getAttribute($key));
@@ -94,7 +94,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testSetAndGetAttributes()
     {
-        $base = new DoozR_Form_Service_Element_Html_Base();
+        $base = new DoozR_Form_Service_Element_Html_Html();
 
         $attributes = array(
             'foo' => 'bar',
@@ -108,7 +108,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testSetAndGetHtml()
     {
-        $base = new DoozR_Form_Service_Element_Html_Base();
+        $base = new DoozR_Form_Service_Element_Html_Html();
 
         $attributes = array(
             'html' => '<html></html>'

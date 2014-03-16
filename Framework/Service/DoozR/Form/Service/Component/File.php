@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * File.php - Extension to default Input-Element <input type="..." ...
+ * File.php - Extension to default Input-Component <input type="..." ...
  * but with some specific file-upload specific.
  *
  * PHP versions 5
@@ -53,12 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/File.php';
 
 /**
  * DoozR - Form - Service
  *
- * Extension to default Input-Element <input type="..." ...
+ * Extension to default Input-Component <input type="..." ...
  * but with some specific file-upload specific.
  *
  * @category   DoozR
@@ -70,7 +71,9 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_File extends DoozR_Form_Service_Element_Input
+class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Input
+    implements
+    DoozR_Form_Service_Component_Interface_File
 {
     /**
      * The maximum filesize allowed for fileuploads in Bytes.
@@ -81,30 +84,68 @@ class DoozR_Form_Service_Element_File extends DoozR_Form_Service_Element_Input
     protected $maxFilesize = 0;
 
     /**
-     * The filename
+     * The filename of this component
      *
      * @var string
      * @access protected
      */
     protected $file;
 
+    /**
+     * A container which can be rendered holding the filename
+     * for frontend information.
+     *
+     * @var DoozR_Form_Service_Component_Interface_Html
+     * @access protected
+     */
+    protected $filenameContainer;
 
     /**
-     * Constructor.
+     * A component which can be rendered holding the maximum
+     * allowed filesize for uploads.
      *
-     * @param string $name      The name of the element
-     * @param array  $arguments The arguments passed with current request (e.g. $_POST, $_GET ...)
+     * @var DoozR_Form_Service_Component_Input
+     * @access protected
+     */
+    protected $hiddenComponent;
+
+    /**
+     * Name of the hidden max upload size field
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const NAME_MAX_FILESIZE = 'MAX_FILE_SIZE';
+
+
+    /**
+     * Constructor
+     *
+     * @param string                                      $name              The name of the element
+     * @param DoozR_Form_Service_Component_Interface_Html $filenameContainer The filename container element
+     * @param DoozR_Form_Service_Component_Interface_Form $hiddenComponent   The hidden component for transport max fs
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Radio Instance of this class
+     * @return \DoozR_Form_Service_Component_File
      * @access public
      */
     public function __construct(
         $name,
-        $arguments = array()
+        DoozR_Form_Service_Component_Interface_Html $filenameContainer = null,
+        DoozR_Form_Service_Component_Interface_Form $hiddenComponent = null
     ) {
         $this->setType('file');
-        return parent::__construct($name, $arguments);
+
+        if ($filenameContainer !== null) {
+            $this->setFilenameContainer($filenameContainer);
+        }
+
+        if ($hiddenComponent !== null) {
+            $this->setHiddenComponent($hiddenComponent);
+        }
+
+        parent::__construct($name);
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -127,24 +168,75 @@ class DoozR_Form_Service_Element_File extends DoozR_Form_Service_Element_Input
         $html = parent::render(true);
 
         if ($this->getFile() !== null) {
-
             // transform filename to filename without path ...
             $pathinfo = pathinfo($this->getFile());
 
-            $html = '<div id="DoozR-Form-Uploaded-1" class="DoozR-Form-Uploaded">' .
-                $pathinfo['basename'] .
-                '</div>' . $html;
+            $container = $this->getFilenameContainer();
+
+            $container->setInnerHtml($pathinfo['basename']);
+
+            $html = $container->render() . $html;
         }
 
         // and now we add a special field right before this one
-        $html = '<input type="hidden" name="MAX_FILE_SIZE" value="'.$this->getMaxFilesize().'" />' . PHP_EOL . $html;
-
-        return $html;
+        return $this->getHiddenComponent()->render() . $html;
     }
 
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | Setter & Getter
-    +-----------------------------------------------------------------------------------------------------------------*/
+    /**
+     * Setter for filename container.
+     *
+     * @param DoozR_Form_Service_Component_Interface_Html $container The container to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setFilenameContainer(DoozR_Form_Service_Component_Interface_Html $container)
+    {
+        $this->filenameContainer = $container;
+    }
+
+    /**
+     * Getter for filename container
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Component_Interface_Html|null The container if set, otherwise NULL
+     * @access public
+     */
+    public function getFilenameContainer()
+    {
+        return $this->filenameContainer;
+    }
+
+    /**
+     * Setter for hidden component wich is used for transport
+     * the maximum allowed filesize.
+     *
+     * @param DoozR_Form_Service_Component_Interface_Input $component The component (hidden)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Component_Interface_Html|null The container if set, otherwise NULL
+     * @access public
+     */
+    public function setHiddenComponent(DoozR_Form_Service_Component_Interface_Input $component)
+    {
+        $this->hiddenComponent = $component;
+        $this->hiddenComponent->setName(self::NAME_MAX_FILESIZE);
+        $this->hiddenComponent->setValue($this->getMaxFilesize());
+    }
+
+    /**
+     * Getter for hidden component wich is used for transport
+     * the maximum allowed filesize.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Component_Interface_Html|null The component if set, otherwise NULL
+     * @access public
+     */
+    public function getHiddenComponent()
+    {
+        return $this->hiddenComponent;
+    }
 
     /**
      * Setter for value.

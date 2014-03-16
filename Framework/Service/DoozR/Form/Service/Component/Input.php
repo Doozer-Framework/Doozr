@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Label.php - The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * Input.php - The Input component control layer which adds validation,
+ * and so on to an HTML component.
  *
  * PHP versions 5
  *
@@ -53,14 +53,14 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Label.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Input.php';
 
 /**
  * DoozR - Form - Service
  *
- * The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * The Input component control layer which adds validation,
+ * and so on to an HTML component.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -71,118 +71,83 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Label extends DoozR_Form_Service_Element_Html_Label
-    implements DoozR_Form_Service_Element_Interface, SplObserver
+class DoozR_Form_Service_Component_Input extends DoozR_Form_Service_Component_Formcomponent
+    implements
+    DoozR_Form_Service_Component_Interface_Input
 {
     /**
-     * The validations of this field
+     * This is the tag-name for HTML output.
+     * e.g. "input" or "form". Default empty string ""
      *
-     * @var array
+     * @var string
      * @access protected
      */
-    protected $validation = array();
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_INPUT;
+
+    /**
+     * The template is required for output. Each HTML-Component inherits
+     * this base template and so every component based on this base class
+     * is renderable. This template produces at least a correct HTML tag
+     * which must not be valid in an other context!
+     *
+     * @var string
+     * @access protected
+     */
+    protected $template = '<{{TAG}}{{ATTRIBUTES}} />';
 
 
     /**
      * Constructor.
      *
-     * @param string $message The message to set
+     * @param string $name The name of the component (shortcut to $foo->setName(...))
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Label $this
+     * @return \DoozR_Form_Service_Component_Input
      * @access public
      */
-    public function __construct($message = '')
+    public function __construct($name = '')
     {
-        $this->setInnerHtml($message);
-    }
+        $this->setName($name);
 
-    /**
-     * Returns the validity state of the form.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
-     * @access public
-     */
-    public function isValid($arguments = array(), $store = array())
-    {
-        // a label is always valid cause the user can't change it's value or something like that
-        return true;
-    }
-
-    /**
-     * Stores/adds the passed validation information.
-     *
-     * @param string      $validation The type of validation
-     * @param null|string $value      The value for validation or NULL
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Input
-     * @access public
-     */
-    public function addValidation($validation, $value = null)
-    {
-        if (!isset($this->validation[$validation])) {
-            $this->validation[$validation] = array();
-        }
-
-        $this->validation[$validation][] = $value;
-    }
-
-    /**
-     * Getter for validation.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Validations as array
-     * @access public
-     */
-    public function getValidation()
-    {
-        return $this->validation;
-    }
-
-    /**
-     * Setter for value.
-     *
-     * @param mixed $value The value to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setValue($value)
-    {
-        $this->setAttribute('value', $value);
-    }
-
-    /**
-     * Getter for value.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Value of this element
-     * @access public
-     */
-    public function getValue()
-    {
-        $this->getAttribute('value');
+        // Important call so observer storage ... can be initiated
+        parent::__construct();
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | SPL-Observer
+    | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Update method for SplObserver Interface.
+     * Sets the HTML input element property "autocapitalize"
      *
-     * @param SplSubject $subject The subject
+     * @param boolean $state The state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function update(SplSubject $subject)
+    public function setAutocapitalize($state)
     {
-        var_dump($subject);
-        pred(__METHOD__);
+        if (is_bool($state)) {
+            if ($state === true) {
+                $state = 'on';
+            } else {
+                $state = 'off';
+            }
+        }
+
+        $this->setAttribute('autocapitalize', $state);
+    }
+
+    /**
+     * Returns the autocapitalize state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if autocapitalize is on, otherwise FALSE
+     * @access public
+     */
+    public function getAutocapitalize()
+    {
+        return ($this->getAttribute('autocapitalize') === 'on') ? true : false;
     }
 }

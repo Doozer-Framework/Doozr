@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Fieldset.php - The Fieldset element control layer which adds validation,
- * and so on to an HTML element.
+ * Fieldset.php - The Fieldset component is a container component which
+ * combines components to a set.
  *
  * PHP versions 5
  *
@@ -53,14 +53,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Fieldset.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
 
 /**
  * DoozR - Form - Service
  *
- * The Fieldset element control layer which adds validation,
- * and so on to an HTML element.
+ * The Fieldset component is a container component which combines components to a set.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -71,45 +69,36 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Fieldset extends DoozR_Form_Service_Element_Html_Fieldset
-    implements DoozR_Form_Service_Element_Interface, SplObserver
+class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component_Formcomponent
 {
     /**
-     * The validity of this element
+     * This is the tag-name for HTML output.
+     * e.g. "input" or "form". Default empty string ""
      *
-     * @var boolean TRUE if element is valid, otherwise FALSE if not
+     * @var string
      * @access protected
      */
-    protected $valid;
-
-    /**
-     * The validations of this field
-     *
-     * @var array
-     * @access protected
-     */
-    protected $validation = array();
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_FIELDSET;
 
 
     /**
      * Constructor.
      *
-     * @param DoozR_Form_Service_Element_Interface $legend The legend to add
+     * @param DoozR_Form_Service_Component_Interface_Form $legend The legend to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Fieldset $this
+     * @return void
      * @access public
      */
-    public function __construct(DoozR_Form_Service_Element_Interface $legend = null)
+    public function __construct(DoozR_Form_Service_Component_Interface_Form $legend = null)
     {
         if ($legend !== null) {
-            $this->add($legend);
+            $this->addChild($legend);
         }
     }
 
-
     /*------------------------------------------------------------------------------------------------------------------
-    | Control-Layer
+    | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -119,6 +108,7 @@ class DoozR_Form_Service_Element_Fieldset extends DoozR_Form_Service_Element_Htm
      * @return boolean TRUE if valid, otherwise FALSE
      * @access public
      */
+    /*
     public function isValid(
         $arguments = array(),
         $store = array(),
@@ -127,7 +117,7 @@ class DoozR_Form_Service_Element_Fieldset extends DoozR_Form_Service_Element_Htm
         // assume a valid state for boolean operator
         $valid = true;
 
-        /* @var DoozR_Form_Service_Element_Interface $child */
+        // @var DoozR_Form_Service_Component_Interface_Form $child
         foreach ($this->childs as $child) {
             $valid = $valid && $child->isValid($arguments, $store, $validator);
         }
@@ -136,37 +126,7 @@ class DoozR_Form_Service_Element_Fieldset extends DoozR_Form_Service_Element_Htm
 
         return $this->valid;
     }
-
-    /**
-     * Stores/adds the passed validation information.
-     *
-     * @param string      $validation The type of validation
-     * @param null|string $value      The value for validation or NULL
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Input
-     * @access public
-     */
-    public function addValidation($validation, $value = null)
-    {
-        if (!isset($this->validation[$validation])) {
-            $this->validation[$validation] = array();
-        }
-
-        $this->validation[$validation][] = $value;
-    }
-
-    /**
-     * Getter for validation.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Validations as array
-     * @access public
-     */
-    public function getValidation()
-    {
-        return $this->validation;
-    }
+    */
 
     /**
      * Setter for value.
@@ -179,37 +139,6 @@ class DoozR_Form_Service_Element_Fieldset extends DoozR_Form_Service_Element_Htm
      */
     public function setValue($value)
     {
-        $this->setAttribute('value', $value);
-    }
-
-    /**
-     * Getter for value.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Value of this element
-     * @access public
-     */
-    public function getValue()
-    {
-        $this->getAttribute('value');
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | SPL-Observer
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Update method for SplObserver Interface.
-     *
-     * @param SplSubject $subject The subject
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function update(SplSubject $subject)
-    {
-        var_dump($subject);
-        pred(__METHOD__);
+        // Do nothing
     }
 }

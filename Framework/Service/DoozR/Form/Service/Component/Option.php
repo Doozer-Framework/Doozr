@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Html.php - Extension to default Input-Element required if HTML
- * should be inserted into form.
+ * Option.php - Option part of select field. Extra element cause it
+ * has a similar interface like standard html elements. so recycle.
  *
  * PHP versions 5
  *
@@ -53,13 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
 
 /**
  * DoozR - Form - Service
  *
- * Extension to default Input-Element required if HTML
- * should be inserted into form.
+ * Option part of select field. Extra element cause it
+ * has a similar interface like standard html elements. so recycle.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,40 +70,75 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Input.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Html extends DoozR_Form_Service_Element_Input
+class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_Formcomponent
+    implements
+    DoozR_Form_Service_Component_Interface_Option
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form"
+     * The tag for this type of element
      *
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_NONE;
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OPTION;
+
 
     /**
-     * Another template which supports inner HTML content!
+     * Constructor.
      *
-     * @var string
-     * @access protected
-     */
-    protected $template = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
-
-    /**
-     * The inner HTML string
+     * @param string $name The name to set
      *
-     * @var string
-     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Component_Input $this
+     * @access public
      */
-    protected $innerHtml = '';
+    public function __construct(
+        $key,
+        $arguments = array(),
+        $registry  = array()
+    ) {
+        $this->setKey($key);
 
+        $this->setArguments($arguments);
+        $this->setRegistry($registry);
+    }
 
     /*-----------------------------------------------------------------------------------------------------------------+
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Specific renderer for HTML-Elements.
+     * Setter for disabled status
+     *
+     * @param boolean $state The status
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setDisabled($state)
+    {
+        if ($state === true) {
+            $this->setAttribute('disabled');
+        } else {
+            $this->removeAttribute('disabled');
+        }
+    }
+
+    /**
+     * Getter for disabled status
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if disabled, otherwise FALSE
+     * @access public
+     */
+    public function getDisabled()
+    {
+        return $this->getAttribute('disabled');
+    }
+
+    /**
+     * Specific renderer for HTML-Components.
      *
      * @param boolean $forceRender TRUE to force rerendering of cached content
      *
@@ -111,13 +146,22 @@ class DoozR_Form_Service_Element_Html extends DoozR_Form_Service_Element_Input
      * @return mixed|string HTML as string if set, otherwise NULL
      * @access public
      */
+    /*
     public function render($forceRender = false)
     {
+        // Check if this option must be selected before rendering
+        $submittedValue = $this->getParent()->getValue();
+
+        if ($submittedValue !== null && $this->getValue() === $submittedValue) {
+            $this->setAttribute('selected');
+        } else {
+            $this->removeAttribute('selected');
+        }
+
         $html     = '';
         $rendered = parent::render($forceRender);
 
         if ($this->innerHtml !== null) {
-
             $variables = array(
                 'inner-html' => $this->innerHtml
             );
@@ -128,60 +172,97 @@ class DoozR_Form_Service_Element_Html extends DoozR_Form_Service_Element_Input
 
         return $html;
     }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Getter & Setter
-    +-----------------------------------------------------------------------------------------------------------------*/
+    */
 
     /**
-     * Setter for inner-HTML of the DIV
+     * Setter for label of this element
      *
-     * @param string $html The HTML to set
+     * @param string $label The label to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setInnerHtml($html)
+    public function setLabel($label)
     {
-        $this->innerHtml = $html;
+        $this->setAttribute('label', $label);
     }
 
     /**
-     * Getter for inner-HTML.
+     * Getter for label
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The inner-HTML if set, otherwise NULL
+     * @return string The label
      * @access public
      */
-    public function getInnerHtml()
+    public function getLabel()
     {
-        return $this->innerHtml;
+        return $this->getAttribute('label');
     }
 
     /**
-     * Setter for tag.
+     * Setter for value of this element
      *
-     * @param string $tag The tag of this element
+     * @param string|null $value The value to set or null to use key as value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setTag($tag)
+    public function setValue($value = null)
     {
-        $this->tag = $tag;
+        /*
+        if ($submittedValue !== null &&
+            $submittedValue === $this->getValue()
+        ) {
+            $this->setAttribute('selected');
+        } else {
+            $this->removeAttribute('selected');
+        }
+        */
+
+        if ($value === null) {
+            $value = $this->getKey();
+        }
+
+        $this->setAttribute('value', $value);
     }
 
     /**
-     * Getter for tag.
+     * Getter for value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The tag if set, otherwise NULL
+     * @return string The value
      * @access public
      */
-    public function getTag()
+    public function getValue()
     {
-        return $this->tag;
+        return $this->getAttribute('value');
+    }
+
+    /**
+     * Setter for key [<option>KEY</option>] of this element
+     *
+     * @param string $key The key to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setKey($key)
+    {
+        return $this->setInnerHtml($key);
+    }
+
+    /**
+     * Getter for key
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The key
+     * @access public
+     */
+    public function getKey()
+    {
+        return $this->getInnerHtml();
     }
 }

@@ -4,7 +4,10 @@
 /**
  * DoozR - Form - Service
  *
- * Input.php The Input-Element of the Form <input ...>
+ * Input.php - Contract for all HTML/DOM components. This contract garantues
+ * that a class using this interface is renderable through render() can take
+ * child components (also if it doesn't make sense for some components!) and
+ * that a call on render() will return the HTML for the whole component.
  *
  * PHP versions 5
  *
@@ -52,12 +55,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Base.php';
-
 /**
  * DoozR - Form - Service
  *
- * The Input-Element of the Form <input ...>
+ * Contract for all HTML/DOM components. This contract garantues
+ * that a class using this interface is renderable through render() can take
+ * child components (also if it doesn't make sense for some components!) and
+ * that a call on render() will return the HTML for the whole component.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,18 +72,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Base.p
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Html_Input extends DoozR_Form_Service_Element_Html_Base
+interface DoozR_Form_Service_Component_Interface_Input
 {
-    /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form"
-     *
-     * @var string
-     * @access protected
-     */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_INPUT;
-
-
     /**
      * Sets the HTML input element property "autocapitalize"
      *
@@ -89,33 +83,7 @@ class DoozR_Form_Service_Element_Html_Input extends DoozR_Form_Service_Element_H
      * @return void
      * @access public
      */
-    public function setAutocapitalize($state)
-    {
-        if (is_bool($state)) {
-            if ($state === true) {
-                $state = 'on';
-            } else {
-                $state = 'off';
-            }
-        }
-
-        $this->setAttribute('autocapitalize', $state);
-    }
-
-    /**
-     * Shortcut to setAutocapitalize().
-     *
-     * @param boolean $state The state to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Html_Input $this
-     * @access public
-     */
-    public function autocapitalize($state)
-    {
-        $this->setAutocapitalize($state);
-        return $this;
-    }
+    public function setAutocapitalize($state);
 
     /**
      * Returns the autocapitalize state.
@@ -124,8 +92,43 @@ class DoozR_Form_Service_Element_Html_Input extends DoozR_Form_Service_Element_H
      * @return boolean TRUE if autocapitalize is on, otherwise FALSE
      * @access public
      */
-    public function getAutocapitalize()
-    {
-        return ($this->getAttribute('autocapitalize') === 'on') ? true : false;
-    }
+    public function getAutocapitalize();
+
+    #type
+    #accept
+    #accesskey
+    #mozactionhint
+    #autocomplete
+    #autofocus
+    #autosave
+    #checked
+    #disabled
+    #form
+    #formaction
+    #formenctype
+    #formmethod
+    #formnovalidate
+    #formtarget
+    #height
+    #inputmpode
+    #list
+    #max
+    #maxlength
+    #min
+    #multiple
+    #name
+    #pattern
+    #placeholder
+    #readonly
+    #required
+    #selectionDirection
+    #size
+    #spellcheck
+    #src
+    #step
+    #tabindex
+    #usemap
+    #value
+    #width
+    #x-moz-errormessage
 }

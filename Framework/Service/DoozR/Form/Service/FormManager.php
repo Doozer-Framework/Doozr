@@ -85,7 +85,7 @@ class DoozR_Form_Service_FormManager
      * Contains the Form instance and all of its
      * childs and so on ...
      *
-     * @var DoozR_Form_Service_Element_Form
+     * @var DoozR_Form_Service_Component_Form
      * @access protected
      */
     public $form;
@@ -133,7 +133,7 @@ class DoozR_Form_Service_FormManager
     protected $store;
 
     /**
-     * The renderer which finally takes the elements
+     * The renderer which finally takes the components
      * and render them to something really useful.
      *
      * @var DoozR_Form_Service_Renderer_Interface
@@ -225,7 +225,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Input instance for cloning.
      *
-     * @var DoozR_Form_Service_Element_Input
+     * @var DoozR_Form_Service_Component_Input
      * @access protected
      */
     protected $inputInstance;
@@ -248,8 +248,8 @@ class DoozR_Form_Service_FormManager
      *
      * @param string                                    $namespace     The namespace to operate in/on (name for the form)
      * @param DoozR_I18n_Service_Interface              $i18n          The I18n Translator instance if required
-     * @param DoozR_Form_Service_Element_Input          $inputInstance The input instance for cloning meta fields
-     * @param DoozR_Form_Service_Element_Html_Interface $form          The Form instance (the main object)
+     * @param DoozR_Form_Service_Component_Input          $inputInstance The input instance for cloning meta fields
+     * @param DoozR_Form_Service_Component_Interface_Form $form          The Form instance (the main object)
      * @param DoozR_Form_Service_Store_Interface        $store         The Store instance
      * @param DoozR_Form_Service_Renderer_Interface     $renderer      The Renderer instance for rendering HTML e.g.
      * @param DoozR_Form_Service_Validate_Validator     $validator     The validator instance
@@ -261,15 +261,15 @@ class DoozR_Form_Service_FormManager
      * @access public
      */
     public function __construct(
-        $namespace                                               = DoozR_Form_Service_Constant::DEFAULT_NAMESPACE,
-        DoozR_I18n_Service_Interface              $i18n          = null,
-        DoozR_Form_Service_Element_Input          $inputInstance = null,
-        DoozR_Form_Service_Element_Html_Interface $form          = null,
-        DoozR_Form_Service_Store_Interface        $store         = null,
-        DoozR_Form_Service_Renderer_Interface     $renderer      = null,
-        DoozR_Form_Service_Validate_Validator     $validator     = null,
-        DoozR_Form_Service_Validate_Error         $errorInstance = null,
-        DoozR_Request_Arguments                   $arguments     = null
+        $namespace                                                 = DoozR_Form_Service_Constant::DEFAULT_NAMESPACE,
+        DoozR_I18n_Service_Interface                $i18n          = null,
+        DoozR_Form_Service_Component_Input          $inputInstance = null,
+        DoozR_Form_Service_Component_Interface_Form $form          = null,
+        DoozR_Form_Service_Store_Interface          $store         = null,
+        DoozR_Form_Service_Renderer_Interface       $renderer      = null,
+        DoozR_Form_Service_Validate_Validator       $validator     = null,
+        DoozR_Form_Service_Validate_Error           $errorInstance = null,
+        DoozR_Request_Arguments                     $arguments     = null
     ) {
         // Store instances for further use
         $this->setNamespace($namespace);
@@ -452,11 +452,11 @@ class DoozR_Form_Service_FormManager
      * Returns the submitted value for a passed fieldname or the default value if the field wasn't submitted not
      * submitted.
      *
-     * @param string      $name    The name of the element to return data for
+     * @param string      $name    The name of the component to return data for
      * @param string|null $default The default return value as string or NULL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The value of the element if exist, otherwise the $default value
+     * @return mixed The value of the component if exist, otherwise the $default value
      * @access public
      */
     public function getValue($name, $default = null)
@@ -485,16 +485,15 @@ class DoozR_Form_Service_FormManager
         return $value;
     }
 
-
     /**
      * Returns TRUE if the form is jumped to a specific step,
      * otherwise FALSE
      *
-     * @param string $identifier The (optional) identifier
+     * @internal param string $identifier The (optional) identifier
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @author   Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if the form is jumped to a specific step, otherwise FALSE
-     * @access public
+     * @access   public
      */
     public function wasJumped()
     {
@@ -523,13 +522,13 @@ class DoozR_Form_Service_FormManager
     }
 
     /**
-     * Returns the error of a element.
+     * Returns the error of a component.
      *
-     * @param string      $name    The name of the element to return data for
+     * @param string      $name    The name of the component to return data for
      * @param string|null $default The default return value as string or NULL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The value of the element if exist, otherwise the $default value
+     * @return mixed The value of the component if exist, otherwise the $default value
      * @access public
      */
     public function getError($name = null, $default = null)
@@ -552,8 +551,10 @@ class DoozR_Form_Service_FormManager
      *
      * @param string $string The string to translate
      *
-     * @return mixed The
+     * @param array  $arguments
+     *
      * @throws DoozR_Form_Service_Exception
+     * @return mixed The
      */
     public function translate($string, array $arguments = array())
     {
@@ -598,13 +599,13 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for inputInstance.
      *
-     * @param DoozR_Form_Service_Element_Input $inputInstance The input element instance
+     * @param DoozR_Form_Service_Component_Input $inputInstance The input component instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setInputInstance(DoozR_Form_Service_Element_Input $inputInstance)
+    public function setInputInstance(DoozR_Form_Service_Component_Input $inputInstance)
     {
         $this->inputInstance = $inputInstance;
     }
@@ -613,7 +614,7 @@ class DoozR_Form_Service_FormManager
      * Getter for InputInstance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Form_Service_Element_Input An DoozR_Form_Service_Element_Input instance, or NULL if not set
+     * @return null|DoozR_Form_Service_Component_Input An DoozR_Form_Service_Component_Input instance, or NULL if not set
      * @access public
      */
     public function getInputInstance()
@@ -624,13 +625,13 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for form.
      *
-     * @param DoozR_Form_Service_Element_Html_Interface $form The form instance to set
+     * @param DoozR_Form_Service_Component_Interface_Form $form The form instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setForm(DoozR_Form_Service_Element_Html_Interface $form)
+    public function setForm(DoozR_Form_Service_Component_Interface_Form $form)
     {
         $this->form = $form;
     }
@@ -639,7 +640,7 @@ class DoozR_Form_Service_FormManager
      * Getter for form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_I18n_Service_Element_Html_Interface The form instance if set, otherwise NULL
+     * @return null|DoozR_I18n_Service_Component_Html_Interface The form instance if set, otherwise NULL
      * @access public
      */
     public function getForm()
@@ -651,6 +652,9 @@ class DoozR_Form_Service_FormManager
      * Returns the token of this form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @param $token
+     *
      * @return string The token of this form
      * @access public
      */
@@ -847,6 +851,82 @@ class DoozR_Form_Service_FormManager
     | Control layer
     *-----------------------------------------------------------------------------------------------------------------*/
 
+
+    /**
+     * Removes an component from internal registry
+     *
+     * @param        $key
+     * @param string $component The name of the component
+     *
+     * @throws DoozR_Form_Service_Exception
+     * @internal param mixed $value The value to store
+     *
+     * @author   Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access   protected
+     */
+    public function removeFromRegistry($key, $component = null)
+    {
+        $registry = $this->getRegistry(
+            $this->getRegistrySkeleton()
+        );
+
+        if (!isset($registry[$key])) {
+            throw new DoozR_Form_Service_Exception(
+                'Could not remove unexisting key: "' . $key . '" from registry.'
+            );
+        }
+
+        //
+        if ($component !== null) {
+            unset($registry[$key][$component]);
+
+        } else {
+            unset($registry[$key]);
+
+        }
+
+        $this->setRegistry(
+            $registry
+        );
+
+        return true;
+    }
+
+    public function getRegistry($default = null)
+    {
+        $registry = $this->getStore()->read(
+            DoozR_Form_Service_Constant::PREFIX.$this->getNamespace()
+        );
+
+        if ($registry === null && $default !== null) {
+            $registry = $default;
+        }
+
+        return $registry;
+    }
+
+    public function setRegistry($registry)
+    {
+        return $this->getStore()->create(
+            DoozR_Form_Service_Constant::PREFIX.$this->getNamespace(),
+            $registry
+        );
+    }
+
+    /**
+     * Invalidates the whole registry
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function invalidateRegistry()
+    {
+        return $this->setRegistry(null);
+    }
+
+
     /**
      * Checks and returns the submission status of this form.
      *
@@ -890,6 +970,9 @@ class DoozR_Form_Service_FormManager
      * Returns the validity of the form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @param int $step
+     *
      * @return boolean TRUE is the form is valid, otherwise FALSE
      * @access public
      */
@@ -976,12 +1059,12 @@ class DoozR_Form_Service_FormManager
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the error status of an element.
+     * Returns the error status of an component.
      *
-     * @param string $name The name of the element to return status for
+     * @param string $name The name of the component to return status for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string $name The name of the element
+     * @return string $name The name of the component
      * @access protected
      */
     protected function hasError($name)
@@ -1005,13 +1088,13 @@ class DoozR_Form_Service_FormManager
      * Sets an error. Default to form.
      *
      * @param string $error       The error to set
-     * @param string $elementName The element the error is related to
+     * @param string $componentName The component the error is related to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setError($error, $elementName = 'form')
+    protected function setError($error, $componentName = 'form')
     {
         // Check for passed context - Some errors are passed without context as string
         if (is_array($error) === false) {
@@ -1021,11 +1104,11 @@ class DoozR_Form_Service_FormManager
             );
         }
 
-        if (!isset($this->error[$elementName])) {
-            $this->error[$elementName] = array();
+        if (!isset($this->error[$componentName])) {
+            $this->error[$componentName] = array();
         }
 
-        $this->error[$elementName][] = $error;
+        $this->error[$componentName][] = $error;
     }
 
     /**
@@ -1033,6 +1116,9 @@ class DoozR_Form_Service_FormManager
      * state of the form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @param $step
+     *
      * @return boolean TRUE if valid, otherwise FALSE if invalid
      * @access protected
      */
@@ -1080,14 +1166,14 @@ class DoozR_Form_Service_FormManager
             return false;
         }
 
-
+        // Get stored components
         $stored = $this->getStore()->read(DoozR_Form_Service_Constant::PREFIX . $this->getNamespace());
 
         // 4th step - iterate fields and check for individual error(s) if one found
         // either MISSING, BAD, INCORRECT DATA => FORM INVALID! and error = fields error message
         if (
-            $this->validateElements(
-                $registry['elements'],
+            $this->validateComponents(
+                $registry['components'],
                 $step,
                 $this->getArguments(),
                 $stored
@@ -1105,43 +1191,43 @@ class DoozR_Form_Service_FormManager
     }
 
     /**
-     * Validates the passed elements.
+     * Validates the passed components.
      *
-     * This method is intend to validate the passed elements.
+     * This method is intend to validate the passed components.
      *
-     * @param array                              $elements  The elements to validate from request
-     * @param integer                            $step      The step currently active
-     * @param DoozR_Request_Arguments            $arguments The arguments
-     * @param DoozR_Form_Service_Store_Interface $store     The store
+     * @param array                                     $components  The components to validate from request
+     * @param integer                                   $step      The step currently active
+     * @param array|\DoozR_Request_Arguments            $arguments The arguments
+     * @param array|\DoozR_Form_Service_Store_Interface $store     The store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if valid, otherwise FALSE if invalid
      * @access protected
      */
-    protected function validateElements(array $elements, $step = 1, $arguments = array(), &$store = array())
+    protected function validateComponents(array $components, $step = 1, $arguments = array(), &$store = array())
     {
         $valid = true;
 
-        foreach ($elements as $element => $configuration) {
+        foreach ($components as $component => $configuration) {
 
-            // some elements arrive with empty name ... [Could be a BUG in prser!]
-            if ($element !== '') {
+            // some components arrive with empty name ... [Could be a BUG in prser!]
+            if ($component !== '') {
 
-                // Not every element has a configration
+                // Not every component has a configration
                 if (isset($configuration['validation'])) {
 
                     // file input check -> replace value by $_FILES
                     if (isset($configuration['type']) && $configuration['type'] === 'file') {
-
                         $isFile             = true;
                         $emulatedFileUpload = false;
 
                         $registry = DoozR_Registry::getInstance();
                         $registry->front->getRequest()->FILES();
 
-                        $value = $_FILES[$element];
-                        $value['element'] = 'file';
-                        $_FILES->{$element} = $value;
+                        $value = $_FILES[$component];
+
+                        $value['component'] = 'file';
+                        $_FILES->{$component} = $value;
 
                         // check for error and then try to get file information from registry
                         if (isset($value['error']) && $value['error'] === 4) {
@@ -1150,16 +1236,16 @@ class DoozR_Form_Service_FormManager
                                 $this->getRegistrySkeleton()
                             );
 
-                            if (isset($registry['data'][$element]) && $registry['data'][$element] !== null) {
+                            if (isset($registry['data'][$component]) && $registry['data'][$component] !== null) {
 
                                 $emulatedFileUpload = true;
 
                                 $value = array(
                                     'name' => 'MeinAuto.txt',
                                     'type' => 'text/plain',
-                                    'tmp_name' => $registry['data'][$element],
+                                    'tmp_name' => $registry['data'][$component],
                                     'error' => '0',
-                                    'size' => filesize($registry['data'][$element]),
+                                    'size' => filesize($registry['data'][$component]),
                                 );
                             }
                         }
@@ -1168,19 +1254,19 @@ class DoozR_Form_Service_FormManager
 
                     } else {
                         $isFile = false;
-                        $value  = isset($arguments[$element]) ? $arguments[$element] : null;
+                        $value  = isset($arguments[$component]) ? $arguments[$component] : null;
                         $check  = $this->validator->validate($value, $configuration['validation']);
                     }
 
-                    // Here we: Check if the validator returned error in element
+                    // Here we: Check if the validator returned error in component
                     if ($check !== true) {
                         // The ERROR case!
                         $valid = $valid && false;
 
-                        $this->setError($check, $element);
+                        $this->setError($check, $component);
 
                         // ON ERROR -> REMOVE
-                        $this->removeFromRegistry('data', $element);
+                        $this->removeFromRegistry('data', $component);
 
                     } else {
                         // COMMENT BLOCK REMOVE: The SUCCESS case!
@@ -1192,7 +1278,7 @@ class DoozR_Form_Service_FormManager
                         }
 
                         // ON SUCCESS _> ADD
-                        $this->addToRegistry($element, $value);
+                        $this->addToRegistry($component, $value);
                     }
                 }
             }
@@ -1215,7 +1301,7 @@ class DoozR_Form_Service_FormManager
     {
         /**
          * file was uploaded and successful validatet so store it's information in the same way as it would be done
-         * for other elements - but we need some modification on input data to receive this. some more information
+         * for other components - but we need some modification on input data to receive this. some more information
          * right here in place.
          */
         $temporaryLocation = $file['tmp_name'];
@@ -1238,14 +1324,14 @@ class DoozR_Form_Service_FormManager
         }
 
         // return the final location here so that the service is able to store an information
-        // about the "value" of the file element which could be easily transported from step to step
+        // about the "value" of the file component which could be easily transported from step to step
         return $finalLocation;
     }
 
     /**
-     * Adds an element to internal registry with passed value
+     * Adds an component to internal registry with passed value
      *
-     * @param string $key The name of the element
+     * @param string $key The name of the component
      * @param mixed  $value   The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1266,73 +1352,6 @@ class DoozR_Form_Service_FormManager
 
         return true;
     }
-
-    /**
-     * Removes an element from internal registry
-     *
-     * @param string $element The name of the element
-     * @param mixed  $value   The value to store
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access protected
-     */
-    public function removeFromRegistry($key, $element = null)
-    {
-        $registry = $this->getRegistry(
-            $this->getRegistrySkeleton()
-        );
-
-        if (!isset($registry[$key])) {
-            throw new DoozR_Form_Service_Exception(
-                'Could not remove unexisting key: "' . $key . '" from registry.'
-            );
-        }
-
-        //
-        if ($element !== null) {
-            unset($registry[$key][$element]);
-
-        } else {
-            unset($registry[$key]);
-
-        }
-
-        $this->setRegistry(
-            $registry
-        );
-
-        return true;
-    }
-
-    public function getRegistry($default = null)
-    {
-        $registry = $this->getStore()->read(
-            DoozR_Form_Service_Constant::PREFIX.$this->getNamespace()
-        );
-
-        if ($registry === null && $default !== null) {
-            $registry = $default;
-        }
-
-        return $registry;
-    }
-
-
-    public function setRegistry($registry)
-    {
-        return $this->getStore()->create(
-            DoozR_Form_Service_Constant::PREFIX.$this->getNamespace(),
-            $registry
-        );
-    }
-
-
-    public function invalidateRegistry()
-    {
-        return $this->setRegistry(null);
-    }
-
 
     /**
      * Handles an invalid token. Cause we have different behaviors
@@ -1464,7 +1483,7 @@ class DoozR_Form_Service_FormManager
         );
 
         // store important meta information about the current form
-        $registry['elements']      = $this->getElements($this->form);
+        $registry['components']    = $this->getComponents($this->form);
         $registry['method']        = $this->form->getMethod();
         $registry['step']          = $this->getStep();
         $registry['steps']         = $this->getSteps();
@@ -1478,20 +1497,32 @@ class DoozR_Form_Service_FormManager
         $this->sendHeader();
     }
 
-
+    /**
+     * Sends header for service token transport
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function sendHeader()
     {
         // now send token via header for use in XHR & so on
         header('x-doozr-form-service-token: '.$this->getToken());
     }
 
-
+    /**
+     * Returns a registry skeleton for initializing store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function getRegistrySkeleton()
     {
         // the default skeleton containing entries at the 1st level
         return array(
             'data'          => array(),
-            'elements'      => array(),
+            'components'    => array(),
             'method'        => null,
             'step'          => null,
             'steps'         => null,
@@ -1501,33 +1532,29 @@ class DoozR_Form_Service_FormManager
         );
     }
 
-
     /**
-     * Returns the childs (elements) from passed element.
+     * Returns the childs (components) from passed component.
      *
-     * @param DoozR_Form_Service_Element_Interface $element The element to return childs for
-     * @param array                                $result  The result used for recursion
+     * @param DoozR_Form_Service_Component_Interface_Form $component The component to return childs for
+     * @param array                                       $result  The result used for recursion
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The result with childs
      * @access protected
      */
-    protected function getElements($element, $result = array())
+    protected function getComponents($component, $result = array())
     {
-        if (method_exists($element, 'getChilds')) {
-            foreach ($element->getChilds() as $child) {
-                if (is_array($child)) {
-                    foreach ($child as $subChild) {
-                        $result = $this->getElements($subChild, $result);
-                    }
-                } else {
-                    $result = $this->getElements($child, $result);
-                }
+        // Check if the component has any childs
+        if ($component->hasChilds() === true) {
+
+            foreach ($component as $child) {
+                $result = $this->getComponents($child, $result);
             }
-        } else {
-            $result[$element->getName()] = array(
-                'validation' => $element->getValidation(),
-                'type'       => $element->getType()
+
+        } elseif ($component->getName() !== null) {
+            $result[$component->getName()] = array(
+                'validation' => $component->getValidation(),
+                'type'       => $component->getType(),
             );
         }
 
@@ -1544,13 +1571,15 @@ class DoozR_Form_Service_FormManager
     protected function generateToken()
     {
         // get unique input
-        $ip           = $_SERVER['REMOTE_ADDR'];
-        $userAgent    = $_SERVER['HTTP_USER_AGENT'];
-        $salt         = $this->getSalt();
-        $name         = $this->getNamespace();
+        $ip        = $_SERVER['REMOTE_ADDR'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $salt      = $this->getSalt();
+        $name      = $this->getNamespace();
 
         // generate token from unqiue input
-        $this->setToken(md5($ip.$userAgent.$name.$salt));
+        $this->setToken(
+            md5($ip . $userAgent . $name . $salt)
+        );
     }
 
     /**
@@ -1586,16 +1615,16 @@ class DoozR_Form_Service_FormManager
          * (added at last -> to be able to override service default behavior!)
          */
         foreach ($this->metaFields as $metaField) {
-            $this->form->add($metaField);
+            $this->form->addChild($metaField);
         }
     }
 
     /**
-     * Generic adding of form element/field.
+     * Generic adding of form component/field.
      *
-     * @param string $name  The name of the element
-     * @param string $value The value of the element
-     * @param string $type  The type of the element
+     * @param string $name  The name of the component
+     * @param string $value The value of the component
+     * @param string $type  The type of the component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -1626,7 +1655,7 @@ class DoozR_Form_Service_FormManager
         $input->setType('hidden');
         $input->setValue($this->getStep());
 
-        $this->form->add($input);
+        $this->form->addChild($input);
     }
 
     /**
@@ -1643,7 +1672,7 @@ class DoozR_Form_Service_FormManager
         $input->setType('hidden');
         $input->setValue($this->getSteps());
 
-        $this->form->add($input);
+        $this->form->addChild($input);
     }
 
     /**
@@ -1660,7 +1689,7 @@ class DoozR_Form_Service_FormManager
         $input->setType('hidden');
         $input->setValue($this->getToken());
 
-        $this->form->add($input);
+        $this->form->addChild($input);
     }
 
     /**
@@ -1677,6 +1706,6 @@ class DoozR_Form_Service_FormManager
         $input->setType('hidden');
         $input->setValue($this->getNamespace());
 
-        $this->form->add($input);
+        $this->form->addChild($input);
     }
 }

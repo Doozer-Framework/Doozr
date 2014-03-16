@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Form - Service
  *
- * BaseTest.php - Test for Base
+ * Legend.php - The Legend component. Used for fieldset description.
+ * A specialized version of Formcomponent.
  *
  * PHP versions 5
  *
@@ -50,17 +51,15 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once 'PHPUnit/Autoload.php';
-require_once 'DoozR/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Form - Service
  *
- * Test for Service
+ * The Legend component. Used for fieldset description.
+ * A specialized version of Formcomponent.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,53 +69,34 @@ require_once 'DoozR/Bootstrap.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-/*
-class BaseTest extends PHPUnit_Framework_TestCase
+class DoozR_Form_Service_Component_Legend extends DoozR_Form_Service_Component_Formcomponent
 {
-    public function testInit()
+    /**
+     * This is the tag-name for HTML output.
+     * e.g. "input" or "form". Default empty string ""
+     *
+     * @var string
+     * @access protected
+     */
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_LEGEND;
+
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructor
+     *
+     * @param string $message The message to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function __construct($message = '')
     {
-        $base = new DoozR_Form_Service_Element_Html_Html();
-        $this->assertInstanceOf('DoozR_Form_Service_Element_Html_Html', $base);
-    }
-
-    public function testSetAndGetAttribute()
-    {
-        $key   = 'foo';
-        $value = 'bar';
-        $base  = new DoozR_Form_Service_Element_Html_Html();
-
-        $this->assertTrue($base->setAttribute($key, $value));
-        $this->assertEquals($value, $base->getAttribute($key));
-    }
-
-    public function testSetAndGetAttributes()
-    {
-        $base = new DoozR_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'foo' => 'bar',
-            'bar' => 'foo'
-        );
-
-        $this->assertTrue($base->setAttributes($attributes));
-        $this->assertEquals('foo', $base->getAttribute('bar'));
-        $this->assertArrayHasKey('bar', $base->getAttributes());
-    }
-
-    public function testSetAndGetHtml()
-    {
-        $base = new DoozR_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'html' => '<html></html>'
-        );
-
-        $this->assertEmpty($base->getHtml());
-        $this->assertTrue($base->setHtml($attributes['html']));
-        $this->assertEquals($attributes['html'], $base->getHtml());
+        $this->setInnerHtml($message);
     }
 }
-*/

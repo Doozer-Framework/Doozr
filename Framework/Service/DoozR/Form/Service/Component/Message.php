@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Textarea.php - Extends Html element to build a valid textarea
- * element.
+ * Message.php - The message element control layer which adds validation,
+ * and so on to an HTML element.
  *
  * PHP versions 5
  *
@@ -53,12 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Component/Div.php';
 
 /**
  * DoozR - Form - Service
  *
- * Extends Html Base element to build a valid select element.
+ * The message element control layer which adds validation,
+ * and so on to an HTML element.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -69,44 +70,48 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Textarea extends DoozR_Form_Service_Element_Html
+class DoozR_Form_Service_Component_Message extends DoozR_Form_Service_Component_Div
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form"
+     * Constructor.
      *
-     * @var string
-     * @access protected
+     * @param string $message The message to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Component_Message $this
+     * @access public
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_TEXTAREA;
+    public function __construct($message = '')
+    {
+        $this->setInnerHtml($message);
+    }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | Getter & Setter
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for value.
+     * Setter for message (HTML supported!).
      *
-     * @param mixed $value The value to set
+     * @param string $message The message to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setValue($value)
+    public function setMessage($message = '&nbsp;')
     {
-        if ($value === null) {
-            $value = '';
-        }
-
-        $this->setInnerHtml($value);
+        $this->setInnerHtml($message);
     }
 
     /**
-     * Getter for value.
+     * Returns the message.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Value of this element
+     * @return null|string The message if set, otherwise NULL
      * @access public
      */
-    public function getValue()
+    public function getMessage()
     {
         return $this->getInnerHtml();
     }

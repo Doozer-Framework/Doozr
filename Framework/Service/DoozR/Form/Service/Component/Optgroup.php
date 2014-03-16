@@ -4,8 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Message.php - The message element control layer which adds validation,
- * and so on to an HTML element.
+ * Optgroup.php - Optgroup part of select field. Extra element cause it
+ * has a similar interface like standard html elements. so recycle.
  *
  * PHP versions 5
  *
@@ -53,14 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Div.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
 
 /**
  * DoozR - Form - Service
  *
- * The message element control layer which adds validation,
- * and so on to an HTML element.
+ * Option part of select field. Extra element cause it
+ * has a similar interface like standard html elements. so recycle.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -71,154 +70,201 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Interface.p
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Message extends DoozR_Form_Service_Element_Div
+class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component_Formcomponent
     implements
-    DoozR_Form_Service_Element_Interface,
-    SplObserver
+    DoozR_Form_Service_Component_Interface_Option
 {
     /**
-     * The validations of this field
+     * The tag for this type of element
      *
-     * @var array
+     * @var string
      * @access protected
      */
-    protected $validation = array();
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OPTGROUP;
 
 
     /**
      * Constructor.
      *
-     * @param string $message The message to set
+     * @param string $name The name to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Message $this
+     * @return DoozR_Form_Service_Component_Input $this
      * @access public
      */
-    public function __construct($message = '')
-    {
-        $this->setInnerHtml($message);
+    public function __construct(
+        $label,
+        $arguments = array(),
+        $registry  = array()
+    ) {
+        $this->setLabel($label);
+
+        $this->setArguments($arguments);
+        $this->setRegistry($registry);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Getter & Setter
+    | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for message (HTML supported!).
+     * Proxy to addChild() to filter input components
      *
-     * @param string $message The message to set
+     * @param DoozR_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setMessage($message = '&nbsp;')
+    public function addOption(DoozR_Form_Service_Component_Interface_Option $option)
     {
-        $this->setInnerHtml($message);
+        return $this->addChild($option);
     }
 
     /**
-     * Returns the message.
+     * Proxy to removeChild() to filter input components
+     *
+     * @param integer $index The index of the component to remove
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|string The message if set, otherwise NULL
+     * @return void
      * @access public
      */
-    public function getMessage()
+    public function removeOption($index)
     {
-        return $this->getInnerHtml();
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Control-Layer
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Returns the validity state of the form.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
-     * @access public
-     */
-    public function isValid($arguments = array(), $store = array())
-    {
-        // a label is always valid cause the user can't change it's value or something like that
-        return true;
+        return $this->removeChild($index);
     }
 
     /**
-     * Stores/adds the passed validation information.
+     * Setter for disabled status
      *
-     * @param string      $validation The type of validation
-     * @param null|string $value      The value for validation or NULL
+     * @param boolean $state The status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Element_Input
+     * @return void
      * @access public
      */
-    public function addValidation($validation, $value = null)
+    public function setDisabled($state)
     {
-        if (!isset($this->validation[$validation])) {
-            $this->validation[$validation] = array();
+        if ($state === true) {
+            $this->setAttribute('disabled');
+        } else {
+            $this->removeAttribute('disabled');
+        }
+    }
+
+    /**
+     * Getter for disabled status
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if disabled, otherwise FALSE
+     * @access public
+     */
+    public function getDisabled()
+    {
+        return $this->getAttribute('disabled');
+    }
+
+    /**
+     * Specific renderer for HTML-Components.
+     *
+     * @param boolean $forceRender TRUE to force rerendering of cached content
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|string HTML as string if set, otherwise NULL
+     * @access public
+     */
+    /*
+    public function render($forceRender = false)
+    {
+        // Check if this option must be selected before rendering
+        $submittedValue = $this->getParent()->getValue();
+
+        if ($submittedValue !== null && $this->getValue() === $submittedValue) {
+            $this->setAttribute('selected');
+        } else {
+            $this->removeAttribute('selected');
         }
 
-        $this->validation[$validation][] = $value;
+        $html     = '';
+        $rendered = parent::render($forceRender);
+
+        if ($this->innerHtml !== null) {
+            $variables = array(
+                'inner-html' => $this->innerHtml
+            );
+
+            $html = $this->_tpl($rendered, $variables).DoozR_Form_Service_Constant::NEW_LINE;
+            $this->html = $html;
+        }
+
+        return $html;
     }
+    */
 
     /**
-     * Getter for validation.
+     * Setter for label of this element
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Validations as array
-     * @access public
-     */
-    public function getValidation()
-    {
-        return $this->validation;
-    }
-
-    /**
-     * Setter for value.
-     *
-     * @param mixed $value The value to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setValue($value)
-    {
-        $this->setAttribute('value', $value);
-    }
-
-    /**
-     * Getter for value.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Value of this element
-     * @access public
-     */
-    public function getValue()
-    {
-        $this->getAttribute('value');
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | SPL-Observer
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Update method for SplObserver Interface.
-     *
-     * @param SplSubject $subject The subject
+     * @param string $label The label to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function update(SplSubject $subject)
+    public function setLabel($label)
     {
-        var_dump($subject);
-        pred(__METHOD__);
+        $this->setAttribute('label', $label);
+    }
+
+    /**
+     * Getter for label
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The label
+     * @access public
+     */
+    public function getLabel()
+    {
+        return $this->getAttribute('label');
+    }
+
+    /**
+     * Setter for value of this element
+     *
+     * @param string|null $value The value to set or null to use key as value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setValue($value = null)
+    {
+        //
+    }
+
+    /**
+     * Setter for key [<option>KEY</option>] of this element
+     *
+     * @param string $key The key to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setKey($key)
+    {
+        //
+    }
+
+    /**
+     * Getter for key
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The key
+     * @access public
+     */
+    public function getKey()
+    {
+        //
     }
 }

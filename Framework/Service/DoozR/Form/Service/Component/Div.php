@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Label.php The Label-Element of the Form <label ...></label>
+ * Div.php The Div component.
  *
  * PHP versions 5
  *
@@ -52,12 +52,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Base.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html.php';
 
 /**
  * DoozR - Form - Service
  *
- * The Label-Element of the Form <label ...></label>
+ * Div.php The Div component.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Base.p
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Html_Label extends DoozR_Form_Service_Element_Html_Base
+class DoozR_Form_Service_Component_Div extends DoozR_Form_Service_Component_Html
 {
     /**
      * This is the tag-name for HTML output.
@@ -77,69 +77,5 @@ class DoozR_Form_Service_Element_Html_Label extends DoozR_Form_Service_Element_H
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_LABEL;
-
-    /**
-     * Another template which supports inner HTML content!
-     *
-     * @var string
-     * @access protected
-     */
-    protected $template = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
-
-    /**
-     * The inner HTML string
-     *
-     * @var string
-     * @access protected
-     */
-    protected $innerHtml = '';
-
-    /**
-     * Setter for inner HTML string.
-     *
-     * @param string $html The HTML string to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setInnerHtml($html)
-    {
-        $this->innerHtml = $html;
-    }
-
-    /**
-     * Getter for inner HTML string.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The HTML as string if set, otherwise NULL
-     * @access public
-     */
-    public function getInnerHtml()
-    {
-        return $this->innerHtml;
-    }
-
-    /**
-     * Custom renderer for this type of element!
-     *
-     * @param boolean $forceRender TRUE to force a rendering, FALSE to do not
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The HTML as string if set, otherwise NULL
-     * @access public
-     */
-    public function render($forceRender = false)
-    {
-        $rendered = parent::render($forceRender);
-
-        $variables = array(
-            'inner-html' => $this->innerHtml
-        );
-
-        $this->html = $this->_tpl($rendered, $variables);
-
-        return $this->html;
-    }
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_DIV;
 }

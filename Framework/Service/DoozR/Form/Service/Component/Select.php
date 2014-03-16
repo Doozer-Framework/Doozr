@@ -4,7 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Legend.php The Legend-Element of the Form <Legend ...></Legend>
+ * Select.php - Extends Html Base component to build a valid select
+ * component.
  *
  * PHP versions 5
  *
@@ -52,12 +53,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Base.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
 
 /**
  * DoozR - Form - Service
  *
- * The Legend-Element of the Form <Legend ...></Legend>
+ * Extends Html Base component to build a valid select component.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,78 +69,107 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html/Base.p
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Html_Legend extends DoozR_Form_Service_Element_Html_Base
+class DoozR_Form_Service_Component_Select extends DoozR_Form_Service_Component_Formcomponent
 {
     /**
      * This is the tag-name for HTML output.
-     * e.g. "input" or "form"
+     * e.g. "input" or "form" => in this case = SELECT
      *
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_LEGEND;
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_SELECT;
 
     /**
-     * Another template which supports inner HTML content!
+     * The options added to select component
      *
-     * @var string
+     * @var array
      * @access protected
      */
-    protected $template = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
+    protected $options = array();
+
 
     /**
-     * The inner HTML string
+     * Constructor
      *
-     * @var string
-     * @access protected
+     * @param string $name The name to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Component_Input $this
+     * @access public
      */
-    protected $innerHtml = '';
+    public function __construct($name = '', $arguments = array(), $registry = array())
+    {
+        $this->setAttribute('name', $name);
+        $this->setArguments($arguments);
+        $this->setRegistry($registry);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for inner HTML string.
+     * Proxy to addChild() to filter input components
      *
-     * @param string $html The HTML string to set
+     * @param DoozR_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setInnerHtml($html)
+    public function addOption(DoozR_Form_Service_Component_Interface_Option $option)
     {
-        $this->innerHtml = $html;
+        return $this->addChild($option);
     }
 
     /**
-     * Getter for inner HTML string.
+     * Proxy to removeChild() to filter input components
+     *
+     * @param integer $index The index of the component to remove
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The HTML as string if set, otherwise NULL
+     * @return void
      * @access public
      */
-    public function getInnerHtml()
+    public function removeOption($index)
     {
-        return $this->innerHtml;
+        return $this->removeChild($index);
     }
 
     /**
-     * Custom renderer for this type of element!
-     *
-     * @param boolean $forceRender TRUE to force a rendering, FALSE to do not
+     * Returns the validity state of the component.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The HTML as string if set, otherwise NULL
+     * @return boolean TRUE if valid, otherwise FALSE
      * @access public
      */
-    public function render($forceRender = false)
-    {
-        $rendered = parent::render($forceRender);
+    /*
+    public function isValid(
+        $arguments                                       = array(),
+        $store                                           = array(),
+        DoozR_Form_Service_Validate_Validator $validator = null
+    ) {
+        $valid = true;
 
-        $variables = array(
-            'inner-html' => $this->innerHtml
-        );
+        // this is the only component currently which requires a REAL validation
+        if (count($this->getValidation()) > 0) {
 
-        $this->html = $this->_tpl($rendered, $variables);
+            $value       = (isset($arguments->{$this->getName()})) ? $arguments->{$this->getName()} : $this->getValue();
+            $validations = (isset($store['components'][$this->getName()]['validation'])) ?
+                $store['components'][$this->getName()]['validation'] :
+                $this->getValidation();
 
-        return $this->html;
+            foreach ($validations as $type => $validValues) {
+                $valid = $valid && $validator->validate(
+                        $type,                                      // the validation type
+                        $value,                                     // the value of submitted component
+                        $validValues                                // the array / set of validation(s)
+                    );
+            }
+        }
+
+        return $valid;
     }
+    */
 }

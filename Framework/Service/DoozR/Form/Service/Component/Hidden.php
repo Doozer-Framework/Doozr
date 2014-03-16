@@ -4,7 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Div.php The Div-Element of the Form <input ...>
+ * Hidden.php - Extension to default Input-Component <input type="..." ...
+ * but with some specific radio-field tuning.
  *
  * PHP versions 5
  *
@@ -52,12 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.php';
 
 /**
  * DoozR - Form - Service
  *
- * The Div-Element of the Form <input ...>
+ * Extension to default Input-Component <input type="..." ...
+ * but with some specific radio-field tuning.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,14 +70,26 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Element/Html.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Element_Div extends DoozR_Form_Service_Element_Html
+class DoozR_Form_Service_Component_Hidden extends DoozR_Form_Service_Component_Input
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form"
+     * Constructor
      *
-     * @var string
-     * @access protected
+     * @param string $name      The name of the element
+     * @param array  $arguments The arguments passed with current request (e.g. $_POST, $_GET ...)
+     * @param array  $registry  The registry of the DoozR_Form_Service_FormManager
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_DIV;
+    public function __construct(
+        $name = '',
+        $arguments = array(),
+        $registry = array()
+    ) {
+        $this->setType('hidden');
+
+        parent::__construct($name, $arguments, $registry);
+    }
 }

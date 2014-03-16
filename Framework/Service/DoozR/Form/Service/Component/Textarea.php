@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Form - Service
  *
- * BaseTest.php - Test for Base
+ * Textarea.php - More specialized version of a form component.
  *
  * PHP versions 5
  *
@@ -50,17 +50,14 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once 'PHPUnit/Autoload.php';
-require_once 'DoozR/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Component/Formcomponent.php';
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Form - Service
  *
- * Test for Service
+ * Textarea.php - More specialized version of a form component.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,53 +67,50 @@ require_once 'DoozR/Bootstrap.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
-/*
-class BaseTest extends PHPUnit_Framework_TestCase
+class DoozR_Form_Service_Component_Textarea extends DoozR_Form_Service_Component_Formcomponent
 {
-    public function testInit()
+    /**
+     * This is the tag-name for HTML output.
+     * e.g. "input" or "form". Default empty string ""
+     *
+     * @var string
+     * @access protected
+     */
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_INPUT;
+
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for value.
+     *
+     * @param mixed $value The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setValue($value)
     {
-        $base = new DoozR_Form_Service_Element_Html_Html();
-        $this->assertInstanceOf('DoozR_Form_Service_Element_Html_Html', $base);
+        ($value === null) ? $value = '' : null;
+
+        $this->setInnerHtml($value);
     }
 
-    public function testSetAndGetAttribute()
+    /**
+     * Getter for value.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Value of this element
+     * @access public
+     */
+    public function getValue()
     {
-        $key   = 'foo';
-        $value = 'bar';
-        $base  = new DoozR_Form_Service_Element_Html_Html();
+        $value = $this->getInnerHtml();
 
-        $this->assertTrue($base->setAttribute($key, $value));
-        $this->assertEquals($value, $base->getAttribute($key));
-    }
-
-    public function testSetAndGetAttributes()
-    {
-        $base = new DoozR_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'foo' => 'bar',
-            'bar' => 'foo'
-        );
-
-        $this->assertTrue($base->setAttributes($attributes));
-        $this->assertEquals('foo', $base->getAttribute('bar'));
-        $this->assertArrayHasKey('bar', $base->getAttributes());
-    }
-
-    public function testSetAndGetHtml()
-    {
-        $base = new DoozR_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'html' => '<html></html>'
-        );
-
-        $this->assertEmpty($base->getHtml());
-        $this->assertTrue($base->setHtml($attributes['html']));
-        $this->assertEquals($attributes['html'], $base->getHtml());
+        return ($value !== null) ? $value : '';
     }
 }
-*/

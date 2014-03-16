@@ -4,8 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Abstract.php Class DoozR_Form_Service_Element_Html_Abstract is
- * a simple basic HTML-Element in an abstract form.
+ * Radio.php - Interface for Radio components.
  *
  * PHP versions 5
  *
@@ -56,8 +55,7 @@
 /**
  * DoozR - Form - Service
  *
- * Class DoozR_Form_Service_Element_Html_Abstract is
- * a simple basic HTML-Element in an abstract form.
+ * Interface for Checkbox components.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,92 +66,23 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-abstract class DoozR_Form_Service_Element_Html_Abstract
+interface DoozR_Form_Service_Component_Interface_Checkbox
 {
     /**
-     * Tag: The name(identifier) of the HTML-Element
-     * e.g. BODY, HR, H1, SPAN ...
+     * Checks a radio component
      *
-     * @var string
-     * @access protected
-     */
-    protected $tag;
-
-    /**
-     * Is this a self-closing tag?
-     *
-     * @var bool
-     * @access protected
-     */
-    protected $selfClosing = false;
-
-    /**
-     * The HTML-Version this element is for/from
-     *
-     * @var integer
-     * @access protected
-     */
-    protected $htmlVersion = DoozR_Form_Service_Constant::HTML_VERSION_5;
-
-    /**
-     * The HTML-Version this element is for/from
-     *
-     * @var integer
-     * @access protected
-     */
-    protected $attributes = array();
-
-
-    /**
-     * Setter for attributes[]
-     *
-     * @param      $key   The name of the attribute
-     * @param null $value The value of the attribute
-     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setAttribute($key, $value = null)
-    {
-        $this->attributes[$key] = $value;
-    }
+    public function check();
 
     /**
-     * Getter for attributes[]
+     * Unchecks a radio component
      *
-     * @param $key The name of the attribute
-     *
-     * @return mixed|boolean The attributes value if set, FALSE if not
-     * @access public
-     */
-    public function getAttribute($key)
-    {
-        #return (isset($this->attributes[$key]) ? $this->attributes[$key] : false);
-        return (isset($this->attributes[$key]) ? $this->attributes[$key] : null);
-    }
-
-    /**
-     * Setter for an array of attributes[]
-     *
-     * @param array $attributes The attributes to set as an array
-     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setAttributes(array $attributes)
-    {
-        foreach ($attributes as $attribute => $value) {
-            $this->setAttribute($attribute, $value);
-        }
-    }
-
-    /**
-     * Getter for attributes[]
-     *
-     * @return array|int
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
+    public function uncheck();
 }
