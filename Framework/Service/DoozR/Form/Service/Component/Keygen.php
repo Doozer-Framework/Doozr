@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Unit.php - Unit-test capable storage.
+ * Keygen.php - The Kegen component.
  *
  * PHP versions 5
  *
@@ -52,13 +52,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.php';
 
 /**
  * DoozR - Form - Service
  *
- * Unit-test capable storage.
+ * The keygen component.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -66,83 +65,51 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: d4ab136bc378b58978329f06ed305cf3b663681b $
+ * @version    Git: $Id: 5e30d07525fe2d0cbb9781237cfff999f16ff57e $
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Store_Unit extends DoozR_Form_Service_Store_Abstract
-    implements DoozR_Form_Service_Store_Interface
+class DoozR_Form_Service_Component_Keygen extends DoozR_Form_Service_Component_Input
 {
-    /**
-     * The store
-     *
-     * @var array
-     * @access protected
-     */
-    protected static $store = array();
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_KEYGEN;
+
+    protected $allowedKeytypes = array(
+        self::KEYTYPE_RSA,
+        self::KEYTYPE_DSA,
+        self::KEYTYPE_EC,
+    );
+
+    const KEYTYPE_RSA = 'rsa';
+    const KEYTYPE_DSA = 'dsa';
+    const KEYTYPE_EC  = 'ec';
 
 
-    /*------------------------------------------------------------------------------------------------------------------
+    /*-----------------------------------------------------------------------------------------------------------------+
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
-    /**
-     * Creates an entry in store.
-     *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     */
-    public function create($key, $value)
+    public function setChallenge($challenge)
     {
-        self::$store[$key] = $value;
-        return true;
+        $this->setAttribute('challenge', $challenge);
     }
 
-    /**
-     * Reads an entry from store.
-     *
-     * @param string $key The key for the data to store
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The value if set, otherwise NULL
-     * @access public
-     */
-    public function read($key)
+    public function getChallenge()
     {
-        return self::$store[$key];
+        return $this->getAttribute('challenge');
     }
 
-    /**
-     * Updates an entry in store.
-     *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     */
-    public function update($key, $value)
+    public function setKeytype($keytype)
     {
-        self::$store[$key] = $value;
-        return true;
+        if (in_array($keytype, $this->allowedKeytypes) === false) {
+            throw new DoozR_Form_Service_Exception(
+                'Passed keytype: "' . $keytype . '" is not allowed or invalid.'
+            );
+        }
+
+        $this->setAttribute('keytype', $keytype);
     }
 
-    /**
-     * Deletes an entry from store.
-     *
-     * @param string $key The key to delete
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     */
-    public function delete($key)
+    public function getKeytype()
     {
-        unset(self::$store[$key]);
-        return true;
+        return $this->getAttribute('keytype');
     }
 }

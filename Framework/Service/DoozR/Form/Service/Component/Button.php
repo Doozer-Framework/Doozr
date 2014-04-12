@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Unit.php - Unit-test capable storage.
+ * Button.php - Extension to default Input-Component <input type="..."
  *
  * PHP versions 5
  *
@@ -52,13 +52,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.php';
 
 /**
  * DoozR - Form - Service
  *
- * Unit-test capable storage.
+ * Extension to default Input-Component <input type="..."
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -66,83 +65,65 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: d4ab136bc378b58978329f06ed305cf3b663681b $
+ * @version    Git: $Id: 1c283fb68580a5b81d3a242354da061798b4a0c5 $
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Store_Unit extends DoozR_Form_Service_Store_Abstract
-    implements DoozR_Form_Service_Store_Interface
+class DoozR_Form_Service_Component_Button extends DoozR_Form_Service_Component_Input
 {
     /**
-     * The store
+     * The tag of this component
      *
-     * @var array
+     * @var string
      * @access protected
      */
-    protected static $store = array();
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_BUTTON;
 
 
-    /*------------------------------------------------------------------------------------------------------------------
+    /*-----------------------------------------------------------------------------------------------------------------+
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Creates an entry in store.
+     * Constructor.
      *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return \DoozR_Form_Service_Component_Button
      * @access public
      */
-    public function create($key, $value)
-    {
-        self::$store[$key] = $value;
-        return true;
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null
+    ) {
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer, $validator);
     }
 
     /**
-     * Reads an entry from store.
+     * Setter for formtarget.
      *
-     * @param string $key The key for the data to store
+     * @param string $formtarget The formtarget to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The value if set, otherwise NULL
+     * @return void
      * @access public
      */
-    public function read($key)
+    public function setFormtarget($formtarget)
     {
-        return self::$store[$key];
+        $this->setAttribute('formtarget', $formtarget);
     }
 
     /**
-     * Updates an entry in store.
-     *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
+     * Getter for formtarget.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return null|string The formtarget if set, otherwise NULL
      * @access public
      */
-    public function update($key, $value)
+    public function getFormatarget()
     {
-        self::$store[$key] = $value;
-        return true;
-    }
-
-    /**
-     * Deletes an entry from store.
-     *
-     * @param string $key The key to delete
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     */
-    public function delete($key)
-    {
-        unset(self::$store[$key]);
-        return true;
+        return $this->getAttribute('formtarget');
     }
 }

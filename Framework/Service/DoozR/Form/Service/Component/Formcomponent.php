@@ -69,7 +69,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: c08275dbe6e8832eaf241750c125f39ce501c61a $
  * @link       http://clickalicious.github.com/DoozR/
  */
 abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Service_Component_Html
@@ -125,10 +125,92 @@ abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Ser
      */
     protected $type = DoozR_Form_Service_Constant::COMPONENT_GENERIC;
 
+    /**
+     * A validator instance used to validate this component
+     *
+     * @var DoozR_Form_Service_Validator_Interface
+     * @access protected
+     */
+    protected $validator;
+
+
+    /**
+     * Constructor.
+     *
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  The renderer instance which renders this component
+     * @param DoozR_Form_Service_Validator_Interface $validator The validator instance which validates this component
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Form_Service_Component_Formcomponent
+     * @access public
+     */
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null
+    ) {
+        if ($validator !== null) {
+            $this->setValidator($validator);
+        }
+
+        // Important call so observer storage ... can be initiated
+        parent::__construct(null, null, $renderer);
+    }
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for type of input.
+     *
+     * @param string $type The type to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setType($type)
+    {
+        $this->setAttribute('type', $type);
+    }
+
+    /**
+     * Getter for type.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The type if set, otherwise NULL
+     * @access public
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Setter for validator.
+     *
+     * @param DoozR_Form_Service_Validator_Interface $validator The validator instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Validator_Interface The validator instance
+     * @access public
+     */
+    public function setValidator(DoozR_Form_Service_Validator_Interface $validator)
+    {
+        $this->validator = $validator;
+    }
+
+    /**
+     * Getter for validator.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Validator_Interface The validator instance
+     * @access public
+     */
+    public function getValidator()
+    {
+        return $this->validator;
+    }
 
     /**
      * Returns the validity state of the form.

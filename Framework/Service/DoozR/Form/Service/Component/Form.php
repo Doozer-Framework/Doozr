@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Form.php - Form component to build forms. This component builds
+ * Html.php - Form component to build forms. This component builds
  * the <form></form> part and provide some more specialized access
  * like getters and setters for action, method, ...
  *
@@ -69,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcom
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: f0c180ad2bcf514b4fc58cd30506456c45fedf87 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_Formcomponent
@@ -84,68 +84,152 @@ class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_For
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_FORM;
 
 
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
-
-    public function __construct($name = null)
-    {
+    /**
+     * Constructor.
+     *
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
+     *
+     * @param null                                   $name
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Form_Service_Component_Form
+     * @access public
+     */
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null,
+        $name = null
+    ) {
         if ($name !== null) {
             $this->setName($name);
         }
 
-        // call parents constructor and
-        parent::__construct();
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer, $validator);
     }
 
-
-
-    public function enableUpload()
+    public function setAccept($mimeType)
     {
-        $this->setEncodingType(DoozR_Form_Service_Constant::ENCODING_TYPE_FILEUPLOAD);
-
-        return $this;
+        $this->setAttribute('accept', $mimeType);
     }
 
-    public function setEncodingType($encodingType = DoozR_Form_Service_Constant::ENCODING_TYPE_DEFAULT)
+    public function getAccept()
     {
-        $this->setAttribute('enctype', $encodingType);
-
-        return $this;
+        return $this->getAttribute('accept');
     }
 
-    public function getEncodingType()
+    public function setAcceptCharset($mimeType)
+    {
+        $this->setAttribute('accept-charset', $mimeType);
+    }
+
+    public function getAcceptCharset()
+    {
+        return $this->getAttribute('accept-charset');
+    }
+
+    public function setAction($action)
+    {
+        $this->setAttribute('action', $action);
+    }
+
+    public function getAction()
+    {
+        return $this->getAttribute('action');
+    }
+
+    public function setAutocomplete($state)
+    {
+        $this->setAttribute('autocomplete', $state);
+    }
+
+    public function getAutocomplete()
+    {
+        return $this->getAttribute('autocomplete');
+    }
+
+    public function setEnctype($enctype)
+    {
+        $this->setAttribute('enctype', $enctype);
+    }
+
+    public function getEnctype()
     {
         return $this->getAttribute('enctype');
     }
 
+    public function setMethod($method)
+    {
+        $this->setAttribute('method', $method);
+    }
+
+    public function getMethod()
+    {
+        return $this->getAttribute('method');
+    }
+
+    public function setNovalidate($novalidate = null)
+    {
+        $this->setAttribute('novalidate', $novalidate);
+    }
+
+    public function getNovalidate()
+    {
+        return $this->getAttribute('novalidate');
+    }
+
+    public function setTarget($target)
+    {
+        $this->setAttribute('target', $target);
+    }
+
+    public function getTarget()
+    {
+        return $this->getAttribute('target');
+    }
+
     /**
-     * Returns the validity state of the component.
+     * Enable the form to handle uploads
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return void
      * @access public
      */
-    /*
-    public function isValid(
-        $arguments = array(),
-        $store = array(),
-        DoozR_Form_Service_Validate_Validator $validator = null
-    ) {
-        if ($this->valid === null) {
-            // assume a valid state for boolean operator
-            $valid = true;
-
-            # @var DoozR_Form_Service_Component_Interface_Form $child
-            foreach ($this->childs as $child) {
-                $valid = $valid && $child->isValid($arguments, $store, $validator);
-            }
-
-            $this->valid = $valid;
-        }
-
-        // here we would iterate components of the form to check the validity
-        return $this->valid;
+    public function enableUpload()
+    {
+        $this->setEncodingType(DoozR_Form_Service_Constant::ENCODING_TYPE_FILEUPLOAD);
     }
-    */
+
+    /**
+     * Setter for encoding type.
+     *
+     * @param string $encodingType The correct encoding type
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setEncodingType($encodingType = DoozR_Form_Service_Constant::ENCODING_TYPE_DEFAULT)
+    {
+        $this->setAttribute('enctype', $encodingType);
+    }
+
+    /**
+     * Getter for encoding type.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The encoding type of the form
+     * @access public
+     */
+    public function getEncodingType()
+    {
+        return $this->getAttribute('enctype');
+    }
 
     /**
      * Hook on Setter for value.

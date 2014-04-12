@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1c283fb68580a5b81d3a242354da061798b4a0c5 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_Input
@@ -96,26 +96,29 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
     protected $multiMarker = '[]';
 
 
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string $name The name of the element
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Form_Service_Component_Radio
      * @access public
      */
     public function __construct(
-        $name
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null
     ) {
         $this->setType('radio');
 
-        parent::__construct($name);
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer, $validator);
     }
-
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Checks this element.
@@ -141,16 +144,6 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
         $this->removeAttribute('checked');
     }
 
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | Setter & Getter
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    public function setName($name)
-    {
-        $name .= '[]';
-        return parent::setName($name);
-    }
-
     /**
      * Sets the multiple status of this element.
      *
@@ -159,9 +152,9 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access protected
+     * @access public
      */
-    protected function setMultiple($status)
+    public function setMultiple($status)
     {
         $this->multiValue = $status;
     }
@@ -171,11 +164,30 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if field is multi select, FALSE if not
-     * @access protected
+     * @access public
      */
-    protected function getMultiple()
+    public function getMultiple()
     {
         return $this->multiValue;
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Setter & Getter
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for name.
+     *
+     * @param string $name The name to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setName($name)
+    {
+        $name .= '[]';
+        return parent::setName($name);
     }
 
     /**

@@ -53,7 +53,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Component/Div.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Div.php';
 
 /**
  * DoozR - Form - Service
@@ -67,28 +67,36 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Component/Div.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: a51aeb96cafb91e214f5dcb4660e78cd0cc4ab59 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Message extends DoozR_Form_Service_Component_Div
 {
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Constructor.
      *
-     * @param string $message The message to set
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param string|null                            $message   The mesage to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Message $this
+     * @return \DoozR_Form_Service_Component_Message
      * @access public
      */
-    public function __construct($message = '')
-    {
-        $this->setInnerHtml($message);
-    }
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface $renderer = null,
+        $message = null
+    ) {
+        if ($message !== null) {
+            $this->setMessage($message);
+        }
 
-    /*------------------------------------------------------------------------------------------------------------------
-    | Getter & Setter
-    +-----------------------------------------------------------------------------------------------------------------*/
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer);
+    }
 
     /**
      * Setter for message (HTML supported!).

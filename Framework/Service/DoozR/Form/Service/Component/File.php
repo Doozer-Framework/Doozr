@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 2dd2aa8456a22f51315802722638af214e948197 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Input
@@ -91,151 +91,54 @@ class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Inp
      */
     protected $file;
 
-    /**
-     * A container which can be rendered holding the filename
-     * for frontend information.
-     *
-     * @var DoozR_Form_Service_Component_Interface_Html
-     * @access protected
-     */
-    protected $filenameContainer;
-
-    /**
-     * A component which can be rendered holding the maximum
-     * allowed filesize for uploads.
-     *
-     * @var DoozR_Form_Service_Component_Input
-     * @access protected
-     */
-    protected $hiddenComponent;
-
-    /**
-     * Name of the hidden max upload size field
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const NAME_MAX_FILESIZE = 'MAX_FILE_SIZE';
-
-
-    /**
-     * Constructor
-     *
-     * @param string                                      $name              The name of the element
-     * @param DoozR_Form_Service_Component_Interface_Html $filenameContainer The filename container element
-     * @param DoozR_Form_Service_Component_Interface_Form $hiddenComponent   The hidden component for transport max fs
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_File
-     * @access public
-     */
-    public function __construct(
-        $name,
-        DoozR_Form_Service_Component_Interface_Html $filenameContainer = null,
-        DoozR_Form_Service_Component_Interface_Form $hiddenComponent = null
-    ) {
-        $this->setType('file');
-
-        if ($filenameContainer !== null) {
-            $this->setFilenameContainer($filenameContainer);
-        }
-
-        if ($hiddenComponent !== null) {
-            $this->setHiddenComponent($hiddenComponent);
-        }
-
-        parent::__construct($name);
-    }
 
     /*-----------------------------------------------------------------------------------------------------------------+
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Render to HTML also specific for file.
+     * Constructor.
      *
-     * @param boolean $forceRender TRUE to force a render also if already rendered, otherwise
-     *                             FALSE to do not
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The rendered HTML
+     * @return \DoozR_Form_Service_Component_File
      * @access public
      */
-    public function render($forceRender = false)
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null
+    ) {
+        $this->setType('file');
+
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer, $validator);
+    }
+
+    public function setAccept($mimeType)
     {
-        // first we take the rendered html
-        $html = parent::render(true);
+        $this->setAttribute('accept', $mimeType);
+    }
 
-        if ($this->getFile() !== null) {
-            // transform filename to filename without path ...
-            $pathinfo = pathinfo($this->getFile());
-
-            $container = $this->getFilenameContainer();
-
-            $container->setInnerHtml($pathinfo['basename']);
-
-            $html = $container->render() . $html;
-        }
-
-        // and now we add a special field right before this one
-        return $this->getHiddenComponent()->render() . $html;
+    public function getAccept()
+    {
+        return $this->getAttribute('accept');
     }
 
     /**
-     * Setter for filename container.
+     * Setter for type.
      *
-     * @param DoozR_Form_Service_Component_Interface_Html $container The container to set
+     * @param string $type The type to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setFilenameContainer(DoozR_Form_Service_Component_Interface_Html $container)
+    public function setType($type)
     {
-        $this->filenameContainer = $container;
-    }
-
-    /**
-     * Getter for filename container
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Interface_Html|null The container if set, otherwise NULL
-     * @access public
-     */
-    public function getFilenameContainer()
-    {
-        return $this->filenameContainer;
-    }
-
-    /**
-     * Setter for hidden component wich is used for transport
-     * the maximum allowed filesize.
-     *
-     * @param DoozR_Form_Service_Component_Interface_Input $component The component (hidden)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Interface_Html|null The container if set, otherwise NULL
-     * @access public
-     */
-    public function setHiddenComponent(DoozR_Form_Service_Component_Interface_Input $component)
-    {
-        $this->hiddenComponent = $component;
-        $this->hiddenComponent->setName(self::NAME_MAX_FILESIZE);
-        $this->hiddenComponent->setValue($this->getMaxFilesize());
-    }
-
-    /**
-     * Getter for hidden component wich is used for transport
-     * the maximum allowed filesize.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Interface_Html|null The component if set, otherwise NULL
-     * @access public
-     */
-    public function getHiddenComponent()
-    {
-        return $this->hiddenComponent;
+        $this->type = $type;
+        return parent::setType($type);
     }
 
     /**
@@ -330,7 +233,7 @@ class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Inp
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Converts an INI-Value from string to bytes
+     * Converts an PHP INI-Value from string to integer (bytes)
      *
      * @param string $value The value to convert
      *
@@ -341,8 +244,7 @@ class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Inp
     protected function convertToBytes($value)
     {
         $value = trim($value);
-
-        $last = strtolower($value[strlen($value)-1]);
+        $last  = strtolower($value[strlen($value) - 1]);
 
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0

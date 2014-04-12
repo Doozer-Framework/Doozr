@@ -63,7 +63,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 57bce8ae958bdb58194ed15bfd87fc1669f3f55b $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Constant
@@ -200,6 +200,10 @@ class DoozR_Form_Service_Constant
     const HTML_TAG_DIV      = 'div';
     const HTML_TAG_FIELDSET = 'fieldset';
     const HTML_TAG_LEGEND   = 'legend';
+    const HTML_TAG_BUTTON   = 'button';
+    const HTML_TAG_DATALIST = 'datalist';
+    const HTML_TAG_KEYGEN   = 'keygen';
+    const HTML_TAG_OUTPUT   = 'output';
 
     /**
      * HTML-Version 4 flag.
@@ -277,4 +281,21 @@ class DoozR_Form_Service_Constant
      * @const
      */
     const COMPONENT_DEFAULT = 'default';
+
+    /**
+     * Container component type. Container is a form component
+     * which must contain childs to be valid like <select>
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const COMPONENT_CONTAINER = 'container';
+
+
+    /***
+     * TEMPLATES
+     */
+    const TEMPLATE_DEFAULT_CLOSING    = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
+    const TEMPLATE_DEFAULT_NONCLOSING = '<{{TAG}}{{ATTRIBUTES}} />';
 }

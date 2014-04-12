@@ -65,7 +65,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html.ph
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 34a9a1af4ec8e95a6841d9ef2bceb81b1ecf2054 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Div extends DoozR_Form_Service_Component_Html
@@ -78,4 +78,21 @@ class DoozR_Form_Service_Component_Div extends DoozR_Form_Service_Component_Html
      * @access protected
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_DIV;
+
+
+    /**
+     * Constructor.
+     *
+     * @param DoozR_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Form_Service_Component_Div
+     * @access public
+     */
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface $renderer = null
+    ) {
+        // Important call so observer storage ... can be initiated
+        parent::__construct(null, null, $renderer);
+    }
 }

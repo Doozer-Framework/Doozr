@@ -69,7 +69,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 03c215fb312ed211fc7a94a68820fd488c35070a $
  * @link       http://clickalicious.github.com/DoozR/
  */
 interface DoozR_Form_Service_Component_Interface_Html
@@ -140,6 +140,26 @@ interface DoozR_Form_Service_Component_Interface_Html
      * @access public
      */
     public function render($force = false);
+
+    /**
+     * Sets a renderer instance.
+     *
+     * @param DoozR_Form_Service_Renderer_Interface $renderer A renderer instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setRenderer(DoozR_Form_Service_Renderer_Interface $renderer);
+
+    /**
+     * Getter for renderer instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function getRenderer();
 
     /**
      * Setter for style

@@ -66,7 +66,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcom
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 06ab60bd2442fd8e41f3c7357151035bf08b4d87 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component_Formcomponent
@@ -80,53 +80,86 @@ class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_FIELDSET;
 
-
     /**
-     * Constructor.
+     * The id of the legend
      *
-     * @param DoozR_Form_Service_Component_Interface_Form $legend The legend to add
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * @var string
+     * @access protected
      */
-    public function __construct(DoozR_Form_Service_Component_Interface_Form $legend = null)
-    {
-        if ($legend !== null) {
-            $this->addChild($legend);
-        }
-    }
+    protected $legendId;
+
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the validity state of the element.
+     * Constructor.
+     *
+     * @param DoozR_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Component_Legend   $legend   The legend to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return \DoozR_Form_Service_Component_Fieldset
      * @access public
      */
-    /*
-    public function isValid(
-        $arguments = array(),
-        $store = array(),
-        DoozR_Form_Service_Validate_Validator $validator = null
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface $renderer = null,
+        DoozR_Form_Service_Component_Legend   $legend   = null
     ) {
-        // assume a valid state for boolean operator
-        $valid = true;
-
-        // @var DoozR_Form_Service_Component_Interface_Form $child
-        foreach ($this->childs as $child) {
-            $valid = $valid && $child->isValid($arguments, $store, $validator);
+        if ($legend !== null) {
+            $this->setLegend($legend);
         }
 
-        $this->valid = $valid;
-
-        return $this->valid;
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer);
     }
-    */
+
+    public function setDisabled($disabled = 'disabled')
+    {
+        $this->setAttribute('disabled', $disabled);
+    }
+
+    public function getDisabled()
+    {
+        return $this->getAttribute('disabled');
+    }
+
+    public function setForm($form)
+    {
+        $this->setAttribute('form', $form);
+    }
+
+    public function getForm()
+    {
+        return $this->getAttribute('form');
+    }
+
+    /**
+     * Setter for legend.
+     *
+     * @param DoozR_Form_Service_Component_Legend $legend
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setLegend(DoozR_Form_Service_Component_Legend $legend)
+    {
+        $this->legendId = $this->addChild($legend);
+    }
+
+    /**
+     * Getter for legend.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The legend component
+     * @access public
+     */
+    public function getLegend()
+    {
+        return $this->getChild($this->legendId);
+    }
 
     /**
      * Setter for value.

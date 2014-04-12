@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Form.php - Parser for parsing form an configuration out of existing HTML
+ * Html.php - Parser for parsing form an configuration out of existing HTML
  * Code. Assume the following scenario ->
  * If forms exist, maybe created/designed by a web-designer and you would like
  * to be able to process these forms with DoozR_Form_Service too (e.g. Token,
@@ -80,6 +80,9 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Parser/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Parser/Interface.php';
+
 /**
  * DoozR - Form - Service
  *
@@ -92,35 +95,13 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1273acd716766791d2770bfe0bd9f1d161a7d047 $
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Parser_Form
+class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
+    implements
+    DoozR_Form_Service_Parser_Interface
 {
-    /**
-     * The input to parse
-     *
-     * @var string
-     * @access protected
-     */
-    protected $buffer;
-
-    /**
-     * Parsed forms
-     *
-     * @var array
-     * @access protected
-     */
-    protected $forms;
-
-    /**
-     * The current active configuration
-     *
-     * @var array
-     * @access protected
-     */
-    protected $configuration;
-
     /**
      * Contains the template representation of input
      * valid at all time.
@@ -128,7 +109,25 @@ class DoozR_Form_Service_Parser_Form
      * @var string
      * @access private
      */
-    protected $template = '';
+    protected $template;
+
+    /**
+     * Parsed forms
+     *
+     * @var array
+     * @access protected
+     */
+    protected $forms = array();
+
+    /**
+     * The current active configuration
+     *
+     * @var array
+     * @access protected
+     */
+    #protected $configuration;
+
+    protected $configurations;
 
     /**
      * The pattern to extract HTML-Forms
@@ -144,7 +143,7 @@ class DoozR_Form_Service_Parser_Form
      * @access public
      * @const
      */
-    const REGEXP_PATTERN_ATTRIBUTES = '/[<{1}](\w+)|(\w+)[.*=.*]["|\'](.*?)["|\']/ius';
+    const REGEXP_PATTERN_ATTRIBUTES = '/<([\w]*)|\s*([\w-]*)\s*=\s*[\'"](.*?)[\'"]/ius';
 
     /**
      * The pattern to exract special elements like:
@@ -154,6 +153,8 @@ class DoozR_Form_Service_Parser_Form
      * @const
      */
     const REGEXP_PATTERN_ELEMENTS = '/(<(input|select|textarea)(.*?)>)/ius';
+
+    const REGEXP_PATTERN_CONTAINER_ELEMENTS = '';
 
     /**
      * The prefix for templae var placeholder(s)
@@ -189,84 +190,106 @@ class DoozR_Form_Service_Parser_Form
      */
     const TEMPLATE_BRACKETS_CLOSE = '}}';
 
-    #private $_currentForm;
 
-    /*------------------------------------------------------------------------------------------------------------------
-    | Chaining API -> mostly setters
+    /*-----------------------------------------------------------------------------------------------------------------*
+    | Public Chaining API
     +-----------------------------------------------------------------------------------------------------------------*/
-
-
-    /**
-     * Reads content of a HTML input file for further parsing
-     *
-     * @param string $filename The name (+ path) of the file
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Parser_Form Instance for chaining
-     * @access public
-     */
-    public function open($file)
-    {
-        $this->buffer = file_get_contents($file);
-        return $this;
-    }
-
-    /**
-     * Sets the HTML to process if it not should be read from file
-     *
-     * @param string $html The HTML of the file
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Parser_Form Instance for chaining
-     * @access public
-     */
-    public function html($html)
-    {
-        $this->buffer = $html;
-        return $this;
-    }
 
     /**
      * Parses form(s) and DoozR-Form-Service directives to configuration from previously set HTML.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Parser_Form Instance for chaining
+     * @return DoozR_Form_Service_Parser_Interface Instance for chaining
      * @access public
+     * @throws \Exception
      */
     public function parse()
     {
-        // We assume that use case is almost clear and a file needs to be opened or html mst be read in first.
-        // So empt buffer is not an error its an exception
-        if ($this->buffer === null) {
+        // Get input
+        $input = $this->getInput();
+
+        // So empty buffer is not an error its an exception
+        if ($input === null) {
             throw new Exception(
                 'Please provide HTML to parse information from first!'
             );
         }
 
         // Initial template is 1:1 copy
-        $this->template = $this->buffer;
+        $this->setTemplate($input);
 
         // Extract form(s) HTML
-        $this->forms = $this->parseFormsFromHtml($this->buffer);
+        $this->setForms($this->parseFormsFromHtml($input));
 
         // Build configuration from extracted form(s) HTML
-        $this->configuration = $this->parseConfigurations($this->forms);
+        $configuration = $this->getConfiguration();
+
+        // forms
+        $forms = $this->parseConfigurations($this->getForms());
+
+        foreach ($forms as $form) {
+            $temp = clone $configuration;
+            $temp->parseFromArray($form);
+            $this->addConfiguration($temp);
+        }
 
         // return instance for chaining
         return $this;
     }
 
-    /*------------------------------------------------------------------------------------------------------------------
-    | Getter -> not part of chaining API
+    /*-----------------------------------------------------------------------------------------------------------------*
+    | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    public function setForms(array $forms)
+    {
+        $this->forms = $forms;
+    }
+
+    public function addConfiguration(DoozR_Form_Service_Configuration $configuration)
+    {
+        $this->configurations[$configuration->getId()] = $configuration;
+    }
+
+    public function getConfigurations()
+    {
+        return $this->configurations;
+    }
+
+    public function getForms()
+    {
+        return $this->forms;
+    }
+
+    public function setForm($id, DoozR_Form_Service_Configuration $configuration)
+    {
+        $this->forms[$id] = $configuration;
+    }
+
+    public function getForm($id)
+    {
+        return (isset($this->forms[$id])) ? $this->forms[$id] : null;
+    }
+
+    /**
+     * Setter for template.
+     *
+     * @param mixed $template The template to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+    }
 
     /**
      * Getter for template.
      *
-     * This method is intend to return the template.
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string Template
+     * @return mixed The stored template if set, otherwise NULL
      * @access public
      */
     public function getTemplate()
@@ -274,28 +297,17 @@ class DoozR_Form_Service_Parser_Form
         return $this->template;
     }
 
-    /**
-     * Getter for configuration.
-     *
-     * This method is intend to return the configuration.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Configuration
-     * @access public
-     */
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Internal API
+    /*-----------------------------------------------------------------------------------------------------------------*
+    | Tools & Helper
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Parses configuration-sets out of passed form-HTML.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @param array $forms
+     *
      * @return array The resulting structure
      * @access protected
      */
@@ -330,12 +342,12 @@ class DoozR_Form_Service_Parser_Form
             $this->template = str_replace(
                 $forms[1][$i],        // lookup  @was $forms[0][$i]
                 $templateIdentifier,  // replace
-                $this->template      // subject
+                $this->template       // subject
             );
 
             // store in result
             $setup = array(
-                'form'     => $configuration['properties'],
+                'form'     => array(array('tag' => 'form', 'properties' => $configuration['properties'])),
                 'elements' => array()
             );
 
@@ -413,12 +425,15 @@ class DoozR_Form_Service_Parser_Form
                 $element['properties']['id'] = $id;
 
                 // get template identifier
-                $templateIdentifier = $this->buildTemplateIdentifier($id, $element['properties']['type']);
+                $templateIdentifier = $this->buildTemplateIdentifier(
+                    $id,
+                    isset($element['properties']['type']) ? $element['properties']['type'] : $element['tag']
+                );
 
                 $this->template = str_replace(
                     $elements[1][$j],     // lookup
                     $templateIdentifier,  // replace
-                    $this->template      // subject
+                    $this->template       // subject
                 );
 
                 // drop into result
@@ -449,7 +464,8 @@ class DoozR_Form_Service_Parser_Form
             $result = $data['name'];
 
         } else {
-            $result = sha1($data['action'] . $data['method']);
+            #$result = sha1($data['action'] . $data['method']);
+            $result = sha1(serialize($data));
         }
 
         return $result;
@@ -487,7 +503,7 @@ class DoozR_Form_Service_Parser_Form
         $properties = array_change_key_case(array_combine($keys, $values), CASE_LOWER);
 
         $result = array(
-            'tag' => $tag,
+            'tag'        => $tag,
             'properties' => $properties
         );
 

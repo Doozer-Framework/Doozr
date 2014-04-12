@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcom
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: b070232891ddd890a205b9d324092c1b2cd5d733 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Legend extends DoozR_Form_Service_Component_Formcomponent
@@ -87,16 +87,34 @@ class DoozR_Form_Service_Component_Legend extends DoozR_Form_Service_Component_F
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string $message The message to set
+     * @param DoozR_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
+     * @param null                                  $messsge
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * @author   Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Form_Service_Component_Legend
+     * @access   public
      */
-    public function __construct($message = '')
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface $renderer = null,
+                                              $messsge  = null
+    ) {
+        if ($messsge !== null) {
+            $this->setInnerHtml($messsge);
+        }
+
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer);
+    }
+
+    public function setAlign($align)
     {
-        $this->setInnerHtml($message);
+        $this->setAttribute('align', $align);
+    }
+
+    public function getAlign()
+    {
+        return $this->getAttribute('align');
     }
 }

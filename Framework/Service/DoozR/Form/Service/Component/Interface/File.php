@@ -63,35 +63,17 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 03c215fb312ed211fc7a94a68820fd488c35070a $
  * @link       http://clickalicious.github.com/DoozR/
  */
 interface DoozR_Form_Service_Component_Interface_File
 {
     /**
-     * Setter for filename container.
-     *
-     * @param DoozR_Form_Service_Component_Interface_Html $container The container to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setFilenameContainer(DoozR_Form_Service_Component_Interface_Html $container);
-
-    /**
-     * Getter for filename container
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Interface_Html|null The container if set, otherwise NULL
-     * @access public
-     */
-    public function getFilenameContainer();
-
-    /**
      * Setter for file.
      *
-     * @param string|null $file The file
+     * @param $filename
+     *
+     * @internal param null|string $file The file
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -127,26 +109,4 @@ interface DoozR_Form_Service_Component_Interface_File
      * @access public
      */
     public function getMaxFilesize();
-
-    /**
-     * Setter for hidden component wich is used for transport
-     * the maximum allowed filesize.
-     *
-     * @param DoozR_Form_Service_Component_Interface_Input $component The component (hidden)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Interface_Html|null The container if set, otherwise NULL
-     * @access public
-     */
-    public function setHiddenComponent(DoozR_Form_Service_Component_Interface_Input $component);
-
-    /**
-     * Getter for hidden component wich is used for transport
-     * the maximum allowed filesize.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Interface_Html|null The component if set, otherwise NULL
-     * @access public
-     */
-    public function getHiddenComponent();
 }

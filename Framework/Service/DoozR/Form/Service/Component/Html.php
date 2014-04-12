@@ -67,12 +67,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html/Ht
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: cae6be96dc06d98923581276999bde459f0820e5 $
  * @link       http://clickalicious.github.com/DoozR/
  * @abstract
  */
-#abstract <- ENABLE AFTER DEV
-class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Component_Html_Html
+abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Component_Html_Html
     implements
     Iterator
 {
@@ -84,22 +83,6 @@ class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Component_Htm
      * @access protected
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_NONE;
-
-    /**
-     * The arguments passed with current request
-     *
-     * @var array
-     * @access protected
-     */
-    protected $arguments;
-
-    /**
-     * The registry as source for component values
-     *
-     * @var array
-     * @access protected
-     */
-    protected $registry;
 
     /**
      * Child components added to this component
@@ -127,17 +110,34 @@ class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Component_Htm
     protected $type;
 
     /**
+     * The attached renderer to render the component
+     *
+     * @var DoozR_Form_Service_Renderer_Interface
+     * @access protected
+     */
+    protected $renderer;
+
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
      * Constructor.
      *
-     * @param string $tag      The tag name of the component
-     * @param string $template The template used for rendering component
+     * @param string                                 $tag      The tag name of the component
+     * @param string                                 $template The template used for rendering component
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer A renderer instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Form_Service_Component_Html
      * @access public
      */
-    public function __construct($tag = null, $template = null)
-    {
+    public function __construct(
+        $tag      = null,
+        $template = null,
+        DoozR_Form_Service_Renderer_Interface $renderer = null
+    ) {
         if ($tag !== null) {
             $this->tag = $tag;
         }
@@ -146,57 +146,68 @@ class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Component_Htm
             $this->template = $template;
         }
 
+        if ($renderer !== null) {
+            $this->setRenderer($renderer);
+        }
+
         parent::__construct();
     }
 
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
-
     /**
-     * More specialized renderer capable of render inner-HTML of a component
-     * as well as childs in order added to component.
+     * Hook on default renderer for some slighty required modifications on input
      *
-     * @param boolean $force TRUE to force rendering (cascades), otherwise FALSE to use cached result
+     * @param boolean $force TRUE to force rerendering, otherwise FALSE to use cached result
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The resulting HTML code
+     * @return string The rendered result
      * @access public
      */
     public function render($force = false)
     {
-        // get childs of this component
-        $childs = $this->getChilds();
+        $template   = $this->getTemplate();
+        $tag        = $this->getTag();
+        $variables  = array();
+        $childs     = $this->getChilds();
+        $attributes = $this->getAttributes();
+        $innerHtml  = $this->getInnerHtml();
 
-        // if any childs attached use a special renderer
-        if (count($childs) > 0) {
-            // store inner HTML temporary
-            $innerHtml = $this->getInnerHtml();
+        $result = $this->getRenderer()->render(
+            $force,
+            $template,
+            $tag,
+            $variables,
+            $childs,
+            $attributes,
+            $innerHtml
+        );
 
-            // inject new template variable place holder
-            $this->setInnerHtml('{{CHILD-INNER-HTML}}');
+        return $result;
+    }
 
-            // render by using parents renderer
-            $html = parent::render($force);
+    /**
+     * Sets a renderer instance.
+     *
+     * @param DoozR_Form_Service_Renderer_Interface $renderer A renderer instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setRenderer(DoozR_Form_Service_Renderer_Interface $renderer)
+    {
+        $this->renderer = $renderer;
+    }
 
-            // now render the childs too
-            foreach ($childs as $child) {
-                $innerHtml .= $child->render($force);
-            }
-
-            // and inject the result into previously rendered HTML
-            $templateVariables = array(
-                'child-inner-html' => $innerHtml,
-            );
-
-            $html = $this->_tpl($html, $templateVariables);
-
-        } else {
-            // otherwise (no childs) render using default renderer
-            $html = parent::render($force);
-        }
-
-        return $html;
+    /**
+     * Getter for renderer instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Renderer_Interface A renderer instance
+     * @access public
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
     }
 
     /**
@@ -320,11 +331,27 @@ class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Component_Htm
     | Getter & Setter
     +-----------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Setter for Id
+     *
+     * @param string $id The id to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setId($id)
     {
         $this->setAttribute('id', $id);
     }
 
+    /**
+     * Getter for Id
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The attribute id
+     * @access public
+     */
     public function getId()
     {
         return $this->getAttribute('id');

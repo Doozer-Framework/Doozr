@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Unit.php - Unit-test capable storage.
+ * Interface.php - Interface for parser.
  *
  * PHP versions 5
  *
@@ -52,13 +52,10 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.php';
-
 /**
  * DoozR - Form - Service
  *
- * Unit-test capable storage.
+ * Interface for parser.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -66,83 +63,77 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: d4ab136bc378b58978329f06ed305cf3b663681b $
+ * @version    Git: $Id: 1273acd716766791d2770bfe0bd9f1d161a7d047 $
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Store_Unit extends DoozR_Form_Service_Store_Abstract
-    implements DoozR_Form_Service_Store_Interface
+interface DoozR_Form_Service_Parser_Interface
 {
     /**
-     * The store
+     * Set input for parser.
      *
-     * @var array
-     * @access protected
-     */
-    protected static $store = array();
-
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Creates an entry in store.
-     *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
+     * @param string $input The input to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return void
      * @access public
      */
-    public function create($key, $value)
-    {
-        self::$store[$key] = $value;
-        return true;
-    }
+    public function setInput($input);
 
     /**
-     * Reads an entry from store.
-     *
-     * @param string $key The key for the data to store
+     * Getter for input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The value if set, otherwise NULL
+     * @return string|null The input set, otherwise NULL if not set
      * @access public
      */
-    public function read($key)
-    {
-        return self::$store[$key];
-    }
+    public function getInput();
 
     /**
-     * Updates an entry in store.
+     * Setter for output.
      *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
+     * @param string $output The output to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return void
      * @access public
      */
-    public function update($key, $value)
-    {
-        self::$store[$key] = $value;
-        return true;
-    }
+    public function setOutput($output);
 
     /**
-     * Deletes an entry from store.
-     *
-     * @param string $key The key to delete
+     * Getter for output.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return string|null The output set, otherwise NULL if not set
      * @access public
      */
-    public function delete($key)
-    {
-        unset(self::$store[$key]);
-        return true;
-    }
+    public function getOutput();
+
+    /**
+     * Setter for template.
+     *
+     * @param mixed $template The template to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setTemplate($template);
+
+    /**
+     * Getter for template.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The stored template if set, otherwise NULL
+     * @access public
+     */
+    public function getTemplate();
+
+    /**
+     * Runs the parser which produces all required content to feed Form-Managers Import
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Instance of class for chaining
+     * @access public
+     */
+    public function parse();
 }

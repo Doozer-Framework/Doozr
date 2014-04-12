@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 5e30d07525fe2d0cbb9781237cfff999f16ff57e $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Input extends DoozR_Form_Service_Component_Formcomponent
@@ -93,29 +93,222 @@ class DoozR_Form_Service_Component_Input extends DoozR_Form_Service_Component_Fo
      * @var string
      * @access protected
      */
-    protected $template = '<{{TAG}}{{ATTRIBUTES}} />';
+    protected $template = DoozR_Form_Service_Constant::TEMPLATE_DEFAULT_NONCLOSING;
 
-
-    /**
-     * Constructor.
-     *
-     * @param string $name The name of the component (shortcut to $foo->setName(...))
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Input
-     * @access public
-     */
-    public function __construct($name = '')
-    {
-        $this->setName($name);
-
-        // Important call so observer storage ... can be initiated
-        parent::__construct();
-    }
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    public function setAutocomplete($state)
+    {
+        $this->setAttribute('autocomplete', $state);
+    }
+
+    public function getAutocomplete()
+    {
+        return $this->getAttribute('autocomplete');
+    }
+
+    public function setAutofocus($autofocus = 'autofocus')
+    {
+        $this->setAttribute('autofocus', $autofocus);
+    }
+
+    public function getAutofocus()
+    {
+        return $this->getAttribute('autofocus');
+    }
+
+    public function setDisabled($disabled = 'disabled')
+    {
+        $this->setAttribute('disabled', $disabled);
+    }
+
+    public function getDisabled()
+    {
+        return $this->getAttribute('disabled');
+    }
+
+    public function setForm($form)
+    {
+        $this->setAttribute('form', $form);
+    }
+
+    public function getForm()
+    {
+        return $this->getAttribute('form');
+    }
+
+    public function setFormaction($formaction)
+    {
+        $this->setAttribute('formction', $formaction);
+    }
+
+    public function getFormaction()
+    {
+        return $this->getAttribute('formaction');
+    }
+
+    public function setFormEnctype($formEnctype)
+    {
+        $this->setAttribute('formenctype', $formEnctype);
+    }
+
+    public function getFormEnctype()
+    {
+        return $this->getAttribute('formenctype');
+    }
+
+    public function setFormMethod($formMethod)
+    {
+        $this->setAttribute('formmethod', $formMethod);
+    }
+
+    public function getFormMethod()
+    {
+        return $this->getAttribute('formmethod');
+    }
+
+    public function setFormNovalidate($formNovalidate = 'formnovalidate')
+    {
+        $this->setAttribute('formnovalidate', $formNovalidate);
+    }
+
+    public function getFormNovalidate()
+    {
+        return $this->getAttribute('formnovalidate');
+    }
+
+    /**
+     * Sets the name of the list the input element is bound to.
+     *
+     * @param string $listname The name of the list the input refers to
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setList($listname)
+    {
+        $this->setAttribute('list', $listname);
+    }
+
+    /**
+     * Returns the list the component is bound to.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The name of the list this component is bound to, NULL if not bound
+     * @access public
+     */
+    public function getList()
+    {
+        return $this->getAttribute('list');
+    }
+
+    public function setMax($max)
+    {
+        $this->setAttribute('max', $max);
+    }
+
+    public function getMax()
+    {
+        return $this->getAttribute('max');
+    }
+
+    public function setMaxlength($maxlength)
+    {
+        $this->setAttribute('maxlength', $maxlength);
+    }
+
+    public function getMaxlength()
+    {
+        return $this->getAttribute('maxlength');
+    }
+
+    public function setMin($min)
+    {
+        $this->setAttribute('min', $min);
+    }
+
+    public function getMin()
+    {
+        return $this->getAttribute('min');
+    }
+
+    public function setMultiple($multiple)
+    {
+        $this->setAttribute('multiple', $multiple);
+    }
+
+    public function getMultiple()
+    {
+        return $this->getAttribute('multiple');
+    }
+
+    public function setPattern($pattern)
+    {
+        $this->setAttribute('pattern', $pattern);
+    }
+
+    public function getPattern()
+    {
+        return $this->getAttribute('pattern');
+    }
+
+    public function setPlaceholder($placeholder)
+    {
+        $this->setAttribute('placeholder', $placeholder);
+    }
+
+    public function getPlaceholder()
+    {
+        return $this->getAttribute('placeholder');
+    }
+
+    public function setReadonly($readonly)
+    {
+        $this->setAttribute('readonly', $readonly);
+    }
+
+    public function getReadonly()
+    {
+        return $this->getAttribute('readonly');
+    }
+
+    public function setRequired($required)
+    {
+        $this->setAttribute('required', $required);
+    }
+
+    public function getRequired()
+    {
+        return $this->getAttribute('required');
+    }
+
+    public function setSize($size)
+    {
+        $this->setAttribute('size', $size);
+    }
+
+    public function getSize()
+    {
+        return $this->getAttribute('size');
+    }
+
+    public function setStep($step)
+    {
+        $this->setAttribute('step', $step);
+    }
+
+    public function getStep()
+    {
+        return $this->getAttribute('step');
+    }
+
+
+
+
 
     /**
      * Sets the HTML input element property "autocapitalize"

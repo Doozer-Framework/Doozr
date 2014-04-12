@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Form.php - Contract for all form components including <form> itself.
+ * Html.php - Contract for all form components including <form> itself.
  *
  * PHP versions 5
  *
@@ -63,7 +63,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 03c215fb312ed211fc7a94a68820fd488c35070a $
  * @link       http://clickalicious.github.com/DoozR/
  */
 interface DoozR_Form_Service_Component_Interface_Form
@@ -97,6 +97,26 @@ interface DoozR_Form_Service_Component_Interface_Form
      * @access public
      */
     public function getValidation();
+
+    /**
+     * Setter for validator.
+     *
+     * @param DoozR_Form_Service_Validator_Interface $validator The validator instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Validator_Interface The validator instance
+     * @access public
+     */
+    public function setValidator(DoozR_Form_Service_Validator_Interface $validator);
+
+    /**
+     * Getter for validator.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Validator_Interface The validator instance
+     * @access public
+     */
+    public function getValidator();
 
     /**
      * Setter for value.
@@ -141,7 +161,7 @@ interface DoozR_Form_Service_Component_Interface_Form
     /**
      * Setter for name.
      *
-     * @param mixed $value The name to set
+     * @param $name The name to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

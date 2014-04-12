@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcom
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 50850479da3207c44341044534fa186c1bdebc78 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Label extends DoozR_Form_Service_Component_Formcomponent
@@ -82,17 +82,69 @@ class DoozR_Form_Service_Component_Label extends DoozR_Form_Service_Component_Fo
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_LABEL;
 
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    public function setForm($form)
+    {
+        $this->setAttribute('form', $form);
+    }
+
+    public function getForm()
+    {
+        return $this->getAttribute('form');
+    }
+
     /**
-     * Constructor
+     * Setter for "for" attribute.
      *
-     * @param string $message The message to set
+     * @param string $referencedComponent The referenced form element for which this label is for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __construct($message = '')
+    public function setFor($referencedComponent)
     {
-        $this->setInnerHtml($message);
+        $this->setAttribute('for', $referencedComponent);
+    }
+
+    /**
+     * Getter for "for" attribute.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The "for" attribute of the component, NULL if not set
+     * @access public
+     */
+    public function getFor()
+    {
+        return $this->getAttribute('for');
+    }
+
+    /**
+     * Setter for Text of the label.
+     *
+     * @param string $text The text to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setText($text)
+    {
+        $this->setInnerHtml($text);
+    }
+
+    /**
+     * Getter for text of the label.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The text of the label, NULL if not set
+     * @access public
+     */
+    public function getText()
+    {
+        return $this->getInnerHtml();
     }
 }

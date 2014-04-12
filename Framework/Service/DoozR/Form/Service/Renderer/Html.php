@@ -4,8 +4,7 @@
 /**
  * DoozR - Form - Service
  *
- * Abstract.php - Abstract Renderer. Brings basic templating and rendering
- * capabilities to the rendering part of the service.
+ * Html.php - HTML Renderer. Renders a components setup to HTML.
  *
  * PHP versions 5
  *
@@ -53,13 +52,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Renderer/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Renderer/Abstract.php';
 
 /**
  * DoozR - Form - Service
  *
- * Abstract Renderer. Brings basic templating and rendering
- * capabilities to the rendering part of the service.
+ * HTML Renderer. Renders a components setup to HTML.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,41 +68,33 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Renderer/Interfac
  * @version    Git: $Id:$
  * @link       http://clickalicious.github.com/DoozR/
  */
-abstract class DoozR_Form_Service_Renderer_Abstract
-    implements
-    DoozR_Form_Service_Renderer_Interface
+class DoozR_Form_Service_Renderer_Html extends DoozR_Form_Service_Renderer_Abstract
 {
     /**
-     * Default template for rendering
-     *
-     * @var $array
-     * @access protected
-     */
-    protected $template = array();
-
-    /**
-     * The raw buffer content we operate on
+     * The components rendered HTML runtime cache
      *
      * @var string
      * @access protected
      */
-    protected $buffer;
+    protected $html = '';
 
 
-    /*------------------------------------------------------------------------------------------------------------------
-     | Public API
-     +----------------------------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Renders a passed templates with variables childs and attributes
+     * Renders a passed templates with variables childs and attributes.
      *
-     * @param boolean $force      TRUE to force rerendering, otherwise FALSE to do not
+     * @param boolean $force      TRUE to force rerendering, FALSE to accept cached result
      * @param array   $template   The template to render
-     * @param string  $tag        The tag of the component
+     * @param string  $tag        The tag of the element to render
      * @param array   $variables  The variables to use for rendering
      * @param array   $childs     The child elements
      * @param array   $attributes The attributes
-     * @param string  $innerHtml  The inner Html to set
+     * @param string  $innerHtml
+     *
+     * @internal param $string %innerHtml  The inner HTML of the component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The rendered result
@@ -117,48 +107,90 @@ abstract class DoozR_Form_Service_Renderer_Abstract
         array $variables  = array(),
         array $childs     = array(),
         array $attributes = array(),
-        $innerHtml        = ''
+              $innerHtml  = ''
     ) {
-        // What is with
-        $template['attributes'] = array();
-        foreach ($attributes as $key => $attribute) {
-            $template['attributes'][$key] = $attribute;
+        // Render childs if any attached
+        if (count($childs) > 0) {
+            $innerHtml .= $this->renderChilds($childs, $force);
         }
 
-        $template['childs'] = array();
-        foreach ($childs as $child) {
-            $template['childs'][] = $child;
+        // Get attributes prepared as string
+        $attributesCollected = $this->prepareAttributes($attributes);
+
+        // Set template variables for our default template
+        $templateVariables = array_merge(
+            $variables,
+            array(
+                'attributes' => $attributesCollected,
+                'tag'        => $tag
+            )
+        );
+
+        $html = $this->_tpl($template, $templateVariables);
+
+        // if inner HTML was passed render this as well
+        if ($innerHtml !== null) {
+            $variables = array(
+                'inner-html' => $innerHtml
+            );
+
+            $html = $this->_tpl($html, $variables);
         }
 
-        $template['variables'] = array();
-        foreach ($variables as $key => $variable) {
-            $template['variables'][$key] = $variable;
-        }
-
-        return $template;
+        // Return HTML result
+        return $html;
     }
 
-    /*-----------------------------------------------------------------------------------------------------------------*
+    /*-----------------------------------------------------------------------------------------------------------------+
     | Tools & Helper
-    *-----------------------------------------------------------------------------------------------------------------*/
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Micro templating engine used for processing templates of tags for example.
+     * Prepares attributes.
      *
-     * @param string $template          The template to use
-     * @param array  $templateVariables The variables used for replace
+     * @param array $attributes The atributes to prepare
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The result
-     * @access protected
+     * @return string The rendered result
+     * @access public
      */
-    protected function _tpl($template, array $templateVariables)
+    protected function prepareAttributes(array $attributes)
     {
-        // micro templating engine
-        foreach ($templateVariables as $templateVariable => $value) {
-            $template = str_replace('{{'.strtoupper($templateVariable).'}}', $value, $template);
+        $attributesCollected = '';
+
+        foreach ($attributes as $attribute => $value) {
+            // Check value-less attributes to be embedded properly
+            if ($value === null) {
+                $attributesCollected .= ' ' . $attribute;
+            } else {
+                $value = (is_array($value)) ? $value[0] : $value;
+                $attributesCollected .= ' ' . $attribute . '="' . $value . '"';
+            }
         }
 
-        return $template;
+        return $attributesCollected;
+    }
+
+    /**
+     * Renders the HTML of the childs attached
+     *
+     * @param array   $childs The childs attached
+     * @param boolean $force  TRUE to force rerendering, otherwise FALSE to use cache
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The rendered result
+     * @access public
+     */
+    protected function renderChilds(array $childs = array(), $force)
+    {
+        // The HTML result of childs
+        $html = '';
+
+        // Iterate childs and render HTML of each
+        foreach ($childs as $child) {
+            $html .= $child->render($force);
+        }
+
+        return $html;
     }
 }

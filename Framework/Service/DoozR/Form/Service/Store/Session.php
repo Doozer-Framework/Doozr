@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Store/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Store/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.php';
 
 /**
  * DoozR - Form - Service
@@ -66,7 +66,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Store/Interface.php
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 6ba5e539ad26df81c28bca0ffedfbb5c7428f648 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Store_Session extends DoozR_Form_Service_Store_Abstract

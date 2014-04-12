@@ -68,25 +68,59 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 5e30d07525fe2d0cbb9781237cfff999f16ff57e $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Text extends DoozR_Form_Service_Component_Input
 {
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string $name The name of the component (shortcut to $foo->setName(...))
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Form_Service_Component_Text
      * @access public
      */
-    public function __construct($name = '', $arguments = array(), $registry = array())
-    {
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null
+    ) {
         $this->setType('text');
 
         // Important call so observer storage ... can be initiated
-        parent::__construct($name, $arguments, $registry);
+        parent::__construct($renderer, $validator);
     }
+
+    /**
+     * Hook on default renderer for some slighty required modifications on input
+     *
+     * @param boolean $force TRUE to force rerendering, otherwise FALSE to use cached result
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The rendered result
+     * @access public
+     */
+    /*
+    public function render($force = false)
+    {
+        $template   = $this->getTemplate();
+        $tag        = $this->getTag();
+        $variables  = array();
+        $childs     = $this->getChilds();
+        $attributes = $this->getAttributes();
+
+        $result = $this->getRenderer()->render(
+            $force,
+            $template,
+            $tag,
+            $variables,
+            $childs,
+            $attributes
+        );
+
+        return $result;
+    }
+    */
 }

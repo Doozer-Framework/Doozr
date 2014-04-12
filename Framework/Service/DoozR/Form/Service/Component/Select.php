@@ -54,6 +54,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Option.php';
 
 /**
  * DoozR - Form - Service
@@ -66,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcom
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Select extends DoozR_Form_Service_Component_Formcomponent
@@ -81,33 +82,95 @@ class DoozR_Form_Service_Component_Select extends DoozR_Form_Service_Component_F
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_SELECT;
 
     /**
-     * The options added to select component
+     * Mark this component as parent
      *
-     * @var array
+     * @var string
      * @access protected
      */
-    protected $options = array();
+    protected $type = DoozR_Form_Service_Constant::COMPONENT_CONTAINER;
 
-
-    /**
-     * Constructor
-     *
-     * @param string $name The name to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Input $this
-     * @access public
-     */
-    public function __construct($name = '', $arguments = array(), $registry = array())
-    {
-        $this->setAttribute('name', $name);
-        $this->setArguments($arguments);
-        $this->setRegistry($registry);
-    }
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructor.
+     *
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Form_Service_Component_Select
+     * @access public
+     */
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null
+    ) {
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer, $validator);
+    }
+
+    public function setAutofocus($autofocus = null)
+    {
+        $this->setAttribute('autofocus', $autofocus);
+    }
+
+    public function getAutofocus()
+    {
+        return $this->getAttribute('autofocus');
+    }
+
+    public function setDisabled($disabled = 'disabled')
+    {
+        $this->setAttribute('disabled', $disabled);
+    }
+
+    public function getDisabled()
+    {
+        return $this->getAttribute('disabled');
+    }
+
+    public function setForm($form)
+    {
+        $this->setAttribute('form', $form);
+    }
+
+    public function getForm()
+    {
+        return $this->getAttribute('form');
+    }
+
+    public function setMultiple($multiple = 'multiple')
+    {
+        $this->setAttribute('multiple', $multiple);
+    }
+
+    public function getMultiple()
+    {
+        return $this->getAttribute('multiple');
+    }
+
+    public function setRequired($required)
+    {
+        $this->setAttribute('required', $required);
+    }
+
+    public function getRequired()
+    {
+        return $this->getAttribute('required');
+    }
+
+    public function setSize($size)
+    {
+        $this->setAttribute('size', $size);
+    }
+
+    public function getSize()
+    {
+        return $this->getAttribute('size');
+    }
 
     /**
      * Proxy to addChild() to filter input components
@@ -136,40 +199,4 @@ class DoozR_Form_Service_Component_Select extends DoozR_Form_Service_Component_F
     {
         return $this->removeChild($index);
     }
-
-    /**
-     * Returns the validity state of the component.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
-     * @access public
-     */
-    /*
-    public function isValid(
-        $arguments                                       = array(),
-        $store                                           = array(),
-        DoozR_Form_Service_Validate_Validator $validator = null
-    ) {
-        $valid = true;
-
-        // this is the only component currently which requires a REAL validation
-        if (count($this->getValidation()) > 0) {
-
-            $value       = (isset($arguments->{$this->getName()})) ? $arguments->{$this->getName()} : $this->getValue();
-            $validations = (isset($store['components'][$this->getName()]['validation'])) ?
-                $store['components'][$this->getName()]['validation'] :
-                $this->getValidation();
-
-            foreach ($validations as $type => $validValues) {
-                $valid = $valid && $validator->validate(
-                        $type,                                      // the validation type
-                        $value,                                     // the value of submitted component
-                        $validValues                                // the array / set of validation(s)
-                    );
-            }
-        }
-
-        return $valid;
-    }
-    */
 }

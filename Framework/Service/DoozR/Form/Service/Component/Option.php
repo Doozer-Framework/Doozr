@@ -54,6 +54,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Option.php';
 
 /**
  * DoozR - Form - Service
@@ -67,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcom
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_Formcomponent
@@ -83,29 +84,19 @@ class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_F
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OPTION;
 
 
-    /**
-     * Constructor.
-     *
-     * @param string $name The name to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Input $this
-     * @access public
-     */
-    public function __construct(
-        $key,
-        $arguments = array(),
-        $registry  = array()
-    ) {
-        $this->setKey($key);
-
-        $this->setArguments($arguments);
-        $this->setRegistry($registry);
-    }
-
     /*-----------------------------------------------------------------------------------------------------------------+
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    public function setSelected($selected = 'selected')
+    {
+        $this->setAttribute('selected', $selected);
+    }
+
+    public function getSelected()
+    {
+        return $this->getAttribute('selected');
+    }
 
     /**
      * Setter for disabled status
@@ -138,43 +129,6 @@ class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_F
     }
 
     /**
-     * Specific renderer for HTML-Components.
-     *
-     * @param boolean $forceRender TRUE to force rerendering of cached content
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|string HTML as string if set, otherwise NULL
-     * @access public
-     */
-    /*
-    public function render($forceRender = false)
-    {
-        // Check if this option must be selected before rendering
-        $submittedValue = $this->getParent()->getValue();
-
-        if ($submittedValue !== null && $this->getValue() === $submittedValue) {
-            $this->setAttribute('selected');
-        } else {
-            $this->removeAttribute('selected');
-        }
-
-        $html     = '';
-        $rendered = parent::render($forceRender);
-
-        if ($this->innerHtml !== null) {
-            $variables = array(
-                'inner-html' => $this->innerHtml
-            );
-
-            $html = $this->_tpl($rendered, $variables).DoozR_Form_Service_Constant::NEW_LINE;
-            $this->html = $html;
-        }
-
-        return $html;
-    }
-    */
-
-    /**
      * Setter for label of this element
      *
      * @param string $label The label to set
@@ -203,23 +157,20 @@ class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_F
     /**
      * Setter for value of this element
      *
-     * @param string|null $value The value to set or null to use key as value
+     * @param string|null $value          The value to set, or NULL to use key as value
+     * @param string|null $submittedValue The value which was submitted on last request, or NULL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setValue($value = null)
+    public function setValue($value = null, $submittedValue = null)
     {
-        /*
-        if ($submittedValue !== null &&
-            $submittedValue === $this->getValue()
-        ) {
+        if ($submittedValue !== null && $submittedValue === $value) {
             $this->setAttribute('selected');
         } else {
             $this->removeAttribute('selected');
         }
-        */
 
         if ($value === null) {
             $value = $this->getKey();

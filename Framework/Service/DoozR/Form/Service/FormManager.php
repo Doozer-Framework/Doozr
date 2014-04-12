@@ -67,7 +67,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 300e82dd157d33fec696fe4f1bb82893ed5df7f3 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_FormManager
@@ -240,21 +240,21 @@ class DoozR_Form_Service_FormManager
 
 
     /*-----------------------------------------------------------------------------------------------------------------*
-    | General Functionality
-    *-----------------------------------------------------------------------------------------------------------------*/
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
-     * @param string                                    $namespace     The namespace to operate in/on (name for the form)
-     * @param DoozR_I18n_Service_Interface              $i18n          The I18n Translator instance if required
+     * @param string                                      $namespace     The namespace to operate in/on (name of form)
+     * @param DoozR_I18n_Service_Interface                $i18n          The I18n Translator instance if required
      * @param DoozR_Form_Service_Component_Input          $inputInstance The input instance for cloning meta fields
      * @param DoozR_Form_Service_Component_Interface_Form $form          The Form instance (the main object)
-     * @param DoozR_Form_Service_Store_Interface        $store         The Store instance
-     * @param DoozR_Form_Service_Renderer_Interface     $renderer      The Renderer instance for rendering HTML e.g.
-     * @param DoozR_Form_Service_Validate_Validator     $validator     The validator instance
-     * @param DoozR_Form_Service_Validate_Error         $errorInstance The error instance for cloning error messages
-     * @param DoozR_Request_Arguments                   $arguments     The Arguments passed with this request
+     * @param DoozR_Form_Service_Store_Interface          $store         The Store instance
+     * @param DoozR_Form_Service_Renderer_Interface       $renderer      The Renderer instance for rendering HTML e.g.
+     * @param DoozR_Form_Service_Validate_Validator       $validator     The validator instance
+     * @param DoozR_Form_Service_Validate_Error           $errorInstance The error instance for cloning error messages
+     * @param DoozR_Request_Arguments                     $arguments     The Arguments passed with this request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Form_Service_FormManager Instance
@@ -372,8 +372,8 @@ class DoozR_Form_Service_FormManager
         );
 
         // build fieldname by pattern
-        $fieldnameStep = DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP;
-        $fieldnameJump = DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_JUMP;
+        $fieldnameStep = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP;
+        $fieldnameJump = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_JUMP;
 
         // and now check if submission identifier exists in current request
         if (
@@ -505,7 +505,7 @@ class DoozR_Form_Service_FormManager
             // get method used for submit
             $arguments = $this->getArguments();
 
-            $fieldnameJump = DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_JUMP;
+            $fieldnameJump = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_JUMP;
 
             // and now check if submission identifier exists in current request
             if (isset($arguments->{$fieldnameJump})) {
@@ -570,17 +570,17 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for I18n Translator service.
      *
-     * @param DoozR_I18n_Service $i18n The I18n instance
+     * @param DoozR_I18n_Service_Interface $i18n The I18n instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setI18n(DoozR_I18n_Service $i18n = null)
+    public function setI18n(DoozR_I18n_Service_Interface $i18n = null)
     {
         $this->i18n = $i18n->getTranslator();
         $this->i18n->setNamespace(
-            DoozR_Form_Service_Constant::PREFIX.$this->getNamespace()
+            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
         );
     }
 
@@ -712,7 +712,7 @@ class DoozR_Form_Service_FormManager
      */
     public function setRenderer(DoozR_Form_Service_Renderer_Interface $renderer)
     {
-        $this->_renderer = $renderer;
+        $this->renderer = $renderer;
     }
 
     /**
@@ -896,7 +896,7 @@ class DoozR_Form_Service_FormManager
     public function getRegistry($default = null)
     {
         $registry = $this->getStore()->read(
-            DoozR_Form_Service_Constant::PREFIX.$this->getNamespace()
+            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
         );
 
         if ($registry === null && $default !== null) {
@@ -909,7 +909,7 @@ class DoozR_Form_Service_FormManager
     public function setRegistry($registry)
     {
         return $this->getStore()->create(
-            DoozR_Form_Service_Constant::PREFIX.$this->getNamespace(),
+            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace(),
             $registry
         );
     }
@@ -948,7 +948,7 @@ class DoozR_Form_Service_FormManager
             $submittedData = $this->getArguments();
 
             // build fieldname by pattern
-            $fieldnameSubmissionStatus = DoozR_Form_Service_Constant::PREFIX.
+            $fieldnameSubmissionStatus = DoozR_Form_Service_Constant::PREFIX .
                 DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
 
             // and now check if submission identifier exists in current request
@@ -1031,8 +1031,8 @@ class DoozR_Form_Service_FormManager
                 } else {
                     $submittedData = $this->getArguments();
 
-                    $fieldnameStep  = DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP;
-                    $fieldnameSteps = DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
+                    $fieldnameStep  = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP;
+                    $fieldnameSteps = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
 
                     $step = (isset($submittedData[$fieldnameStep])) ?
                         $submittedData[$fieldnameStep] :
@@ -1216,41 +1216,34 @@ class DoozR_Form_Service_FormManager
                 // Not every component has a configration
                 if (isset($configuration['validation'])) {
 
-                    // file input check -> replace value by $_FILES
+                    // Check for file upload
                     if (isset($configuration['type']) && $configuration['type'] === 'file') {
-                        $isFile             = true;
+                        $isFile = true;
                         $emulatedFileUpload = false;
 
                         $registry = DoozR_Registry::getInstance();
                         $registry->front->getRequest()->FILES();
-
                         $value = $_FILES[$component];
 
-                        $value['component'] = 'file';
-                        $_FILES->{$component} = $value;
+                        $registry = $this->getRegistry(
+                            $this->getRegistrySkeleton()
+                        );
 
-                        // check for error and then try to get file information from registry
-                        if (isset($value['error']) && $value['error'] === 4) {
+                        if (isset($registry['data'][$component]) && $registry['data'][$component] !== null) {
+                            $emulatedFileUpload = true;
+                            $pathInfo = pathinfo($registry['data'][$component]);
 
-                            $registry = $this->getRegistry(
-                                $this->getRegistrySkeleton()
+                            // emulate value
+                            $value = array(
+                                'name' => $pathInfo['basename'],
+                                'type' => $this->getMimeTypeByExtension($pathInfo['extension']),
+                                'tmp_name' => $registry['data'][$component],
+                                'error' => '0',
+                                'size' => filesize($registry['data'][$component]),
                             );
-
-                            if (isset($registry['data'][$component]) && $registry['data'][$component] !== null) {
-
-                                $emulatedFileUpload = true;
-
-                                $value = array(
-                                    'name' => 'MeinAuto.txt',
-                                    'type' => 'text/plain',
-                                    'tmp_name' => $registry['data'][$component],
-                                    'error' => '0',
-                                    'size' => filesize($registry['data'][$component]),
-                                );
-                            }
                         }
 
-                        $check = $this->validator->validate($value, $configuration['validation']);
+                        $check = $this->validateFileUpload($component, $value, $configuration['validation'], $registry);
 
                     } else {
                         $isFile = false;
@@ -1285,6 +1278,161 @@ class DoozR_Form_Service_FormManager
         }
 
         return $valid;
+    }
+
+
+    protected function getMimeTypeByExtension($extension)
+    {
+        $matrix = array(
+            'ez'      => 'application/andrew-inset',
+            'hqx'     => 'application/mac-binhex40',
+            'cpt'     => 'application/mac-compactpro',
+            'doc'     => 'application/msword',
+            'bin'     => 'application/octet-stream',
+            'dms'     => 'application/octet-stream',
+            'lha'     => 'application/octet-stream',
+            'lzh'     => 'application/octet-stream',
+            'exe'     => 'application/octet-stream',
+            'class'   => 'application/octet-stream',
+            'so'      => 'application/octet-stream',
+            'dll'     => 'application/octet-stream',
+            'oda'     => 'application/oda',
+            'pdf'     => 'application/pdf',
+            'ai'      => 'application/postscript',
+            'eps'     => 'application/postscript',
+            'ps'      => 'application/postscript',
+            'smi'     => 'application/smil',
+            'smil'    => 'application/smil',
+            'wbxml'   => 'application/vnd.wap.wbxml',
+            'wmlc'    => 'application/vnd.wap.wmlc',
+            'wmlsc'   => 'application/vnd.wap.wmlscriptc',
+            'bcpio'   => 'application/x-bcpio',
+            'vcd'     => 'application/x-cdlink',
+            'pgn'     => 'application/x-chess-pgn',
+            'cpio'    => 'application/x-cpio',
+            'csh'     => 'application/x-csh',
+            'dcr'     => 'application/x-director',
+            'dir'     => 'application/x-director',
+            'dxr'     => 'application/x-director',
+            'dvi'     => 'application/x-dvi',
+            'spl'     => 'application/x-futuresplash',
+            'gtar'    => 'application/x-gtar',
+            'hdf'     => 'application/x-hdf',
+            'js'      => 'application/x-javascript',
+            'skp'     => 'application/x-koan',
+            'skd'     => 'application/x-koan',
+            'skt'     => 'application/x-koan',
+            'skm'     => 'application/x-koan',
+            'latex'   => 'application/x-latex',
+            'nc'      => 'application/x-netcdf',
+            'cdf'     => 'application/x-netcdf',
+            'sh'      => 'application/x-sh',
+            'shar'    => 'application/x-shar',
+            'swf'     => 'application/x-shockwave-flash',
+            'sit'     => 'application/x-stuffit',
+            'sv4cpio' => 'application/x-sv4cpio',
+            'sv4crc'  => 'application/x-sv4crc',
+            'tar'     => 'application/x-tar',
+            'tcl'     => 'application/x-tcl',
+            'tex'     => 'application/x-tex',
+            'texinfo' => 'application/x-texinfo',
+            'texi'    => 'application/x-texinfo',
+            't'       => 'application/x-troff',
+            'tr'      => 'application/x-troff',
+            'roff'    => 'application/x-troff',
+            'man'     => 'application/x-troff-man',
+            'me'      => 'application/x-troff-me',
+            'ms'      => 'application/x-troff-ms',
+            'ustar'   => 'application/x-ustar',
+            'src'     => 'application/x-wais-source',
+            'xhtml'   => 'application/xhtml+xml',
+            'xht'     => 'application/xhtml+xml',
+            'zip'     => 'application/zip',
+            'au'      => 'audio/basic',
+            'snd'     => 'audio/basic',
+            'mid'     => 'audio/midi',
+            'midi'    => 'audio/midi',
+            'kar'     => 'audio/midi',
+            'mpga'    => 'audio/mpeg',
+            'mp2'     => 'audio/mpeg',
+            'mp3'     => 'audio/mpeg',
+            'aif'     => 'audio/x-aiff',
+            'aiff'    => 'audio/x-aiff',
+            'aifc'    => 'audio/x-aiff',
+            'm3u'     => 'audio/x-mpegurl',
+            'ram'     => 'audio/x-pn-realaudio',
+            'rm'      => 'audio/x-pn-realaudio',
+            'rpm'     => 'audio/x-pn-realaudio-plugin',
+            'ra'      => 'audio/x-realaudio',
+            'wav'     => 'audio/x-wav',
+            'pdb'     => 'chemical/x-pdb',
+            'xyz'     => 'chemical/x-xyz',
+            'bmp'     => 'image/bmp',
+            'gif'     => 'image/gif',
+            'ief'     => 'image/ief',
+            'jpeg'    => 'image/jpeg',
+            'jpg'     => 'image/jpeg',
+            'jpe'     => 'image/jpeg',
+            'png'     => 'image/png',
+            'tiff'    => 'image/tiff',
+            'tif'     => 'image/tif',
+            'djvu'    => 'image/vnd.djvu',
+            'djv'     => 'image/vnd.djvu',
+            'wbmp'    => 'image/vnd.wap.wbmp',
+            'ras'     => 'image/x-cmu-raster',
+            'pnm'     => 'image/x-portable-anymap',
+            'pbm'     => 'image/x-portable-bitmap',
+            'pgm'     => 'image/x-portable-graymap',
+            'ppm'     => 'image/x-portable-pixmap',
+            'rgb'     => 'image/x-rgb',
+            'xbm'     => 'image/x-xbitmap',
+            'xpm'     => 'image/x-xpixmap',
+            'xwd'     => 'image/x-windowdump',
+            'igs'     => 'model/iges',
+            'iges'    => 'model/iges',
+            'msh'     => 'model/mesh',
+            'mesh'    => 'model/mesh',
+            'silo'    => 'model/mesh',
+            'wrl'     => 'model/vrml',
+            'vrml'    => 'model/vrml',
+            'css'     => 'text/css',
+            'html'    => 'text/html',
+            'htm'     => 'text/html',
+            'asc'     => 'text/plain',
+            'txt'     => 'text/plain',
+            'rtx'     => 'text/richtext',
+            'rtf'     => 'text/rtf',
+            'sgml'    => 'text/sgml',
+            'sgm'     => 'text/sgml',
+            'tsv'     => 'text/tab-seperated-values',
+            'wml'     => 'text/vnd.wap.wml',
+            'wmls'    => 'text/vnd.wap.wmlscript',
+            'etx'     => 'text/x-setext',
+            'xml'     => 'text/xml',
+            'xsl'     => 'text/xml',
+            'mpeg'    => 'video/mpeg',
+            'mpg'     => 'video/mpeg',
+            'mpe'     => 'video/mpeg',
+            'qt'      => 'video/quicktime',
+            'mov'     => 'video/quicktime',
+            'mxu'     => 'video/vnd.mpegurl',
+            'avi'     => 'video/x-msvideo',
+            'movie'   => 'video/x-sgi-movie',
+            'ice'     => 'x-conference-xcooltalk'
+        );
+
+
+        return (isset($matrix[$extension])) ? $matrix[$extension] : null;
+    }
+
+    protected function validateFileUpload($name, $value, $validation, $registry)
+    {
+        $value['component'] = 'file';
+        $_FILES->{$name} = $value;
+
+        $result = $this->validator->validate($value, $validation);
+
+        return $result;
     }
 
     /**
@@ -1378,7 +1526,7 @@ class DoozR_Form_Service_FormManager
         }
 
         $this->getStore()->update(
-            DoozR_Form_Service_Constant::PREFIX.$this->getNamespace(),
+            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace(),
             $data
         );
 
@@ -1424,7 +1572,7 @@ class DoozR_Form_Service_FormManager
     {
         // 1st get valid token from store
         $data = $this->getStore()->read(
-            DoozR_Form_Service_Constant::PREFIX.$this->getNamespace()
+            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
         );
 
         $validToken = (isset($data['token']) === true) ? $data['token'] : null;
@@ -1453,7 +1601,7 @@ class DoozR_Form_Service_FormManager
 
         // add DoozR prefix?
         if ($usePrefix) {
-            $variable = DoozR_Form_Service_Constant::PREFIX.$variable;
+            $variable = DoozR_Form_Service_Constant::PREFIX . $variable;
         }
 
         $arguments = $this->getArguments();
@@ -1544,13 +1692,23 @@ class DoozR_Form_Service_FormManager
      */
     protected function getComponents($component, $result = array())
     {
-        // Check if the component has any childs
-        if ($component->hasChilds() === true) {
+        /**
+         * Check if the component has any childs... Why do we exclude container components here? Easy to understand
+         * we have currently only one component which is a container containing child elements
+         * <select>
+         *   <optgroup>
+         *     <option></option>
+         *   </optgroup>
+         * </select>
+         * So we would iterate its childs on the search for value & validation but this does not make sense. One
+         * possible way for a good refactoring would be an interface and a check for instanceof ... So we would
+         * exclude some elements by its interface or exclude others for their.
+         */
+        if ($component->hasChilds() === true && $component->getType() !== DoozR_Form_Service_Constant::COMPONENT_CONTAINER) {
 
             foreach ($component as $child) {
                 $result = $this->getComponents($child, $result);
             }
-
         } elseif ($component->getName() !== null) {
             $result[$component->getName()] = array(
                 'validation' => $component->getValidation(),
@@ -1651,7 +1809,7 @@ class DoozR_Form_Service_FormManager
     protected function addStepField()
     {
         $input = clone $this->inputInstance;
-        $input->setName(DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP);
+        $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP);
         $input->setType('hidden');
         $input->setValue($this->getStep());
 
@@ -1668,7 +1826,7 @@ class DoozR_Form_Service_FormManager
     protected function addStepsField()
     {
         $input = clone $this->inputInstance;
-        $input->setName(DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS);
+        $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS);
         $input->setType('hidden');
         $input->setValue($this->getSteps());
 
@@ -1685,7 +1843,7 @@ class DoozR_Form_Service_FormManager
     protected function addTokenField()
     {
         $input = clone $this->inputInstance;
-        $input->setName(DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_TOKEN);
+        $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_TOKEN);
         $input->setType('hidden');
         $input->setValue($this->getToken());
 
@@ -1702,7 +1860,7 @@ class DoozR_Form_Service_FormManager
     protected function addSubmittedField()
     {
         $input = clone $this->inputInstance;
-        $input->setName(DoozR_Form_Service_Constant::PREFIX.DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED);
+        $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED);
         $input->setType('hidden');
         $input->setValue($this->getNamespace());
 

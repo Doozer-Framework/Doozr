@@ -67,29 +67,31 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1c283fb68580a5b81d3a242354da061798b4a0c5 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Hidden extends DoozR_Form_Service_Component_Input
 {
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string $name      The name of the element
-     * @param array  $arguments The arguments passed with current request (e.g. $_POST, $_GET ...)
-     * @param array  $registry  The registry of the DoozR_Form_Service_FormManager
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Form_Service_Component_Hidden
      * @access public
      */
     public function __construct(
-        $name = '',
-        $arguments = array(),
-        $registry = array()
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null
     ) {
         $this->setType('hidden');
 
-        parent::__construct($name, $arguments, $registry);
+        parent::__construct($renderer, $validator);
     }
 }

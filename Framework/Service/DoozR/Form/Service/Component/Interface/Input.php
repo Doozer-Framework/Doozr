@@ -69,7 +69,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 03c215fb312ed211fc7a94a68820fd488c35070a $
  * @link       http://clickalicious.github.com/DoozR/
  */
 interface DoozR_Form_Service_Component_Interface_Input
@@ -94,7 +94,46 @@ interface DoozR_Form_Service_Component_Interface_Input
      */
     public function getAutocapitalize();
 
-    #type
+    /**
+     * Setter for type of input.
+     *
+     * @param string $type The type to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setType($type);
+
+    /**
+     * Getter for type.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The type if set, otherwise NULL
+     * @access public
+     */
+    public function getType();
+
+    /**
+     * Sets the name of the list the input element is bound to.
+     *
+     * @param string $listname The name of the list the input refers to
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setList($listname);
+
+    /**
+     * Returns the list the component is bound to.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The name of the list this component is bound to, NULL if not bound
+     * @access public
+     */
+    public function getList();
+
     #accept
     #accesskey
     #mozactionhint
@@ -111,7 +150,6 @@ interface DoozR_Form_Service_Component_Interface_Input
     #formtarget
     #height
     #inputmpode
-    #list
     #max
     #maxlength
     #min

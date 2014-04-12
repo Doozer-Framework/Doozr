@@ -4,7 +4,8 @@
 /**
  * DoozR - Form - Service
  *
- * Unit.php - Unit-test capable storage.
+ * Datalist.php - Extends Html Base component to build a valid select
+ * component.
  *
  * PHP versions 5
  *
@@ -52,13 +53,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Select.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Option.php';
 
 /**
  * DoozR - Form - Service
  *
- * Unit-test capable storage.
+ * Extends Html Base component to build a valid select component.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -66,19 +67,27 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: d4ab136bc378b58978329f06ed305cf3b663681b $
+ * @version    Git: $Id: $
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Store_Unit extends DoozR_Form_Service_Store_Abstract
-    implements DoozR_Form_Service_Store_Interface
+class DoozR_Form_Service_Component_Datalist extends DoozR_Form_Service_Component_Select
 {
     /**
-     * The store
+     * This is the tag-name for HTML output.
+     * e.g. "input" or "form" => in this case = SELECT
      *
-     * @var array
+     * @var string
      * @access protected
      */
-    protected static $store = array();
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_DATALIST;
+
+    /**
+     * Mark this component as parent
+     *
+     * @var string
+     * @access protected
+     */
+    protected $type = DoozR_Form_Service_Constant::COMPONENT_CONTAINER;
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -86,63 +95,38 @@ class DoozR_Form_Service_Store_Unit extends DoozR_Form_Service_Store_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Creates an entry in store.
+     * Constructor.
      *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return \DoozR_Form_Service_Component_Datalist
      * @access public
      */
-    public function create($key, $value)
-    {
-        self::$store[$key] = $value;
-        return true;
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null
+    ) {
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer, $validator);
     }
 
     /**
-     * Reads an entry from store.
+     * Proxy to parents addOption -> cause we need to modify the input and we want to
+     * do this inline.
      *
-     * @param string $key The key for the data to store
+     * @param DoozR_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The value if set, otherwise NULL
+     * @return void
      * @access public
      */
-    public function read($key)
+    public function addOption(DoozR_Form_Service_Component_Interface_Option $option)
     {
-        return self::$store[$key];
-    }
+        // Beim addOption() von Datalist modifiy template so das <option></option> zu <option dkjdkjdkd/> wird!
+        $option->setTemplate(DoozR_Form_Service_Constant::TEMPLATE_DEFAULT_NONCLOSING);
 
-    /**
-     * Updates an entry in store.
-     *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     */
-    public function update($key, $value)
-    {
-        self::$store[$key] = $value;
-        return true;
-    }
-
-    /**
-     * Deletes an entry from store.
-     *
-     * @param string $key The key to delete
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     */
-    public function delete($key)
-    {
-        unset(self::$store[$key]);
-        return true;
+        return parent::addOption($option);
     }
 }

@@ -54,6 +54,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Option.php';
 
 /**
  * DoozR - Form - Service
@@ -67,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcom
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component_Formcomponent
@@ -82,26 +83,6 @@ class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OPTGROUP;
 
-
-    /**
-     * Constructor.
-     *
-     * @param string $name The name to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Input $this
-     * @access public
-     */
-    public function __construct(
-        $label,
-        $arguments = array(),
-        $registry  = array()
-    ) {
-        $this->setLabel($label);
-
-        $this->setArguments($arguments);
-        $this->setRegistry($registry);
-    }
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -164,43 +145,6 @@ class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component
     {
         return $this->getAttribute('disabled');
     }
-
-    /**
-     * Specific renderer for HTML-Components.
-     *
-     * @param boolean $forceRender TRUE to force rerendering of cached content
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|string HTML as string if set, otherwise NULL
-     * @access public
-     */
-    /*
-    public function render($forceRender = false)
-    {
-        // Check if this option must be selected before rendering
-        $submittedValue = $this->getParent()->getValue();
-
-        if ($submittedValue !== null && $this->getValue() === $submittedValue) {
-            $this->setAttribute('selected');
-        } else {
-            $this->removeAttribute('selected');
-        }
-
-        $html     = '';
-        $rendered = parent::render($forceRender);
-
-        if ($this->innerHtml !== null) {
-            $variables = array(
-                'inner-html' => $this->innerHtml
-            );
-
-            $html = $this->_tpl($rendered, $variables).DoozR_Form_Service_Constant::NEW_LINE;
-            $this->html = $html;
-        }
-
-        return $html;
-    }
-    */
 
     /**
      * Setter for label of this element

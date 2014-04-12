@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
 
 /**
  * DoozR - Form - Service
@@ -65,7 +65,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Form/Service/Component/Formcompo
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Textarea extends DoozR_Form_Service_Component_Formcomponent
@@ -77,12 +77,85 @@ class DoozR_Form_Service_Component_Textarea extends DoozR_Form_Service_Component
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_INPUT;
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_TEXTAREA;
 
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    public function setAutofocus($autofocus = null)
+    {
+        $this->setAttribute('autofocus', $autofocus);
+    }
+
+    public function getAutofocus()
+    {
+        return $this->getAttribute('autofocus');
+    }
+
+    public function setCols($cols)
+    {
+        $this->setAttribute('cols', $cols);
+    }
+
+    public function getCols()
+    {
+        return $this->getAttribute('cols');
+    }
+
+    public function setDisabled($disabled = 'disabled')
+    {
+        $this->setAttribute('disabled', $disabled);
+    }
+
+    public function getDisabled()
+    {
+        return $this->getAttribute('disabled');
+    }
+
+    public function setForm($form)
+    {
+        $this->setAttribute('form', $form);
+    }
+
+    public function getForm()
+    {
+        return $this->getAttribute('form');
+    }
+
+    public function setMaxlength($maxlength)
+    {
+        $this->setAttribute('maxlength', $maxlength);
+    }
+
+    public function getMaxlength()
+    {
+        return $this->getAttribute('maxlength');
+    }
+
+    public function setRows($rows)
+    {
+        $this->setAttribute('rows', $rows);
+    }
+
+    public function getRows()
+    {
+        return $this->getAttribute('rows');
+    }
+
+    public function setWrap($wrap)
+    {
+        $this->setAttribute('wrap', $wrap);
+    }
+
+    public function getWrap()
+    {
+        return $this->getAttribute('wrap');
+    }
+
+
+
 
     /**
      * Setter for value.

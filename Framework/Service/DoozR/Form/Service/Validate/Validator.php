@@ -69,7 +69,7 @@
 class DoozR_Form_Service_Validate_Validator
 {
     /**
-     * valid type for required elements/fields "required" means that this element/field
+     * valid type for required components/fields "required" means that this component/field
      * must be submitted no matter if it is empty or value is an empty string. it just
      * need to be submitted.
      *
@@ -83,7 +83,7 @@ class DoozR_Form_Service_Validate_Validator
     const VALIDATIONTYPE_REQUIRED = 'required';
 
     /**
-     * valid type for not-empty elements/fields "notempty" means that this element/field
+     * valid type for not-empty components/fields "notempty" means that this component/field
      * must be submitted with a value. at minimum one char must be submitted. empty
      * submissions are invalid.
      *
@@ -97,7 +97,7 @@ class DoozR_Form_Service_Validate_Validator
     const VALIDATIONTYPE_NOTEMPTY = 'notempty';
 
     /**
-     * valid type for empty elements/fields "empty" means that this element/field must be
+     * valid type for empty components/fields "empty" means that this component/field must be
      * submitted without a value. The counterpart to "notempty"
      *
      * @var string
@@ -106,7 +106,7 @@ class DoozR_Form_Service_Validate_Validator
     const VALIDATIONTYPE_EMPTY = 'empty';
 
     /**
-     * valid type for not-empty elements/fields "notnull" means that this element/field must
+     * valid type for not-empty components/fields "notnull" means that this component/field must
      * be submitted with a value. A value != 0 and != NULL !!! at minimum one char must be
      * submitted. empty submissions are invalid.
      *
@@ -116,7 +116,7 @@ class DoozR_Form_Service_Validate_Validator
     const VALIDATIONTYPE_NOTNULL = 'notnull';
 
     /**
-     * valid type for alphabetic elements/fields "alphabetic" means that this element/field
+     * valid type for alphabetic components/fields "alphabetic" means that this component/field
      * must be submitted with a value. at minimum one char must be submitted. empty
      * submissions are invalid.
      *
@@ -129,7 +129,7 @@ class DoozR_Form_Service_Validate_Validator
     const VALIDATIONTYPE_ALPHABETIC = 'alphabetic';
 
     /**
-     * valid type for numeric elements/fields "numeric" means that this element/field must be
+     * valid type for numeric components/fields "numeric" means that this component/field must be
      * submitted with a value. at minimum one char must be submitted. empty submissions are
      * invalid.
      *
@@ -139,7 +139,7 @@ class DoozR_Form_Service_Validate_Validator
     const VALIDATIONTYPE_NUMERIC = 'numeric';
 
     /**
-     * valid type for boolean elements/fields "boolean" means that this element/field must be
+     * valid type for boolean components/fields "boolean" means that this component/field must be
      * submitted with a value => TRUE or FALSE
      *
      * @var string
@@ -148,7 +148,7 @@ class DoozR_Form_Service_Validate_Validator
     const VALIDATIONTYPE_BOOLEAN = 'boolean';
 
     /**
-     * valid type for boolean elements/fields "double" means that this element/field must be
+     * valid type for boolean components/fields "double" means that this component/field must be
      * submitted with a value e.g. 1.0 1.1 ...
      *
      * @var string
@@ -157,7 +157,7 @@ class DoozR_Form_Service_Validate_Validator
     const VALIDATIONTYPE_DOUBLE = 'double';
 
     /**
-     * valid type for boolean elements/fields "integer" means that this element/field must be
+     * valid type for boolean components/fields "integer" means that this component/field must be
      * submitted with a value e.g. 1 or 2 or 234 or 43547.
      *
      * @var string
@@ -182,7 +182,7 @@ class DoozR_Form_Service_Validate_Validator
     const VALIDATIONTYPE_LINK = 'link';
 
     /**
-     * valid type for exact-value-match elements/fields "value" means that this element/field
+     * valid type for exact-value-match components/fields "value" means that this component/field
      * must exactly (===) match the stored value.
      *
      * @var string
@@ -392,7 +392,7 @@ class DoozR_Form_Service_Validate_Validator
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * validates a given set of information (value, type, elementtye [e.g. checkbox, radio, text])
+     * validates a given set of information (value, type, componenttye [e.g. checkbox, radio, text])
      *
      * This method is intend to validate a given set of information.
      *
@@ -596,7 +596,7 @@ class DoozR_Form_Service_Validate_Validator
     public function validateRequired($value)
     {
         // check file?
-        if (is_array($value) && array_key_exists('element', $value) && $value['element'] === 'file') {
+        if (is_array($value) && array_key_exists('component', $value) && $value['component'] === 'file') {
             $valid = ($value['error'] < UPLOAD_ERR_PARTIAL);
         } else {
             $valid = (!is_null($value) && (is_array($value) || is_object($value) || (strlen($value) > 0)));
@@ -751,7 +751,7 @@ class DoozR_Form_Service_Validate_Validator
     }
 
     /**
-     * Validates if passed value is the same as the value in a linked element.
+     * Validates if passed value is the same as the value in a linked component.
      *
      * @param mixed $value  The value to validate against the invalid values
      * @param array $values The invalid values to check $value against
@@ -826,6 +826,7 @@ class DoozR_Form_Service_Validate_Validator
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if fulfilled requirements, otherwise FALSE
      * @access public
+     * @throws DoozR_Form_Service_Exception
      */
     public function validateUstid($value, $additionalParameter)
     {
@@ -860,6 +861,7 @@ class DoozR_Form_Service_Validate_Validator
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if fulfilled requirements, otherwise FALSE
      * @access public
+     * @throws DoozR_Form_Service_Exception
      */
     public function validatePostcode($value, $additionalParameter)
     {
@@ -888,7 +890,7 @@ class DoozR_Form_Service_Validate_Validator
         );
 
         if (!isset($pattern[$countrycode])) {
-            throw new Exception('Unknown country-code "'.$countrycode.'" for postcode-validation!');
+            throw new DoozR_Form_Service_Exception('Unknown country-code "'.$countrycode.'" for postcode-validation!');
         }
 
         // validate and return
@@ -1182,7 +1184,7 @@ class DoozR_Form_Service_Validate_Validator
         // extract just the keys from given set of validation(s)
         $sortable = array_keys($sortable);
 
-        // sort the elements by our preferred order to speed up validation
+        // sort the components by our preferred order to speed up validation
         usort($sortable, array('self', '_compareValidationtypes'));
 
         // add previously removed items
@@ -1208,19 +1210,24 @@ class DoozR_Form_Service_Validate_Validator
      * @return boolean TRUE if given information is valid, otherwise FALSE if invalid
      * @access private
      * @static
+     * @throws DoozR_Form_Service_Exception
      */
     private static function _compareValidationtypes($a, $b)
     {
-        // same elements?
+        // same components?
         if ($a == $b) {
             return 0;
         }
 
         // check for nonexistent index
         if (!isset(self::$typeOrderMatrix[$a])) {
-            throw new Exception(__METHOD__.': nonexistent index for self::$_typeOrderMatrix found: '.$a);
+            throw new DoozR_Form_Service_Exception(
+                __METHOD__ . ': nonexistent index for self::$_typeOrderMatrix found: ' . $a
+            );
         } elseif (!isset(self::$typeOrderMatrix[$b])) {
-            throw new Exception(__METHOD__.': nonexistent index for self::$_typeOrderMatrix found: '.$b);
+            throw new DoozR_Form_Service_Exception(
+                __METHOD__ . ': nonexistent index for self::$_typeOrderMatrix found: ' . $b
+            );
         }
 
         // return ordered

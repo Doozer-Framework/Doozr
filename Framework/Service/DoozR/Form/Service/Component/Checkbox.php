@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1c283fb68580a5b81d3a242354da061798b4a0c5 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component_Input
@@ -96,37 +96,38 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
     protected $multiMarker = '[]';
 
 
-    /**
-     * Constructor
-     *
-     * @param string $name The name of the element
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __construct(
-        $name
-    ) {
-        $this->setType('checkbox');
-
-        parent::__construct($name);
-    }
-
     /*-----------------------------------------------------------------------------------------------------------------+
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Checks this element.
+     * Constructor.
      *
-     * @param boolean $override TRUE to force check, FALSE to preserve unchecked state if not active
+     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Form_Service_Component_Checkbox
+     * @access public
+     */
+    public function __construct(
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Validator_Interface $validator = null
+    ) {
+        $this->setType('checkbox');
+
+        // Important call so observer storage ... can be initiated
+        parent::__construct($renderer, $validator);
+    }
+
+    /**
+     * Checks this element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function check($override = false)
+    public function check()
     {
         $this->setAttribute('checked');
     }
@@ -134,15 +135,40 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
     /**
      * Unchecks this element.
      *
-     * @param boolean $override TRUE to force uncheck, FALSE to preserve checked state if not active
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function uncheck()
+    {
+        $this->removeAttribute('checked');
+    }
+
+    /**
+     * Sets the multiple status of this element.
+     *
+     * @param boolean TRUE to mark this field as multi select field,
+     *                FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function uncheck($override = false)
+    public function setMultiple($status)
     {
-        $this->removeAttribute('checked');
+        $this->multiValue = $status;
+    }
+
+    /**
+     * Returns the multiple status of this element.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if field is multi select, FALSE if not
+     * @access public
+     */
+    public function getMultiple()
+    {
+        return $this->multiValue;
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -161,34 +187,7 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
     public function setName($name)
     {
         $name .= '[]';
-        parent::setName($name);
-    }
-
-    /**
-     * Sets the multiple status of this element.
-     *
-     * @param boolean TRUE to mark this field as multi select field,
-     *                FALSE to do not
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setMultiple($status)
-    {
-        $this->multiValue = $status;
-    }
-
-    /**
-     * Returns the multiple status of this element.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if field is multi select, FALSE if not
-     * @access protected
-     */
-    protected function getMultiple()
-    {
-        return $this->multiValue;
+        return parent::setName($name);
     }
 
     /**
@@ -245,7 +244,7 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
         $name = $this->getAttribute('name');
 
         if ($ripBrackets === true) {
-            $name = str_replace($this->multiMarker, '', $this->getAttribute('name'));
+            $name = str_replace($this->multiMarker, '', $name);
         }
 
         return $name;
