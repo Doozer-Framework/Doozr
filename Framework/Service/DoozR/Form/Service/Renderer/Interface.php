@@ -63,7 +63,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id:$
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 interface DoozR_Form_Service_Renderer_Interface
@@ -92,4 +92,13 @@ interface DoozR_Form_Service_Renderer_Interface
         array $attributes = array(),
         $innerHtml        = ''
     );
+
+    /**
+     * Returns the rendered result
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The rendered content in any type provided
+     * @access public
+     */
+    public function get();
 }

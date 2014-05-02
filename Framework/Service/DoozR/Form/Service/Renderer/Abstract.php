@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Renderer/Interfac
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id:$
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 abstract class DoozR_Form_Service_Renderer_Abstract
@@ -90,10 +90,24 @@ abstract class DoozR_Form_Service_Renderer_Abstract
      */
     protected $buffer;
 
+    /**
+     * Rendered content (result of rendering)
+     *
+     * @var string
+     * @access protected
+     */
+    protected $rendered = '{}';
+
 
     /*------------------------------------------------------------------------------------------------------------------
      | Public API
      +----------------------------------------------------------------------------------------------------------------*/
+
+
+    public function get()
+    {
+        $this->rendered;
+    }
 
     /**
      * Renders a passed templates with variables childs and attributes

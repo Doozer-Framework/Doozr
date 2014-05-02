@@ -69,20 +69,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Renderer/Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id:$
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstract
 {
-    /**
-     * Rendered JSON structure runtime cache
-     *
-     * @var string
-     * @access protected
-     */
-    protected $json;
-
-
     /*-----------------------------------------------------------------------------------------------------------------+
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -113,36 +104,32 @@ class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstr
         array $attributes = array(),
         $innerJson  = ''
     ) {
-        // Render childs if any attached
-        if (count($childs) > 0) {
-            $innerJson .= $this->renderChilds($childs, $force);
+        //
+        $json               = array();
+        $json['tag']        = $tag;
+        $json['childs']     = array();
+        $json['attributes'] = $attributes;
+
+        //
+        foreach ($childs as $child) {
+            $json['childs'][] = $child->render()->get(false);
         }
 
-        // Get attributes prepared as string
-        $attributesCollected = $this->prepareAttributes($attributes);
+        $this->rendered = $json;
 
-        // Set template variables for our default template
-        $templateVariables = array_merge(
-            $variables,
-            array(
-                'attributes' => $attributesCollected,
-                'tag'        => $tag
-            )
-        );
+        return $this;
+    }
 
-        $html = $this->_tpl($template, $templateVariables);
-
-        // if inner HTML was passed render this as well
-        if ($innerJson !== null) {
-            $variables = array(
-                'inner-html' => $innerJson
-            );
-
-            $html = $this->_tpl($html, $variables);
-        }
-
-        // Return HTML result
-        return $html;
+    /**
+     * Return JSON-encoded result! So we prevent double JSON encoding
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The rendered result JSON encoded
+     * @access public
+     */
+    public function get($encode = true)
+    {
+        return ($encode === true) ? json_encode($this->rendered) : $this->rendered;
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -187,14 +174,52 @@ class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstr
      */
     protected function renderChilds(array $childs = array(), $force)
     {
+        /*
         // The HTML result of childs
         $json = '';
 
         // Iterate childs and render HTML of each
         foreach ($childs as $child) {
+            $attributes = $child->getAttributes();
+
+            $tmp = array();
+
+            foreach ($attributes as $key => $value) {
+                $tmp[$key] = $value;
+            }
+
+            $child->setTemplate('{"tag": "{{TAG}}", "attributes": ' . json_encode($tmp) . ', "content": "{{INNER-HTML}}"}');
             $json .= $child->render($force);
         }
 
         return $json;
+        */
+
+        /*
+        // The HTML result of childs
+        $json     = '';
+        $elements = array();
+
+        // Iterate childs and render HTML of each
+        foreach ($childs as $child) {
+
+            pre($child);
+
+            $child->setTemplate = '';
+
+
+            $element = array();
+
+            $element['tag']        = $child->getTag();
+            $element['attributes'] = $child->getAttributes();
+
+            $elements[] = $element;
+        }
+
+        var_dump($elements);
+        die;
+
+        return $json;
+        */
     }
 }

@@ -95,7 +95,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Parser/Interface.
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 1273acd716766791d2770bfe0bd9f1d161a7d047 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
@@ -403,6 +403,8 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
 
         // get count of inner elements
         $countElements = count($elements[1]);
+
+        pred($elements);
 
         // iterate elements of <form>
         for ($j = 0; $j < $countElements; ++$j) {
