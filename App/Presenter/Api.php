@@ -76,8 +76,9 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
      * This method is the replacement for construct. It is called right on construction of
      * the class-instance. It retrieves all arguments 1:1 as passed to constructor.
      *
-     * @param array $request     The original request
-     * @param array $translation The translation to read the request
+     * @param array   $request     The original request
+     * @param array   $translation The translation to read the request
+     * @param integer $nodes       The
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -87,8 +88,8 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
     {
         // setup allowed verbs and define required fields
         $this->nodes($nodes)->allow('GET')->run();
-        #$this->nodes($nodes)->allow('GET')->required(array('id'), 'user')->run();
 
+        #$this->nodes($nodes)->allow('GET')->required(array('id'), 'user')->run();
         // we could also try this if we expect a concrete value!:
         #$this->nodes($nodes)->allow('GET')->required(array('id' => '123456'), 'user')->run();
     }

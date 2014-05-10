@@ -231,7 +231,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * Returns the instanciated response class (web | cli)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of either web or cli
+     * @return DoozR_Base_Response instance of either web or cli
      * @access public
      */
     public function getResponse()

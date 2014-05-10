@@ -86,6 +86,7 @@ final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Inter
         $this->data = array(
             'User' => array(
                 1234  => array(
+                    'id'        => 1234,
                     'user'      => 'jdoe',
                     'firstname' => 'John',
                     'lastname'  => 'Doe',
@@ -127,12 +128,15 @@ final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Inter
             //if (isset($data[$requestObject->arguments->id])) {
             //    $data = $data[$requestObject->arguments->id];
             if (isset($data[$resource[1]])) {
-                $data = $data[$resource[1]];
+
+                $data = array(
+                    'error'  => null,
+                    'result' => $data[$resource[1]]
+                );
 
             } else {
                 //$data = json_decode('{"error": {"code": 1, "message": "Invalid ID: '.$requestObject->arguments->id.'"}}');
                 $data = json_decode('{"error": {"code": 1, "message": "Invalid ID: '.$resource[1].'"}}');
-
             }
 
             // set data (can e.g. retrieved by controller through ->getData())
