@@ -672,7 +672,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
         // check if allready encoded
         if (!$alreadyJsonEncoded) {
             // fix encoding
-            //$buffer = $this->_fixEncoding($buffer, $charset);
+            //$buffer = $this->fixEncoding($buffer, $charset);
 
             // finally encode to JSON
             $buffer = json_encode($buffer);

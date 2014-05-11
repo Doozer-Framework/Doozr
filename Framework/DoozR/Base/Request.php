@@ -153,12 +153,11 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      */
     const EMULATED = 1;
 
-
     /**
-     * Constructor
+     * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Base_Request
      * @access public
      */
     public function __construct()
@@ -217,6 +216,7 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      * to an object with an array interface.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @throws DoozR_Exception
      * @return void
      * @access public
      */

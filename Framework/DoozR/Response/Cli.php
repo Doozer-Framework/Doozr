@@ -163,9 +163,9 @@ class DoozR_Response_Cli extends DoozR_Base_Response
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Valid + supported encoded content
-     * @access private
+     * @access protected
      */
-    private function _fixEncoding($data = null, $charset = 'UTF-8')
+    protected function fixEncoding($data = null, $charset = 'UTF-8')
     {
         // get module encoding
         /*
@@ -181,6 +181,7 @@ class DoozR_Response_Cli extends DoozR_Base_Response
             break;
         }
         */
+
         return $data;
     }
 }

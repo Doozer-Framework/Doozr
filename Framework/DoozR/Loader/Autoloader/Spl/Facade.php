@@ -130,7 +130,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * This method is intend to register a new Autoloader to SPL-Subsystem based on the Information (setup) of given
      * config (DoozR_Loader_Autoloader_Spl_Config-Instance).
      *
-     * @param DoozR_Loader_Autoloader_Spl_Config $config An instance of the DoozR_Loader_Autoloader_Spl_Config-Class
+     * @param array $config An instance of the DoozR_Loader_Autoloader_Spl_Config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean true if Autoloader was registered successfully, otherwise false

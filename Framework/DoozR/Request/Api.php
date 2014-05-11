@@ -54,7 +54,7 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
  * DoozR - Request - Api
@@ -123,6 +123,10 @@ class DoozR_Request_Api
     public $url;
 
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Extracts variables from current requests URL
      *
@@ -139,7 +143,6 @@ class DoozR_Request_Api
         // check for required url
         if ($this->url === null) {
             throw new DoozR_Exception('Set URL ($this->url) first.');
-
         }
 
         $count   = 0;
@@ -156,7 +159,6 @@ class DoozR_Request_Api
             $variable = preg_match('/{{(.*)}}/i', $partial, $result);
             $count += $variable;
             if ($variable === 1 && isset($url[$key])) {
-                //$$result[1] = $url[$key];
                 $matrix[] = $url[$key];
             }
         }
@@ -165,11 +167,12 @@ class DoozR_Request_Api
             while (count($matrix) < $count) {
                 $matrix[] = null;
             }
-            return call_user_func_array($callback, $matrix);
+
+            $result = call_user_func_array($callback, $matrix);
+            return $result;
 
         } else {
             return $matrix;
-
         }
     }
 
@@ -191,4 +194,57 @@ class DoozR_Request_Api
 
         return $this;
     }
+
+    /**
+     * Setter for resource.
+     *
+     * @param string The resource
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setResource($resource)
+    {
+        $this->resource = $resource;
+    }
+
+    /**
+     * Getter for resource.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The resource
+     * @access public
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
+    /**
+     * Setter for method.
+     *
+     * @param string The method
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setMethod($method)
+    {
+        $this->method = $method;
+    }
+
+    /**
+     * Getter for method.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The method
+     * @access public
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
 }

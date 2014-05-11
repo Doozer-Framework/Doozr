@@ -87,11 +87,11 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
     protected function __tearup(array $request, array $translation, $nodes = 2)
     {
         // setup allowed verbs and define required fields
-        $this->nodes($nodes)->allow('GET')->run();
-
-        #$this->nodes($nodes)->allow('GET')->required(array('id'), 'user')->run();
-        // we could also try this if we expect a concrete value!:
-        #$this->nodes($nodes)->allow('GET')->required(array('id' => '123456'), 'user')->run();
+        $this
+            ->nodes($nodes)
+            ->allow(DoozR_Request_Web::METHOD_GET)
+            ->required(array('id' => 1234), 'user')
+            ->run();
     }
 
     /**
@@ -117,6 +117,31 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
      */
     public function Main()
     {
+        /**
+         * @todo: Implement the logic for validation (type based) for input!
+         */
+        // retrieve data for context Screen from Model by defined default interface "getData()"
+        $data = $this->model->getData(
+            $this->getRest()->getRequest()
+        );
+
+        // set data here within this instance cause VIEW and MODEL are attached as Observer to this Subject.
+        $this->setData($data);
+
+        // the result from operation above
+        return true;
+    }
+
+    /**
+     * Runs/executes all operations. Should be overwritten by
+     * child on demand.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function run()
+    {
         // get registry
         $registry = DoozR_Registry::getInstance();
 
@@ -124,15 +149,14 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
         $response = $registry->front->getResponse();
 
         // get request object (standard notation), object + method
-        $requestObject = $this->rest->getRequest();
-        $object        = strtolower($requestObject->resource[0]);
-        $method        = strtolower($requestObject->method);
+        $requestObject = $this->getRest()->getRequest();
+        $object        = strtolower($requestObject->getResource()[0]);
+        $method        = strtoupper($requestObject->getMethod());
 
         // check if verb is allowed
-        if (!$this->allowed($method)) {
-            $response->sendHttpStatus(405, null, true, 'Method not allowed: '.strtoupper($method));
+        if ($this->isAllowed($method) === false) {
+            $response->sendHttpStatus(405, null, true, strtoupper($method));
             exit;
-
         }
 
         // get required fields ...
@@ -144,30 +168,30 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
          * rip them off from the current URI/URL from request and what
          * stays is the argument(s) for the API ...
          */
-
         // ... and iterate them to find missing elements
-        foreach ($requiredArguments as $key => $requiredArgument) {
-            if (
-                !isset($requestObject->arguments->{$requiredArgument[0]}) &&
-                $requestObject->get('/api/x/{{id}}', function ($id) { return $id; }) === null
-            ) {
-                // send HTTP-Header "Not-Acceptable" for missing argument
-                $response->sendHttpStatus(406, null, true, 'Missing required argument: '.$requiredArgument[0]);
-                exit;
+        foreach ($requiredArguments as $requiredArgument) {
+            foreach ($requiredArgument as $key => $value) {
+
+                if (
+                    // Can the required value be retrieved from GET, POST, ...
+                    !isset($requestObject->arguments->{$key}) &&
+                    // And if not -> can it be retrieved correctly from route?
+                    ($id = $requestObject->get('/Api/x/{{' . $key . '}}', function ($id) { return $id; })) === null
+                ) {
+                    $message = '';
+
+                    foreach ($requiredArgument as $argument => $value) {
+                        $message .= 'Missing required argument: ' . $argument . ' => Value: ' . var_export($value, true);
+                    }
+
+                    // send HTTP-Header "Not-Acceptable" for missing argument + message
+                    $response->sendHttpStatus(406, null, true, $message);
+                    exit;
+                }
             }
         }
 
-        /**
-         * @todo: Implement the logic for validation (type based) for input!
-         */
-
-        // retrieve data for context Screen from Model by defined default interface "getData()"
-        $data = $this->model->getData($requestObject);
-
-        // set data here within this instance cause VIEW and MODEL are attached as Observer to this Subject.
-        $this->setData($data);
-
-        // the result from operation above
-        return true;
+        // runs all the stuff required to setup the API service
+        return $this;
     }
 }

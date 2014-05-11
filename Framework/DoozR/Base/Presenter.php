@@ -127,7 +127,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * @var array
      * @access protected
      */
-    protected $allowed = array('get');
+    protected $allowed = array();
 
     /**
      * The original unmodified request as array
@@ -155,7 +155,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
 
 
     /**
-     * This method is the constructor of this class.
+     * Constructor.
      *
      * @param array                  $request         The whole request as processed by "Route"
      * @param array                  $translation     The translation required to read the request
@@ -165,16 +165,16 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * @param DoozR_Base_View        $view            The view to display results
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Base_Presenter
      * @access public
      */
     public function __construct(
-        array $request,
-        array $translation,
-        array $originalRequest,
-        DoozR_Config_Interface $config = null,
-        DoozR_Base_Model $model = null,
-        DoozR_Base_View $view = null
+        array                  $request,
+        array                  $translation,
+        array                  $originalRequest,
+        DoozR_Config_Interface $config          = null,
+        DoozR_Base_Model       $model           = null,
+        DoozR_Base_View        $view            = null
     ) {
         // store
         $this->request         = $request;
@@ -261,15 +261,10 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
             ->setDescription('Autoloader for App classes with namespace: "' . $app->namespace . '"')
             ->setPriority(0);
 
-        DoozR_Loader_Autoloader_Spl_Facade::attach(
-            array(
-                $autoloaderApp
-            )
-        );
+        DoozR_Loader_Autoloader_Spl_Facade::attach(array($autoloaderApp));
     }
 
     /**
-     *
      *
      * @return DoozR_Response_Web|DoozR_Response_Cli|DoozR_Response_Httpd
      */
@@ -388,14 +383,17 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * Adds a HTTP-method (verb like GET, HEAD, PUT, POST ...) to the list
      * of allowed methods for this presenter.
      *
+     * @param string $method The HTTP Method which is allowed
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @see    http://tools.ietf.org/html/rfc1945#page-30
      * @return DoozR_Base_Presenter Instance for chaining
      * @access protected
      */
     protected function allow($method)
     {
         if (!in_array($method, $this->allowed)) {
-            $this->allowed[] = $method;
+            $this->allowed[] = strtoupper($method);
         }
 
         // chaining
@@ -406,6 +404,9 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * Checks if passed method (HTTP verb) is allowed.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @param string $method The HTTP Method which should be checked
+     *
      * @return boolean TRUE if passed method is allowed, otherwise FALSE
      * @access protected
      */
@@ -416,6 +417,8 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
 
     /**
      * Checks if passed method (HTTP verb) is allowed.
+     *
+     * @param $method The HTTP Method which should be checked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if passed method is allowed, otherwise FALSE
@@ -431,13 +434,14 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * or a list of items (array with arguments as string) required to
      * run the presenter (or parts of model/view).
      *
-     * @param mixed  $variable A single argument required to execute the presenter or an array of arguments
-     * @param string $scope    The scope (Action) for which the argument is required (* = wildcard = all)
-     * @param string $method   The method (HTTP verb) to bind the requirement to
+     * @param        $argument
+     * @param string $scope  The scope (Action) for which the argument is required (* = wildcard = all)
+     * @param string $method The method (HTTP verb) to bind the requirement to
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if everything wents fine, otherwise false
-     * @access protected
+     * @internal param mixed $variable A single argument required to execute the presenter or an array of arguments
+     * @author   Benjamin Carl <opensource@clickalicious.de>
+     * @return   boolean True if everything wents fine, otherwise false
+     * @access   protected
      */
     protected function required($argument, $scope = 'Index', $method = DoozR_Http::REQUEST_METHOD_GET)
     {
@@ -453,23 +457,11 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
 
         // convert input to array if not an array
         if (!is_array($argument)) {
-            $argument = array($argument);
+            $argument = array($argument => null);
         }
 
-        // iterate the passed input to build ordered (scope) ruleset
-        foreach ($argument as $requiredVariable) {
-            // if passed argument does not have a validation set
-            if (!is_array($requiredVariable)) {
-                // prepare default validation => null
-                $requiredVariable = array(
-                    $requiredVariable,      // variable identifier
-                    null                    // validation
-                );
-            }
-
-            // store the combined values for automatic requirement management
-            $this->required[$method][$scope][] = $requiredVariable;
-        }
+        // store the combined values for automatic requirement management
+        $this->required[$method][$scope][] = $argument;
 
         // success
         return $this;
