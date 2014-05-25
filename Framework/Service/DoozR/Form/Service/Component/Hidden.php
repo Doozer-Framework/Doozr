@@ -67,12 +67,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 1c283fb68580a5b81d3a242354da061798b4a0c5 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Hidden extends DoozR_Form_Service_Component_Input
 {
-    /*-----------------------------------------------------------------------------------------------------------------+
+    /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 

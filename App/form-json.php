@@ -110,16 +110,16 @@ $formManager = new DoozR_Form_Service_FormManager(
     'register',                                                 // The namespace (used for session, I18n, ...)
     $i18n,                                                      // The I18n service instance for translation(s) [DI]
     new DoozR_Form_Service_Component_Input(                     // Input element <- for cloning [DI]
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     ),
     new DoozR_Form_Service_Component_Form(                      // The form element we operate on [DI]
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         'register'
     ),
     new DoozR_Form_Service_Store_Session($session),             // The session store [DI]
-    new DoozR_Form_Service_Renderer_Html(),                     // A Renderer -> Native = HTML [DI]
+    new DoozR_Form_Service_Renderer_Json(),                     // A Renderer -> Native = HTML [DI]
     new DoozR_Form_Service_Validate_Validator(),                // A Validator to validate the elements [DI]
     new DoozR_Form_Service_Validate_Error(),                    // A Error object <- for cloning [DI]
     $registry->front->getRequest()->getArguments()              // The currents requests arguments
@@ -132,9 +132,6 @@ $foo = new DoozR_Form_Service_Component_Input(
     new DoozR_Form_Service_Renderer_Html(),
     new DoozR_Form_Service_Validator_Generic()
 );
-
-$foo->setType(DoozR_Form_Service_Component_Input::TYPE_TEXT);
-echo $foo->render()->get();
 */
 
 /*
@@ -287,8 +284,6 @@ var_dump($foo->render());
 die;
 */
 
-
-
 /**
  * check first if form was submitted - if it is valid - and if it is the last step ...
  */
@@ -320,14 +315,14 @@ if ($formManager->getStep() === 1) {
 
     // Create a label
     $label = new DoozR_Form_Service_Component_Label(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $label->setText('Firstname:');
 
     // Create an input field
     $element = new DoozR_Form_Service_Component_Text(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element->setName('firstname');
@@ -357,7 +352,7 @@ if ($formManager->getStep() === 1) {
     }
 
     $message = new DoozR_Form_Service_Component_Message(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         $formManager->translate($error)
     );
 
@@ -366,7 +361,7 @@ if ($formManager->getStep() === 1) {
 
     // Create a group with: Label, Component, Message
     $group1 = new DoozR_Form_Service_Component_Group(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         $label,
         $element,
@@ -376,20 +371,20 @@ if ($formManager->getStep() === 1) {
 
     // Create a label
     $label1 = new DoozR_Form_Service_Component_Label(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $label1->setText('Male:');
 
     $label2 = new DoozR_Form_Service_Component_Label(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $label2->setText('Female:');
 
     // Create an input field
     $element1 = new DoozR_Form_Service_Component_Radio(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element1->setName('gender');
@@ -411,7 +406,7 @@ if ($formManager->getStep() === 1) {
 
     // Create an input field
     $element2 = new DoozR_Form_Service_Component_Radio(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element2->setName('gender');
@@ -442,13 +437,13 @@ if ($formManager->getStep() === 1) {
     }
 
     $message = new DoozR_Form_Service_Component_Message(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         $formManager->translate($error)
     );
     $message->setStyle('color:red;');
 
     $group2 = new DoozR_Form_Service_Component_Group(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         array($label1, $label2),
         array($element1, $element2),
@@ -459,20 +454,20 @@ if ($formManager->getStep() === 1) {
 
     // Create a label
     $label1 = new DoozR_Form_Service_Component_Label(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $label1->setText('Support:');
 
     $label2 = new DoozR_Form_Service_Component_Label(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
      );
     $label2->setText('Question:');
 
     // Create an input field
     $element1 = new DoozR_Form_Service_Component_Checkbox(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element1->setName('interest');
@@ -495,7 +490,7 @@ if ($formManager->getStep() === 1) {
 
     // Create an input field
     $element2 = new DoozR_Form_Service_Component_Checkbox(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element2->setName('interest');
@@ -530,13 +525,13 @@ if ($formManager->getStep() === 1) {
     }
 
     $message = new DoozR_Form_Service_Component_Message(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         $formManager->translate($error)
     );
     $message->setStyle('color:red;');
 
     $group3 = new DoozR_Form_Service_Component_Group(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         array($label1, $label2),
         array($element1, $element2),
@@ -545,14 +540,14 @@ if ($formManager->getStep() === 1) {
 
     // define label
     $label1 = new DoozR_Form_Service_Component_Label(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $label1->setText('Datei zum upload wählen:');
 
     // Create an input field
     $element1 = new DoozR_Form_Service_Component_File(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element1->setName('file');
@@ -586,7 +581,7 @@ if ($formManager->getStep() === 1) {
 
 
     $fileInfo = new DoozR_Form_Service_Component_Div(
-        new DoozR_Form_Service_Renderer_Html()
+        new DoozR_Form_Service_Renderer_Json()
     );
     $pathInfo = pathinfo(($element1->getValue() !== null) ? $element1->getValue() : '');
     $fileInfo->setInnerHtml(
@@ -594,7 +589,7 @@ if ($formManager->getStep() === 1) {
     );
 
     $groupFile = new DoozR_Form_Service_Component_Group(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         $fileInfo,
         $element1,
@@ -612,7 +607,7 @@ if ($formManager->getStep() === 1) {
     }
 
     $message = new DoozR_Form_Service_Component_Message(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         $formManager->translate(
             $error,
             array(500, 800)     // min-size, max-size,
@@ -621,7 +616,7 @@ if ($formManager->getStep() === 1) {
     $message->setStyle('color:red;');
 
     $group4 = new DoozR_Form_Service_Component_Group(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         $label1,
         $groupFile,
@@ -630,7 +625,7 @@ if ($formManager->getStep() === 1) {
 
     // Create an input element "button"
     $element = new DoozR_Form_Service_Component_Input(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element->setName('submit');
@@ -641,9 +636,9 @@ if ($formManager->getStep() === 1) {
 
     // Create a fieldset
     $fieldset = new DoozR_Form_Service_Component_Fieldset(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Component_Legend(
-            new DoozR_Form_Service_Renderer_Html(),
+            new DoozR_Form_Service_Renderer_Json(),
             'This is an example legend ...'
         )
     );
@@ -678,14 +673,14 @@ if ($formManager->getStep() === 1) {
 
     // Create a label
     $label = new DoozR_Form_Service_Component_Label(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $label->setText('Type:');
 
     // Create an input field
     $element = new DoozR_Form_Service_Component_Select(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element->setName('type');
@@ -707,20 +702,20 @@ if ($formManager->getStep() === 1) {
     */
 
     $optgroup = new DoozR_Form_Service_Component_Optgroup(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $optgroup->setLabel('Optgroup');
 
     $option1 = new DoozR_Form_Service_Component_Option(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $option1->setKey('key1');
     $option1->setValue('value1', $formManager->getValue('type'));
 
     $option2 = new DoozR_Form_Service_Component_Option(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $option2->setKey('key2');
@@ -741,7 +736,7 @@ if ($formManager->getStep() === 1) {
     }
 
     $message = new DoozR_Form_Service_Component_Message(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         $formManager->translate(
             $error
         )
@@ -751,7 +746,7 @@ if ($formManager->getStep() === 1) {
 
     // Create a group with: Label, Component, Message
     $group0 = new DoozR_Form_Service_Component_Group(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         $label,
         $element,
@@ -763,13 +758,13 @@ if ($formManager->getStep() === 1) {
      * Begin TEXTAREA: sometext
      */
     $label = new DoozR_Form_Service_Component_Label(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $label->setText('Tell us about you:');
 
     $textarea = new DoozR_Form_Service_Component_Textarea(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $textarea->setName('sometext');
@@ -794,7 +789,7 @@ if ($formManager->getStep() === 1) {
     }
 
     $message = new DoozR_Form_Service_Component_Message(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         $formManager->translate(
             $error
         )
@@ -803,7 +798,7 @@ if ($formManager->getStep() === 1) {
 
     // Create a group with: Label, Component, Message
     $group3 = new DoozR_Form_Service_Component_Group(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         $label,
         $textarea,
@@ -814,14 +809,14 @@ if ($formManager->getStep() === 1) {
 
     // Create a label
     $label = new DoozR_Form_Service_Component_Label(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $label->setText('Nummer:');
 
     // Create an input field
     $element = new DoozR_Form_Service_Component_Input(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element->setName('number');
@@ -848,7 +843,7 @@ if ($formManager->getStep() === 1) {
     }
 
     $message = new DoozR_Form_Service_Component_Message(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         $formManager->translate(
             $error
         )
@@ -858,7 +853,7 @@ if ($formManager->getStep() === 1) {
 
     // Create a group with: Label, Component, Message
     $group1 = new DoozR_Form_Service_Component_Group(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         $label,
         $element,
@@ -867,9 +862,9 @@ if ($formManager->getStep() === 1) {
 
     // Create a fieldset
     $fieldset = new DoozR_Form_Service_Component_Fieldset(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Component_Legend(
-            new DoozR_Form_Service_Renderer_Html(),
+            new DoozR_Form_Service_Renderer_Json(),
             'Please provide us some more information about you ...'
         )
     );
@@ -878,7 +873,7 @@ if ($formManager->getStep() === 1) {
     $element = new DoozR_Form_Service_Component_Generic(
         'a',
         null,
-        new DoozR_Form_Service_Renderer_Html()
+        new DoozR_Form_Service_Renderer_Json()
     );
 
     #$element->setTag('a');
@@ -886,7 +881,7 @@ if ($formManager->getStep() === 1) {
     $element->setInnerHtml('Zurück zu Schritt 1/3');
 
     $group2 = new DoozR_Form_Service_Component_Group(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic(),
         null,
         $element,
@@ -895,7 +890,7 @@ if ($formManager->getStep() === 1) {
 
     // Create an input element "button"
     $element = new DoozR_Form_Service_Component_Input(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element->setName('submit');
@@ -933,7 +928,7 @@ if ($formManager->getStep() === 1) {
     $element1 = new DoozR_Form_Service_Component_Generic(
         'a',
         null,
-        new DoozR_Form_Service_Renderer_Html()
+        new DoozR_Form_Service_Renderer_Json()
     );
 
     $element1->setAttribute('href', $_SERVER['PHP_SELF'].'?DoozR_Form_Service_Jump=2');
@@ -941,9 +936,9 @@ if ($formManager->getStep() === 1) {
 
     // Create a fieldset
     $fieldset = new DoozR_Form_Service_Component_Fieldset(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Component_Legend(
-            new DoozR_Form_Service_Renderer_Html(),
+            new DoozR_Form_Service_Renderer_Json(),
             'Have a look at all collected Data ...'
         )
     );
@@ -952,7 +947,7 @@ if ($formManager->getStep() === 1) {
     $element3 = new DoozR_Form_Service_Component_Generic(
         'div',
         null,
-        new DoozR_Form_Service_Renderer_Html()
+        new DoozR_Form_Service_Renderer_Json()
     );
 
     $element3->setAttribute('id', 'wurstbrot');
@@ -962,7 +957,7 @@ if ($formManager->getStep() === 1) {
 
     // Create an input element "button"
     $element2 = new DoozR_Form_Service_Component_Input(
-        new DoozR_Form_Service_Renderer_Html(),
+        new DoozR_Form_Service_Renderer_Json(),
         new DoozR_Form_Service_Validator_Generic()
     );
     $element2->setName('submit');

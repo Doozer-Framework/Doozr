@@ -100,13 +100,19 @@ abstract class DoozR_Form_Service_Renderer_Abstract
 
 
     /*------------------------------------------------------------------------------------------------------------------
-     | Public API
-     +----------------------------------------------------------------------------------------------------------------*/
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
-
+    /**
+     * Getter for the rendered result
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string Returns the result of rendering, if not rendered yet it returns NULL
+     * @access public
+     */
     public function get()
     {
-        $this->rendered;
+        return $this->rendered;
     }
 
     /**

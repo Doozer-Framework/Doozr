@@ -50,11 +50,9 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
 
 /**
  * DoozR - Base-Exception
@@ -70,8 +68,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception/Generic.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
 {
@@ -86,7 +82,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
+     * @return \DoozR_Base_Exception instance of this class
      * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)

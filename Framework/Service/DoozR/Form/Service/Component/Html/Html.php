@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: f44fa1e501aa75518e3e2ee62334d06ea6524f55 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @abstract
  */
@@ -120,10 +120,6 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
     protected $html;
 
 
-    /*-----------------------------------------------------------------------------------------------------------------*
-    | Public API
-    *-----------------------------------------------------------------------------------------------------------------*/
-
     /**
      * Constructor.
      *
@@ -135,6 +131,10 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
     {
         $this->observers = new SplObjectStorage();
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Default renderer for all basic HTML-components. This renderer is capable

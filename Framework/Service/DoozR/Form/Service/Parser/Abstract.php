@@ -63,7 +63,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 1273acd716766791d2770bfe0bd9f1d161a7d047 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 abstract class DoozR_Form_Service_Parser_Abstract
@@ -93,7 +93,7 @@ abstract class DoozR_Form_Service_Parser_Abstract
     protected $configuration;
 
 
-    /*-----------------------------------------------------------------------------------------------------------------*
+    /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 

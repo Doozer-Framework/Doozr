@@ -1234,8 +1234,6 @@ class DoozR_Form_Service_Validate_Validator
         return (self::$typeOrderMatrix[$a] < self::$typeOrderMatrix[$b]) ? -1 : 1;
     }
 
-
-
     /**
      * Splits the validation-types into sortable and non-sortable parts.
      *

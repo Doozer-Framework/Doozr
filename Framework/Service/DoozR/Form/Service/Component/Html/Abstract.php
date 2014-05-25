@@ -111,6 +111,7 @@ abstract class DoozR_Form_Service_Component_Html_Abstract
      * @param      $key   The name of the attribute
      * @param null $value The value of the attribute
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
@@ -124,7 +125,7 @@ abstract class DoozR_Form_Service_Component_Html_Abstract
      *
      * @param $key The name of the attribute
      *
-     * @return mixed|boolean The attributes value if set, FALSE if not
+     * @return null|boolean The attributes value if set, otherwise NULL
      * @access public
      */
     public function getAttribute($key)

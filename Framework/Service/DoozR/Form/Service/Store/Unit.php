@@ -66,11 +66,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: d4ab136bc378b58978329f06ed305cf3b663681b $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Store_Unit extends DoozR_Form_Service_Store_Abstract
-    implements DoozR_Form_Service_Store_Interface
+    implements
+    DoozR_Form_Service_Store_Interface
 {
     /**
      * The store

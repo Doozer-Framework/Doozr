@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Renderer/Abstract
  */
 class DoozR_Form_Service_Renderer_Html extends DoozR_Form_Service_Renderer_Abstract
 {
-    /*-----------------------------------------------------------------------------------------------------------------+
+    /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
@@ -182,7 +182,7 @@ class DoozR_Form_Service_Renderer_Html extends DoozR_Form_Service_Renderer_Abstr
 
         // Iterate childs and render HTML of each
         foreach ($childs as $child) {
-            $html .= $child->render($force);
+            $html .= $child->render($force)->get();
         }
 
         return $html;

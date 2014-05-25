@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 5e30d07525fe2d0cbb9781237cfff999f16ff57e $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Input extends DoozR_Form_Service_Component_Formcomponent
@@ -95,86 +95,277 @@ class DoozR_Form_Service_Component_Input extends DoozR_Form_Service_Component_Fo
      */
     protected $template = DoozR_Form_Service_Constant::TEMPLATE_DEFAULT_NONCLOSING;
 
+    /**
+     * Type for <input type="text">
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const TYPE_TEXT = 'text';
+
+    /**
+     * Type for <input type="button">
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const TYPE_BUTTON = 'button';
+
+    /**
+     * Type for <input type="image">
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const TYPE_IMAGE = 'image';
+
+    /**
+     * Type for <input type="abort">
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const TYPE_ABORT = 'abort';
+
+    /**
+     * Type for <input type="reset">
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const TYPE_RESET = 'reset';
+
+    /**
+     * Type for <input type="upload">
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const TYPE_UPLOAD = 'upload';
+
+    /**
+     * Type for <input type="submit">
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const TYPE_SUBMIT = 'submit';
+
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
-    public function setAutocomplete($state)
+    /**
+     * Setter for autocomplete
+     *
+     * @param string $autocomplete The autocomplete state as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setAutocomplete($autocomplete = 'autocomplete')
     {
-        $this->setAttribute('autocomplete', $state);
+        $this->setAttribute('autocomplete', $autocomplete);
     }
 
+    /**
+     * Getter for autocomplete
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The autocomplete value if set, otherwise NULL
+     * @access public
+     */
     public function getAutocomplete()
     {
         return $this->getAttribute('autocomplete');
     }
 
+    /**
+     * Setter for autofocus
+     *
+     * @param string $autofocus The autofocus state as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setAutofocus($autofocus = 'autofocus')
     {
         $this->setAttribute('autofocus', $autofocus);
     }
 
+    /**
+     * Getter for autofocus
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The autofocus value if set, otherwise NULL
+     * @access public
+     */
     public function getAutofocus()
     {
         return $this->getAttribute('autofocus');
     }
 
+    /**
+     * Setter for disabled
+     *
+     * @param string $disabled The disabled state as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setDisabled($disabled = 'disabled')
     {
         $this->setAttribute('disabled', $disabled);
     }
 
+    /**
+     * Getter for disabled
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The disabled value if set, otherwise NULL
+     * @access public
+     */
     public function getDisabled()
     {
         return $this->getAttribute('disabled');
     }
 
+    /**
+     * Setter for form
+     *
+     * @param string $form The form state as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setForm($form)
     {
         $this->setAttribute('form', $form);
     }
 
+    /**
+     * Getter for form
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The form value if set, otherwise NULL
+     * @access public
+     */
     public function getForm()
     {
         return $this->getAttribute('form');
     }
 
+    /**
+     * Setter for formaction
+     *
+     * @param string $formaction The formaction as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setFormaction($formaction)
     {
         $this->setAttribute('formction', $formaction);
     }
 
+    /**
+     * Getter for formaction
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formaction value if set, otherwise NULL
+     * @access public
+     */
     public function getFormaction()
     {
         return $this->getAttribute('formaction');
     }
 
+    /**
+     * Setter for formenctype
+     *
+     * @param string $formEnctype The formenctype as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setFormEnctype($formEnctype)
     {
         $this->setAttribute('formenctype', $formEnctype);
     }
 
+    /**
+     * Getter for formenctype
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formenctype value if set, otherwise NULL
+     * @access public
+     */
     public function getFormEnctype()
     {
         return $this->getAttribute('formenctype');
     }
 
+    /**
+     * Setter for formmethod
+     *
+     * @param string $formMethod The formmethod as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setFormMethod($formMethod)
     {
         $this->setAttribute('formmethod', $formMethod);
     }
 
+    /**
+     * Getter for formmethod
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formmethod value if set, otherwise NULL
+     * @access public
+     */
     public function getFormMethod()
     {
         return $this->getAttribute('formmethod');
     }
 
+    /**
+     * Setter for formnovalidate
+     *
+     * @param string $formNovalidate The formnovalidate value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setFormNovalidate($formNovalidate = 'formnovalidate')
     {
         $this->setAttribute('formnovalidate', $formNovalidate);
     }
 
+    /**
+     * Getter for formnovalidate
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The formnovalidate value if set, otherwise NULL
+     * @access public
+     */
     public function getFormNovalidate()
     {
         return $this->getAttribute('formnovalidate');
@@ -206,109 +397,265 @@ class DoozR_Form_Service_Component_Input extends DoozR_Form_Service_Component_Fo
         return $this->getAttribute('list');
     }
 
+    /**
+     * Setter for max
+     *
+     * @param string $max The max value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setMax($max)
     {
         $this->setAttribute('max', $max);
     }
 
+    /**
+     * Getter for max
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The max value if set, otherwise NULL
+     * @access public
+     */
     public function getMax()
     {
         return $this->getAttribute('max');
     }
 
+    /**
+     * Setter for maxlength
+     *
+     * @param string $maxlength The maxlength value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setMaxlength($maxlength)
     {
         $this->setAttribute('maxlength', $maxlength);
     }
 
+    /**
+     * Getter for maxlength
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The maxlength value if set, otherwise NULL
+     * @access public
+     */
     public function getMaxlength()
     {
         return $this->getAttribute('maxlength');
     }
 
+    /**
+     * Setter for min
+     *
+     * @param string $min The min value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setMin($min)
     {
         $this->setAttribute('min', $min);
     }
 
+    /**
+     * Getter for min
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The min value if set, otherwise NULL
+     * @access public
+     */
     public function getMin()
     {
         return $this->getAttribute('min');
     }
 
+    /**
+     * Setter for multiple
+     *
+     * @param string $multiple The multiple value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setMultiple($multiple)
     {
         $this->setAttribute('multiple', $multiple);
     }
 
+    /**
+     * Getter for multiple
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The multiple value if set, otherwise NULL
+     * @access public
+     */
     public function getMultiple()
     {
         return $this->getAttribute('multiple');
     }
 
+    /**
+     * Setter for pattern
+     *
+     * @param string $pattern The pattern value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setPattern($pattern)
     {
         $this->setAttribute('pattern', $pattern);
     }
 
+    /**
+     * Getter for pattern
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The pattern value if set, otherwise NULL
+     * @access public
+     */
     public function getPattern()
     {
         return $this->getAttribute('pattern');
     }
 
+    /**
+     * Setter for placeholder
+     *
+     * @param string $placeholder The placeholder value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setPlaceholder($placeholder)
     {
         $this->setAttribute('placeholder', $placeholder);
     }
 
+    /**
+     * Getter for placeholder
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The placeholder value if set, otherwise NULL
+     * @access public
+     */
     public function getPlaceholder()
     {
         return $this->getAttribute('placeholder');
     }
 
+    /**
+     * Setter for readonly
+     *
+     * @param string $readonly The readonly value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setReadonly($readonly)
     {
         $this->setAttribute('readonly', $readonly);
     }
 
+    /**
+     * Getter for readonly
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The readonly value if set, otherwise NULL
+     * @access public
+     */
     public function getReadonly()
     {
         return $this->getAttribute('readonly');
     }
 
+    /**
+     * Setter for required
+     *
+     * @param string $required The required value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setRequired($required)
     {
         $this->setAttribute('required', $required);
     }
 
+    /**
+     * Getter for required
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The required value if set, otherwise NULL
+     * @access public
+     */
     public function getRequired()
     {
         return $this->getAttribute('required');
     }
 
+    /**
+     * Setter for size
+     *
+     * @param string $size The size value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setSize($size)
     {
         $this->setAttribute('size', $size);
     }
 
+    /**
+     * Getter for size
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The size value if set, otherwise NULL
+     * @access public
+     */
     public function getSize()
     {
         return $this->getAttribute('size');
     }
 
+    /**
+     * Setter for step
+     *
+     * @param string $step The step value as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setStep($step)
     {
         $this->setAttribute('step', $step);
     }
 
+    /**
+     * Getter for step
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The step value if set, otherwise NULL
+     * @access public
+     */
     public function getStep()
     {
         return $this->getAttribute('step');
     }
-
-
-
-
 
     /**
      * Sets the HTML input element property "autocapitalize"

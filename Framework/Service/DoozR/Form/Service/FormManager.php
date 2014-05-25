@@ -239,7 +239,7 @@ class DoozR_Form_Service_FormManager
     protected $errorInstance;
 
 
-    /*-----------------------------------------------------------------------------------------------------------------*
+    /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
@@ -426,8 +426,8 @@ class DoozR_Form_Service_FormManager
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-     | Public API
-     +----------------------------------------------------------------------------------------------------------------*/
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Renders the forms after the preparation is done. This method does generate a token for the current form
@@ -1662,7 +1662,7 @@ class DoozR_Form_Service_FormManager
      * Returns a registry skeleton for initializing store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return array An empty registry skeleton
      * @access protected
      */
     protected function getRegistrySkeleton()

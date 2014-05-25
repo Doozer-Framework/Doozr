@@ -179,7 +179,6 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
                     ($id = $requestObject->get('/Api/x/{{' . $key . '}}', function ($id) { return $id; })) === null
                 ) {
                     $message = '';
-
                     foreach ($requiredArgument as $argument => $value) {
                         $message .= 'Missing required argument: ' . $argument . ' => Value: ' . var_export($value, true);
                     }

@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
@@ -67,8 +65,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Form_Service_Validate_Error
 {
@@ -129,15 +125,16 @@ class DoozR_Form_Service_Validate_Error
      * @static
      */
     protected $errorMessageMatrix = array(
-        0 => 'UNKNOWN_ERROR',
-        2 => 'This field is required.',
-        3 => 'This field must not be empty.',
-        4 => 'The input should only contain alphabetic characters in the range a-z or A-Z.',
-        5 => 'This field must be checked.',
-        6 => 'The minimum input length for this field is:',
-        7 => 'The maximum input length for this field is:',
-        8 => 'This emailaddress seems to be invalid.',
-        9 => 'This emailaddress seems to be non-existent. We couldn\'t deliver our email.',
+         0 => 'UNKNOWN_ERROR',
+         1 => 'N.A.',
+         2 => 'This field is required.',
+         3 => 'This field must not be empty.',
+         4 => 'The input should only contain alphabetic characters in the range a-z or A-Z.',
+         5 => 'This field must be checked.',
+         6 => 'The minimum input length for this field is:',
+         7 => 'The maximum input length for this field is:',
+         8 => 'This emailaddress seems to be invalid.',
+         9 => 'This emailaddress seems to be non-existent. We couldn\'t deliver our email.',
         10 => 'The input should only contain numbers in the range 0-9.',
         11 => 'The input must be a valid value. 0 and empty-values (Null) are invalid.',
         12 => 'The input must be a valid IP-Address (e.g. 192.168.0.1 or 10.8.2.216)',
@@ -173,11 +170,6 @@ class DoozR_Form_Service_Validate_Error
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Getter & Setter
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

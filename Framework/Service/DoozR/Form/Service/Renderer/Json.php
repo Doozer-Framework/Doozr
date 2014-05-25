@@ -74,7 +74,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Renderer/Abstract
  */
 class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstract
 {
-    /*-----------------------------------------------------------------------------------------------------------------+
+    /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
@@ -117,11 +117,14 @@ class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstr
 
         $this->rendered = $json;
 
+        /** @var $this DoozR_Form_Service_Renderer_Json */
         return $this;
     }
 
     /**
      * Return JSON-encoded result! So we prevent double JSON encoding
+     *
+     * @param boolean $encode TRUE to return JSON encoded, FALSE to return unencoded
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The rendered result JSON encoded
