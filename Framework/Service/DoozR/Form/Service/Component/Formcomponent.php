@@ -69,7 +69,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: c08275dbe6e8832eaf241750c125f39ce501c61a $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Service_Component_Html implements

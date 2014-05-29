@@ -67,7 +67,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 2c1549d06061a56832af7ecb9266cf6d6921bf9c $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 abstract class DoozR_Form_Service_Store_Abstract implements DoozR_Base_Crud_Interface

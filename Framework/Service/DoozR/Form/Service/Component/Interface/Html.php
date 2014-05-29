@@ -69,7 +69,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: 03c215fb312ed211fc7a94a68820fd488c35070a $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 interface DoozR_Form_Service_Component_Interface_Html
