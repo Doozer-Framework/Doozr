@@ -65,7 +65,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcom
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Output extends DoozR_Form_Service_Component_Formcomponent
@@ -79,26 +79,57 @@ class DoozR_Form_Service_Component_Output extends DoozR_Form_Service_Component_F
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OUTPUT;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Setter for For
+     *
+     * @param string $for The label the element is for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setFor($for)
     {
         $this->setAttribute('for', $for);
     }
 
+    /**
+     * Getter for For
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value if set, otherwise NULL
+     * @access public
+     */
     public function getFor()
     {
         return $this->getAttribute('for');
     }
 
+    /**
+     * Setter for Form
+     *
+     * @param string $form The form to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setForm($form)
     {
         $this->setAttribute('form', $form);
     }
 
+    /**
+     * Getter for Form
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value if set, otherwise NULL
+     * @access public
+     */
     public function getForm()
     {
         return $this->getAttribute('form');

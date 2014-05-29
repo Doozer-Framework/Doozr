@@ -65,7 +65,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1c283fb68580a5b81d3a242354da061798b4a0c5 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Button extends DoozR_Form_Service_Component_Input
@@ -78,28 +78,9 @@ class DoozR_Form_Service_Component_Button extends DoozR_Form_Service_Component_I
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_BUTTON;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Constructor.
-     *
-     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
-     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Button
-     * @access public
-     */
-    public function __construct(
-        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
-        DoozR_Form_Service_Validator_Interface $validator = null
-    ) {
-        // Important call so observer storage ... can be initiated
-        parent::__construct($renderer, $validator);
-    }
 
     /**
      * Setter for formtarget.

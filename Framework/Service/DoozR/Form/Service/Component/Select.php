@@ -89,84 +89,161 @@ class DoozR_Form_Service_Component_Select extends DoozR_Form_Service_Component_F
      */
     protected $type = DoozR_Form_Service_Constant::COMPONENT_CONTAINER;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor.
+     * Setter for Autofocus
      *
-     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
-     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
+     * @param string $autofocus The autofocus value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Select
+     * @return void
      * @access public
      */
-    public function __construct(
-        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
-        DoozR_Form_Service_Validator_Interface $validator = null
-    ) {
-        // Important call so observer storage ... can be initiated
-        parent::__construct($renderer, $validator);
-    }
-
     public function setAutofocus($autofocus = null)
     {
         $this->setAttribute('autofocus', $autofocus);
     }
 
+    /**
+     * Getter for Autofocus
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function getAutofocus()
     {
         return $this->getAttribute('autofocus');
     }
 
+    /**
+     * Setter for Disabled
+     *
+     * @param string $disabled The disabled value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setDisabled($disabled = 'disabled')
     {
         $this->setAttribute('disabled', $disabled);
     }
 
+    /**
+     * Getter for Disabled
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The value if set, otherwise NULL
+     * @access public
+     */
     public function getDisabled()
     {
         return $this->getAttribute('disabled');
     }
 
+    /**
+     * Setter for Form
+     *
+     * @param string $form The form value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setForm($form)
     {
         $this->setAttribute('form', $form);
     }
 
+    /**
+     * Getter for Form
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The value if set, otherwise NULL
+     * @access public
+     */
     public function getForm()
     {
         return $this->getAttribute('form');
     }
 
+    /**
+     * Setter for multiple
+     *
+     * @param string $multiple The multiple value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setMultiple($multiple = 'multiple')
     {
         $this->setAttribute('multiple', $multiple);
     }
 
+    /**
+     * Getter for multiple
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The value if set, otherwise NULL
+     * @access public
+     */
     public function getMultiple()
     {
         return $this->getAttribute('multiple');
     }
 
+    /**
+     * Setter for required
+     *
+     * @param string $required The required value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setRequired($required)
     {
         $this->setAttribute('required', $required);
     }
 
+    /**
+     * Getter for required
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The value if set, otherwise NULL
+     * @access public
+     */
     public function getRequired()
     {
         return $this->getAttribute('required');
     }
 
+    /**
+     * Setter for size
+     *
+     * @param string $size The size to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setSize($size)
     {
         $this->setAttribute('size', $size);
     }
 
+    /**
+     * Getter for size
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The value if set, otherwise NULL
+     * @access public
+     */
     public function getSize()
     {
         return $this->getAttribute('size');

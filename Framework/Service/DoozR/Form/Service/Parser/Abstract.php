@@ -63,13 +63,13 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1273acd716766791d2770bfe0bd9f1d161a7d047 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 abstract class DoozR_Form_Service_Parser_Abstract
 {
     /**
-     * The input which get parsed by parser
+     * The input which get parsed by parser.
      *
      * @var string
      * @access protected
@@ -77,7 +77,7 @@ abstract class DoozR_Form_Service_Parser_Abstract
     protected $input;
 
     /**
-     * The output returned by parser as result
+     * The output returned by parser as result.
      *
      * @var mixed
      * @access protected
@@ -85,13 +85,12 @@ abstract class DoozR_Form_Service_Parser_Abstract
     protected $output;
 
     /**
-     * Configuration object
+     * Configuration object.
      *
      * @var DoozR_Form_Service_Configuration
      * @access protected
      */
     protected $configuration;
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API

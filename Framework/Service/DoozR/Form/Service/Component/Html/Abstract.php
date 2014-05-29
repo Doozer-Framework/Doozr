@@ -65,7 +65,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 6f0a7361d60471562e51567e19cafd8c889d7c4b $
  * @link       http://clickalicious.github.com/DoozR/
  * @abstract
  */
@@ -104,12 +104,11 @@ abstract class DoozR_Form_Service_Component_Html_Abstract
      */
     protected $attributes = array();
 
-
     /**
      * Setter for attributes[]
      *
-     * @param      $key   The name of the attribute
-     * @param null $value The value of the attribute
+     * @param string      $key   The name of the attribute
+     * @param null|string $value The value of the attribute
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -125,7 +124,7 @@ abstract class DoozR_Form_Service_Component_Html_Abstract
      *
      * @param $key The name of the attribute
      *
-     * @return null|boolean The attributes value if set, otherwise NULL
+     * @return null|mixed The attributes value if set, otherwise NULL
      * @access public
      */
     public function getAttribute($key)

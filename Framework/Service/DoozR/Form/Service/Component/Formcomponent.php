@@ -72,8 +72,7 @@
  * @version    Git: $Id: c08275dbe6e8832eaf241750c125f39ce501c61a $
  * @link       http://clickalicious.github.com/DoozR/
  */
-abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Service_Component_Html
-    implements
+abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Service_Component_Html implements
     DoozR_Form_Service_Component_Interface_Form
 {
     /**
@@ -133,7 +132,6 @@ abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Ser
      */
     protected $validator;
 
-
     /**
      * Constructor.
      *
@@ -145,7 +143,7 @@ abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Ser
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Renderer_Interface $renderer = null,
         DoozR_Form_Service_Validator_Interface $validator = null
     ) {
         if ($validator !== null) {

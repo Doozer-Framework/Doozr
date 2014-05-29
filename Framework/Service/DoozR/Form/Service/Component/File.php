@@ -68,11 +68,10 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 2dd2aa8456a22f51315802722638af214e948197 $
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Input
-    implements
+class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Input implements
     DoozR_Form_Service_Component_Interface_File
 {
     /**
@@ -91,7 +90,6 @@ class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Inp
      */
     protected $file;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -107,7 +105,7 @@ class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Inp
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Renderer_Interface $renderer = null,
         DoozR_Form_Service_Validator_Interface $validator = null
     ) {
         $this->setType('file');
@@ -116,11 +114,27 @@ class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Inp
         parent::__construct($renderer, $validator);
     }
 
+    /**
+     * Setter for accept.
+     *
+     * @param string $mimeType The mime type to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setAccept($mimeType)
     {
         $this->setAttribute('accept', $mimeType);
     }
 
+    /**
+     * Getter for accept.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The accept attributes value
+     * @access public
+     */
     public function getAccept()
     {
         return $this->getAttribute('accept');

@@ -71,8 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @version    Git: $Id: $
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component_Formcomponent
-    implements
+class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component_Formcomponent implements
     DoozR_Form_Service_Component_Interface_Option
 {
     /**
@@ -82,7 +81,6 @@ class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component
      * @access protected
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OPTGROUP;
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -94,7 +92,7 @@ class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component
      * @param DoozR_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return integer The index of the added option
      * @access public
      */
     public function addOption(DoozR_Form_Service_Component_Interface_Option $option)
@@ -108,7 +106,7 @@ class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component
      * @param integer $index The index of the component to remove
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean TRUE on success, otherwise FALSE
      * @access public
      */
     public function removeOption($index)

@@ -15,7 +15,7 @@
  * This class parses information about form(s) and it fields and provide
  * access to it. The parsed information is returned as an array.
  *
- * @TODO:
+ * @todo
  *
  * - parse <option></option> out of <select>-element(s) to retrieve
  *   values and so on for rebuilding the form.
@@ -95,7 +95,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Parser/Interface.
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1273acd716766791d2770bfe0bd9f1d161a7d047 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
@@ -120,13 +120,11 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
     protected $forms = array();
 
     /**
-     * The current active configuration
+     * The configurations
      *
      * @var array
      * @access protected
      */
-    #protected $configuration;
-
     protected $configurations;
 
     /**
@@ -153,8 +151,6 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
      * @const
      */
     const REGEXP_PATTERN_ELEMENTS = '/(<(input|select|textarea)(.*?)>)/ius';
-
-    const REGEXP_PATTERN_CONTAINER_ELEMENTS = '';
 
     /**
      * The prefix for templae var placeholder(s)
@@ -241,31 +237,82 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Setter for forms
+     *
+     * @param array $forms The forms to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setForms(array $forms)
     {
         $this->forms = $forms;
     }
 
-    public function addConfiguration(DoozR_Form_Service_Configuration $configuration)
-    {
-        $this->configurations[$configuration->getId()] = $configuration;
-    }
-
-    public function getConfigurations()
-    {
-        return $this->configurations;
-    }
-
+    /**
+     * Getter for forms
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The forms
+     * @access public
+     */
     public function getForms()
     {
         return $this->forms;
     }
 
+    /**
+     * Adds a configuration
+     *
+     * @param DoozR_Form_Service_Configuration $configuration The configuration to add
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function addConfiguration(DoozR_Form_Service_Configuration $configuration)
+    {
+        $this->configurations[$configuration->getId()] = $configuration;
+    }
+
+    /**
+     * Getter for configurations.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Form_Service_Configuration[] The stored configurations
+     * @access public
+     */
+    public function getConfigurations()
+    {
+        return $this->configurations;
+    }
+
+    /**
+     * Setter for forms configuration
+     *
+     * @param string                           $id            The id of the form
+     * @param DoozR_Form_Service_Configuration $configuration The configuration of the form
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setForm($id, DoozR_Form_Service_Configuration $configuration)
     {
         $this->forms[$id] = $configuration;
     }
 
+    /**
+     * Getter for form.
+     *
+     * @param string $id The id of the form to return
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|DoozR_Form_Service_Configuration The form configuration if set, otherwise NULL
+     * @access public
+     */
     public function getForm($id)
     {
         return (isset($this->forms[$id])) ? $this->forms[$id] : null;
@@ -340,9 +387,9 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
             // SO we know which form is processed so insert placeholder for this
             // form into input html and store it as template
             $this->template = str_replace(
-                $forms[1][$i],        // lookup  @was $forms[0][$i]
-                $templateIdentifier,  // replace
-                $this->template       // subject
+                $forms[1][$i], // lookup  @was $forms[0][$i]
+                $templateIdentifier, // replace
+                $this->template // subject
             );
 
             // store in result
@@ -378,11 +425,11 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
         $type = strtoupper($type);
 
         return self::TEMPLATE_BRACKETS_OPEN .
-        self::TEMPLATE_PREFIX .
-        $type .
-        '-' .
-        $id .
-        self::TEMPLATE_BRACKETS_CLOSE;
+            self::TEMPLATE_PREFIX .
+            $type .
+            '-' .
+            $id .
+            self::TEMPLATE_BRACKETS_CLOSE;
     }
 
     /**
@@ -399,7 +446,7 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
         // assume empty result
         $result = array();
 
-        //@TODO: check input?
+        //@todo check input?
 
         // get count of inner elements
         $countElements = count($elements[1]);
@@ -433,9 +480,9 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
                 );
 
                 $this->template = str_replace(
-                    $elements[1][$j],     // lookup
-                    $templateIdentifier,  // replace
-                    $this->template       // subject
+                    $elements[1][$j], // lookup
+                    $templateIdentifier, // replace
+                    $this->template // subject
                 );
 
                 // drop into result

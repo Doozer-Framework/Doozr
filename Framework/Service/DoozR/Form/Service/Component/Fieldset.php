@@ -88,7 +88,6 @@ class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component
      */
     protected $legendId;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -105,7 +104,7 @@ class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component
      */
     public function __construct(
         DoozR_Form_Service_Renderer_Interface $renderer = null,
-        DoozR_Form_Service_Component_Legend   $legend   = null
+        DoozR_Form_Service_Component_Legend $legend = null
     ) {
         if ($legend !== null) {
             $this->setLegend($legend);
@@ -115,21 +114,53 @@ class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component
         parent::__construct($renderer);
     }
 
+    /**
+     * Setter for disabled.
+     *
+     * @param string $disabled The disabled state as string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setDisabled($disabled = 'disabled')
     {
         $this->setAttribute('disabled', $disabled);
     }
 
+    /**
+     * Getter for disabled.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The disabled state
+     * @access public
+     */
     public function getDisabled()
     {
         return $this->getAttribute('disabled');
     }
 
+    /**
+     * Setter for form.
+     *
+     * @param string $form The form
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setForm($form)
     {
         $this->setAttribute('form', $form);
     }
 
+    /**
+     * Getter for form.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The form
+     * @access public
+     */
     public function getForm()
     {
         return $this->getAttribute('form');
@@ -172,6 +203,8 @@ class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component
      */
     public function setValue($value)
     {
-        // Do nothing
+        /**
+         * Intentionally left blank
+         */
     }
 }

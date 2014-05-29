@@ -63,7 +63,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 444703fbf2ad11fd8e7cea8abd0cdd423211fab6 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Validate_Error
@@ -257,7 +257,7 @@ class DoozR_Form_Service_Validate_Error
      * @return string The I18N-error-identifier
      * @access public
      */
-    public function getI18NIdentifier()
+    public function getI18nIdentifier()
     {
         // set identifier for localization
         return strtolower(__CLASS__ . '_' . $this->getError());

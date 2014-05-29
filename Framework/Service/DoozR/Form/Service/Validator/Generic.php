@@ -69,12 +69,21 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Validator/Interfa
  * @version    Git: $Id:$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Validator_Generic extends DoozR_Form_Service_Validator_Abstract
-    implements
+class DoozR_Form_Service_Validator_Generic extends DoozR_Form_Service_Validator_Abstract implements
     DoozR_Form_Service_Validator_Interface
 {
+    /**
+     * Validates the input.
+     *
+     * @param boolean $force TRUE to force revalidation, otherwise FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function validate($force = false)
     {
+        pre($force);
         pred(__METHOD__);
     }
 }

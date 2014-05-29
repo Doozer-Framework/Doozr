@@ -92,35 +92,4 @@ class DoozR_Form_Service_Component_Text extends DoozR_Form_Service_Component_Inp
         // Important call so observer storage ... can be initiated
         parent::__construct($renderer, $validator);
     }
-
-    /**
-     * Hook on default renderer for some slighty required modifications on input
-     *
-     * @param boolean $force TRUE to force rerendering, otherwise FALSE to use cached result
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The rendered result
-     * @access public
-     */
-    /*
-    public function render($force = false)
-    {
-        $template   = $this->getTemplate();
-        $tag        = $this->getTag();
-        $variables  = array();
-        $childs     = $this->getChilds();
-        $attributes = $this->getAttributes();
-
-        $result = $this->getRenderer()->render(
-            $force,
-            $template,
-            $tag,
-            $variables,
-            $childs,
-            $attributes
-        );
-
-        return $result;
-    }
-    */
 }

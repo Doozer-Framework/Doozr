@@ -69,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcom
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: f0c180ad2bcf514b4fc58cd30506456c45fedf87 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_Formcomponent
@@ -83,7 +83,6 @@ class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_For
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_FORM;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -93,15 +92,14 @@ class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_For
      *
      * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
      * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
-     *
-     * @param null                                   $name
+     * @param null                                   $name      The name of the form
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Form_Service_Component_Form
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Renderer_Interface $renderer = null,
         DoozR_Form_Service_Validator_Interface $validator = null,
         $name = null
     ) {
@@ -113,81 +111,209 @@ class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_For
         parent::__construct($renderer, $validator);
     }
 
+    /**
+     * Setter for accept.
+     *
+     * @param string $mimeType The mimetype to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setAccept($mimeType)
     {
         $this->setAttribute('accept', $mimeType);
     }
 
+    /**
+     * Getter for accept.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value of the accept attribute
+     * @access public
+     */
     public function getAccept()
     {
         return $this->getAttribute('accept');
     }
 
+    /**
+     * Setter for accept.
+     *
+     * @param string $mimeType The mime-type to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setAcceptCharset($mimeType)
     {
         $this->setAttribute('accept-charset', $mimeType);
     }
 
+    /**
+     * Getter for accept-charset.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value of the accept-charset attribute
+     * @access public
+     */
     public function getAcceptCharset()
     {
         return $this->getAttribute('accept-charset');
     }
 
+    /**
+     * Setter for action.
+     *
+     * @param string $action The action to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setAction($action)
     {
         $this->setAttribute('action', $action);
     }
 
+    /**
+     * Getter for action.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value of the action attribute
+     * @access public
+     */
     public function getAction()
     {
         return $this->getAttribute('action');
     }
 
-    public function setAutocomplete($state)
+    /**
+     * Setter for autocomplete.
+     *
+     * @param string $autocomplete The autocomplete to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setAutocomplete($autocomplete)
     {
-        $this->setAttribute('autocomplete', $state);
+        $this->setAttribute('autocomplete', $autocomplete);
     }
 
+    /**
+     * Getter for autocomplete.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value of the autocomplete attribute
+     * @access public
+     */
     public function getAutocomplete()
     {
         return $this->getAttribute('autocomplete');
     }
 
+    /**
+     * Setter for enctype.
+     *
+     * @param string $enctype The enctype to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setEnctype($enctype)
     {
         $this->setAttribute('enctype', $enctype);
     }
 
+    /**
+     * Getter for enctype.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value of the enctype attribute
+     * @access public
+     */
     public function getEnctype()
     {
         return $this->getAttribute('enctype');
     }
 
+    /**
+     * Setter for method.
+     *
+     * @param string $method The method to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setMethod($method)
     {
         $this->setAttribute('method', $method);
     }
 
+    /**
+     * Getter for method.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value of the method attribute
+     * @access public
+     */
     public function getMethod()
     {
         return $this->getAttribute('method');
     }
 
+    /**
+     * Setter for novalidate.
+     *
+     * @param string $novalidate The novalidate to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setNovalidate($novalidate = null)
     {
         $this->setAttribute('novalidate', $novalidate);
     }
 
+    /**
+     * Getter for novalidate.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value of the novalidate attribute
+     * @access public
+     */
     public function getNovalidate()
     {
         return $this->getAttribute('novalidate');
     }
 
+    /**
+     * Setter for target.
+     *
+     * @param string $target The target to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setTarget($target)
     {
         $this->setAttribute('target', $target);
     }
 
+    /**
+     * Getter for target.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value of the target attribute
+     * @access public
+     */
     public function getTarget()
     {
         return $this->getAttribute('target');
@@ -242,6 +368,8 @@ class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_For
      */
     public function setValue($value)
     {
-        // Intentionally left blank to block access to set value property -> nonsense for <form>
+        /**
+         * Intentionally left blank to block access to set value property -> nonsense for <form>
+         */
     }
 }

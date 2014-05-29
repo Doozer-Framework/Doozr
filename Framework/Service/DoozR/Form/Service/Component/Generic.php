@@ -73,6 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html/Ht
  */
 class DoozR_Form_Service_Component_Generic extends DoozR_Form_Service_Component_Html
 {
-
+    /**
+     * Currently only used as contract for typehinting
+     */
 }
-

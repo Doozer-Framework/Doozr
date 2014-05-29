@@ -73,6 +73,7 @@ class DoozR_Form_Service_Constant
      *
      * @var string
      * @access public
+     * @const
      */
     const PREFIX = 'DoozR_Form_Service_';
 
@@ -81,6 +82,7 @@ class DoozR_Form_Service_Constant
      *
      * @var string
      * @access public
+     * @const
      */
     const DEFAULT_NAMESPACE = 'Form';
 
@@ -89,6 +91,7 @@ class DoozR_Form_Service_Constant
      *
      * @var integer
      * @acces public
+     * @const
      */
     const STEP_DEFAULT_FIRST = 1;
 
@@ -97,6 +100,7 @@ class DoozR_Form_Service_Constant
      *
      * @var integer
      * @access public
+     * @const
      */
     const STEP_DEFAULT_LAST = 1;
 
@@ -105,6 +109,7 @@ class DoozR_Form_Service_Constant
      *
      * @var string
      * @access public
+     * @const
      */
     const FORM_NAME_FIELD_SUBMITTED = 'Submitted';
 
@@ -160,6 +165,7 @@ class DoozR_Form_Service_Constant
      *
      * @var integer
      * @access public
+     * @const
      */
     const TOKEN_BEHAVIOR_DENY = 1;
 
@@ -169,6 +175,7 @@ class DoozR_Form_Service_Constant
      *
      * @var integer
      * @access public
+     * @const
      */
     const TOKEN_BEHAVIOR_IGNORE = 2;
 
@@ -178,6 +185,7 @@ class DoozR_Form_Service_Constant
      *
      * @var integer
      * @access public
+     * @const
      */
     const TOKEN_BEHAVIOR_INVALIDATE = 3;
 
@@ -186,24 +194,153 @@ class DoozR_Form_Service_Constant
      *
      * @var string
      * @access public
+     * @const
      */
-    const HTML_TAG_NONE     = '';
-    const HTML_TAG_FORM     = 'form';
-    const HTML_TAG_RADIO    = 'radio';
+    const HTML_TAG_NONE = '';
+
+    /**
+     * The tag form
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_FORM = 'form';
+
+    /**
+     * The tag radio
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_RADIO = 'radio';
+
+    /**
+     * The tag checkbox
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const HTML_TAG_CHECKBOX = 'checkbox';
-    const HTML_TAG_SELECT   = 'select';
-    const HTML_TAG_OPTION   = 'option';
+
+    /**
+     * The tag select
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_SELECT = 'select';
+
+    /**
+     * The tag option
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_OPTION = 'option';
+
+    /**
+     * The tag optgroup
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const HTML_TAG_OPTGROUP = 'optgroup';
+
+    /**
+     * The tag textarea
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const HTML_TAG_TEXTAREA = 'textarea';
-    const HTML_TAG_INPUT    = 'input';
-    const HTML_TAG_LABEL    = 'label';
-    const HTML_TAG_DIV      = 'div';
+
+    /**
+     * The tag input
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_INPUT = 'input';#
+
+    /**
+     * The tag label
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_LABEL = 'label';
+
+    /**
+     * The tag div
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_DIV = 'div';
+
+    /**
+     * The tag fieldset
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const HTML_TAG_FIELDSET = 'fieldset';
-    const HTML_TAG_LEGEND   = 'legend';
-    const HTML_TAG_BUTTON   = 'button';
+
+    /**
+     * The tag legend
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_LEGEND = 'legend';
+
+    /**
+     * The tag button
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_BUTTON = 'button';
+
+    /**
+     * The tag datalist
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const HTML_TAG_DATALIST = 'datalist';
-    const HTML_TAG_KEYGEN   = 'keygen';
-    const HTML_TAG_OUTPUT   = 'output';
+
+    /**
+     * The tag keygen
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_KEYGEN = 'keygen';
+
+    /**
+     * The tag output
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HTML_TAG_OUTPUT = 'output';
 
     /**
      * HTML-Version 4 flag.
@@ -292,10 +429,21 @@ class DoozR_Form_Service_Constant
      */
     const COMPONENT_CONTAINER = 'container';
 
-
-    /***
-     * TEMPLATES
+    /**
+     * Template for closing tag
+     *
+     * @var string
+     * @access public
+     * @const
      */
-    const TEMPLATE_DEFAULT_CLOSING    = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
+    const TEMPLATE_DEFAULT_CLOSING = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
+
+    /**
+     * Template for non-closing tag
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const TEMPLATE_DEFAULT_NONCLOSING = '<{{TAG}}{{ATTRIBUTES}} />';
 }

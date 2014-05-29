@@ -72,5 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
  */
 abstract class DoozR_Form_Service_Store_Abstract implements DoozR_Base_Crud_Interface
 {
-
+    /**
+     * Currently only used as contract for typehinting
+     */
 }

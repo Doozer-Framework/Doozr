@@ -65,38 +65,95 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.p
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 5e30d07525fe2d0cbb9781237cfff999f16ff57e $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Component_Keygen extends DoozR_Form_Service_Component_Input
 {
+    /**
+     * The tag of this component
+     *
+     * @var string
+     * @access protected
+     */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_KEYGEN;
 
+    /**
+     * The allowed keytypes for the component
+     *
+     * @var array
+     * @access protected
+     */
     protected $allowedKeytypes = array(
         self::KEYTYPE_RSA,
         self::KEYTYPE_DSA,
         self::KEYTYPE_EC,
     );
 
+    /**
+     * Keytype RSA
+     *
+     * @access public
+     * @const
+     */
     const KEYTYPE_RSA = 'rsa';
-    const KEYTYPE_DSA = 'dsa';
-    const KEYTYPE_EC  = 'ec';
 
+    /**
+     * Keytype DSA
+     *
+     * @access public
+     * @const
+     */
+    const KEYTYPE_DSA = 'dsa';
+
+    /**
+     * Keytype EC
+     *
+     * @access public
+     * @const
+     */
+    const KEYTYPE_EC = 'ec';
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Setter for challenge
+     *
+     * @param string $challenge The challenge
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setChallenge($challenge)
     {
         $this->setAttribute('challenge', $challenge);
     }
 
+    /**
+     * Getter for challenge
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The challenge
+     * @access public
+     */
     public function getChallenge()
     {
         return $this->getAttribute('challenge');
     }
 
+    /**
+     * Setter for keytype
+     *
+     * @param string $keytype The keytype
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @throws DoozR_Form_Service_Exception
+     */
     public function setKeytype($keytype)
     {
         if (in_array($keytype, $this->allowedKeytypes) === false) {
@@ -108,6 +165,13 @@ class DoozR_Form_Service_Component_Keygen extends DoozR_Form_Service_Component_I
         $this->setAttribute('keytype', $keytype);
     }
 
+    /**
+     * Getter for keytype
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The keytype
+     * @access public
+     */
     public function getKeytype()
     {
         return $this->getAttribute('keytype');

@@ -63,7 +63,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id:$
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Configuration
@@ -72,15 +72,23 @@ class DoozR_Form_Service_Configuration
      * The id.
      *
      * @var string
-     * @protected
+     * @access protected
      */
     protected $id;
+
+    /**
+     * The configuration as object.
+     *
+     * @var \stdClass
+     * @access
+     */
+    protected $configuration;
 
     /**
      * The input.
      *
      * @var mixed
-     * @protected
+     * @access protected
      */
     protected $input;
 
@@ -88,7 +96,7 @@ class DoozR_Form_Service_Configuration
      * The hash/checksum of this class.
      *
      * @var string
-     * @protected
+     * @access protected
      */
     protected $hash;
 
@@ -96,12 +104,12 @@ class DoozR_Form_Service_Configuration
      * Dirty flag.
      *
      * @var boolean
-     * @protected
+     * @access protected
      */
     protected $dirty = false;
 
     /**
-     * The prefix which identifies DoozR's commands in configurations
+     * The prefix which identifies DoozR's commands in configurations.
      *
      * @var string
      * @access public
@@ -168,7 +176,7 @@ class DoozR_Form_Service_Configuration
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return stdClass The configuration
+     * @return \stdClass The configuration
      * @access public
      */
     public function getConfiguration()
@@ -200,11 +208,8 @@ class DoozR_Form_Service_Configuration
     public function parseFromArray(array $configuration)
     {
         $this->validateInput($configuration);
-
         $this->setInput($configuration);
-
         $this->parse($configuration);
-
         $this->setId($this->getHash());
 
         return $this;
@@ -464,7 +469,7 @@ class DoozR_Form_Service_Configuration
      * @return void
      * @access protected
      */
-    protected function setConfiguration(stdClass $configuration)
+    protected function setConfiguration(\stdClass $configuration)
     {
         $this->configuration = $configuration;
         $this->updateHash();

@@ -67,7 +67,7 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 300e82dd157d33fec696fe4f1bb82893ed5df7f3 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_FormManager
@@ -239,10 +239,6 @@ class DoozR_Form_Service_FormManager
     protected $errorInstance;
 
 
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
-
     /**
      * Constructor.
      *
@@ -261,15 +257,15 @@ class DoozR_Form_Service_FormManager
      * @access public
      */
     public function __construct(
-        $namespace                                                 = DoozR_Form_Service_Constant::DEFAULT_NAMESPACE,
-        DoozR_I18n_Service_Interface                $i18n          = null,
-        DoozR_Form_Service_Component_Input          $inputInstance = null,
-        DoozR_Form_Service_Component_Interface_Form $form          = null,
-        DoozR_Form_Service_Store_Interface          $store         = null,
-        DoozR_Form_Service_Renderer_Interface       $renderer      = null,
-        DoozR_Form_Service_Validate_Validator       $validator     = null,
-        DoozR_Form_Service_Validate_Error           $errorInstance = null,
-        DoozR_Request_Arguments                     $arguments     = null
+        $namespace = DoozR_Form_Service_Constant::DEFAULT_NAMESPACE,
+        DoozR_I18n_Service_Interface $i18n = null,
+        DoozR_Form_Service_Component_Input $inputInstance = null,
+        DoozR_Form_Service_Component_Interface_Form $form = null,
+        DoozR_Form_Service_Store_Interface $store = null,
+        DoozR_Form_Service_Renderer_Interface $renderer = null,
+        DoozR_Form_Service_Validate_Validator $validator = null,
+        DoozR_Form_Service_Validate_Error $errorInstance = null,
+        DoozR_Request_Arguments $arguments = null
     ) {
         // Store instances for further use
         $this->setNamespace($namespace);
@@ -284,8 +280,8 @@ class DoozR_Form_Service_FormManager
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-     | Getter & Setter
-     +----------------------------------------------------------------------------------------------------------------*/
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Setter for namespace.
@@ -838,9 +834,9 @@ class DoozR_Form_Service_FormManager
      * @example echo $instance WILL provide you an echo
      *          of the rendered HTML
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @author  Benjamin Carl <opensource@clickalicious.de>
      * @return string The rendered HTML
-     * @access public
+     * @access  public
      */
     public function __toString()
     {
@@ -850,7 +846,6 @@ class DoozR_Form_Service_FormManager
     /*-----------------------------------------------------------------------------------------------------------------*
     | Control layer
     *-----------------------------------------------------------------------------------------------------------------*/
-
 
     /**
      * Removes an component from internal registry
@@ -925,7 +920,6 @@ class DoozR_Form_Service_FormManager
     {
         return $this->setRegistry(null);
     }
-
 
     /**
      * Checks and returns the submission status of this form.
@@ -1087,7 +1081,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Sets an error. Default to form.
      *
-     * @param string $error       The error to set
+     * @param string $error         The error to set
      * @param string $componentName The component the error is related to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1100,7 +1094,7 @@ class DoozR_Form_Service_FormManager
         if (is_array($error) === false) {
             $error = array(
                 'error'   => $error,
-                'context' => array(),                       // needs to be empty array for passing to I18n directly!
+                'context' => array(), // needs to be empty array for passing to I18n directly!
             );
         }
 
@@ -1127,7 +1121,7 @@ class DoozR_Form_Service_FormManager
         // check if store i still valid - session can be timed out ...
         if (!$this->validateRegistry()) {
             $this->setError(
-                DoozR_Form_Service_Validate_Constant::ERROR_PREFIX.
+                DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
                 DoozR_Form_Service_Validate_Constant::STORE_INVALID,
                 'form'
             );
@@ -1144,9 +1138,9 @@ class DoozR_Form_Service_FormManager
         // 2nd step of all check if correct method was used for submission
         if ($this->getArguments()->getSource() !== $registry['method']) {
             $this->setError(
-                // use array here -> I18n arguments as seoond key
+            // use array here -> I18n arguments as seoond key
                 array(
-                    'error' => DoozR_Form_Service_Validate_Constant::ERROR_PREFIX.
+                    'error'   => DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
                         DoozR_Form_Service_Validate_Constant::REQUESTTYPE_INVALID,
                     'context' => array(
                         'method' => ucfirst(strtolower($this->getArguments()->getSource()))
@@ -1160,7 +1154,7 @@ class DoozR_Form_Service_FormManager
         if ($this->validateToken() !== true) {
             $this->handleInvalidToken($registry);
             $this->setError(
-                DoozR_Form_Service_Validate_Constant::ERROR_PREFIX.
+                DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
                 DoozR_Form_Service_Validate_Constant::TOKEN_INVALID
             );
             return false;
@@ -1180,7 +1174,7 @@ class DoozR_Form_Service_FormManager
             ) !== true
         ) {
             $this->setError(
-                DoozR_Form_Service_Validate_Constant::ERROR_PREFIX.
+                DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
                 DoozR_Form_Service_Validate_Constant::ELEMENTS_INVALID
             );
             return false;
@@ -1195,10 +1189,10 @@ class DoozR_Form_Service_FormManager
      *
      * This method is intend to validate the passed components.
      *
-     * @param array                                     $components  The components to validate from request
-     * @param integer                                   $step      The step currently active
-     * @param array|\DoozR_Request_Arguments            $arguments The arguments
-     * @param array|\DoozR_Form_Service_Store_Interface $store     The store
+     * @param array                                     $components The components to validate from request
+     * @param integer                                   $step       The step currently active
+     * @param array|\DoozR_Request_Arguments            $arguments  The arguments
+     * @param array|\DoozR_Form_Service_Store_Interface $store      The store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if valid, otherwise FALSE if invalid
@@ -1218,7 +1212,7 @@ class DoozR_Form_Service_FormManager
 
                     // Check for file upload
                     if (isset($configuration['type']) && $configuration['type'] === 'file') {
-                        $isFile = true;
+                        $isFile             = true;
                         $emulatedFileUpload = false;
 
                         $registry = DoozR_Registry::getInstance();
@@ -1231,15 +1225,15 @@ class DoozR_Form_Service_FormManager
 
                         if (isset($registry['data'][$component]) && $registry['data'][$component] !== null) {
                             $emulatedFileUpload = true;
-                            $pathInfo = pathinfo($registry['data'][$component]);
+                            $pathInfo           = pathinfo($registry['data'][$component]);
 
                             // emulate value
                             $value = array(
-                                'name' => $pathInfo['basename'],
-                                'type' => $this->getMimeTypeByExtension($pathInfo['extension']),
+                                'name'     => $pathInfo['basename'],
+                                'type'     => $this->getMimeTypeByExtension($pathInfo['extension']),
                                 'tmp_name' => $registry['data'][$component],
-                                'error' => '0',
-                                'size' => filesize($registry['data'][$component]),
+                                'error'    => '0',
+                                'size'     => filesize($registry['data'][$component]),
                             );
                         }
 
@@ -1270,7 +1264,7 @@ class DoozR_Form_Service_FormManager
                             $value = $value['tmp_name'];
                         }
 
-                        // ON SUCCESS _> ADD
+                        // ON SUCCESS -> ADD
                         $this->addToRegistry($component, $value);
                     }
                 }
@@ -1280,7 +1274,15 @@ class DoozR_Form_Service_FormManager
         return $valid;
     }
 
-
+    /**
+     * Returns the mime-type of a file by its extension.
+     *
+     * @param string $extension The extension to use for lookup.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The mime-type as string if found, otherwise NULL
+     * @access protected
+     */
     protected function getMimeTypeByExtension($extension)
     {
         $matrix = array(
@@ -1421,14 +1423,27 @@ class DoozR_Form_Service_FormManager
             'ice'     => 'x-conference-xcooltalk'
         );
 
-
         return (isset($matrix[$extension])) ? $matrix[$extension] : null;
     }
 
+    /**
+     * Validates a file upload
+     *
+     * Prepares globals to validate a file upload afterwards.
+     *
+     * @param string         $name       The name of the fileupload field
+     * @param array          $value      The value to check
+     * @param array          $validation The validations for the file upload
+     * @param DoozR_Registry $registry   The registry of DoozR
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if file upload is valid, otherwise FALSE
+     * @access protected
+     */
     protected function validateFileUpload($name, $value, $validation, $registry)
     {
         $value['component'] = 'file';
-        $_FILES->{$name} = $value;
+        $_FILES->{$name}    = $value;
 
         $result = $this->validator->validate($value, $validation);
 
@@ -1455,19 +1470,13 @@ class DoozR_Form_Service_FormManager
         $temporaryLocation = $file['tmp_name'];
         $filename          = $file['name'];
 
-        // get target path + name
-        #$finalLocation = explode(DIRECTORY_SEPARATOR, $temporaryLocation);
-        #array_pop($finalLocation);
-        #array_push($finalLocation, $filename);
-        #$finalLocation = implode(DIRECTORY_SEPARATOR, $finalLocation);
-
-        $pathinfo = pathinfo($temporaryLocation);
+        $pathinfo      = pathinfo($temporaryLocation);
         $finalLocation = $pathinfo['dirname'] . DIRECTORY_SEPARATOR . $filename;
 
         // move
         if (move_uploaded_file($temporaryLocation, $finalLocation) !== true) {
             throw new DoozR_Form_Service_Exception(
-                'The uploaded file could not be moved from "'.$temporaryLocation.'" to "'.$finalLocation.'"'
+                'The uploaded file could not be moved from "' . $temporaryLocation . '" to "' . $finalLocation . '"'
             );
         }
 
@@ -1479,8 +1488,8 @@ class DoozR_Form_Service_FormManager
     /**
      * Adds an component to internal registry with passed value
      *
-     * @param string $key The name of the component
-     * @param mixed  $value   The value to store
+     * @param string $key   The name of the component
+     * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -1655,7 +1664,7 @@ class DoozR_Form_Service_FormManager
     protected function sendHeader()
     {
         // now send token via header for use in XHR & so on
-        header('x-doozr-form-service-token: '.$this->getToken());
+        header('x-doozr-form-service-token: ' . $this->getToken());
     }
 
     /**
@@ -1684,7 +1693,7 @@ class DoozR_Form_Service_FormManager
      * Returns the childs (components) from passed component.
      *
      * @param DoozR_Form_Service_Component_Interface_Form $component The component to return childs for
-     * @param array                                       $result  The result used for recursion
+     * @param array                                       $result    The result used for recursion
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The result with childs
@@ -1704,7 +1713,10 @@ class DoozR_Form_Service_FormManager
          * possible way for a good refactoring would be an interface and a check for instanceof ... So we would
          * exclude some elements by its interface or exclude others for their.
          */
-        if ($component->hasChilds() === true && $component->getType() !== DoozR_Form_Service_Constant::COMPONENT_CONTAINER) {
+        if (
+            $component->hasChilds() === true &&
+            $component->getType() !== DoozR_Form_Service_Constant::COMPONENT_CONTAINER
+        ) {
 
             foreach ($component as $child) {
                 $result = $this->getComponents($child, $result);

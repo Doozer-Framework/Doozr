@@ -4,7 +4,7 @@
 /**
  * DoozR - Form - Service
  *
-* Radio.php - Extension to default Input-Component <input type="..." ...
+ * Radio.php - Extension to default Input-Component <input type="..." ...
  * but with some specific radio-field tuning.
  *
  * PHP versions 5
@@ -68,11 +68,10 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: 1c283fb68580a5b81d3a242354da061798b4a0c5 $
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_Input
-    implements
+class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_Input implements
     DoozR_Form_Service_Component_Interface_Radio
 {
     /**
@@ -91,10 +90,9 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
      * @example <input type="checkbox" name="foo[]" ...
      *
      * @var string
-     * @access protected
+     * @access  protected
      */
     protected $multiMarker = '[]';
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -111,7 +109,7 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Renderer_Interface $renderer = null,
         DoozR_Form_Service_Validator_Interface $validator = null
     ) {
         $this->setType('radio');

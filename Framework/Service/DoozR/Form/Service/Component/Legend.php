@@ -81,7 +81,6 @@ class DoozR_Form_Service_Component_Legend extends DoozR_Form_Service_Component_F
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_LEGEND;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -90,29 +89,45 @@ class DoozR_Form_Service_Component_Legend extends DoozR_Form_Service_Component_F
      * Constructor.
      *
      * @param DoozR_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
-     * @param null                                  $messsge
+     * @param string                                $message  The message to set
      *
-     * @author   Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Form_Service_Component_Legend
-     * @access   public
+     * @access public
      */
     public function __construct(
         DoozR_Form_Service_Renderer_Interface $renderer = null,
-                                              $messsge  = null
+        $message = null
     ) {
-        if ($messsge !== null) {
-            $this->setInnerHtml($messsge);
+        if ($message !== null) {
+            $this->setInnerHtml($message);
         }
 
         // Important call so observer storage ... can be initiated
         parent::__construct($renderer);
     }
 
+    /**
+     * Setter for align
+     *
+     * @param string $align The alignment to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setAlign($align)
     {
         $this->setAttribute('align', $align);
     }
 
+    /**
+     * Getter for align
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The alignment
+     * @access public
+     */
     public function getAlign()
     {
         return $this->getAttribute('align');

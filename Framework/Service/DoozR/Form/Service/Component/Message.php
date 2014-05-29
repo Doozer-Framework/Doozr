@@ -79,8 +79,8 @@ class DoozR_Form_Service_Component_Message extends DoozR_Form_Service_Component_
     /**
      * Constructor.
      *
-     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
-     * @param string|null                            $message   The mesage to set
+     * @param DoozR_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
+     * @param string|null                           $message  The mesage to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Form_Service_Component_Message

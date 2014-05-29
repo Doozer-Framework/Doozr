@@ -79,83 +79,191 @@ class DoozR_Form_Service_Component_Textarea extends DoozR_Form_Service_Component
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_TEXTAREA;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Setter for autofocus.
+     *
+     * @param string $autofocus The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setAutofocus($autofocus = null)
     {
         $this->setAttribute('autofocus', $autofocus);
     }
 
+    /**
+     * Getter for autofocus.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The value if set, otherwise NULL
+     * @access public
+     */
     public function getAutofocus()
     {
         return $this->getAttribute('autofocus');
     }
 
+    /**
+     * Setter for cols.
+     *
+     * @param string $cols The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setCols($cols)
     {
         $this->setAttribute('cols', $cols);
     }
 
+    /**
+     * Getter for cols.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The value if set, otherwise NULL
+     * @access public
+     */
     public function getCols()
     {
         return $this->getAttribute('cols');
     }
 
+    /**
+     * Setter for disabled.
+     *
+     * @param string $disabled The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setDisabled($disabled = 'disabled')
     {
         $this->setAttribute('disabled', $disabled);
     }
 
+    /**
+     * Getter for disabled.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The value if set, otherwise NULL
+     * @access public
+     */
     public function getDisabled()
     {
         return $this->getAttribute('disabled');
     }
 
+    /**
+     * Setter for form.
+     *
+     * @param string $form The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setForm($form)
     {
         $this->setAttribute('form', $form);
     }
 
+    /**
+     * Getter for form.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The value if set, otherwise NULL
+     * @access public
+     */
     public function getForm()
     {
         return $this->getAttribute('form');
     }
 
+    /**
+     * Setter for max-length.
+     *
+     * @param string $maxlength The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setMaxlength($maxlength)
     {
         $this->setAttribute('maxlength', $maxlength);
     }
 
+    /**
+     * Getter for max-length.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The value if set, otherwise NULL
+     * @access public
+     */
     public function getMaxlength()
     {
         return $this->getAttribute('maxlength');
     }
 
+    /**
+     * Setter for rows.
+     *
+     * @param string $rows The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setRows($rows)
     {
         $this->setAttribute('rows', $rows);
     }
 
+    /**
+     * Getter for rows.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The value if set, otherwise NULL
+     * @access public
+     */
     public function getRows()
     {
         return $this->getAttribute('rows');
     }
 
+    /**
+     * Setter for wrap.
+     *
+     * @param string $wrap The value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setWrap($wrap)
     {
         $this->setAttribute('wrap', $wrap);
     }
 
+    /**
+     * Getter for wrap.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The value if set, otherwise NULL
+     * @access public
+     */
     public function getWrap()
     {
         return $this->getAttribute('wrap');
     }
-
-
-
 
     /**
      * Setter for value.

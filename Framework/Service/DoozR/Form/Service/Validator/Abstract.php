@@ -69,5 +69,7 @@
  */
 abstract class DoozR_Form_Service_Validator_Abstract
 {
-    // Nuttin
+    /**
+     * Currently only used as contract for typehinting
+     */
 }

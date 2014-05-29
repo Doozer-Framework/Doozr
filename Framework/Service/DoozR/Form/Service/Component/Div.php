@@ -79,7 +79,6 @@ class DoozR_Form_Service_Component_Div extends DoozR_Form_Service_Component_Html
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_DIV;
 
-
     /**
      * Constructor.
      *

@@ -69,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Renderer/Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id:$
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstract
@@ -103,7 +103,8 @@ class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstr
         array $childs     = array(),
         array $attributes = array(),
         $innerJson  = ''
-    ) {
+    )
+    {
         //
         $json               = array();
         $json['tag']        = $tag;
@@ -163,66 +164,5 @@ class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstr
         }
 
         return $attributesCollected;
-    }
-
-    /**
-     * Renders the JSON of the childs attached
-     *
-     * @param array   $childs The childs attached
-     * @param boolean $force  TRUE to force rerendering, otherwise FALSE to use cache
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The rendered result
-     * @access public
-     */
-    protected function renderChilds(array $childs = array(), $force)
-    {
-        /*
-        // The HTML result of childs
-        $json = '';
-
-        // Iterate childs and render HTML of each
-        foreach ($childs as $child) {
-            $attributes = $child->getAttributes();
-
-            $tmp = array();
-
-            foreach ($attributes as $key => $value) {
-                $tmp[$key] = $value;
-            }
-
-            $child->setTemplate('{"tag": "{{TAG}}", "attributes": ' . json_encode($tmp) . ', "content": "{{INNER-HTML}}"}');
-            $json .= $child->render($force);
-        }
-
-        return $json;
-        */
-
-        /*
-        // The HTML result of childs
-        $json     = '';
-        $elements = array();
-
-        // Iterate childs and render HTML of each
-        foreach ($childs as $child) {
-
-            pre($child);
-
-            $child->setTemplate = '';
-
-
-            $element = array();
-
-            $element['tag']        = $child->getTag();
-            $element['attributes'] = $child->getAttributes();
-
-            $elements[] = $element;
-        }
-
-        var_dump($elements);
-        die;
-
-        return $json;
-        */
     }
 }

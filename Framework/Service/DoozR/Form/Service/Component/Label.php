@@ -81,16 +81,31 @@ class DoozR_Form_Service_Component_Label extends DoozR_Form_Service_Component_Fo
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_LABEL;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Setter for form
+     *
+     * @param string $form The form to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setForm($form)
     {
         $this->setAttribute('form', $form);
     }
 
+    /**
+     * Getter for form
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The form
+     * @access public
+     */
     public function getForm()
     {
         return $this->getAttribute('form');

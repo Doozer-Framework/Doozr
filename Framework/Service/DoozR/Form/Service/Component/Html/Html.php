@@ -70,12 +70,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: f44fa1e501aa75518e3e2ee62334d06ea6524f55 $
  * @link       http://clickalicious.github.com/DoozR/
  * @abstract
  */
-abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service_Component_Html_Abstract
-    implements
+abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service_Component_Html_Abstract implements
     DoozR_Form_Service_Component_Interface_Html,
     SplSubject,
     SplObserver,
@@ -119,7 +118,6 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
      */
     protected $html;
 
-
     /**
      * Constructor.
      *
@@ -139,14 +137,14 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
     /**
      * Default renderer for all basic HTML-components. This renderer is capable
      * of parsing HTML-components "properties" and makes use of the $template
-     * variable and the mini-templating functionality of this class (_tpl()).
+     * variable and the mini-templating functionality of this class (tpl()).
      *
      * @param boolean $force TRUE to override primitive caching (FALSE = default)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed|string
      * @access public
-     * @see _tpl(), $template
+     * @see    tpl(), $template
      */
     public function render($force = false)
     {
@@ -160,10 +158,10 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
 
                 // check value-less attributes to be embedded properly
                 if ($value === null) {
-                    $attributes .= ' '.$attribute;
+                    $attributes .= ' ' . $attribute;
                 } else {
                     $value = (is_array($value)) ? $value[0] : $value;
-                    $attributes .= ' '.$attribute.'="'.$value.'"';
+                    $attributes .= ' ' . $attribute . '="' . $value . '"';
                 }
             }
 
@@ -173,7 +171,7 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
                 'tag'        => $this->tag
             );
 
-            $html = $this->_tpl($this->template, $templateVariables);
+            $html = $this->tpl($this->template, $templateVariables);
 
             if ($this->innerHtml !== null) {
 
@@ -181,10 +179,10 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
                     'inner-html' => $this->innerHtml
                 );
 
-                $html = $this->_tpl($html, $variables);
+                $html = $this->tpl($html, $variables);
             }
 
-            $this->html = $html.DoozR_Form_Service_Constant::NEW_LINE;
+            $this->html = $html . DoozR_Form_Service_Constant::NEW_LINE;
         }
 
         return $this->html;
@@ -257,28 +255,6 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
     }
 
     /**
-     * Hook on Setter for attribute(s) to intercept calls
-     * and notify observers.
-     *
-     * @param      $key   The attributes name
-     * @param null $value The attributes value
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setAttribute($key, $value = null)
-    {
-        // Dispatch to real method
-        parent::setAttribute($key, $value);
-
-        // notify all components which observing this component so the observers stay informed
-        // about changes in this class an can react => e.g. re-render HTML and so on.
-        // Notify all attached components -> render again
-        #$this->notify();
-    }
-
-    /**
      * Removes an attribute.
      *
      * @param string $key The name of the attribute
@@ -312,11 +288,11 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
      * @return string The result
      * @access protected
      */
-    protected function _tpl($template, array $templateVariables)
+    protected function tpl($template, array $templateVariables)
     {
         // micro templating engine
         foreach ($templateVariables as $templateVariable => $value) {
-            $template = str_replace('{{'.strtoupper($templateVariable).'}}', $value, $template);
+            $template = str_replace('{{' . strtoupper($templateVariable) . '}}', $value, $template);
         }
 
         return $template;
@@ -357,8 +333,8 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
             !isset($methodSplitted[1])
         ) {
             trigger_error(
-                'Call to undefined function: '.$method.'. Arguments: '.var_export($arguments, true)."\n"
-                #'Callstack: '.var_export(, true)
+                'Call to undefined function: ' . $method . '. Arguments: ' . var_export($arguments, true) . "\n"
+            #'Callstack: '.var_export(, true)
             );
 
         }
@@ -458,7 +434,7 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
      */
     public function notify()
     {
-        foreach ($this->observers as $observer){
+        foreach ($this->observers as $observer) {
             $observer->update($this);
         }
     }
@@ -529,7 +505,7 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
      */
     public function offsetUnset($offset)
     {
-        $key = array_search($offset, $this->index);
+        $key               = array_search($offset, $this->index);
         $this->index[$key] = null;
         unset($this->attributes[$offset]);
     }

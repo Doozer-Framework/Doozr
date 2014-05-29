@@ -68,11 +68,10 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interfa
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: $
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_Formcomponent
-    implements
+class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_Formcomponent implements
     DoozR_Form_Service_Component_Interface_Option
 {
     /**
@@ -83,16 +82,31 @@ class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_F
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OPTION;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Setter for selected
+     *
+     * @param string $selected The selected value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setSelected($selected = 'selected')
     {
         $this->setAttribute('selected', $selected);
     }
 
+    /**
+     * Getter for selected
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The value of selected if set, otherwise NULL
+     * @access public
+     */
     public function getSelected()
     {
         return $this->getAttribute('selected');

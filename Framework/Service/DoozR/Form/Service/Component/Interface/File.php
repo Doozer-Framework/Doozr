@@ -75,9 +75,9 @@ interface DoozR_Form_Service_Component_Interface_File
      *
      * @internal param null|string $file The file
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @author   Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access   public
      */
     public function setFile($filename);
 

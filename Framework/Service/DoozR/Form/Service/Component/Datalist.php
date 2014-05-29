@@ -89,7 +89,6 @@ class DoozR_Form_Service_Component_Datalist extends DoozR_Form_Service_Component
      */
     protected $type = DoozR_Form_Service_Constant::COMPONENT_CONTAINER;
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -105,7 +104,7 @@ class DoozR_Form_Service_Component_Datalist extends DoozR_Form_Service_Component
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
+        DoozR_Form_Service_Renderer_Interface $renderer = null,
         DoozR_Form_Service_Validator_Interface $validator = null
     ) {
         // Important call so observer storage ... can be initiated
