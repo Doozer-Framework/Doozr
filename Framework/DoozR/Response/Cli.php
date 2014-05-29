@@ -84,8 +84,11 @@ class DoozR_Response_Cli extends DoozR_Base_Response
     /**
      * Constructor
      *
+     * @param DoozR_Config $config The config of DoozR
+     * @param DoozR_Logger $logger The logger instance
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Response_Cli
      * @access public
      */
     public function __construct(DoozR_Config $config, DoozR_Logger $logger)
@@ -96,31 +99,6 @@ class DoozR_Response_Cli extends DoozR_Base_Response
         // call parents constructor
         parent::__construct($config, $logger);
     }
-
-    /**
-     * This method is intend to deliver plain unformatted text e.g. to console.
-     *
-     * @param string  $data The binary-data to send
-     * @param boolean $exit Close connection after output?
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Bolean True if everything wents fine and $exit = false, otherwise nothing
-     * @access public
-     */
-    /*
-    public function deliverText($data, $exit = false)
-    {
-        echo $data;
-
-        // close connection?
-        if ($exit) {
-            // close connection!
-            $this->closeConnection();
-        } else {
-            return true;
-        }
-    }
-    */
 
     /**
      * close a connection correctly
@@ -185,9 +163,9 @@ class DoozR_Response_Cli extends DoozR_Base_Response
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Valid + supported encoded content
-     * @access private
+     * @access protected
      */
-    private function _fixEncoding($data = null, $charset = 'UTF-8')
+    protected function fixEncoding($data = null, $charset = 'UTF-8')
     {
         // get module encoding
         /*
@@ -203,6 +181,7 @@ class DoozR_Response_Cli extends DoozR_Base_Response
             break;
         }
         */
+
         return $data;
     }
 }

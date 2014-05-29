@@ -136,7 +136,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
      *                                            generated if not passed
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Logger
      * @access public
      */
     public function __construct(DoozR_Datetime_Service $datetime = null, $level = null, $fingerprint = null)

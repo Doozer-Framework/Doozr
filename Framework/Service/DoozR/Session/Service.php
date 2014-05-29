@@ -1174,7 +1174,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         $variable = $this->_translate($variable);
 
         // translate (if encryption enabled) value
-        $value = $this->_translate(serialize($value));
+        $value = $this->_translate($value);
 
         // and store
         $_SESSION[$variable] = $value;

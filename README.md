@@ -14,18 +14,14 @@
  - **Cache**
  - **Compact**
  - **Config**
- - **Database**
- - **Debug**
  - **Crypt**
  - **Datetime**
- - **Error**
  - **Filesystem**
  - **Form**
+ - **Http**
  - **I18n**
  - **OAuth2**
  - **Password**
- - **Registry**
- - **REST**
  - **Rest**
  - **Session**
  - **Template**

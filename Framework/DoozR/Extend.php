@@ -61,11 +61,11 @@
 | DOOZR RUNTIME GLOBAL CONSTANTS
 +---------------------------------------------------------------------------------------------------------------------*/
 
-define('DOOZR_PHP_VERSION', floatval(PHP_VERSION));
+define('DOOZR_PHP_VERSION',   floatval(PHP_VERSION));
 define('DOOZR_PHP_ERROR_MAX', PHP_INT_MAX);
-define('DOOZR_OS', strtoupper(PHP_OS));
-define('DOOZR_WIN', (substr(DOOZR_OS, 0, 3) === 'WIN'));
-define('DOOZR_UNIX', (DIRECTORY_SEPARATOR == '/' && !DOOZR_WIN));
+define('DOOZR_OS',            strtoupper(PHP_OS));
+define('DOOZR_WIN',           (substr(DOOZR_OS, 0, 3) === 'WIN'));
+define('DOOZR_UNIX',          (DIRECTORY_SEPARATOR == '/' && !DOOZR_WIN));
 
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -172,6 +172,45 @@ function array_change_key_case_recursive($input, $case = CASE_LOWER)
 }
 
 /**
+ * Traverses a passed path' ".." out and return a valid filesystem path.
+ *
+ * This method is intend to normalize a path from a resource. May it be
+ * to prevent directory traversal attacks or just to build correct absolute
+ * path'.
+ *
+ * @param string $path The path (may include a filename) of a resource
+ *
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return string The correct un-dotted path
+ * @access public
+ */
+function traverse($path)
+{
+    $result = array();
+
+    // Correct and may equalize slashes so we operate correctly
+    $path = str_replace('\\', '/', $path);
+
+    // Split into parts and traverse if .. found
+    $segments = explode('/', $path);
+
+    // Iterate the segments and rebuild the path
+    foreach ($segments as $segment) {
+        if (($segment == '.') || empty($segment)) {
+            continue;
+        } elseif ($segment === '..') {
+            array_pop($result);
+        } else {
+            array_push($result, $segment);
+        }
+    }
+
+    $path = implode(DIRECTORY_SEPARATOR, $result);
+
+    return $path;
+}
+
+/**
  * realpath with a switch to not resolve symlinks.
  *
  * @param string $path             The path to return without resolving symlinks
@@ -183,46 +222,34 @@ function array_change_key_case_recursive($input, $case = CASE_LOWER)
  */
 function realpath_ext($path, $resolveSymlinks = false)
 {
-    if ($resolveSymlinks === false) {
-        // retrieve path to file without! resolving possible symlinks
-        $partial  = explode(DIRECTORY_SEPARATOR, $path);
-        $root     = $_SERVER['DOCUMENT_ROOT'];
+    if ($resolveSymlinks === false && $_SERVER['DOCUMENT_ROOT'] != '') {
+        $result   = array();
+        $realpath = traverse($path);
         $prepared = '';
+        $root     = (DIRECTORY_SEPARATOR === '\\')
+            ? str_replace('/', '\\', $_SERVER['DOCUMENT_ROOT'])
+            : str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
 
-        for ($i = count($partial)-1; $i > -1; --$i) {
-            $prepared = DIRECTORY_SEPARATOR.$partial[$i].$prepared;
+        // iterate over partials and try to find the correct path
+        for ($i = count($result)-1; $i > -1; --$i) {
+            $prepared = (($i > 0) ? DIRECTORY_SEPARATOR : '') . $result[$i] . $prepared;
 
-            $path2 = (DIRECTORY_SEPARATOR === '\\')
-                ? str_replace('/', '\\', $path)
-                : str_replace('\\', '/', $path);
-
-            if (realpath($root.$prepared) === $path) {
-                $prepared = $root.$prepared;
-                $prepared = (DIRECTORY_SEPARATOR === '\\')
-                ? str_replace('/', '\\', $prepared)
-                : str_replace('\\', '/', $prepared);
+            if (realpath($root . $prepared) === $path) {
+                $realpath = $root . $prepared;
                 break;
-
-            } elseif (realpath($root.$path2) !== false) {
-                $prepared = (DIRECTORY_SEPARATOR === '\\')
-                    ? str_replace('/', '\\', $root.$path2)
-                    : str_replace('\\', '/', $root.$path2);
             }
         }
 
-        if (!file_exists($prepared)) {
-            $prepared = null;
+        // This is important !>
+        if (file_exists($realpath) === false) {
+            $realpath = null;
         }
 
-        $path = $prepared;
-
     } else {
-        $path = realpath($path);
-
+        $realpath = realpath($path);
     }
 
-    // return path
-    return $path;
+    return $realpath;
 }
 
 /**

@@ -122,15 +122,14 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     const TYPE = 'httpd';
 
-
     /**
-     * Constructor of this class
+     * Constructor.
      *
      * @param DoozR_Config $config An instance of config
      * @param DoozR_Logger $logger An instance of logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Request_Httpd
      * @access public
      */
     public function __construct(DoozR_Config $config, DoozR_Logger $logger)

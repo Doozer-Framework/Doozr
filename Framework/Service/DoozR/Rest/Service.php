@@ -80,20 +80,22 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
      * Request object to use with DoozR Rest or Soap
      *
      * @var DoozR_Request_Api
-     * @access private
+     * @access protected
      */
-    private $_request;
+    protected $request;
+
 
     /**
-     * This method is intend to act as constructor.
+     * Constructor.
      *
-     * @param array   $request        The original request
+     * @param array   $route
      * @param integer $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means
      *                                that /Foo/Bar/ will be taken as root and ripped out)
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * @internal param array $request The original request
+     * @author   Benjamin Carl <opensource@clickalicious.de>
+     * @return   void
+     * @access   public
      */
     public function __tearup(array $route = array(), $countRootNodes = 2)
     {
@@ -113,10 +115,10 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
 
         // extract real API request
         // so at this very specific and no longer generic routing way we can be sure that the following works
-        $this->_request = new DoozR_Request_Api();
+        $this->request = new DoozR_Request_Api();
 
         // set the request =>
-        $this->_request->set(
+        $this->request->set(
             array(
                 'resource'  => array_slice($route, $countRootNodes),
                 'method'    => $request->getMethod(),
@@ -149,7 +151,7 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
      */
     public function getRequest()
     {
-        return $this->_request;
+        return $this->request;
     }
 
     /**

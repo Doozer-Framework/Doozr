@@ -84,7 +84,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
 
 
     /**
-     * This method is the constructor of this class.
+     * Constructor.
      *
      * @param array                  $request         The whole request as processed by "Route"
      * @param array                  $translation     The translation required to read the request
@@ -94,21 +94,51 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      * @param DoozR_Base_View        $view            The view to display results
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Base_Presenter_Rest
      * @access public
      */
     public function __construct(
-        array $request,
-        array $translation,
-        array $originalRequest,
-        DoozR_Config_Interface $config = null,
-        DoozR_Base_Model $model = null,
-        DoozR_Base_View $view = null
+        array                  $request,
+        array                  $translation,
+        array                  $originalRequest,
+        DoozR_Config_Interface $config          = null,
+        DoozR_Base_Model       $model           = null,
+        DoozR_Base_View        $view            = null
     ) {
         // Init REST layer/service => only difference to DoozR_Base_Presenter
         $this->rest = DoozR_Loader_Serviceloader::load('rest', $originalRequest, count($request));
 
         // forward call
         parent::__construct($request, $translation, $originalRequest, $config, $model, $view);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Getter for rest
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Rest_Service The rest service instance
+     * @access public
+     */
+    public function getRest()
+    {
+        return $this->rest;
+    }
+
+    /**
+     * Setter for rest
+     *
+     * @param DoozR_Rest_Service $rest A rest service instance to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Rest_Service The rest service instance
+     * @access public
+     */
+    public function setRest(DoozR_Rest_Service $rest)
+    {
+        return $this->rest = $rest;
     }
 }

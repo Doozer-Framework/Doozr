@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 /**
@@ -68,8 +66,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 abstract class DoozR_Base_Exception_Generic_Abstract extends Exception
 {
@@ -107,23 +103,21 @@ abstract class DoozR_Base_Exception_Generic_Abstract extends Exception
 
 
     /**
-     * constructs the class
+     * Constructor.
      *
-     * constructor builds the class
-     *
-     * @param string  $message  The exception-message
-     * @param integer $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
+     * @param string     $message  The exception-message
+     * @param integer    $code     The code of the exception
+     * @param \Exception $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
+     * @return \DoozR_Base_Exception_Generic_Abstract instance of this class
      * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {
         // if no message set set default message!
         if (!$message) {
-            throw new $this('Exception => "'.get_class($this).'" without message!');
+            throw new $this('Exception => "' . get_class($this) . '" without message!');
         }
 
         // call parents constructor
@@ -131,7 +125,7 @@ abstract class DoozR_Base_Exception_Generic_Abstract extends Exception
     }
 
     /**
-     * returns a string representation of this class content
+     * Returns a string representation of this class content
      *
      * This method is intend to return a string representation of this class content
      *

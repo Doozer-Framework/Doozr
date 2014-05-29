@@ -142,16 +142,15 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      */
     const RUNNING_MODE_HTTPD = 'httpd';
 
-
     /**
-     * Constructor
+     * Constructor.
      *
      * @param DoozR_Config_Interface $config An instance of DoozR_Config
      * @param DoozR_Logger_Interface $logger An instance of DoozR_Logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
-     * @access private
+     * @return \DoozR_Controller_Front instance of this class
+     * @access protected
      */
     protected function __construct(DoozR_Config_Interface $config, DoozR_Logger_Interface $logger)
     {
@@ -160,7 +159,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
         $this->_logger = $logger;
 
         // first detect the command source
-        $this->_runningMode = $this->_detectRunningMode();
+        $this->_runningMode = $this->detectRunningMode();
 
         // init request always
         $this->_initialize('request');
@@ -231,7 +230,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * Returns the instanciated response class (web | cli)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of either web or cli
+     * @return DoozR_Base_Response instance of either web or cli
      * @access public
      */
     public function getResponse()
@@ -264,8 +263,6 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
 
          }
          */
-        // tmp-path
-        $path = '';
 
         // construct base URL
         if ($path = stristr($this->_basePath, 'htdocs')) {
@@ -280,6 +277,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
         $path = str_replace('\\', '/', $path);
 
         $this->_baseURL = getProtocol().strtolower($_SERVER['SERVER_NAME']).$path;
+
         define('DOOZR_URL', $this->_baseURL);
     }
 
@@ -288,9 +286,9 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The current running-mode either [web | cli | cli-server]
-     * @access private
+     * @access protected
      */
-    private function _detectRunningMode()
+    protected function detectRunningMode()
     {
         // detect running mode through php functionality
         if (PHP_SAPI === 'cli') {
@@ -301,7 +299,6 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
 
         } else {
             $runningMode = self::RUNNING_MODE_WEB;
-
         }
 
         return $runningMode;

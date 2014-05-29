@@ -55,8 +55,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once 'DoozR/Bootstrap.php';
@@ -90,11 +88,9 @@ if (
 } else {
 
     // UNKNOWN and/or currently not supported!
-    $msg  = 'DoozR - The PHP-Framework - Git-Version: $'.DoozR_Core::getVersion(true).' (on '.php_uname().') - ';
-    $msg .= 'Running a DoozR-based application in "'.mb_strtoupper($runningMode).'"-mode is not supported!';
+    $msg  = 'DoozR - The PHP-Framework - Git-Version: ' . DoozR_Core::getVersion(true) . ' (on ' . php_uname() . ') - ';
+    $msg .= 'Running a DoozR-based application in "' . mb_strtoupper($runningMode) . '"-mode is not supported!';
 
     // show message
     pred($msg);
 }
-
-?>

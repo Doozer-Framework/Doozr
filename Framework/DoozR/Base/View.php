@@ -167,7 +167,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      * @param DoozR_Controller_Front $front           An instance of DoozR_Front
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Base_View
      * @access public
      */
     public function __construct(
@@ -259,7 +259,8 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      * files. If you need another output or something like this, you must
      * overwrite this method.
      *
-     * @param array $data The data as override for internal stored data
+     * @param array              $data The data as override for internal stored data
+     * @param DoozR_I18n_Service $i18n An instance of a DoozR I18n service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if successful, otherwise FALSE
@@ -267,7 +268,6 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      */
     protected function render(array $data = array(), DoozR_I18n_Service $i18n = null)
     {
-        //pre('native renderer: '.__METHOD__.' called().');
         // store given fingerprint
         $this->fingerprint = $this->getFingerprint(1);
 
@@ -291,11 +291,6 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
             // set data for template
             foreach ($data as $key => $value) {
                 $tpl->{$key} = $value;
-                /*
-                $tpl->assignVariables(
-                    $data
-                );
-                */
             }
 
             // setup template compile output dir
