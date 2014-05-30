@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton/Strict.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton/Strict.php';
 
 /**
  * DoozR Base-Facade-Singleton-Strict

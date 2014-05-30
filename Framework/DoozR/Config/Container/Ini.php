@@ -52,9 +52,9 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Container/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Container/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Container/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Container/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
  * DoozR - Config - Container - Ini

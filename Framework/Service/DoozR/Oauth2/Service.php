@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Oauth2/Service/Lib/Oauth2/Autoloader.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Oauth2/Service/Lib/Oauth2/Autoloader.php';
 
 /**
  * DoozR - Oauth2 - Service

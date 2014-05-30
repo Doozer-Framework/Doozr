@@ -53,7 +53,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Tools.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Tools.php';
 
 /**
  * DoozR - Base - Class

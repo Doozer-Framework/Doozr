@@ -60,7 +60,7 @@ if (file_exists($filename)) {
     require_once '../../../../../DoozR/Bootstrap.php';
 }
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Test/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
 
 /**
  * DoozR - Service - I18n - Test

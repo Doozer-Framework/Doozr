@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Couchdb/Bootstrap.php';
 
 /**
  * Doodi - CouchDB - View - User

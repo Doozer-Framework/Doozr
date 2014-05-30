@@ -27,7 +27,7 @@ $DoozR = DoozR_Core::getInstance();
 $registry = DoozR_Registry::getInstance();
 
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Oauth2/Service.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Oauth2/Service.php';
 
 
 // the actions supported by object

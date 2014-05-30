@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Container.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Container/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container/Interface.php';
 
 /**
  * DoozR Service Cache

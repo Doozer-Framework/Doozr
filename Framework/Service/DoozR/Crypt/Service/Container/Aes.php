@@ -54,8 +54,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Crypt/Service/Container.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Crypt/Service/Container/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Crypt/Service/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Crypt/Service/Container/Interface.php';
 
 /**
  * DoozR Service Crypt Container AES

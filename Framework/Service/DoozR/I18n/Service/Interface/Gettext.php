@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Interface/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Abstract.php';
 
 /**
  * DoozR - I18n - Service - Interface - Gettext

@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 
 /**
  * DoozR Base Facade
@@ -153,7 +153,7 @@ class DoozR_Base_Facade extends DoozR_Base_Class
      */
     public static function __callStatic($signature, $arguments)
     {
-        $targetClassname = get_class($this->_decoratedObject);
+        $targetClassname = get_class(self::$_decoratedObject);
 
         if ($arguments) {
             $result = call_user_func_array(

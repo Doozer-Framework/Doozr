@@ -53,7 +53,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 
 /**
  * DoozR - Handler - Error
@@ -75,10 +75,10 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * holds the status of enabling logging of unclassified error(s)
      *
      * @var mixed
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_logUnclassified = null;
+    protected static $logUnclassified = null;
 
 
     /**
@@ -88,12 +88,13 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * informed about DoozR's state and to pipe the Errors
      * to attached Logger-Subsystem.
      *
-     * @param integer $number  Number of Error (constant)
-     * @param string  $message Error description as String
-     * @param string  $file    File in which the error occured
-     * @param integer $line    Line in which the error occured
-     * @param array   $context The variables with name and value from error context
+     * @param int|string $number  Number of Error (constant)
+     * @param string     $message Error description as String
+     * @param string     $file    File in which the error occured
+     * @param integer    $line    Line in which the error occured
+     * @param array      $context The variables with name and value from error context
      *
+     * @throws DoozR_Error_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE always
      * @access public
@@ -101,9 +102,6 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      */
     public static function handle($number = '', $message = '', $file = '', $line = 0, $context = array())
     {
-        // get all required foreign instanceso
-        //$logger = DoozR_Logger::getInstance();
-
         // get error type
         $errorType = self::getErrorType($number);
 
@@ -289,7 +287,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         case E_STRICT:                           // 2048
             //case E_USER_STRICT:                // ?!?
             // Enable to have PHP suggest changes to your code which will ensure the best interoperability and forward
-            // compatibility of your code (since PHP 5).
+            // compatibility of your code (since PHP 5)
         return 'STRICT';
         case E_RECOVERABLE_ERROR:                // 4096
             // Catchable fatal error. It indicates that a probably dangerous error occured, but did not leave the
@@ -312,7 +310,6 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         if (phpversion() >= 5.3) {
             if ($error == E_DEPRECATED || $error == E_USER_DEPRECATED) {
                 return 'DEPRECATED';
-                break;
             }
         }
 

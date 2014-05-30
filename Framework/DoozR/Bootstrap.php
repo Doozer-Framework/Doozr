@@ -117,21 +117,21 @@ if ($pathAppRoot !== false) {
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // Try to include composer's autoloader to make all the composer stuff easy available
-@include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
+@include_once DOOZR_DOCUMENT_ROOT . '../vendor/autoload.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
 | BEGIN EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
 +---------------------------------------------------------------------------------------------------------------------*/
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Extend.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Extend.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
 | BEGIN AUTOLOADING (SPL)
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // SPL facade files config + facade itself
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Config.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Config.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Facade.php';
 
 // now configure a new autoloader spl config
 $autoloaderDoozR = new DoozR_Loader_Autoloader_Spl_Config();
@@ -151,7 +151,7 @@ $autoloaderService
     ->setNamespace('DoozR')
     ->setNamespaceSeparator('_')
     ->addExtension('php')
-    ->setPath(DOOZR_DOCUMENT_ROOT.'Service')
+    ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
     ->setDescription('DoozR\'s autoloader responsible for loading services from DoozR\'s namespace')
     ->setPriority(1);
 
@@ -161,7 +161,7 @@ $autoloaderDoodi
     ->setNamespace('Doodi')
     ->setNamespaceSeparator('_')
     ->addExtension('php')
-    ->setPath(DOOZR_DOCUMENT_ROOT.'Model')
+    ->setPath(DOOZR_DOCUMENT_ROOT . 'Model')
     ->setDescription('Doodi\'s autoloader responsible for loading Doodi\'s + libs classes')
     ->setPriority(1);
 */
@@ -187,7 +187,7 @@ DoozR_Loader_Autoloader_Spl_Facade::attach(
 
 /*
 // include required files
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Handler/Error.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Error.php';
 
 
 // register DoozR's Error-Handler
@@ -212,7 +212,7 @@ register_shutdown_function(
  ---------------------------------------------------------------------------------------------------------------------*/
 
 // EXCEPTION-HANDLER: register exception-handler (dispatches calls to error-handler)
-#require_once DOOZR_DOCUMENT_ROOT.'DoozR/Handler/Exception.php';
+#require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Exception.php';
 
 /*
 // set the own exception_handler
@@ -224,7 +224,7 @@ set_exception_handler(
 );
 */
 
-#require_once DOOZR_DOCUMENT_ROOT.'DoozR/Handler/php_error.php';
+#require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/php_error.php';
 #if ( function_exists('\php_error\reportErrors') ) {
 #    \php_error\reportErrors();
 #}
@@ -233,4 +233,4 @@ set_exception_handler(
 | BEGIN LOAD DoozR's CORE-CLASS
 +---------------------------------------------------------------------------------------------------------------------*/
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Core.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core.php';

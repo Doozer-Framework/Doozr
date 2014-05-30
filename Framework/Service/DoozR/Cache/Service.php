@@ -53,9 +53,9 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Psr/Cache/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Psr/Cache/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Exception.php';
 
 /**
  * DoozR - Cache - Service

@@ -53,9 +53,9 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Path/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Path/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 
 /**
  * DoozR Path

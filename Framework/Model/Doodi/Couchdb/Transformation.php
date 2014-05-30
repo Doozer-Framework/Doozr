@@ -54,7 +54,7 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 
 /**
  * DoozR - Doodi <-> CouchDB - Transformation Class

@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 
 /**
  * DoozR - Service - I18n
@@ -440,7 +440,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         );
 
         // include required file -> NO autoloading -> performance!
-        include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Interface/'.$interfaceType.'.php';
+        include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/'.$interfaceType.'.php';
 
         // combine classname
         $interfaceClass = 'DoozR_I18n_Service_Interface_'.$interfaceType;

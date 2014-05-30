@@ -53,7 +53,7 @@
  *             http://tools.ietf.org/html/rfc5424
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 
 /**
  * DoozR - Logger - Abstract

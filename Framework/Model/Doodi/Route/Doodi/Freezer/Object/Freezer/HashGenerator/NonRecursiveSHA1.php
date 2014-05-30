@@ -55,8 +55,8 @@
  * @since      -
  */
 
-include_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Freezer/Bootstrap.php';
-require_once DOOZR_DOCUMENT_ROOT.'Model/Lib/php-object-freezer/Object/Freezer/HashGenerator/NonRecursiveSHA1.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Freezer/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Model/Lib/php-object-freezer/Object/Freezer/HashGenerator/NonRecursiveSHA1.php';
 
 /**
  * DoozR - Doodi - Freezer - Object - Freezer - HashGenerator - NonRecursiveSHA1

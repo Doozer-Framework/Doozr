@@ -53,7 +53,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
  * DoozR - Error - Exception

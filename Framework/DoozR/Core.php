@@ -52,24 +52,24 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Core/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Core/Exception.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 
 // all base stuff
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Di/Bootstrap.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Path.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Registry.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Encoding.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Locale.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Debug.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Security.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Controller/Front.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Controller/Back.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Model.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Arguments.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Path.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Registry.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Encoding.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Locale.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Debug.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Security.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Controller/Front.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Controller/Back.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Model.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Arguments.php';
 
 /**
  * DoozR - Core
@@ -374,7 +374,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     private static function _initDependencyInjection()
     {
         // simple absolute path bootstrapping for better performance
-        require_once DOOZR_DOCUMENT_ROOT.'DoozR/Di/Bootstrap.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
 
         // Required classes (files) for static demonstration #3
         require_once DI_PATH_LIB_DI.'Collection.php';
@@ -393,7 +393,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         self::$_map = new DoozR_Di_Map_Static($collection, $importer);
 
         // generate map from static JSON map of DoozR
-        self::$_map->generate(DOOZR_DOCUMENT_ROOT.'Data/Private/Config/.dependencies');
+        self::$_map->generate(DOOZR_DOCUMENT_ROOT . 'Data/Private/Config/.dependencies');
 
         // create
         self::$_container = DoozR_Di_Container::getInstance();

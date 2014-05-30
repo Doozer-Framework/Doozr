@@ -53,8 +53,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Argument.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Argument.php';
 
 /**
  * DoozR Request Arguments

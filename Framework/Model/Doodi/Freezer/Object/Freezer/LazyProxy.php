@@ -55,8 +55,8 @@
  * @since      -
  */
 
-include_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Freezer/Bootstrap.php';
-require_once DOOZR_DOCUMENT_ROOT.'Model/Lib/php-object-freezer/Object/Freezer/LazyProxy.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Freezer/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Model/Lib/php-object-freezer/Object/Freezer/LazyProxy.php';
 
 /**
  * DoozR - Doodi - Freezer - Object - Freezer - LazyProxy

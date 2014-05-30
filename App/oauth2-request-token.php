@@ -26,7 +26,7 @@ $DoozR = DoozR_Core::getInstance();
  */
 $registry = DoozR_Registry::getInstance();
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Oauth2/Service.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Oauth2/Service.php';
 
 // create a new object to generate a permissions set
 /* @var oauth2 OAuth2\Server */

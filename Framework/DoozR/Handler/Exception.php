@@ -53,7 +53,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 
 // DoozR constants for the three main exception-types (codes like PHP error-types)
 define('E_USER_EXCEPTION', 23);

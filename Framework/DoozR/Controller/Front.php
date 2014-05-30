@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 
 /**
  * DoozR - Controller - Front
@@ -177,7 +177,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      */
     private function _includeFile($part, $mode)
     {
-        include_once DOOZR_DOCUMENT_ROOT.'DoozR/'.$part.'/'.$mode.'.php';
+        include_once DOOZR_DOCUMENT_ROOT . 'DoozR/'.$part.'/'.$mode.'.php';
     }
 
     /**

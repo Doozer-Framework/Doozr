@@ -52,9 +52,9 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
  * DoozR - Virtualfilesystem - Service
@@ -85,7 +85,7 @@ class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade
     {
         // dispatch incoming $realClass to facade.
         // it can be either an configuration array or an instance
-        include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
+        include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
 
         self::setRealObject(
             new vfsStream()

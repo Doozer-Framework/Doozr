@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 
 /**
  * DoozR - I18n - Service - Localize - Abstract
@@ -151,7 +151,7 @@ abstract class DoozR_I18n_Service_Localize_Abstract extends DoozR_Base_Class
         // check if we must load localized config (I10n) was already retrieved
         if (!$this->config) {
             // get config manager of DoozR-Framework
-            include_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Container/Ini.php';
+            include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Container/Ini.php';
 
             // configuration-file
             $configurationFile = DOOZR_APP_ROOT.'Data/Private/I18n/'.$this->locale.'/Localization/'.$this->type.'.ini';
