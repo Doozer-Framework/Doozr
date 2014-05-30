@@ -39,7 +39,7 @@
  * @package    DoozR_Request
  * @subpackage DoozR_Request_Argument
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
@@ -54,7 +54,7 @@
  * @package    DoozR_Request
  * @subpackage DoozR_Request_Argument
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
