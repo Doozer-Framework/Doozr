@@ -775,7 +775,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      */
     protected static function extractSignature($file, $function)
     {
-        // @TODO: check if file exists before we try to get it contents
+        // @todo: check if file exists before we try to get it contents
         $source    = file_get_contents($file);
         $arguments = array();
 

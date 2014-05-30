@@ -221,7 +221,7 @@ class phpillowTool
 
         // Fetch and dump documents in chunks of 1000 documents, since the
         // memory consumption might be too high otherwise
-        // @TODO: Make chunk-size configurable.
+        // @todo: Make chunk-size configurable.
         $offset = null;
         $limit  = 1000;
         do {
@@ -245,7 +245,7 @@ class phpillowTool
                 $doc = $db->get( $this->connectionInfo['path'] . '/' . urlencode( $doc['id'] ) );
 
                 // Skip deleted documents
-                // @TODO: Make this configurable
+                // @todo: Make this configurable
                 if ( isset( $doc->deleted ) &&
                      ( $doc->deleted === true ) )
                 {

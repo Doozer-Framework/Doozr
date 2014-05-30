@@ -6,7 +6,7 @@ namespace OAuth2\Storage;
  * Implement this interface to specify where the OAuth2 Server
  * should get the JWT key for clients
  *
- * @TODO consider extending ClientInterface, as this will almost always
+ * @todo consider extending ClientInterface, as this will almost always
  * be the same storage as retrieving clientData
  *
  * @author F21

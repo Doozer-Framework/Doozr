@@ -300,7 +300,7 @@ class DoozR_Di_Factory
                 $arguments = $this->_mergeArguments($constructorInjections, $arguments);
 
                 /*
-                // @TODO: what is or was this for?
+                // @todo: what is or was this for?
                 if (!empty($arguments)) {
                     // combine with arguments
                     $arguments = $this->_mergeArguments($constructorInjections, $arguments);
