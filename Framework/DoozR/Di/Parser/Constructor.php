@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 
 require_once DI_PATH_LIB_DI.'Parser/Abstract.php';
@@ -70,8 +68,6 @@ require_once DI_PATH_LIB_DI.'Exception.php';
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 class DoozR_Di_Parser_Constructor extends DoozR_Di_Parser_Abstract implements DoozR_Di_Parser_Interface
 {
@@ -88,6 +84,7 @@ class DoozR_Di_Parser_Constructor extends DoozR_Di_Parser_Abstract implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The name of the method which act as constructor
      * @access public
+     * @throws DoozR_Di_Exception
      */
     public function parse()
     {

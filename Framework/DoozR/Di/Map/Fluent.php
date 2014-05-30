@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 
 require_once DI_PATH_LIB_DI.'Map.php';
@@ -72,8 +70,6 @@ require_once DI_PATH_LIB_DI.'Collection.php';
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 class DoozR_Di_Map_Fluent extends DoozR_Di_Map
 {

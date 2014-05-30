@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Config/Container/Abstract.php';
@@ -71,8 +69,6 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  * @implements DoozR_Path,DoozR_Logger
  */
 class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implements DoozR_Config_Container_Interface

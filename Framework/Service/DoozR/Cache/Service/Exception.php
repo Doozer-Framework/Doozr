@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
@@ -69,25 +67,19 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Cache_Service_Exception extends DoozR_Exception
 {
     /**
-     * constructor
-     *
-     * This method is intend to act as constructor.
+     * Constructor.
      *
      * @param string  $message  The exception-message
      * @param integer $code     The code of the exception
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
      *
-     * @return  object instance of this exception
-     * @access  public
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return \DoozR_Cache_Service_Exception instance of this exception
+     * @access  public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {

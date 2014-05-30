@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Container.php';
@@ -70,9 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Cache/Service/Container/Interfac
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
- * @service  Multiple
+ * @service    Multiple
  */
 class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Container
 implements DoozR_Cache_Service_Container_Interface
