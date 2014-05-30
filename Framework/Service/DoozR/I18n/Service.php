@@ -52,10 +52,10 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Detector.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Translator.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Template/Service/Lib/PHPTAL/PHPTAL/TranslationService.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Detector.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Translator.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Template/Service/Lib/PHPTAL/PHPTAL/TranslationService.php';
 
 /**
  * DoozR - I18n - Service
@@ -464,7 +464,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             );
 
         } else {
-            $result = include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Install.php';
+            $result = include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Install.php';
         }
 
         return $result;

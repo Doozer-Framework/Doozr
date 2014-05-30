@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 
 /**
  * DoozR Base Decorator Singleton

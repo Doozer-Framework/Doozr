@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Interface/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Abstract.php';
 
 /**
  * DoozR - I18n - Service - Interface - Text
@@ -193,7 +193,7 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
     private function _parseTranslationfile($filename)
     {
         if (!file_exists($filename) || !is_readable($filename)) {
-            include_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/I18n/Service/Exception.php';
+            include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Exception.php';
             throw new DoozR_I18n_Service_Exception('Translationfile: '.$filename.' does not exist or isn\'t readable.');
         }
 

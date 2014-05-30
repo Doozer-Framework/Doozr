@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-//require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Securitylayer.php';
-include_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Arguments.php';
+//require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Securitylayer.php';
+include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Arguments.php';
 
 /**
  * DoozR - Base - Request

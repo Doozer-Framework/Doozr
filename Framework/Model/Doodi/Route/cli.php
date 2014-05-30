@@ -60,7 +60,7 @@
  */
 
 require '../../../DoozR/Bootstrap.php';
-require DOOZR_DOCUMENT_ROOT.'Model/Doodi/Route/Generator.php';
+require DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Route/Generator.php';
 
 /**
  * Doodi - Route - Generator

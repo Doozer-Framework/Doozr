@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 
 /**
  * DoozR - Base - Service - Singleton
@@ -175,7 +175,7 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
             ->setNamespace('DoozR_'.$service)
             ->setNamespaceSeparator('_')
             ->addExtension('php')
-            ->setPath(DOOZR_DOCUMENT_ROOT.'Service')
+            ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
             ->setDescription('DoozR\'s '.$service.' service autoloader. Timestamp: '.time());
 
         // add to SPL through facade

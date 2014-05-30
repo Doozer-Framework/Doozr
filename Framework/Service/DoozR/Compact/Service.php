@@ -53,9 +53,9 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib/Minify.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Config.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Compact/Service/Lib/Minify.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Config.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Facade.php';
 
 /**
  * DoozR - Compact - Service
@@ -83,7 +83,7 @@ class DoozR_Compact_Service extends Minify
             ->setNamespace('Minify')
             ->setNamespaceSeparator('_')
             ->addExtension('php')
-            ->setPath(DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib')
+            ->setPath(DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Compact/Service/Lib')
             ->setDescription('Minifie\'s autoloader and responsible for loading core classes');
 
         DoozR_Loader_Autoloader_Spl_Facade::attach($autoloader);

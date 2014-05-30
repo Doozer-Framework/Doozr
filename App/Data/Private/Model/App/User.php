@@ -56,7 +56,7 @@
  * @link       http://www.app.tld
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Couchdb/Bootstrap.php';
 
 /**
  * Document - User
@@ -98,14 +98,13 @@ class App_User extends Doodi_Couchdb_Document
         'email'
     );
 
-
     /**
-     * constructor
+     * Constructor.
      *
-     * This method is intend to construct the class.
+     * @param null $id
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return \App_User Instance of this class
      * @access public
      */
     public function __construct($id = null)

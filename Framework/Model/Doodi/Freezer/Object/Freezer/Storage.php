@@ -55,8 +55,8 @@
  * @since      -
  */
 
-include_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Freezer/Bootstrap.php';
-require_once DOOZR_DOCUMENT_ROOT.'Model/Lib/php-object-freezer/Object/Freezer/Storage.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Freezer/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Model/Lib/php-object-freezer/Object/Freezer/Storage.php';
 
 /**
  * DoozR - Doodi - Freezer - Object - Freezer - Storage

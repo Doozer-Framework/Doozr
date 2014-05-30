@@ -55,7 +55,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Facade/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Facade/Singleton.php';
 
 /**
  * DoozR Base Template Engine

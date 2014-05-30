@@ -4,10 +4,10 @@
  * @package Minify
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib/JSMin.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib/JSMinPlus.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib/HTTP/Encoder.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Compact/Service/Lib/HTTP/ConditionalGet.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Compact/Service/Lib/JSMin.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Compact/Service/Lib/JSMinPlus.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Compact/Service/Lib/HTTP/Encoder.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Compact/Service/Lib/HTTP/ConditionalGet.php';
 
 /**
  * Minify - Combines, minifies, and caches JavaScript and CSS files on demand.

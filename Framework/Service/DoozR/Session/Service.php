@@ -53,9 +53,9 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Serviceloader.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Crud/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Serviceloader.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
 
 /**
  * DoozR - Session - Service
@@ -734,7 +734,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     public function enableEncryption($cipher = self::DEFAULT_ENCRYPT_CIPHER, $encoding = self::DEFAULT_ENCRYPT_ENCODING)
     {
         // get security
-        include_once DOOZR_DOCUMENT_ROOT.'DoozR/Security.php';
+        include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Security.php';
 
         // get module crypt
         $this->_crypt = DoozR_Loader_Serviceloader::load('crypt', $cipher, $encoding);

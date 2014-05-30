@@ -818,7 +818,7 @@ function pred($data = 'EMPTY_PRED_CALL', $return = false, $color = '#7CFC00', $c
 +---------------------------------------------------------------------------------------------------------------------*/
 
 if (DOOZR_PHP_VERSION < 5.3) {
-    include_once DOOZR_DOCUMENT_ROOT.'DoozR/Emulate/Php.php';
+    include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Php.php';
 }
 
 
@@ -827,5 +827,5 @@ if (DOOZR_PHP_VERSION < 5.3) {
 +---------------------------------------------------------------------------------------------------------------------*/
 
 if (DOOZR_WIN) {
-    include_once DOOZR_DOCUMENT_ROOT.'DoozR/Emulate/Linux.php';
+    include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Linux.php';
 }

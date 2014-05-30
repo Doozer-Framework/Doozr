@@ -54,7 +54,7 @@
  * @since      -
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
  * DoozR - Base - Database - Abstract

@@ -53,8 +53,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Acl/Service/Lib/class.acl.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Acl/Service/Lib/class.acl.php';
 
 /**
  * DoozR - Acl - Service

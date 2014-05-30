@@ -53,7 +53,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'Service/DoozR/Phptal/Service/Lib/PHPTAL.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Phptal/Service/Lib/PHPTAL.php';
 
 /**
  * DoozR - Phptal - Service

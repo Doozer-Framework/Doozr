@@ -55,9 +55,9 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Logger/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Constant.php';
 
 /**
  * DoozR - Logger - Composite

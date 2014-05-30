@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Presenter/Subject.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Http.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Presenter/Subject.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
 
 /**
  * DoozR - Base Presenter

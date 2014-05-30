@@ -55,9 +55,9 @@
  * @since      -
  */
 
-include_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Bootstrap.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Couchdb/Bootstrap.php';
 
-require_once DOOZR_DOCUMENT_ROOT.'Model/Lib/phpillow/classes/validator/no.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Model/Lib/phpillow/classes/validator/no.php';
 
 /**
  * DoozR - Doodi - Couchdb - phpillow - No - Validator

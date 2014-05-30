@@ -19,7 +19,7 @@ $DoozR = DoozR_Core::getInstance();
 /**
  * simple absolute path bootstrapping for better performance
  */
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Di/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
 
 /**
  * Required classes (files) for static demonstration #3
@@ -43,7 +43,7 @@ $map        = new DoozR_Di_Map_Static($collection, $importer);
 /**
  * generate map from input "data/map3.json"
  */
-$map->generate(DOOZR_DOCUMENT_ROOT.'Data/Private/Config/.dependencies');
+$map->generate(DOOZR_DOCUMENT_ROOT . 'Data/Private/Config/.dependencies');
 
 
 

@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
 
 /**
  * DoozR - Service - Template - Exception

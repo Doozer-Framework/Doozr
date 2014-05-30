@@ -55,9 +55,9 @@
  * @since      -
  */
 
-include_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Bootstrap.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Couchdb/Bootstrap.php';
 
-require_once DOOZR_DOCUMENT_ROOT.'Model/Lib/phpillow/classes/validator/image_file_location.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Model/Lib/phpillow/classes/validator/image_file_location.php';
 
 /**
  * DoozR - Doodi - Couchdb - phpillow - Image - File - Location - Validator

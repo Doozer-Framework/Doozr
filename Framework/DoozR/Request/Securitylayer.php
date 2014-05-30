@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-//require_once DOOZR_DOCUMENT_ROOT.'Core/Controller/Securitylayer/Htmlpurifier/HTMLPurifier.standalone.php';
-//require_once DOOZR_DOCUMENT_ROOT.'Core/Controller/Securitylayer/IDS/Init.php';
+//require_once DOOZR_DOCUMENT_ROOT . 'Core/Controller/Securitylayer/Htmlpurifier/HTMLPurifier.standalone.php';
+//require_once DOOZR_DOCUMENT_ROOT . 'Core/Controller/Securitylayer/IDS/Init.php';
 
 /**
  * DoozR Request Securitlayer

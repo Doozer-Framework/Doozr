@@ -55,9 +55,9 @@
  * @since      -
  */
 
-include_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Bootstrap.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Couchdb/Bootstrap.php';
 
-require_once DOOZR_DOCUMENT_ROOT.'Model/Lib/phpillow/classes/tool/string_stream.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Model/Lib/phpillow/classes/tool/string_stream.php';
 
 /**
  * DoozR - Doodi - Couchdb - phpillow - Tool - String - Stream

@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Response.php';
-//require_once DOOZR_DOCUMENT_ROOT.'DoozR/Response/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Response.php';
+//require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Response/Interface.php';
 
 /**
  * DoozR - Response - Httpd

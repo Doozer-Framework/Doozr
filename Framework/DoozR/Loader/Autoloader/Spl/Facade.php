@@ -53,8 +53,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Loader/Autoloader/Spl/Config/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
  * DoozR - Loader - Autoloader - Spl - Facade

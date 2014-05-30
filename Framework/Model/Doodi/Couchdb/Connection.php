@@ -53,8 +53,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-include_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Bootstrap.php';
-require_once DOOZR_DOCUMENT_ROOT.'Model/Lib/phpillow/classes/connection.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Model/Doodi/Couchdb/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Model/Lib/phpillow/classes/connection.php';
 
 /**
  * DoozR - Doodi - Couchdb - phpillow - Connection

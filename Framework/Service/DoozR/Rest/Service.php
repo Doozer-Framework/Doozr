@@ -53,8 +53,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Request/Api.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Api.php';
 
 /**
  * DoozR - Rest - Service

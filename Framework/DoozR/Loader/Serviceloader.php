@@ -53,9 +53,9 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Factory/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT.'DoozR/Factory/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Factory/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Factory/Multiple.php';
 
 /**
  * DoozR - Loader - Serviceloader
@@ -208,7 +208,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     protected static function initDependencyInjection()
     {
         // Bootstrap if required (CLI!)
-        require_once DOOZR_DOCUMENT_ROOT.'DoozR/Di/Bootstrap.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
 
         // get required dependency container for annotations!
         require_once DI_PATH_LIB_DI.'Map/Annotation.php';
