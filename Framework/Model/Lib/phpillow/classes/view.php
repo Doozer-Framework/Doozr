@@ -54,7 +54,7 @@ abstract class phpillowView extends phpillowDocument
      *
      * A reduce function may be used to aggregate / reduce the results
      * calculated by a view function. See the CouchDB documentation for more
-     * results: @TODO: Not yet documented.
+     * results: @todo: Not yet documented.
      *
      * Each view reduce function MUST have a view definition with the same
      * name, otherwise there is nothing to reduce.

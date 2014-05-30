@@ -74,7 +74,7 @@ class AuthorizeController implements AuthorizeControllerInterface
             return;
         }
 
-        // @TODO: we should be explicit with this in the future
+        // @todo: we should be explicit with this in the future
         $params = array(
             'scope'         => $this->scope,
             'state'         => $this->state,

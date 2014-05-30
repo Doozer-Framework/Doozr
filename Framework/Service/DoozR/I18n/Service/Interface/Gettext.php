@@ -133,7 +133,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         // get real path
         $path = realpath($this->_path);
 
-        /* @TODO: Does not make sense in gettext to iterate different namespaces?! */
+        /* @todo: Does not make sense in gettext to iterate different namespaces?! */
         // iterate over given namespace(s) and configure environment for them
         foreach ($namespaces as $namespace) {
             $this->_initI18n($locale, $namespace, $path);

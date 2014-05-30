@@ -1,5 +1,5 @@
 <?php
-// @TODO: App App_ app - is my namespace! replace it with a name e.g. of your app
+// @todo: App App_ app - is my namespace! replace it with a name e.g. of your app
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 

@@ -114,7 +114,7 @@ class phpillowStreamConnection extends phpillowConnection
         }
 
         $metaData   = stream_get_meta_data( $httpFilePointer );
-        // @TODO: This seems to have changed in last CVS versions of PHP 5.3,
+        // @todo: This seems to have changed in last CVS versions of PHP 5.3,
         // should be removable, once there is a next release of PHP 5.3
         $rawHeaders = isset( $metaData['wrapper_data']['headers'] ) ? $metaData['wrapper_data']['headers'] : $metaData['wrapper_data'];
         $headers    = array();

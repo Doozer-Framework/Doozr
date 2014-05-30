@@ -1126,7 +1126,7 @@ class DoozR_Form_Service_FormManager
                 'form'
             );
 
-            // @TODO: Warning! A special case is a session which is invalid and stuck @ step 2,3,4 ... and not 1
+            // @todo: Warning! A special case is a session which is invalid and stuck @ step 2,3,4 ... and not 1
             return false;
         }
 

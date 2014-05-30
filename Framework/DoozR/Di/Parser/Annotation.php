@@ -327,7 +327,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     {
         $dependencies = $this->_getAnnotationFromSource($reflection->getDocComment());
 
-        // @TODO: validate more specific here:
+        // @todo: validate more specific here:
         $type        = isset($dependencies[0]['type']) ? $dependencies[0]['type'] : null;
         $identifier  = isset($dependencies[0]['identifier']) ? $dependencies[0]['identifier'] : null;
 
