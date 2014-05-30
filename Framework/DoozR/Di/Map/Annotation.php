@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 
 require_once DI_PATH_LIB_DI.'Map.php';
@@ -68,8 +66,6 @@ require_once DI_PATH_LIB_DI.'Map.php';
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 class DoozR_Di_Map_Annotation extends DoozR_Di_Map
 {
@@ -78,7 +74,7 @@ class DoozR_Di_Map_Annotation extends DoozR_Di_Map
      ******************************************************************************************************************/
 
     /**
-     * Constructor
+     * Constructor.
      *
      * Constructor of this class
      *
@@ -87,7 +83,7 @@ class DoozR_Di_Map_Annotation extends DoozR_Di_Map
      * @param DoozR_Di_Dependency        $dependency An instance of DoozR_Di_Dependency base object for cloning dependencies from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Di_Map_Annotation
      * @access public
      */
     public function __construct(DoozR_Di_Collection $collection, DoozR_Di_Parser_Annotation $parser, DoozR_Di_Dependency $dependency)

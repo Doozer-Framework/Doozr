@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
@@ -69,13 +67,11 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Exception.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Template_Service_Exception extends DoozR_Exception
 {
     /**
-     * overrides parents constructor to add context to each exception of type:
+     * Overrides parents constructor to add context to each exception of type:
      * Service_DoozR_Template_Exception
      *
      * This method is intend to override parents constructor to add context to each exception.
@@ -84,9 +80,9 @@ class DoozR_Template_Service_Exception extends DoozR_Exception
      * @param integer $code     The code of the exception
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
-     * @return  object instance of this class
-     * @access  public
+     * @return \DoozR_Template_Service_Exception instance of this class
      * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @access  public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {

@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
@@ -69,26 +67,19 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Base/Exception.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 class DoozR_Exception_Service extends DoozR_Base_Exception
 {
     /**
-     * Constructor
-     *
-     * This method is intend to act as constructor.
+     * Constructor.
      *
      * @param string  $message  The message of the exception
      * @param integer $code     The error-code of the exception
      * @param object  $previous An previos throw exception which should be repacked
      *
-     * @return  void
-     * @access  public
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @static
+     * @return \DoozR_Exception_Service
+     * @access  public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {

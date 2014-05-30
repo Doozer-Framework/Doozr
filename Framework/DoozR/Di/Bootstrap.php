@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 
 // get absolute path to lib/di

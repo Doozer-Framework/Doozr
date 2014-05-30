@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 
 require_once 'Exception.php';
@@ -68,8 +66,6 @@ require_once 'Exception.php';
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 class DoozR_Di_Collection implements ArrayAccess, Iterator
 {

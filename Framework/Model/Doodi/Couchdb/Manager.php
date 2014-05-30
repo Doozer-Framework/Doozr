@@ -51,12 +51,9 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 include_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Bootstrap.php';
-
 require_once DOOZR_DOCUMENT_ROOT.'Model/Lib/phpillow/classes/manager.php';
 
 /**
@@ -72,8 +69,6 @@ require_once DOOZR_DOCUMENT_ROOT.'Model/Lib/phpillow/classes/manager.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        -
- * @since      -
  */
 
 final class Doodi_Couchdb_Manager extends phpillowManager

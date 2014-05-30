@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 
 require_once DI_PATH_LIB_DI.'Map.php';
@@ -68,8 +66,6 @@ require_once DI_PATH_LIB_DI.'Map.php';
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
- * @see        -
- * @since      -
  */
 class DoozR_Di_Map_Typehint extends DoozR_Di_Map
 {
@@ -78,16 +74,14 @@ class DoozR_Di_Map_Typehint extends DoozR_Di_Map
      ******************************************************************************************************************/
 
     /**
-     * Constructor
-     *
-     * Constructor of this class
+     * Constructor.
      *
      * @param DoozR_Di_Collection      $collection An instance of DoozR_Di_Collection to collect dependencies in
      * @param DoozR_Di_Parser_Typehint $parser     An instance of DoozR_Di_Parser_Typehint to parse dependencies with
      * @param DoozR_Di_Dependency      $dependency An instance of DoozR_Di_Dependency base object for cloning dependencies from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Di_Map_Typehint
      * @access public
      */
     public function __construct(DoozR_Di_Collection $collection, DoozR_Di_Parser_Typehint $parser, DoozR_Di_Dependency $dependency)

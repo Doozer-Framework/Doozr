@@ -54,8 +54,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://www.app.tld
- * @see        -
- * @since      -
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Bootstrap.php';
@@ -74,8 +72,6 @@ require_once DOOZR_DOCUMENT_ROOT.'Model/Doodi/Couchdb/Bootstrap.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://www.app.tld
- * @see        -
- * @since      -
  */
 class App_User extends Doodi_Couchdb_Document
 {
