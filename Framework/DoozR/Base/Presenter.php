@@ -11,7 +11,7 @@
  * LICENSE:
  * DoozR - The PHP-Framework
  *
- * Copyright (c) 2005 - 2013, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2014, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -46,7 +46,7 @@
  * @package    DoozR_Base
  * @subpackage DoozR_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
@@ -64,7 +64,7 @@ require_once DOOZR_DOCUMENT_ROOT.'DoozR/Http.php';
  * @package    DoozR_Base
  * @subpackage DoozR_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
