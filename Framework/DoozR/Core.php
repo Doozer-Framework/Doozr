@@ -262,7 +262,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @param array $runtimeConfiguration Override-configuration which overrides app- and core-configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Core
      * @access protected
      */
     protected function __construct(array $runtimeConfiguration = array())

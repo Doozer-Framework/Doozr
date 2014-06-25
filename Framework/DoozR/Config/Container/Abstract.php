@@ -156,7 +156,6 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      */
     const PLACEHOLDER_END = '}}';
 
-
     /**
      * This method is the constructor of the class.
      *
@@ -164,10 +163,10 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @param DoozR_Logger_Interface $logger        An instance of DoozR_Logger
      * @param boolean                $enableCaching TRUE to enable caching, otherwise FALSE to do not
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      * @throws DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Config_Container_Abstract
+     * @access protected
      */
     protected function __construct(DoozR_Path_Interface $path, DoozR_Logger_Interface $logger, $enableCaching = false)
     {

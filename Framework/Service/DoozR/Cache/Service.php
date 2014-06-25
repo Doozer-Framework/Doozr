@@ -245,10 +245,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     {
         // correct format filename
         $container = ucfirst(strtolower($container));
+        $filename  = $this->getPath().'Service'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.$container.'.php';
 
-        return file_exists(
-            $this->getPath().'Service'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.$container.'.php'
-        );
+        return file_exists($filename);
     }
 
     /**
@@ -262,6 +261,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function setContainer($container, array $containerOptions = array())
     {
@@ -415,6 +415,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if entry was deleted succesful, otherwise FALSE
      * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     public function delete($id, $group = 'Default')
     {

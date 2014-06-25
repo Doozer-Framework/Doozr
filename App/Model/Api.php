@@ -80,7 +80,7 @@ final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Inter
     {
         /* maybe enrich data or something like that */
         $this->data = array(
-            'User' => array(
+            'users' => array(
                 1234  => array(
                     'id'        => 1234,
                     'user'      => 'jdoe',

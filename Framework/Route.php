@@ -60,7 +60,6 @@
 require_once 'DoozR/Bootstrap.php';
 require_once 'DoozR/Route.php';
 
-
 // get an instance of DoozR (Core-Class)
 $DoozR = DoozR_Core::getInstance();
 

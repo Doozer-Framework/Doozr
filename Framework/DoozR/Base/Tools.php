@@ -127,13 +127,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
             if ($this->_backtrace === null) {
                 $this->_backtrace = debug_backtrace();
             }
-
-            if ($resolveSymlinks === false) {
-                $path = realpath_ext($this->_backtrace[0]['file']);
-            } else {
-                $path = realpath_ext($this->_backtrace[0]['file'], true);
-            }
-
+            $path = realpath_ext($this->_backtrace[0]['file'], $resolveSymlinks);
             $this->_path[$mode] = dirname($path).DIRECTORY_SEPARATOR;
         }
 

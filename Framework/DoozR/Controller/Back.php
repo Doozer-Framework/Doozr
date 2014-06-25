@@ -199,7 +199,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @param DoozR_Logger_Interface &$logger The instance of the DoozR huge logging facade (subsystem)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Controller_Back
      * @access public
      */
     public function __construct(DoozR_Config_Interface $config, DoozR_Logger_Interface $logger)

@@ -86,7 +86,7 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
         $this
             ->nodes($nodes)
             ->allow(DoozR_Request_Web::METHOD_GET)
-            ->required(array('id' => 1234), 'user')
+            ->required(array('id' => 1234), 'users')
             ->run();
     }
 
