@@ -146,8 +146,22 @@ final class Presenter_Api extends DoozR_Base_Presenter_Rest implements DoozR_Bas
 
         // get request object (standard notation), object + method
         $requestObject = $this->getRest()->getRequest();
-        $object        = strtolower($requestObject->getResource()[0]);
-        $method        = strtoupper($requestObject->getMethod());
+
+        // get resource array
+        $resource = $requestObject->getResource();
+
+        // Check if resource could be resolved!
+        if (empty($resource) === true) {
+            $response->sendHttpStatus(
+                404,
+                null,
+                true,
+                'Route "' . $registry->front->getRequest()->getUrl() . '" not found.');
+            exit;
+        }
+
+        $object = strtolower($resource[0]);
+        $method = strtoupper($requestObject->getMethod());
 
         // check if verb is allowed
         if ($this->isAllowed($method) === false) {
