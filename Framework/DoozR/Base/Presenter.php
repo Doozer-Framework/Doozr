@@ -383,17 +383,23 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * Adds a HTTP-method (verb like GET, HEAD, PUT, POST ...) to the list
      * of allowed methods for this presenter.
      *
-     * @param string $method The HTTP Method which is allowed
+     * @param string|array $methods The HTTP Method which is allowed as string or multiple methods via array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @see    http://tools.ietf.org/html/rfc1945#page-30
      * @return DoozR_Base_Presenter Instance for chaining
      * @access protected
      */
-    protected function allow($method)
+    protected function allow($methods)
     {
-        if (!in_array($method, $this->allowed)) {
-            $this->allowed[] = strtoupper($method);
+        if (is_array($methods) === false) {
+            $methods = array($methods);
+        }
+
+        foreach ($methods as $method) {
+            if (!in_array($method, $this->allowed)) {
+                $this->allowed[] = strtoupper($method);
+            }
         }
 
         // chaining

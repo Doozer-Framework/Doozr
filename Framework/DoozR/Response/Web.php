@@ -143,9 +143,9 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param DoozR_Config $config An instance of config
      * @param DoozR_Logger $logger An instance of logger
      *
-     * @return void
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Response_Web
+     * @access public
      */
     public function __construct(DoozR_Config $config, DoozR_Logger $logger)
     {
