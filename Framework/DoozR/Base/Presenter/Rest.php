@@ -78,6 +78,40 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      */
     protected $rest;
 
+    /**
+     * The API request object
+     * containing ALL relevant information about the REST call
+     * (Arguments for POST,PUT,... must still be taken from their representing classes).
+     *
+     * @var DoozR_Request_Api
+     * @access protected
+     */
+    protected $requestObject;
+
+    /**
+     * Root node of API (default = /api/)
+     *
+     * @var string
+     * @access protected
+     */
+    protected $rootNode = '/api/';
+
+    /**
+     * The current route setup as tree representation
+     *
+     * @var array
+     * @access protected
+     */
+    protected $routeTree;
+
+    /**
+     * Routes collection of REST API
+     *
+     * @var array
+     * @access protected
+     */
+    protected $routes = array();
+
 
     /**
      * Constructor.
@@ -104,6 +138,9 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         // Init REST layer/service => only difference to DoozR_Base_Presenter
         $this->rest = DoozR_Loader_Serviceloader::load('rest', $originalRequest, count($request));
 
+        // get request object (standard notation), object + method
+        $this->requestObject = $this->rest->getRequest();
+
         // forward call
         parent::__construct($request, $translation, $originalRequest, $config, $model, $view);
     }
@@ -113,15 +150,27 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Getter for rest
+     * This method is intend to demonstrate how data could be automatic be displayed.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Rest_Service The rest service instance
+     * @return boolean True if successful, otherwise false
      * @access public
+     * @throws DoozR_Base_Presenter_Rest_Exception
      */
-    public function getRest()
+    public function Main()
     {
-        return $this->rest;
+        // Get REAL action (hey dude u know this is the Main() API entry like the main.cpp ;)
+        $action = $this->requestObject->get($this->rootNode . '{{action}}', function ($action) {
+                return $action;
+            }
+        );
+
+        // Try to dispatch to action or fail with exception if action does not exist
+        if (is_callable(array($this, $action))) {
+            return $this->{$action}();
+        } else {
+            throw new DoozR_Base_Presenter_Rest_Exception('Action "' . $action . '" not defined!');
+        }
     }
 
     /**
@@ -136,5 +185,107 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     public function setRest(DoozR_Rest_Service $rest)
     {
         return $this->rest = $rest;
+    }
+
+    /**
+     * Getter for rest
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Rest_Service The rest service instance
+     * @access public
+     */
+    public function getRest()
+    {
+        return $this->rest;
+    }
+
+    /**
+     * Registers a new route
+     *
+     * @param string                           $route  The route
+     * @param DoozR_Base_Presenter_Rest_Config $config The config
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function registerRoute($route, DoozR_Base_Presenter_Rest_Config $config)
+    {
+        $this->routes[$route] = $config;
+    }
+
+    /**
+     * Registers a new route
+     *
+     * @param array $routes A collection of routes to add
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function registerRoutes(array $routes)
+    {
+        foreach ($routes as $route => $config) {
+            $this->registerRoute($route, $config);
+        }
+    }
+
+    /**
+     * Returns the route matched by URL including config and extracted Ids ...
+     *
+     * @param string $url The URL to return route for.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter_Rest_Config|false The config if route could be revsolved,
+     *                                                false if route could not be resolved
+     * @access protected
+     * @throws DoozR_Base_Presenter_Rest_Exception
+     */
+    protected function getRouteByUrl($url)
+    {
+        // prepare URL for lookup
+        $url = str_replace($this->rootNode, '', $url);
+
+        // extract nodes from clean URL
+        $nodes = explode('/', $url);
+
+        // Local copy for diving into ...
+        $routeTree = $this->routeTree;
+
+        // The ids extracted from passed URL
+        $ids = array();
+
+        // The route reverse created
+        $route = array();
+
+        $countNodes = count($nodes);
+        // Lookup route
+        for ($i = 0; $i < $countNodes; ++$i) {
+            // check numeric?
+            if (is_numeric($nodes[$i])) {
+                $ids[] = $nodes[$i];
+                $nodes[$i] = ':id';
+            }
+
+            if (is_array($routeTree) && isset($routeTree[$nodes[$i]])) {
+                $routeTree = $routeTree[$nodes[$i]];
+
+            } else {
+                throw new DoozR_Base_Presenter_Rest_Exception(
+                    'Route for URL "' . $url . '" could not be resolved, maybe its incomplete?.'
+                );
+            }
+
+            $route[] = $nodes[$i];
+
+            if ($i === ($countNodes - 1)) {
+                // Inject Ids for reverse lookup
+                $routeTree->ids = $ids;
+                $routeTree->url = $url;
+                $routeTree->route = $route;
+            }
+        }
+
+        return $routeTree;
     }
 }

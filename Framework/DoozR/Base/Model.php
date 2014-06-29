@@ -118,17 +118,18 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      */
     protected $cache;
 
-
     /**
      * Constructor of this class
      *
-     * @param array                  $request         The whole request as processed by "Route"
-     * @param array                  $translation     The translation required to read the request
-     * @param array                  $originalRequest The original untouched request
-     * @param DoozR_Cache_Service    $cache           An instance of DoozR_Cache_Service
+     * @param array               $request         The whole request as processed by "Route"
+     * @param array               $translation     The translation required to read the request
+     * @param array               $originalRequest The original untouched request
+     * @param DoozR_Cache_Service $cache           An instance of DoozR_Cache_Service
+     *
+     * @param DoozR_Config        $config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Base_Model
      * @access public
      */
     public function __construct(
@@ -149,6 +150,21 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
             $this->__tearup($request, $translation);
         }
+    }
+
+    /**
+     * Escapes values from bad stuff but only simple
+     *
+     * @param string $string String to escape
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Escaped input
+     * @access public
+     */
+    protected function escape($string)
+    {
+        $string = mb_convert_encoding($string, 'UTF-8', 'UTF-8');
+        return htmlentities($string, ENT_QUOTES, 'UTF-8');
     }
 
     /**

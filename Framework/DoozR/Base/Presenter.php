@@ -153,6 +153,30 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      */
     private $_nodes;
 
+    /**
+     * The ids of the route
+     *
+     * @var array
+     * @access private
+     */
+    private $_ids;
+
+    /**
+     * The URL of the route
+     *
+     * @var string
+     * @access private
+     */
+    private $_url;
+
+    /**
+     * The route
+     *
+     * @var array
+     * @access private
+     */
+    private $_route;
+
 
     /**
      * Constructor.
@@ -536,6 +560,80 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
+     * Sets the route
+     *
+     * @param string The route to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function route($route)
+    {
+        $this->_route = $route;
+
+        return $this;
+    }
+
+    /**
+     * Sets the URL of the route
+     *
+     * @param string The URL to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function url($url)
+    {
+        $this->_url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Sets the ids of the route
+     *
+     * @param array $ids The ids of the route
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function ids(array $ids)
+    {
+        $this->setIds($ids);
+
+        return $this;
+    }
+
+    /**
+     * Sets the ids of the route
+     *
+     * @param array $ids The ids of the route
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function setIds(array $ids)
+    {
+        $this->_ids = $ids;
+    }
+
+    /**
+     * Returns the ids of the route.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The ids of the route
+     * @access protected
+     */
+    protected function getIds()
+    {
+        return $this->_ids;
+    }
+
+    /**
      * Sets the count of root nodes for request.
      *
      * @param integer $countOfRootNodes The count of root nodes
@@ -550,21 +648,9 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      */
     protected function nodes($countOfRootNodes)
     {
-        $this->_nodes = $countOfRootNodes;
+        $this->setNodes($countOfRootNodes);
 
         return $this;
-    }
-
-    /**
-     * Returns the count of root nodes.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The count of root nodes
-     * @access protected
-     */
-    protected function getNodes()
-    {
-        return $this->_nodes;
     }
 
     /**
@@ -577,12 +663,24 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      *          root.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return void
      * @access protected
      */
     protected function setNodes($countOfRootNodes)
     {
-        return ($this->_nodes = $countOfRootNodes);
+        $this->_nodes = $countOfRootNodes;
+    }
+
+    /**
+     * Returns the count of root nodes.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The count of root nodes
+     * @access protected
+     */
+    protected function getNodes()
+    {
+        return $this->_nodes;
     }
 
     /**

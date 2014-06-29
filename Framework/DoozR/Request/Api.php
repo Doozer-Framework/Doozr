@@ -137,13 +137,13 @@ class DoozR_Request_Api
     public function get($pattern, $callback = null)
     {
         // check for required url
-        if ($this->url === null) {
-            throw new DoozR_Exception('Set URL ($this->url) first.');
+        if ($this->getUrl() === null) {
+            throw new DoozR_Exception('Set URL ($this->setUrl(...)) first.');
         }
 
         $count   = 0;
         $pattern = explode('/', trim($pattern));
-        $url     = explode('/', $this->url);
+        $url     = explode('/', $this->getUrl());
 
         array_shift($pattern);
         array_shift($url);
@@ -189,6 +189,16 @@ class DoozR_Request_Api
         }
 
         return $this;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     /**

@@ -144,13 +144,6 @@ final class Model_Api extends DoozR_Base_Model implements DoozR_Base_Model_Inter
     }
 
 
-    protected function escape($string)
-    {
-        $string = mb_convert_encoding($string, 'UTF-8', 'UTF-8');
-        return htmlentities($string, ENT_QUOTES, 'UTF-8');
-    }
-
-
     /**
      * Observer notification
      *
