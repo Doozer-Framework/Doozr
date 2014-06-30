@@ -191,6 +191,16 @@ class DoozR_Request_Api
         return $this;
     }
 
+    public function setArguments($arguments)
+    {
+        $this->arguments = $arguments;
+    }
+
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+
     public function setUrl($url)
     {
         $this->url = $url;

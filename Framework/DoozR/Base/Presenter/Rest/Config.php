@@ -206,6 +206,20 @@ class DoozR_Base_Presenter_Rest_Config
     }
 
     /**
+     * Checks if a passed verb is allowed for this route object
+     *
+     * @param string $verb The verb to check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return booelan TRUE if verb is allowed, otherwise FALSE
+     * @access public
+     */
+    public function isAllowed($verb)
+    {
+        return in_array($verb, $this->getAllow());
+    }
+
+    /**
      * Setter for required input arguments
      *
      * @param array $required The required values

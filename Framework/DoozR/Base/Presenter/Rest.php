@@ -139,7 +139,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         $this->rest = DoozR_Loader_Serviceloader::load('rest', $originalRequest, count($request));
 
         // get request object (standard notation), object + method
-        $this->requestObject = $this->rest->getRequest();
+        $this->setRequestObject($this->rest->getRequest());
 
         // forward call
         parent::__construct($request, $translation, $originalRequest, $config, $model, $view);
@@ -168,8 +168,19 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         // Try to dispatch to action or fail with exception if action does not exist
         if (is_callable(array($this, $action))) {
             return $this->{$action}();
+
         } else {
+            $this->getResponse()->sendHttpStatus(
+                404,
+                null,
+                true,
+                'Action "' . $action . '" not defined!'
+            );
+            exit;
+
+            /*
             throw new DoozR_Base_Presenter_Rest_Exception('Action "' . $action . '" not defined!');
+            */
         }
     }
 
@@ -197,6 +208,32 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     public function getRest()
     {
         return $this->rest;
+    }
+
+    /**
+     * Setter for request object
+     *
+     * @param DoozR_Request_Api $requestObject The request object to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRequestObject($requestObject)
+    {
+        $this->requestObject = $requestObject;
+    }
+
+    /**
+     * Getter for request object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_Api The request object
+     * @access protected
+     */
+    protected function getRequestObject()
+    {
+        return $this->requestObject;
     }
 
     /**
@@ -228,6 +265,34 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         foreach ($routes as $route => $config) {
             $this->registerRoute($route, $config);
         }
+    }
+
+    /**
+     * Setter for route tree representation
+     *
+     * @param array $routeTree The route tree
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRouteTree(array $routeTree)
+    {
+        $this->routeTree = $routeTree;
+    }
+
+    /**
+     * Getter for route tree
+     *
+     * @return array The route tree
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function getRouteTree()
+    {
+        return $this->routeTree;
     }
 
     /**
@@ -271,21 +336,40 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
                 $routeTree = $routeTree[$nodes[$i]];
 
             } else {
-                throw new DoozR_Base_Presenter_Rest_Exception(
-                    'Route for URL "' . $url . '" could not be resolved, maybe its incomplete?.'
+                $this->getResponse()->sendHttpStatus(
+                    404,
+                    null,
+                    true,
+                    'Route for URL "' . $url . '" could not be resolved, maybe its incomplete?'
                 );
+                exit;
+
+                /*
+                throw new DoozR_Base_Presenter_Rest_Exception('Route for URL "' . $url . '" could not be resolved, maybe its incomplete?');
+                */
             }
 
             $route[] = $nodes[$i];
 
             if ($i === ($countNodes - 1)) {
                 // Inject Ids for reverse lookup
-                $routeTree->ids = $ids;
-                $routeTree->url = $url;
-                $routeTree->route = $route;
+                $routeTree
+                    ->ids($ids)
+                    ->url($url)
+                    ->route($route);
             }
         }
 
         return $routeTree;
+    }
+
+    protected function getResponse()
+    {
+        // get registry
+        $registry = DoozR_Registry::getInstance();
+
+        // get response
+        /* @var $response DoozR_Response_Web */
+        return $registry->front->getResponse();
     }
 }
