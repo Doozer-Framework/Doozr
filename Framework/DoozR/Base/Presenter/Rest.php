@@ -167,7 +167,10 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
 
         // Try to dispatch to action or fail with exception if action does not exist
         if (is_callable(array($this, $resource))) {
-            return $this->{$resource}();
+
+            // Setup the routes (subrouting)
+            $this->{$resource}();
+            return $this->run();
 
         } else {
             throw new DoozR_Base_Presenter_Rest_Exception(
@@ -287,6 +290,11 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         return $this->routeTree;
     }
 
+    protected function getRoutes()
+    {
+        return $this->routes;
+    }
+
     /**
      * Returns the route matched by URL including config and extracted Ids ...
      * We do only throws exceptions here instead of sending header directives like 404 405 406.
@@ -370,5 +378,90 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         }
 
         return $routeTree;
+    }
+
+
+
+    protected function run()
+    {
+        // COULD START HERE....
+        // PUT THIS CODE INTO BASE CLASS AS RUN() !!!!!
+        $this->setRouteTree(
+            explodeTree($this->routes, '/')
+        );
+
+        $routeConfig = $this->getRouteByUrl($this->requestObject->getUrl());
+
+        // check if verb is allowed
+        if ($routeConfig->isAllowed($this->requestObject->getMethod()) === false) {
+            $this->getResponse()->sendHttpStatus(
+                405,
+                null,
+                true,
+                $this->getRequestObject()->getMethod()
+            );
+            exit;
+        }
+
+        # VALIDATE INPUT ARGUMENTS
+        $message = 'Missing required argument(s): ';
+        $valid = true;
+
+        // ... and iterate them to find missing elements
+        foreach ($routeConfig->getRequired() as $requiredArgument => $requiredValue) {
+
+            // Can the required value be retrieved from GET, POST, ...
+            if (!isset($this->getRequestObject()->getArguments()->{$requiredArgument})) {
+                $valid = false;
+                $message .= $requiredArgument;
+                if ($requiredValue !== null) {
+                    $message .= '(required Value: "' . var_export($requiredValue, true) . '")';
+                }
+                $message .= ', ';
+            }
+        }
+
+        // If not valid (argument missing => tell it the user!
+        if ($valid === false) {
+            // send HTTP-Header "Not-Acceptable" for missing argument + message
+            $this->getResponse()->sendHttpStatus(
+                406,
+                null,
+                true,
+                substr($message, 0, strlen($message) - 2)
+            );
+            exit;
+        }
+
+        # DATEN READY MACHEN!
+        // Retrieve data for context Screen from Model by defined default interface "getData()"
+        $data = $this->model->getData(
+            $this->getRequestObject(),
+            $routeConfig
+        );
+
+        // set data here within this instance cause VIEW and MODEL are attached as Observer to this Subject.
+        $this->setData($data);
+
+        // Chaining required?
+        return $this;
+    }
+
+    /**
+     * Returns the response object for sending header(s).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Response_Cli|DoozR_Response_Httpd|DoozR_Response_Web
+     * @access protected
+     * @deprecated
+     */
+    protected function getResponse()
+    {
+        // get registry
+        $registry = DoozR_Registry::getInstance();
+
+        // get response
+        /* @var $response DoozR_Response_Web */
+        return $registry->front->getResponse();
     }
 }
