@@ -71,6 +71,16 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Web.php';
 class DoozR_Base_Presenter_Rest_Config
 {
     /**
+     * The Id (unique id) of a recordset/dataset
+     * this instance is related to (e.g. for
+     * PUT, DELETE, HEAD, OPTONS, GET ...)
+     *
+     * @var string
+     * @access protected
+     */
+    protected $id;
+
+    /**
      * Count of nodes for this route
      *
      * @var integer
@@ -118,6 +128,55 @@ class DoozR_Base_Presenter_Rest_Config
      */
     protected $route;
 
+    /**
+     * What is the root node of the API?
+     *
+     * @var string
+     * @access protected
+     */
+    protected $rootNode;
+
+
+    /**
+     * Setter for id
+     *
+     * @param string $id The id to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Chaining setter for id
+     *
+     * @param string $id The id to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @access public
+     */
+    public function id($id)
+    {
+        $this->setId($id);
+        return $this;
+    }
+
+    /**
+     * Getter for id
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The Id
+     * @access public
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Setter for nodes
@@ -396,6 +455,47 @@ class DoozR_Base_Presenter_Rest_Config
      */
     public function getRoute($asString = false)
     {
-        return ($asString === true) ? implode('/', $this->route) : $this->route;
+        return ( $asString === true ) ? implode( '/', $this->route ) : $this->route;
+    }
+
+    /**
+     * Setter for rootNode
+     *
+     * @param string $rootNode The rootNode
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setRootNode($rootNode)
+    {
+        $this->rootNode = $rootNode;
+    }
+
+    /**
+     * Chaining setter for rootNode
+     *
+     * @param string $rootNode The rootNode
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @access public
+     */
+    public function rootNode($rootNode)
+    {
+        $this->setRootNode($rootNode);
+        return $this;
+    }
+
+    /**
+     * Getter for rootNode
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The active rootNode as string
+     * @access public
+     */
+    public function getRootNode()
+    {
+        return $this->rootNode;
     }
 }

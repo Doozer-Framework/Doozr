@@ -87,15 +87,13 @@ class DoozR_Request_Argument
 
 
     /**
-     * constructs the class
-     *
-     * constructor builds the class
+     * Constrcutor.
      *
      * @param mixed $value The value to set
      *
-     * @return object An instance of this class
-     * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Request_Argument An instance of this class
+     * @access public
      */
     public function __construct($value)
     {
@@ -262,5 +260,17 @@ class DoozR_Request_Argument
     public function getImpact()
     {
         return $this->impact;
+    }
+
+    /**
+     * Magic for accessing the value simply by strval($object)
+     *
+     * @return null|string The raw value set if set, otherwise NULL
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function __toString()
+    {
+        return $this->rawValue;
     }
 }

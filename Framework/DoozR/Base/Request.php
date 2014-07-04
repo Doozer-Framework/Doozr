@@ -153,6 +153,7 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      */
     const EMULATED = 1;
 
+
     /**
      * Constructor.
      *

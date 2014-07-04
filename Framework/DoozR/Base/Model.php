@@ -133,11 +133,11 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      * @access public
      */
     public function __construct(
-        array $request,
-        array $translation,
-        array $originalRequest,
+        array               $request,
+        array               $translation,
+        array               $originalRequest,
         DoozR_Cache_Service $cache,
-        DoozR_Config $config
+        DoozR_Config        $config
     ) {
         // store
         $this->request         = $request;
@@ -161,9 +161,11 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      * @return string Escaped input
      * @access public
      */
-    protected function escape($string)
+    public function escape($string)
     {
         $string = mb_convert_encoding($string, 'UTF-8', 'UTF-8');
+        $string = str_replace('{{', '', $string);
+        $string = str_replace('}}', '', $string);
         return htmlentities($string, ENT_QUOTES, 'UTF-8');
     }
 
@@ -193,8 +195,17 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      */
     protected function create($data = null)
     {
-        if ($this->hasMethod('__create') && is_callable(array($this, '__create'))) {
-            return $this->__create($data);
+        $method = '__' . str_replace(__CLASS__ . '::', '', __METHOD__);
+
+        if ($this->hasMethod($method) && is_callable(array($this, $method))) {
+            $arguments = func_get_args();
+            if (empty($arguments)) {
+                $result = $this->{$method}();
+            } else {
+                $result = call_user_func_array(array($this, $method), $arguments);
+            }
+
+            return $result;
         }
     }
 
@@ -207,8 +218,17 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      */
     protected function read()
     {
-        if ($this->hasMethod('__read') && is_callable(array($this, '__read'))) {
-            return $this->__read();
+        $method = '__' . str_replace(__CLASS__ . '::', '', __METHOD__);
+
+        if ($this->hasMethod($method) && is_callable(array($this, $method))) {
+            $arguments = func_get_args();
+            if (empty($arguments)) {
+                $result = $this->{$method}();
+            } else {
+                $result = call_user_func_array(array($this, $method), $arguments);
+            }
+
+            return $result;
         }
     }
 
@@ -221,8 +241,17 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      */
     protected function delete()
     {
-        if ($this->hasMethod('__delete') && is_callable(array($this, '__delete'))) {
-            return $this->__delete();
+        $method = '__' . str_replace(__CLASS__ . '::', '', __METHOD__);
+
+        if ($this->hasMethod($method) && is_callable(array($this, $method))) {
+            $arguments = func_get_args();
+            if (empty($arguments)) {
+                $result = $this->{$method}();
+            } else {
+                $result = call_user_func_array(array($this, $method), $arguments);
+            }
+
+            return $result;
         }
     }
 
@@ -255,12 +284,11 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      * @param mixed $data The data (array prefered) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if everything wents fine, otherwise false
+     * @return void
      * @access public
-     * @deprecated
      */
     public function setData($data)
     {
-        return ($this->data = $data);
+        return $this->data = $data;
     }
 }

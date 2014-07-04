@@ -100,15 +100,14 @@ class DoozR_Base_Response
      */
     protected $config;
 
-
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param object $config An instance of config
-     * @param object $logger An instance of config
+     * @param DoozR_Config|object $config An instance of config
+     * @param DoozR_Logger|object $logger An instance of config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Base_Response
      * @access public
      */
     public function __construct(DoozR_Config $config, DoozR_Logger $logger)

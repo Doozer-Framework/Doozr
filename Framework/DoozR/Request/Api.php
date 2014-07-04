@@ -153,9 +153,10 @@ class DoozR_Request_Api
 
         foreach ($pattern as $key => $partial) {
             $variable = preg_match('/{{(.*)}}/i', $partial, $result);
+
             $count += $variable;
             if ($variable === 1 && isset($url[$key])) {
-                $matrix[] = $url[$key];
+                $matrix[substr($partial, 1, strlen($partial) - 1)] = $url[$key];
             }
         }
 
@@ -191,21 +192,53 @@ class DoozR_Request_Api
         return $this;
     }
 
-    public function setArguments($arguments)
+    /**
+     * Setter for arguments
+     *
+     * @param DoozR_Request_Arguments $arguments The arguments
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setArguments(DoozR_Request_Arguments $arguments)
     {
         $this->arguments = $arguments;
     }
 
+    /**
+     * Getter for arguments
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_Arguments The arguments
+     * @access public
+     */
     public function getArguments()
     {
         return $this->arguments;
     }
 
+    /**
+     * Setter for URL
+     *
+     * @param string $url The url to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function setUrl($url)
     {
         $this->url = $url;
     }
 
+    /**
+     * Getter for URL
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The URL
+     * @access public
+     */
     public function getUrl()
     {
         return $this->url;

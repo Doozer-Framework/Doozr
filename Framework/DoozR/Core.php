@@ -325,7 +325,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
             self::_initLogger();
 
             // log bootstrapping
-            self::$_logger->debug('Bootstrapping of DoozR (v '.self::getVersion(true).')');
+            self::$_logger->debug('Bootstrapping of DoozR (v ' . self::getVersion(true) . ')');
 
             // init path-manager
             self::_initPath();
@@ -377,11 +377,11 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
 
         // Required classes (files) for static demonstration #3
-        require_once DI_PATH_LIB_DI.'Collection.php';
-        require_once DI_PATH_LIB_DI.'Importer/Json.php';
-        require_once DI_PATH_LIB_DI.'Map/Static.php';
-        require_once DI_PATH_LIB_DI.'Factory.php';
-        require_once DI_PATH_LIB_DI.'Container.php';
+        require_once DI_PATH_LIB_DI . 'Collection.php';
+        require_once DI_PATH_LIB_DI . 'Importer/Json.php';
+        require_once DI_PATH_LIB_DI . 'Map/Static.php';
+        require_once DI_PATH_LIB_DI . 'Factory.php';
+        require_once DI_PATH_LIB_DI . 'Container.php';
 
         /**
          * create instances of required classes
@@ -505,7 +505,13 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         self::$_container->setMap(self::$_map);
 
         // get config reader
-        self::$_config = self::$_container->build('DoozR_Config', array(self::DEFAULT_CONFIG_CONTAINER, true));
+        self::$_config = self::$_container->build(
+            'DoozR_Config',
+            array(
+                self::DEFAULT_CONFIG_CONTAINER,
+                true
+            )
+        );
 
         // read config from: DoozR
         self::$_config->read(
@@ -800,6 +806,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @return boolean False always
      * @access private
      * @static
+     * @throws DoozR_Core_Exception
      */
     private static function _coreError($error, $fatal = true)
     {

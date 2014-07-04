@@ -160,27 +160,19 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     public function Main()
     {
         // Get REAL action (hey dude u know this is the Main() API entry like the main.cpp ;)
-        $action = $this->requestObject->get($this->rootNode . '{{action}}', function ($action) {
-                return $action;
+        $resource = $this->requestObject->get($this->rootNode . '{{resource}}', function ($resource) {
+                return $resource;
             }
         );
 
         // Try to dispatch to action or fail with exception if action does not exist
-        if (is_callable(array($this, $action))) {
-            return $this->{$action}();
+        if (is_callable(array($this, $resource))) {
+            return $this->{$resource}();
 
         } else {
-            $this->getResponse()->sendHttpStatus(
-                404,
-                null,
-                true,
-                'Action "' . $action . '" not defined!'
+            throw new DoozR_Base_Presenter_Rest_Exception(
+                'The resource "' . $resource . '" seems unknown to me. I never heard about it before :('
             );
-            exit;
-
-            /*
-            throw new DoozR_Base_Presenter_Rest_Exception('Action "' . $action . '" not defined!');
-            */
         }
     }
 
@@ -297,6 +289,8 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
 
     /**
      * Returns the route matched by URL including config and extracted Ids ...
+     * We do only throws exceptions here instead of sending header directives like 404 405 406.
+     * This is responsibility of the implementing application cause here too high level.
      *
      * @param string $url The URL to return route for.
      *
@@ -324,52 +318,57 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         $route = array();
 
         $countNodes = count($nodes);
+
+        // For automagically extracting {{id}} to id (uid of a recordset/dataset)
+        $uid = null;
+
         // Lookup route
         for ($i = 0; $i < $countNodes; ++$i) {
-            // check numeric?
-            if (is_numeric($nodes[$i])) {
-                $ids[] = $nodes[$i];
-                $nodes[$i] = ':id';
-            }
 
+            // Is regular route way/node ?
             if (is_array($routeTree) && isset($routeTree[$nodes[$i]])) {
                 $routeTree = $routeTree[$nodes[$i]];
 
-            } else {
-                $this->getResponse()->sendHttpStatus(
-                    404,
-                    null,
-                    true,
-                    'Route for URL "' . $url . '" could not be resolved, maybe its incomplete?'
-                );
-                exit;
+            } elseif (preg_match('/{{(.*)}}/i', key($routeTree), $variable) > 0) {
+                // maybe its a variable node value
+                $nodes[$i] = '{{' . $variable[1] . '}}';
 
-                /*
-                throw new DoozR_Base_Presenter_Rest_Exception('Route for URL "' . $url . '" could not be resolved, maybe its incomplete?');
-                */
+                $magicUid = strtolower($variable[1]);
+                if ($magicUid === 'id' || $magicUid === 'uid') {
+                    $uid = $variable[1];
+                }
+
+                $ids[]     = $nodes[$i];
+                $routeTree = $routeTree[$nodes[$i]];
+
+            } else {
+                throw new DoozR_Base_Presenter_Rest_Exception(
+                    'Route for URL "' . $url . '" seems wrong. It could not be resolved.'
+                );
             }
 
             $route[] = $nodes[$i];
 
             if ($i === ($countNodes - 1)) {
-                // Inject Ids for reverse lookup
-                $routeTree
-                    ->ids($ids)
-                    ->url($url)
-                    ->route($route);
+                if (is_object($routeTree) === true) {
+                    // Inject Ids for reverse lookup
+                    /* @var $routeTree DoozR_Base_Presenter_Rest_Config */
+                    $routeTree
+                        ->id($uid)
+                        ->ids($ids)
+                        ->url($url)
+                        ->route($route)
+                        ->rootNode($this->rootNode);
+
+                } else {
+                    // In this case we ended up before we got config!
+                    throw new DoozR_Base_Presenter_Rest_Exception(
+                        'Route for URL "' . $url . '" seems incomplete.'
+                    );
+                }
             }
         }
 
         return $routeTree;
-    }
-
-    protected function getResponse()
-    {
-        // get registry
-        $registry = DoozR_Registry::getInstance();
-
-        // get response
-        /* @var $response DoozR_Response_Web */
-        return $registry->front->getResponse();
     }
 }

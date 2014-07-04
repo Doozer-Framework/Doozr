@@ -217,7 +217,6 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      */
     public function setData($data = null, $render = true)
     {
-        //pre(__METHOD__.' in View called');
         // store data (reached) from model in this view!
         $this->data = $data;
 
