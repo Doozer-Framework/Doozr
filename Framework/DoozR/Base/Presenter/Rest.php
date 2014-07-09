@@ -234,16 +234,15 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * Registers a new route
      *
-     * @param string                           $route  The route
      * @param DoozR_Base_Presenter_Rest_Config $config The config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function registerRoute($route, DoozR_Base_Presenter_Rest_Config $config)
+    protected function registerRoute(DoozR_Base_Presenter_Rest_Config $config)
     {
-        $this->routes[$route] = $config;
+        $this->routes[$config->getRoute()] = $config;
     }
 
     /**
@@ -365,7 +364,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
                         ->id($uid)
                         ->ids($ids)
                         ->url($url)
-                        ->route($route)
+                        ->realRoute($route)
                         ->rootNode($this->rootNode);
 
                 } else {

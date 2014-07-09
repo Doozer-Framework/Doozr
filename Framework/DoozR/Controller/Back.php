@@ -195,8 +195,8 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      *
      * This method is the constructor of this class.
      *
-     * @param DoozR_Config_Interface &$config The instance of the DoozR core config
-     * @param DoozR_Logger_Interface &$logger The instance of the DoozR huge logging facade (subsystem)
+     * @param DoozR_Config_Interface $config The instance of the DoozR core config
+     * @param DoozR_Logger_Interface $logger The instance of the DoozR huge logging facade (subsystem)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Controller_Back

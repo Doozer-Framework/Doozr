@@ -81,6 +81,14 @@ class DoozR_Base_Presenter_Rest_Config
     protected $id;
 
     /**
+     * Instance of ACL service to manage the ACL for this resource
+     *
+     * @var DoozR_Acl_Service
+     * @access protected
+     */
+    protected $acl;
+
+    /**
      * Count of nodes for this route
      *
      * @var integer
@@ -123,10 +131,18 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * The route of this config object
      *
-     * @var array
+     * @var string
      * @access protected
      */
     protected $route;
+
+    /**
+     * The real route of this config object
+     *
+     * @var array
+     * @access protected
+     */
+    protected $realRoute;
 
     /**
      * What is the root node of the API?
@@ -135,6 +151,15 @@ class DoozR_Base_Presenter_Rest_Config
      * @access protected
      */
     protected $rootNode;
+
+
+
+    public function __construct(DoozR_Acl_Service $acl)
+    {
+        $this->setAcl($acl);
+    }
+
+
 
 
     /**
@@ -234,7 +259,59 @@ class DoozR_Base_Presenter_Rest_Config
             $allow = array($allow);
         }
 
+        // Update ACL properties
+        foreach ($allow as $verb) {
+            $this->getAcl()->addPermission(
+                $this->verbToOperation($verb)
+            );
+        }
+
         $this->allow = $allow;
+    }
+
+    /**
+     * Returns the operation for passed in HTTP-verb.
+     *
+     * @param string $verb The HTTP-verb to return operation for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The operation for passed in verb
+     * @access protected
+     */
+    protected function verbToOperation($verb)
+    {
+        switch (strtoupper($verb))
+        {
+            case DoozR_Http::REQUEST_METHOD_POST:
+                $operation = 'create';
+                break;
+
+            case DoozR_Http::REQUEST_METHOD_GET:
+                $operation = 'read';
+                break;
+
+            case DoozR_Http::REQUEST_METHOD_PUT:
+                $operation = 'update';
+                break;
+
+            case DoozR_Http::REQUEST_METHOD_DELETE:
+                $operation = 'delete';
+                break;
+
+            case DoozR_Http::REQUEST_METHOD_OPTIONS:
+                $operation = 'options';
+                break;
+
+            case DoozR_Http::REQUEST_METHOD_HEAD:
+                $operation = 'meta';
+                break;
+
+            default:
+                $operation = 'read';
+                break;
+        }
+
+        return $operation;
     }
 
     /**
@@ -447,15 +524,56 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * Getter for route
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The route of this config
+     * @access public
+     */
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    /**
+     * Setter for real route
+     *
+     * @param array $realRoute The real route
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setRealRoute($realRoute)
+    {
+        $this->realRoute = $realRoute;
+    }
+
+    /**
+     * Chaining setter for route
+     *
+     * @param array $realRoute The real route
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @access public
+     */
+    public function realRoute($realRoute)
+    {
+        $this->setRealRoute($realRoute);
+        return $this;
+    }
+
+    /**
+     * Getter for real route
+     *
      * @param boolean $asString TRUE to return route as string, otherwise FALSE to return array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string|array The active route as array or as string
      * @access public
      */
-    public function getRoute($asString = false)
+    public function getRealRoute($asString = false)
     {
-        return ( $asString === true ) ? implode( '/', $this->route ) : $this->route;
+        return ($asString === true) ? implode( '/', $this->realRoute ) : $this->realRoute;
     }
 
     /**
@@ -497,5 +615,46 @@ class DoozR_Base_Presenter_Rest_Config
     public function getRootNode()
     {
         return $this->rootNode;
+    }
+
+    /**
+     * Setter for acl
+     *
+     * @param DoozR_Acl_Service $acl The acl instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setAcl(DoozR_Acl_Service $acl)
+    {
+        $this->acl = $acl;
+    }
+
+    /**
+     * Chaining setter for acl
+     *
+     * @param DoozR_Acl_Service $acl The acl instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @access public
+     */
+    public function acl(DoozR_Acl_Service $acl)
+    {
+        $this->setAcl($acl);
+        return $this;
+    }
+
+    /**
+     * Getter for acl
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Acl_Service Acl service instance
+     * @access public
+     */
+    public function getAcl()
+    {
+        return $this->acl;
     }
 }

@@ -79,14 +79,6 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     protected $data;
 
     /**
-     * holds a reference to the Database (DoozR_Core::model)
-     *
-     * @var object
-     * @access protected
-     */
-    protected $model;
-
-    /**
      * contains the complete request
      *
      * @var array
@@ -119,14 +111,22 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     protected $cache;
 
     /**
+     * The main configuration for use in model environment.
+     *
+     * @var DoozR_Config
+     * @access protected
+     */
+    protected $configuration;
+
+
+    /**
      * Constructor of this class
      *
      * @param array               $request         The whole request as processed by "Route"
      * @param array               $translation     The translation required to read the request
      * @param array               $originalRequest The original untouched request
      * @param DoozR_Cache_Service $cache           An instance of DoozR_Cache_Service
-     *
-     * @param DoozR_Config        $config
+     * @param DoozR_Config        $configuration   The main configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Model
@@ -137,19 +137,57 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
         array               $translation,
         array               $originalRequest,
         DoozR_Cache_Service $cache,
-        DoozR_Config        $config
+        DoozR_Config        $configuration
     ) {
         // store
         $this->request         = $request;
         $this->translation     = $translation;
         $this->originalRequest = $originalRequest;
         $this->cache           = $cache;
-        $this->config          = $config;
+
+        $this->setConfiguration($configuration);
 
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
             $this->__tearup($request, $translation);
         }
+    }
+
+    /**
+     * This method (container) is intend to return the data for a requested mode.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data for the mode requested
+     * @access public
+     */
+    public function getData()
+    {
+        // custom generic overload solution
+        if (method_exists($this, '__data')) {
+            $arguments = func_get_args();
+
+            if (count($arguments) > 0) {
+                call_user_func_array(array($this, '__data'), $arguments);
+            } else {
+                call_user_func(array($this, '__data'));
+            }
+        }
+
+        return $this->data;
+    }
+
+    /**
+     * This method (container) is intend to set the data for a requested mode.
+     *
+     * @param mixed $data The data (array prefered) to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setData($data)
+    {
+        return $this->data = $data;
     }
 
     /**
@@ -233,6 +271,32 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     }
 
     /**
+     * Setter for configuration.
+     *
+     * @param DoozR_Config_Interface $configuration The configuation object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    protected function setConfiguration(DoozR_Config_Interface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * Getter for configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Config_Interface The configuration stored
+     * @access public
+     */
+    protected function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
      * Delete of cruD
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -253,42 +317,5 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
 
             return $result;
         }
-    }
-
-    /**
-     * This method (container) is intend to return the data for a requested mode.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data for the mode requested
-     * @access public
-     */
-    public function getData()
-    {
-        // custom generic overload solution
-        if (method_exists($this, '__data')) {
-            $arguments = func_get_args();
-
-            if (count($arguments) > 0) {
-                call_user_func_array(array($this, '__data'), $arguments);
-            } else {
-                call_user_func(array($this, '__data'));
-            }
-        }
-
-        return $this->data;
-    }
-
-    /**
-     * This method (container) is intend to set the data for a requested mode.
-     *
-     * @param mixed $data The data (array prefered) to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setData($data)
-    {
-        return $this->data = $data;
     }
 }

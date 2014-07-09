@@ -99,17 +99,17 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
      */
     private $_logger;
 
-
     /**
      * This method is the constructor of the core class.
      *
-     * @param array  $decoratorConfiguration Configuration for the Generic Decorator Class
-     * @param object $path                   Instance of DoozR_Path
-     * @param object $config                 Instance of DoozR_Config
-     * @param object $logger                 Instance of DoozR_Logger
+     * @param array $decoratorConfiguration Configuration for the Generic Decorator Class
+     * @param DoozR_Path|object $path Instance of DoozR_Path
+     * @param DoozR_Config|object $config Instance of DoozR_Config
+     * @param DoozR_Logger|object $logger Instance of DoozR_Logger
      *
+     * @throws DoozR_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return \DoozR_Model Instance of this class
      * @access protected
      */
     protected function __construct(
