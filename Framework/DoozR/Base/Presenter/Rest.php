@@ -150,7 +150,12 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to demonstrate how data could be automatic be displayed.
+     * The main entry point
+     *
+     * Mainly extracts the resource which was called.
+     *
+     * @example If you would request something like /api/users/123 and /api is the root node this main would extract
+     *          /users/123 as resource called.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean True if successful, otherwise false
@@ -166,10 +171,11 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         );
 
         // Try to dispatch to action or fail with exception if action does not exist
-        if (is_callable(array($this, $resource))) {
-
+        if (is_callable(array($this, ucfirst(strtolower($resource))))) {
             // Setup the routes (subrouting)
             $this->{$resource}();
+
+            // And return the result of the run (executed subrouting!)
             return $this->run();
 
         } else {
@@ -278,10 +284,8 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * Getter for route tree
      *
-     * @return array The route tree
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return array The route tree
      * @access protected
      */
     protected function getRouteTree()
@@ -289,6 +293,27 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         return $this->routeTree;
     }
 
+    /**
+     * Setter for routes
+     *
+     * @param array $routes The routes
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRoutes(array $routes)
+    {
+        $this->routes = $routes;
+    }
+
+    /**
+     * Getter for routes
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The routes
+     * @access protected
+     */
     protected function getRoutes()
     {
         return $this->routes;
@@ -329,7 +354,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         // For automagically extracting {{id}} to id (uid of a recordset/dataset)
         $uid = null;
 
-        // Lookup route
+        // Lookup route ...
         for ($i = 0; $i < $countNodes; ++$i) {
 
             // Is regular route way/node ?
@@ -339,10 +364,9 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
             } elseif (preg_match('/{{(.*)}}/i', key($routeTree), $variable) > 0) {
                 // maybe its a variable node value
                 $nodes[$i] = '{{' . $variable[1] . '}}';
-
-                $magicUid = strtolower($variable[1]);
-                if ($magicUid === 'id' || $magicUid === 'uid') {
-                    $uid = $variable[1];
+                $id = $this->extractId($variable[1]);
+                if ($id !== null) {
+                    $uid = $id;
                 }
 
                 $ids[]     = $nodes[$i];
@@ -379,20 +403,55 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         return $routeTree;
     }
 
+    /**
+     * Returns boolean status if input is Id field
+     *
+     * @param string $input The input to check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if field is Id field, otherwise FALSE
+     * @access protected
+     */
+    protected function isId($input)
+    {
+        // Assume false result
+        $result = false;
 
+        // Make the search easier
+        $input = strtolower($input);
 
+        // We got the Id field if the first 2 or the last 2 characters are === id (e.g. IdMessages, MessageId, Id, ...)
+        if (substr($input, 0, 2) === 'id' || substr($input, -2, 2) === 'id') {
+            $result = true;
+        }
+
+        // Everything's fine!
+        return $result;
+    }
+
+    /**
+     * Executes the configured subroutes if any matches.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter_Rest The current instance for chaining
+     * @access protected
+     */
     protected function run()
     {
-        // COULD START HERE....
-        // PUT THIS CODE INTO BASE CLASS AS RUN() !!!!!
-        $this->setRouteTree(
-            explodeTree($this->routes, '/')
-        );
+        /**
+         * PREPS
+         */
+        // First convert via subrouting defined routes to a parsable array tree
+        $this->setRouteTree(explodeTree($this->getRoutes(), '/'));
 
-        $routeConfig = $this->getRouteByUrl($this->requestObject->getUrl());
+        // Retrieve route config via match by current request URL ;)
+        $routeConfig = $this->getRouteByUrl($this->getRequestObject()->getUrl());
 
-        // check if verb is allowed
-        if ($routeConfig->isAllowed($this->requestObject->getMethod()) === false) {
+        /**
+         * Firewall
+         */
+        // Send HTTP-Header "Method-Not-Allowed" for not allowed Verb
+        if ($routeConfig->isAllowed($this->getRequestObject()->getMethod()) === false) {
             $this->getResponse()->sendHttpStatus(
                 405,
                 null,
@@ -402,42 +461,25 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
             exit;
         }
 
-        # VALIDATE INPUT ARGUMENTS
-        $message = 'Missing required argument(s): ';
-        $valid = true;
-
-        // ... and iterate them to find missing elements
-        foreach ($routeConfig->getRequired() as $requiredArgument => $requiredValue) {
-
-            // Can the required value be retrieved from GET, POST, ...
-            if (!isset($this->getRequestObject()->getArguments()->{$requiredArgument})) {
-                $valid = false;
-                $message .= $requiredArgument;
-                if ($requiredValue !== null) {
-                    $message .= '(required Value: "' . var_export($requiredValue, true) . '")';
-                }
-                $message .= ', ';
-            }
-        }
-
-        // If not valid (argument missing => tell it the user!
-        if ($valid === false) {
-            // send HTTP-Header "Not-Acceptable" for missing argument + message
+        // Send HTTP-Header "Not-Acceptable" for missing argument + message
+        if (
+            $this->validateInputArguments($routeConfig->getRequired(), $this->getRequestObject()->getArguments())
+            !== true
+        ) {
             $this->getResponse()->sendHttpStatus(
                 406,
                 null,
                 true,
-                substr($message, 0, strlen($message) - 2)
+                'Required argument(s): ' . var_export($routeConfig->getRequired(), true)
             );
             exit;
         }
 
-        # DATEN READY MACHEN!
-        // Retrieve data for context Screen from Model by defined default interface "getData()"
-        $data = $this->model->getData(
-            $this->getRequestObject(),
-            $routeConfig
-        );
+        /**
+         * Processing!
+         */
+        // Retrieve data
+        $data = $this->model->getData($this->getRequestObject(), $routeConfig);
 
         // set data here within this instance cause VIEW and MODEL are attached as Observer to this Subject.
         $this->setData($data);
@@ -447,12 +489,36 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     }
 
     /**
+     * Checks if all required fields where passed with request.
+     *
+     * @param array                   $argumentsRequired The arguments required
+     * @param DoozR_Request_Arguments $argumentsSent     The arguments send with request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if all required fields where sent, otherwise FALSE
+     * @access protected
+     */
+    protected function validateInputArguments(array $argumentsRequired, DoozR_Request_Arguments $argumentsSent)
+    {
+        $valid = true;
+
+        // ... and iterate them to find missing elements
+        foreach ($argumentsRequired as $requiredArgument => $requiredValue) {
+            // Can the required value be retrieved from GET, POST, ...
+            if (!isset($argumentsSent->{$requiredArgument})) {
+                $valid = false;
+            }
+        }
+
+        return $valid;
+    }
+
+    /**
      * Returns the response object for sending header(s).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Response_Cli|DoozR_Response_Httpd|DoozR_Response_Web
      * @access protected
-     * @deprecated
      */
     protected function getResponse()
     {
