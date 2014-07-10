@@ -35,7 +35,6 @@ $http = DoozR_Loader_Serviceloader::load('http');
  * Test Data
  */
 $host     = 'ip.jsontest.com';
-//$host     = 'corporate.vorwerk.de';
 $port     = 80;
 $protocol = DoozR_Http_Service::CONNECTION_PROTOCOL_HTTP;
 
