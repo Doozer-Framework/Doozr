@@ -25,15 +25,17 @@ $registry = DoozR_Registry::getInstance();
 
 
 // the actions supported by object
+/*
 $actions = array(
     'create',
     'read',
     'update',
     'delete'
 );
+*/
 
 // create a new object to generate a permissions set
-$acl = DoozR_Loader_Serviceloader::load('acl', $actions);
+$acl = DoozR_Loader_Serviceloader::load('acl');
 
 // add/remove the permissions you want
 $acl->addPermission('create');
@@ -46,7 +48,7 @@ $acl->removePermission('delete');
 $code = $acl->evaluate();
 
 // create an object and pass it a permissions code to test against
-$checkAcl = DoozR_Loader_Serviceloader::load('acl', $actions, $code);
+$checkAcl = DoozR_Loader_Serviceloader::load('acl', $code);
 
 // get an array of possible actions you can test for
 $actions = $checkAcl->getActions();

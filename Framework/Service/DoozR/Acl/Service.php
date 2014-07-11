@@ -5,7 +5,7 @@
 /**
  * DoozR - Acl - Service
  *
- * Service.php - Service for interfacing Minify
+ * Service.php - Service for ACL
  *
  * PHP versions 5
  *
@@ -53,13 +53,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Acl/Service/Lib/class.acl.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
 
 /**
  * DoozR - Acl - Service
  *
- * Service for interfacing Minify
+ * Service for ACL
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -72,19 +71,366 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Acl/Service/Lib/class.acl.php'
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Acl_Service extends DoozR_Base_Service_Multiple_Facade
+class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
 {
     /**
-     * Constructor of this class
+     * The actions supported by this ACL
+     *
+     * @var array
+     * @access protected
+     */
+    protected $actions = array(
+        self::ACTION_CREATE,
+        self::ACTION_READ,
+        self::ACTION_UPDATE,
+        self::ACTION_DELETE
+    );
+
+    /**
+     * The type of this ACL
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $type;
+
+    /**
+     * The current FIXED user permissions
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $permissions;
+
+    /**
+     * Action create
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const ACTION_CREATE = 'create';
+
+    /**
+     * Action read
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const ACTION_READ = 'read';
+
+    /**
+     * Action update
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const ACTION_UPDATE = 'update';
+
+    /**
+     * Action delete
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const ACTION_DELETE = 'delete';
+
+    /**
+     * Type for provider (e.g. a REST endpoint or something like this)
+     *
+     * @var integer
+     * @access public
+     * @const
+     */
+    const TYPE_PROVIDER = 1;
+
+    /**
+     * Type for consumer (e.g. an User or a Group or a Robot)
+     *
+     * @var integer
+     * @access public
+     * @const
+     */
+    const TYPE_CONSUMER = 2;
+
+
+    /**
+     * Constructor.
+     *
+     * @param integer $type        The type of this ACL (Consumer | Provider)
+     * @param integer $permissions The permissions code that will be tested against. It is optional and not needed
+     *                             when only using the class to generate a new permissions code.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
+     * @return void
      * @access public
      */
-    public function __tearup(array $actions = array('create', 'read', 'update', 'delete'), $permission = 0)
+    public function __tearup($type = self::TYPE_PROVIDER, $permissions = 0)
     {
-        self::setRealObject(
-            new Acl($actions, $permission)
-        );
+        $this->setType($type);
+        $this->setPermissions($permissions);
+    }
+
+    /**
+     * Setter for actions.
+     *
+     * @param array $actions The supported/possible/available actions to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setActions(array $actions = array())
+    {
+        $this->actions = $actions;
+    }
+
+    /**
+     * Setter for actions.
+     *
+     * @param array $actions The supported/possible/available actions to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Acl_Service The current instance for chaining
+     * @access public
+     */
+    public function actions(array $actions = array())
+    {
+        $this->setActions($actions);
+        return $this;
+    }
+
+    /**
+     * Getter for actions.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The actions
+     * @access public
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * Setter for type.
+     *
+     * @param integer $type The type of the ACL
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Setter for type.
+     *
+     * @param integer $type The type of the ACL
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Acl_Service The current instance for chaining
+     * @access public
+     */
+    public function type($type = self::TYPE_PROVIDER)
+    {
+        $this->setType($type);
+        return $this;
+    }
+
+    /**
+     * Getter for type.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The type
+     * @access public
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Setter for permissions.
+     *
+     * @param integer $permissions The permissions to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setPermissions($permissions = 0)
+    {
+        $this->permissions = intval($permissions);
+    }
+
+    /**
+     * Setter for permissions.
+     *
+     * @param integer $permissions The permissions to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Acl_Service The current instance for chaining
+     * @access public
+     */
+    public function permissions($permissions = 0)
+    {
+        $this->setPermissions($permissions);
+        return $this;
+    }
+
+    /**
+     * Getter for permissions.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The current permissions as integer representation
+     * @access public
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * Checks whether the provider can be accessed by this consumer.
+     *
+     * @param DoozR_Acl_Service $acl    The provider ACL
+     * @param string            $action The action to check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if is allowed, otherwise FALSE
+     * @access public
+     * @throws DoozR_Exception_Service
+     */
+    public function isAllowed(DoozR_Acl_Service $acl, $action)
+    {
+        if ($this->getType() === self::TYPE_CONSUMER && $acl->getType() === self::TYPE_PROVIDER) {
+            return ($acl->hasPermission($action) && $acl->grant($this->getPermissions(), $action));
+
+        } else {
+            throw new DoozR_Exception_Service(
+                'Type mismatch! Only Consumer ca be allowed to access Provider.'
+            );
+        }
+    }
+
+    /**
+     * Checks whether or not the action exists in current configuration.
+     *
+     * @param string $action The action to be checked
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if exist, otherwise FALSE
+     * @access public
+     */
+    public function hasAction($action)
+    {
+        return in_array($action, $this->actions);
+    }
+
+    /**
+     * Checks whether or not the permission as string is allowed by current setup.
+     *
+     * @param string $action The action to be tested for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if allowed (has permission), otherwise FALSE
+     * @access public
+     * @throws DoozR_Exception_Service
+     */
+    public function hasPermission($action)
+    {
+        if ($this->hasAction($action) === true) {
+            $result = $this->grant($this->getPermissions(), $action);
+
+        } else {
+            throw new DoozR_Exception_Service('Action "' . $action . '" does not exist!');
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Adds an action to the bitmask property when generating a new permissions code.
+     *
+     * @param string $action The action that should be allowed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Acl_Service The current instance for chaining
+     * @access public
+     */
+    public function addPermission($action)
+    {
+        // Check if permission is already added
+        if ($this->hasPermission($action) === false) {
+            //
+            $this->setPermissions(
+                $this->getPermissions() + $this->getKey($action)
+            );
+        }
+
+        // Chaining API
+        return $this;
+    }
+
+    /**
+     * Removes an action to the bitmask property when generating a new permissions code.
+     *
+     * @param string $action The action that should not be allowed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Acl_Service The current instance for chaining
+     * @access public
+     */
+    public function removePermission($action)
+    {
+        // Permission must be set before we can remove it ...
+        if ($this->grant($this->getPermissions(), $action) === true) {
+            $this->setPermissions(
+               $this->getPermissions() - $this->getKey($action)
+            );
+        }
+
+        // Chaining API
+        return $this;
+    }
+
+    /**
+     * Checks if the provided action is allowed when using the provided permissions code.
+     *
+     * @param integer $permissions A permissions code to check if access could be granted
+     * @param string  $action      The action to test check if granted
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if the action should be allowed, otherwise FALSE
+     * @access protected
+     */
+    protected function grant($permissions, $action)
+    {
+        $key = $this->getKey($action);
+        $grant = (($permissions & $key) == $key);
+
+        return $grant;
+    }
+
+    /**
+     * Gets the value based on an actions position in the array of possible actions.
+     *
+     * @param string $action The action to look up
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The position value
+     * @access protected
+     */
+    protected function getKey($action)
+    {
+        return pow(2, array_search($action, $this->actions));
     }
 }
