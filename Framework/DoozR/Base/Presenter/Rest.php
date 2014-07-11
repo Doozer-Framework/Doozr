@@ -78,6 +78,40 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      */
     protected $rest;
 
+    /**
+     * The API request object
+     * containing ALL relevant information about the REST call
+     * (Arguments for POST,PUT,... must still be taken from their representing classes).
+     *
+     * @var DoozR_Request_Api
+     * @access protected
+     */
+    protected $requestObject;
+
+    /**
+     * Root node of API (default = /api/)
+     *
+     * @var string
+     * @access protected
+     */
+    protected $rootNode = '/api/';
+
+    /**
+     * The current route setup as tree representation
+     *
+     * @var array
+     * @access protected
+     */
+    protected $routeTree;
+
+    /**
+     * Routes collection of REST API
+     *
+     * @var array
+     * @access protected
+     */
+    protected $routes = array();
+
 
     /**
      * Constructor.
@@ -104,6 +138,9 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         // Init REST layer/service => only difference to DoozR_Base_Presenter
         $this->rest = DoozR_Loader_Serviceloader::load('rest', $originalRequest, count($request));
 
+        // get request object (standard notation), object + method
+        $this->setRequestObject($this->rest->getRequest());
+
         // forward call
         parent::__construct($request, $translation, $originalRequest, $config, $model, $view);
     }
@@ -113,15 +150,39 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Getter for rest
+     * The main entry point
+     *
+     * Mainly extracts the resource which was called.
+     *
+     * @example If you would request something like /api/users/123 and /api is the root node this main would extract
+     *          /users/123 as resource called.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Rest_Service The rest service instance
+     * @return boolean True if successful, otherwise false
      * @access public
+     * @throws DoozR_Base_Presenter_Rest_Exception
      */
-    public function getRest()
+    public function Main()
     {
-        return $this->rest;
+        // Get REAL action (hey dude u know this is the Main() API entry like the main.cpp ;)
+        $resource = $this->requestObject->get($this->rootNode . '{{resource}}', function ($resource) {
+                return $resource;
+            }
+        );
+
+        // Try to dispatch to action or fail with exception if action does not exist
+        if (is_callable(array($this, ucfirst(strtolower($resource))))) {
+            // Setup the routes (subrouting)
+            $this->{$resource}();
+
+            // And return the result of the run (executed subrouting!)
+            return $this->run();
+
+        } else {
+            throw new DoozR_Base_Presenter_Rest_Exception(
+                'The resource "' . $resource . '" seems unknown to me. I never heard about it before :('
+            );
+        }
     }
 
     /**
@@ -136,5 +197,336 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     public function setRest(DoozR_Rest_Service $rest)
     {
         return $this->rest = $rest;
+    }
+
+    /**
+     * Getter for rest
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Rest_Service The rest service instance
+     * @access public
+     */
+    public function getRest()
+    {
+        return $this->rest;
+    }
+
+    /**
+     * Setter for request object
+     *
+     * @param DoozR_Request_Api $requestObject The request object to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRequestObject($requestObject)
+    {
+        $this->requestObject = $requestObject;
+    }
+
+    /**
+     * Getter for request object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_Api The request object
+     * @access protected
+     */
+    protected function getRequestObject()
+    {
+        return $this->requestObject;
+    }
+
+    /**
+     * Registers a new route
+     *
+     * @param DoozR_Base_Presenter_Rest_Config $config The config
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function registerRoute(DoozR_Base_Presenter_Rest_Config $config)
+    {
+        $this->routes[$config->getRoute()] = $config;
+    }
+
+    /**
+     * Registers a new route
+     *
+     * @param array $routes A collection of routes to add
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function registerRoutes(array $routes)
+    {
+        foreach ($routes as $route => $config) {
+            $this->registerRoute($route, $config);
+        }
+    }
+
+    /**
+     * Setter for route tree representation
+     *
+     * @param array $routeTree The route tree
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRouteTree(array $routeTree)
+    {
+        $this->routeTree = $routeTree;
+    }
+
+    /**
+     * Getter for route tree
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The route tree
+     * @access protected
+     */
+    protected function getRouteTree()
+    {
+        return $this->routeTree;
+    }
+
+    /**
+     * Setter for routes
+     *
+     * @param array $routes The routes
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRoutes(array $routes)
+    {
+        $this->routes = $routes;
+    }
+
+    /**
+     * Getter for routes
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The routes
+     * @access protected
+     */
+    protected function getRoutes()
+    {
+        return $this->routes;
+    }
+
+    /**
+     * Returns the route matched by URL including config and extracted Ids ...
+     * We do only throws exceptions here instead of sending header directives like 404 405 406.
+     * This is responsibility of the implementing application cause here too high level.
+     *
+     * @param string $url The URL to return route for.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter_Rest_Config|false The config if route could be revsolved,
+     *                                                false if route could not be resolved
+     * @access protected
+     * @throws DoozR_Base_Presenter_Rest_Exception
+     */
+    protected function getRouteByUrl($url)
+    {
+        // prepare URL for lookup
+        $url = str_replace($this->rootNode, '', $url);
+
+        // extract nodes from clean URL
+        $nodes = explode('/', $url);
+
+        // Local copy for diving into ...
+        $routeTree = $this->routeTree;
+
+        // The ids extracted from passed URL
+        $ids = array();
+
+        // The route reverse created
+        $route = array();
+
+        $countNodes = count($nodes);
+
+        // For automagically extracting {{id}} to id (uid of a recordset/dataset)
+        $uid = null;
+
+        // Lookup route ...
+        for ($i = 0; $i < $countNodes; ++$i) {
+
+            // Is regular route way/node ?
+            if (is_array($routeTree) && isset($routeTree[$nodes[$i]])) {
+                $routeTree = $routeTree[$nodes[$i]];
+
+            } elseif (preg_match('/{{(.*)}}/i', key($routeTree), $variable) > 0) {
+                // maybe its a variable node value
+                $nodes[$i] = '{{' . $variable[1] . '}}';
+                $id = $this->extractId($variable[1]);
+                if ($id !== null) {
+                    $uid = $id;
+                }
+
+                $ids[]     = $nodes[$i];
+                $routeTree = $routeTree[$nodes[$i]];
+
+            } else {
+                throw new DoozR_Base_Presenter_Rest_Exception(
+                    'Route for URL "' . $url . '" seems wrong. It could not be resolved.'
+                );
+            }
+
+            $route[] = $nodes[$i];
+
+            if ($i === ($countNodes - 1)) {
+                if (is_object($routeTree) === true) {
+                    // Inject Ids for reverse lookup
+                    /* @var $routeTree DoozR_Base_Presenter_Rest_Config */
+                    $routeTree
+                        ->id($uid)
+                        ->ids($ids)
+                        ->url($url)
+                        ->realRoute($route)
+                        ->rootNode($this->rootNode);
+
+                } else {
+                    // In this case we ended up before we got config!
+                    throw new DoozR_Base_Presenter_Rest_Exception(
+                        'Route for URL "' . $url . '" seems incomplete.'
+                    );
+                }
+            }
+        }
+
+        return $routeTree;
+    }
+
+    /**
+     * Returns boolean status if input is Id field
+     *
+     * @param string $input The input to check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if field is Id field, otherwise FALSE
+     * @access protected
+     */
+    protected function isId($input)
+    {
+        // Assume false result
+        $result = false;
+
+        // Make the search easier
+        $input = strtolower($input);
+
+        // We got the Id field if the first 2 or the last 2 characters are === id (e.g. IdMessages, MessageId, Id, ...)
+        if (substr($input, 0, 2) === 'id' || substr($input, -2, 2) === 'id') {
+            $result = true;
+        }
+
+        // Everything's fine!
+        return $result;
+    }
+
+    /**
+     * Executes the configured subroutes if any matches.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter_Rest The current instance for chaining
+     * @access protected
+     */
+    protected function run()
+    {
+        /**
+         * PREPS
+         */
+        // First convert via subrouting defined routes to a parsable array tree
+        $this->setRouteTree(explodeTree($this->getRoutes(), '/'));
+
+        // Retrieve route config via match by current request URL ;)
+        $routeConfig = $this->getRouteByUrl($this->getRequestObject()->getUrl());
+
+        /**
+         * Firewall
+         */
+        // Send HTTP-Header "Method-Not-Allowed" for not allowed Verb
+        if ($routeConfig->isAllowed($this->getRequestObject()->getMethod()) === false) {
+            $this->getResponse()->sendHttpStatus(
+                405,
+                null,
+                true,
+                $this->getRequestObject()->getMethod()
+            );
+            exit;
+        }
+
+        // Send HTTP-Header "Not-Acceptable" for missing argument + message
+        if (
+            $this->validateInputArguments($routeConfig->getRequired(), $this->getRequestObject()->getArguments())
+            !== true
+        ) {
+            $this->getResponse()->sendHttpStatus(
+                406,
+                null,
+                true,
+                'Required argument(s): ' . var_export($routeConfig->getRequired(), true)
+            );
+            exit;
+        }
+
+        /**
+         * Processing!
+         */
+        // Retrieve data
+        $data = $this->model->getData($this->getRequestObject(), $routeConfig);
+
+        // set data here within this instance cause VIEW and MODEL are attached as Observer to this Subject.
+        $this->setData($data);
+
+        // Chaining required?
+        return $this;
+    }
+
+    /**
+     * Checks if all required fields where passed with request.
+     *
+     * @param array                   $argumentsRequired The arguments required
+     * @param DoozR_Request_Arguments $argumentsSent     The arguments send with request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if all required fields where sent, otherwise FALSE
+     * @access protected
+     */
+    protected function validateInputArguments(array $argumentsRequired, DoozR_Request_Arguments $argumentsSent)
+    {
+        $valid = true;
+
+        // ... and iterate them to find missing elements
+        foreach ($argumentsRequired as $requiredArgument => $requiredValue) {
+            // Can the required value be retrieved from GET, POST, ...
+            if (!isset($argumentsSent->{$requiredArgument})) {
+                $valid = false;
+            }
+        }
+
+        return $valid;
+    }
+
+    /**
+     * Returns the response object for sending header(s).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Response_Cli|DoozR_Response_Httpd|DoozR_Response_Web
+     * @access protected
+     */
+    protected function getResponse()
+    {
+        // get registry
+        $registry = DoozR_Registry::getInstance();
+
+        // get response
+        /* @var $response DoozR_Response_Web */
+        return $registry->front->getResponse();
     }
 }

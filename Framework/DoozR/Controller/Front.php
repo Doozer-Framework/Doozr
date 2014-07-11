@@ -142,6 +142,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      */
     const RUNNING_MODE_HTTPD = 'httpd';
 
+
     /**
      * Constructor.
      *

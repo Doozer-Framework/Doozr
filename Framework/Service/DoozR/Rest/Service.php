@@ -111,6 +111,7 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
         }
 
         // get hands on request object
+        /* @var $request DoozR_Request_Web */
         $request = $this->registry->front->getRequest();
 
         // extract real API request

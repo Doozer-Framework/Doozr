@@ -99,12 +99,12 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_Class
 
 
     /**
-     * Constructor
+     * Constructor.
      *
      * This method acts as constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Base_Service_Multiple
      * @access public
      */
     public function __construct()

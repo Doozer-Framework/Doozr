@@ -79,14 +79,6 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     protected $data;
 
     /**
-     * holds a reference to the Database (DoozR_Core::model)
-     *
-     * @var object
-     * @access protected
-     */
-    protected $model;
-
-    /**
      * contains the complete request
      *
      * @var array
@@ -118,95 +110,46 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      */
     protected $cache;
 
+    /**
+     * The main configuration for use in model environment.
+     *
+     * @var DoozR_Config
+     * @access protected
+     */
+    protected $configuration;
+
 
     /**
      * Constructor of this class
      *
-     * @param array                  $request         The whole request as processed by "Route"
-     * @param array                  $translation     The translation required to read the request
-     * @param array                  $originalRequest The original untouched request
-     * @param DoozR_Cache_Service    $cache           An instance of DoozR_Cache_Service
+     * @param array               $request         The whole request as processed by "Route"
+     * @param array               $translation     The translation required to read the request
+     * @param array               $originalRequest The original untouched request
+     * @param DoozR_Cache_Service $cache           An instance of DoozR_Cache_Service
+     * @param DoozR_Config        $configuration   The main configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Base_Model
      * @access public
      */
     public function __construct(
-        array $request,
-        array $translation,
-        array $originalRequest,
+        array               $request,
+        array               $translation,
+        array               $originalRequest,
         DoozR_Cache_Service $cache,
-        DoozR_Config $config
+        DoozR_Config        $configuration
     ) {
         // store
         $this->request         = $request;
         $this->translation     = $translation;
         $this->originalRequest = $originalRequest;
         $this->cache           = $cache;
-        $this->config          = $config;
+
+        $this->setConfiguration($configuration);
 
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
             $this->__tearup($request, $translation);
-        }
-    }
-
-    /**
-     * This method is intend to call the teardown method of a model if exist
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __destruct()
-    {
-        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
-        if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
-            $this->__teardown();
-        }
-    }
-
-    /**
-     * Create of Crud
-     *
-     * @param mixed $data The data for create
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access protected
-     */
-    protected function create($data = null)
-    {
-        if ($this->hasMethod('__create') && is_callable(array($this, '__create'))) {
-            return $this->__create($data);
-        }
-    }
-
-    /**
-     * Read of cRud
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Data on success, otherwise null
-     * @access protected
-     */
-    protected function read()
-    {
-        if ($this->hasMethod('__read') && is_callable(array($this, '__read'))) {
-            return $this->__read();
-        }
-    }
-
-    /**
-     * Delete of cruD
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access protected
-     */
-    protected function delete()
-    {
-        if ($this->hasMethod('__delete') && is_callable(array($this, '__delete'))) {
-            return $this->__delete();
         }
     }
 
@@ -239,12 +182,140 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      * @param mixed $data The data (array prefered) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if everything wents fine, otherwise false
+     * @return void
      * @access public
-     * @deprecated
      */
     public function setData($data)
     {
-        return ($this->data = $data);
+        return $this->data = $data;
+    }
+
+    /**
+     * Escapes values from bad stuff but only simple
+     *
+     * @param string $string String to escape
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Escaped input
+     * @access public
+     */
+    public function escape($string)
+    {
+        $string = mb_convert_encoding($string, 'UTF-8', 'UTF-8');
+        $string = str_replace('{{', '', $string);
+        $string = str_replace('}}', '', $string);
+        return htmlentities($string, ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
+     * This method is intend to call the teardown method of a model if exist
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function __destruct()
+    {
+        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
+            $this->__teardown();
+        }
+    }
+
+    /**
+     * Create of Crud
+     *
+     * @param mixed $data The data for create
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     */
+    protected function create($data = null)
+    {
+        $method = '__' . str_replace(__CLASS__ . '::', '', __METHOD__);
+
+        if ($this->hasMethod($method) && is_callable(array($this, $method))) {
+            $arguments = func_get_args();
+            if (empty($arguments)) {
+                $result = $this->{$method}();
+            } else {
+                $result = call_user_func_array(array($this, $method), $arguments);
+            }
+
+            return $result;
+        }
+    }
+
+    /**
+     * Read of cRud
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Data on success, otherwise null
+     * @access protected
+     */
+    protected function read()
+    {
+        $method = '__' . str_replace(__CLASS__ . '::', '', __METHOD__);
+
+        if ($this->hasMethod($method) && is_callable(array($this, $method))) {
+            $arguments = func_get_args();
+            if (empty($arguments)) {
+                $result = $this->{$method}();
+            } else {
+                $result = call_user_func_array(array($this, $method), $arguments);
+            }
+
+            return $result;
+        }
+    }
+
+    /**
+     * Setter for configuration.
+     *
+     * @param DoozR_Config_Interface $configuration The configuation object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    protected function setConfiguration(DoozR_Config_Interface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * Getter for configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Config_Interface The configuration stored
+     * @access public
+     */
+    protected function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * Delete of cruD
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     */
+    protected function delete()
+    {
+        $method = '__' . str_replace(__CLASS__ . '::', '', __METHOD__);
+
+        if ($this->hasMethod($method) && is_callable(array($this, $method))) {
+            $arguments = func_get_args();
+            if (empty($arguments)) {
+                $result = $this->{$method}();
+            } else {
+                $result = call_user_func_array(array($this, $method), $arguments);
+            }
+
+            return $result;
+        }
     }
 }

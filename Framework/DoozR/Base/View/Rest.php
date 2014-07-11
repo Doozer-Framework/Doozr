@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Exception
+ * DoozR - Base View Rest
  *
- * Exception.php - Generic Exception (no specific type) of DoozR Framework.
+ * Rest.php - Base View Rest of the DoozR Framework.
  *
  * PHP versions 5
  *
@@ -40,11 +40,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Please feel free to contact us via e-mail: opensource@clickalicious.de
+ * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Exception
+ * @package    DoozR_Base
+ * @subpackage DoozR_Base_View
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,95 +52,77 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/View.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/View/Interface.php';
 
 /**
- * DoozR - Exception
+ * DoozR - Base View Rest
  *
- * Generic Exception (no specific type) of DoozR Framework.
+ * Base View Rest of the DoozR Framework.
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Exception
+ * @package    DoozR_Base
+ * @subpackage DoozR_Base_View
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Exception extends DoozR_Base_Exception
+class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_Interface
 {
     /**
-     * The type of the exception (is in 99% the classname)
-     *
-     * @var string
-     * @access public
-     */
-    public $type;
-
-    /**
-     * The message of the exception
-     *
-     * @var string
-     * @access public
-     */
-    public $message;
-
-    /**
-     * The filename in which the exception was thrown
-     *
-     * @var string
-     * @access public
-     */
-    public $file;
-
-    /**
-     * The line where the exception was thrown
-     *
-     * @var integer
-     * @access public
-     */
-    public $line;
-
-    /**
-     * The code of the exception
-     *
-     * @var integer
-     * @access public
-     */
-    public $code;
-
-    /**
-     * The last exception if the exception was forwarded
-     *
-     * @var Exception
-     * @access public
-     */
-    public $previous;
-
-    /**
-     * The arguments passed to the last executed method
-     *
-     * @var array
-     * @access public
-     */
-    public $arguments;
-
-    /**
-     * constructor
-     *
-     * This method is intend to act as constructor.
-     *
-     * @param string  $message  The message of the exception
-     * @param integer $code     The error-code of the exception
-     * @param object  $previous An previos throw exception which should be repacked
+     * This method is the magic renderer von View = Main.
+     * Upon creating this method gets automagically called when data
+     * is set to view via setData(). And we always deliver JSON so
+     * its really simple.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Exception
+     * @return void
      * @access public
      */
-    public function __construct($message = null, $code = 0, $previous = null)
+    public function __renderMain()
     {
-        parent::__construct($message, $code, $previous);
+        // Get response
+        /* @var $response DoozR_Response_Web */
+        $response = $this->front->getResponse();
+
+        // Custom default header configured?
+        try {
+            $headers = $this->config->transmission->header();
+        } catch (Exception $e) {
+            $headers = null;
+        }
+
+        // Send configured header
+        foreach ($headers as $type => $header) {
+            $response->sendHeader($header);
+        }
+
+        $data = $this->getData();
+
+        if (isset($data->error)) {
+            $response->sendHttpStatus(400, null, true, $data->error->message);
+
+        } else {
+            // Send our data as HTML through response
+            $response->sendJson($this->getData(), $this->getFingerprint(1));
+        }
+    }
+
+    /**
+     * Maybe a bit spooky but a good solution to get data into this part of the
+     * MVP structure.
+     *
+     * @param SplSubject $subject The subject which is automatically dispatched
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function __update(SplSubject $subject)
+    {
+        // store data internal and call renderer!
+        $this->setData( $subject->getData(), true );
     }
 }

@@ -96,12 +96,12 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     protected $view;
 
     /**
-     * Contains the instance of config
+     * The main configuration
      *
      * @var DoozR_Config
      * @access protected
      */
-    protected $config;
+    protected $configuration;
 
     /**
      * contains the complete request
@@ -153,6 +153,30 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      */
     private $_nodes;
 
+    /**
+     * The ids of the route
+     *
+     * @var array
+     * @access private
+     */
+    private $_ids;
+
+    /**
+     * The URL of the route
+     *
+     * @var string
+     * @access private
+     */
+    private $_url;
+
+    /**
+     * The route
+     *
+     * @var array
+     * @access private
+     */
+    private $_route;
+
 
     /**
      * Constructor.
@@ -160,7 +184,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * @param array                  $request         The whole request as processed by "Route"
      * @param array                  $translation     The translation required to read the request
      * @param array                  $originalRequest The original untouched request
-     * @param DoozR_Config_Interface $config          The DoozR main config instance
+     * @param DoozR_Config_Interface $configuration   The DoozR main config instance
      * @param DoozR_Base_Model       $model           The model to communicate with backend (db)
      * @param DoozR_Base_View        $view            The view to display results
      *
@@ -172,22 +196,23 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         array                  $request,
         array                  $translation,
         array                  $originalRequest,
-        DoozR_Config_Interface $config          = null,
+        DoozR_Config_Interface $configuration   = null,
         DoozR_Base_Model       $model           = null,
         DoozR_Base_View        $view            = null
     ) {
-        // store
+        // store -> @TODO Implement setter and getter like for config below
         $this->request         = $request;
         $this->translation     = $translation;
         $this->originalRequest = $originalRequest;
-        $this->config          = $config;
         $this->model           = $model;
         $this->view            = $view;
 
+        $this->setConfiguration($configuration);
+
         // Check if an app is configured -> enable autoloading for it automagically
-        if (isset($this->config->app)) {
+        if (isset($this->getConfiguration()->app)) {
             $this->registerAutoloader(
-                $this->config->app()
+                $this->getConfiguration()->app()
             );
         }
 
@@ -274,7 +299,6 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         $registry = DoozR_Registry::getInstance();
 
         // get front-controller and return it
-        #->sendText($text)
         return $registry->front->getResponse();
     }
 
@@ -349,20 +373,6 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
-     * This method (container) is intend to return the data for a requested mode.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data for the mode requested
-     * @access public
-     */
-    public function getData()
-    {
-        #pred('# ERROR CHECK FOR THIS STRING: oidsafd8fz8sniemxfeio #');
-        # CHECK HERE IF WE MUST CALL Model->getData() INSTEAD
-        return $this->data;
-    }
-
-    /**
      * This method (container) is intend to set the data for a requested mode.
      *
      * @param mixed $data The data (array prefered) to set
@@ -377,6 +387,18 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
 
         // notify observers about new data
         $this->notify();
+    }
+
+    /**
+     * This method (container) is intend to return the data for a requested mode.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data for the mode requested
+     * @access public
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 
     /**
@@ -536,6 +558,104 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     }
 
     /**
+     * Sets the route
+     *
+     * @param string The route to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function route($route)
+    {
+        $this->_route = $route;
+
+        return $this;
+    }
+
+    /**
+     * Sets the URL of the route
+     *
+     * @param string The URL to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function url($url)
+    {
+        $this->_url = $url;
+        return $this;
+    }
+
+    /**
+     * Sets the ids of the route
+     *
+     * @param array $ids The ids of the route
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function ids(array $ids)
+    {
+        $this->setIds($ids);
+        return $this;
+    }
+
+    /**
+     * Sets the ids of the route
+     *
+     * @param array $ids The ids of the route
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function setIds(array $ids)
+    {
+        $this->_ids = $ids;
+    }
+
+    /**
+     * Returns the ids of the route.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The ids of the route
+     * @access protected
+     */
+    protected function getIds()
+    {
+        return $this->_ids;
+    }
+
+    /**
+     * Setter for configuration.
+     *
+     * @param DoozR_Config_Interface $configuration The configuation object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    protected function setConfiguration(DoozR_Config_Interface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * Getter for configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Config_Interface The configuration stored
+     * @access public
+     */
+    protected function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
      * Sets the count of root nodes for request.
      *
      * @param integer $countOfRootNodes The count of root nodes
@@ -550,21 +670,9 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      */
     protected function nodes($countOfRootNodes)
     {
-        $this->_nodes = $countOfRootNodes;
+        $this->setNodes($countOfRootNodes);
 
         return $this;
-    }
-
-    /**
-     * Returns the count of root nodes.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The count of root nodes
-     * @access protected
-     */
-    protected function getNodes()
-    {
-        return $this->_nodes;
     }
 
     /**
@@ -577,12 +685,24 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      *          root.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return void
      * @access protected
      */
     protected function setNodes($countOfRootNodes)
     {
-        return ($this->_nodes = $countOfRootNodes);
+        $this->_nodes = $countOfRootNodes;
+    }
+
+    /**
+     * Returns the count of root nodes.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The count of root nodes
+     * @access protected
+     */
+    protected function getNodes()
+    {
+        return $this->_nodes;
     }
 
     /**

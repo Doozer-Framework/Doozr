@@ -652,12 +652,22 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function sendJson($buffer, $etag = null, $charset = null, $alreadyJsonEncoded = false, $exit = false, $addHeader = true)
-    {
-        /**
-         * check if we can deliver just a simple 304 Not modified
-         */
-        if ($etag && $etag === $etagReceived = $_SERVER->HTTP_IF_NONE_MATCH()) {
+    public function sendJson(
+        $buffer,
+        $etag               = null,
+        $charset            = null,
+        $alreadyJsonEncoded = false,
+        $exit               = false,
+        $addHeader          = true
+    ) {
+        /* @var $request DoozR_Request_Web */
+        $request = DoozR_Controller_Front::getInstance()->getRequest();
+
+        // transform PHP global server to object for further processing
+        $request->transform('SERVER');
+
+        // check if we can deliver just a simple 304 Not modified
+        if ($etag && $etag === $etagReceived = $_SERVER->HTTP_IF_NONE_MATCH) {
 
             // send header and close connection
             $this->sendHttpStatus(304)
@@ -681,13 +691,22 @@ class DoozR_Response_Web extends DoozR_Base_Response
         // get length of content
         $contentLength = mb_strlen($buffer);
 
-        // send correct header(s)
-        // content-length
-        header('Content-Length: '.$contentLength);
-        // content-type
-        //header('Content-type: application/json');
-        if ($addHeader) {
+
+        // check if not already sent
+        if (!headers_sent($file, $line) && $addHeader === true) {
+            // we send JSON
             header('Content-type: application/json charset='.$charset);
+
+            // the content has a special length
+            header('Content-Length: ' . $contentLength);
+
+            if ($etag) {
+                // send an etag for php content -> reduce re-load
+                header('ETag: '.$etag);
+
+                // needed for session default override:
+                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            }
         }
 
         // send the data
@@ -725,10 +744,8 @@ class DoozR_Response_Web extends DoozR_Base_Response
         // transform PHP global server to object for further processing
         $request->transform('SERVER');
 
-        /**
-         * check if we can deliver just a simple 304 Not modified
-         */
-        if ($etag && $etag === $etagReceived = $_SERVER->HTTP_IF_NONE_MATCH()) {
+        // check if we can deliver just a simple 304 Not modified
+        if ($etag && $etag === $etagReceived = $_SERVER->HTTP_IF_NONE_MATCH) {
 
             // send header and close connection
             $this->sendHttpStatus(304)
@@ -737,9 +754,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
                  ->closeConnection();
         }
 
-        /**
-         * otherwise we do all the checking stuff and return the complete data
-         */
+        // otherwise we do all the checking stuff and return the complete data
         // retrieve charset
         $charset = $this->_getCharset($charset);
 
@@ -1036,9 +1051,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
     }
 
     /**
-     * redirects a request to another page/site
-     *
-     * redirects a request to another page/site
+     * Redirects a request to another page/site.
      *
      * supported redcirect-types:
      * html   - Meta redirect
@@ -1048,14 +1061,14 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * Note:
      * The parameter $time does only work with a redirect of type "HTML"
      *
-     * @param string $url  The url to redirect to
-     * @param string $type The type of redirect to use (html, header or js)
-     * @param int    $time The timeout for HTML-redirect in seconds
+     * @param string  $url  The url to redirect to
+     * @param string  $type The type of redirect to use (html, header or js)
+     * @param integer $time The timeout for HTML-redirect in seconds
      *
+     * @author  Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
+     * @throws Exception
      */
     public static function redirect($url, $type = self::REDIRECT_TYPE_HEADER, $time = 0)
     {

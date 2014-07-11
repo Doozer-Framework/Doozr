@@ -217,7 +217,6 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      */
     public function setData($data = null, $render = true)
     {
-        //pre(__METHOD__.' in View called');
         // store data (reached) from model in this view!
         $this->data = $data;
 
@@ -230,6 +229,11 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
             if (method_exists($this, $specificViewRenderer)) {
                 // call renderer
                 $this->{$specificViewRenderer}($this->data);
+
+            } elseif (method_exists($this, '__render')) {
+                // Always check fallback -> one generic __render for all actions :) maybe used in API's
+                $this->{'__render'}($this->data);
+
             }
         }
 
