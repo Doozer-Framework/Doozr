@@ -155,18 +155,6 @@ $autoloaderService
     ->setDescription('DoozR\'s autoloader responsible for loading services from DoozR\'s namespace')
     ->setPriority(1);
 
-/*
-$autoloaderDoodi = new DoozR_Loader_Autoloader_Spl_Config();
-$autoloaderDoodi
-    ->setNamespace('Doodi')
-    ->setNamespaceSeparator('_')
-    ->addExtension('php')
-    ->setPath(DOOZR_DOCUMENT_ROOT . 'Model')
-    ->setDescription('Doodi\'s autoloader responsible for loading Doodi\'s + libs classes')
-    ->setPriority(1);
-*/
-
-
 /**
  * The facade itself is auto instanciating singleton within the
  * register method if not already instanciated! So don't worry
@@ -176,8 +164,7 @@ $autoloaderDoodi
 DoozR_Loader_Autoloader_Spl_Facade::attach(
     array(
         $autoloaderDoozR,
-        $autoloaderService
-        //$autoloaderDoodi
+        $autoloaderService,
     )
 );
 
@@ -185,12 +172,10 @@ DoozR_Loader_Autoloader_Spl_Facade::attach(
 | BEGIN ERROR-HANDLING (HOOK)
 +---------------------------------------------------------------------------------------------------------------------*/
 
-/*
-// include required files
+// ERROR-HANDLER: register error-handler
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Error.php';
 
-
-// register DoozR's Error-Handler
+// set the own exception_handler
 set_error_handler(
     array(
         'DoozR_Handler_Error',
@@ -205,16 +190,14 @@ register_shutdown_function(
         'handleUnhandable'
     )
 );
-*/
 
 /*----------------------------------------------------------------------------------------------------------------------
  | BEGIN EXCEPTION-HANDLING (HOOK)
  ---------------------------------------------------------------------------------------------------------------------*/
 
-// EXCEPTION-HANDLER: register exception-handler (dispatches calls to error-handler)
-#require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Exception.php';
+// EXCEPTION-HANDLER: register exception-handler
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Exception.php';
 
-/*
 // set the own exception_handler
 set_exception_handler(
     array(
@@ -222,12 +205,6 @@ set_exception_handler(
         'handle'
     )
 );
-*/
-
-#require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/php_error.php';
-#if ( function_exists('\php_error\reportErrors') ) {
-#    \php_error\reportErrors();
-#}
 
 /*----------------------------------------------------------------------------------------------------------------------
 | BEGIN LOAD DoozR's CORE-CLASS

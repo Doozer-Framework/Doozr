@@ -112,59 +112,59 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      * @access private
      */
     private static $_templates = array(
-        'page'          => '<!DOCTYPE html><html lang="de"><head><title>{{title}}</title><meta http-equiv="content-type" content="text/html; charset=utf-8" /></head><body style="background-color: #333; margin: 0;">{{exception-box}}{{request}}</body></html>',
-        'exception-box' => '<table style="border:0; font-family: \'Andele Mono\', sans-serif; font-size: 14px; color: #666; width: 960px;" align="left"><tr><td><h2 style="font-weight:bold;">{{title}}</h2></td><td align="right">{{memory-bar}}</td></tr>
+        'page'          => '<!DOCTYPE html><html lang="de"><head><title>{{title}}</title><meta http-equiv="content-type" content="text/html; charset=utf-8" /></head><body style="width: 100%; background-color: #333; margin: 0;">{{exception-box}}{{request}}</body></html>',
+        'exception-box' => '<table style="border:0; font-family: \'Andele Mono\', sans-serif; font-size: 14px; color: #666; width: 100%;" align="left"><tr><td><h2 style="font-weight:bold;">{{title}}</h2></td><td align="right">{{memory-bar}}</td></tr>
 
-        		<tr>
-			<td colspan="2" style="color: #fff; font-size: 18px;"><i>{{message}}</i></td>
-		</tr>
-		<tr>
-			<td colspan="2" style="border-bottom: 1px solid #fff; height: 9px;">&nbsp;</td>
-		</tr>
+                <tr>
+            <td colspan="2" style="color: #fff; font-size: 18px;"><i>{{message}}</i></td>
+        </tr>
         <tr>
-			<td style="color: #fff; font-size: 14px;"><span style="color: #ccc; font-size: 10px;">File</span> <span style="color: #eee;font-family:Georgia;">{{file}}</span></td>
-			<td style="color: #fff; font-size: 14px;" align="right"><span style="color: #ccc; font-size: 10px;">Line</span> <span style="font-weight: bold; color: #cc6600;font-family:Georgia;">{{line}}</span></td>
-		</tr>
-		<tr>
-			<td style="color: #fff; font-size: 14px;"><span style="color: #ccc; font-size: 10px;">Method</span> <span style="font-weight: bold; color: #ff00ff;font-family:Georgia;">{{function}}</span></td>
+            <td colspan="2" style="border-bottom: 1px solid #fff; height: 9px;">&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: #fff; font-size: 14px;"><span style="color: #ccc; font-size: 10px;">File</span> <span style="color: #eee;font-family:Georgia;">{{file}}</span></td>
+            <td style="color: #fff; font-size: 14px;" align="right"><span style="color: #ccc; font-size: 10px;">Line</span> <span style="font-weight: bold; color: #cc6600;font-family:Georgia;">{{line}}</span></td>
+        </tr>
+        <tr>
+            <td style="color: #fff; font-size: 14px;"><span style="color: #ccc; font-size: 10px;">Method</span> <span style="font-weight: bold; color: #ff00ff;font-family:Georgia;">{{function}}</span></td>
             <td style="color: #fff; font-size: 14px;" align="right"><span style="color: #ccc; font-size: 10px;">Class</span> <span style="font-weight: bold; color: #009999;font-family:Georgia;">{{class}}</span></td>
-		</tr>
+        </tr>
 
-		<tr>
-			<td colspan="2">&nbsp;</td>
-		</tr>
-		<tr>
-			<td colspan="2" style="color: #fff; font-size: 12px;">
-			<div style="width: 942px; background-color: #555; border: 0;padding: 9px; overflow: auto;"><i>Arguments passed to <b>{{function}}</b></i><br /><br />
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="color: #fff; font-size: 12px;">
+            <div style="width: 100%; background-color: #555; border: 0; overflow: auto;"><i>Arguments passed to <b>{{function}}</b></i><br /><br />
                 {{argument-table}}
-			</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2" style="height: 30px;">&nbsp;</td>
-		</tr>
+            </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 30px;">&nbsp;</td>
+        </tr>
         {{callflow}}
         </table>',
         'arguments' => '
             <tr>
-				<td align="right" style="color: #00aa97; border-top: 1px solid  #eee; height: 22px; background-color: #333;">{{argument-number}}</td>
-				<td align="right" style="color: #cc0000;border-top: 1px solid  #eee; background-color: #333;">{{argument-datatype}}</td>
-				<td align="right" style="color: #009900;border-top: 1px solid  #eee; background-color: #333;">{{argument-size-bytes}} byte(s)</td>
-				<td align="right" style="color: #ff6600;border-top: 1px solid  #eee; background-color: #333;">{{argument-name}}</td>
-				<td align="right" style="color: #cccc33;border-top: 1px solid  #eee; background-color: #333;">{{argument-value}}</td>
-			</tr>
+                <td align="right" style="color: #00aa97; border-top: 1px solid  #eee; height: 22px; background-color: #333;">{{argument-number}}</td>
+                <td align="right" style="color: #cc0000;border-top: 1px solid  #eee; background-color: #333;">{{argument-datatype}}</td>
+                <td align="right" style="color: #009900;border-top: 1px solid  #eee; background-color: #333;">{{argument-size-bytes}} byte(s)</td>
+                <td align="right" style="color: #ff6600;border-top: 1px solid  #eee; background-color: #333;">{{argument-name}}</td>
+                <td align="right" style="color: #cccc33;border-top: 1px solid  #eee; background-color: #333;">{{argument-value}}</td>
+            </tr>
         ',
         'argument-table' => '
-			<table style="border:0; width: 100%;" cellpadding="0" cellspacing="0" align="left">
-			<tr>
-				<th align="right">#</th>
-				<th align="right">type</th>
-				<th align="right">size (h)</th>
-				<th align="right">name</th>
-				<th align="right">value</th>
-			</tr>
+            <table style="border:0; width: 100%;" cellpadding="0" cellspacing="0" align="left">
+            <tr>
+                <th align="right">#</th>
+                <th align="right">type</th>
+                <th align="right">size (h)</th>
+                <th align="right">name</th>
+                <th align="right">value</th>
+            </tr>
             {{arguments}}
-			</table>
+            </table>
         ',
         'callflow' => '
             {{callflow-elements}}
@@ -173,12 +173,12 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             <tr><td colspan="2">{{element}}</td></tr>
         ',
         'request' => '
-            <table style="border:0; font-family: \'Andele Mono\', sans-serif; font-size: 14px; color: #666; width: 960px;" align="left">
+            <table style="border:0; font-family: \'Andele Mono\', sans-serif; font-size: 14px; color: #666; width: 100%;" align="left">
             <tr><td colspan="2"><h2>→ Request (Method: {{request-type}})</h2>
             <table style="border:0; width: 100%;" cellpadding="0" cellspacing="0" align="left">
             <tr>
                 <td colspan="2" style="color: #fff; font-size: 12px;">
-                <div style="width: 942px; background-color: #555; border: 0;padding: 9px; overflow: auto;"><i>Request data</i><br /><br />
+                <div style="width: 100%; background-color: #555; border: 0; overflow: auto;"><i>Request data</i><br /><br />
                     {{request-elements}}
                 </div>
                 </td>
@@ -197,17 +197,53 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         ',
         'memory-bar'    => '
             <div style="border:1px solid #fff; width: 100px; height: 20px; background-color:#ccc;font-size: 12px;color:#111;">
-			<div style="background-color:#99ff99;width: 18px; float:left; height: 20px;">&nbsp;</div>
-			<div style="float:right;padding-top: 3px;">{{usage-megabyte}}&nbsp;/&nbsp;{{max-megabyte}}</div><div>'
+            <div style="background-color:#99ff99;width: 18px; float:left; height: 20px;">&nbsp;</div>
+            <div style="float:right;padding-top: 3px;">{{usage-megabyte}}&nbsp;/&nbsp;{{max-megabyte}}</div><div>'
     );
 
+
+
+    protected static function convertArgumentsToString($arguments)
+    {
+        $argumentsAsString = '';
+
+        foreach ($arguments as $argument => $value) {
+            if (is_array($value) || is_object($value)) {
+                if (is_object($value) && get_class($value) === 'DoozR_Request_Argument') {
+                    $value = $value->getRaw();
+                } else {
+                    $value = self::convertArgumentsToString($value);
+                }
+            }
+            $argumentsAsString .= $argument . ' => ' . $value . "\n";
+        }
+
+        return $argumentsAsString;
+    }
+
+
+    protected static function getArgumentsFromRequest($method)
+    {
+        switch (strtoupper($method)) {
+            case 'POST':
+                $arguments = $_POST;
+                break;
+
+            default:
+            case 'GET':
+                $arguments = $_GET;
+                break;
+        }
+
+        return self::convertArgumentsToString($arguments);
+    }
 
     /**
      * Replacement for PHP's default internal exception handler. All Exceptions are dispatched
      * to this method - we decide here what to do with it. We need this hook to stay informed
      * about DoozR's state and to pipe the Exceptions to attached Logger-Subsystem.
      *
-     * @param object $exception The thrown and uncaught exception object
+     * @param Exception $exception The thrown and uncaught exception object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean Always TRUE
@@ -216,19 +252,12 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      */
     public static function handle(Exception $exception)
     {
-        self::$_registry = DoozR_Registry::getInstance();
-
-        $requestAsString = '<n.a.>';
-        $requestMethod   = '<n.a.>';
-
-        if (self::$_registry->front !== null) {
-            $requestAsString = self::$_registry->front->getRequest()->getRequestAsString();
-            $requestMethod   = self::$_registry->front->getRequest()->getMethod();
-        }
+        $requestMethod     = (isset($_SERVER['REQUEST_METHOD'])) ? $_SERVER['REQUEST_METHOD'] : '<n.a.>';
+        $argumentsAsString = self::getArgumentsFromRequest($requestMethod);
 
         $headers = array(
-            'REQUEST-URI' => $_SERVER['REQUEST_URI'],
-            'REQUEST-DATA' => $requestAsString
+            'REQUEST-URI'  => $_SERVER['REQUEST_URI'],
+            'REQUEST-DATA' => nl2br($argumentsAsString)
         );
 
         // iterate over $_SERVER to parse header from there

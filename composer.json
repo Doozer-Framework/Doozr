@@ -10,10 +10,12 @@
     }
   ],
   "require": {
-    "doctrine/couchdb": "1.0.*@dev",
-    "doctrine/dbal": "2.5.*@dev",
-    "doctrine/orm": "2.5.*@dev",
-    "firephp/firephp-core": "dev-master"
+      "doctrine/couchdb": "dev-master",
+      "doctrine/couchdb-odm": "dev-master",
+      "doctrine/dbal": "2.5.*@dev",
+      "doctrine/orm": "2.5.*@dev",
+      "symfony/console": ">=2.0",
+      "firephp/firephp-core": "dev-master"
   },
   "keywords": [
     "php",

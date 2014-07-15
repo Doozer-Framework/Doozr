@@ -86,7 +86,6 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
      */
     private $_logger;
 
-
     /**
      * This method is the constructor
      *
@@ -94,7 +93,7 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
      * @param object $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Encoding
      * @access protected
      */
     protected function __construct($config, $logger)
