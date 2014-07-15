@@ -78,32 +78,12 @@ define('E_USER_CORE_FATAL_EXCEPTION', 23523);
 final class DoozR_Handler_Exception extends DoozR_Base_Class
 {
     /**
-     * The class as identifier to be able to extract
-     * the real exception/error from a double-packed exception
+     * The reflection instance cache.
      *
-     * @var string
-     * @access const
+     * @var array
+     * @access protected
      */
-    const DOOZR_ERROR_EXCEPTION = 'DoozR_Error_Exception';
-
-    /**
-     * The class of DoozR's Error Handler
-     *
-     * @var string
-     * @access const
-     */
-    const DOOZR_ERROR_HANDLER = 'DoozR_Handler_Error';
-
-    /**
-     * The name of method which handles an error within error
-     * handler.
-     *
-     * @var string
-     * @access const
-     */
-    const DOOZR_ERROR_METHOD = 'handle';
-
-    private static $_registry;
+    protected static $reflectionInstances = array();
 
     /**
      * Template/Snippets used for generating exception screen
@@ -135,9 +115,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         </tr>
         <tr>
             <td colspan="2" style="color: #fff; font-size: 12px;">
-            <div style="width: 100%; background-color: #555; border: 0; overflow: auto;"><i>Arguments passed to <b>{{function}}</b></i><br /><br />
                 {{argument-table}}
-            </div>
             </td>
         </tr>
         <tr>
@@ -155,6 +133,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             </tr>
         ',
         'argument-table' => '
+            <div style="width: 100%; background-color: #555; border: 0; overflow: auto;"><i>Arguments passed to <b>{{function}}</b></i><br /><br />
             <table style="border:0; width: 100%;" cellpadding="0" cellspacing="0" align="left">
             <tr>
                 <th align="right">#</th>
@@ -165,6 +144,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             </tr>
             {{arguments}}
             </table>
+            </div>
         ',
         'callflow' => '
             {{callflow-elements}}
@@ -201,42 +181,32 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             <div style="float:right;padding-top: 3px;">{{usage-megabyte}}&nbsp;/&nbsp;{{max-megabyte}}</div><div>'
     );
 
+    /**
+     * The class as identifier to be able to extract
+     * the real exception/error from a double-packed exception
+     *
+     * @var string
+     * @access const
+     */
+    const DOOZR_ERROR_EXCEPTION = 'DoozR_Error_Exception';
 
+    /**
+     * The class of DoozR's Error Handler
+     *
+     * @var string
+     * @access const
+     */
+    const DOOZR_ERROR_HANDLER = 'DoozR_Handler_Error';
 
-    protected static function convertArgumentsToString($arguments)
-    {
-        $argumentsAsString = '';
+    /**
+     * The name of method which handles an error within error
+     * handler.
+     *
+     * @var string
+     * @access const
+     */
+    const DOOZR_ERROR_METHOD = 'handle';
 
-        foreach ($arguments as $argument => $value) {
-            if (is_array($value) || is_object($value)) {
-                if (is_object($value) && get_class($value) === 'DoozR_Request_Argument') {
-                    $value = $value->getRaw();
-                } else {
-                    $value = self::convertArgumentsToString($value);
-                }
-            }
-            $argumentsAsString .= $argument . ' => ' . $value . "\n";
-        }
-
-        return $argumentsAsString;
-    }
-
-
-    protected static function getArgumentsFromRequest($method)
-    {
-        switch (strtoupper($method)) {
-            case 'POST':
-                $arguments = $_POST;
-                break;
-
-            default:
-            case 'GET':
-                $arguments = $_GET;
-                break;
-        }
-
-        return self::convertArgumentsToString($arguments);
-    }
 
     /**
      * Replacement for PHP's default internal exception handler. All Exceptions are dispatched
@@ -246,7 +216,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      * @param Exception $exception The thrown and uncaught exception object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Always TRUE
+     * @return void
      * @access public
      * @static
      */
@@ -330,6 +300,60 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
 
         // print result
         echo self::parseTemplate(self::$_templates['page'], $data);
+    }
+
+    /**
+     * Converts array|object of values to string representation.
+     *
+     * @param mixed $arguments The arguments to convert to string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The converted values as string
+     * @access protected
+     * @static
+     */
+    protected static function convertToString($arguments)
+    {
+        $argumentsAsString = '';
+
+        foreach ($arguments as $argument => $value) {
+            if (is_array($value) || is_object($value)) {
+                if (is_object($value) && get_class($value) === 'DoozR_Request_Argument') {
+                    $value = $value->getRaw();
+                } else {
+                    $value = self::convertToString($value);
+                }
+            }
+            $argumentsAsString .= $argument . ' => ' . $value . "\n";
+        }
+
+        return $argumentsAsString;
+    }
+
+    /**
+     * Returns the arguments from request as string.
+     *
+     * @param string $method The request method/verb (get, post, put, delete...)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The result
+     * @access protected
+     * @static
+     */
+    protected static function getArgumentsFromRequest($method)
+    {
+        switch (strtoupper($method)) {
+            case 'POST':
+                $arguments = $_POST;
+                break;
+
+            default:
+            case 'GET':
+                $arguments = $_GET;
+                break;
+        }
+
+        return self::convertToString($arguments);
     }
 
     /**
@@ -433,7 +457,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
     }
 
     /**
-     * Extracts the filename out of a passed callflow element
+     * Extracts the name out of a passed callflow element
      *
      * @param array $element The callflow element
      *
@@ -444,22 +468,42 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      */
     protected static function getFilenameFromCallflowElement(array $element)
     {
-        $class  = isset($element['class']) ? $element['class'] : null;
-        $method = isset($element['function']) ? $element['function'] : null;
-
-        if (self::isDoozRErrorException($class, $method)) {
-            $filename = realpath_ext(
-                realpath(
-                    DOOZR_DOCUMENT_ROOT.str_replace('_', DIRECTORY_SEPARATOR, self::DOOZR_ERROR_HANDLER).'.php'
-                )
-            );
-        } else {
-            $filename = isset($element['file']) ? $element['file'] : null;
-        }
+        $classname = isset($element['class']) ? $element['class'] : null;
+        $reflection = self::getReflection($classname);
+        $filename = $reflection->getFileName();
 
         return $filename;
     }
 
+    /**
+     * Returns the reflection instance for a passed classname.
+     *
+     * @param string $classname The name of the class to return reflection instance for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return ReflectionClass|null The instance of ReflectionClass if class exist, otherwise NULL
+     * @access protected
+     * @static
+     */
+    protected static function getReflection($classname)
+    {
+        if (isset(self::$reflectionInstances[$classname]) === false) {
+            self::$reflectionInstances[$classname] = new ReflectionClass($classname);
+        }
+
+        return self::$reflectionInstances[$classname];
+    }
+
+    /**
+     * Returns the line number from a callflow element.
+     *
+     * @param array $element The callflow element to return linenumer from
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer|null Linenumber if found, otherwise NULL
+     * @access protected
+     * @static
+     */
     protected static function getLinenumberFromCallflowElement(array $element)
     {
         $class  = isset($element['class']) ? $element['class'] : null;
@@ -501,10 +545,10 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
     /**
      * Returns the parsed HTML template for exception box
      *
-     * @param array $element The callflow element
+     * @param array $templateData The data for the template
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The extracted functionname
+     * @return string The parsed exception box HTML
      * @access protected
      * @static
      */
@@ -514,8 +558,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
     }
 
     /**
-     * Returns the HTML Block (Table) filled with callflow
-     * elements in a readable and so correct order.
+     * Returns the HTML Block (Table) filled with callflow elements in a readable and so correct order.
      *
      * @param array $data The exception's trace/callflow
      *
@@ -554,13 +597,17 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             // make call complex datatypes printable (to string)
             $callflowElements[$i] = self::convertArrayOfPhpTypesToStrings($callflowElements[$i]);
 
+            // Do not remove break!!!
+            $hasArguments = ( $callflowElements[$i]['args'] != 'array (
+)'); // <- keep till we have a better solution.
+
             // merge in the data required to fully complete the template
             $callflowElements[$i] = array_merge($callflowElements[$i], array(
                     'file'           => $filename,
                     'message'        => '',
                     'title'          => '↕ Callflow (e.g. executed elements)',
                     'class'          => $classname,
-                    'function'       => $function.'('.(($callflowElements[$i]['args']) ? '...' : '').')',
+                    'function'       => $function.'('.(($hasArguments === true) ? '...' : '').')',
                     'memory-bar'     => '',
                     'argument-table' => $argumentsHtml,
                     'callflow'       => ''
@@ -620,14 +667,30 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
 
         // fill data for argument table with inner content data
         $templateVars = array(
+            'function'  => $signature['function'],
             'arguments' => $argumentsHtml
         );
 
+        if ($templateVars['arguments'] !== '') {
+            $html = self::parseTemplate(self::$_templates['argument-table'], $templateVars);
+        } else {
+            $html = '';
+        }
+
         // return parsed content
-        return self::parseTemplate(self::$_templates['argument-table'], $templateVars);
+        return $html;
     }
 
-
+    /**
+     * Return TRUE if input can safely be handled (no recursion etc.) or FALSE if not.
+     *
+     * @param mixed The input to check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if input is safe, otherwise FALSE
+     * @access protected
+     * @static
+     */
     protected static function isSafe($variable)
     {
         $result = true;
@@ -638,13 +701,35 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         return $result;
     }
 
-    protected static function removeLastElementIfSame(array & $array, $reference) {
+    /**
+     * Removes the last element of an array.
+     *
+     * @param array $array     The array to remove element from
+     * @param mixed $reference The variable to check against
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     * @static
+     */
+    protected static function removeLastElementIfSame(array &$array, $reference) {
         if(end($array) === $reference) {
             unset($array[key($array)]);
         }
     }
 
-    protected static function isRecursiveArrayIteration(array & $array, $reference) {
+    /**
+     * Iterator for recursive array check.
+     *
+     * @param array $array     The array to check
+     * @param mixed $reference The variable to check against
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if is recursive, otherwise FALSE
+     * @access protected
+     * @static
+     */
+    protected static function isRecursiveArrayIteration(array &$array, $reference) {
         $last_element   = end($array);
         if($reference === $last_element) {
             return true;
@@ -665,12 +750,20 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         return false;
     }
 
-
+    /**
+     * Check if array is recursive.
+     *
+     * @param array $array The array to check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if is recursive, otherwise FALSE
+     * @access protected
+     * @static
+     */
     protected static function isRecursiveArray(array $array) {
         $some_reference = new stdclass();
         return self::isRecursiveArrayIteration($array, $some_reference);
     }
-
 
     /**
      * Returns the HTML of the memory bar
@@ -687,7 +780,9 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             'max-megabyte'     => (int)ini_get('memory_limit').'M',
             'usage-byte'       => memory_get_peak_usage(false),
             'usage-megabyte'   => round(memory_get_peak_usage() / 1024 / 1024, 0).'M',
-            'usage-percentage' => round((memory_get_peak_usage(false) * 100) / (int)ini_get('memory_limit') * 1024 * 1024, 0)
+            'usage-percentage' => round(
+                (memory_get_peak_usage(false) * 100) / (int)ini_get('memory_limit') * 1024 * 1024, 0
+            )
         );
 
         return self::parseTemplate(self::$_templates['memory-bar'], $memory);
@@ -777,10 +872,12 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
                 $value = ($value == 1) ? 'true' : 'false';
             break;
 
-            case 'array':
             case 'object':
-                //$value = var_export($value, true);
-                $value = '???';
+                $value = '&ldash;object&ndash;';
+            break;
+
+            case 'array':
+                $value =  var_export($value, true);
             break;
 
             default:
@@ -794,17 +891,16 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
     /**
      * Extracts the signature of a file for the passed function name.
      *
-     * @param string $file     The file to parse from
-     * @param string $function The name of the function to extract signature for
+     * @param string $file         The file to parse from
+     * @param string $functionName The name of the function to extract signature for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The parsed signature in an array representation
      * @access protected
      * @static
      */
-    protected static function extractSignature($file, $function)
+    protected static function extractSignature($file, $functionName)
     {
-        // @todo: check if file exists before we try to get it contents
         $source    = file_get_contents($file);
         $arguments = array();
 
@@ -820,13 +916,17 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         ~six';
 
         if (preg_match_all($regex, $source, $matches)) {
-            foreach ($matches['function_name'] as $index => $functionName) {
-                if ($function === $functionName) {
+
+            #if ($functionName == 'dispatch') {
+
+            #}
+
+            foreach ($matches['function_name'] as $index => $element) {
+                if ($element == $functionName) {
                     $arguments = ($matches['parameters'][$index] !== '()') ?
                         explode(',', str_replace('(', '', str_replace(')', '', $matches['parameters'][$index]))) :
                         array();
                 }
-                break;
             }
         }
 
@@ -835,7 +935,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         }
 
         return array(
-            'function'  => $function,
+            'function'  => $functionName,
             'arguments' => $arguments
         );
     }

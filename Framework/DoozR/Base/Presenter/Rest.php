@@ -180,7 +180,8 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
 
         } else {
             throw new DoozR_Base_Presenter_Rest_Exception(
-                'The resource "' . $resource . '" seems unknown to me. I never heard about it before :('
+                'The resource "' . $resource . '" is unknown to me. I never heard about it before.',
+                404
             );
         }
     }
@@ -374,7 +375,8 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
 
             } else {
                 throw new DoozR_Base_Presenter_Rest_Exception(
-                    'Route for URL "' . $url . '" seems wrong. It could not be resolved.'
+                    'Route for URL "' . $url . '" seems wrong. It could not be resolved.',
+                    400
                 );
             }
 
@@ -394,7 +396,8 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
                 } else {
                     // In this case we ended up before we got config!
                     throw new DoozR_Base_Presenter_Rest_Exception(
-                        'Route for URL "' . $url . '" seems incomplete.'
+                        'Route for URL "' . $url . '" seems incomplete.',
+                        406
                     );
                 }
             }

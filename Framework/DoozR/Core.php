@@ -253,7 +253,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
 
 
     /*------------------------------------------------------------------------------------------------------------------
-    | PRIVATE/PROTECED METHODS
+    | PRIVATE/PROTECTED METHODS
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -657,6 +657,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     {
         // get debug manager
         self::$_debug = self::$_container->build('DoozR_Debug', array(self::$_config->debug->enabled()));
+
+        // This information is really important so make this at least global available without hassle to use
+        define('DOOZR_DEBUG', self::$_config->debug->enabled());
 
         // store in registry
         self::$_registry->debug = self::$_debug;

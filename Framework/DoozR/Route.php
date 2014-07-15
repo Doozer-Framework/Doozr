@@ -234,7 +234,6 @@ final class DoozR_Route extends DoozR_Base_Class
 
         // Check for usage of DoozR's MVC-/MVP-structure ...
         if (self::$_registry->config->base->pattern->enabled()) {
-
             // ... dispatch request (MVP/MVC) to DoozR's Back_Controller
             self::$_registry->back->dispatch(
                 self::$_activeRoute,
@@ -242,6 +241,7 @@ final class DoozR_Route extends DoozR_Base_Class
                 self::$_translationMatrix,
                 self::$_registry->config->base->pattern->type()
             );
+
         }
     }
 
@@ -280,7 +280,7 @@ final class DoozR_Route extends DoozR_Base_Class
      ******************************************************************************************************************/
 
     /*******************************************************************************************************************
-     * // BEGIN PRIVATE/PROTECED METHODS
+     * // BEGIN PRIVATE/PROTECTED METHODS
      ******************************************************************************************************************/
 
     /**
@@ -322,7 +322,7 @@ final class DoozR_Route extends DoozR_Base_Class
 
     /**
      * This method fills a passed route with default values
-     * for missing values to fullfil at least our required
+     * for missing values to fulfill at least our required
      * two node condition /object/action/
      *
      * @param array $route The current route
@@ -420,6 +420,6 @@ final class DoozR_Route extends DoozR_Base_Class
     }
 
     /*******************************************************************************************************************
-     * \\ END PRIVATE/PROTECED METHODS
+     * \\ END PRIVATE/PROTECTED METHODS
      ******************************************************************************************************************/
 }
