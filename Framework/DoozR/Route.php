@@ -78,10 +78,10 @@ final class DoozR_Route extends DoozR_Base_Class
      * required source and target minimum.
      *
      * @var array
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_defaults = array(
+    protected static $defaults = array(
         'model' => array(
             self::DEFAULT_OBJECT,
             self::DEFAULT_ACTION
@@ -104,10 +104,10 @@ final class DoozR_Route extends DoozR_Base_Class
      * and so up to n-nodes-routes (e.g. /foo/bar/foo/bar/...)
      *
      * @var array
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_activeRoute = array(
+    protected static $activeRoute = array(
         self::DEFAULT_OBJECT,
         self::DEFAULT_ACTION
     );
@@ -117,10 +117,10 @@ final class DoozR_Route extends DoozR_Base_Class
      * access.
      *
      * @var array
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_request;
+    protected static $request;
 
     /**
      * The translation matrix for passed requests. The translation
@@ -130,20 +130,20 @@ final class DoozR_Route extends DoozR_Base_Class
      * $action by default pattern).
      *
      * @var array
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_translationMatrix;
+    protected static $translationMatrix;
 
     /**
      * The registry of the DoozR Framework for accessing
      * base objects.
      *
      * @var array
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_registry;
+    protected static $registry;
 
     /**
      * The default object.
@@ -184,7 +184,7 @@ final class DoozR_Route extends DoozR_Base_Class
     public static function init($requestUri, $route, DoozR_Registry_Interface $registry, $autorun = true)
     {
         // store registry
-        self::$_registry = $registry;
+        self::$registry = $registry;
 
         // now begin generic parsing of pattern
         // get exclude(s) and build exclude-regexp of it/them
@@ -197,10 +197,10 @@ final class DoozR_Route extends DoozR_Base_Class
         $result = preg_match_all($pattern, $requestUri, $request);
 
         // check for redirect/fillup
-        self::$_request = self::_redirect($request, object_to_array($route->routes));
+        self::$request = self::redirect($request, object_to_array($route->routes));
 
         // get pattern translation as array from config
-        self::$_translationMatrix = explode('/', $route->pattern->translation);
+        self::$translationMatrix = explode('/', $route->pattern->translation);
 
         // if autorun is enabled we execute the dispatched route
         if ($autorun === true || true) {
@@ -214,8 +214,6 @@ final class DoozR_Route extends DoozR_Base_Class
      * or automatically intercept the execution between the route detection
      * of DoozR and the execution of it.
      *
-     * @param array $route The new target route to route to
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
@@ -224,42 +222,25 @@ final class DoozR_Route extends DoozR_Base_Class
     public static function run()
     {
         // get translation
-        $translated = self::_translate(self::$_request, self::$_translationMatrix);
+        $translated = self::translate(self::$request, self::$translationMatrix);
 
         // Dispatch the new route to logger-subsystem (e.g. for use as filename in file-logger)
-        self::$_registry->logger->route(implode('_', $translated));
+        self::$registry->logger->route(implode('_', $translated));
 
         // store the route as active route
-        self::$_activeRoute = $translated;
+        self::$activeRoute = $translated;
 
         // Check for usage of DoozR's MVC-/MVP-structure ...
-        if (self::$_registry->config->base->pattern->enabled()) {
+        if (self::$registry->config->base->pattern->enabled()) {
             // ... dispatch request (MVP/MVC) to DoozR's Back_Controller
-            self::$_registry->back->dispatch(
-                self::$_activeRoute,
-                self::$_request,
-                self::$_translationMatrix,
-                self::$_registry->config->base->pattern->type()
+            self::$registry->back->dispatch(
+                self::$activeRoute,
+                self::$request,
+                self::$translationMatrix,
+                self::$registry->config->base->pattern->type()
             );
 
         }
-    }
-
-    /**
-     * This method redirects the current route to an alternative route
-     * by passing in the target route.
-     *
-     * @param array $route The new target route to route to
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     * @static
-     */
-    public static function redirect(array $route)
-    {
-        pred('redirect not yet implemented.');
-        self::$_activeRoute = array();
     }
 
     /**
@@ -272,7 +253,7 @@ final class DoozR_Route extends DoozR_Base_Class
      */
     public function get()
     {
-        return self::$_activeRoute;
+        return self::$activeRoute;
     }
 
     /*******************************************************************************************************************
@@ -291,10 +272,10 @@ final class DoozR_Route extends DoozR_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Translated request
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _translate(array $request, array $translation)
+    protected static function translate(array $request, array $translation)
     {
         // the translated result
         $result = array();
@@ -329,10 +310,10 @@ final class DoozR_Route extends DoozR_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The resulting array containing "object" and "action" of target route
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _fillUp(array $route)
+    protected static function fillUp(array $route)
     {
         // the filled up route
         $result = array();
@@ -369,15 +350,15 @@ final class DoozR_Route extends DoozR_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The resulting array containing "object" and "action" of target route
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _redirect(array $route, array $routeRedirects = array())
+    protected static function redirect(array $route, array $routeRedirects = array())
     {
         // check if redirect is required
         if (count($routeRedirects)) {
 
-            $route      = self::_fillUp($route[1]);
+            $route      = self::fillUp($route[1]);
             $countNodes = count($route);
 
             // check for existing route redirects for "object" & "action"
@@ -408,10 +389,10 @@ final class DoozR_Route extends DoozR_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The resulting array containing two nodes "object" and "action" of target route
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _buildRoutingProfile($node1 = null, $node2 = null)
+    protected static function buildRoutingProfile($node1 = null, $node2 = null)
     {
         return array(
             ($node1 !== null) ? $node1 : self::DEFAULT_OBJECT,

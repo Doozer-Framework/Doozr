@@ -76,9 +76,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * this var is a shortcut to DIRECTORY_SEPARATOR
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_separator = DIRECTORY_SEPARATOR;
+    protected $separator = DIRECTORY_SEPARATOR;
 
     /**
      * holds the instance of model
@@ -86,9 +86,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * this var holds the instance of the model
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_model;
+    protected $model;
 
     /**
      * holds the instance of view
@@ -96,82 +96,82 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * this var holds the instance of the view
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_view;
+    protected $view;
 
     /**
      * contains an instance of Presentor if MVP-pattern is used,
      * otherwise an instance of Controller if MVC-pattern is active.
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_connector;
+    protected $connector;
 
     /**
      * holds the translation
      *
      * @var mixed
-     * @access private
+     * @access protected
      */
-    private $_translation;
+    protected $translation;
 
     /**
      * holds the request
      *
      * @var mixed
-     * @access private
+     * @access protected
      */
-    private $_request;
+    protected $request;
 
     /**
      * holds the original request
      *
      * @var mixed
-     * @access private
+     * @access protected
      */
-    private $_originalRequest;
+    protected $originalRequest;
 
     /**
      * contains the active pattern (MVC/MVP)
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_pattern;
+    protected $pattern;
 
     /**
      * Contains an instance of module DoozR_Cache_Service
      *
      * @var DoozR_Cache_Service
-     * @access private
+     * @access protected
      */
-    private $_cache;
+    protected $cache;
 
     /**
      * contains instance of config
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_config;
+    protected $config;
 
     /**
      * holds instance of logger
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_logger;
+    protected $logger;
 
     /**
      * holds instance of module "filesystem"
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_filesystem;
+    protected $filesystem;
 
     /**
      * HTTP STATUS 400
@@ -205,11 +205,11 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     public function __construct(DoozR_Config_Interface $config, DoozR_Logger_Interface $logger)
     {
         // store instances
-        $this->_config = $config;
-        $this->_logger = $logger;
+        $this->config = $config;
+        $this->logger = $logger;
 
         // load and store instance of module filesystem
-        $this->_filesystem = DoozR_Loader_Serviceloader::load('filesystem');
+        $this->filesystem = DoozR_Loader_Serviceloader::load('filesystem');
     }
 
     /**
@@ -227,58 +227,58 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     public function dispatch(array $request, array $originalRequest, array $translation, $pattern = 'MVP')
     {
         // store request and corresponding translation
-        $this->_request         = $request;
-        $this->_originalRequest = $originalRequest;
-        $this->_translation     = $translation;
-        $this->_pattern         = $pattern;
-        $this->_cache           = DoozR_Loader_Serviceloader::load(
+        $this->request         = $request;
+        $this->originalRequest = $originalRequest;
+        $this->translation     = $translation;
+        $this->pattern         = $pattern;
+        $this->cache           = DoozR_Loader_Serviceloader::load(
             'cache',
             DOOZR_UNIX,
-            $this->_config->cache->container()
+            $this->config->cache->container()
         );
 
         // init MV(P|C) layer
-        switch ($this->_pattern) {
+        switch ($this->pattern) {
         case 'MVP':
 
             // init layer MODEL (data e.g. Database access ...)
-            $this->_model = $this->_initLayer(
+            $this->model = $this->initLayer(
                 $request[$translation[0]],
                 'Model',
                 array(
                     $request,
                     $translation,
                     $originalRequest,
-                    $this->_cache,
-                    $this->_config
+                    $this->cache,
+                    $this->config
                 )
             );
 
             // init layer VIEW (displaying data ...)
-            $this->_view = $this->_initLayer(
+            $this->view = $this->initLayer(
                 $request[$translation[0]],
                 'View',
                 array(
                     $request,
                     $translation,
                     $originalRequest,
-                    $this->_cache,
-                    $this->_config,
+                    $this->cache,
+                    $this->config,
                     DoozR_Controller_Front::getInstance()
                 )
             );
 
             // init connector - can be either PRESENTOR or CONTROLLER
-            $this->_connector = $this->_initLayer(
+            $this->connector = $this->initLayer(
                 $request[$translation[0]],
                 'Presenter',
                 array(
                     $request,
                     $translation,
                     $originalRequest,
-                    $this->_config,
-                    $this->_model,
-                    $this->_view
+                    $this->config,
+                    $this->model,
+                    $this->view
                 )
             );
 
@@ -291,18 +291,18 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         }
 
         // if we reach this point - we should check if anything could be called otherwise 404
-        if (($status = $this->_validateRequest()) !== true) {
+        if (($status = $this->validateRequest()) !== true) {
             // send error status through front controller
             $front = DoozR_Controller_Front::getInstance();
             $front->getResponse()->sendHttpStatus($status, null, true, implode(DIRECTORY_SEPARATOR, $request));
 
         } else {
             // the request is valid -> attach the observer(s) to subject
-            ($this->_model) ? $this->_connector->attach($this->_model) : null;
-            ($this->_view) ? $this->_connector->attach($this->_view) : null;
+            ($this->model) ? $this->connector->attach($this->model) : null;
+            ($this->view) ? $this->connector->attach($this->view) : null;
 
             // and finally call the main() entry point
-            $this->_connector->{$request[$translation[1]]}();
+            $this->connector->{$request[$translation[1]]}();
         }
 
         // return instance for chaining
@@ -318,19 +318,19 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed TRUE if request is valid, otherwise this method
-     * @access private
+     * @access protected
      */
-    private function _validateRequest()
+    protected function validateRequest()
     {
         // get init class + method from request
-        $class  = $this->_connector;
-        $method = $this->_request[$this->_translation[1]];
+        $class  = $this->connector;
+        $method = $this->request[$this->translation[1]];
 
         // assume valid
         $valid  = true;
 
         // no connector instance = Bad Request = 400
-        if (!$this->_connector) {
+        if (!$this->connector) {
             $valid = self::HTTP_STATUS_400;
 
             // no action to call after existing connector exist = Not Found = 404
@@ -354,9 +354,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object An instance of the requested layer (M|V|C|P)
-     * @access private
+     * @access protected
      */
-    private function _initLayer($request, $layer = 'Model', $classParams = null)
+    protected function initLayer($request, $layer = 'Model', $classParams = null)
     {
         // assume instance won't be created
         $instance = null;
@@ -365,10 +365,10 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         $className = $layer.'_'.$request;
 
         // build location (path and filename)
-        $classFileAndPath = DOOZR_APP_ROOT.str_replace('_', $this->_separator, $className).'.php';
+        $classFileAndPath = DOOZR_APP_ROOT.str_replace('_', $this->separator, $className).'.php';
 
         // check if requested layer file exists
-        if ($this->_filesystem->exists($classFileAndPath)) {
+        if ($this->filesystem->exists($classFileAndPath)) {
             // include file
             include_once $classFileAndPath;
 

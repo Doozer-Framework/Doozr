@@ -89,12 +89,11 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      * Template/Snippets used for generating exception screen
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private static $_templates = array(
+    protected static $templates = array(
         'page'          => '<!DOCTYPE html><html lang="de"><head><title>{{title}}</title><meta http-equiv="content-type" content="text/html; charset=utf-8" /></head><body style="width: 100%; background-color: #333; margin: 0;">{{exception-box}}{{request}}</body></html>',
-        'exception-box' => '<table style="border:0; font-family: \'Andele Mono\', sans-serif; font-size: 14px; color: #666; width: 100%;" align="left"><tr><td><h2 style="font-weight:bold;">{{title}}</h2></td><td align="right">{{memory-bar}}</td></tr>
-
+        'exception-box' => '<table style="border:0; font-family: \'Andele Mono\', sans-serif; font-size: 16px; color: #666; width: 100%;" align="left"><tr><td><h2 style="font-weight:bold;">{{title}}</h2></td><td align="right">{{memory-bar}}</td></tr>
                 <tr>
             <td colspan="2" style="color: #fff; font-size: 18px;"><i>{{message}}</i></td>
         </tr>
@@ -106,8 +105,8 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             <td style="color: #fff; font-size: 14px;" align="right"><span style="color: #ccc; font-size: 10px;">Line</span> <span style="font-weight: bold; color: #cc6600;font-family:Georgia;">{{line}}</span></td>
         </tr>
         <tr>
-            <td style="color: #fff; font-size: 14px;"><span style="color: #ccc; font-size: 10px;">Method</span> <span style="font-weight: bold; color: #ff00ff;font-family:Georgia;">{{function}}</span></td>
-            <td style="color: #fff; font-size: 14px;" align="right"><span style="color: #ccc; font-size: 10px;">Class</span> <span style="font-weight: bold; color: #009999;font-family:Georgia;">{{class}}</span></td>
+            <td style="color: #fff; font-size: 14px;"><span style="color: #ccc; font-size: 10px;">Method</span> <span style="font-weight: bold; color: #ff00ff;font-family:Georgia;">{{class}}::{{function}}</span></td>
+            <td style="color: #fff; font-size: 14px;" align="right"><span style="color: #ccc; font-size: 10px;">Class</span> <span style="font-weight: bold; color: #009999;font-family:Georgia;">&nbsp;</span></td>
         </tr>
 
         <tr>
@@ -137,10 +136,10 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             <table style="border:0; width: 100%;" cellpadding="0" cellspacing="0" align="left">
             <tr>
                 <th align="right">#</th>
-                <th align="right">type</th>
-                <th align="right">size (h)</th>
-                <th align="right">name</th>
-                <th align="right">value</th>
+                <th align="right">Type</th>
+                <th align="right">Size</th>
+                <th align="right">Name</th>
+                <th align="right">Value</th>
             </tr>
             {{arguments}}
             </table>
@@ -245,7 +244,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
                 'request-value' => $value
             );
 
-            $collection[] = self::parseTemplate(self::$_templates['request-element'], $data);
+            $collection[] = self::parseTemplate(self::$templates['request-element'], $data);
         }
 
         $data = array(
@@ -253,7 +252,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             'request-elements' => implode('', $collection)
         );
 
-        $request = self::parseTemplate(self::$_templates['request'], $data);
+        $request = self::parseTemplate(self::$templates['request'], $data);
 
 
         // extract unpack real exception if required
@@ -299,7 +298,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         );
 
         // print result
-        echo self::parseTemplate(self::$_templates['page'], $data);
+        echo self::parseTemplate(self::$templates['page'], $data);
     }
 
     /**
@@ -468,9 +467,13 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      */
     protected static function getFilenameFromCallflowElement(array $element)
     {
-        $classname = isset($element['class']) ? $element['class'] : null;
-        $reflection = self::getReflection($classname);
-        $filename = $reflection->getFileName();
+        if (isset($element['file']) === true) {
+            $filename = $element['file'];
+        } else {
+            $classname = isset($element['class']) ? $element['class'] : null;
+            $reflection = self::getReflection($classname);
+            $filename = $reflection->getFileName();
+        }
 
         return $filename;
     }
@@ -506,6 +509,18 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      */
     protected static function getLinenumberFromCallflowElement(array $element)
     {
+        #var_dump($element);
+
+        if (isset($element['line'])) {
+            $linenumber = $element['line'];
+        } else {
+            $linenumber = null;
+        }
+
+        return $linenumber;
+
+
+        /*
         $class  = isset($element['class']) ? $element['class'] : null;
         $method = isset($element['function']) ? $element['function'] : null;
 
@@ -516,6 +531,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         }
 
         return $linenumber;
+        */
     }
 
     /**
@@ -554,7 +570,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      */
     protected static function getExceptionBoxHtml(array $templateData)
     {
-        return self::parseTemplate(self::$_templates['exception-box'], $templateData);
+        return self::parseTemplate(self::$templates['exception-box'], $templateData);
     }
 
     /**
@@ -579,16 +595,19 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         for ($i = 1; $i < $countCallflowElements; ++$i) {
 
             // get filename and function from callflow element (+ default)
-            $filename   = self::getFilenameFromCallflowElement($callflowElements[$i]);
             $linenumber = self::getLinenumberFromCallflowElement($callflowElements[$i]);
             $function   = self::getFunctionFromCallflowElement($callflowElements[$i]);
             $classname  = self::extractClassFromArray($callflowElements[$i]);
+            $filename   = self::getFilenameFromCallflowElement($callflowElements[$i]);
 
-            if ($filename !== null) {
+            // Bugfix: Temporary? Here we need the target of course to extract arguments information!
+            $filenameTarget = self::getFilenameFromCallflowElement(array('class' => $classname));
+
+            if ($filenameTarget !== null) {
                 // get HTML for arguments
                 $argumentsHtml = self::getArgumentHtml(
                     $callflowElements[$i]['args'],
-                    self::extractSignature($filename, $function)
+                    self::extractSignature($filenameTarget, $function)
                 );
             } else {
                 $argumentsHtml = '';
@@ -628,7 +647,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         );
 
         // return a parsed callflow template (HTML)
-        return self::parseTemplate(self::$_templates['callflow'], $data);
+        return self::parseTemplate(self::$templates['callflow'], $data);
     }
 
     /**
@@ -662,7 +681,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
                 'argument-value'      => ($safe) ? self::realValue($data[$i], gettype($data[$i])) : '?&nbsp;'
             );
 
-            $argumentsHtml .= self::parseTemplate(self::$_templates['arguments'], $templateVars);
+            $argumentsHtml .= self::parseTemplate(self::$templates['arguments'], $templateVars);
         }
 
         // fill data for argument table with inner content data
@@ -672,7 +691,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         );
 
         if ($templateVars['arguments'] !== '') {
-            $html = self::parseTemplate(self::$_templates['argument-table'], $templateVars);
+            $html = self::parseTemplate(self::$templates['argument-table'], $templateVars);
         } else {
             $html = '';
         }
@@ -785,7 +804,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             )
         );
 
-        return self::parseTemplate(self::$_templates['memory-bar'], $memory);
+        return self::parseTemplate(self::$templates['memory-bar'], $memory);
     }
 
     /**
