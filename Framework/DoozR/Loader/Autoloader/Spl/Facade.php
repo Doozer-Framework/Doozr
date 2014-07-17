@@ -126,7 +126,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * This method is intend to register a new Autoloader to SPL-Subsystem based on the Information (setup) of given
      * config (DoozR_Loader_Autoloader_Spl_Config-Instance).
      *
-     * @param array $config An instance of the DoozR_Loader_Autoloader_Spl_Config
+     * @param DoozR_Loader_Autoloader_Spl_Config[] $config An instance of the DoozR_Loader_Autoloader_Spl_Config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean true if Autoloader was registered successfully, otherwise false
@@ -134,7 +134,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * @static
      * @throws DoozR_Exception
      */
-    public static function attach($config)
+    public static function attach(array $config)
     {
         // assume op will fail
         $result   = false;
@@ -147,6 +147,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
 
         // check input
         if (is_array($config)) {
+            /* @var DoozR_Loader_Autoloader_Spl_Config $singleConfig */
             foreach ($config as $singleConfig) {
                 if (!$singleConfig instanceof DoozR_Loader_Autoloader_Spl_Config) {
                     throw new DoozR_Exception(
@@ -217,7 +218,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
             }
         }
 
-        // return TRUE = registered successfuly, NULL = already registered, FALSE = error
+        // return TRUE = registered successfully, NULL = already registered, FALSE = error
         return $result;
     }
 

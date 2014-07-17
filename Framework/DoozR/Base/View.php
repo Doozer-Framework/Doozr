@@ -268,6 +268,8 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      */
     protected function render(array $data = array(), DoozR_I18n_Service $i18n = null)
     {
+        pred('ALDA?');
+
         // store given fingerprint
         $this->fingerprint = $this->getFingerprint(1);
 

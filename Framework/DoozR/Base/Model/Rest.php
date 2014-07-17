@@ -280,6 +280,10 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      */
     protected function __update(SplSubject $subject)
     {
-        $this->setData($subject->getData());
+        var_dump($subject);
+        die;
+
+        #var_dump($subject->getData());
+        #$this->setData($subject->getData());
     }
 }

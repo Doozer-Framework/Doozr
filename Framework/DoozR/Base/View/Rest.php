@@ -72,6 +72,19 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/View/Interface.php';
 class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_Interface
 {
     /**
+     * Default REST API response header(s)
+     *
+     * @var array
+     * @access protected
+     */
+    protected $defaultApiResponseHeader = array(
+        'X-Rate-Limit-Limit'     => 0,                  // The number of allowed requests in the current period
+        'X-Rate-Limit-Remaining' => 0,                  // The number of remaining requests in the current period
+        'X-Rate-Limit-Reset'     => 0,                  // The number of seconds left in the current period
+    );
+
+
+    /**
      * This method is the magic renderer von View = Main.
      * Upon creating this method gets automagically called when data
      * is set to view via setData(). And we always deliver JSON so
@@ -83,21 +96,111 @@ class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_In
      */
     public function __renderMain()
     {
-        // Get response
+        // Send Header
+        $this->sendHeader();
+
+        // Send Data
+        $this->sendData();
+    }
+
+    /**
+     * Setter for defaultApiResponseHeader
+     *
+     * @param array $defaultApiResponseHeader
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setDefaultApiResponseHeader(array $defaultApiResponseHeader = array())
+    {
+        $this->defaultApiResponseHeader = $defaultApiResponseHeader;
+    }
+
+    /**
+     * Getter for defaultApiResponseHeader.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Containing default API Response Header
+     * @access public
+     */
+    public function getDefaultApiResponseHeader()
+    {
+        return $this->defaultApiResponseHeader;
+    }
+
+    /**
+     * Brings the input in a normalized (string) form ready to send.
+     *
+     * @example Will convert 0 => array('content-type' => 'xhtml') TO 'content-type: xhtml'
+     *
+     * @param array $headers The headers to normalize
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Containing default API Response Header
+     * @access public
+     */
+    protected function normalizeHeaders(array $headers)
+    {
+        $responseHeaders = array();
+
+        foreach ($headers as $header => $value) {
+            $key = md5(strtolower($header));
+            $responseHeaders[$key] = $header . ':' . (($value !== null) ? $value : '');
+        }
+
+        return $responseHeaders;
+    }
+
+    /**
+     * Sends header of the API to the client. Those header containing the API-Version
+     * and some more fields.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @throws DoozR_Exception
+     */
+    protected function sendHeader()
+    {
         /* @var $response DoozR_Response_Web */
         $response = $this->front->getResponse();
 
         // Custom default header configured?
         try {
-            $headers = $this->config->transmission->header();
+            $headers = object_to_array(
+                $this->config->transmission->header->api->rest()
+            );
+
         } catch (Exception $e) {
-            $headers = null;
+            $headers = array();
         }
 
+        // add our REST API Header set ... $headers
+        $headers = $this->normalizeHeaders(
+            merge_array($this->getDefaultApiResponseHeader(), $headers)
+        );
+
         // Send configured header
-        foreach ($headers as $type => $header) {
+        foreach ($headers as $header) {
             $response->sendHeader($header);
         }
+    }
+
+    /**
+     * Sends header of the API to the client. Those header containing the API-Version
+     * and some more fields.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @throws DoozR_Exception
+     */
+    protected function sendData()
+    {
+        // So we assume that ...
+        /* @var $response DoozR_Response_Web */
+        $response = $this->front->getResponse();
 
         $data = $this->getData();
 
@@ -106,13 +209,12 @@ class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_In
 
         } else {
             // Send our data as HTML through response
-            $response->sendJson($this->getData(), $this->getFingerprint(1));
+            $response->sendJson($data, $this->getFingerprint(1));
         }
     }
 
     /**
-     * Maybe a bit spooky but a good solution to get data into this part of the
-     * MVP structure.
+     * Maybe a bit spooky but a good solution to get data into this part of the MVP structure.
      *
      * @param SplSubject $subject The subject which is automatically dispatched
      *
@@ -123,6 +225,6 @@ class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_In
     protected function __update(SplSubject $subject)
     {
         // store data internal and call renderer!
-        $this->setData( $subject->getData(), true );
+        $this->setData($subject->getData(), true);
     }
 }

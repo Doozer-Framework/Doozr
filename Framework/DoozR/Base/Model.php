@@ -156,20 +156,24 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     /**
      * This method (container) is intend to return the data for a requested mode.
      *
+     * @param boolean $force TRUE to force retrieval fresh data, otherwise FALSE to use already retrieved [default]
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The data for the mode requested
      * @access public
      */
-    public function getData()
+    public function getData($force = false)
     {
-        // custom generic overload solution
-        if (method_exists($this, '__data')) {
-            $arguments = func_get_args();
+        if ($this->data === null || $force === true) {
+            // custom generic overload solution
+            if (method_exists($this, '__data')) {
+                $arguments = func_get_args();
 
-            if (count($arguments) > 0) {
-                call_user_func_array(array($this, '__data'), $arguments);
-            } else {
-                call_user_func(array($this, '__data'));
+                if (count($arguments) > 0) {
+                    call_user_func_array(array($this, '__data'), $arguments);
+                } else {
+                    call_user_func(array($this, '__data'));
+                }
             }
         }
 
@@ -187,7 +191,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      */
     public function setData($data)
     {
-        return $this->data = $data;
+        $this->data = $data;
     }
 
     /**

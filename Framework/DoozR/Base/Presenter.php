@@ -345,7 +345,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
      * @return mixed Data on success, otherwise null
      * @access protected
      */
-    protected function update()
+    public function update()
     {
         if ($this->hasMethod('__update') && is_callable(array($this, '__update'))) {
             return $this->__update();
@@ -375,10 +375,10 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     /**
      * This method (container) is intend to set the data for a requested mode.
      *
-     * @param mixed $data The data (array prefered) to set
+     * @param mixed   $data      The data (array preferred) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if everything wents fine, otherwise false
+     * @return boolean True if everything wends fine, otherwise false
      * @access public
      */
     public function setData($data)
@@ -704,6 +704,35 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     {
         return $this->_nodes;
     }
+
+    /**
+     * Setter for model.
+     *
+     * @param DoozR_Base_Model $model The model to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setModel(DoozR_Base_Model $model)
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * Getter for model.
+     *
+     * @param DoozR_Base_Model $model The model to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Model|null The model if set, otherwise NULL
+     * @access protected
+     */
+    protected function getModel()
+    {
+        return $this->model;
+    }
+
 
     /**
      * Runs/executes all operations. Should be overwritten by

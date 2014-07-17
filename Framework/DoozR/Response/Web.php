@@ -896,11 +896,10 @@ class DoozR_Response_Web extends DoozR_Base_Response
                 var_export($header, true).'. Headers already sent in file: '.$file.' on line: '.$line;
 
             throw new DoozR_Exception($message);
-
-            $this->logger->debug($message);
+            #$this->logger->debug($message);
         }
 
-        // return this for chaining
+        // Return this for chaining
         return $this;
     }
 

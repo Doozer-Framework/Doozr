@@ -15,7 +15,8 @@
       "doctrine/dbal": "2.5.*@dev",
       "doctrine/orm": "2.5.*@dev",
       "symfony/console": ">=2.0",
-      "firephp/firephp-core": "dev-master"
+      "firephp/firephp-core": "dev-master",
+      "ocramius/generated-hydrator": "1.0.*@dev"
   },
   "keywords": [
     "php",

@@ -297,9 +297,15 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             $front->getResponse()->sendHttpStatus($status, null, true, implode(DIRECTORY_SEPARATOR, $request));
 
         } else {
-            // the request is valid -> attach the observer(s) to subject
-            ($this->model) ? $this->connector->attach($this->model) : null;
-            ($this->view) ? $this->connector->attach($this->view) : null;
+            // The request is valid -> attach the observer(s) to subject
+            /*
+            if ($this->model !== null && $this->model instanceof DoozR_Base_Model) {
+                $this->connector->attach($this->model);
+            }*/
+
+            if ($this->view !== null && $this->view instanceof DoozR_Base_View) {
+                $this->connector->attach($this->view);
+            }
 
             // and finally call the main() entry point
             $this->connector->{$request[$translation[1]]}();

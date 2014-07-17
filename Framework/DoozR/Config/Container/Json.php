@@ -91,17 +91,17 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
      */
     private static $_cacheEnabled = false;
 
-
     /**
      * The constructor
      *
-     * @param object  $path          An instance of DoozR_Path
-     * @param object  $logger        An instance of DoozR_Logger
+     * @param DoozR_Path_Interface|object $path An instance of DoozR_Path
+     * @param DoozR_Logger_Interface|object $logger An instance of DoozR_Logger
      * @param boolean $enableCaching TRUE to enable internal caching, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Config_Container_Json
      * @access public
+     * @throws DoozR_Exception
      */
     public function __construct(DoozR_Path_Interface $path, DoozR_Logger_Interface $logger, $enableCaching = false)
     {

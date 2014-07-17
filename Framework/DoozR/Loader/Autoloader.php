@@ -150,15 +150,14 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     private $_priority;
 
-
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $namespace   The namespace to use
      * @param string $includePath The include-path to use as base
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Loader_Autoloader
      * @access public
      */
     public function __construct($namespace = null, $includePath = null)
@@ -216,12 +215,8 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
                 $fileName = $this->_includePath.$this->_separator.$fileName;
             }
 
-            //pre(__CLASS__.' -> '.$fileName);
-
-            // check first if file exists and load it
-            //if (file_exists($fileName)) {
+            // check first if file exists and load it -> @... suppress is fasted solution ;)
             @include_once $fileName;
-            //}
         }
     }
 

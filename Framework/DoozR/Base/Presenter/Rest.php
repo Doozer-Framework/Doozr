@@ -476,7 +476,11 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         }
 
         // Retrieve data from model so that VIEW and MODEL are informed (Observer and this here is the Subject)
-        $this->setData($this->model->getData($this->getRequestObject(), $routeConfig));
+        $this->setData(
+            $this->getModel()->getData(
+                $this->getRequestObject(), $routeConfig
+            )
+        );
     }
 
     /**
