@@ -489,6 +489,18 @@ class DoozR_Request_Arguments extends DoozR_Base_Class
     }
 
     /**
+     * Returns the count of arguments in this container.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The count of arguments
+     * @access public
+     */
+    public function getCount()
+    {
+        return count($this->arguments);
+    }
+
+    /**
      * Returns the arguments of this class as string.
      *
      * This method is intend to return the arguments of this class as string

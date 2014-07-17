@@ -112,6 +112,15 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      */
     protected $routes = array();
 
+    /**
+     * The seperator for the route (URL).
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const ROUTE_SEPARATOR = '/';
+
 
     /**
      * Constructor.
@@ -158,7 +167,6 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      *          /users/123 as resource called.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if successful, otherwise false
      * @access public
      * @throws DoozR_Base_Presenter_Rest_Exception
      */
@@ -170,13 +178,16 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
             }
         );
 
+        // Get method in correct formatting
+        $method = ucfirst(strtolower($resource));
+
         // Try to dispatch to action or fail with exception if action does not exist
-        if (is_callable(array($this, ucfirst(strtolower($resource))))) {
+        if (is_callable(array($this, $method))) {
             // Setup the routes (subrouting)
-            $this->{$resource}();
+            $this->{$method}();
 
             // And return the result of the run (executed subrouting!)
-            return $this->run();
+            $this->run();
 
         } else {
             throw new DoozR_Base_Presenter_Rest_Exception(
@@ -187,21 +198,21 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     }
 
     /**
-     * Setter for rest
+     * Setter for REST
      *
      * @param DoozR_Rest_Service $rest A rest service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Rest_Service The rest service instance
+     * @return void
      * @access public
      */
     public function setRest(DoozR_Rest_Service $rest)
     {
-        return $this->rest = $rest;
+        $this->rest = $rest;
     }
 
     /**
-     * Getter for rest
+     * Getter for REST
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Rest_Service The rest service instance
@@ -335,25 +346,13 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      */
     protected function getRouteByUrl($url)
     {
-        // prepare URL for lookup
-        $url = str_replace($this->rootNode, '', $url);
-
-        // extract nodes from clean URL
-        $nodes = explode('/', $url);
-
-        // Local copy for diving into ...
-        $routeTree = $this->routeTree;
-
-        // The ids extracted from passed URL
-        $ids = array();
-
-        // The route reverse created
-        $route = array();
-
+        $url        = str_replace($this->rootNode, '', $url);
+        $nodes      = explode(self::ROUTE_SEPARATOR, $url);
+        $routeTree  = $this->routeTree;
+        $ids        = array();
+        $route      = array();
         $countNodes = count($nodes);
-
-        // For automagically extracting {{id}} to id (uid of a recordset/dataset)
-        $uid = null;
+        $uid        = null;
 
         // Lookup route ...
         for ($i = 0; $i < $countNodes; ++$i) {
@@ -428,7 +427,6 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
             $result = true;
         }
 
-        // Everything's fine!
         return $result;
     }
 
@@ -436,59 +434,49 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      * Executes the configured subroutes if any matches.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest The current instance for chaining
+     * @return void
+     * @throws DoozR_Base_Presenter_Rest_Exception
      * @access protected
      */
     protected function run()
     {
-        /**
-         * PREPS
-         */
         // First convert via subrouting defined routes to a parsable array tree
-        $this->setRouteTree(explodeTree($this->getRoutes(), '/'));
+        $this->setRouteTree(explodeTree($this->getRoutes(), self::ROUTE_SEPARATOR));
 
         // Retrieve route config via match by current request URL ;)
         $routeConfig = $this->getRouteByUrl($this->getRequestObject()->getUrl());
 
-        /**
-         * Firewall
-         */
-        // Send HTTP-Header "Method-Not-Allowed" for not allowed Verb
+        // Request method should not be processed.
         if ($routeConfig->isAllowed($this->getRequestObject()->getMethod()) === false) {
-            $this->getResponse()->sendHttpStatus(
-                405,
-                null,
-                true,
-                $this->getRequestObject()->getMethod()
+            throw new DoozR_Base_Presenter_Rest_Exception(
+                'Method "' . $this->getRequestObject()->getMethod() .'" not allowed.',
+                405
             );
-            exit;
         }
 
-        // Send HTTP-Header "Not-Acceptable" for missing argument + message
-        if (
-            $this->validateInputArguments($routeConfig->getRequired(), $this->getRequestObject()->getArguments())
-            !== true
+        // Missing argument + message
+        if ($this->validateInputArguments(
+                $routeConfig->getRequired(),
+                $this->getRequestObject()->getArguments()
+            ) !== true
         ) {
-            $this->getResponse()->sendHttpStatus(
-                406,
-                null,
-                true,
-                'Required argument(s): ' . var_export($routeConfig->getRequired(), true)
+            $missingArguments = array();
+
+            foreach ($routeConfig->getRequired() as $key => $value) {
+                if (array_key_exists($key, $this->getRequestObject()->getArguments()->getArray()) === false) {
+                    $missingArguments[] = $key . (($value !== null) ? ' => ' . $value : '');
+                }
+            }
+
+            throw new DoozR_Base_Presenter_Rest_Exception(
+                'Missing required argument' . ((count($missingArguments) > 1) ? 's' : '') . ': ' .
+                implode(',', $missingArguments),
+                406
             );
-            exit;
         }
 
-        /**
-         * Processing!
-         */
-        // Retrieve data
-        $data = $this->model->getData($this->getRequestObject(), $routeConfig);
-
-        // set data here within this instance cause VIEW and MODEL are attached as Observer to this Subject.
-        $this->setData($data);
-
-        // Chaining required?
-        return $this;
+        // Retrieve data from model so that VIEW and MODEL are informed (Observer and this here is the Subject)
+        $this->setData($this->model->getData($this->getRequestObject(), $routeConfig));
     }
 
     /**
