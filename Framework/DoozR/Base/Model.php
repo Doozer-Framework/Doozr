@@ -131,6 +131,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Model
      * @access public
+     * @throws DoozR_Exception
      */
     public function __construct(
         array               $request,
@@ -149,7 +150,12 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
 
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
-            $this->__tearup($request, $translation);
+            $result = $this->__tearup($request, $translation);
+            if ($result !== true) {
+                throw new DoozR_Exception(
+                    'Alta'
+                );
+            }
         }
     }
 
@@ -171,8 +177,10 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
 
                 if (count($arguments) > 0) {
                     call_user_func_array(array($this, '__data'), $arguments);
+
                 } else {
                     call_user_func(array($this, '__data'));
+
                 }
             }
         }

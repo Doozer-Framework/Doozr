@@ -71,6 +71,51 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model.php';
 class DoozR_Base_Model_Rest extends DoozR_Base_Model
 {
     /**
+     * Permission level for evryone is allowed to access
+     * no matter of level, id, role, ... This is required
+     * for fetching legal website content for blog ... or
+     * logging in! ... and so on.
+     *
+     * @var integer
+     * @access public
+     * @const
+     */
+    const PERMISSION_OVERRIDE_ALLOW_ALL = 1;
+
+
+    /**
+     * Authorizes an consumer ACL service object against an provider ACL service
+     * object to check if resource is allowed for current consumer...
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if authorized, otherwise FALSE
+     * @access protected
+     * @throws DoozR_Base_Model_Rest_Exception
+     */
+    protected function authorize(DoozR_Acl_Service $aclConsumer, DoozR_Acl_Service $aclProvider)
+    {
+        // Check if login is required and if - if user is logged in ...
+        if ($aclProvider->isLoginRequired() === true && $aclConsumer->isLoggedIn() === false) {
+            throw new DoozR_Base_Model_Rest_Exception(
+                'Authorization required.',
+                403
+            );
+
+        } elseif ($aclConsumer->isAllowed($aclProvider, DoozR_Acl_Service::ACTION_CREATE) === false) {
+            // Not enough rights ...
+            throw new DoozR_Base_Model_Rest_Exception(
+                'Authorization required.',
+                401
+            );
+
+        } else {
+            $status = true;
+        }
+
+        return $status;
+    }
+
+    /**
      * Returns the operation for passed in HTTP-verb.
      *
      * @param string $verb The HTTP-verb to return operation for
@@ -168,6 +213,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      *
      * @param            $success TRUE if the response package is a success response, otherwise FALSE
      * @param mixed|null $data    The data to return to client (RAW response)
+     * @param integer    $status  Custom HTTP-Status override possible. 200 = OK = default.
      * @param array      $error   The error(s) array if success is false
      *
      * @example array(
@@ -181,15 +227,21 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @return array The response package
      * @access protected
      */
-    protected function packageResponse($success, $data = null, array $error = array())
-    {
+    protected function packageResponse(
+        $success,
+        $data        = null,
+        $status      = DoozR_Base_Presenter_Rest::STATUS_OK_DEFAULT,
+        array $error = array()
+    ) {
         if ($success === true) {
             $response = array(
+                'status'  => $status,
                 'success' => $success,
                 'result'  => $data,
             );
         } else {
             $response = array(
+                'status'  => $status,
                 'success' => $success,
                 'result'  => $data,
                 'error'   => $error
@@ -202,8 +254,8 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     /**
      * __data() is the generic __data proxy and is called on each access via getData()
      *
-     * @param DoozR_Request_Api                $request The default request object for APIs
-     * @param DoozR_Base_Presenter_Rest_Config $config  The configuration
+     * @param DoozR_Request_Api                $request       The default request object for APIs
+     * @param DoozR_Base_Presenter_Rest_Config $configuration The configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -211,13 +263,13 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @throws DoozR_Base_Model_Rest_Exception
      * @throws DoozR_Exception
      */
-    protected function __data(DoozR_Request_Api $request, DoozR_Base_Presenter_Rest_Config $config)
+    protected function __data(DoozR_Request_Api $request, DoozR_Base_Presenter_Rest_Config $configuration)
     {
         // Extract additional arguments from route
         $model = $this;
 
         /* @var $model DoozR_Base_Model */
-        $resource = $request->get($config->getRootNode() . $config->getRoute(), function() use ($model) {
+        $resource = $request->get($configuration->getRootNode() . $configuration->getRoute(), function() use ($model) {
             $result = array();
             foreach (func_get_args() as $argument) {
                 $result[] = $model->escape($argument);
@@ -227,13 +279,13 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
         });
 
         // Build a key => value store from already extracted identifiers and the recently extracted resource array
-        $routeArguments = array_combine($config->getIds(), $resource);
+        $routeArguments = array_combine($configuration->getIds(), $resource);
 
         // Get arguments passed with this request
         $requestArguments = $request->getArguments();
 
         // Get the identifier of the field/argument containing the real Id (uid) of the resource
-        $id = $config->getId();
+        $id = $configuration->getId();
         if ($id !== null) {
             // Check for passed Id for all follow up operations on this resource
             if (array_key_exists('{{' . $id . '}}', $routeArguments)) {
@@ -251,9 +303,9 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
         $data = null;
 
         // Dispatch to resource manager if one is defined...
-        $method = $this->getMethodByVerbAndRoute($request->getMethod(), $config->getRealRoute());
+        $method = $this->getMethodByVerbAndRoute($request->getMethod(), $configuration->getRealRoute());
         if (is_callable(array($this, $method))) {
-            $data = $this->{$method}($id, $arguments, $config);
+            $data = $this->{$method}( $configuration, $arguments, getallheaders(), $id);
 
         } else {
             // Inform developer about a not resolvable route endpoint and show him/her the methods available as hint!
@@ -267,23 +319,5 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
         // So we just need to set our new fresh (or updated) data internally. "protected $data" is returned by
         // getData() to caller :) If the caller follows our strict call api
         $this->setData($data);
-    }
-
-    /**
-     * Observer notification
-     *
-     * @param SplSubject $subject The subject which notifies this observer (Presenter)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    protected function __update(SplSubject $subject)
-    {
-        var_dump($subject);
-        die;
-
-        #var_dump($subject->getData());
-        #$this->setData($subject->getData());
     }
 }

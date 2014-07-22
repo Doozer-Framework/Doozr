@@ -118,6 +118,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     const METHOD_OPTIONS = 'OPTIONS';
     const METHOD_DELETE  = 'DELETE';
     const METHOD_TRACE   = 'TRACE';
+    const METHOD_CONNECT = 'CONNECT';
 
 
     /**
@@ -148,6 +149,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
             'PUT'         => self::EMULATED,
             'DELETE'      => self::EMULATED,
             'TRACE'       => self::EMULATED,
+            'CONNECT'     => self::EMULATED,
             'COOKIE'      => self::NATIVE,
             'REQUEST'     => self::NATIVE,
             'SESSION'     => self::NATIVE,
@@ -353,6 +355,20 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
                 header('Location: https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
             }
         }
+    }
+
+    /**
+     * Returns all headers from request (the so called Request-Headers).
+     *
+     * @param boolean $string TRUE to return them as string, otherwise FALSE (default) to return array
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean The result as array or string
+     * @access public
+     */
+    public function getHeader($string = false)
+    {
+        return self::getRequestHeader($string);
     }
 
     /**

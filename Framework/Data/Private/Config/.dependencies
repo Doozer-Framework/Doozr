@@ -155,6 +155,10 @@
                     }
                 ]
             },
+            "DoozR_Registry": {
+                "constructor": "getInstance",
+                "dependencies": []
+            },
             "DoozR_Model": {
                 "constructor": "getInstance",
                 "dependencies": [
@@ -190,6 +194,14 @@
             "DoozR_Controller_Front": {
                 "constructor": "getInstance",
                 "dependencies": [
+                    {
+                        "identifier": "DoozR_Registry",
+                        "classname": "DoozR_Registry",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
                     {
                         "identifier": "DoozR_Config",
                         "classname": "DoozR_Config",

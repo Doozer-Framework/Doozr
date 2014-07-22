@@ -216,7 +216,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
         switch ($engine) {
         case 'phptal':
             //
-            include_once $this->getPath().'Service/Lib/PHPTAL/PHPTAL.php';
+            include_once $this->getPathToClass().'Service/Lib/PHPTAL/PHPTAL.php';
             $this->setDecoratedObject(new PHPTAL($this->_resource));
             break;
         default:

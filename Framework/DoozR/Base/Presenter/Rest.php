@@ -121,6 +121,33 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      */
     const ROUTE_SEPARATOR = '/';
 
+    /**
+     * HTTP Status default = OK
+     *
+     * @var integer
+     * @access public
+     * @const
+     */
+    const STATUS_OK_DEFAULT = 200;
+
+    /**
+     * HTTP Status 201 = OK for create
+     *
+     * @var integer
+     * @access public
+     * @const
+     */
+    const STATUS_OK_CREATE  = 201;
+
+    /**
+     * HTTP Status 204 = OK for delete
+     *
+     * @var integer
+     * @access public
+     * @const
+     */
+    const STATUS_OK_DELETED = 204;
+
 
     /**
      * Constructor.
@@ -446,8 +473,21 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         // Retrieve route config via match by current request URL ;)
         $routeConfig = $this->getRouteByUrl($this->getRequestObject()->getUrl());
 
+        // Real processed request method depends on the override header if set. Otherwise normal request type is used
+        $headers = getallheaders();
+
+        // Override set? and is allowed for the resource? Sometimes clients are not able to e.g. tunnel PUT, DELETE ...
+        if (isset($headers['X_HTTP_METHOD_OVERRIDE']) === true && $routeConfig->getOverride() === true) {
+            $requestMethod = $headers['X_HTTP_METHOD_OVERRIDE'];
+
+            // Inject into object we use as base -> update :)
+            $this->getRequestObject()->setMethod($requestMethod);
+        } else {
+            $requestMethod = $this->getRequestObject()->getMethod();
+        }
+
         // Request method should not be processed.
-        if ($routeConfig->isAllowed($this->getRequestObject()->getMethod()) === false) {
+        if ($routeConfig->isAllowed($requestMethod) === false) {
             throw new DoozR_Base_Presenter_Rest_Exception(
                 'Method "' . $this->getRequestObject()->getMethod() .'" not allowed.',
                 405
@@ -475,12 +515,24 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
             );
         }
 
-        // Retrieve data from model so that VIEW and MODEL are informed (Observer and this here is the Subject)
-        $this->setData(
-            $this->getModel()->getData(
+        // Try to get data and check if authorization required and failed
+        try {
+            $data = $this->getModel()->getData(
                 $this->getRequestObject(), $routeConfig
-            )
-        );
+            );
+
+            // Retrieve data from model so that VIEW and MODEL are informed (Observer and this here is the Subject)
+            $this->setData(
+                $data
+            );
+
+        } catch (DoozR_Base_Model_Rest_Exception $e) {
+
+            throw new DoozR_Base_Presenter_Rest_Exception(
+                $e->getMessage(),
+                $e->getCode()
+            );
+        }
     }
 
     /**

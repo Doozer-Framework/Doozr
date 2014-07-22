@@ -152,6 +152,15 @@ class DoozR_Base_Presenter_Rest_Config
      */
     protected $rootNode;
 
+    /**
+     * Login required status for this route config.
+     *
+     * @var boolean
+     * @access protected
+     */
+    protected $login = false;
+
+    protected $override = true;
 
 
     public function __construct(DoozR_Acl_Service $acl)
@@ -159,6 +168,39 @@ class DoozR_Base_Presenter_Rest_Config
         $this->setAcl($acl);
     }
 
+
+    public function setLogin($status)
+    {
+        $this->login = $status;
+        $this->getAcl()->setLoginRequired($status);
+    }
+
+    public function login($status)
+    {
+        $this->setLogin($status);
+        return $this;
+    }
+
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    public function setOverride($status)
+    {
+        $this->override = $status;
+    }
+
+    public function override($status)
+    {
+        $this->setOverride($status);
+        return $this;
+    }
+
+    public function getOverride()
+    {
+        return $this->override;
+    }
 
 
 

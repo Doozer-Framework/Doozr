@@ -261,11 +261,11 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
     /**
      * holds a reference to module passwordhash
      *
-     * @var object
+     * @var DoozR_Password_Service_Hash
      * @access private
      * @static
      */
-    private static $_passwordhash = null;
+    private static $_passwordhash;
 
     /**
      * An instance of DoozR_Config
@@ -808,6 +808,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
         // already loaded phpass?
         if (self::$_passwordhash === null) {
             include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Password/Service/Lib/Hash.php';
+            /* @var self::$_passwordhash DoozR_Password_Service_Hash */
             self::$_passwordhash = new DoozR_Password_Service_Hash(8, false);
         }
 

@@ -103,118 +103,119 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * Instance of DoozR_Path
      *
      * @var DoozR_Path
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_path;
+    protected static $path;
 
     /**
      * Instance of DoozR_Config
      *
      * @var DoozR_Config
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_config;
+    protected static $config;
 
     /**
      * Instance of DoozR_Debug
      *
      * @var DoozR_Debug
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_debug;
+    protected static $debug;
 
     /**
      * Instance of DoozR_Logger
      *
      * @var DoozR_Logger
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_logger;
+    protected static $logger;
 
     /**
      * Instance of DoozR_Encoding
      *
      * @var DoozR_Encoding
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_encoding;
+    protected static $encoding;
 
     /**
      * Instance of DoozR_Locale
      *
      * @var DoozR_Locale
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_locale;
+    protected static $locale;
 
     /**
      * Instance of DoozR_Registry
      *
      * @var DoozR_Registry
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_registry;
+    protected static $registry;
 
     /**
      * Instance of Dependeny-Injection map
      *
      * @var DoozR_Di_Map_Static
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_map;
+    protected static $map;
 
     /**
      * The dependency injection container
      *
      * @var DoozR_Di_Container
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_container;
+    protected static $container;
 
     /**
-     * Instance of DoozR_Front
+     * Frontend Controller.
      *
-     * @var DoozR_Front
-     * @access private
+     * @var DoozR_Controller_Front
+     * @access protected
      * @static
      */
-    private static $_front;
+    protected static $front;
 
     /**
-     * Instance of DoozR_Back
+     * Backend Controller. MVP structure to connect
+     * to backend services, db, and construct view.
      *
-     * @var DoozR_Back
-     * @access private
+     * @var DoozR_Controller_Back
+     * @access protected
      * @static
      */
-    private static $_back;
+    protected static $back;
 
     /**
      * Instance of DoozR_Model
      *
      * @var DoozR_Model
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_model;
+    protected static $model;
 
     /**
      * Instance of DoozR_Security
      *
      * @var DoozR_Security
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_security;
+    protected static $security;
 
     /**
      * Contains the starttime (core instanciated) for measurements
@@ -238,10 +239,10 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * An instance of module datetime
      *
      * @var DoozR_Datetime_Service
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_dateTime;
+    protected static $dateTime;
 
     /**
      * Contains the default configuration container used by DoozR (Core especially)
@@ -267,14 +268,14 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      */
     protected function __construct(array $runtimeConfiguration = array())
     {
-        // start stopwatch
+        // Start stopwatch
         self::_startTimer();
 
-        // run internal bootstrapper process
+        // Run internal bootstrapper process
         self::bootstrap(true, $runtimeConfiguration);
 
-        // stop timer and store execution-time
-        self::_stopTimer();
+        // Stop timer and store execution-time
+        self::stopTimer();
     }
 
     /**
@@ -316,49 +317,49 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         // @see: http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
         if ($rerun) {
             // prepare container
-            self::_initDependencyInjection();
+            self::initDependencyInjection();
 
             // init registry
-            self::_initRegistry();
+            self::initRegistry();
 
             // init logging
-            self::_initLogger();
+            self::initLogger();
 
             // log bootstrapping
-            self::$_logger->debug('Bootstrapping of DoozR (v ' . self::getVersion(true) . ')');
+            self::$logger->debug('Bootstrapping of DoozR (v ' . self::getVersion(true) . ')');
 
             // init path-manager
-            self::_initPath();
+            self::initPath();
 
             // parse configuration
-            self::_initConfig($runtimeConfiguration);
+            self::initConfiguration($runtimeConfiguration);
 
             // configure logging
-            self::_configureLogging();
+            self::configureLogging();
 
             // check locale configuation and configure environment
-            self::_initEncoding();
+            self::initEncoding();
 
             // check locale configuation and configure environment
-            self::_initLocale();
+            self::initLocale();
 
             // initialize debug setup + hooks (error-/exception-handler)
-            self::_initDebug();
+            self::initDebug();
 
             // init security layer
-            self::_initSecurity();
+            self::initSecurity();
 
             // init front-controller
-            self::_initFrontController();
+            self::initFrontController();
 
             // init back-controller
-            self::_initBackController();
+            self::initBackController();
 
             // init model (database layer)
-            self::_initModel();
+            self::initModel();
 
             // init default services
-            self::_initServices();
+            self::initServices();
         }
     }
 
@@ -368,12 +369,12 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initDependencyInjection()
+    protected static function initDependencyInjection()
     {
-        // simple absolute path bootstrapping for better performance
+        // Simple absolute path bootstrapping for better performance
         require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
 
         // Required classes (files) for static demonstration #3
@@ -390,14 +391,14 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
          */
         $collection = new DoozR_Di_Collection();
         $importer   = new DoozR_Di_Importer_Json();
-        self::$_map = new DoozR_Di_Map_Static($collection, $importer);
+        self::$map  = new DoozR_Di_Map_Static($collection, $importer);
 
-        // generate map from static JSON map of DoozR
-        self::$_map->generate(DOOZR_DOCUMENT_ROOT . 'Data/Private/Config/.dependencies');
+        // Generate map from static JSON map of DoozR
+        self::$map->generate(DOOZR_DOCUMENT_ROOT . 'Data/Private/Config/.dependencies');
 
         // create
-        self::$_container = DoozR_Di_Container::getInstance();
-        self::$_container->setFactory(new DoozR_Di_Factory());
+        self::$container = DoozR_Di_Container::getInstance();
+        self::$container->setFactory(new DoozR_Di_Factory());
     }
 
     /**
@@ -409,19 +410,19 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initRegistry()
+    protected static function initRegistry()
     {
-        self::$_registry = DoozR_Registry::getInstance();
+        self::$registry = DoozR_Registry::getInstance();
 
         /**
          * join => DI-stuff
          */
-        self::$_registry->container        = self::$_container;
-        self::$_registry->map              = self::$_map;
-        self::$_registry->requestArguments = new DoozR_Request_Arguments();
+        self::$registry->container        = self::$container;
+        self::$registry->map              = self::$map;
+        self::$registry->requestArguments = new DoozR_Request_Arguments();
     }
 
     /**
@@ -431,34 +432,32 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initLogger()
+    protected static function initLogger()
     {
         // add required dependencies
-        self::$_map->wire(
+        self::$map->wire(
             DoozR_Di_Container::MODE_STATIC,
             array(
                 'DoozR_Datetime_Service' => DoozR_Loader_Serviceloader::load('datetime')
             )
         );
 
-        // store map with fresh instances
-        self::$_container->setMap(self::$_map);
+        // Store map with fresh instances
+        self::$container->setMap(self::$map);
 
-        // get config reader
-        self::$_logger = self::$_container->build('DoozR_Logger');
+        // Get config reader
+        self::$logger = self::$container->build('DoozR_Logger');
 
-        /**
-         * Now attach the Collecting Logger
-         */
-        self::$_logger->attach(
-            self::$_container->build('DoozR_Logger_Collecting')
+        // Now attach the Collecting Logger
+        self::$logger->attach(
+            self::$container->build('DoozR_Logger_Collecting')
         );
 
-        // store in registry
-        self::$_registry->logger = self::$_logger;
+        // Store in registry
+        self::$registry->logger = self::$logger;
     }
 
     /**
@@ -468,16 +467,16 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initPath()
+    protected static function initPath()
     {
-        // get path manager
-        self::$_path = DoozR_Path::getInstance(DOOZR_DOCUMENT_ROOT);
+        // Get path manager
+        self::$path = DoozR_Path::getInstance(DOOZR_DOCUMENT_ROOT);
 
-        // store in registry
-        self::$_registry->path = self::$_path;
+        // Store in registry
+        self::$registry->path = self::$path;
     }
 
     /**
@@ -487,25 +486,25 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initConfig($runtimeConfiguration)
+    protected static function initConfiguration($runtimeConfiguration)
     {
         // add required dependencies
-        self::$_map->wire(
+        self::$map->wire(
             DoozR_Di_Container::MODE_STATIC,
             array(
-                'DoozR_Path'   => self::$_path,
-                'DoozR_Logger' => self::$_logger
+                'DoozR_Path'   => self::$path,
+                'DoozR_Logger' => self::$logger
             )
         );
 
-        // store map with fresh instances
-        self::$_container->setMap(self::$_map);
+        // Store map with fresh instances
+        self::$container->setMap(self::$map);
 
-        // get config reader
-        self::$_config = self::$_container->build(
+        // Get config reader
+        self::$config = self::$container->build(
             'DoozR_Config',
             array(
                 self::DEFAULT_CONFIG_CONTAINER,
@@ -513,26 +512,26 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
             )
         );
 
-        // read config from: DoozR
-        self::$_config->read(
-            self::$_path->get('config').'.config'
+        // Read config from: DoozR
+        self::$config->read(
+            self::$path->get('config').'.config'
         );
 
-        // read config from: Application
-        self::$_config->read(
-            self::$_path->get('app', 'Data\Private\Config\.config')
+        // Read config from: Application
+        self::$config->read(
+            self::$path->get('app', 'Data\Private\Config\.config')
         );
 
         // check for runtime configuration
         if (count($runtimeConfiguration)) {
-            // read config from: Runtime
-            self::$_config->read(
+            // Read config from: Runtime
+            self::$config->read(
                 $runtimeConfiguration
             );
         }
 
-        // store config (manager) in registry
-        self::$_registry->config = self::$_config;
+        // Store config (manager) in registry
+        self::$registry->config = self::$config;
     }
 
     /**
@@ -541,28 +540,28 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _configureLogging()
+    protected static function configureLogging()
     {
         // 1st get collecting logger
-        $collectingLogger = self::$_logger->getLogger('collecting');
+        $collectingLogger = self::$logger->getLogger('collecting');
 
         // 2nd get existing log content
         $collection = $collectingLogger->getCollectionRaw();
 
         // 3rd remove collecting logger
-        self::$_logger->detachAll(true);
+        self::$logger->detachAll(true);
 
         // check if logging enabled
-        if (self::$_config->logging->enabled()) {
+        if (self::$config->logging->enabled()) {
 
-            // set default level from config
-            self::$_logger->setDefaultLoglevel(self::$_config->logging->level());
+            // Set default level from config
+            self::$logger->setDefaultLoglevel(self::$config->logging->level());
 
-            // get logger from config
-            $loggers = self::$_config->logging->logger();
+            // Get logger from config
+            $loggers = self::$config->logging->logger();
 
             // iterate and attach to subsystem
             foreach ($loggers as $logger) {
@@ -572,15 +571,15 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
 
                 $logger = new $classname(
                     DoozR_Loader_Serviceloader::load('datetime'),
-                    (isset($logger->level)) ? $logger->level : self::$_logger->getDefaultLoglevel()
+                    (isset($logger->level)) ? $logger->level : self::$logger->getDefaultLoglevel()
                 );
 
                 // attach the logger
-                self::$_logger->attach($logger);
+                self::$logger->attach($logger);
             }
 
             foreach ($collection as $key => $entry) {
-                self::$_logger->log(
+                self::$logger->log(
                     $entry['type'],
                     $entry['message'],
                     unserialize($entry['context']),
@@ -592,7 +591,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
 
         } else {
             // disable logging (+ dispatching ...)
-            self::$_logger->disable();
+            self::$logger->disable();
         }
     }
 
@@ -601,28 +600,28 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initEncoding()
+    protected static function initEncoding()
     {
         // define dependencies by it's identifier
-        self::$_map->wire(
+        self::$map->wire(
             DoozR_Di_Container::MODE_STATIC,
             array(
-                'DoozR_Config' => self::$_config,
-                'DoozR_Logger' => self::$_logger
+                'DoozR_Config' => self::$config,
+                'DoozR_Logger' => self::$logger
             )
         );
 
         // update map => intentionally this method is used for setting a new map but it
         // does also work for our usecase ... to inject an updated map on each call
-        self::$_container->setMap(self::$_map);
+        self::$container->setMap(self::$map);
 
-        self::$_encoding = self::$_container->build('DoozR_Encoding');
+        self::$encoding = self::$container->build('DoozR_Encoding');
 
-        // setup + store encoding in registry
-        self::$_registry->encoding = self::$_encoding;
+        // Setup + store encoding in registry
+        self::$registry->encoding = self::$encoding;
     }
 
     /**
@@ -630,16 +629,16 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @see    http://de.wikipedia.org/wiki/Locale
      * @static
      */
-    private static function _initLocale()
+    protected static function initLocale()
     {
-        self::$_locale = self::$_container->build('DoozR_Locale');
+        self::$locale = self::$container->build('DoozR_Locale');
 
-        // setup + store locale in registry
-        self::$_registry->locale = self::$_locale;
+        // Setup + store locale in registry
+        self::$registry->locale = self::$locale;
     }
 
     /**
@@ -650,19 +649,19 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initDebug()
+    protected static function initDebug()
     {
-        // get debug manager
-        self::$_debug = self::$_container->build('DoozR_Debug', array(self::$_config->debug->enabled()));
+        // Get debug manager
+        self::$debug = self::$container->build('DoozR_Debug', array(self::$config->debug->enabled()));
 
         // This information is really important so make this at least global available without hassle to use
-        define('DOOZR_DEBUG', self::$_config->debug->enabled());
+        define('DOOZR_DEBUG', self::$config->debug->enabled());
 
-        // store in registry
-        self::$_registry->debug = self::$_debug;
+        // Store in registry
+        self::$registry->debug = self::$debug;
     }
 
     /**
@@ -671,16 +670,16 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initSecurity()
+    protected static function initSecurity()
     {
-        // get security manager
-        self::$_security = self::$_container->build('DoozR_Security');
+        // Get security manager
+        self::$security = self::$container->build('DoozR_Security');
 
-        // store in registry
-        self::$_registry->security = self::$_security;
+        // Store in registry
+        self::$registry->security = self::$security;
     }
 
     /**
@@ -689,16 +688,16 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initFrontController()
+    protected static function initFrontController()
     {
-        // get instance of front controller
-        self::$_front = self::$_container->build('DoozR_Controller_Front');
+        // Get instance of front controller
+        self::$front = self::$container->build('DoozR_Controller_Front');
 
-        // store in registry
-        self::$_registry->front = self::$_front;
+        // Store in registry
+        self::$registry->front = self::$front;
     }
 
     /**
@@ -711,13 +710,13 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @access private
      * @static
      */
-    private static function _initBackController()
+    protected static function initBackController()
     {
-        // get instance of back controller
-        self::$_back = self::$_container->build('DoozR_Controller_Back');
+        // Get instance of back controller
+        self::$back = self::$container->build('DoozR_Controller_Back');
 
-        // store in registry
-        self::$_registry->back = self::$_back;
+        // Store in registry
+        self::$registry->back = self::$back;
     }
 
     /**
@@ -729,34 +728,34 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @access private
      * @static
      */
-    private static function _initModel()
+    protected static function initModel()
     {
         // build decorator config
         $decoratorConfig = array(
-            'name'      => self::$_config->database->proxy(),
-            'translate' => self::$_config->database->oxm(),
-            'path'      => self::$_path->get('model', 'Lib\\'.self::$_config->database->oxm().'\\'),
-            'bootstrap' => self::$_config->database->bootstrap(),
-            'route'     => self::$_config->database->route(),
-            'docroot'   => self::$_config->database->docroot()
+            'name'      => self::$config->database->proxy(),
+            'translate' => self::$config->database->oxm(),
+            'path'      => self::$path->get('model', 'Lib\\'.self::$config->database->oxm().'\\'),
+            'bootstrap' => self::$config->database->bootstrap(),
+            'route'     => self::$config->database->route(),
+            'docroot'   => self::$config->database->docroot()
         );
 
         // define dependencies by it's identifier
-        self::$_map->wire(
+        self::$map->wire(
             DoozR_Di_Container::MODE_STATIC,
             array(
-                'DoozR_Path' => self::$_path
+                'DoozR_Path' => self::$path
             )
         );
 
         // update existing map with newly added dependencies
-        self::$_container->setMap(self::$_map);
+        self::$container->setMap(self::$map);
 
-        // get instance of model (is decorator!)
-        self::$_model = self::$_container->build('DoozR_Model', array($decoratorConfig));
+        // Get instance of model (is decorator!)
+        self::$model = self::$container->build('DoozR_Model', array($decoratorConfig));
 
-        // store in registry
-        self::$_registry->model = self::$_model;
+        // Store in registry
+        self::$registry->model = self::$model;
     }
 
     /**
@@ -765,19 +764,19 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _initServices()
+    protected static function initServices()
     {
-        // get mode app currently runs in
-        $runningMode = self::$_front->getRunningMode();
+        // Get mode app currently runs in
+        $runningMode = self::$front->getRunningMode();
 
-        // get default services for mode
-        $services = self::$_config->base->services->{$runningMode}();
+        // Get default services for mode
+        $services = self::$config->base->services->{$runningMode}();
 
         foreach ($services as $service) {
-            self::$_registry->{$service} = DoozR_Loader_Serviceloader::load($service);
+            self::$registry->{$service} = DoozR_Loader_Serviceloader::load($service);
         }
     }
 
@@ -789,13 +788,13 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @access private
      * @static
      */
-    private static function _stopTimer()
+    protected static function stopTimer()
     {
         // calculate and store core execution time
         self::$coreExecutionTime = self::_getDateTime()->getMicrotimeDiff(self::$starttime);
 
         // log core execution time
-        self::$_logger->debug('Core execution-time: '.self::$coreExecutionTime.' seconds');
+        self::$logger->debug('Core execution-time: '.self::$coreExecutionTime.' seconds');
     }
 
     /**
@@ -807,11 +806,11 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean False always
-     * @access private
+     * @access protected
      * @static
      * @throws DoozR_Core_Exception
      */
-    private static function _coreError($error, $fatal = true)
+    protected static function coreError($error, $fatal = true)
     {
         // check for error type (simple core error | fatal error = execution stops!)
         if ($fatal) {
@@ -826,7 +825,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
             $type
         );
 
-        // return FALSE so we can use the result of this method as return value for caller
+        // Return FALSE so we can use the result of this method as return value for caller
         return false;
     }
 
@@ -840,32 +839,16 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      */
     private static function _getDateTime()
     {
-        if (!self::$_dateTime) {
-            self::$_dateTime = DoozR_Loader_Serviceloader::load('datetime');
+        if (!self::$dateTime) {
+            self::$dateTime = DoozR_Loader_Serviceloader::load('datetime');
         }
 
-        return self::$_dateTime;
+        return self::$dateTime;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * This method is intend as external interface for throwing core-exception(s)/error(s).
-     *
-     * @param string  $error The error-message
-     * @param boolean $fatal Controls if the execution should be stopped (fatal = true)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean FALSE if error successfully processed otherwise TRUE
-     * @access public
-     * @static
-     */
-    public static function coreError($error, $fatal = true)
-    {
-        return self::_coreError($error, $fatal);
-    }
 
     /**
      * This method is intend to return the starttime of core execution.
@@ -922,7 +905,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      */
     public function getRegistry()
     {
-        return self::$_registry;
+        return self::$registry;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -939,20 +922,20 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     public function __destruct()
     {
         // log request serving time -> but only if logger available!
-        if (self::$_logger) {
-            self::$_logger->debug(
+        if (self::$logger) {
+            self::$logger->debug(
                 'Request cycle completed in: '.self::_getDateTime()->getMicrotimeDiff(self::$starttime).' seconds'
             );
 
             $memoryUsage = number_format(round(memory_get_peak_usage() / 1024 / 1024, 2), 2);
 
             // log memory usage
-            self::$_logger->debug(
+            self::$logger->debug(
                 'Total consumed memory: '.$memoryUsage.' MB'
             );
         }
 
-        // save session
+        // Save session
         session_write_close();
     }
 }

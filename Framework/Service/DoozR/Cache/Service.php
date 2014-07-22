@@ -245,7 +245,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     {
         // correct format filename
         $container = ucfirst(strtolower($container));
-        $filename  = $this->getPath().'Service'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.$container.'.php';
+        $filename  = $this->getPathToClass().'Service'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.$container.'.php';
 
         return file_exists($filename);
     }

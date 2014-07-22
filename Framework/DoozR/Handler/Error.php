@@ -125,7 +125,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         }
         */
 
-        // transform to exception!
+        // Transform to exception!
         throw new DoozR_Error_Exception($message, $number, $error);
 
         // we must return TRUE here cause -> we didn't handled this error
@@ -189,10 +189,13 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
 
         // if not empty ...
         if (!empty($e)) {
-            // ... log the error
-            $logger = DoozR_Logger::getInstance();
+            // Handle
+            #return self::handle($e['type'], $e['message'], $e['file'], $e['line']);
+
+            // and log
+            #$logger = DoozR_Logger::getInstance();
             #$logger->error($e['message'], 'ERROR', $e['file'], $e['line']);
-            $logger->error($e['message']);
+            #$logger->error($e['message']);
         }
 
         // return success

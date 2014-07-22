@@ -469,10 +469,16 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
     {
         if (isset($element['file']) === true) {
             $filename = $element['file'];
+
         } else {
             $classname = isset($element['class']) ? $element['class'] : null;
-            $reflection = self::getReflection($classname);
-            $filename = $reflection->getFileName();
+
+            if ($classname === null) {
+                $filename = null;
+            } else {
+                $reflection = self::getReflection($classname);
+                $filename = $reflection->getFileName();
+            }
         }
 
         return $filename;
@@ -714,74 +720,10 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
     {
         $result = true;
         if (is_array($variable)) { // || is_object($variable)) {
-            $result = !self::isRecursiveArray($variable);
+            $result = !array_recursive($variable);
         }
 
         return $result;
-    }
-
-    /**
-     * Removes the last element of an array.
-     *
-     * @param array $array     The array to remove element from
-     * @param mixed $reference The variable to check against
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     * @static
-     */
-    protected static function removeLastElementIfSame(array &$array, $reference) {
-        if(end($array) === $reference) {
-            unset($array[key($array)]);
-        }
-    }
-
-    /**
-     * Iterator for recursive array check.
-     *
-     * @param array $array     The array to check
-     * @param mixed $reference The variable to check against
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if is recursive, otherwise FALSE
-     * @access protected
-     * @static
-     */
-    protected static function isRecursiveArrayIteration(array &$array, $reference) {
-        $last_element   = end($array);
-        if($reference === $last_element) {
-            return true;
-        }
-        $array[]    = $reference;
-
-        foreach($array as &$element) {
-            if(is_array($element)) {
-                if(self::isRecursiveArrayIteration($element, $reference)) {
-                    self::removeLastElementIfSame($array, $reference);
-                    return true;
-                }
-            }
-        }
-
-        self::removeLastElementIfSame($array, $reference);
-
-        return false;
-    }
-
-    /**
-     * Check if array is recursive.
-     *
-     * @param array $array The array to check
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if is recursive, otherwise FALSE
-     * @access protected
-     * @static
-     */
-    protected static function isRecursiveArray(array $array) {
-        $some_reference = new stdclass();
-        return self::isRecursiveArrayIteration($array, $some_reference);
     }
 
     /**
@@ -819,7 +761,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
      * @access protected
      * @static
      */
-    protected static function extractClassFromArray(array $data, $default = '-&nbsp;')
+    protected static function extractClassFromArray(array $data, $default = null)
     {
         return (isset($data['class']) && $data['class'] != '') ? $data['class'] : $default;
     }
@@ -896,7 +838,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             break;
 
             case 'array':
-                $value =  var_export($value, true);
+                $value =  var_export($value, true); // 'n.a.';// (array_recursive($value) === false) ? var_export($value, true) : 'n.a. (*recursion)';
             break;
 
             default:
@@ -935,10 +877,6 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         ~six';
 
         if (preg_match_all($regex, $source, $matches)) {
-
-            #if ($functionName == 'dispatch') {
-
-            #}
 
             foreach ($matches['function_name'] as $index => $element) {
                 if ($element == $functionName) {

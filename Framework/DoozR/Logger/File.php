@@ -197,7 +197,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      * @return DoozR_Path|null The path manager instance if set, otherwise NULL
      * @access public
      */
-    public function getPath($resolveSymlinks = false)
+    public function getPathToClass($resolveSymlinks = false)
     {
         return $this->path;
     }

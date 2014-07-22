@@ -118,7 +118,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * @access public
      * @todo   Implement a new way of retrieving the
      */
-    public function getPath($resolveSymlinks = false)
+    public function getPathToClass($resolveSymlinks = false)
     {
         $mode = ($resolveSymlinks === false) ? 'symlink' : 'realpath';
 
@@ -143,7 +143,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * @return string The filename of the parent class
      * @access public
      */
-    public function getFile()
+    public function getFilename()
     {
         if (is_null($this->_file)) {
             if (is_null($this->_backtrace)) {
@@ -169,7 +169,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     public function getPathAndFile($resolveSymlinks = false)
     {
         if (is_null($this->_pathAndFile)) {
-            $this->_pathAndFile = $this->getPath($resolveSymlinks).$this->getFile();
+            $this->_pathAndFile = $this->getPathToClass($resolveSymlinks) . $this->getFilename();
         }
 
         return $this->_pathAndFile;

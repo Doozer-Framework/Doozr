@@ -204,6 +204,24 @@ class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_In
 
         $data = $this->getData();
 
+        // Check for custom status and extract + delete it
+        if (isset($data['status']) === true) {
+            $status = $data['status'];
+
+        } else {
+            $status = (isset($data['error']) === true) ? 400 : 200;
+        }
+
+        unset($data['status']);
+
+        if ($data['result'] === null) {
+            unset($data['result']);
+        }
+
+        // Send our data as HTML through response
+        $response->sendJson($data, $this->getFingerprint(1), null, false, false, true, $status);
+
+        /*
         if (isset($data->error)) {
             $response->sendHttpStatus(400, null, true, $data->error->message);
 
@@ -211,6 +229,7 @@ class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_In
             // Send our data as HTML through response
             $response->sendJson($data, $this->getFingerprint(1));
         }
+        */
     }
 
     /**

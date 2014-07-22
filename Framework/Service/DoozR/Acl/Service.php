@@ -86,6 +86,9 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
         self::ACTION_DELETE
     );
 
+    protected $loggedin = false;
+    protected $loginRequired = false;
+
     /**
      * The type of this ACL
      *
@@ -432,5 +435,45 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     protected function getKey($action)
     {
         return pow(2, array_search($action, $this->actions));
+    }
+
+
+
+    public function isLoggedin()
+    {
+        return $this->getLoggedin();
+    }
+
+    public function setLoggedin($status = false)
+    {
+        $this->loggedin = $status;
+    }
+
+    public function getLoggedin()
+    {
+        $result = false;
+
+        if ($this->loggedin ===true) {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+
+
+    public function isLoginRequired()
+    {
+        return $this->getLoginRequired();
+    }
+
+    public function setLoginRequired($status)
+    {
+        $this->loginRequired = $status;
+    }
+
+    public function getLoginRequired()
+    {
+        return $this->loginRequired;
     }
 }

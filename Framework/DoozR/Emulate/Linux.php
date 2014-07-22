@@ -84,6 +84,10 @@ if (!function_exists('getallheaders')) {
         foreach ($_SERVER as $header => $value) {
             if (preg_match('/HTTP_(.+)/i', $header, $headerParsed)) {
                 $headers[$headerParsed[1]] = $value;
+            } elseif (preg_match('/CONTENT_TYPE/i', $header, $headerParsed)) {
+                $headers['CONTENT_TYPE'] = $value;
+            } elseif (preg_match('/CONTENT_LENGTH/i', $header, $headerParsed)) {
+                $headers['CONTENT_LENGTH'] = $value;
             }
         }
 

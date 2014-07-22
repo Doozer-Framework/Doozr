@@ -316,6 +316,70 @@ function array_remove_value(array $array, $value = '', $preserve_keys = true)
 }
 
 /**
+ * Removes the last element of an array.
+ *
+ * @param array $array     The array to remove element from
+ * @param mixed $reference The variable to check against
+ *
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return void
+ */
+function removeLastElementIfSame(array &$array, $reference)
+{
+    if (end($array) === $reference) {
+        unset($array[key($array)]);
+    }
+}
+
+/**
+ * Iterator for recursive array check.
+ *
+ * @param array $array     The array to check
+ * @param mixed $reference The variable to check against
+ *
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return boolean TRUE if is recursive, otherwise FALSE
+ * @static
+ */
+function isRecursiveArrayIteration(array &$array, $reference)
+{
+    $last_element = end($array);
+
+    if($reference === $last_element) {
+        return true;
+    }
+    $array[]    = $reference;
+
+    foreach ($array as &$element) {
+        if (is_array($element)) {
+            if (isRecursiveArrayIteration($element, $reference)) {
+                removeLastElementIfSame($array, $reference);
+                return true;
+            }
+        }
+    }
+
+    removeLastElementIfSame($array, $reference);
+
+    return false;
+}
+
+/**
+ * Check if array is recursive.
+ *
+ * @param array $array The array to check
+ *
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return boolean TRUE if is recursive, otherwise FALSE
+ * @static
+ */
+function array_recursive(array $array)
+{
+    $some_reference = new stdclass();
+    return isRecursiveArrayIteration($array, $some_reference);
+}
+
+/**
  * Converts an object to an array
  *
  * @param object $object The object to convert

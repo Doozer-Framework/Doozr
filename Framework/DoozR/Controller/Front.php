@@ -71,14 +71,23 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
 {
     /**
-     * detected running-mode
+     * Detected running-mode
      *
      * holds the detected running mode (web or cli)
      *
      * @var string
-     * @access public
+     * @access protected
      */
-    private $_runningMode = 'web';
+    protected $runningMode = 'web';
+
+    /**
+     * The registry of the Application containing all instances may
+     * required by this front-controller.
+     *
+     * @var DoozR_Registry
+     * @access protected
+     */
+    protected $app;
 
     /**
      * holds the reference to request
@@ -146,6 +155,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * Constructor.
      *
+     * @param DoozR_Registry         $app    The main registry of the application
      * @param DoozR_Config_Interface $config An instance of DoozR_Config
      * @param DoozR_Logger_Interface $logger An instance of DoozR_Logger
      *
@@ -153,24 +163,31 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * @return \DoozR_Controller_Front instance of this class
      * @access protected
      */
-    protected function __construct(DoozR_Config_Interface $config, DoozR_Logger_Interface $logger)
-    {
-        // store instance(s)
+    protected function __construct(
+        DoozR_Registry $app,
+        DoozR_Config_Interface $config,
+        DoozR_Logger_Interface $logger
+
+    ) {
+        // NEW: Store only the registry/app instance
+        $this->app     = $app;
+
+        // OLD: Store instance(s)
         $this->_config = $config;
         $this->_logger = $logger;
 
         // first detect the command source
-        $this->_runningMode = $this->detectRunningMode();
+        $this->runningMode = $this->detectRunningMode();
 
         // init request always
-        $this->_initialize('request');
+        $this->initialize('request');
     }
 
     /**
      * This method is intend to include the required files.
      *
      * @param string $part The part (request/response)
-     * @param string $mode The active mode (web/cli)  of part
+     * @param string $mode The active mode (web/cli) of part
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -188,13 +205,13 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The new instanciated class of request/response
-     * @access private
+     * @access protected
      */
-    private function _initialize($part)
+    protected function initialize($part)
     {
         // mode + part in correct writing
         $part = ucfirst($part);
-        $mode = ucfirst($this->_runningMode);
+        $mode = ucfirst($this->runningMode);
 
         // get required include files
         $this->_includeFile($part, $mode);
@@ -220,7 +237,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     {
         // lazy init
         if ($this->_request === null) {
-            $this->_request = $this->_initialize('request');
+            $this->_request = $this->initialize('request');
         }
 
         // return request instance
@@ -238,48 +255,10 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     {
         // lazy init
         if ($this->_response === null) {
-            $this->_response = $this->_initialize('response');
+            $this->_response = $this->initialize('response');
         }
 
         return $this->_response;
-    }
-
-    /**
-     * Detects and returns the external address under which the app is accessible
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The external address under which the app is accessible
-     * @access private
-     */
-    private function _externalAddress()
-    {
-        // TODO: REMOVE OR WHAT?
-        /*
-         // DoozR does not have a URL if running in CLI-mode
-         if ($this->_runningMode == self::RUNNING_MODE_CLI) {
-         //use document root for document URL in cli mode.
-         define('DOOZR_URL', DOOZR_DOCUMENT_ROOT);
-         return true;
-         } else {
-
-         }
-         */
-
-        // construct base URL
-        if ($path = stristr($this->_basePath, 'htdocs')) {
-            // apache
-            $path = str_replace('htdocs', '', $path);
-        } elseif ($path = stristr($this->_basePath, 'inetpub')) {
-            // iis
-            $path = str_replace('inetpub', '', $path);
-        }
-
-        // set correct slashes
-        $path = str_replace('\\', '/', $path);
-
-        $this->_baseURL = getProtocol().strtolower($_SERVER['SERVER_NAME']).$path;
-
-        define('DOOZR_URL', $this->_baseURL);
     }
 
     /**
@@ -291,22 +270,24 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      */
     protected function detectRunningMode()
     {
-        // detect running mode through php functionality
-        if (PHP_SAPI === 'cli') {
-            $runningMode = self::RUNNING_MODE_CLI;
+        // Assume default running mode
+        $mode = self::RUNNING_MODE_WEB;
 
-        } elseif (PHP_SAPI === 'cli-server') {
-            $runningMode = self::RUNNING_MODE_HTTPD;
-
-        } else {
-            $runningMode = self::RUNNING_MODE_WEB;
+        // Detect running mode through php functionality
+        switch (PHP_SAPI) {
+            case 'cli':
+                $mode = self::RUNNING_MODE_CLI;
+                break;
+            case 'cli-server':
+                $mode = self::RUNNING_MODE_HTTPD;
+                break;
         }
 
-        return $runningMode;
+        return $mode;
     }
 
     /**
-     * returns the current running-mode
+     * Getter for running mode.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The current running-mode either [web | cli]
@@ -314,6 +295,6 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      */
     public function getRunningMode()
     {
-        return $this->_runningMode;
+        return $this->runningMode;
     }
 }

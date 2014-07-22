@@ -149,10 +149,10 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
         }
 
         // store the variable as reference
-        self::$_references[]            = $variable;
-        $index                    = count(self::$_references)-1;
-        self::$_lookup[$identifier]     = $index;
-        self::$_reverseLookup[$index]   = $identifier;
+        self::$_references[]          = $variable;
+        $index                        = count(self::$_references)-1;
+        self::$_lookup[$identifier]   = $index;
+        self::$_reverseLookup[$index] = $identifier;
 
         // store count of elements
         self::$count = $index+1;

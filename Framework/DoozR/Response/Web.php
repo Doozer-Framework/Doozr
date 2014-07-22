@@ -658,7 +658,8 @@ class DoozR_Response_Web extends DoozR_Base_Response
         $charset            = null,
         $alreadyJsonEncoded = false,
         $exit               = false,
-        $addHeader          = true
+        $addHeader          = true,
+        $status             = 200
     ) {
         /* @var $request DoozR_Request_Web */
         $request = DoozR_Controller_Front::getInstance()->getRequest();
@@ -668,12 +669,16 @@ class DoozR_Response_Web extends DoozR_Base_Response
 
         // check if we can deliver just a simple 304 Not modified
         if ($etag && $etag === $etagReceived = $_SERVER->HTTP_IF_NONE_MATCH) {
-
             // send header and close connection
             $this->sendHttpStatus(304)
             ->sendHeader('ETag: '.$etag)
             ->sendHeader('Cache-Control: must-revalidate, post-check=0, pre-check=0')
             ->closeConnection();
+
+        } else {
+            // Send (custom or modified) status header
+            $this->sendHttpStatus($status);
+
         }
 
         // retrieve charset
