@@ -77,15 +77,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Api.php';
 class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
 {
     /**
-     * Request object to use with DoozR Rest or Soap
-     *
-     * @var DoozR_Request_Api
-     * @access protected
-     */
-    protected $request;
-
-
-    /**
      * Constructor.
      *
      * @param array   $route
@@ -97,9 +88,9 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
      * @return   void
      * @access   public
      */
-    public function __tearup(array $route = array(), $countRootNodes = 2)
+    public function __tearup(DoozR_Base_State_Interface $requestState, array $route = array(), $countRootNodes = 2)
     {
-        // if no custom request data/config is passed ...
+        // If no custom request data/config is passed ...
         if (empty($route)) {
             // ... use defeault
             $route = array(
@@ -110,60 +101,7 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
             );
         }
 
-        // get hands on request object
-        /* @var $request DoozR_Request_Web */
-        $request = $this->registry->front->getRequest();
-
-        // extract real API request
-        // so at this very specific and no longer generic routing way we can be sure that the following works
-        $this->request = new DoozR_Request_Api();
-
-        // set the request =>
-        $this->request->set(
-            array(
-                'resource'  => array_slice($route, $countRootNodes),
-                'method'    => $request->getMethod(),
-                'arguments' => $request->arguments,
-                'request'   => $request,
-                'url'       => $request->getUrl()
-            )
-        );
-    }
-
-    /**
-     * Returns the current request object
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Api
-     * @access public
-     * @deprecated
-     */
-    public function getRequestObject()
-    {
-        return $this->getRequest();
-    }
-
-    /**
-     * Returns the prepared request object
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Api
-     * @access public
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * This method is intend to cleanup on class destruct.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __teardown()
-    {
-        /* */
+        /* @var $requestState DoozR_Request_State */
+        $this->setStateObject($requestState);
     }
 }

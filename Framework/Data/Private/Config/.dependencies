@@ -220,6 +220,26 @@
                     }
                 ]
             },
+            "DoozR_Request": {
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Registry",
+                        "classname": "DoozR_Registry",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Request_State",
+                        "classname": "DoozR_Request_State",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
             "Bar": {
                 "dependencies": [
                     {

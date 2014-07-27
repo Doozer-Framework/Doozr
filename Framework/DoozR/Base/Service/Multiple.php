@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
 
 /**
  * DoozR Base Service Multiple
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Service_Multiple extends DoozR_Base_Class
+class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container
 {
     /**
      * Contains the instance of DoozR_Registry

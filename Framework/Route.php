@@ -60,27 +60,30 @@
 require_once 'DoozR/Bootstrap.php';
 require_once 'DoozR/Route.php';
 
-// get an instance of DoozR (Core-Class)
-$DoozR = DoozR_Core::getInstance();
+// Run the DoozR core to prepare base and extend PHP
+DoozR_Core::run();
 
-// get registry and some required objects
+// Get registry and configuration as well
 $registry = DoozR_Registry::getInstance();
-$front    = $registry->front;
 $config   = $registry->config;
 
-// retrieve current runningmode (can be either WEB or CLI (but lowercase)
-$runningMode = $front->getRunningMode();
+// Inject route from config to request state
+$registry->request->setRoutes($config->route());
 
-// check for supported running-mode
-if (
-    $runningMode === DoozR_Controller_Front::RUNNING_MODE_WEB ||
-    $runningMode === DoozR_Controller_Front::RUNNING_MODE_CLI
-) {
-    // run route init
+// Combine supported running modes
+$supportedModes = array(
+    DoozR_Request_State::RUNNING_MODE_WEB,
+    DoozR_Request_State::RUNNING_MODE_CLI,
+    DoozR_Request_State::RUNNING_MODE_HTTPD,
+);
+
+// Check for supported mode
+if (in_array($registry->request->getMode(), $supportedModes) === true) {
+
+    // Run route init
     DoozR_Route::init(
-        (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : '/',
-        $config->route(),
         $registry,
+        $registry->request,
         $config->base->pattern->autorun()
     );
 

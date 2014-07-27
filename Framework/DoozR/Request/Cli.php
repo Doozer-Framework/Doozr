@@ -118,22 +118,21 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
      */
     const TYPE = 'cli';
 
-
     /**
      * Constructor of this class
      *
-     * @param DoozR_Config $config An instance of config
-     * @param DoozR_Logger $logger An instance of logger
+     * @param DoozR_Registry $app The main DoozR registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Request_Cli
      * @access public
      */
-    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    public function __construct(DoozR_Registry $app)
     {
         // store instance(s)
-        $this->logger = $logger;
-        $this->config = $config;
+        $this->setApp($app);
+        $this->logger = $this->app->logger;
+        $this->config = $this->app->config;
 
         // set type
         self::$type = self::TYPE;
@@ -153,7 +152,7 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
         //parent::__construct();
 
         // check automatic conversion of input
-        $this->arguments = $this->transformToRequestObject($this->getMethod());
+        #$this->arguments = $this->transformToRequestObject($this->getMethod());
     }
 
     /**

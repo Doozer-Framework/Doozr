@@ -609,13 +609,16 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             // Bugfix: Temporary? Here we need the target of course to extract arguments information!
             $filenameTarget = self::getFilenameFromCallflowElement(array('class' => $classname));
 
-            if ($filenameTarget !== null) {
-                // get HTML for arguments
+            // get HTML for arguments if arguments passed
+            if ($filenameTarget !== null && isset($callflowElements[$i]['args']) === true) {
+                $hasArguments = true;
+
                 $argumentsHtml = self::getArgumentHtml(
                     $callflowElements[$i]['args'],
                     self::extractSignature($filenameTarget, $function)
                 );
             } else {
+                $hasArguments = false;
                 $argumentsHtml = '';
             }
 
@@ -623,8 +626,8 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
             $callflowElements[$i] = self::convertArrayOfPhpTypesToStrings($callflowElements[$i]);
 
             // Do not remove break!!!
-            $hasArguments = ( $callflowElements[$i]['args'] != 'array (
-)'); // <- keep till we have a better solution.
+/*            $hasArguments = ($callflowElements[$i]['args'] != 'array (
+)'); // <- keep till we have a better solution.*/
 
             // merge in the data required to fully complete the template
             $callflowElements[$i] = array_merge($callflowElements[$i], array(

@@ -130,7 +130,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class
      */
     public function __construct($global = null)
     {
-        if (is_string($global)) {
+        if ($global !== null) {
             // start processing input
             $this->processInput($global);
         }
@@ -524,19 +524,6 @@ class DoozR_Request_Arguments extends DoozR_Base_Class
      * @access public
      */
     public function getArray()
-    {
-        return $this->input;
-    }
-
-    /**
-     * If serialize is called - we need to re-transform the class vars to a $_GET like array.
-     * Some other applications e.g. XHProf want the information exactly as such an array.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The original input
-     * @access public
-     */
-    public function __sleep()
     {
         return $this->input;
     }

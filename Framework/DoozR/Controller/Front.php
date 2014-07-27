@@ -87,7 +87,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * @var DoozR_Registry
      * @access protected
      */
-    protected $app;
+    protected $registry;
 
     /**
      * holds the reference to request
@@ -155,32 +155,24 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param DoozR_Registry         $app    The main registry of the application
-     * @param DoozR_Config_Interface $config An instance of DoozR_Config
-     * @param DoozR_Logger_Interface $logger An instance of DoozR_Logger
+     * @param DoozR_Registry $registry The main registry of the application
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Controller_Front instance of this class
      * @access protected
      */
     protected function __construct(
-        DoozR_Registry $app,
-        DoozR_Config_Interface $config,
-        DoozR_Logger_Interface $logger
-
+        DoozR_Registry $registry
     ) {
         // NEW: Store only the registry/app instance
-        $this->app     = $app;
+        $this->registry = $registry;
 
         // OLD: Store instance(s)
-        $this->_config = $config;
-        $this->_logger = $logger;
+        $this->_config = $registry->config;
+        $this->_logger = $registry->logger;
 
         // first detect the command source
         $this->runningMode = $this->detectRunningMode();
-
-        // init request always
-        $this->initialize('request');
     }
 
     /**

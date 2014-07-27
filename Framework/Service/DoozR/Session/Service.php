@@ -130,7 +130,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @var integer
      * @access private
      */
-    private $_path = self::DEFAULT_BIND_PATH_PATH;
+    private $path = self::DEFAULT_BIND_PATH_PATH;
 
     /**
      * The lifetime of the session.
@@ -1443,7 +1443,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setPath($path)
     {
-        $this->_path = $path;
+        $this->path = $path;
     }
 
     /**
@@ -1459,7 +1459,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getPathToClass($resolveSymlinks = false)
     {
-        return $this->_path;
+        return $this->path;
     }
 
     /**

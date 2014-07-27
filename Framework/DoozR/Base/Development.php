@@ -70,20 +70,20 @@
 class DoozR_Base_Development
 {
     /**
-     * Stores details about the last profiled method
+     * Details about the last profiled method
      *
      * @var mixed
-     * @access private
+     * @access protected
      */
-    private $_details;
+    protected $details;
 
     /**
-     * holds the information if the profiled method was type static
+     * Information if the profiled method was type static
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_profileStatic = false;
+    protected $profileStatic = false;
 
 
     /**
@@ -92,16 +92,15 @@ class DoozR_Base_Development
      * Runs a method with the provided arguments, and returns details about how long it took.
      * Works with instance methods and static methods.
      *
-     * @param mixed   $class       The name of the class to profile or an existing instance
-     * @param string  $methodname  The name of the method to profile
-     * @param array   $methodargs  The arguments to pass to the function
+     * @param mixed $class The name of the class to profile or an existing instance
+     * @param string $methodname The name of the method to profile
+     * @param array $methodargs The arguments to pass to the function
      * @param integer $invocations The number of times to call the method
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return float The average invocation duration in seconds
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @access public
+     * @throws Exception
      */
     public function profile($class, $methodname, $methodargs = null, $invocations = 1)
     {
@@ -122,7 +121,7 @@ class DoozR_Base_Development
 
         if ($method->isStatic()) {
             // mark last profiling session as static
-            $this->_profileStatic = true;
+            $this->profileStatic = true;
         } elseif (!$method->isStatic() && !$class instanceof $classname) {
             $class = new ReflectionClass($classname);
             $instance = $class->newInstance();
@@ -147,7 +146,7 @@ class DoozR_Base_Development
         $duration['average'] = round($duration['total'] / count($durations), 4);
         $duration['worst']   = round(max($durations), 4);
 
-        $this->_details = array(
+        $this->details = array(
             'class'       => $classname,
             'method'      => $methodname,
             'arguments'   => $methodargs,
@@ -158,38 +157,34 @@ class DoozR_Base_Development
         return $duration['average'];
     }
 
-
     /**
      * Returns a string representing the last invoked method
      *
      * This method is intend to return a string representing the last invoked method,
      * including any arguments.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The last invoked message
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @access private
      */
     private function _invokedMethod()
     {
-        if (isset($this->_details)) {
-            if ($this->_profileStatic) {
+        if (isset($this->details)) {
+            if ($this->profileStatic) {
                 $scopeResolution = '::';
             } else {
                 $scopeResolution = '->';
             }
-            if (!is_null($this->_details['arguments'])) {
-                $args = join(", ", $this->_details['arguments']);
+            if (!is_null($this->details['arguments'])) {
+                $args = join(", ", $this->details['arguments']);
             } else {
                 $args = '';
             }
-            return "{$this->_details['class']}{$scopeResolution}{$this->_details['method']}(".$args.")";
+            return "{$this->details['class']}{$scopeResolution}{$this->details['method']}(".$args.")";
         } else {
             return null;
         }
     }
-
 
     /**
      * Prints out details about the last profiled method
@@ -198,25 +193,23 @@ class DoozR_Base_Development
      *
      * @param boolean $print True [default] to print/echo the profiling-details otherwise it returns the data
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed [optional] The result of the last profiling operation (only if $print = false)
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @access public
      */
     public function getProfilingDetails($print = true)
     {
-        if (isset($this->_details)) {
+        if (isset($this->details)) {
             $methodString = $this->_invokedMethod();
-            $numInvoked   = $this->_details['invocations'];
+            $numInvoked   = $this->details['invocations'];
 
             if ($numInvoked == 1) {
-                $profilingDetails = "{$methodString} took {$this->_details['duration']['average']}s\n";
+                $profilingDetails = "{$methodString} took {$this->details['duration']['average']}s\n";
             } else {
                 $profilingDetails = "{$methodString} was invoked {$numInvoked} times\n";
-                $profilingDetails .= "Total duration:   {$this->_details['duration']['total']}s\n";
-                $profilingDetails .= "Average duration: {$this->_details['duration']['average']}s\n";
-                $profilingDetails .= "Worst duration:   {$this->_details['duration']['worst']}s\n";
+                $profilingDetails .= "Total duration:   {$this->details['duration']['total']}s\n";
+                $profilingDetails .= "Average duration: {$this->details['duration']['average']}s\n";
+                $profilingDetails .= "Worst duration:   {$this->details['duration']['worst']}s\n";
             }
 
             // echo or return

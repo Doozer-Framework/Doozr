@@ -167,13 +167,16 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      * @access public
      */
     public function __construct(
-        array $request,
-        array $translation,
-        array $originalRequest,
-        DoozR_Cache_Service $cache,
-        DoozR_Config $config,
-        DoozR_Controller_Front $front
+        DoozR_Base_State_Interface $requestState,
+        array                      $request,
+        array                      $translation,
+        array                      $originalRequest,
+        DoozR_Cache_Service        $cache,
+        DoozR_Config               $config,
+        DoozR_Controller_Front     $front
     ) {
+        /* @var $requestState DoozR_Request_State */
+
         // store
         $this->request         = $request;
         $this->translation     = $translation;
@@ -181,8 +184,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
         $this->cache           = $cache;
         $this->config          = $config;
         $this->front           = $front;
-
-        $this->arguments       = $this->front->getRequest()->getRequest();
+        $this->arguments       = $requestState->getArguments();
 
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {

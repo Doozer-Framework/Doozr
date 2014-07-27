@@ -254,7 +254,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     /**
      * __data() is the generic __data proxy and is called on each access via getData()
      *
-     * @param DoozR_Request_Api                $request       The default request object for APIs
+     * @param DoozR_Base_State_Interface       $state         The request state object
      * @param DoozR_Base_Presenter_Rest_Config $configuration The configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -263,26 +263,31 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @throws DoozR_Base_Model_Rest_Exception
      * @throws DoozR_Exception
      */
-    protected function __data(DoozR_Request_Api $request, DoozR_Base_Presenter_Rest_Config $configuration)
+    protected function __data(DoozR_Base_State_Interface $state, DoozR_Base_Presenter_Rest_Config $configuration)
     {
+        // Store state of this model
+        /* @var $state DoozR_Request_State */
+        $this->setStateObject($state);
+
         // Extract additional arguments from route
         $model = $this;
 
         /* @var $model DoozR_Base_Model */
-        $resource = $request->get($configuration->getRootNode() . $configuration->getRoute(), function() use ($model) {
-            $result = array();
-            foreach (func_get_args() as $argument) {
-                $result[] = $model->escape($argument);
-            };
+        $resource = $this->getStateObject()
+            ->get($configuration->getRootNode() . $configuration->getRoute(), function() use ($model) {
+                $result = array();
+                foreach (func_get_args() as $argument) {
+                    $result[] = $model->escape($argument);
+                };
 
-            return $result;
-        });
+                return $result;
+            });
 
         // Build a key => value store from already extracted identifiers and the recently extracted resource array
         $routeArguments = array_combine($configuration->getIds(), $resource);
 
         // Get arguments passed with this request
-        $requestArguments = $request->getArguments();
+        $requestArguments = $this->getStateObject()->getArguments();
 
         // Get the identifier of the field/argument containing the real Id (uid) of the resource
         $id = $configuration->getId();
@@ -303,7 +308,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
         $data = null;
 
         // Dispatch to resource manager if one is defined...
-        $method = $this->getMethodByVerbAndRoute($request->getMethod(), $configuration->getRealRoute());
+        $method = $this->getMethodByVerbAndRoute($this->getStateObject()->getMethod(), $configuration->getRealRoute());
         if (is_callable(array($this, $method))) {
             $data = $this->{$method}( $configuration, $arguments, getallheaders(), $id);
 

@@ -173,6 +173,7 @@ DoozR_Loader_Autoloader_Spl_Facade::attach(
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // ERROR-HANDLER: register error-handler
+/*
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Error.php';
 
 // set the own exception_handler
@@ -190,11 +191,11 @@ register_shutdown_function(
         'handleUnhandable'
     )
 );
-
+*/
 /*----------------------------------------------------------------------------------------------------------------------
  | BEGIN EXCEPTION-HANDLING (HOOK)
  ---------------------------------------------------------------------------------------------------------------------*/
-
+/*
 // EXCEPTION-HANDLER: register exception-handler
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Exception.php';
 
@@ -205,7 +206,7 @@ set_exception_handler(
         'handle'
     )
 );
-
+*/
 /*----------------------------------------------------------------------------------------------------------------------
 | BEGIN LOAD DoozR's CORE-CLASS
 +---------------------------------------------------------------------------------------------------------------------*/

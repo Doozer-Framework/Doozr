@@ -131,11 +131,16 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      * @return \DoozR_Request_Web
      * @access public
      */
-    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    public function __construct(DoozR_Registry $app)
     {
+        var_dump('BUG');
+        die;
+
+        $this->setApp($app);
+
         // store instance(s)
-        $this->logger = $logger;
-        $this->config = $config;
+        $this->logger = $this->app->logger;
+        $this->config = $this->app->config;
 
         // set type
         self::$type = self::TYPE;
@@ -158,19 +163,14 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
             'FILES'       => self::NATIVE,
         );
 
-        // check for ssl forcement
-        $this->_checkForceSecureConnection();
-
         // prepare non-native request for global PHP like access
-        $this->emulateRequest();
+        #$this->emulateRequest();
 
         // check automatic conversion of input
-        $this->arguments = $this->transformToRequestObject(
-            $this->getMethod()
-        );
+        #$this->arguments = $this->transformToRequestObject($this->getMethod());
 
         // protocolize the incoming request data
-        $this->_protocolize();
+        #$this->protocolize();
 
         // store URL (the base of all requests)
         $this->url = strtok($_SERVER['REQUEST_URI'], '?');
@@ -319,9 +319,9 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _protocolize()
+    protected function protocolize()
     {
         // this is expensive so only in debug available
         if ($this->config->debug->enabled()) {
@@ -336,23 +336,6 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
                 $this->logger->debug(
                     "Request-Parameter: \n".self::getRequestAsString()
                 );
-            }
-        }
-    }
-
-    /**
-     * If FORCE_SSL is defined in TRANSMISSION part of the core-config and set to true
-     * every non-ssl request will be redirected to ssl (https)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if successful otherwise false
-     * @access private
-     */
-    private function _checkForceSecureConnection()
-    {
-        if ($this->config->transmission->ssl->force()) {
-            if (!$this->isSsl()) {
-                header('Location: https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
             }
         }
     }

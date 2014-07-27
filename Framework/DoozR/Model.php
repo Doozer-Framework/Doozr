@@ -81,7 +81,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
      * @var object
      * @access private
      */
-    private $_path;
+    private $path;
 
     /**
      * contains an instance of DoozR_Config
@@ -122,7 +122,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
         $this->decoratorConfiguration = $decoratorConfiguration;
 
         // store instances
-        $this->_path   = $path;
+        $this->path   = $path;
         $this->_config = $config;
         $this->_logger = $logger;
 
@@ -131,7 +131,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
 
         // if database is enabled -> start decorating
         if ($this->enabled) {
-            $this->init($this->decoratorConfiguration, $this->_path);
+            $this->init($this->decoratorConfiguration, $this->path);
         }
     }
 

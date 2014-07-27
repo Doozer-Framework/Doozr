@@ -79,16 +79,6 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     protected $rest;
 
     /**
-     * The API request object
-     * containing ALL relevant information about the REST call
-     * (Arguments for POST,PUT,... must still be taken from their representing classes).
-     *
-     * @var DoozR_Request_Api
-     * @access protected
-     */
-    protected $requestObject;
-
-    /**
      * Root node of API (default = /api/)
      *
      * @var string
@@ -149,38 +139,6 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     const STATUS_OK_DELETED = 204;
 
 
-    /**
-     * Constructor.
-     *
-     * @param array                  $request         The whole request as processed by "Route"
-     * @param array                  $translation     The translation required to read the request
-     * @param array                  $originalRequest The original untouched request
-     * @param DoozR_Config_Interface $config          The DoozR main config instance
-     * @param DoozR_Base_Model       $model           The model to communicate with backend (db)
-     * @param DoozR_Base_View        $view            The view to display results
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Presenter_Rest
-     * @access public
-     */
-    public function __construct(
-        array                  $request,
-        array                  $translation,
-        array                  $originalRequest,
-        DoozR_Config_Interface $config          = null,
-        DoozR_Base_Model       $model           = null,
-        DoozR_Base_View        $view            = null
-    ) {
-        // Init REST layer/service => only difference to DoozR_Base_Presenter
-        $this->rest = DoozR_Loader_Serviceloader::load('rest', $originalRequest, count($request));
-
-        // get request object (standard notation), object + method
-        $this->setRequestObject($this->rest->getRequest());
-
-        // forward call
-        parent::__construct($request, $translation, $originalRequest, $config, $model, $view);
-    }
-
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -200,7 +158,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     public function Main()
     {
         // Get REAL action (hey dude u know this is the Main() API entry like the main.cpp ;)
-        $resource = $this->requestObject->get($this->rootNode . '{{resource}}', function ($resource) {
+        $resource = $this->getStateObject()->get($this->rootNode . '{{resource}}', function ($resource) {
                 return $resource;
             }
         );
@@ -248,32 +206,6 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     public function getRest()
     {
         return $this->rest;
-    }
-
-    /**
-     * Setter for request object
-     *
-     * @param DoozR_Request_Api $requestObject The request object to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setRequestObject($requestObject)
-    {
-        $this->requestObject = $requestObject;
-    }
-
-    /**
-     * Getter for request object
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Api The request object
-     * @access protected
-     */
-    protected function getRequestObject()
-    {
-        return $this->requestObject;
     }
 
     /**
@@ -458,6 +390,18 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     }
 
     /**
+     * Getter for state object.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_State
+     * @access protected
+     */
+    protected function getStateObject()
+    {
+        return $this->stateObject;
+    }
+
+    /**
      * Executes the configured subroutes if any matches.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -471,25 +415,26 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         $this->setRouteTree(explodeTree($this->getRoutes(), self::ROUTE_SEPARATOR));
 
         // Retrieve route config via match by current request URL ;)
-        $routeConfig = $this->getRouteByUrl($this->getRequestObject()->getUrl());
+        $routeConfig = $this->getRouteByUrl($this->getStateObject()->getUrl());
 
         // Real processed request method depends on the override header if set. Otherwise normal request type is used
-        $headers = getallheaders();
+        $headers = $this->getStateObject()->getHeaders();
 
         // Override set? and is allowed for the resource? Sometimes clients are not able to e.g. tunnel PUT, DELETE ...
         if (isset($headers['X_HTTP_METHOD_OVERRIDE']) === true && $routeConfig->getOverride() === true) {
             $requestMethod = $headers['X_HTTP_METHOD_OVERRIDE'];
 
             // Inject into object we use as base -> update :)
-            $this->getRequestObject()->setMethod($requestMethod);
+            $this->getStateObject()->setMethod($requestMethod);
+
         } else {
-            $requestMethod = $this->getRequestObject()->getMethod();
+            $requestMethod = $this->getStateObject()->getMethod();
         }
 
         // Request method should not be processed.
         if ($routeConfig->isAllowed($requestMethod) === false) {
             throw new DoozR_Base_Presenter_Rest_Exception(
-                'Method "' . $this->getRequestObject()->getMethod() .'" not allowed.',
+                'Method "' . $this->getStateObject()->getMethod() .'" not allowed.',
                 405
             );
         }
@@ -497,13 +442,13 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         // Missing argument + message
         if ($this->validateInputArguments(
                 $routeConfig->getRequired(),
-                $this->getRequestObject()->getArguments()
+                $this->getStateObject()->getArguments()
             ) !== true
         ) {
             $missingArguments = array();
 
             foreach ($routeConfig->getRequired() as $key => $value) {
-                if (array_key_exists($key, $this->getRequestObject()->getArguments()->getArray()) === false) {
+                if (array_key_exists($key, $this->getStateObject()->getArguments()->getArray()) === false) {
                     $missingArguments[] = $key . (($value !== null) ? ' => ' . $value : '');
                 }
             }
@@ -518,7 +463,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         // Try to get data and check if authorization required and failed
         try {
             $data = $this->getModel()->getData(
-                $this->getRequestObject(), $routeConfig
+                $this->getStateObject(), $routeConfig
             );
 
             // Retrieve data from model so that VIEW and MODEL are informed (Observer and this here is the Subject)

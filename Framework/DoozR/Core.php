@@ -55,8 +55,6 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core/Exception.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
-
-// all base stuff
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Path.php';
@@ -261,21 +259,38 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * This method is the constructor of the core class.
      *
      * @param array $runtimeConfiguration Override-configuration which overrides app- and core-configuration
+     * @param booelan $virtual              TRUE to signalize DoozR that it is running virtual, default = FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Core
      * @access protected
      */
-    protected function __construct(array $runtimeConfiguration = array())
+    protected function __construct(array $runtimeConfiguration = array(), $virtual = false)
     {
         // Start stopwatch
         self::_startTimer();
 
         // Run internal bootstrapper process
-        self::bootstrap(true, $runtimeConfiguration);
+        self::bootstrap(true, $runtimeConfiguration, $virtual);
 
         // Stop timer and store execution-time
         self::stopTimer();
+    }
+
+    /**
+     * Proxy to getInstance to reduce confusion e.g. when bootstrapping the application.
+     *
+     * @param array   $runtimeConfiguration Configuration to override app- and core-configuration on run level
+     *                                      (e.g. Unit Tests ...)
+     * @param booelan $virtual              TRUE to signalize DoozR that it is running virtual, default = FALSE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Core The core instance
+     * @access public
+     */
+    public static function run(array $runtimeConfiguration = array(), $virtual = false)
+    {
+        return DoozR_Core::getInstance($runtimeConfiguration, $virtual);
     }
 
     /**
@@ -316,49 +331,24 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         // check if rerun is given (e.g. to support unit-testing on each run with fresh bootstrap!)
         // @see: http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
         if ($rerun) {
-            // prepare container
+            // Start init-stack orgy ...
             self::initDependencyInjection();
-
-            // init registry
             self::initRegistry();
-
-            // init logging
             self::initLogger();
 
             // log bootstrapping
             self::$logger->debug('Bootstrapping of DoozR (v ' . self::getVersion(true) . ')');
 
-            // init path-manager
             self::initPath();
-
-            // parse configuration
             self::initConfiguration($runtimeConfiguration);
-
-            // configure logging
             self::configureLogging();
-
-            // check locale configuation and configure environment
             self::initEncoding();
-
-            // check locale configuation and configure environment
             self::initLocale();
-
-            // initialize debug setup + hooks (error-/exception-handler)
             self::initDebug();
-
-            // init security layer
             self::initSecurity();
-
-            // init front-controller
-            self::initFrontController();
-
-            // init back-controller
+            self::initRequest();
             self::initBackController();
-
-            // init model (database layer)
             self::initModel();
-
-            // init default services
             self::initServices();
         }
     }
@@ -422,7 +412,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
          */
         self::$registry->container        = self::$container;
         self::$registry->map              = self::$map;
-        self::$registry->requestArguments = new DoozR_Request_Arguments();
+        #self::$registry->requestArguments = new DoozR_Request_Arguments();
     }
 
     /**
@@ -701,6 +691,20 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     }
 
     /**
+     * Get the request state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     * @static
+     */
+    protected static function initRequest()
+    {
+        // Get instance of request
+        self::$registry->request = self::$container->build('DoozR_Request')->export();
+    }
+
+    /**
      * This method is intend to initialize the back-controller. The back-controller
      * is mainly responsible for managing access to the MVC/MVP part and used as interface
      * to model as well.
@@ -770,10 +774,10 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     protected static function initServices()
     {
         // Get mode app currently runs in
-        $runningMode = self::$front->getRunningMode();
+        $runningMode = self::$registry->request->getMode();
 
         // Get default services for mode
-        $services = self::$config->base->services->{$runningMode}();
+        $services = self::$config->base->services->{strtolower($runningMode)}();
 
         foreach ($services as $service) {
             self::$registry->{$service} = DoozR_Loader_Serviceloader::load($service);

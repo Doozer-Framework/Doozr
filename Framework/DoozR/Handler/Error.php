@@ -125,7 +125,6 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         }
         */
 
-        // Transform to exception!
         throw new DoozR_Error_Exception($message, $number, $error);
 
         // we must return TRUE here cause -> we didn't handled this error

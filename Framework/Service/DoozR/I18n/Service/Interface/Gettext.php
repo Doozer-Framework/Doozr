@@ -76,7 +76,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * @var string
      * @access private
      */
-    private $_path;
+    private $path;
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     protected function buildTranslationtable($locale, array $namespaces)
     {
         // get real path
-        $path = realpath($this->_path);
+        $path = realpath($this->path);
 
         /* @todo: Does not make sense in gettext to iterate different namespaces?! */
         // iterate over given namespace(s) and configure environment for them
@@ -209,7 +209,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     protected function __construct(array $config)
     {
         // store the path to
-        $this->_path = $config['path'];
+        $this->path = $config['path'];
 
         // check if requirements fulfilled
         self::_checkRequirements();

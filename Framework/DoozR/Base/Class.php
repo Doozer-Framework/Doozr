@@ -73,14 +73,50 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Tools.php';
 class DoozR_Base_Class extends DoozR_Base_Tools
 {
     /**
+     * The registry instance injected in all core classes
+     * based on DoozR_Base_Class.
+     *
+     * @var DoozR_Registry
+     * @access protected
+     */
+    protected $app;
+
+
+    /**
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Class
+     * @return DoozR_Base_Class Instance
      * @access public
      */
     public function __construct()
     {
-        // ???
+        // Intentionally left blank - But is required for generic Serviceloader!
+    }
+
+    /**
+     * Setter for app
+     *
+     * @param DoozR_Registry $app The registry of DoozR
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setApp(DoozR_Registry $app)
+    {
+        $this->app = $app;
+    }
+
+    /**
+     * Getter for app
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Registry The registry of DoozR
+     * @access protected
+     */
+    protected function getApp()
+    {
+        return $this->app;
     }
 }

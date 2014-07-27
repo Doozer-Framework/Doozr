@@ -661,14 +661,12 @@ class DoozR_Response_Web extends DoozR_Base_Response
         $addHeader          = true,
         $status             = 200
     ) {
-        /* @var $request DoozR_Request_Web */
-        $request = DoozR_Controller_Front::getInstance()->getRequest();
-
-        // transform PHP global server to object for further processing
-        $request->transform('SERVER');
-
         // check if we can deliver just a simple 304 Not modified
-        if ($etag && $etag === $etagReceived = $_SERVER->HTTP_IF_NONE_MATCH) {
+        if (
+            $etag &&
+            $etag ===
+            $etagReceived = (isset($_SERVER['HTTP_IF_NONE_MATCH']) === true) ? $_SERVER['HTTP_IF_NONE_MATCH'] : false
+        ) {
             // send header and close connection
             $this->sendHttpStatus(304)
             ->sendHeader('ETag: '.$etag)
@@ -901,7 +899,6 @@ class DoozR_Response_Web extends DoozR_Base_Response
                 var_export($header, true).'. Headers already sent in file: '.$file.' on line: '.$line;
 
             throw new DoozR_Exception($message);
-            #$this->logger->debug($message);
         }
 
         // Return this for chaining
