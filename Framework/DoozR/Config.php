@@ -78,7 +78,7 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
      * @var object
      * @access private
      */
-    private $_path;
+    private $path;
 
     /**
      * Contains an instance of DoozR_Logger
@@ -116,16 +116,16 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
         $enableCaching = false
     ) {
         // store
-        $this->_path   = $path;
+        $this->path   = $path;
         $this->_logger = $logger;
 
         // create instance through factory and set as object to decorate!
         $this->setDecoratedObject(
             $this->_factory(
                 __CLASS__.'_Container_'.ucfirst(strtolower($container)),
-                $this->_path->get('framework'),
+                $this->path->get('framework'),
                 array(
-                    $this->_path,
+                    $this->path,
                     $this->_logger,
                     $enableCaching
                 )

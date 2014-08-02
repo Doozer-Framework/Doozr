@@ -110,38 +110,6 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     protected $connector;
 
     /**
-     * holds the translation
-     *
-     * @var mixed
-     * @access protected
-     */
-    protected $translation;
-
-    /**
-     * holds the request
-     *
-     * @var mixed
-     * @access protected
-     */
-    protected $request;
-
-    /**
-     * holds the original request
-     *
-     * @var mixed
-     * @access protected
-     */
-    protected $originalRequest;
-
-    /**
-     * contains the active pattern (MVC/MVP)
-     *
-     * @var string
-     * @access protected
-     */
-    protected $pattern;
-
-    /**
      * Contains an instance of module DoozR_Cache_Service
      *
      * @var DoozR_Cache_Service
@@ -207,75 +175,71 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         // store instances
         $this->config = $config;
         $this->logger = $logger;
-
-        // load and store instance of module filesystem
-        $this->filesystem = DoozR_Loader_Serviceloader::load('filesystem');
     }
 
     /**
      * This method is intend to dispatch the requested resource
      *
-     * @param array  $request         The complete request including the mapping
-     * @param array  $originalRequest The original request without modification
-     * @param array  $translation     The translation used by DoozR to translate request to objects
-     * @param string $pattern         The default pattern to use
+     * @param DoozR_Base_State_Interface $requestState The request state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Controller_Back The current instance for chaining
      * @access public
      */
-    public function dispatch(array $request, array $originalRequest, array $translation, $pattern = 'MVP')
+    public function dispatch(DoozR_Base_State_Interface $requestState)
     {
-        // store request and corresponding translation
-        $this->request         = $request;
-        $this->originalRequest = $originalRequest;
-        $this->translation     = $translation;
-        $this->pattern         = $pattern;
-        $this->cache           = DoozR_Loader_Serviceloader::load(
+        $activeRoute      = $requestState->getActiveRoute();
+        $translation      = $requestState->getTranslationMatrix();
+
+        $this->filesystem = DoozR_Loader_Serviceloader::load('filesystem');
+        $cache            = DoozR_Loader_Serviceloader::load(
             'cache',
             DOOZR_UNIX,
             $this->config->cache->container()
         );
 
-        // init MV(P|C) layer
-        switch ($this->pattern) {
-        case 'MVP':
 
-            // init layer MODEL (data e.g. Database access ...)
+        // Init MV(P|C) layer
+        switch ($requestState->getPattern()) {
+        case 'MVP':
+            // Init layer MODEL (data e.g. Database access ...)
             $this->model = $this->initLayer(
-                $request[$translation[0]],
+                $activeRoute[$translation[0]],
                 'Model',
                 array(
-                    $request,
+                    $requestState,
+                    $activeRoute,
                     $translation,
-                    $originalRequest,
-                    $this->cache,
+                    $requestState->getRequest(),
+                    $cache,
                     $this->config
                 )
             );
 
             // init layer VIEW (displaying data ...)
             $this->view = $this->initLayer(
-                $request[$translation[0]],
+                $activeRoute[$translation[0]],
                 'View',
                 array(
-                    $request,
+                    $requestState,
+                    $activeRoute,
                     $translation,
-                    $originalRequest,
-                    $this->cache,
+                    $requestState->getRequest(),
+                    $cache,
                     $this->config,
-                    DoozR_Controller_Front::getInstance()
+                    DoozR_Controller_Front::getInstance(DoozR_Registry::getInstance())
                 )
             );
 
             // init connector - can be either PRESENTOR or CONTROLLER
             $this->connector = $this->initLayer(
-                $request[$translation[0]],
+                $activeRoute[$translation[0]],
                 'Presenter',
                 array(
-                    $request,
+                    $requestState,
+                    $activeRoute,
                     $translation,
-                    $originalRequest,
+                    $requestState->getRequest(),
                     $this->config,
                     $this->model,
                     $this->view
@@ -291,10 +255,11 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         }
 
         // if we reach this point - we should check if anything could be called otherwise 404
-        if (($status = $this->validateRequest()) !== true) {
+        if (($status = $this->validateRequest($this->connector, $activeRoute[$translation[1]])) !== true) {
+
             // send error status through front controller
             $front = DoozR_Controller_Front::getInstance();
-            $front->getResponse()->sendHttpStatus($status, null, true, implode(DIRECTORY_SEPARATOR, $request));
+            $front->getResponse()->sendHttpStatus($status, null, true, implode(DIRECTORY_SEPARATOR, $activeRoute));
 
         } else {
             // The request is valid -> attach the observer(s) to subject
@@ -308,7 +273,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             }
 
             // and finally call the main() entry point
-            $this->connector->{$request[$translation[1]]}();
+            $this->connector->{$activeRoute[$translation[1]]}();
         }
 
         // return instance for chaining
@@ -316,31 +281,27 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * Validates the existing request data
+     * Validates the existing request data. A request needs at least a connector-instance
+     * (Presenter) and an entry point (e.g. Main()) to be valid.
      *
-     * This method is intend to validate the current request data. A request needs
-     * at least a connector-instance (Presenter) and an entry point (e.g. Main())
-     * to be valid.
+     * @param string $class  The name of the connector class (Presenter, Controller)
+     * @param string $method The name of the method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed TRUE if request is valid, otherwise this method
+     * @return boolean|integer TRUE if request is valid, otherwise HTTP-Error like 400 ...
      * @access protected
      */
-    protected function validateRequest()
+    protected function validateRequest($class, $method)
     {
-        // get init class + method from request
-        $class  = $this->connector;
-        $method = $this->request[$this->translation[1]];
-
-        // assume valid
+        // Assume valid
         $valid  = true;
 
         // no connector instance = Bad Request = 400
-        if (!$this->connector) {
+        if (!$class) {
             $valid = self::HTTP_STATUS_400;
 
             // no action to call after existing connector exist = Not Found = 404
-        } elseif (!method_exists($class, $method) || !is_callable(array($class, $method))) {
+        } elseif (method_exists($class, $method) === false) {
             $valid = self::HTTP_STATUS_404;
 
         }
@@ -368,10 +329,10 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         $instance = null;
 
         // build classname
-        $className = $layer.'_'.$request;
+        $className = $layer . '_' . $request;
 
         // build location (path and filename)
-        $classFileAndPath = DOOZR_APP_ROOT.str_replace('_', $this->separator, $className).'.php';
+        $classFileAndPath = DOOZR_APP_ROOT . str_replace('_', $this->separator, $className) . '.php';
 
         // check if requested layer file exists
         if ($this->filesystem->exists($classFileAndPath)) {

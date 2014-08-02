@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-//require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Securitylayer.php';
+include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Arguments.php';
 
 /**
@@ -69,7 +69,7 @@ include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Arguments.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Request // extends DoozR_Request_Securitylayer
+class DoozR_Base_Request extends DoozR_Base_Class
 {
     /**
      * The URL under which the current project operates
@@ -163,6 +163,8 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
      */
     public function __construct()
     {
+        var_dump('BUG 2');
+        die;
         // call Securitylayer's constructor to get PHPIDS + HTMLPurifier
         //parent::__construct();
     }
@@ -191,8 +193,10 @@ class DoozR_Base_Request // extends DoozR_Request_Securitylayer
     {
         if ($requestMethod = (isset($_SERVER['REQUEST_METHOD'])) ? $_SERVER['REQUEST_METHOD'] : null) {
             return strtoupper($requestMethod);
+
         } else {
             return strtoupper(self::$type);
+
         }
     }
 

@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
 
 /**
  * DoozR Base Presenter Subject
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements SplSubject
+abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_State_Container implements SplSubject
 {
     /**
      * Contains all attached observers
@@ -82,15 +82,17 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_Class implements 
     /**
      * Constructor override for SplObjectStorage instantiation.
      *
+     * @param DoozR_Base_State_Interface $stateObject The state object
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Base_Presenter_Subject Subject
      * @access public
      */
-    public function __construct()
+    public function __construct(DoozR_Base_State_Interface $state)
     {
         $this->observer = new SplObjectStorage();
 
-        parent::__construct();
+        parent::__construct($state);
     }
 
     /**

@@ -76,17 +76,17 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * function more than once.
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_backtrace = null;
+    protected $backtrace;
 
     /**
      * The path to the parent which extends this base
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_path = array(
+    protected $paths = array(
         'realpath' => null,
         'symlink'  => null
     );
@@ -95,49 +95,46 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * The filename of the parent which extends this base
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_file = null;
+    protected $file;
 
     /**
      * The path and the filename of the parent which extends this base
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_pathAndFile = null;
+    protected $pathAndFile;
 
 
     /**
      * This method is intend to return the path to the parent (extending class) of this class.
      * WARNING! This method returns the resolved path to the current file (the file where you
-     * execute the method! It does not return symlinked path'.
+     * execute the method! It does not return symlinked paths'.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The path to parent class
      * @access public
-     * @todo   Implement a new way of retrieving the
      */
     public function getPathToClass($resolveSymlinks = false)
     {
         $mode = ($resolveSymlinks === false) ? 'symlink' : 'realpath';
 
         // @todo: seek and destroy: is_null() against === null
-        if ($this->_path[$mode] === null) {
-            if ($this->_backtrace === null) {
-                $this->_backtrace = debug_backtrace();
+        if ($this->paths[$mode] === null) {
+            if ($this->backtrace === null) {
+                $this->backtrace = debug_backtrace();
             }
-            $path = realpath_ext($this->_backtrace[0]['file'], $resolveSymlinks);
-            $this->_path[$mode] = dirname($path).DIRECTORY_SEPARATOR;
+            $path = realpath_ext($this->backtrace[0]['file'], $resolveSymlinks);
+            $this->paths[$mode] = dirname($path).DIRECTORY_SEPARATOR;
         }
 
-        return $this->_path[$mode];
+        return $this->paths[$mode];
     }
 
     /**
-     * returns the filename of the parent of this "Base"
-     *
-     * This method is intend to return the filename of the parent (extending class) of this class.
+     * Returns the filename of parents class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The filename of the parent class
@@ -145,14 +142,14 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      */
     public function getFilename()
     {
-        if (is_null($this->_file)) {
-            if (is_null($this->_backtrace)) {
-                $this->_backtrace = debug_backtrace();
+        if (is_null($this->file)) {
+            if (is_null($this->backtrace)) {
+                $this->backtrace = debug_backtrace();
             }
-            $this->_file = filename($this->_backtrace[0]['file']);
+            $this->file = filename($this->backtrace[0]['file']);
         }
 
-        return $this->_file;
+        return $this->file;
     }
 
     /**
@@ -168,11 +165,11 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      */
     public function getPathAndFile($resolveSymlinks = false)
     {
-        if (is_null($this->_pathAndFile)) {
-            $this->_pathAndFile = $this->getPathToClass($resolveSymlinks) . $this->getFilename();
+        if (is_null($this->pathAndFile)) {
+            $this->pathAndFile = $this->getPathToClass($resolveSymlinks) . $this->getFilename();
         }
 
-        return $this->_pathAndFile;
+        return $this->pathAndFile;
     }
 
     /**
@@ -185,7 +182,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean True if  method exist, otherwise false
-     * @access protected
+     * @access public
      */
     public function hasMethod($method)
     {
@@ -289,13 +286,12 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     }
 
     /**
-     * generic call methods (generic dynamic calling methods)
-     *
-     * This method is a generic dynamic calling method. It calls dynamic build methods (by name)
-     * in allready existing instances with or without params (default = null).
+     * Generic call methods (generic dynamic calling methods). This method is a generic dynamic
+     * calling method. It calls dynamic build methods (by name) in allready existing instances
+     * with or without params (default = null).
      *
      * @param object $instance The instance of a class to call method in
-     * @param string $method   The methodname to call as string
+     * @param string $method   The name of the method to call
      * @param mixed  $params   The parameters as anything/mixed
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -315,88 +311,5 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
 
         // return result from method-call
         return $returnValue;
-    }
-
-    /**
-     * gets triggered when serialize() on this class is called
-     *
-     * This method is intend to fetch calls to not-existent methods and throw an exception.
-     * serialize() checks if your class has a function with the magic name __sleep and calls it.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array An empty array
-     * @access public
-     */
-    public function __sleep()
-    {
-        //return array();
-    }
-
-    /**
-     * gets triggered when unserialize() on this class is called
-     *
-     * Conversely, unserialize() checks for the presence of a function with the magic name __wakeup.
-     * If present, this function can reconstruct any resources that the object may have.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __wakeup()
-    {
-        // nothing
-    }
-
-    /**
-     * gets triggered when unset() is invoked on inaccessible properties
-     *
-     * __unset() is invoked when unset() is used on inaccessible properties.
-     *
-     * @param mixed $property The accessed property
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __unset($property)
-    {
-        throw new Exception(
-            __METHOD__ .'(): tried to unset an undefined property "'.$property.'"!'
-        );
-    }
-
-    /**
-     * gets triggered when trying to set an not-existant property
-     *
-     * __set() is utilized when trying to read data from an inaccessible property.
-     *
-     * @param mixed $property The accessed property
-     * @param mixed $value    The value to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __set($property, $value)
-    {
-        // and set
-        $this->{$property} = $value;
-    }
-
-    /**
-     * gets triggered when this class (or it's childs) get printed out
-     *
-     * This method is intend to allow a class to decide how it will react when it is converted to a string.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array This class-instance as an array
-     * @access public
-     * @todo   remove "_backtrace" content (set to null?) to prevent *RECURSION* message of php when executed
-     */
-    public function __toString()
-    {
-        //$this->_backtrace = null;
-        //return print_r($this, true);
-        return '';
     }
 }

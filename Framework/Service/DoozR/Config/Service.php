@@ -100,7 +100,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements DoozR_
      * @var DoozR_Path_Interface
      * @access private
      */
-    private $_path;
+    private $path;
 
     /**
      * Contains instance of DoozR_Logger
@@ -142,7 +142,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements DoozR_
     public function __tearup($type, $enableCaching = false)
     {
         // store path manager
-        $this->_path = $this->registry->path;
+        $this->path = $this->registry->path;
 
         // store logger
         $this->_logger = $this->registry->logger;
@@ -153,7 +153,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements DoozR_
                 'DoozR_Config_Container_'.ucfirst(strtolower($type)),
                 DOOZR_DOCUMENT_ROOT,
                 array(
-                    $this->_path,
+                    $this->path,
                     $this->_logger,
                     $enableCaching
                 )

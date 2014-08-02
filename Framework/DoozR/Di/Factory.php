@@ -134,7 +134,7 @@ class DoozR_Di_Factory
             // create instance with dependencies
             return $this->_instanciateWithDependencies($classname, $dependencies);
         } else {
-            // creat instance without dependencies
+            // create instance without dependencies
             return $this->_instanciateWithoutDependencies($classname);
         }
     }
@@ -174,7 +174,7 @@ class DoozR_Di_Factory
         default:
             throw new DoozR_Di_Exception(
                 'Too much arguments passed to '.__METHOD__.'. This method can handle not more than 6 arguments'.
-                'Your class seems to have a architecturial problem. Please reduce count of arguments passed to'.
+                'Your class seems to have a architectural problem. Please reduce count of arguments passed to'.
                 'constructor'
             );
         }

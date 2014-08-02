@@ -71,5 +71,24 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
  */
 final class DoozR_Error_Exception extends DoozR_Exception
 {
+    /**
+     * Intentionally left blank -> Namespacing
+     *
+     * Do not use this Exception in your code!!!
+     * Otherwise some important mechanics won't work as expected and
+     * returning chaos instead. Like the following getError method:
+     */
 
+
+    /**
+     * Returns the real error from a packed error exception
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Exception The error exception
+     * @access public
+     */
+    public function getError()
+    {
+        return $this->getTrace()[1];
+    }
 }

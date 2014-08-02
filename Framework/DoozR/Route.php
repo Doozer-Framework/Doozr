@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
 
 /**
  * DoozR - Route
@@ -69,8 +69,16 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
  * @link       http://clickalicious.github.com/DoozR/
  * @final
  */
-final class DoozR_Route extends DoozR_Base_Class
+final class DoozR_Route extends DoozR_Base_State_Container
 {
+    /**
+     * The object our truth is stored in
+     *
+     * @var DoozR_Request_State
+     * @access protected
+     */
+    protected static $requestState;
+
     /**
      * The default routes to fill up missing parts passed to redirect
      * mechanism. The user does not need to know the default parts cause
@@ -171,46 +179,50 @@ final class DoozR_Route extends DoozR_Base_Class
      * the most important input as arguments and prepare it for
      * further processing.
      *
-     * @param string                   $requestUri The URI used to request the current resource
-     * @param string                   $route      The route configuration from .config
-     * @param DoozR_Registry_Interface $registry   The registry of DoozR for config ...
-     * @param boolean                  $autorun    TRUE to automatic run/execute the route
+     * @param DoozR_Registry_Interface   $registry     The registry of DoozR.
+     * @param DoozR_Base_State_Interface $requestState The request state instance for retrieving all request data
+     * @param boolean                    $autorun      TRUE to automatic run/execute the route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
      * @static
      */
-    public static function init($requestUri, $route, DoozR_Registry_Interface $registry, $autorun = true)
-    {
-        // store registry
+    public static function init(
+        DoozR_Registry_Interface $registry,
+        DoozR_Base_State_Interface $requestState,
+        $autorun = true
+    ) {
+        /* @var $requestState DoozR_Request_State */
         self::$registry = $registry;
 
-        // now begin generic parsing of pattern
-        // get exclude(s) and build exclude-regexp of it/them
-        $exclude = regexp($route->exclude, 'exclude');
+        // Get exclude(s) and build exclude-regexp of it/them
+        $exclude = regexp($requestState->getRoutes()->exclude, 'exclude');
 
-        // get pattern and inject exclude in pattern
-        $pattern = str_replace('{{EXCLUDE}}', $exclude, $route->pattern->pattern);
+        // Get pattern and inject exclude in pattern
+        $pattern = str_replace('{{EXCLUDE}}', $exclude, $requestState->getRoutes()->pattern->pattern);
 
-        // get object(s) + action(s) from request
-        $result = preg_match_all($pattern, $requestUri, $request);
+        // Get object(s) + action(s) from request
+        preg_match_all($pattern, $requestState->getRequestUri(), $request);
 
-        // check for redirect/fillup
-        self::$request = self::redirect($request, object_to_array($route->routes));
+        // Check for redirect/fillup routes ...
+        self::$request = self::redirect($request, object_to_array($requestState->getRoutes()->routes));
 
-        // get pattern translation as array from config
-        self::$translationMatrix = explode('/', $route->pattern->translation);
+        // Get pattern translation as array from config
+        self::$translationMatrix = explode('/', $requestState->getRoutes()->pattern->translation);
 
-        // if autorun is enabled we execute the dispatched route
-        if ($autorun === true || true) {
+        // Store state object
+        self::$requestState = $requestState;
+
+        // Autorun (enabled in default config)
+        if ($autorun !== false) {
             self::run();
         }
     }
 
     /**
-     * This method runs or executes the presetted configuration. This runner
-     * was seperated from init() to enable the user/application to manually
+     * This method runs or executes the preset configuration. This runner
+     * was separated from init() to enable the user/application to manually
      * or automatically intercept the execution between the route detection
      * of DoozR and the execution of it.
      *
@@ -230,16 +242,18 @@ final class DoozR_Route extends DoozR_Base_Class
         // store the route as active route
         self::$activeRoute = $translated;
 
+        // So after init there was maybe some further modification we dont wanted to monitor
+        // so we simply hook in here to inject some more state data collected right here
+        self::$requestState->setActiveRoute(self::$activeRoute);
+        self::$requestState->setRequest(self::$request);
+        self::$requestState->setTranslationMatrix(self::$translationMatrix);
+        self::$requestState->setPattern(self::$registry->config->base->pattern->type());
+
         // Check for usage of DoozR's MVC-/MVP-structure ...
         if (self::$registry->config->base->pattern->enabled()) {
-            // ... dispatch request (MVP/MVC) to DoozR's Back_Controller
             self::$registry->back->dispatch(
-                self::$activeRoute,
-                self::$request,
-                self::$translationMatrix,
-                self::$registry->config->base->pattern->type()
+                self::$requestState
             );
-
         }
     }
 
@@ -251,10 +265,12 @@ final class DoozR_Route extends DoozR_Base_Class
      * @access public
      * @static
      */
+    /*
     public function get()
     {
         return self::$activeRoute;
     }
+    */
 
     /*******************************************************************************************************************
      * \\ END PUBLIC METHODS
@@ -357,9 +373,7 @@ final class DoozR_Route extends DoozR_Base_Class
     {
         // check if redirect is required
         if (count($routeRedirects)) {
-
-            $route      = self::fillUp($route[1]);
-            $countNodes = count($route);
+            $route = self::fillUp($route[1]);
 
             // check for existing route redirects for "object" & "action"
             if (isset($routeRedirects[$route[0]][$route[1]])) {

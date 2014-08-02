@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
 
 /**
  * DoozR Base Model Observer
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Model_Observer extends DoozR_Base_Class implements SplObserver
+class DoozR_Base_Model_Observer extends DoozR_Base_State_Container implements SplObserver
 {
     /**
      * Update (for notifications from subject)
@@ -78,9 +78,9 @@ class DoozR_Base_Model_Observer extends DoozR_Base_Class implements SplObserver
      *
      * @param SplSubject $subject The instance of the SplSubject
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function update(SplSubject $subject)
     {

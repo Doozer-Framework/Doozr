@@ -76,7 +76,7 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
      * @var string
      * @access private
      */
-    private $_path;
+    private $path;
 
     /**
      * Name of the folder where LC_MESSAGES exists
@@ -168,7 +168,7 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
                 $result = array_merge($result, self::$translations[$locale][$namespace]);
             } else {
                 // load fresh from file
-                $translationFile = $this->_path.$locale.DIRECTORY_SEPARATOR.self::FOLDERNAME.DIRECTORY_SEPARATOR.
+                $translationFile = $this->path.$locale.DIRECTORY_SEPARATOR.self::FOLDERNAME.DIRECTORY_SEPARATOR.
                     'LC_MESSAGES'.DIRECTORY_SEPARATOR.$namespace.'.'.self::EXTENSION;
                 $result = array_merge($result, $this->_parseTranslationfile($translationFile));
             }
@@ -237,7 +237,7 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
     protected function __construct(array $config)
     {
         // store the path to
-        $this->_path = $config['path'];
+        $this->path = $config['path'];
 
         // call parents constructor
         parent::__construct($config);

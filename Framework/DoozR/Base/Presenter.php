@@ -181,24 +181,26 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     /**
      * Constructor.
      *
-     * @param array                  $request         The whole request as processed by "Route"
-     * @param array                  $translation     The translation required to read the request
-     * @param array                  $originalRequest The original untouched request
-     * @param DoozR_Config_Interface $configuration   The DoozR main config instance
-     * @param DoozR_Base_Model       $model           The model to communicate with backend (db)
-     * @param DoozR_Base_View        $view            The view to display results
+     * @param DoozR_Base_State_Interface $state           The whole request as processed by "Route"
+     * @param array                      $request         The request
+     * @param array                      $translation     The translation required to read the request
+     * @param array                      $originalRequest The original untouched request
+     * @param DoozR_Config_Interface     $configuration   The DoozR main config instance
+     * @param DoozR_Base_Model           $model           The model to communicate with backend (db)
+     * @param DoozR_Base_View            $view            The view to display results
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Presenter
      * @access public
      */
     public function __construct(
-        array                  $request,
-        array                  $translation,
-        array                  $originalRequest,
-        DoozR_Config_Interface $configuration   = null,
-        DoozR_Base_Model       $model           = null,
-        DoozR_Base_View        $view            = null
+        DoozR_Base_State_Interface $state,
+        array                      $request,
+        array                      $translation,
+        array                      $originalRequest,
+        DoozR_Config_Interface     $configuration    = null,
+        DoozR_Base_Model           $model            = null,
+        DoozR_Base_View            $view             = null
     ) {
         // store -> @TODO Implement setter and getter like for config below
         $this->request         = $request;
@@ -217,7 +219,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
         }
 
         // important! => call parents constructor so SplObjectStorage is created!
-        parent::__construct();
+        parent::__construct($state);
 
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
@@ -732,7 +734,6 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject
     {
         return $this->model;
     }
-
 
     /**
      * Runs/executes all operations. Should be overwritten by

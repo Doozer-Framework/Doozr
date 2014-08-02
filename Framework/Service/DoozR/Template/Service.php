@@ -107,7 +107,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
      * @var string
      * @access private
      */
-    private $_path;
+    private $path;
 
 
     /**
@@ -189,10 +189,10 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
 
         // detect and store settings
         if ($config) {
-            $this->_path    = $config['path'];
+            $this->path    = $config['path'];
             $this->_library = $config['library'];
         } else {
-            $this->_path    = $this->_registry->config->base->template->path;
+            $this->path    = $this->_registry->config->base->template->path;
             $this->_library = $this->_registry->config->base->template->engine->library;
         }
 

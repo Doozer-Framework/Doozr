@@ -71,75 +71,17 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 class DoozR_Exception extends DoozR_Base_Exception
 {
     /**
-     * The type of the exception (is in 99% the classname)
+     * Constructor.
      *
-     * @var string
-     * @access public
-     */
-    public $type;
-
-    /**
-     * The message of the exception
-     *
-     * @var string
-     * @access public
-     */
-    public $message;
-
-    /**
-     * The filename in which the exception was thrown
-     *
-     * @var string
-     * @access public
-     */
-    public $file;
-
-    /**
-     * The line where the exception was thrown
-     *
-     * @var integer
-     * @access public
-     */
-    public $line;
-
-    /**
-     * The code of the exception
-     *
-     * @var integer
-     * @access public
-     */
-    public $code;
-
-    /**
-     * The last exception if the exception was forwarded
-     *
-     * @var Exception
-     * @access public
-     */
-    public $previous;
-
-    /**
-     * The arguments passed to the last executed method
-     *
-     * @var array
-     * @access public
-     */
-    public $arguments;
-
-    /**
-     * constructor
-     *
-     * This method is intend to act as constructor.
-     *
-     * @param string  $message  The message of the exception
-     * @param integer $code     The error-code of the exception
-     * @param object  $previous An previos throw exception which should be repacked
+     * @param string    $message  The message of the exception
+     * @param integer   $code     The error-code of the exception
+     * @param Exception $previous An previos throw exception which should be repacked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Exception
      * @access public
      */
-    public function __construct($message = null, $code = 0, $previous = null)
+    public function __construct($message = null, $code = 0, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

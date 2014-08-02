@@ -102,34 +102,25 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      */
     public static function handle($number = '', $message = '', $file = '', $line = 0, $context = array())
     {
+        echo $message;
+        die;
+
         // get error type
-        $errorType = self::getErrorType($number);
+        $type = self::getErrorType($number);
 
-        /**
-         * pack error into an exception so that the error can be forwarded
-         * to exception handler without trickin PHP's default behavior
-         */
-        $error          = new DoozR_Exception($message, $number);
-        $error->type    = $errorType;
-        $error->message = $message;
-        $error->file    = $file;
-        $error->line    = $line;
+        // Pack error into an exception so that the error can be forwarded to exception handler
+        $error = new DoozR_Exception($message, $number);
+        $error
+            ->type($type)
+            ->message($message)
+            ->file($file)
+            ->line($line);
 
-        // overwrite values above with real error values
-        /*
-        if ($error = error_get_last()) {
-            $exception->type    = $error['type'];
-            $exception->message = $error['message'];
-            $exception->file    = $error['file'];
-            $exception->line    = $error['line'];
-        }
-        */
-
-        // Transform to exception!
+        // Now dispatch the error processable and from userland catchable as Exception
         throw new DoozR_Error_Exception($message, $number, $error);
 
-        // we must return TRUE here cause -> we didn't handled this error
-        return true;
+        // We return FALSE as signal that we handled the error
+        return false;
     }
 
     /**
@@ -184,22 +175,48 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      */
     public static function handleUnhandable()
     {
-        // get last error thrown by php
-        $e = error_get_last();
+        // We can retrieve the last error as whole by using PHP's internal function
+        $error = error_get_last();
 
-        // if not empty ...
-        if (!empty($e)) {
-            // Handle
-            #return self::handle($e['type'], $e['message'], $e['file'], $e['line']);
+        // Check if can handle the error ...
+        if (!empty($error) && self::isError($error) === true) {
+            // Handle by default handler -> It seems that the types of error catched here cannot be processed like ...
+            #return self::handle($error['type'], $error['message'], $error['file'], $error['line']);
 
-            // and log
-            #$logger = DoozR_Logger::getInstance();
-            #$logger->error($e['message'], 'ERROR', $e['file'], $e['line']);
-            #$logger->error($e['message']);
+            echo 'Benno:<br />';
+            var_dump($error);
+            die;
         }
 
-        // return success
-        return true;
+        // Return FALSE to signalize PHP error handled:
+        // http://php.net/manual/en/function.set-error-handler.php
+        return false;
+    }
+
+
+    public static function isError($error)
+    {
+        $isError = false;
+
+        if (is_array($error) && isset($error['type']) === true) {
+            switch($error['type']) {
+                case E_ERROR:
+                case E_CORE_ERROR:
+                case E_COMPILE_ERROR:
+                case E_USER_ERROR:
+                    if (
+                        isset($error['type']) &&
+                        isset($error['message']) &&
+                        isset($error['file']) &&
+                        isset($error['line'])
+                    ) {
+                        $isError = true;
+                    }
+                    break;
+            }
+        }
+
+        return $isError;
     }
 
     /**

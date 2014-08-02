@@ -284,7 +284,6 @@ class DoozR_Di_Container
 
         } else {
             $setup = $this->getMap()->getCollection()->getSetup($classname);
-            //$setup = $this->getMap()->buildCollection($classname)->getSetup($classname);
 
         }
 

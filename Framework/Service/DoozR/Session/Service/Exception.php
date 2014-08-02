@@ -2,14 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Route
+ * DoozR - Session - Service - Exception
  *
- * Route.php - Extends Apache/IIS/... mod_rewrite.
- * This script takes the argument(s) passed to by mod_rewrite (.htaccess) and
- * parse the Object, Action ... out of it. For this it makes use of the
- * configuration, which contains the excludes, the pattern, translation and the
- * regexp. Afterwards it checks for configured pattern (MVP, MVC, or none) and
- * dispatches the call accordingly.
+ * Exception.php - Exception base class for exceptions of session service.
  *
  * PHP versions 5
  *
@@ -48,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Router
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_Session
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -57,42 +52,23 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once 'DoozR/Bootstrap.php';
-require_once 'DoozR/Route.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
 
-// Run the DoozR core to prepare base and extend PHP
-DoozR_Core::run();
-
-// Get registry and configuration as well
-$registry = DoozR_Registry::getInstance();
-$config   = $registry->config;
-
-// Inject route from config to request state
-$registry->request->setRoutes($config->route());
-
-// Combine supported running modes
-$supportedModes = array(
-    DoozR_Request_State::RUNNING_MODE_WEB,
-    DoozR_Request_State::RUNNING_MODE_CLI,
-    DoozR_Request_State::RUNNING_MODE_HTTPD,
-);
-
-// Check for supported mode
-if (in_array($registry->request->getMode(), $supportedModes) === true) {
-
-    // Run route init
-    DoozR_Route::init(
-        $registry,
-        $registry->request,
-        $config->base->pattern->autorun()
-    );
-
-} else {
-
-    // UNKNOWN and/or currently not supported!
-    $msg  = 'DoozR - The PHP-Framework - Git-Version: ' . DoozR_Core::getVersion(true) . ' (on ' . php_uname() . ') - ';
-    $msg .= 'Running a DoozR-based application in "' . mb_strtoupper($runningMode) . '"-mode is not supported!';
-
-    // show message
-    pred($msg);
+/**
+ * DoozR - Session - Service - Exception
+ *
+ * Exception base class for exceptions of session service.
+ *
+ * @category   DoozR
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_Session
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2014 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/DoozR/
+ */
+class DoozR_Session_Service_Exception extends DoozR_Base_Exception
+{
+    // Intentionally left blank -> Just used for namespacing
 }

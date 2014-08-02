@@ -118,21 +118,22 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     const TYPE = 'httpd';
 
+
     /**
      * Constructor.
      *
-     * @param DoozR_Config $config An instance of config
-     * @param DoozR_Logger $logger An instance of logger
+     * @param DoozR_Registry $app DoozR's main registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Request_Httpd
      * @access public
      */
-    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    public function __construct(DoozR_Registry $app)
     {
-        // store instance(s)
-        $this->logger = $logger;
-        $this->config = $config;
+        // Store instances
+        $this->setApp($app);
+        $this->logger = $this->app->logger;
+        $this->config = $this->app->config;
 
         // set type
         self::$type = self::TYPE;
@@ -146,24 +147,26 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
             'PUT'         => self::EMULATED,
             'DELETE'      => self::EMULATED,
             'TRACE'       => self::EMULATED,
+            'CONNECT'     => self::EMULATED,
             'COOKIE'      => self::NATIVE,
             'REQUEST'     => self::NATIVE,
             'SESSION'     => self::NATIVE,
             'ENVIRONMENT' => self::NATIVE,
-            'SERVER'      => self::NATIVE
+            'SERVER'      => self::NATIVE,
+            'FILES'       => self::NATIVE,
         );
 
-        // check for ssl forcement
-        $this->_checkForceSecureConnection();
-
         // prepare non-native request for global PHP like access
-        $this->emulateRequest();
+        #$this->emulateRequest();
 
         // check automatic conversion of input
-        $this->arguments = $this->transformToRequestObject($this->getMethod());
+        #$this->arguments = $this->transformToRequestObject($this->getMethod());
 
         // protocolize the incoming request data
-        $this->_protocolize();
+        #$this->_protocolize();
+
+        // store URL (the base of all requests)
+        $this->url = strtok($_SERVER['REQUEST_URI'], '?');
     }
 
     /**
@@ -358,23 +361,6 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
 
         // store as request-uri in global $_SERVER (used by Route.php)
         $_SERVER['REQUEST_URI'] = $requestUri;
-    }
-
-    /**
-     * If FORCE_SSL is defined in TRANSMISSION part of the core-config and set to true
-     * every non-ssl request will be redirected to ssl (https)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if successful otherwise false
-     * @access private
-     */
-    private function _checkForceSecureConnection()
-    {
-        if ($this->config->transmission->ssl->force()) {
-            if (!$this->isSsl()) {
-                header('Location: https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
-            }
-        }
     }
 
     /**

@@ -93,7 +93,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @access private
      * @static
      */
-    private static $_path = array();
+    private static $path = array();
 
 
     /**
@@ -249,66 +249,66 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         $root = $this->_up($pathToRoot, 1, true);
 
         // real root (without "Framework" directory)
-        self::$_path['document_root'] = $root;
+        self::$path['document_root'] = $root;
 
         // path to core
-        self::$_path['core'] = $this->_combine($root, array('Framework', 'DoozR'));
+        self::$path['core'] = $this->_combine($root, array('Framework', 'DoozR'));
 
         // path to framework
-        self::$_path['framework'] = $this->_combine($root, array('Framework'));
+        self::$path['framework'] = $this->_combine($root, array('Framework'));
 
         // path to app
-        self::$_path['app'] = $pathToApplication;
+        self::$path['app'] = $pathToApplication;
 
         // path to model
-        self::$_path['model'] = $this->_combine($root, array('Framework', 'Model'));
+        self::$path['model'] = $this->_combine($root, array('Framework', 'Model'));
 
         // path to services
-        self::$_path['module'] = $this->_combine($root, array('Framework', 'Service'));
+        self::$path['module'] = $this->_combine($root, array('Framework', 'Service'));
 
         // path to controller
-        self::$_path['controller'] = $this->_combine($root, array('Framework', 'DoozR', 'Controller'));
+        self::$path['controller'] = $this->_combine($root, array('Framework', 'DoozR', 'Controller'));
 
         // path to data
-        self::$_path['data'] = $this->_combine($root, array('Framework', 'Data'));
+        self::$path['data'] = $this->_combine($root, array('Framework', 'Data'));
 
         // path to data-private
-        self::$_path['data_private'] = $this->_combine($root, array('Framework', 'Data', 'Private'));
+        self::$path['data_private'] = $this->_combine($root, array('Framework', 'Data', 'Private'));
 
         // path to auth
-        self::$_path['auth'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Auth'));
+        self::$path['auth'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Auth'));
 
         $systemp = sys_get_temp_dir().DIRECTORY_SEPARATOR;
 
         // path to cache
            //self::$_path['cache'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Cache'));
-        self::$_path['cache'] = $systemp;
+        self::$path['cache'] = $systemp;
 
         // path to config
-        self::$_path['config'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Config'));
+        self::$path['config'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Config'));
 
         // path to font
-        self::$_path['font'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Font'));
+        self::$path['font'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Font'));
 
         // path to log
            //self::$_path['log'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Log'));
-        self::$_path['log'] = $systemp;
+        self::$path['log'] = $systemp;
 
         // path to temp
            //self::$_path['temp'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Temp'));
-        self::$_path['temp'] = $systemp;
+        self::$path['temp'] = $systemp;
 
         // path to data-public (APP)
-        self::$_path['data_public'] = $this->_combine($pathToApplication, array('Data', 'Public'));
+        self::$path['data_public'] = $this->_combine($pathToApplication, array('Data', 'Public'));
 
         // path to data-public (APP)
-        self::$_path['www'] = $this->_combine($pathToApplication, array('Data', 'Public', 'www'));
+        self::$path['www'] = $this->_combine($pathToApplication, array('Data', 'Public', 'www'));
 
         // path to upload (APP)
-        self::$_path['upload'] = $this->_combine($pathToApplication, array('Data', 'Private', 'Upload'));
+        self::$path['upload'] = $this->_combine($pathToApplication, array('Data', 'Private', 'Upload'));
 
         // path to localisation (APP)
-        self::$_path['localisation'] = $this->_combine($pathToApplication, array('Data', 'Private', 'Locale'));
+        self::$path['localisation'] = $this->_combine($pathToApplication, array('Data', 'Private', 'Locale'));
     }
 
     /**
@@ -348,14 +348,14 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         $includePathsDoozR = '.';
 
         // build DoozR include paths
-        foreach (self::$_path as $path) {
+        foreach (self::$path as $path) {
             $includePathsDoozR .= self::_buildPath($path);
         }
 
         if (!empty($iniIncludePaths)) {
             foreach ($iniIncludePaths as $iniIncludePath) {
                 // if '.' or exisiting path -> do not attach twice
-                if (in_array($iniIncludePath, self::$_path) || trim($iniIncludePath) == '.') {
+                if (in_array($iniIncludePath, self::$path) || trim($iniIncludePath) == '.') {
                     continue;
                 }
 
@@ -431,13 +431,13 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         $identifier = str_replace('doozr_', '', strtolower($identifier));
 
         // return if exist - return false if not
-        if (isset(self::$_path[$identifier])) {
+        if (isset(self::$path[$identifier])) {
             // check for additional path add-on
             if (strlen($add)) {
                 // if defined we add the correct slashed path
                 $add = self::_correctPath($add);
             }
-            return self::$_path[$identifier].$add.(($trailingSlash) ? self::$_separator : '');
+            return self::$path[$identifier].$add.(($trailingSlash) ? self::$_separator : '');
         } else {
             return false;
         }
@@ -458,14 +458,14 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     public function set($identifier, $path, $force = false)
     {
         // check if already exist and prevent overwrite if not force
-        if (isset(self::$_path[$identifier]) && !is_null(self::$_path[$identifier]) && !$force) {
+        if (isset(self::$path[$identifier]) && !is_null(self::$path[$identifier]) && !$force) {
             throw new DoozR_Base_Exception(
                 'Path with identifier "'.$identifier.'" is already defined! Set $force to TRUE to overwrite it.'
             );
         }
 
         // create/update path
-        self::$_path[$identifier] = $this->correctPath($path);
+        self::$path[$identifier] = $this->correctPath($path);
 
         // return success
         return true;
@@ -599,6 +599,6 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     public static function moduleToPath($serviceName, $namespace = 'DoozR')
     {
         $service = ucfirst(str_replace('_', self::$_separator, $serviceName));
-        return self::_correctPath(self::$_path['module'].$namespace.self::$_separator.$service.self::$_separator);
+        return self::_correctPath(self::$path['module'].$namespace.self::$_separator.$service.self::$_separator);
     }
 }

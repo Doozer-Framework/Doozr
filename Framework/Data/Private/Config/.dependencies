@@ -155,6 +155,30 @@
                     }
                 ]
             },
+            "DoozR_Logger_Client": {
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Datetime_Service",
+                        "classname": "DoozR_Datetime_Service",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Logger_File": {
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Datetime_Service",
+                        "classname": "DoozR_Datetime_Service",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
             "DoozR_Registry": {
                 "constructor": "getInstance",
                 "dependencies": []
@@ -213,6 +237,26 @@
                     {
                         "identifier": "DoozR_Logger",
                         "classname": "DoozR_Logger",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    }
+                ]
+            },
+            "DoozR_Request": {
+                "dependencies": [
+                    {
+                        "identifier": "DoozR_Registry",
+                        "classname": "DoozR_Registry",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
+                    {
+                        "identifier": "DoozR_Request_State",
+                        "classname": "DoozR_Request_State",
                         "instance": null,
                         "config": {
                             "type": "constructor"

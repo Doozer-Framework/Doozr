@@ -134,13 +134,14 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
      * @throws DoozR_Exception
      */
     public function __construct(
-        array               $request,
-        array               $translation,
-        array               $originalRequest,
-        DoozR_Cache_Service $cache,
-        DoozR_Config        $configuration
+        DoozR_Base_State_Interface $requestState,
+        array                      $request,
+        array                      $translation,
+        array                      $originalRequest,
+        DoozR_Cache_Service        $cache,
+        DoozR_Config               $configuration
     ) {
-        // store
+        // Store
         $this->request         = $request;
         $this->translation     = $translation;
         $this->originalRequest = $originalRequest;
@@ -153,7 +154,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
             $result = $this->__tearup($request, $translation);
             if ($result !== true) {
                 throw new DoozR_Exception(
-                    'Alta'
+                    '__tearup() must return true. __tearup() returned: ' . var_export($result, true)
                 );
             }
         }
