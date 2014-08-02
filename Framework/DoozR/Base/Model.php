@@ -154,7 +154,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
             $result = $this->__tearup($request, $translation);
             if ($result !== true) {
                 throw new DoozR_Exception(
-                    'Alta'
+                    '__tearup() must return true. __tearup() returned: ' . var_export($result, true)
                 );
             }
         }

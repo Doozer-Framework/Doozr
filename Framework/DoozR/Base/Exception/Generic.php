@@ -73,5 +73,5 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Interface.php';
 class DoozR_Base_Exception_Generic extends DoozR_Base_Exception_Generic_Abstract
     implements DoozR_Base_Exception_Generic_Interface
 {
-    // extendable base exception of the DoozR-Framework
+    // Intentionally left blank - Just used for namespacing
 }

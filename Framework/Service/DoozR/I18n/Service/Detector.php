@@ -835,7 +835,13 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private function _readSession()
     {
         // assume empty cookie / no stored config
-        $storedSettings = $this->_getSession()->get(self::$_identifier);
+        try {
+            $storedSettings = $this->_getSession()->get(self::$_identifier);
+
+        } catch (DoozR_Session_Service_Exception $e) {
+            $storedSettings = null;
+        }
+
 
         // check the result for validity
         if (!$storedSettings || !$this->isValidLocaleCode($storedSettings['locale'])) {

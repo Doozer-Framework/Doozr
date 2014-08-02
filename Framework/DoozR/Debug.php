@@ -77,17 +77,17 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      * = enabled / false = disabled)
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_enabled = false;
+    protected $enabled = false;
 
     /**
      * Instance of logger
      *
      * @var DoozR_Logger
-     * @access private
+     * @access protected
      */
-    private $_logger;
+    protected $logger;
 
 
     /**
@@ -103,10 +103,10 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     protected function __construct(DoozR_Logger_Interface &$logger, $enabled = false)
     {
         // store instances
-        $this->_logger = $logger;
+        $this->logger = $logger;
 
         // log debug state
-        $this->_logger->debug(
+        $this->logger->debug(
             'Debug-Manager - debug-mode enabled = '.strtoupper(var_export($enabled, true))
         );
 
@@ -129,11 +129,11 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      */
     public function enable()
     {
-        if ($this->_enable()) {
-            $this->_enabled = true;
-            $this->_logger->debug('Debug-mode successfully enabled.');
+        if ($this->enableErrorHandling()) {
+            $this->enabled = true;
+            $this->logger->debug('Debug-mode successfully enabled.');
         } else {
-            $this->_enabled = false;
+            $this->enabled = false;
             throw new Exception('Debug-mode could not be enabled! Your system isn\'t configurable at runtime.');
         }
     }
@@ -144,16 +144,17 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      * This method is intend to disable debugging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @throws Exception
      * @return void
      * @access public
      */
     public function disable()
     {
-        if ($this->_disable()) {
-            $this->_enabled = false;
-            $this->_logger->debug('Debug-mode successfully disabled!');
+        if ($this->disableErrorHandling()) {
+            $this->enabled = false;
+            $this->logger->debug('Debug-mode successfully disabled!');
         } else {
-            $this->_enabled = true;
+            $this->enabled = true;
             throw new Exception('Debug-mode could not be disabled!');
         }
     }
@@ -165,9 +166,9 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if debug was successfully enabled, otherwise FALSE
-     * @access private
+     * @access protected
      */
-    private function _enable()
+    protected function enableErrorHandling()
     {
         // set error reporting to maximum output
         error_reporting(DOOZR_PHP_ERROR_MAX);
@@ -175,8 +176,9 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         // ini_set() can only be used if php version is >= 5.3 (cause from PHP 5.3 safemode
         // is deprecated and from PHP 5.4 it is removed) or if safemode is Off.
         if (DOOZR_PHP_VERSION >= 5.3 || !ini_get('safemode')) {
-            #ini_set('display_errors', 0);
+            ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
+            ini_set('track_errors', 1);
             ini_set('log_errors', 1);
             ini_set('html_errors', 1);
 
@@ -193,9 +195,9 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if debug was successfully disabled, otherwise FALSE
-     * @access private
+     * @access protected
      */
-    private function _disable()
+    protected function disableErrorHandling()
     {
         // if debug-mode is disabled we must hide all errors to prevent the app from information leakage.
         // set error_reporting to null (0) to hide PHP's reports
@@ -206,8 +208,10 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         if (DOOZR_PHP_VERSION >= 5.3 || !ini_get('safemode')) {
             ini_set('display_errors', 0);
             ini_set('display_startup_errors', 0);
+            ini_set('track_errors', 0);
             ini_set('log_errors', 1);
             ini_set('html_errors', 0);
+
         }
 
         // and return -> success

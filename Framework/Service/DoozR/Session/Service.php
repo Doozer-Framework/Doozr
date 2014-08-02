@@ -224,9 +224,9 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * get regenerated. Default = 0 = never/disabled
      *
      * @var integer
-     * @access private
+     * @access protected
      */
-    private $_regenerateCycles = self::DEFAULT_REGENERATE_CYCLES;
+    protected $regenerateCycles = self::DEFAULT_REGENERATE_CYCLES;
 
     /**
      * Contains the methods to execute after an event like "start" is triggered.
@@ -653,10 +653,16 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         }
 
         // try to read from session
-        $ipFromSession = $this->get(self::DEFAULT_BIND_IP_IDENTIFIER);
+        try {
+            $ipFromSession = $this->get(self::DEFAULT_BIND_IP_IDENTIFIER);
+
+        } catch (DoozR_Session_Service_Exception $e) {
+            $ipFromSession = null;
+        }
+
 
         // at this point the ip is in format configured (X-octets)
-        if ($ipFromSession) {
+        if ($ipFromSession !== null) {
             // found ip in session! try to validate and destroy if suspicious
             if ($ipFromSession != $ip) {
                 $this->log('Session seems to be hijacked! Destroying session and closing connection!');
@@ -785,7 +791,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Exception
+     * @throws DoozR_Session_Service_Exception
      */
     public function start()
     {
@@ -821,7 +827,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
 
         // for the uncommon case, that the session could not be initialized
         if (!$this->wasStarted()) {
-            throw new DoozR_Exception(
+            throw new DoozR_Session_Service_Exception(
                 'Session could not be started! Please check your configuration (php.ini).'
             );
         } else {
@@ -865,13 +871,13 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Exception
+     * @throws DoozR_Session_Service_Exception
      */
     public function handleRegenerate()
     {
         // check for invalid call
         if (!$this->wasStarted()) {
-            throw new DoozR_Exception(
+            throw new DoozR_Session_Service_Exception(
                 'Error while handling Session regeneration! handleRegenerate() must be called after session start().'
             );
         }
@@ -899,7 +905,6 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Exception
      */
     public function setStarted($status)
     {
@@ -914,7 +919,6 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if session was already started, FALSE if not
      * @access public
-     * @throws DoozR_Exception
      */
     public function wasStarted()
     {
@@ -1184,18 +1188,17 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     }
 
     /**
-     * returns a requestes variable from session
+     * Returns a variable from session by passed name/identifier.
      *
-     * This method is intend to to return a requestet variable from current session
-     *
-     * @param string $variable The name of the session-variable to get from session
-     * @param mixed  $default  The default value to return if variable is not set in session
+     * @param string $variable The name of the session variable to return
+     * @param null   $value    The default value to return in case of exception
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed MIXED value of the requested session variable if set, otherwise NULL
+     * @return mixed Value of the requested session variable if set, otherwise NULL
      * @access public
+     * @throws DoozR_Session_Service_Exception
      */
-    public function get($variable, $default = null)
+    public function get($variable, $value = null)
     {
         // translate call for variable identifier (_translate() just encrypt the name if encryption is enabled)
         $variable = $this->_translate($variable);
@@ -1211,13 +1214,14 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
                 $value = $_SESSION[$variable];
             }
 
-            // return the correct unserialized value (so integer keeps integer ...)
-            #return unserialize($value);
-            return $value;
+        } else {
+            throw new DoozR_Session_Service_Exception(
+                'Session variable "' . $variable . '" could not be retrieved from session. Ensure that it is set first.'
+            );
         }
 
         // return default = not set = null
-        return $default;
+        return $value;
     }
 
     /**
@@ -1303,12 +1307,13 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @throws DoozR_Session_Service_Exception
      */
     public function setIdentifier($identifier)
     {
         // check for already started session first
         if ($this->wasStarted()) {
-            throw new Exception(
+            throw new DoozR_Session_Service_Exception(
                 'Identifier cannot be changed! The identifier (session-name) must be set BEFORE start() is called.'
             );
         }
@@ -1495,7 +1500,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     public function setRegenerateCycles($cycles = self::DEFAULT_REGENERATE_CYCLES)
     {
         // do we need to do anything? cause a "0" means deactivated!
-        $this->_regenerateCycles = $cycles;
+        $this->regenerateCycles = $cycles;
 
         // set only if cycle count is given
         if ($cycles > 0) {
@@ -1520,11 +1525,10 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The count of cycles
      * @access public
-     * @throws DoozR_Exception
      */
     public function getRegenerateCycles()
     {
-        return $this->_regenerateCycles;
+        return $this->regenerateCycles;
     }
 
     /**
@@ -1535,12 +1539,16 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if Session-Id must be regenerated, FALSE if not
      * @access public
-     * @throws DoozR_Exception
      */
     public function mustRegenerate()
     {
         // try to read counter from session
-        $currentCycle = $this->get(self::DEFAULT_REGENERATE_CYCLES_IDENTIFIER, 0);
+        try {
+            $currentCycle = $this->get(self::DEFAULT_REGENERATE_CYCLES_IDENTIFIER);
+
+        } catch (DoozR_Session_Service_Exception $e) {
+            $currentCycle = 0;
+        }
 
         // increase cycle
         $currentCycle++;
@@ -1598,21 +1606,67 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         return $status;
     }
 
+    /**
+     * Crud access for create. Creates a session entry.
+     *
+     * @param string $key   The key to store value under in session
+     * @param mixed  $value Whatever variable type (complex or simple) to store
+     *
+     * @example $session->create('foo', 'bar');
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
     public function create($key, $value)
     {
         return $this->set($key, $value);
     }
 
+    /**
+     * cRud access for read. Returns a session entry.
+     *
+     * @param string $key The key to return value for
+     *
+     * @example $session->read('foo');
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
     public function read($key)
     {
         return $this->get($key);
     }
 
+    /**
+     * crUd access for update. Updates a session entry.
+     *
+     * @param string $key   The key of the variable to update value for
+     * @param mixed  $value The value to set as update
+     *
+     * @example $session->update('foo', 'baz');
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
     public function update($key, $value)
     {
         return $this->set($key, $value);
     }
 
+    /**
+     * cruD access for delete. Deletes a session entry.
+     *
+     * @param string $key The key of the variable to delete
+     *
+     * @example $session->delete('foo');
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
+     */
     public function delete($key)
     {
         return $this->unsetVariable($key);

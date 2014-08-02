@@ -412,7 +412,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
          */
         self::$registry->container        = self::$container;
         self::$registry->map              = self::$map;
-        #self::$registry->requestArguments = new DoozR_Request_Arguments();
     }
 
     /**
@@ -547,25 +546,19 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         // check if logging enabled
         if (self::$config->logging->enabled()) {
 
-            // Set default level from config
-            self::$logger->setDefaultLoglevel(self::$config->logging->level());
-
             // Get logger from config
             $loggers = self::$config->logging->logger();
 
             // iterate and attach to subsystem
             foreach ($loggers as $logger) {
 
-                // @todo: DI
-                $classname = 'DoozR_Logger_'.ucfirst(strtolower($logger->name));
-
-                $logger = new $classname(
-                    DoozR_Loader_Serviceloader::load('datetime'),
-                    (isset($logger->level)) ? $logger->level : self::$logger->getDefaultLoglevel()
+                $loggerInstance = self::$container->build(
+                    'DoozR_Logger_'.ucfirst(strtolower($logger->name)),
+                    array((isset($logger->level)) ? $logger->level : self::$logger->getDefaultLoglevel())
                 );
 
                 // attach the logger
-                self::$logger->attach($logger);
+                self::$logger->attach($loggerInstance);
             }
 
             foreach ($collection as $key => $entry) {
@@ -798,7 +791,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         self::$coreExecutionTime = self::_getDateTime()->getMicrotimeDiff(self::$starttime);
 
         // log core execution time
-        self::$logger->debug('Core execution-time: '.self::$coreExecutionTime.' seconds');
+        self::$logger->debug('Core execution-time: ' . self::$coreExecutionTime . ' seconds');
     }
 
     /**

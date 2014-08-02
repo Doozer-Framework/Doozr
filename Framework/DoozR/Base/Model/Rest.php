@@ -82,6 +82,85 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      */
     const PERMISSION_OVERRIDE_ALLOW_ALL = 1;
 
+    /**
+     * Status of processing (HTTP-Response code)
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $status;
+
+    /**
+     * The result of the current operation
+     *
+     * @var boolean
+     * @access protected
+     */
+    protected $result;
+
+    /**
+     * The errors occured while processing
+     *
+     * @var array
+     * @access protected
+     */
+    protected $error = array();
+
+
+    protected function setError(array $error)
+    {
+        $this->error = $error;
+    }
+
+    protected function addError($error)
+    {
+        $this->error[] = $error;
+    }
+
+    public function removeError($error)
+    {
+        $this->setError(
+            array_diff($this->getError(), array($error))
+        );
+    }
+
+    protected function getError()
+    {
+        return $this->error;
+    }
+
+    protected function setResult($result)
+    {
+        $this->result = $result;
+    }
+
+    protected function result($result)
+    {
+        $this->setResult($result);
+        return $this;
+    }
+
+    protected function getResult()
+    {
+        return $this->result;
+    }
+
+    protected function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    protected function status($status)
+    {
+        $this->setStatus($status);
+        return $this;
+    }
+
+    protected function getStatus()
+    {
+        return $this->status;
+    }
+
 
     /**
      * Authorizes an consumer ACL service object against an provider ACL service
@@ -250,7 +329,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
 
         return $response;
     }
-
+    
     /**
      * __data() is the generic __data proxy and is called on each access via getData()
      *

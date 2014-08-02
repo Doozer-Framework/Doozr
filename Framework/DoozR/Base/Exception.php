@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base-Exception
+ * DoozR - Base - Exception
  *
  * Exception.php - Simple basic exception class of the DoozR Framework.
  *
@@ -55,7 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
 
 /**
- * DoozR - Base-Exception
+ * DoozR - Base - Exception
  *
  * Simple basic exception class of the DoozR Framework.
  *
@@ -63,7 +63,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
  * @package    DoozR_Base
  * @subpackage DoozR_Base_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$ <develop@doozr.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
@@ -72,37 +71,86 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
 class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
 {
     /**
-     * overrides parents constructor to add context to each exception of type:
-     * DoozR_Base_Exception
+     * The type of the exception (is in 99% the classname)
      *
-     * This method is intend to override parents constructor to add context to each exception.
+     * @var string
+     * @access public
+     */
+    public $type;
+
+    /**
+     * The message of the exception
      *
-     * @param string  $message  The exception-message
-     * @param integer $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
+     * @var string
+     * @access public
+     */
+    public $message;
+
+    /**
+     * The filename in which the exception was thrown
+     *
+     * @var string
+     * @access public
+     */
+    public $file;
+
+    /**
+     * The line where the exception was thrown
+     *
+     * @var integer
+     * @access public
+     */
+    public $line;
+
+    /**
+     * The code of the exception
+     *
+     * @var integer
+     * @access public
+     */
+    public $code;
+
+    /**
+     * The last exception if the exception was forwarded
+     *
+     * @var Exception
+     * @access public
+     */
+    public $previous;
+
+    /**
+     * The arguments passed to the last executed method
+     *
+     * @var array
+     * @access public
+     */
+    public $arguments;
+
+
+    /**
+     * Constructor.
+     *
+     * @param string    $message  The exception-message
+     * @param integer   $code     The code of the exception
+     * @param Exception $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Exception instance of this class
+     * @return \DoozR_Base_Exception
      * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {
         // if no message set set => throw us again
         if (!$message) {
-            throw new $this('Exception => "'.get_class($this).'" without message!');
+            throw new $this('Exception => "' . get_class($this) . '" without message!');
         }
-
-        // add context to message!
-        //$message = 'DoozR Exception => '.$message;
 
         // call parents constructor
         parent::__construct($message, $code, $previous);
     }
 
     /**
-     * generates an unique code for an exception
-     *
-     * This method is intend to generate an unique code for an exception.
+     * Generates an unique code for each exception type.
      *
      * @param string  $file The exception-message
      * @param integer $code The error-code of the exception
@@ -113,8 +161,8 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      */
     protected function generateUniqueCode($file, $code)
     {
-        $base  = 999 - $this->_getFileNestingLevel($file);
-        $base -= floor(sqrt($base * $this->_getChecksum($file))/1000);
+        $base  = 999 - $this->getFileNestingLevel($file);
+        $base -= floor(sqrt($base * $this->getChecksum($file))/1000);
         $base  = crossfoot($base);
         $base  = sprintf("%03d", $base);
         $base  = strrev($base);
@@ -124,17 +172,15 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
     }
 
     /**
-     * calculates a checksum for a given string of data
-     *
-     * This method is intend to calculate a checksum for a given string of data.
+     * Returns checksum for passed input.
      *
      * @param string $string The data as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The calculated checksum
-     * @access private
+     * @access protected
      */
-    private function _getChecksum($string)
+    protected function getChecksum($string)
     {
         $length = strlen($string);
         $checksum = 0;
@@ -147,29 +193,27 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
     }
 
     /**
-     * calculcates nesting level
-     *
-     * This method is intend to calculcate the nesting level.
+     * Calculates the nesting level of a passed filename.
      *
      * @param string $file The file to return nesting level for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The nesting level of file
-     * @access private
+     * @access protected
      */
-    private function _getFileNestingLevel($file)
+    protected function getFileNestingLevel($file)
     {
         return substr_count($file, DIRECTORY_SEPARATOR);
     }
 
     /**
-     * Setter for type of exception
+     * Setter for type.
      *
-     * @params string $type The type to set
+     * @param string $type The type to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access public
      */
     public function setType($type)
     {
@@ -177,14 +221,116 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
     }
 
     /**
+     * Setter for type.
+     *
+     * @param string $type The type to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Exception
+     * @access public
+     */
+    public function type($type)
+    {
+        $this->setType($type);
+        return $this;
+    }
+
+    /**
      * Getter for type
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The type
-     * @access private
+     * @access public
      */
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Setter for message.
+     *
+     * @param string $message The message to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * Setter for message.
+     *
+     * @param string $message The message to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Exception
+     * @access public
+     */
+    public function message($message)
+    {
+        $this->setMessage($message);
+        return $this;
+    }
+
+    /**
+     * Setter for file.
+     *
+     * @param string $file The filename to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * Setter for file.
+     *
+     * @param string $file The filename to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Exception
+     * @access public
+     */
+    public function file($file)
+    {
+        $this->file = $file;
+        return $this;
+    }
+
+    /**
+     * Setter for line.
+     *
+     * @param integer|string $line The line to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setLine($line)
+    {
+        $this->line = $line;
+    }
+
+    /**
+     * Setter for line.
+     *
+     * @param integer|string $line The line to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Exception
+     * @access public
+     */
+    public function line($line)
+    {
+        $this->setLine($line);
+        return $this;
     }
 }

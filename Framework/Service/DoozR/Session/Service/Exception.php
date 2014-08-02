@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Exception
+ * DoozR - Session - Service - Exception
  *
- * Exception.php - Generic Exception (no specific type) of DoozR Framework.
+ * Exception.php - Exception base class for exceptions of session service.
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Exception
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_Session
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,37 +52,23 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
 
 /**
- * DoozR - Exception
+ * DoozR - Session - Service - Exception
  *
- * Generic Exception (no specific type) of DoozR Framework.
+ * Exception base class for exceptions of session service.
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Exception
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_Session
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Exception extends DoozR_Base_Exception
+class DoozR_Session_Service_Exception extends DoozR_Base_Exception
 {
-    /**
-     * Constructor.
-     *
-     * @param string    $message  The message of the exception
-     * @param integer   $code     The error-code of the exception
-     * @param Exception $previous An previos throw exception which should be repacked
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Exception
-     * @access public
-     */
-    public function __construct($message = null, $code = 0, Exception $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
+    // Intentionally left blank -> Just used for namespacing
 }

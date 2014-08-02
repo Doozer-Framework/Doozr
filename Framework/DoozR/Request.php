@@ -313,33 +313,40 @@ class DoozR_Request extends DoozR_Base_State_Container
      */
     protected function emitValidRequestSources($mode)
     {
+        $requestSources = array(
+            'ENVIRONMENT' => self::NATIVE,
+            'SERVER'      => self::NATIVE,
+        );
+
         switch ($mode) {
             case DoozR_Request_State::RUNNING_MODE_CLI:
-                $requestSources = array(
-                    'CLI'         => self::NATIVE,
-                    'ENVIRONMENT' => self::NATIVE,
-                    'SERVER'      => self::NATIVE
+                $requestSources = array_merge(
+                    $requestSources,
+                    array(
+                        'CLI' => self::NATIVE
+                    )
                 );
                 break;
 
             case DoozR_Request_State::RUNNING_MODE_WEB:
             case DoozR_Request_State::RUNNING_MODE_HTTPD:
             default:
-                $requestSources = array(
-                    'GET'         => self::NATIVE,
-                    'POST'        => self::NATIVE,
-                    'HEAD'        => self::EMULATED,
-                    'OPTIONS'     => self::EMULATED,
-                    'PUT'         => self::EMULATED,
-                    'DELETE'      => self::EMULATED,
-                    'TRACE'       => self::EMULATED,
-                    'CONNECT'     => self::EMULATED,
-                    'COOKIE'      => self::NATIVE,
-                    'REQUEST'     => self::NATIVE,
-                    'SESSION'     => self::NATIVE,
-                    'ENVIRONMENT' => self::NATIVE,
-                    'SERVER'      => self::NATIVE,
-                    'FILES'       => self::NATIVE,
+                $requestSources = array_merge(
+                    $requestSources,
+                    array(
+                        'GET'         => self::NATIVE,
+                        'POST'        => self::NATIVE,
+                        'HEAD'        => self::EMULATED,
+                        'OPTIONS'     => self::EMULATED,
+                        'PUT'         => self::EMULATED,
+                        'DELETE'      => self::EMULATED,
+                        'TRACE'       => self::EMULATED,
+                        'CONNECT'     => self::EMULATED,
+                        'COOKIE'      => self::NATIVE,
+                        'REQUEST'     => self::NATIVE,
+                        'SESSION'     => self::NATIVE,
+                        'FILES'       => self::NATIVE,
+                    )
                 );
                 break;
         }

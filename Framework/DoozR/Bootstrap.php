@@ -54,13 +54,13 @@
  */
 
 /*----------------------------------------------------------------------------------------------------------------------
-| BEGIN PATCHING CONSTANT WITH MICROTIME FOR MEASUREMENTS
+| PATCHING CONSTANT WITH MICROTIME FOR MEASUREMENTS
 +---------------------------------------------------------------------------------------------------------------------*/
 
 $_SERVER['REQUEST_TIME'] = microtime();
 
 /*----------------------------------------------------------------------------------------------------------------------
-| BEGIN PATHFINDER
+| PATHFINDER
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // systems directory separator
@@ -103,7 +103,7 @@ if ($documentRoot === false) {
 define('DOOZR_DOCUMENT_ROOT', $documentRoot);
 
 /*----------------------------------------------------------------------------------------------------------------------
-| BEGIN CHECK FOR PASSED APP PATH
+| CHECK FOR PASSED APP PATH
 +---------------------------------------------------------------------------------------------------------------------*/
 
 $pathAppRoot = getenv('DOOZR_APP_ROOT');
@@ -113,20 +113,20 @@ if ($pathAppRoot !== false) {
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
-| BEGIN COMPOSER INTEGRATION
+| COMPOSER INTEGRATION
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // Try to include composer's autoloader to make all the composer stuff easy available
 @include_once DOOZR_DOCUMENT_ROOT . '../vendor/autoload.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
-| BEGIN EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
+| EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
 +---------------------------------------------------------------------------------------------------------------------*/
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Extend.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
-| BEGIN AUTOLOADING (SPL)
+| AUTOLOADING (SPL)
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // SPL facade files config + facade itself
@@ -169,46 +169,29 @@ DoozR_Loader_Autoloader_Spl_Facade::attach(
 );
 
 /*----------------------------------------------------------------------------------------------------------------------
-| BEGIN ERROR-HANDLING (HOOK)
-+---------------------------------------------------------------------------------------------------------------------*/
-
-// ERROR-HANDLER: register error-handler
-/*
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Error.php';
-
-// set the own exception_handler
-set_error_handler(
-    array(
-        'DoozR_Handler_Error',
-        'handle'
-    )
-);
-
-// hook for theoretically "unhandable error(s)" like E_PARSE (smart-hack)
-register_shutdown_function(
-    array(
-        'DoozR_Handler_Error',
-        'handleUnhandable'
-    )
-);
-*/
-/*----------------------------------------------------------------------------------------------------------------------
- | BEGIN EXCEPTION-HANDLING (HOOK)
+ | ERROR & EXCEPTION-HANDLING (HOOK)
  ---------------------------------------------------------------------------------------------------------------------*/
-/*
-// EXCEPTION-HANDLER: register exception-handler
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Exception.php';
 
-// set the own exception_handler
-set_exception_handler(
-    array(
-        'DoozR_Handler_Exception',
-        'handle'
+// EXCEPTION-HANDLER: Not a custom one - we use Whoops
+$whoops = new Whoops\Run();
+
+// Configure the PrettyPageHandler
+$exceptionHandler = new Whoops\Handler\PrettyPageHandler();
+
+// Add some DoozR specific ingredients
+$exceptionHandler->setPageTitle('DoozR');
+$exceptionHandler->addDataTable("DoozR runtime environment", array(
+        "DOOZR_OS"            => DOOZR_OS,
+        "DOOZR_PHP_VERSION"   => DOOZR_PHP_VERSION,
+        "DOOZR_DOCUMENT_ROOT" => DOOZR_DOCUMENT_ROOT
     )
 );
-*/
+
+$whoops->pushHandler($exceptionHandler);
+$whoops->register();
+
 /*----------------------------------------------------------------------------------------------------------------------
-| BEGIN LOAD DoozR's CORE-CLASS
+| LOAD DoozR's CORE-CLASS
 +---------------------------------------------------------------------------------------------------------------------*/
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core.php';
