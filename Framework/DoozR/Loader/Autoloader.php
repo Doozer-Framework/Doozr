@@ -74,81 +74,82 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      * The file-extension for the files to be loaded by autoloader
      *
      * @var string The file-extension
-     * @access private
+     * @access protected
      */
-    private $_fileExtension = '.php';
+    protected $fileExtension = '.php';
 
     /**
      * The namespace for the files to be loaded by autoloader
      *
      * @var string The namespace
-     * @access private
+     * @access protected
      */
-    private $_namespace;
+    protected $namespace;
 
     /**
      * The include path used as base-path when loading files
      *
      * @var string The include path
-     * @access private
+     * @access protected
      */
-    private $_includePath;
+    protected $includePath;
 
     /**
      * The namespace separator used when autoloading files
      *
      * @var string The namespace separator
-     * @access private
+     * @access protected
      */
-    private $_namespaceSeparator = '\\';
+    protected $namespaceSeparator = '\\';
 
     /**
      * The directory separator for current OS
      *
      * @var string The directory separator
-     * @access private
+     * @access protected
      */
-    private $_separator = DIRECTORY_SEPARATOR;
+    protected $separator = DIRECTORY_SEPARATOR;
 
     /**
      * holds classes to include with fullpath
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_packages = array();
+    protected $packages = array();
 
     /**
      * holds UID of the current instance
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_uid;
+    protected $uid;
 
     /**
      * holds name of the current instance
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_name;
+    protected $name;
 
     /**
      * holds description of the current instance
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_description;
+    protected $description;
 
     /**
      * holds priority of the current instance
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_priority;
+    protected $priority;
+
 
     /**
      * Constructor.
@@ -162,8 +163,8 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function __construct($namespace = null, $includePath = null)
     {
-        $this->_namespace = $namespace;
-        $this->_includePath = $includePath;
+        $this->namespace = $namespace;
+        $this->includePath = $includePath;
     }
 
     /**
@@ -196,23 +197,23 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     public function load($classname)
     {
         // get namespace from classname
-        $namespace = substr($classname, 0, strlen($this->_namespace.$this->_namespaceSeparator));
+        $namespace = substr($classname, 0, strlen($this->namespace.$this->namespaceSeparator));
 
         // check if requested class must be loaded by this instance of loader
-        if ($this->_namespace === null || $this->_namespace.$this->_namespaceSeparator === $namespace) {
+        if ($this->namespace === null || $this->namespace.$this->namespaceSeparator === $namespace) {
             $fileName  = '';
             $namespace = '';
 
-            if (($lastNsPos = strripos($classname, $this->_namespaceSeparator)) !== false) {
+            if (($lastNsPos = strripos($classname, $this->namespaceSeparator)) !== false) {
                 $namespace = substr($classname, 0, $lastNsPos);
                 $classname = substr($classname, $lastNsPos + 1);
-                $fileName  = str_replace($this->_namespaceSeparator, $this->_separator, $namespace).$this->_separator;
+                $fileName  = str_replace($this->namespaceSeparator, $this->separator, $namespace).$this->separator;
             }
 
-            $fileName .= str_replace('_', $this->_separator, $classname).$this->_fileExtension;
+            $fileName .= str_replace('_', $this->separator, $classname).$this->fileExtension;
 
-            if ($this->_includePath !== null) {
-                $fileName = $this->_includePath.$this->_separator.$fileName;
+            if ($this->includePath !== null) {
+                $fileName = $this->includePath.$this->separator.$fileName;
             }
 
             // check first if file exists and load it -> @... suppress is fasted solution ;)
@@ -231,7 +232,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function getUid()
     {
-        return $this->_uid;
+        return $this->uid;
     }
 
     /**
@@ -248,9 +249,9 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
     public function setUid($uid = false)
     {
         // generate UID by config if not given
-        $uid = (!$uid) ? $uid = md5($this->_name.$this->_namespace.$this->_priority) : $uid;
+        $uid = (!$uid) ? $uid = md5($this->name.$this->namespace.$this->priority) : $uid;
 
-        $this->_uid = $uid;
+        $this->uid = $uid;
 
         return $uid;
     }
@@ -266,7 +267,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function getNamespaceSeparator()
     {
-        return $this->_namespaceSeparator;
+        return $this->namespaceSeparator;
     }
 
     /**
@@ -282,7 +283,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function setNamespaceSeparator($separator)
     {
-        $this->_namespaceSeparator = $separator;
+        $this->namespaceSeparator = $separator;
     }
 
     /**
@@ -296,7 +297,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 
     /**
@@ -312,7 +313,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function setName($name)
     {
-        $this->_name = $name;
+        $this->name = $name;
     }
 
     /**
@@ -326,7 +327,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function getDescription()
     {
-        return $this->_description;
+        return $this->description;
     }
 
     /**
@@ -342,7 +343,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function setDescription($description)
     {
-        $this->_description = $description;
+        $this->description = $description;
     }
 
     /**
@@ -357,7 +358,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function getPriority()
     {
-        return $this->_priority;
+        return $this->priority;
     }
 
     /**
@@ -373,6 +374,6 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      */
     public function setPriority($priority)
     {
-        $this->_priority = $priority;
+        $this->priority = $priority;
     }
 }

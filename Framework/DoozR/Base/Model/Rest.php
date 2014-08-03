@@ -52,6 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model.php';
 
 /**
@@ -71,10 +72,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model.php';
 class DoozR_Base_Model_Rest extends DoozR_Base_Model
 {
     /**
-     * Permission level for evryone is allowed to access
-     * no matter of level, id, role, ... This is required
-     * for fetching legal website content for blog ... or
-     * logging in! ... and so on.
+     * Permission level for: Everyone is allowed to access no matter of level, id, role, ...
+     * This is required for fetching legal website content for blog ... or logging in!
      *
      * @var integer
      * @access public
@@ -88,7 +87,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @var integer
      * @access protected
      */
-    protected $status;
+    protected $status = DoozR_Http::STATUS_OK;
 
     /**
      * The result of the current operation
@@ -96,10 +95,10 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @var boolean
      * @access protected
      */
-    protected $result;
+    protected $result = false;
 
     /**
-     * The errors occured while processing
+     * The errors occurred while processing
      *
      * @var array
      * @access protected
@@ -107,60 +106,143 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     protected $error = array();
 
 
+    /**
+     * Setter for error.
+     *
+     * @param array $error The collection of error to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setError(array $error)
     {
         $this->error = $error;
     }
 
+    /**
+     * Adds an error to the collection of errors.
+     *
+     * @param string $error The error to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function addError($error)
     {
         $this->error[] = $error;
     }
 
-    public function removeError($error)
+    /**
+     * Removes an error from the collection of errors.
+     *
+     * @param string $error The error to remove
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function removeError($error)
     {
         $this->setError(
             array_diff($this->getError(), array($error))
         );
     }
 
+    /**
+     * Getter for error
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The collection of error
+     * @access protected
+     */
     protected function getError()
     {
         return $this->error;
     }
 
+    /**
+     * Setter for result
+     *
+     * @param boolean $result The result to set TRUE or FALSE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setResult($result)
     {
         $this->result = $result;
     }
 
+    /**
+     * Setter for result
+     *
+     * @param boolean $result The result to set TRUE or FALSE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Model_Rest Instance for chaining
+     * @access protected
+     */
     protected function result($result)
     {
         $this->setResult($result);
         return $this;
     }
 
+    /**
+     * Getter for result
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean The result
+     * @access protected
+     */
     protected function getResult()
     {
         return $this->result;
     }
 
+    /**
+     * Setter for status
+     *
+     * @param integer $status The HTTP Status of current operation
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Model_Rest Instance for chaining
+     * @access protected
+     */
     protected function setStatus($status)
     {
         $this->status = $status;
     }
 
+    /**
+     * Setter for status
+     *
+     * @param integer $status The HTTP Status of current operation
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Model_Rest Instance for chaining
+     * @access protected
+     */
     protected function status($status)
     {
         $this->setStatus($status);
         return $this;
     }
 
+    /**
+     * Getter for status
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The HTTP Status of current operation
+     * @access protected
+     */
     protected function getStatus()
     {
         return $this->status;
     }
-
 
     /**
      * Authorizes an consumer ACL service object against an provider ACL service
@@ -329,7 +411,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
 
         return $response;
     }
-    
+
     /**
      * __data() is the generic __data proxy and is called on each access via getData()
      *
