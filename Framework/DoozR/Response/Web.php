@@ -1066,7 +1066,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param string  $type The type of redirect to use (html, header or js)
      * @param integer $time The timeout for HTML-redirect in seconds
      *
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      * @throws Exception
@@ -1098,5 +1098,21 @@ class DoozR_Response_Web extends DoozR_Base_Response
             break;
         }
         exit;
+    }
+
+    /**
+     * If response close use this moment to inform dev also via header
+     * about the debug state. So no bar and so on is required and frontend can
+     * also react on this for testing behavior e.g. ...
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function __destruct()
+    {
+        if (DOOZR_DEBUG === true) {
+            $this->sendHeader('X-DoozR-Debug: 1');
+        }
     }
 }

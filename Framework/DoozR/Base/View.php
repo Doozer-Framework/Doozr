@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/View/Observer.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_View extends DoozR_Base_View_Observer
+class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_View_Interface
 {
     /**
      * holds the data to show
@@ -157,7 +157,6 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
      *
      * @param array                  $request         The whole request as processed by "Route"
      * @param array                  $translation     The translation required to read the request
-     * @param array                  $originalRequest The original untouched request
      * @param DoozR_Cache_Service    $cache           An instance of DoozR_Cache_Service
      * @param DoozR_Config           $config          An instance of DoozR_Config with Core-Configuration
      * @param DoozR_Controller_Front $front           An instance of DoozR_Front
@@ -170,17 +169,14 @@ class DoozR_Base_View extends DoozR_Base_View_Observer
         DoozR_Base_State_Interface $requestState,
         array                      $request,
         array                      $translation,
-        array                      $originalRequest,
         DoozR_Cache_Service        $cache,
         DoozR_Config               $config,
         DoozR_Controller_Front     $front
     ) {
         /* @var $requestState DoozR_Request_State */
-
-        // store
         $this->request         = $request;
         $this->translation     = $translation;
-        $this->originalRequest = $originalRequest;
+        $this->originalRequest = $requestState->getRequest(); // @TODO still required after refactored to state pattern?
         $this->cache           = $cache;
         $this->config          = $config;
         $this->front           = $front;

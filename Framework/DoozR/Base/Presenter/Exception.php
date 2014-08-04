@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Presenter - Rest - Exception
+ * DoozR - Base - Presenter - Exception
  *
- * Exception.php - Exception for REST Presenter
+ * Exception.php - Exception for Presenter
  *
  * PHP versions 5
  *
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Presenter_Rest_Exception extends DoozR_Base_Exception
+class DoozR_Base_Presenter_Exception extends DoozR_Base_Exception
 {
     // Intentionally left blank -> Just for namespacing
 }

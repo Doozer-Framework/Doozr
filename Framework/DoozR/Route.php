@@ -251,26 +251,11 @@ final class DoozR_Route extends DoozR_Base_State_Container
 
         // Check for usage of DoozR's MVC-/MVP-structure ...
         if (self::$registry->config->base->pattern->enabled()) {
-            self::$registry->back->dispatch(
+            self::$registry->back->run(
                 self::$requestState
             );
         }
     }
-
-    /**
-     * This method returns the current active and routet route.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array An ARRAY containing "object" and "action"
-     * @access public
-     * @static
-     */
-    /*
-    public function get()
-    {
-        return self::$activeRoute;
-    }
-    */
 
     /*******************************************************************************************************************
      * \\ END PUBLIC METHODS

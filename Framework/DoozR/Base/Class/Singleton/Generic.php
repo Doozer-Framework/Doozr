@@ -2,10 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base-Generic-Singleton-Class
+ * DoozR - Base - Class - Singleton - Generic
  *
- * Generic.php - Base-Class for all singleton classes
- * This class is a generic singleton-base-class which give you the
+ * Generic.php Generic singleton base class of the DoozR Framework
  *
  * PHP versions 5
  *
@@ -45,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Base
- * @subpackage DoozR_Base_Class_Generic_Singleton
+ * @subpackage DoozR_Base_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -56,13 +55,13 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Tools.php';
 
 /**
- * DoozR Base-Generic-Singleton-Class
+ * DoozR - Base - Class - Singleton - Generic
  *
- * Base-Generic-Singleton-Class of the DoozR Framework
+ * Generic singleton base class of the DoozR Framework
  *
  * @category   DoozR
  * @package    DoozR_Base
- * @subpackage DoozR_Base_Class_Generic_Singleton
+ * @subpackage DoozR_Base_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -72,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Tools.php';
 class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
 {
     /**
-     * hold the singleton-instance(s) of this class
+     * hThe singleton-instance(s) of this class
      *
      * @var array
      * @access protected
@@ -80,7 +79,7 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
     protected static $instances = array();
 
     /**
-     * status of using STRICT-SINGLETON mode for this
+     * Status of using STRICT-SINGLETON mode for this
      * class. In STRICT-SINGLETON-Mode the singleton includes the
      * parameter also.
      *
@@ -91,24 +90,9 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
      */
     protected static $strict = false;
 
-    /**
-     * prevent direct calls to __clone
-     *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     */
-    protected function __clone()
-    {
-        // prevent cloning
-    }
 
     /**
-     * instance getter for singleton-instanciation
-     *
-     * This method is intend to return an instance of the requested class
+     * Instance getter for singleton instances
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object instance/object of this class
@@ -166,23 +150,18 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
         return $instance;
     }
 
-
     /**
-     * generic instance getter
+     * Generic instance getter. This method is intend to return an instance of a requested class with no
+     * matter how much parameters are passed to it. OK the maximum is 10 Parameter - but if you are running
+     * in trouble using this class you should consider if you're doing things right.
      *
-     * This method is intend to return an instance of a requested class with no
-     * matter how much parameters are passed to it. OK the maximum is 10 Parameter -
-     * but if you are running in trouble using this class you should consider if you're
-     * doing things right ;--)
+     * @param string     $className The name of the class to create an instance of
+     * @param null|array $arguments The arguments to pass to instance
      *
-     * @param string $className The name of the class to create an instance of
-     * @param mixed  $arguments The arguments to pass to instanciation as array or null
-     *
-     * @return  object instance/object of the requested class
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object Instance/object of the requested class
+     * @access protected
+     * @throws Exception
      */
     protected static function genericInstanciate($className, $arguments = null)
     {
@@ -301,6 +280,16 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
             }
         }
     }
-}
 
-?>
+    /**
+     * Prevent direct calls to __clone
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    protected function __clone()
+    {
+        // Intentionally left blank -> To prevent cloning
+    }
+}

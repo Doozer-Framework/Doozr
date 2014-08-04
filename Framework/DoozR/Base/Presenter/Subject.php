@@ -91,7 +91,6 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_State_Container i
     public function __construct(DoozR_Base_State_Interface $state)
     {
         $this->observer = new SplObjectStorage();
-
         parent::__construct($state);
     }
 

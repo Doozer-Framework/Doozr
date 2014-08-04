@@ -55,6 +55,9 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton/Strict.php';
 
+use Whoops\Run;
+use Whoops\Handler\PrettyPageHandler;
+
 /**
  * DoozR - Debug
  *
@@ -91,23 +94,23 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
 
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param DoozR_Logger_Interface &$logger An instance of DoozR_Logger
+     * @param DoozR_Logger_Interface $logger  An instance of DoozR_Logger
      * @param boolean                $enabled Defines it debug mode is enabled or not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return \DoozR_Debug
      * @access protected
      */
-    protected function __construct(DoozR_Logger_Interface &$logger, $enabled = false)
+    protected function __construct(DoozR_Logger_Interface $logger, $enabled = false)
     {
         // store instances
         $this->logger = $logger;
 
         // log debug state
         $this->logger->debug(
-            'Debug-Manager - debug-mode enabled = '.strtoupper(var_export($enabled, true))
+            'Debug-Manager - debug-mode enabled = ' . strtoupper(var_export($enabled, true))
         );
 
         // check for initial trigger
@@ -119,48 +122,99 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * Enables debugging
+     * Enables debugging.
      *
      * This method is intend to enable debugging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @throws DoozR_Debug_Exception
      */
     public function enable()
     {
-        if ($this->enableErrorHandling()) {
+        if ($this->prepareForDevelopment() === true) {
             $this->enabled = true;
+            $this->installWhoops();
             $this->logger->debug('Debug-mode successfully enabled.');
+
         } else {
             $this->enabled = false;
-            throw new Exception('Debug-mode could not be enabled! Your system isn\'t configurable at runtime.');
+
+            throw new DoozR_Debug_Exception(
+                'Debug-mode could not be enabled! Your system isn\'t configurable at runtime.'
+            );
         }
     }
 
     /**
-     * Disables debugging
+     * Disables debugging.
      *
      * This method is intend to disable debugging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @throws Exception
      * @return void
      * @access public
+     * @throws DoozR_Debug_Exception
      */
     public function disable()
     {
-        if ($this->disableErrorHandling()) {
+        if ($this->prepareForProduction() === true) {
             $this->enabled = false;
+            $this->uninstallWhoops();
             $this->logger->debug('Debug-mode successfully disabled!');
+
         } else {
             $this->enabled = true;
-            throw new Exception('Debug-mode could not be disabled!');
+
+            throw new DoozR_Debug_Exception(
+                'Debug-mode could not be disabled!'
+            );
         }
     }
 
     /**
-     * Enables debugging
+     * Installs whoops exception handler.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function installWhoops()
+    {
+        $whoops = new Run();
+
+        // Configure the PrettyPageHandler
+        $exceptionHandler = new PrettyPageHandler();
+
+        // Add some DoozR specific ingredients
+        $exceptionHandler->setPageTitle('DoozR');
+        $exceptionHandler->addDataTable("DoozR runtime environment", array(
+                "DOOZR_OS"            => DOOZR_OS,
+                "DOOZR_PHP_VERSION"   => DOOZR_PHP_VERSION,
+                "DOOZR_DOCUMENT_ROOT" => DOOZR_DOCUMENT_ROOT
+            )
+        );
+
+        $whoops->pushHandler($exceptionHandler);
+        $whoops->register();
+    }
+
+    /**
+     * Uninstalls whoops exception handler.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function uninstallWhoops()
+    {
+        $whoops = new Run();
+        $whoops->unregister();
+    }
+
+    /**
+     * Enables debugging.
      *
      * This method is to enable debugging.
      *
@@ -168,7 +222,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      * @return boolean TRUE if debug was successfully enabled, otherwise FALSE
      * @access protected
      */
-    protected function enableErrorHandling()
+    protected function prepareForDevelopment()
     {
         // set error reporting to maximum output
         error_reporting(DOOZR_PHP_ERROR_MAX);
@@ -181,15 +235,17 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
             ini_set('track_errors', 1);
             ini_set('log_errors', 1);
             ini_set('html_errors', 1);
+            $result = true;
 
-            return true;
         } else {
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**
-     * Disables debugging
+     * Disables debugging.
      *
      * This method is intend to disable debugging.
      *
@@ -197,7 +253,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      * @return boolean TRUE if debug was successfully disabled, otherwise FALSE
      * @access protected
      */
-    protected function disableErrorHandling()
+    protected function prepareForProduction()
     {
         // if debug-mode is disabled we must hide all errors to prevent the app from information leakage.
         // set error_reporting to null (0) to hide PHP's reports

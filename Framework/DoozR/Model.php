@@ -55,7 +55,6 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Decorator/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 
 /**
  * DoozR - Model
@@ -76,79 +75,272 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 class DoozR_Model extends DoozR_Base_Decorator_Singleton
 {
     /**
-     * contains an instance of DoozR_Path
+     * The decorator configuration
      *
-     * @var object
-     * @access private
+     * @var array
+     * @access protected
      */
-    private $path;
+    protected $decoratorConfiguration;
 
     /**
-     * contains an instance of DoozR_Config
+     * DoozR_Path instance for path management
      *
-     * @var object
-     * @access private
+     * @var DoozR_Path
+     * @access protected
      */
-    private $_config;
+    protected $path;
 
     /**
-     * contains an instance of DoozR_Logger
+     * DoozR_Config instance for access to configuration
      *
-     * @var object
-     * @access private
+     * @var DoozR_Config
+     * @access protected
      */
-    private $_logger;
+    protected $config;
+
+    /**
+     * DoozR_Logger instance for logging
+     *
+     * @var DoozR_Logger
+     * @access protected
+     */
+    protected $logger;
+
 
     /**
      * This method is the constructor of the core class.
      *
-     * @param array $decoratorConfiguration Configuration for the Generic Decorator Class
-     * @param DoozR_Path|object $path Instance of DoozR_Path
-     * @param DoozR_Config|object $config Instance of DoozR_Config
-     * @param DoozR_Logger|object $logger Instance of DoozR_Logger
+     * @param array        $databaseConfiguration Configuration for the Generic Decorator Class
+     * @param DoozR_Path   $path                  Instance of DoozR_Path
+     * @param DoozR_Config $config                Instance of DoozR_Config
+     * @param DoozR_Logger $logger                Instance of DoozR_Logger
      *
-     * @throws DoozR_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Model Instance of this class
+     * @return DoozR_Model
      * @access protected
      */
     protected function __construct(
-        array $decoratorConfiguration,
-        DoozR_Path $path,
+        array        $databaseConfiguration,
+        DoozR_Path   $path,
         DoozR_Config $config,
         DoozR_Logger $logger
     ) {
         // what is to decorate?
-        $this->decoratorConfiguration = $decoratorConfiguration;
+        $this->setPath($path);
+        $this->setConfig($config);
+        $this->setLogger($logger);
+        $this->setDecoratorConfiguration($databaseConfiguration);
+        $this->setEnabled($this->getConfig()->database->enabled());
 
-        // store instances
-        $this->path   = $path;
-        $this->_config = $config;
-        $this->_logger = $logger;
-
-        // is enabled?
-        $this->enabled = $this->_config->database->enabled();
-
-        // if database is enabled -> start decorating
-        if ($this->enabled) {
+        // If database is enabled -> start decorating
+        if ($this->getEnabled() === true) {
             $this->init($this->decoratorConfiguration, $this->path);
+
         }
     }
 
     /**
-     * This method is intend to setup and call generic singleton-getter and return an instance
-     * of the requested class.
+     * Setter for enabled
+     *
+     * @param boolean $enabled TRUE is database (model) is enabled. FALSE to set disabled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance/object of this class
-     * @access public
+     * @return void
+     * @access protected
      */
-    public function __destruct()
+    protected function setEnabled($enabled)
     {
-        // close open database
-        $this->close();
+        $this->enabled = $enabled;
+    }
 
-        // disconnect from server
-        $this->disconnect();
+    /**
+     * Setter for enabled
+     *
+     * @param boolean $enabled TRUE is database (model) is enabled. FALSE to set disabled.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Model Instance for chaining
+     * @access protected
+     */
+    protected function enabled($enabled)
+    {
+        $this->setEnabled($enabled);
+        return $this;
+    }
+
+    /**
+     * Getter for enabled
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool The enabled status
+     * @access protected
+     */
+    protected function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Setter for path.
+     *
+     * @param DoozR_Path $path The DoozR_Path instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setPath(DoozR_Path $path)
+    {
+        $this->path = $path;
+    }
+
+    /**
+     * Setter for path.
+     *
+     * @param DoozR_Path $path The DoozR_Path instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Model Instance for chaining
+     * @access protected
+     */
+    protected function path(DoozR_Path $path)
+    {
+        $this->setPath($path);
+        return $this;
+    }
+
+    /**
+     * Getter for path.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Path The DoozR_Path instance
+     * @access protected
+     */
+    protected function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Setter for logger.
+     *
+     * @param DoozR_Logger $logger DoozR logger
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setLogger(DoozR_Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Setter for logger.
+     *
+     * @param DoozR_Logger $logger DoozR logger
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Model Instance for chaining
+     * @access protected
+     */
+    protected function logger(DoozR_Logger $logger)
+    {
+        $this->setLogger($logger);
+        return $this;
+    }
+
+    /**
+     * Getter for logger.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Logger Instance of DoozR logger
+     * @access protected
+     */
+    protected function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * Setter for config.
+     *
+     * @param DoozR_Config $config DoozR config
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setConfig(DoozR_Config $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * Setter for config.
+     *
+     * @param DoozR_Config $config DoozR config
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Model Instance for chaining
+     * @access protected
+     */
+    protected function config(DoozR_Config $config)
+    {
+        $this->setConfig($config);
+        return $this;
+    }
+
+    /**
+     * Getter for config.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Config The instance
+     * @access protected
+     */
+    protected function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Setter for decorator configuration.
+     *
+     * @param array $decoratorConfiguration The configuration
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setDecoratorConfiguration(array $decoratorConfiguration)
+    {
+        $this->decoratorConfiguration = $decoratorConfiguration;
+    }
+
+    /**
+     * Setter for decorator configuration.
+     *
+     * @param array $decoratorConfiguration The configuration
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Model Instance for chaining
+     * @access protected
+     */
+    protected function decoratorConfiguration(array $decoratorConfiguration)
+    {
+        $this->setDecoratorConfiguration($decoratorConfiguration);
+        return $this;
+    }
+
+    /**
+     * Getter for decorator configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The configuration.
+     * @access protected
+     */
+    protected function getDecoratorConfiguration()
+    {
+        return $this->config;
     }
 }

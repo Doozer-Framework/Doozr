@@ -403,7 +403,6 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
         } else {
             $response = array(
                 'status'  => $status,
-                'success' => $success,
                 'result'  => $data,
                 'error'   => $error
             );

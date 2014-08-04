@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Presenter - Rest - Exception
+ * DoozR - Debug - Exception
  *
- * Exception.php - Exception for REST Presenter
+ * Exception.php - Debug exception of DoozR Framework.
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @package    DoozR_Debug
+ * @subpackage DoozR_Debug_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,20 +55,20 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 
 /**
- * DoozR - Base - Presenter - Rest - Exception
+ * DoozR - Exception
  *
- * Exception for REST Presenter
+ * Debug exception of DoozR Framework.
  *
  * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @package    DoozR_Debug
+ * @subpackage DoozR_Debug_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Presenter_Rest_Exception extends DoozR_Base_Exception
+class DoozR_Debug_Exception extends DoozR_Base_Exception
 {
-    // Intentionally left blank -> Just for namespacing
+    // Intentionally left blank - Just for namespacing!
 }

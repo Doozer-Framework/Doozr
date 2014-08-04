@@ -172,23 +172,7 @@ DoozR_Loader_Autoloader_Spl_Facade::attach(
  | ERROR & EXCEPTION-HANDLING (HOOK)
  ---------------------------------------------------------------------------------------------------------------------*/
 
-// EXCEPTION-HANDLER: Not a custom one - we use Whoops
-$whoops = new Whoops\Run();
-
-// Configure the PrettyPageHandler
-$exceptionHandler = new Whoops\Handler\PrettyPageHandler();
-
-// Add some DoozR specific ingredients
-$exceptionHandler->setPageTitle('DoozR');
-$exceptionHandler->addDataTable("DoozR runtime environment", array(
-        "DOOZR_OS"            => DOOZR_OS,
-        "DOOZR_PHP_VERSION"   => DOOZR_PHP_VERSION,
-        "DOOZR_DOCUMENT_ROOT" => DOOZR_DOCUMENT_ROOT
-    )
-);
-
-$whoops->pushHandler($exceptionHandler);
-$whoops->register();
+// We install the generic handler here! This one is used if not development mode is enabled
 
 /*----------------------------------------------------------------------------------------------------------------------
 | LOAD DoozR's CORE-CLASS

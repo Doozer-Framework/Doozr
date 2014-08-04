@@ -146,10 +146,9 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * Constructor.
      *
-     * @param DoozR_Base_State_Interface $state           The whole request as processed by "Route"
+     * @param DoozR_Base_State_Interface $requestState    The whole request as processed by "Route"
      * @param array                      $request         The request
      * @param array                      $translation     The translation required to read the request
-     * @param array                      $originalRequest The original untouched request
      * @param DoozR_Config_Interface     $configuration   The DoozR main config instance
      * @param DoozR_Base_Model           $model           The model to communicate with backend (db)
      * @param DoozR_Base_View            $view            The view to display results
@@ -159,23 +158,30 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      * @access public
      */
     public function __construct(
-        DoozR_Base_State_Interface $state,
+        DoozR_Base_State_Interface $requestState,
         array                      $request,
         array                      $translation,
-        array                      $originalRequest,
-        DoozR_Config_Interface     $configuration    = null,
-        DoozR_Base_Model           $model            = null,
-        DoozR_Base_View            $view             = null
+        DoozR_Config_Interface     $configuration  = null,
+        DoozR_Base_Model           $model          = null,
+        DoozR_Base_View            $view           = null
     ) {
         // We need to hook in here - to make use of this proxy for installing JsonResponseHandler ;)
         $whoops = new Whoops\Run();
-        $whoops->pushHandler(new Whoops\Handler\JsonResponseHandler());
+        $jsonErrorHandler = new Whoops\Handler\JsonResponseHandler();
+        #$jsonErrorHandler->onlyForAjaxRequests(true);
+        $whoops->pushHandler($jsonErrorHandler);
         $whoops->register();
 
         // Forward (proxy) to parent
-        parent::__construct($state, $request, $translation, $originalRequest, $configuration, $model, $view);
+        parent::__construct(
+            $requestState,
+            $request,
+            $translation,
+            $configuration,
+            $model,
+            $view
+        );
     }
-
 
     /**
      * The main entry point

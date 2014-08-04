@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model/Observer.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model/Interface.php';
 
 /**
  * DoozR Base Model
@@ -68,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model/Observer.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Model extends DoozR_Base_Model_Observer
+class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_Model_Interface
 {
     /**
      * holds data for CRUD operation(s)
@@ -122,11 +123,11 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
     /**
      * Constructor of this class
      *
-     * @param array               $request         The whole request as processed by "Route"
-     * @param array               $translation     The translation required to read the request
-     * @param array               $originalRequest The original untouched request
-     * @param DoozR_Cache_Service $cache           An instance of DoozR_Cache_Service
-     * @param DoozR_Config        $configuration   The main configuration
+     * @param DoozR_Base_State_Interface $requestState The whole request as state
+     * @param array               $request             The whole request as processed by "Route"
+     * @param array               $translation         The translation required to read the request
+     * @param DoozR_Cache_Service $cache               An instance of DoozR_Cache_Service
+     * @param DoozR_Config        $configuration       The main configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Model
@@ -137,14 +138,13 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer
         DoozR_Base_State_Interface $requestState,
         array                      $request,
         array                      $translation,
-        array                      $originalRequest,
         DoozR_Cache_Service        $cache,
         DoozR_Config               $configuration
     ) {
         // Store
         $this->request         = $request;
         $this->translation     = $translation;
-        $this->originalRequest = $originalRequest;
+        $this->originalRequest = $requestState->getRequest();
         $this->cache           = $cache;
 
         $this->setConfiguration($configuration);

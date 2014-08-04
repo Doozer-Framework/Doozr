@@ -710,7 +710,11 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     protected static function initBackController()
     {
         // Get instance of back controller
-        self::$back = self::$container->build('DoozR_Controller_Back');
+        self::$back = self::$container->build('DoozR_Controller_Back', array(
+                DoozR_Loader_Serviceloader::load('filesystem'),
+                DoozR_Loader_Serviceloader::load('cache', DOOZR_UNIX, self::$config->cache->container())
+            )
+        );
 
         // Store in registry
         self::$registry->back = self::$back;
@@ -728,7 +732,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     protected static function initModel()
     {
         // build decorator config
-        $decoratorConfig = array(
+        $databaseConfiguration = array(
             'name'      => self::$config->database->proxy(),
             'translate' => self::$config->database->oxm(),
             'path'      => self::$path->get('model', 'Lib\\'.self::$config->database->oxm().'\\'),
@@ -749,7 +753,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         self::$container->setMap(self::$map);
 
         // Get instance of model (is decorator!)
-        self::$model = self::$container->build('DoozR_Model', array($decoratorConfig));
+        self::$model = self::$container->build('DoozR_Model', array($databaseConfiguration));
 
         // Store in registry
         self::$registry->model = self::$model;

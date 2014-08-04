@@ -4,7 +4,7 @@
 /**
  * DoozR - Base - Tools
  *
- * Tools.php - This is a toolset which is useful while developing.
+ * Tools.php - Toolset collection useful for developer.
  *
  * PHP version 5
  *
@@ -52,24 +52,21 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-//require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Development.php';
-
 /**
- * DoozR Base-Tools
- * A toolset which is useful while developing classes which give you features like
- * ...
+ * DoozR - Base - Tools
+ *
+ * Toolset collection useful for developer.
  *
  * @category   DoozR
  * @package    DoozR_Base
  * @subpackage DoozR_Base_Tools
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$ <doozr@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Tools // extends DoozR_Base_Development
+class DoozR_Base_Tools
 {
     /**
      * The backtrace information so we don't need to call this expensive
@@ -83,12 +80,12 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     /**
      * The path to the parent which extends this base
      *
-     * @var string
+     * @var array
      * @access protected
      */
     protected $paths = array(
         'realpath' => null,
-        'symlink'  => null
+        'symlink'  => null,
     );
 
     /**
@@ -153,9 +150,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     }
 
     /**
-     * returns the filename and path (combined) of the parent of this "Base"
-     *
-     * This method is intend to return the filename and path (combined) of the parent (extending class) of this class.
+     * Returns the filename and path (combined) of the parent of this "Base"
      *
      * @param boolean $resolveSymlinks TRUE to resolve symlinks to real path FALSE to do not
      *
@@ -173,12 +168,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     }
 
     /**
-     * checks if given method in a any child of a class exist
+     * Returns TRUE if base class of current instance has method passed by argument. FALSE if not.
      *
-     * This method is intend to check if a given method in a child of BASE exist.
-     * PARENT -> CHILD -> ... -> CHILD -> method()
-     *
-     * @param string $method The name of the method to check for existence
+     * @param string $method The name of the method to check for existence in base class of current instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean True if  method exist, otherwise false
@@ -190,8 +182,7 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
     }
 
     /**
-     * This method is a generic instanciation method. It instanciates and
-     * returns any class requested.
+     * This method is a generic instanciation method. It instanciates and returns any class requested.
      *
      * @param string $classname   The name of the class to load
      * @param array  $arguments   The arguments to pass to loaded class
@@ -290,9 +281,9 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      * calling method. It calls dynamic build methods (by name) in allready existing instances
      * with or without params (default = null).
      *
-     * @param object $instance The instance of a class to call method in
-     * @param string $method   The name of the method to call
-     * @param mixed  $params   The parameters as anything/mixed
+     * @param object     $instance The instance of a class to call method in
+     * @param string     $method   The name of the method to call
+     * @param null|mixed $params   The parameters as anything/mixed
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The result of the call
@@ -301,15 +292,16 @@ class DoozR_Base_Tools // extends DoozR_Base_Development
      */
     public static function dynamicCall($instance, $method, $params = null)
     {
-        // no params given
+        // No params given
         if (!$params) {
             $returnValue = $instance->{$method}();
+
         } else {
-            // pass params to method
+            // Pass params to method
             $returnValue = $instance->{$method}($params);
         }
 
-        // return result from method-call
+        // Return result from method-call
         return $returnValue;
     }
 }

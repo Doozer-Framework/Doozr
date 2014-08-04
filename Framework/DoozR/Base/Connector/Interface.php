@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Presenter - Rest - Exception
+ * DoozR - Base - Connector - Interface
  *
- * Exception.php - Exception for REST Presenter
+ * Interface.php - Interface for contract in back controller for example.
  *
  * PHP versions 5
  *
@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @subpackage DoozR_Base_Connector
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,23 +52,21 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
-
 /**
- * DoozR - Base - Presenter - Rest - Exception
+ * DoozR - Base - Connector - Interface
  *
- * Exception for REST Presenter
+ * Interface for contract in back controller for example.
  *
  * @category   DoozR
  * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @subpackage DoozR_Base_Connector
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Presenter_Rest_Exception extends DoozR_Base_Exception
+interface DoozR_Base_Connector_Interface
 {
-    // Intentionally left blank -> Just for namespacing
+    // Intentionally left blank - Just used for namespacing
 }

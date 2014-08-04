@@ -52,6 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Connector/Interface.php';
+
 /**
  * DoozR - Base Presenter Interface
  *
@@ -66,20 +68,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-interface DoozR_Base_Presenter_Interface
+interface DoozR_Base_Presenter_Interface extends DoozR_Base_Connector_Interface
 {
-    /**
-     * stores data
-     *
-     * This method should store the data in a way that it can be retrieved in
-     * further processing e.g. for dispatch-process.
-     *
-     * @param mixed $data The data to store
-     *
-     * @return  boolean TRUE if storing was successful, otherwise FALSE
-     * @access  public
-     */
-    /*
-    public function XYZ($data);
-    */
+    // Intentionally left blank - Just for namespacing!
 }

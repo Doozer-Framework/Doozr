@@ -1006,6 +1006,4 @@ if (DOOZR_PHP_VERSION < 5.3) {
 | LINUX EMULATION IF WE RUN ON WINDOWS OS'
 +---------------------------------------------------------------------------------------------------------------------*/
 
-//if (DOOZR_WIN) {
-    include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Linux.php';
-//}
+include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Linux.php';
