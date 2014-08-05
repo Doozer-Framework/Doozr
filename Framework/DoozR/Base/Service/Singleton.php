@@ -98,34 +98,10 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
 
 
     /**
-     * Returns the name of the service
-     *
-     * This method is intend to return the name of the current
-     * active service.
+     * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The name of the service
-     * @access protected
-     */
-    protected function getName()
-    {
-        if ($this->name === null) {
-            $class = get_called_class();
-            if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
-                $this->name = $matches[1];
-            } else {
-                $this->name = '';
-            }
-        }
-
-        return $this->name;
-    }
-
-    /**
-     * Constructor
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return \DoozR_Base_Service_Singleton Instance of this class
      * @access protected
      */
     protected function __construct()
@@ -158,6 +134,30 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
                 );
             }
         }
+    }
+
+    /**
+     * Returns the name of the service
+     *
+     * This method is intend to return the name of the current
+     * active service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the service
+     * @access protected
+     */
+    protected function getName()
+    {
+        if ($this->name === null) {
+            $class = get_called_class();
+            if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
+                $this->name = $matches[1];
+            } else {
+                $this->name = '';
+            }
+        }
+
+        return $this->name;
     }
 
     /**

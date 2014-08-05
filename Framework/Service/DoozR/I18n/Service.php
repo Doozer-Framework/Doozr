@@ -55,7 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Detector.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Translator.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Template/Service/Lib/PHPTAL/PHPTAL/TranslationService.php';
+#require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Template/Service/Lib/PHPTAL/PHPTAL/TranslationService.php';
 
 /**
  * DoozR - I18n - Service
@@ -90,9 +90,9 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * Contains the current active locale
      *
      * @var mixed
-     * @access private
+     * @access protected
      */
-    private $_activeLocale;
+    protected $activeLocale;
 
     /**
      * This services autoloader id if init, otherwise NULL
@@ -101,16 +101,16 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * @access private
      * @static
      */
-    private static $_autoloader;
+    #private static $_autoloader;
 
     /**
      * Contains instance of Service Config (used for reading INI-Files)
      *
      * @var DoozR_Config_Service
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_config;
+    protected static $config;
 
     /**
      * holds the config instances indexed by locale
@@ -206,10 +206,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     protected $autoloader = true;
 
 
-    /*------------------------------------------------------------------------------------------------------------------
-     | TEARUP
-     +----------------------------------------------------------------------------------------------------------------*/
-
     /**
      * Constructor for services.
      *
@@ -225,19 +221,19 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function __tearup(DoozR_Config_Interface $config, $locale = null)
     {
-        // check if requirements fulfilled
-        self::_checkRequirements();
+        // Check if requirements fulfilled
+        self::checkRequirements();
 
         // store config passed to this instance
-        self::$_config = $config;
+        self::$config = $config;
 
-        // if no locale was passed then we try to read the prefered locale from client
+        // If no locale was passed then we try to read the preferred locale from client
         if ($locale === null) {
             $locale = $this->getClientPreferedLocale();
         }
 
         // store the given locale
-        $this->_activeLocale = $locale;
+        $this->activeLocale = $locale;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -255,7 +251,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function getAvailableLocales()
     {
-        return self::$_config->i18n->defaults->available();
+        return self::$config->i18n->defaults->available();
     }
 
     /**
@@ -265,7 +261,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function setAvailableLocales($locales)
     {
-        return self::$_config->i18n->defaults->available($locales);
+        return self::$config->i18n->defaults->available($locales);
     }
 
     /**
@@ -289,7 +285,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             );
         }
 
-        $result = $this->_activeLocale = $locale;
+        $result = $this->activeLocale = $locale;
         return $result;
     }
 
@@ -304,7 +300,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function getActiveLocale()
     {
-        return $this->_activeLocale;
+        return $this->activeLocale;
     }
 
     /**
@@ -322,7 +318,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             self::$_templateTranslator = $this->getTranslator();
 
             self::$_templateTranslator->setNamespace(
-                self::$_config->i18n->defaults->namespace()
+                self::$config->i18n->defaults->namespace()
             );
         }
     }
@@ -336,14 +332,14 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function getClientPreferedLocale()
     {
-        if ($this->_activeLocale !== null) {
-            $locale = $this->_activeLocale;
+        if ($this->activeLocale !== null) {
+            $locale = $this->activeLocale;
 
         } else {
-            // get detector
+            // Get detector
             $detector = $this->getDetector();
 
-            // detect user's prefered locale
+            // Detect user's prefered locale
             $detector->detect();
 
             // get the locale from detector
@@ -366,7 +362,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function getDetector()
     {
-        return DoozR_I18n_Service_Detector::getInstance(self::$_config, $this->registry);
+        return DoozR_I18n_Service_Detector::getInstance(self::$config, $this->registry);
     }
 
     /**
@@ -384,11 +380,11 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     {
         // if no locale was passed use the active one
         if ($locale === null) {
-            $locale = $this->_activeLocale;
+            $locale = $this->activeLocale;
         }
 
         // retrieve valid input
-        $input = $this->_validateInput($locale);
+        $input = $this->validateInput($locale);
 
         // convert type to required format
         $type = ucfirst(strtolower($type));
@@ -405,7 +401,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
                     $this->registry,
                     $input['locale'],
                     null,
-                    self::$_config,
+                    self::$config,
                     $input['config'],
                     $this->getTranslator($input['locale'])
                 )
@@ -429,18 +425,18 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     {
         // if no locale was passed use the active one
         if ($locale === null) {
-            $locale = $this->_activeLocale;
+            $locale = $this->activeLocale;
         }
 
         // retrieve valid input
-        $input = $this->_validateInput($locale);
+        $input = $this->validateInput($locale);
 
         // check for redirect
         if (isset($input['redirect'])) {
             $translator = $this->getTranslator($input['redirect']);
 
         } else {
-            $translator = new DoozR_I18n_Service_Translator($locale, self::$_config, $input['config']);
+            $translator = new DoozR_I18n_Service_Translator($locale, self::$config, $input['config']);
 
         }
 
@@ -632,9 +628,10 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The prepared data
-     * @access private
+     * @access protected
+     * @throws DoozR_I18n_Service_Exception
      */
-    private function _validateInput($locale = null)
+    protected function validateInput($locale = null)
     {
         // check for valid locale
         if ($locale && !$this->isValidLocale($locale)) {
@@ -649,7 +646,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         // check for redirect of current locale (e.g. from "en-gb" -> "en")
         try {
             $redirectLocale = $config->redirect->target();
-            $this->_activeLocale = $redirectLocale;
+            $this->activeLocale = $redirectLocale;
 
         } catch (DoozR_Config_Service_Exception $e) {
             $redirectLocale = null;
@@ -731,11 +728,11 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if requirements fulfilled, otherwise FALSE
-     * @access private
+     * @access protected
      * @static
      * @throws DoozR_I18n_Service_Exception
      */
-    private static function _checkRequirements()
+    protected static function checkRequirements()
     {
         // check if extension mbstring => Multibyte String is installed and usable
         if (!extension_loaded('mbstring')) {

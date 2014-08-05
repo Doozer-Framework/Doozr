@@ -215,6 +215,43 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     protected static $runningMode;
 
 
+    /**
+     * This method is intend to act as constructor.
+     *
+     * @param DoozR_Config_Interface   $config   Instance of DoozR_Config_Ini containing the I18n-config
+     * @param DoozR_Registry_Interface $registry Instance of DoozR_Registry
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_I18n_Service_Detector Instance of this class
+     * @access protected
+     */
+    protected function __construct(DoozR_Config_Interface $config, DoozR_Registry_Interface $registry)
+    {
+        // Store registry
+        self::$registry    = $registry;
+        self::$runningMode = self::$registry->request->getMode();
+
+        // locale defaults
+        self::$_defaults = array(
+            'locale'   => $config->i18n->defaults->locale,
+            'language' => $config->i18n->defaults->language,
+            'country'  => $config->i18n->defaults->country,
+            'weight'   => $config->i18n->defaults->weight
+        );
+
+        // a collection of locales available
+        self::$_availableLocales = (array)$config->i18n->defaults->available();
+
+        // get "prefered-locale"-stores in correct order
+        self::$_stores = $config->i18n->user->stores();
+
+        // get lifetime for stored preference data
+        self::$_preferenceLifetime = $config->i18n->user->lifetime;
+
+        // the identifier for stores
+        self::$_identifier = $config->i18n->user->identifier;
+    }
+
     /*******************************************************************************************************************
      * // BEGIN PUBLIC INTERFACE
      ******************************************************************************************************************/
@@ -386,7 +423,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     {
         if (!self::$_initialized) {
             // finally init
-            self::$_initialized = $this->_init($lookupAlternative);
+            self::$_initialized = $this->init($lookupAlternative);
         }
 
         return $this;
@@ -430,12 +467,12 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if detection was succesful
-     * @access private
+     * @access protected
      */
-    private function _init($lookupAlternative)
+    protected function init($lookupAlternative)
     {
         // 1st try to retrieve previously stored pereferences from session (fastet store) and cookie
-        $userPreferences = $this->_readPreferences();
+        $userPreferences = $this->readPreferences();
 
         // retrieving of stored preferences failed
         if ($userPreferences === null) {
@@ -511,13 +548,13 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // assume result true
         $result = true;
 
-        if (self::$runningMode !== DoozR_Controller_Front::RUNNING_MODE_CLI) {
+        if (self::$runningMode !== DoozR_Request_State::RUNNING_MODE_CLI) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$_stores as $store) {
 
                 // construct method-name for current store
-                $method = '_write'.ucfirst($store);
+                $method = 'write'.ucfirst($store);
 
                 // try to get preferences from store
                 $result = $result && $this->{$method}($preferences);
@@ -541,15 +578,15 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         $detectedPreferences = false;
 
         // prevent access to HEADER and IP in CLI does not make sense
-        if (self::$runningMode !== DoozR_Controller_Front::RUNNING_MODE_CLI) {
+        if (self::$runningMode !== DoozR_Request_State::RUNNING_MODE_CLI) {
 
             // try to detect locale by user-agents header
-            $detectedPreferences = $this->_detectByRequestHeader();
+            $detectedPreferences = $this->detectByRequestHeader();
 
             // FALLBACK: try to detect by user's ip/dns-hostname
             if (!$detectedPreferences) {
                 // FALLBACK: try to detect by user's ip/dns-hostname
-                $detectedPreferences = $this->_detectByUserIp();
+                $detectedPreferences = $this->detectByUserIp();
             }
         }
 
@@ -562,19 +599,19 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed ARRAY containing the prefered-config, otherwise NULL
-     * @access private
+     * @access protected
      */
-    private function _readPreferences()
+    protected function readPreferences()
     {
         // assume empty user-preferences
         $storedPreferences = null;
 
-        if (self::$runningMode !== DoozR_Controller_Front::RUNNING_MODE_CLI) {
+        if (self::$runningMode !== DoozR_Request_State::RUNNING_MODE_CLI) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$_stores as $store) {
                 // construct method-name for current store
-                $method = '_read'.ucfirst($store);
+                $method = 'read'.ucfirst($store);
 
                 // try to get preferences from store
                 $storedPreferences = $this->{$method}();
@@ -595,9 +632,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Session_Service Instance of service Session
-     * @access private
+     * @access protected
      */
-    private function _getSession()
+    protected function getSession()
     {
         if (!self::$_session) {
             self::$_session = DoozR_Loader_Serviceloader::load('session');
@@ -611,9 +648,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _detectByRequestHeader()
+    protected function detectByRequestHeader()
     {
         // direct stop of processing if needed header not set
         if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
@@ -646,12 +683,12 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
 
             // if locale is valid add it
             if ($this->isValidLocaleCode($locale) && $weight >= 0) {
-                $this->_addLocale($locale, $weight);
+                $this->addLocale($locale, $weight);
             }
         }
 
-        // now sort by it's weight!
-        $this->_detectedLocales = $this->_sortByWeight($this->_detectedLocales);
+        // Now sort by it's weight!
+        $this->_detectedLocales = $this->sortByWeight($this->_detectedLocales);
 
         // iterate over sorted result and retrieve language and country in correct order
         foreach ($this->_detectedLocales as $localeSet) {
@@ -667,7 +704,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
             $this->_detectedCountries[] = $country;
         }
 
-        // success - return the prefered locale-set
+        // Success - return the preferred locale-set
         return array(
             'locale'   => $this->_detectedLocales[0]['locale'],
             'weight'   => $this->_detectedLocales[0]['weight'],
@@ -681,9 +718,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
-     * @access private
+     * @access protected
      */
-    private function _detectByUserIp()
+    protected function detectByUserIp()
     {
         // get ip
         $ip = $_SERVER['REMOTE_ADDR'];
@@ -692,11 +729,11 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         $host = gethostbyaddr($ip);
 
         // get country by hostname
-        $country = $this->_translateDomainToCountrycode($host);
+        $country = $this->translateDomainToCountrycode($host);
 
         // if not retrieved a valid result => we check the server's domain!
         if (!$country) {
-            $country = $this->_translateDomainToCountrycode($_SERVER['SERVER_NAME']);
+            $country = $this->translateDomainToCountrycode($_SERVER['SERVER_NAME']);
         }
 
         // if still no result => assume operation failed!
@@ -722,7 +759,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * @return array By weight sorted elements
      * @access private
      */
-    private function _sortByWeight(array $locales)
+    protected function sortByWeight(array $locales)
     {
         // new index
         $index = array();
@@ -761,9 +798,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of this class
-     * @access private
+     * @access protected
      */
-    private function _addLocale($locale, $weight = 0)
+    protected function addLocale($locale, $weight = 0)
     {
         // doing this we prevent array_flip from throwing error on double/float-values!
         $weight *= 10;
@@ -782,9 +819,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed STRING countrycode if translation successful, otherwise FALSE
-     * @access private
+     * @access protected
      */
-    private function _translateDomainToCountrycode($domain = '')
+    protected function translateDomainToCountrycode($domain = '')
     {
         // check for dotted hostname (domain)
         if (strrpos($domain, '.') < 1) {
@@ -817,12 +854,12 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
-     * @access private
+     * @access protected
      */
-    private function _writeSession(array $preferences)
+    protected function writeSession(array $preferences)
     {
         // store preferences in session and return result
-        return $this->_getSession()->set(self::$_identifier, $preferences);
+        return $this->getSession()->set(self::$_identifier, $preferences);
     }
 
     /**
@@ -830,13 +867,13 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed ARRAY with locale-settings if previously stored in session, otherwise NULL
-     * @access private
+     * @access protected
      */
-    private function _readSession()
+    protected function readSession()
     {
         // assume empty cookie / no stored config
         try {
-            $storedSettings = $this->_getSession()->get(self::$_identifier);
+            $storedSettings = $this->getSession()->get(self::$_identifier);
 
         } catch (DoozR_Session_Service_Exception $e) {
             $storedSettings = null;
@@ -859,9 +896,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
-     * @access private
+     * @access protected
      */
-    private function _writeCookie(array $preferences)
+    protected function writeCookie(array $preferences)
     {
         // combine data
         $data     = implode(',', $preferences);
@@ -883,9 +920,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
-     * @access private
+     * @access protected
      */
-    private function _readCookie()
+    protected function readCookie()
     {
         // check if is set
         if (isset($_COOKIE[self::$_identifier])) {
@@ -909,42 +946,5 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
 
         // return result
         return (isset($locale)) ? $locale : null;
-    }
-
-    /**
-     * This method is intend to act as constructor.
-     *
-     * @param object $config An instance of DoozR_Config_Ini holding the I18n-config
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
-     * @access protected
-     */
-    protected function __construct(DoozR_Config_Interface $config, DoozR_Registry_Interface $registry)
-    {
-        // store registry
-        self::$registry = $registry;
-
-        self::$runningMode = self::$registry->front->getRunningMode();
-
-        // locale defaults
-        self::$_defaults = array(
-            'locale'   => $config->i18n->defaults->locale,
-            'language' => $config->i18n->defaults->language,
-            'country'  => $config->i18n->defaults->country,
-            'weight'   => $config->i18n->defaults->weight
-        );
-
-        // a collection of locales available
-        self::$_availableLocales = (array)$config->i18n->defaults->available();
-
-        // get "prefered-locale"-stores in correct order
-        self::$_stores = $config->i18n->user->stores();
-
-        // get lifetime for stored preference data
-        self::$_preferenceLifetime = $config->i18n->user->lifetime;
-
-        // the identifier for stores
-        self::$_identifier = $config->i18n->user->identifier;
     }
 }

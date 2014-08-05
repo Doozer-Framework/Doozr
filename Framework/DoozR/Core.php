@@ -347,6 +347,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
             self::initDebug();
             self::initSecurity();
             self::initRequest();
+            self::initFrontController();
             self::initBackController();
             self::initModel();
             self::initServices();

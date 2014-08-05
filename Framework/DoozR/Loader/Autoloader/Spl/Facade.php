@@ -121,22 +121,21 @@ class DoozR_Loader_Autoloader_Spl_Facade
     }
 
     /**
-     * Registers a Autoloader based on given config
+     * Registers an autoloader by passed configuration. Registers a new autoloader to SPL-Subsystem
+     * based on the Information (setup) of given config (DoozR_Loader_Autoloader_Spl_Config-Instance).
      *
-     * This method is intend to register a new Autoloader to SPL-Subsystem based on the Information (setup) of given
-     * config (DoozR_Loader_Autoloader_Spl_Config-Instance).
-     *
-     * @param DoozR_Loader_Autoloader_Spl_Config[] $config An instance of the DoozR_Loader_Autoloader_Spl_Config
+     * @param DoozR_Loader_Autoloader_Spl_Config[]|DoozR_Loader_Autoloader_Spl_Config $configuration An instance of the
+     *                                                                                        DoozR_Loader_Autoloader_Spl_Config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if Autoloader was registered successfully, otherwise false
+     * @return bool TRUE if autoloader was registered successfully, otherwise FALSE
      * @access public
      * @static
      * @throws DoozR_Exception
      */
-    public static function attach(array $config)
+    public static function attach($configuration)
     {
-        // assume op will fail
+        // Assume op will fail
         $result   = false;
         $priorize = false;
 
@@ -146,9 +145,9 @@ class DoozR_Loader_Autoloader_Spl_Facade
         }
 
         // check input
-        if (is_array($config)) {
+        if (is_array($configuration)) {
             /* @var DoozR_Loader_Autoloader_Spl_Config $singleConfig */
-            foreach ($config as $singleConfig) {
+            foreach ($configuration as $singleConfig) {
                 if (!$singleConfig instanceof DoozR_Loader_Autoloader_Spl_Config) {
                     throw new DoozR_Exception(
                         'Passed config must be of type: "DoozR_Loader_Autoloader_Spl_Config_Interface"'
@@ -156,17 +155,17 @@ class DoozR_Loader_Autoloader_Spl_Facade
                 }
             }
         } else {
-            if (!$config instanceof DoozR_Loader_Autoloader_Spl_Config) {
+            if (!$configuration instanceof DoozR_Loader_Autoloader_Spl_Config) {
                 throw new DoozR_Exception(
                     'Passed config must be of type: "DoozR_Loader_Autoloader_Spl_Config_Interface"'
                 );
             }
 
-            $config = array($config);
+            $configuration = array($configuration);
         }
 
         // iterate passed configurations
-        foreach ($config as $singleConfig) {
+        foreach ($configuration as $singleConfig) {
 
             // retrieve currently configured autoloader
             $registeredAutoloader = self::getSplAutoloader();
@@ -237,7 +236,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
     public static function release($uId)
     {
         // get autoloader setup by uid
-        $config = self::$_autoloader[$uId];
+        $configuration = self::$_autoloader[$uId];
 
         // assume op will fail
         $result = false;
@@ -247,16 +246,16 @@ class DoozR_Loader_Autoloader_Spl_Facade
 
         // check if autoloader is registered (not uid - real check)
         if ($registeredAutoloader && self::_isRegistered(
-            $config->isClass(),
-            $config->getClass(),
-            $config->getMethod(),
+            $configuration->isClass(),
+            $configuration->getClass(),
+            $configuration->getMethod(),
             $registeredAutoloader
         )) {
             // construct ...
-            if ($config->isClass()) {
-                $loader = array($config->getClass(), $config->getMethod());
+            if ($configuration->isClass()) {
+                $loader = array($configuration->getClass(), $configuration->getMethod());
             } else {
-                $loader = $config->getMethod();
+                $loader = $configuration->getMethod();
             }
 
             // unregister autoloader
@@ -440,16 +439,16 @@ class DoozR_Loader_Autoloader_Spl_Facade
         // set prio to max possible
         ($priority > ($autoloaderCount-1)) ? ($priority = $autoloaderCount-1) : '';
 
-        // get config as $config for better reading
-        $config = self::$_autoloader[$uId];
+        // get config as $configuration for better reading
+        $configuration = self::$_autoloader[$uId];
 
         // find out what we are looking for ...
-        if ($config->isClass()) {
-            $loader = array($config->getClass(), $config->getMethod());
-        } elseif ($config->isLoader()) {
-            $loader = array($config, $config->getMethod());
+        if ($configuration->isClass()) {
+            $loader = array($configuration->getClass(), $configuration->getMethod());
+        } elseif ($configuration->isLoader()) {
+            $loader = array($configuration, $configuration->getMethod());
         } else {
-            $loader = $config->getFunction();
+            $loader = $configuration->getFunction();
         }
 
         // check if reposition needed

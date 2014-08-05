@@ -75,18 +75,18 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * The GZIP compression status of the current connection
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_isGzipCompressed = false;
+    protected $isGzipCompressed = false;
 
     /**
      * The status of GZIP-Initializing to prevent calling 'ob_gzhandler' twice!
      *
      * @var boolean
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_initialized = array(
+    protected static $initialized = array(
         'gzip' => false
     );
 
@@ -156,7 +156,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
         parent::__construct($config, $logger);
 
         // initialize "gzip"-transmission
-        $this->_initializeGzipCompression();
+        $this->initializeGzipCompression();
     }
 
     /**
@@ -380,10 +380,10 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param boolean $forceDownload Close connection after output?
      *
      * @return mixed Bolean True if everything wents fine
-     * @access private
+     * @access protected
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    private function _sendImage($buffer, $type = 'jpeg', $filename = null, $forceDownload = false)
+    protected function sendImage($buffer, $type = 'jpeg', $filename = null, $forceDownload = false)
     {
         // check if we display inline (in browser) or force download
         if ($forceDownload) {
@@ -433,7 +433,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function sendJpeg($buffer, $exit = false, $filename = null, $forceDownload = false)
     {
-        $this->_sendImage($buffer, 'jpeg', $filename, $forceDownload);
+        $this->sendImage($buffer, 'jpeg', $filename, $forceDownload);
 
         // close connection?
         if ($exit) {
@@ -461,7 +461,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function sendPng($buffer, $exit = false, $filename = null, $forceDownload = false)
     {
-        $this->_sendImage($buffer, 'png', $filename, $forceDownload);
+        $this->sendImage($buffer, 'png', $filename, $forceDownload);
 
         // close connection?
         if ($exit) {
@@ -489,7 +489,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function sendGif($buffer, $exit = false, $filename = null, $forceDownload = false)
     {
-        $this->_sendImage($buffer, 'gif', $filename, $forceDownload);
+        $this->sendImage($buffer, 'gif', $filename, $forceDownload);
 
         // close connection?
         if ($exit) {
@@ -532,9 +532,9 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param string  $filename      filename for data to download
      * @param boolean $forceDownload Close connection after output?
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Response_Web The current instance for chaining
      * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function sendBinary($buffer, $exit = false, $filename = null, $forceDownload = true)
     {
@@ -647,6 +647,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param boolean $alreadyJsonEncoded The current status of data JSON-encoded = true, not = false
      * @param boolean $exit               Close connection after output?
      * @param boolean $addHeader          sending data with JSON header? (SWFUpload does not allow JSON-Data + Header!)
+     * @param int     $status             The HTTP status code as integer
      *
      * @return DoozR_Response_Web The current instance for chaining
      * @access public
@@ -680,7 +681,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
         }
 
         // retrieve charset
-        $charset = $this->_getCharset($charset);
+        $charset = $this->getCharset($charset);
 
         // check if allready encoded
         if (!$alreadyJsonEncoded) {
@@ -741,14 +742,8 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function sendHtml($buffer, $etag = null, $exit = true, $charset = null)
     {
-        /* @var $request DoozR_Request_Web */
-        $request = DoozR_Controller_Front::getInstance()->getRequest();
-
-        // transform PHP global server to object for further processing
-        $request->transform('SERVER');
-
         // check if we can deliver just a simple 304 Not modified
-        if ($etag && $etag === $etagReceived = $_SERVER->HTTP_IF_NONE_MATCH) {
+        if ($etag && $etag === $etagReceived = $this->getEtagFromServerVariables()) {
 
             // send header and close connection
             $this->sendHttpStatus(304)
@@ -757,9 +752,8 @@ class DoozR_Response_Web extends DoozR_Base_Response
                  ->closeConnection();
         }
 
-        // otherwise we do all the checking stuff and return the complete data
-        // retrieve charset
-        $charset = $this->_getCharset($charset);
+        // otherwise we do all the checking stuff and return the complete data retrieve charset
+        $charset = $this->getCharset($charset);
 
         // get data of content (html)
         $contentLength = strlen($buffer);
@@ -943,112 +937,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function isGzipCompressed()
     {
-        return $this->_isGzipCompressed;
-    }
-
-    /**
-     * returns a valid + supported encoding/charset
-     *
-     * This method is intend to return a valid + supported encoding/charset
-     *
-     * @param string $encoding The encoding to check
-     *
-     * @return  string A valid encoding to use for content-send
-     * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    private function _getCharset($encoding = null)
-    {
-        // check encoding
-        if (!$encoding) {
-            // get it from config
-            $encoding = $this->config->locale->encoding();
-
-        } else {
-            // to upper for switch
-            $encoding = strtoupper($encoding);
-
-            // check if compatible
-            switch ($encoding) {
-            case 'UTF-8':
-                $encoding = 'UTF-8';
-                break;
-            case 'ISO-8859-1':
-                $encoding = 'ISO-8859-1';
-                break;
-            default:
-                $encoding = 'UTF-8';
-                break;
-            }
-        }
-
-        // return the correct encoding/charset
-        return strtoupper($encoding);
-    }
-
-    /**
-     * Returns a valid encoded content for send
-     *
-     * This method is intend to return a valid encoded content for send
-     *
-     * @param mixed  $buffer  The data to encode to valid + supported target charset
-     * @param string $charset The charset to use for encoding (switch)
-     *
-     * @return mixed Valid + supported encoded content
-     * @access private
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    private function _fixEncoding($buffer = null, $charset = 'UTF-8')
-    {
-        // get module encoding
-        /*
-        $encoding = DoozR_Core::module('encoding');
-
-        // check for given target charset and convert
-        switch ($charset) {
-        case 'UTF-8':
-            return $encoding->encodeUtf8($buffer);
-            break;
-        case 'ISO-8859-1':
-            return $encoding->encodeIso88591($buffer);
-            break;
-        }
-        */
-        return $buffer;
-    }
-
-    /**
-     * handles GZIP use for transmission as defined in core-config
-     *
-     * handles GZIP use for transmission as defined in core-config
-     *
-     * @return mixed true if gzip should and could be set, false if gzip could not be set,
-     *                null if gzip is disabled in config
-     * @access public
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    private function _initializeGzipCompression()
-    {
-        // check first if not already activated
-        if (!self::$_initialized['gzip']) {
-
-            $this->_isGzipCompressed = $this->config->transmission->gzip();
-
-            // "gzip" enabled in configuration?
-            if ($this->_isGzipCompressed) {
-                /*
-                if (!self::$_initialized['gzip'] = ob_start('ob_gzhandler')) {
-                    self::$_initialized['gzip'] = ob_start();
-                    $this->_isGzipCompressed = false;
-                }
-                */
-            } else {
-                self::$_initialized['gzip'] = ob_start();
-                $this->_isGzipCompressed = false;
-            }
-        }
-
-        return self::$_initialized['gzip'];
+        return $this->isGzipCompressed;
     }
 
     /**
@@ -1114,5 +1003,123 @@ class DoozR_Response_Web extends DoozR_Base_Response
         if (DOOZR_DEBUG === true) {
             $this->sendHeader('X-DoozR-Debug: 1');
         }
+    }
+
+    /**
+     * Returns Etag from server variables if passed with last (current) request.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The Etag if set, otherwise NULL
+     * @access protected
+     */
+    protected function getEtagFromServerVariables()
+    {
+        $etag = null;
+
+        if (array_key_exists('HTTP_IF_NONE_MATCH', $_SERVER) === true) {
+            $etag = $_SERVER['HTTP_IF_NONE_MATCH'];
+        }
+
+        return $etag;
+    }
+
+    /**
+     * Returns a valid + supported encoding/charset.
+     *
+     * @param string|null $encoding The encoding to check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string A valid encoding to use for content-send
+     * @access protected
+     */
+    protected function getCharset($encoding = null)
+    {
+        // check encoding
+        if (!$encoding) {
+            // get it from config
+            $encoding = $this->config->locale->encoding();
+
+        } else {
+            // to upper for switch
+            $encoding = strtoupper($encoding);
+
+            // check if compatible
+            switch ($encoding) {
+                case 'UTF-8':
+                    $encoding = 'UTF-8';
+                    break;
+                case 'ISO-8859-1':
+                    $encoding = 'ISO-8859-1';
+                    break;
+                default:
+                    $encoding = 'UTF-8';
+                    break;
+            }
+        }
+
+        // return the correct encoding/charset
+        return strtoupper($encoding);
+    }
+
+    /**
+     * Returns a valid encoded content for send
+     *
+     * This method is intend to return a valid encoded content for send
+     *
+     * @param mixed  $buffer  The data to encode to valid + supported target charset
+     * @param string $charset The charset to use for encoding (switch)
+     *
+     * @return mixed Valid + supported encoded content
+     * @access protected
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function fixEncoding($buffer = null, $charset = 'UTF-8')
+    {
+        // get module encoding
+        /*
+        $encoding = DoozR_Core::module('encoding');
+
+        // check for given target charset and convert
+        switch ($charset) {
+        case 'UTF-8':
+            return $encoding->encodeUtf8($buffer);
+            break;
+        case 'ISO-8859-1':
+            return $encoding->encodeIso88591($buffer);
+            break;
+        }
+        */
+        return $buffer;
+    }
+
+    /**
+     * Handles GZIP use for transmission as defined in core-config.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool TRUE if gzip could be set, otherwise FALSE if gzip could not, NULL if gzip is disabled in conf.
+     * @access protected
+     */
+    protected function initializeGzipCompression()
+    {
+        // check first if not already activated
+        if (!self::$initialized['gzip']) {
+
+            $this->isGzipCompressed = $this->config->transmission->gzip();
+
+            // "gzip" enabled in configuration?
+            if ($this->isGzipCompressed) {
+                /*
+                if (!self::$initialized['gzip'] = ob_start('ob_gzhandler')) {
+                    self::$initialized['gzip'] = ob_start();
+                    $this->isGzipCompressed = false;
+                }
+                */
+            } else {
+                self::$initialized['gzip'] = ob_start();
+                $this->isGzipCompressed = false;
+            }
+        }
+
+        return self::$initialized['gzip'];
     }
 }
