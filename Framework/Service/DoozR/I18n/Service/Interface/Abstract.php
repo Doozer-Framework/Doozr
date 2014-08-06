@@ -108,17 +108,17 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
      *
      * This method is intend to start the initializing of given locale and namespace and return the corresponding key.
      *
-     * @param string $locale    The locale to init
-     * @param string $namespace The namespace to init
+     * @param string $locale     The locale to init
+     * @param array  $namespaces The namespace to init
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The key (identifier) for the created translationstable
      * @access public
      */
-    public function initLocaleNamespace($locale, $namespace)
+    public function initLocaleNamespace($locale, $namespaces)
     {
-        // get checksum for translation-table + namespace(s)
-        $crc = checksum($locale, $namespace);
+        // get checksum for translation-table + namespaces(s)
+        $crc = hash('md4', $locale . serialize($namespaces));
 
         // if the table wasn't loaded before
         if (!isset(self::$translationTables[$crc])) {
@@ -130,6 +130,7 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
 
                 // check if content of translationtable is already cached?
                 $cachedContent = self::$cache->isCached();
+
             } else {
                 // no cache = no result
                 $cachedContent = false;
@@ -141,7 +142,7 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
                     is_callable(array($this, 'buildTranslationtable'))
                 ) {
                     // build translationtable
-                    $translationTable = $this->buildTranslationtable($locale, $namespace, $crc);
+                    $translationTable = $this->buildTranslationtable($locale, $namespaces);
 
                     if ($translationTable !== false) {
                         // cache translationtable
@@ -166,12 +167,12 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return \DoozR_I18n_Service_Interface_Abstract Instance of this class
      * @access protected
      */
     protected function __construct($config)

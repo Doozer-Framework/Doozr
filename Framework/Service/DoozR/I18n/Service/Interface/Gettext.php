@@ -74,9 +74,9 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * Path to locale files (filesystem)
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $path;
+    protected $path;
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
             $translate = $string;
         }
 
-        // get translation by "string"
+        // Get translation by "string"
         $string = gettext($translate);
 
         if ($arguments !== null) {
@@ -136,7 +136,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         /* @todo: Does not make sense in gettext to iterate different namespaces?! */
         // iterate over given namespace(s) and configure environment for them
         foreach ($namespaces as $namespace) {
-            $this->_initI18n($locale, $namespace, $path);
+            $this->initI18n($locale, $namespace, $path);
         }
 
         return false;
@@ -148,25 +148,77 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * This method is intend to initialize the gettext environment and is responsible
      * for setting all required environment variables and path' to make gettext run.
      *
+     * @param string $locale    A valid locale e.g "de", "de_DE", "ru_RU" and so on
+     * @param string $namespace A valid namespace - often called the domain (name of the *.mo file)
+     * @param string $path      A valid path to the *.mo files to make them known to gettext
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access private
+     * @return boolean|array An array with files/namespaces found for current locale, otherwise FALSE on failure
+     * @access protected
+     * @throws DoozR_I18n_Service_Exception
      */
-    private function _initI18n($locale, $namespace, $path)
+    protected function initI18n($locale, $namespace, $path)
     {
-        $path .= DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'Gettext';
+        // Assume success
+        $result        = true;
+        $path         .= DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'Gettext';
+        $gettextLocale = $this->normalizeLocale($locale);
 
-        putenv('LANG='.$locale);
-        setlocale(LC_ALL, $locale);
+        putenv('LANG=' . $this->getLanguageByLocale($gettextLocale));
+
+        $fullQualifiedLocale = $gettextLocale . '.utf8'; //iso88591
+
+        if (setlocale(LC_ALL, $fullQualifiedLocale) !== $fullQualifiedLocale) {
+            throw new DoozR_I18n_Service_Exception(
+                'The locale "' . $fullQualifiedLocale . '" could not be set. Sure the system (OS) supports it?'
+            );
+
+            $result = false;
+        };
+
+        bind_textdomain_codeset($namespace, 'UTF-8');
         bindtextdomain($namespace, $path);
         textdomain($namespace);
-        bind_textdomain_codeset($namespace, 'UTF-8');
 
-        glob(
-            $path . DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . '*.mo'
-        );
+        return $result;
+    }
 
-        return true;
+    /**
+     * Normalizes a locale to a full qualified locale. For example: If u would pass "de" into it everybody
+     * would know - a yeah it's "de_DE" and exactly this is done here.
+     *
+     * @param string $locale The locale to normalize
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The normalized locale
+     * @access protected
+     */
+    protected function normalizeLocale($locale)
+    {
+        $locale = explode('-', $locale);
+
+        foreach ($locale as $key => &$part) {
+            if ($key > 0) {
+                $part = strtoupper($part);
+            }
+        }
+
+        return implode('_', $locale);
+    }
+
+    /**
+     * Returns the language from a passed locale.
+     *
+     * @param string $locale The locale to return language from
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The extracted locale
+     * @access protected
+     */
+    protected function getLanguageByLocale($locale)
+    {
+        $language = explode('_', $locale);
+        return $language[0];
     }
 
     /**
@@ -176,12 +228,11 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
-     * @access private
+     * @access protected
      * @static
-     *
      * @throws DoozR_I18n_Service_Exception
      */
-    private static function _checkRequirements()
+    protected static function checkRequirements()
     {
         // test if gettext extension is installed with php
         if (extension_loaded('gettext') !== true) {
@@ -198,13 +249,14 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return \DoozR_I18n_Service_Interface_Gettext Instance of this class
      * @access protected
+     * @throws DoozR_I18n_Service_Exception
      */
     protected function __construct(array $config)
     {
@@ -212,7 +264,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         $this->path = $config['path'];
 
         // check if requirements fulfilled
-        self::_checkRequirements();
+        self::checkRequirements();
 
         // call parents constructor
         parent::__construct($config);

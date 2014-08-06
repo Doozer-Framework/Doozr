@@ -74,9 +74,9 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
      * Path to translation files (filesystem)
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $path;
+    protected $path;
 
     /**
      * Name of the folder where LC_MESSAGES exists

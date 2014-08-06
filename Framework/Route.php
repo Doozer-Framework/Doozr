@@ -64,6 +64,7 @@ require_once 'DoozR/Route.php';
 DoozR_Core::run();
 
 // Get registry and configuration as well
+/* @var $registry DoozR_Registry */
 $registry = DoozR_Registry::getInstance();
 $config   = $registry->config;
 

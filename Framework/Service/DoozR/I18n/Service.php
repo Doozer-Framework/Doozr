@@ -82,9 +82,9 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * The encoding
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_encoding = 'UTF-8';
+    protected $encoding = 'UTF-8';
 
     /**
      * Contains the current active locale
@@ -93,15 +93,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * @access protected
      */
     protected $activeLocale;
-
-    /**
-     * This services autoloader id if init, otherwise NULL
-     *
-     * @var string
-     * @access private
-     * @static
-     */
-    #private static $_autoloader;
 
     /**
      * Contains instance of Service Config (used for reading INI-Files)
@@ -116,10 +107,10 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * holds the config instances indexed by locale
      *
      * @var array
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_configurationByLocale = array();
+    protected static $configurationByLocale = array();
 
     /**
      * Default formatter of I18n service
@@ -203,9 +194,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     const FILE_EXTENSION_L10N = 'ini';
 
 
-    protected $autoloader = true;
-
-
     /**
      * Constructor for services.
      *
@@ -237,13 +225,13 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN PUBLIC INTERFACES
+     | PUBLIC INTERFACES
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns the available locales defined in config.
      *
-     * This method is intend to retunr all locales defined in configuration.
+     * This method is intend to return all locales defined in configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array An array containing the available locales with numerical index
@@ -255,11 +243,15 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     }
 
     /**
-     * @param $locales
+     * Setter for available locales.
      *
-     * @return mixed
+     * @param array $locales The locales to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The result of operation
+     * @access public
      */
-    public function setAvailableLocales($locales)
+    public function setAvailableLocales(array $locales)
     {
         return self::$config->i18n->defaults->available($locales);
     }
@@ -301,26 +293,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     public function getActiveLocale()
     {
         return $this->activeLocale;
-    }
-
-    /**
-     * Initializes the template translator.
-     *
-     * This method is intend to initialize the template translator.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access private
-     */
-    private function _initTemplateTranslator()
-    {
-        if (!self::$_templateTranslator) {
-            self::$_templateTranslator = $this->getTranslator();
-
-            self::$_templateTranslator->setNamespace(
-                self::$config->i18n->defaults->namespace()
-            );
-        }
     }
 
     /**
@@ -437,7 +409,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
 
         } else {
             $translator = new DoozR_I18n_Service_Translator($locale, self::$config, $input['config']);
-
         }
 
         return $translator;
@@ -489,7 +460,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         $result = false;
 
         // get a translator instance
-        $this->_initTemplateTranslator();
+        $this->initTemplateTranslator();
 
         // get valid locales from arguments
         $locales = func_get_args();
@@ -518,9 +489,9 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function setEncoding($encoding)
     {
-        $this->_initTemplateTranslator();
+        $this->initTemplateTranslator();
 
-        $this->_encoding = $encoding;
+        $this->encoding = $encoding;
 
         return true;
     }
@@ -534,7 +505,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function getEncoding()
     {
-        return $this->_encoding;
+        return $this->encoding;
     }
 
     /**
@@ -553,7 +524,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function useDomain($domain)
     {
-        $this->_initTemplateTranslator();
+        $this->initTemplateTranslator();
 
         self::$_templateTranslator->setNamespace($domain);
 
@@ -575,7 +546,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function setVar($key, $value_escaped)
     {
-        $this->_initTemplateTranslator();
+        $this->initTemplateTranslator();
 
         #if ($value_escaped === true) {
             self::$_templateTranslator->{$key} = htmlentities($value_escaped);
@@ -603,7 +574,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         // assume value is empty
         $value = '';
 
-        $this->_initTemplateTranslator();
+        $this->initTemplateTranslator();
 
         #$lookup = str_replace(' ', '_', strtolower($key));
 
@@ -617,7 +588,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN TOOLS + HELPER
+     | TOOLS + HELPER
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -641,7 +612,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         // get concrete locale
         $locale = ($locale !== null) ? $locale : $this->getClientPreferedLocale();
 
-        $config = $this->_getL10nConfigurationByLocale($locale);
+        $config = $this->getL10nConfigurationByLocale($locale);
 
         // check for redirect of current locale (e.g. from "en-gb" -> "en")
         try {
@@ -661,67 +632,25 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         );
     }
 
-    /*------------------------------------------------------------------------------------------------------------------
-    | Configuration/Management
-    +-----------------------------------------------------------------------------------------------------------------*/
-
     /**
-     * Returns the Localization configuration-file (L10n) for passed locale.
+     * Initializes the template translator.
      *
-     * This method returns the L10n configuraton from configuration file for passed
-     * locale if exist. Otherwise an DoozR_I18n_Service_Exception is thrown.
-     *
-     * @param string $locale The locale to return configuration for
+     * This method is intend to initialize the template translator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Service_Config The instance of the configreader holding the object representation
-     *                                    of L10n configuration
-     * @access public
-     * @throws DoozR_I18n_Service_Exception
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
      */
-    private function _getL10nConfigurationByLocale($locale)
+    protected function initTemplateTranslator()
     {
-        // check if already a config parser exist
-        if (isset(self::$_configurationByLocale[$locale])) {
-            $config = self::$_configurationByLocale[$locale];
+        if (!self::$_templateTranslator) {
+            self::$_templateTranslator = $this->getTranslator();
 
-        } else {
-            $config = DoozR_Loader_Serviceloader::load('Config', 'Ini');
-            $path   = $this->registry->path;
-            $file   = $path->get(
-                'app',
-                'Data/Private/I18n/' . $locale . '/' . self::FILE_NAME_L10N . '.' . self::FILE_EXTENSION_L10N
+            self::$_templateTranslator->setNamespace(
+                self::$config->i18n->defaults->namespace()
             );
-
-            $config->read($file);
-
-            self::$_configurationByLocale[$locale] = $config;
         }
-
-        return $config;
     }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public Interface/API (Tools)
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Checks for validity of a passed locale string.
-     *
-     * @param string $locale A locale to check for validity (e.g. "de", "de-AT", "en-us", ...)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
-     * @access public
-     */
-    public function isValidLocale($locale = '')
-    {
-        return (preg_match('(^([a-zA-Z]{2})((_|-)[a-zA-Z]{2})?$)', $locale) > 0) ? true : false;
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Tools & Helper
-    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Checks for fulfilled requirements of I18n service.
@@ -744,5 +673,63 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         }
 
         return true;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Configuration/Management
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the Localization configuration-file (L10n) for passed locale.
+     *
+     * This method returns the L10n configuraton from configuration file for passed
+     * locale if exist. Otherwise an DoozR_I18n_Service_Exception is thrown.
+     *
+     * @param string $locale The locale to return configuration for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Service_Config The instance of the configreader holding the object representation
+     *                                    of L10n configuration
+     * @access protected
+     * @throws DoozR_I18n_Service_Exception
+     */
+    protected function getL10nConfigurationByLocale($locale)
+    {
+        // check if already a config parser exist
+        if (isset(self::$configurationByLocale[$locale])) {
+            $config = self::$configurationByLocale[$locale];
+
+        } else {
+            $config = DoozR_Loader_Serviceloader::load('Config', 'Ini');
+            $path   = $this->registry->path;
+            $file   = $path->get(
+                'app',
+                'Data/Private/I18n/' . $locale . '/' . self::FILE_NAME_L10N . '.' . self::FILE_EXTENSION_L10N
+            );
+
+            $config->read($file);
+
+            self::$configurationByLocale[$locale] = $config;
+        }
+
+        return $config;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public Interface/API (Tools)
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Checks for validity of a passed locale string.
+     *
+     * @param string $locale A locale to check for validity (e.g. "de", "de-AT", "en-us", ...)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if valid, otherwise FALSE
+     * @access public
+     */
+    public function isValidLocale($locale = '')
+    {
+        return (preg_match('(^([a-zA-Z]{2})((_|-)[a-zA-Z]{2})?$)', $locale) > 0) ? true : false;
     }
 }

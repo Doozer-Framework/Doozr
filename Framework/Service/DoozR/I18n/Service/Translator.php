@@ -427,7 +427,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      */
     private function _getTranslatorInterface()
     {
-        // get type of translator interface from general module configuration
+        // Get type of translator interface from general module configuration
         $interfaceType = $this->_configI18n->i18n->translator->mode();
 
         // combine some parts to a config for the interface
@@ -454,13 +454,14 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * This method is intend to act as the backend method for translation requests by _() __() and ___().
      *
-     * @param integer $mode      The mode in which the translation is requested (normal, encode or encode-plus)
-     * @param mixed   $arguments The arguments used by translator for translation (e.g. inserting values)
-     * @param string  $key       The string to translate
+     * @param string     $key       The string to translate
+     * @param mixed      $arguments The arguments used by translator for translation (e.g. inserting values)
+     * @param int|string $mode      The mode in which the translation is requested (normal, encode or encode-plus)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed STRING translation on success, otherwise FALSE
      * @access private
+     * @throws DoozR_I18n_Service_Exception
      */
     private function _translate($key, $arguments = null, $mode = self::MODE_TRANSLATE)
     {
@@ -512,7 +513,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @param DoozR_Config_Interface $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return \DoozR_I18n_Service_Translator Instance of this class
      * @access public
      */
     public function __construct($locale, DoozR_Config_Interface $configI18n, DoozR_Config_Interface $configL10n)

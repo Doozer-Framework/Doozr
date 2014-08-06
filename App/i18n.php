@@ -288,6 +288,12 @@ $translated = $translator->_('x_books_in_my_y_shelves', array($randomNumberBooks
     $translator = $i18n->getTranslator($locale);
     $translator->setNamespace('default');
     $translated = $translator->_('x_books_in_my_y_shelves', array($randomNumberBooks, $randomNumberShelves));
+
+    /* @var $translator DoozR_I18n_Service_Translator */
+    var_dump($translated);
+    die;
+
+
     ?>
     <div class="container">
         <h2>Translate a string with arguments to locale "<?=$locale;?>"</h2>
