@@ -133,42 +133,45 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         // get real path
         $path = realpath($this->path);
 
-        /* @todo: Does not make sense in gettext to iterate different namespaces?! */
+        /* @todo: Does not make sense in gettext™ to iterate different namespaces?! */
         // iterate over given namespace(s) and configure environment for them
         foreach ($namespaces as $namespace) {
-            $this->initI18n($locale, $namespace, $path);
+            $this->initI18n($locale, $this->encoding, $namespace, $path);
         }
 
         return false;
     }
 
     /**
-     * Initializes gettext environment.
+     * Initializes gettext™ environment.
      *
-     * This method is intend to initialize the gettext environment and is responsible
-     * for setting all required environment variables and path' to make gettext run.
+     * This method is intend to initialize the gettext™ environment and is responsible
+     * for setting all required environment variables and path' to make gettext™ run.
      *
      * @param string $locale    A valid locale e.g "de", "de_DE", "ru_RU" and so on
+     * @param string $encoding  A valid encoding like UTF-8, ISO-8859-1 or UTF-16 ...
      * @param string $namespace A valid namespace - often called the domain (name of the *.mo file)
-     * @param string $path      A valid path to the *.mo files to make them known to gettext
+     * @param string $path      A valid path to the *.mo files to make them known to gettext™
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean|array An array with files/namespaces found for current locale, otherwise FALSE on failure
      * @access protected
      * @throws DoozR_I18n_Service_Exception
      */
-    protected function initI18n($locale, $namespace, $path)
+    protected function initI18n($locale, $encoding, $namespace, $path)
     {
         // Assume success
-        $result        = true;
-        $path         .= DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'Gettext';
-        $gettextLocale = $this->normalizeLocale($locale);
+        $result          = true;
+        $path           .= DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'Gettext';
+        $gettextEncoding = $this->normalizeEncoding($encoding);
+        $gettextLocale   = $this->normalizeLocale($locale);
 
         putenv('LANG=' . $this->getLanguageByLocale($gettextLocale));
 
-        $fullQualifiedLocale = $gettextLocale . '.utf8'; //iso88591
+        $fullQualifiedLocale = $gettextLocale . $gettextEncoding;
 
-        if (setlocale(LC_ALL, $fullQualifiedLocale) !== $fullQualifiedLocale) {
+        $result = setlocale(LC_ALL, $fullQualifiedLocale);
+        if ($result === null || $result === false) {
             throw new DoozR_I18n_Service_Exception(
                 'The locale "' . $fullQualifiedLocale . '" could not be set. Sure the system (OS) supports it?'
             );
@@ -181,6 +184,31 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         textdomain($namespace);
 
         return $result;
+    }
+
+    /**
+     * Returns a normalized encoding.
+     *
+     * @example Will convert an encoding string like "UTF-8" to ".utf8" OR "ISO-8859-1" to ".iso88591" so the locales
+     *          can be set correctly.
+     *
+     * @param string $encoding The encoding to be normalized
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The normalized encoding
+     * @access protected
+     */
+    protected function normalizeEncoding($encoding)
+    {
+        if ($encoding === null) {
+            $encoding = '';
+        }
+
+        if ($encoding === '') {
+            return $encoding;
+        }
+
+        return '.' . strtolower(str_replace('-', '', $encoding));
     }
 
     /**
@@ -256,7 +284,6 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_I18n_Service_Interface_Gettext Instance of this class
      * @access protected
-     * @throws DoozR_I18n_Service_Exception
      */
     protected function __construct(array $config)
     {

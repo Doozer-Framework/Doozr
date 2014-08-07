@@ -74,58 +74,66 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * Real locale of the translator
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_locale;
+    protected $locale;
+
+    /**
+     * The encoding for this locale
+     *
+     * @var string
+     * @access protected
+     */
+    protected $encoding;
 
     /**
      * Locale we use for translation if redirect mode enabled
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_redirectLocale;
+    protected $redirectLocale;
 
     /**
      * I18n-configuration of the I18n-Service
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_configI18n;
+    protected $configI18n;
 
     /**
      * I10n-configuration of the locale of this instance
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_configL10n;
+    protected $configL10n;
 
     /**
      * Namespace(s) used by this instance
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_namespaces = array();
+    protected $namespaces = array();
 
     /**
      * Translator-interface can be either "Text" or "Gettext" or "MySQL"
      *
-     * @var DoozR_I18n_Service_Interface_Gettext|DoozR_I18n_Service_Interface_Text
-     * @access private
+     * @var DoozR_I18n_Service_Interface_Abstract[]
+     * @access protected
      * @static
      */
-    private static $_translatorInterface;
+    protected static $translatorInterface = array();
 
     /**
      * Key identifier for translation-table
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_translationTableUid;
+    protected $translationTableUid;
 
     /**
      * Mode "translate" = default/basic/simple translate
@@ -137,7 +145,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     const MODE_TRANSLATE = 'translate';
 
     /**
-     * Mode "translateEncode" = encoded outpu/result
+     * Mode "translateEncode" = encoded output/result
      *
      * @var string
      * @access public
@@ -171,7 +179,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      */
     public function getLocale()
     {
-        return $this->_locale;
+        return $this->locale;
     }
 
     /**
@@ -185,7 +193,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      */
     public function hasRedirect()
     {
-        return ($this->_locale != $this->_redirectLocale);
+        return ($this->locale != $this->redirectLocale);
     }
 
     /**
@@ -209,10 +217,10 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         }
 
         // store
-        $this->_namespaces = $namespace;
+        $this->namespaces = $namespace;
 
         // and trigger namespace changed
-        $this->_namespaceChanged();
+        $this->namespaceChanged();
 
         // return result
         return true;
@@ -232,7 +240,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     public function addNamespace($namespace)
     {
         // assume no operation
-        $result = in_array($namespace, $this->_namespaces);
+        $result = in_array($namespace, $this->namespaces);
 
         // check if not already set
         if (!$result) {
@@ -245,11 +253,11 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
             // iterate over namespaces and
             foreach ($namespace as $singleNamespace) {
                 // store namespace and return result
-                $this->_namespaces[] = $singleNamespace;
+                $this->namespaces[] = $singleNamespace;
             }
 
             // namespace changed
-            $this->_namespaceChanged();
+            $this->namespaceChanged();
 
             // success
             $result = true;
@@ -270,7 +278,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      */
     public function getNamespace()
     {
-        return $this->_namespaces;
+        return $this->namespaces;
     }
 
     /**
@@ -287,11 +295,10 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     public function hasNamespace($namespace = null)
     {
         if ($namespace === null) {
-            $result = (count($this->_namespaces) > 0);
+            $result = (count($this->namespaces) > 0);
 
         } else {
-            $result = in_array($namespace, $this->_namespaces);
-
+            $result = in_array($namespace, $this->namespaces);
         }
 
         return $result;
@@ -316,10 +323,10 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         // check if namespace exists in active namespaces
         if ($this->hasNamespace($namespace)) {
             // remove the elements
-            $this->_namespaces = array_diff($this->_namespaces, array($namespace));
+            $this->namespaces = array_diff($this->namespaces, array($namespace));
 
             // reindex the array
-            $this->_namespaces = array_values($this->_namespaces);
+            $this->namespaces = array_values($this->namespaces);
 
             // namespace removed
             $result = true;
@@ -328,7 +335,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         // check for result and trigger namespace-changed if
         if ($result) {
             // namespace changed
-            $this->_namespaceChanged();
+            $this->namespaceChanged();
         }
 
         // return the result of op
@@ -343,13 +350,13 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @param string $key       The string to translate
      * @param mixed  $arguments The arguments to pass to the translation
      *
-     * @return  string|boolean Translated STRING on success, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @return string|boolean Translated STRING on success, otherwise FALSE
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function _($key, $arguments = null)
     {
-        return $this->_translate($key, $arguments, self::MODE_TRANSLATE);
+        return $this->translate($key, $arguments, self::MODE_TRANSLATE);
     }
 
     /**
@@ -361,12 +368,12 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @param mixed  $arguments The arguments to pass to the translation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return  string|boolean Translated STRING on success, otherwise FALSE
+     * @return string|boolean Translated STRING on success, otherwise FALSE
      * @access public
      */
     public function __($key, $arguments = null)
     {
-        return $this->_translate($key, $arguments, self::MODE_TRANSLATE_ENCODE);
+        return $this->translate($key, $arguments, self::MODE_TRANSLATE_ENCODE);
     }
 
     /**
@@ -378,12 +385,12 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @param mixed  $arguments The arguments to pass to the translation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return  string|boolean Translated STRING on success, otherwise FALSE
+     * @return string|boolean Translated STRING on success, otherwise FALSE
      * @access public
      */
     public function ___($key, $arguments = null)
     {
-        return $this->_translate($key, $arguments, self::MODE_TRANSLATE_ENCODE_PLUS);
+        return $this->translate($key, $arguments, self::MODE_TRANSLATE_ENCODE_PLUS);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -395,21 +402,21 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _namespaceChanged()
+    protected function namespaceChanged()
     {
         // init interface for translation
         #if (!self::$_translatorInterface) {
-            self::$_translatorInterface = $this->_getTranslatorInterface();
+            self::$translatorInterface[$this->encoding] = $this->getTranslatorInterface();
         #}
 
-        $locale = ($this->_redirectLocale) ? $this->_redirectLocale : $this->_locale;
+        $locale = ($this->redirectLocale) ? $this->redirectLocale : $this->locale;
 
         // set the new namespace and retrieve key to translationtable
-        $this->_translationTableUid = self::$_translatorInterface->initLocaleNamespace(
+        $this->translationTableUid = self::$translatorInterface[$this->encoding]->initLocaleNamespace(
             $locale,
-            $this->_namespaces
+            $this->namespaces
         );
 
         // success
@@ -423,20 +430,21 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_I18n_Service_Interface_Gettext|DoozR_I18n_Service_Interface_Text An instance of Gettext or Text I
-     * @access private
+     * @access protected
      */
-    private function _getTranslatorInterface()
+    protected function getTranslatorInterface()
     {
         // Get type of translator interface from general module configuration
-        $interfaceType = $this->_configI18n->i18n->translator->mode();
+        $interfaceType = $this->configI18n->i18n->translator->mode();
 
         // combine some parts to a config for the interface
         $config = array(
-            'path'  => $this->_configI18n->i18n->path(),
-            'cache' => array(
-                'enabled'  => $this->_configI18n->cache->container(),
-                'lifetime' => $this->_configI18n->cache->lifetime()
-            )
+            'path'     => $this->configI18n->i18n->path(),
+            'cache'    => array(
+                'enabled'  => $this->configI18n->cache->container(),
+                'lifetime' => $this->configI18n->cache->lifetime()
+            ),
+            'encoding' => $this->encoding,
         );
 
         // include required file -> NO autoloading -> performance!
@@ -460,10 +468,10 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed STRING translation on success, otherwise FALSE
-     * @access private
+     * @access protected
      * @throws DoozR_I18n_Service_Exception
      */
-    private function _translate($key, $arguments = null, $mode = self::MODE_TRANSLATE)
+    protected function translate($key, $arguments = null, $mode = self::MODE_TRANSLATE)
     {
         if ($this->hasNamespace() === false) {
             throw new DoozR_I18n_Service_Exception(
@@ -473,14 +481,14 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         }
 
         // check if translator is already initialized
-        if (!self::$_translatorInterface) {
-            self::$_translatorInterface = $this->_getTranslatorInterface();
+        if (!self::$translatorInterface[$this->encoding]) {
+            self::$translatorInterface[$this->encoding] = $this->getTranslatorInterface();
         }
 
         // translate
-        $translation = self::$_translatorInterface->lookup(
+        $translation = self::$translatorInterface[$this->encoding]->lookup(
             $key,
-            $this->_translationTableUid,
+            $this->translationTableUid,
             $arguments
         );
 
@@ -509,6 +517,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * This method is intend to act as constructor.
      *
      * @param string                 $locale     The locale this instance is working with
+     * @param string                 $encoding   The encoding for this instance
      * @param DoozR_Config_Interface $configI18n An instance of DoozR_Config_Ini holding the I18n-config
      * @param DoozR_Config_Interface $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
      *
@@ -516,14 +525,19 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @return \DoozR_I18n_Service_Translator Instance of this class
      * @access public
      */
-    public function __construct($locale, DoozR_Config_Interface $configI18n, DoozR_Config_Interface $configL10n)
-    {
+    public function __construct(
+        $locale,
+        $encoding,
+        DoozR_Config_Interface $configI18n,
+        DoozR_Config_Interface $configL10n
+    ) {
         // store the locale of this instance assume no redirect -> work on given locale
-        $this->_locale         = $locale;
-        $this->_redirectLocale = (isset($configL10n->redirect)) ? $configL10n->redirect->target() : null;
+        $this->locale         = $locale;
+        $this->encoding       = $encoding;
+        $this->redirectLocale = (isset($configL10n->redirect)) ? $configL10n->redirect->target() : null;
 
         // store configurations
-        $this->_configI18n = $configI18n;
-        $this->_configL10n = $configL10n;
+        $this->configI18n = $configI18n;
+        $this->configL10n = $configL10n;
     }
 }

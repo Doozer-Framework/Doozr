@@ -84,7 +84,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * @var string
      * @access protected
      */
-    protected $encoding = 'UTF-8';
+    protected $encoding;
 
     /**
      * Contains the current active locale
@@ -170,10 +170,10 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * The translator singleton for templates
      *
      * @var DoozR_I18n_Service_Translator
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_templateTranslator;
+    protected static $templateTranslator;
 
     /**
      * The name of the L10n file.
@@ -193,6 +193,38 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     const FILE_EXTENSION_L10N = 'ini';
 
+    /**
+     * Common known character encodings
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const ENCODING_UTF_1       = 'UTF-1';
+    const ENCODING_UTF_5       = 'UTF-5';
+    const ENCODING_UTF_6       = 'UTF-6';
+    const ENCODING_UTF_7       = 'UTF-7';
+    const ENCODING_UTF_8       = 'UTF-8';
+    const ENCODING_UTF_9       = 'UTF-9';
+    const ENCODING_UTF_16      = 'UTF-16';
+    const ENCODING_UTF_18      = 'UTF-18';
+    const ENCODING_UTF_32      = 'UTF-32';
+    const ENCODING_ISO_8859_1  = 'ISO-8859-1';      // west european
+    const ENCODING_ISO_8859_2  = 'ISO-8859-2';      // middle european
+    const ENCODING_ISO_8859_3  = 'ISO-8859-3';      // south european
+    const ENCODING_ISO_8859_4  = 'ISO-8859-4';      // north european
+    const ENCODING_ISO_8859_5  = 'ISO-8859-5';      // cyrillic
+    const ENCODING_ISO_8859_6  = 'ISO-8859-6';      // arabic
+    const ENCODING_ISO_8859_7  = 'ISO-8859-7';      // greece
+    const ENCODING_ISO_8859_8  = 'ISO-8859-8';      // hebrew
+    const ENCODING_ISO_8859_9  = 'ISO-8859-9';      // turkish
+    const ENCODING_ISO_8859_10 = 'ISO-8859-10';     // nordic
+    const ENCODING_ISO_8859_11 = 'ISO-8859-11';     // thai
+    const ENCODING_ISO_8859_13 = 'ISO-8859-13';     // baltic
+    const ENCODING_ISO_8859_14 = 'ISO-8859-14';     // celtic
+    const ENCODING_ISO_8859_15 = 'ISO-8859-15';     // west european
+    const ENCODING_ISO_8859_16 = 'ISO-8859-16';     // south european
+
 
     /**
      * Constructor for services.
@@ -200,14 +232,16 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * This method is a replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
      *
-     * @param DoozR_Config_Interface $config An instance of a config compliant config reader
-     * @param string|null            $locale A locale (de, at-de, ...) OR NULL to use autodetection
+     * @param DoozR_Config_Interface $config   An instance of a config compliant config reader
+     * @param string|null            $locale   A locale (de, at-de, ...) OR NULL to use autodetection
+     * @param string|null            $encoding An optional encoding used for setting/translating in locale/translator
+     *                                         also used when setting locale in gettext interface (e.g. en_US.UTF-8)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __tearup(DoozR_Config_Interface $config, $locale = null)
+    public function __tearup(DoozR_Config_Interface $config, $locale = null, $encoding = self::ENCODING_UTF_8)
     {
         // Check if requirements fulfilled
         self::checkRequirements();
@@ -222,6 +256,12 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
 
         // store the given locale
         $this->activeLocale = $locale;
+        $this->encoding     = $encoding;
+        #$this->setActiveLocale($locale);
+        #$this->setEncoding($encoding);
+
+        // Must return true
+        return true;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -257,9 +297,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     }
 
     /**
-     * Sets the active locale.
-     *
-     * This method is intend to set the passed locale as active one.
+     * Setter for active locale.
      *
      * @param string $locale The locale to set as active
      *
@@ -270,14 +308,18 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function setActiveLocale($locale)
     {
+        $result = true;
+
         // check if locale is valid
         if (!$this->isValidLocale($locale)) {
             throw new DoozR_I18n_Service_Exception(
-                'EXCEPTION_MODULE_DOOZR_I18N'
+                'The locale "' . $locale . '" is not valid.'
             );
+            $result = false;
         }
 
-        $result = $this->activeLocale = $locale;
+        $this->activeLocale = $locale;
+
         return $result;
     }
 
@@ -387,17 +429,32 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * This method is intend to return a new translator instance for
      * locale passed to it..
      *
-     * @param string $locale The locale to return translator for
+     * @param string $locale   The locale to return translator for
+     * @param string $encoding The encoding of the translation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_I18n_Service_Translator An instance of the locale-detector
      * @access public
+     * @throws DoozR_I18n_Service_Exception
      */
-    public function getTranslator($locale = null)
+    public function getTranslator($locale = null, $encoding = null)
     {
         // if no locale was passed use the active one
         if ($locale === null) {
-            $locale = $this->activeLocale;
+            $locale = $this->getActiveLocale();
+        }
+
+        // Check if locale is available on system
+        $availableLocales = object_to_array($this->getAvailableLocales());
+        if (in_array($locale, $availableLocales) === false) {
+            throw new DoozR_I18n_Service_Exception(
+                'The locale "' . $locale . '" is not available by configuration.'
+            );
+        }
+
+        // if no encoding was passed use the active one
+        if ($encoding === null) {
+            $encoding = $this->getEncoding();
         }
 
         // retrieve valid input
@@ -405,10 +462,10 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
 
         // check for redirect
         if (isset($input['redirect'])) {
-            $translator = $this->getTranslator($input['redirect']);
+            $translator = $this->getTranslator($input['redirect'], $encoding);
 
         } else {
-            $translator = new DoozR_I18n_Service_Translator($locale, self::$config, $input['config']);
+            $translator = new DoozR_I18n_Service_Translator($locale, $encoding, self::$config, $input['config']);
         }
 
         return $translator;
@@ -490,7 +547,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     public function setEncoding($encoding)
     {
         $this->initTemplateTranslator();
-
         $this->encoding = $encoding;
 
         return true;
@@ -526,7 +582,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     {
         $this->initTemplateTranslator();
 
-        self::$_templateTranslator->setNamespace($domain);
+        self::$templateTranslator->setNamespace($domain);
 
         return true;
     }
@@ -549,7 +605,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         $this->initTemplateTranslator();
 
         #if ($value_escaped === true) {
-            self::$_templateTranslator->{$key} = htmlentities($value_escaped);
+            self::$templateTranslator->{$key} = htmlentities($value_escaped);
         #} else {
         #    self::$_templateTranslator->{$key} = $value_escaped;
         #}
@@ -579,9 +635,9 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         #$lookup = str_replace(' ', '_', strtolower($key));
 
         if ($htmlescape === true) {
-            $value = self::$_templateTranslator->__($key);
+            $value = self::$templateTranslator->__($key);
         } else {
-            $value = self::$_templateTranslator->_($key);
+            $value = self::$templateTranslator->_($key);
         }
 
         return (strlen($value) && $value !== $key) ? $value : $key;
@@ -643,10 +699,10 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     protected function initTemplateTranslator()
     {
-        if (!self::$_templateTranslator) {
-            self::$_templateTranslator = $this->getTranslator();
+        if (!self::$templateTranslator) {
+            self::$templateTranslator = $this->getTranslator();
 
-            self::$_templateTranslator->setNamespace(
+            self::$templateTranslator->setNamespace(
                 self::$config->i18n->defaults->namespace()
             );
         }

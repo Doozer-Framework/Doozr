@@ -357,7 +357,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     }
 
     /**
-     * This method is intend to merge to objects of configurations recursive to a new one.
+     * This method is intend to merge two objects of configurations recursive to a new one.
      * Where new keys are created in configuration-1 and existing values! are overwritten
      * by values of configuration-2 (smart override).
      *

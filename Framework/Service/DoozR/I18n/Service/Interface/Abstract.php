@@ -98,6 +98,14 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
      */
     protected static $cache;
 
+    /**
+     * The encoding the instance running in.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $encoding;
+
 
     /*------------------------------------------------------------------------------------------------------------------
      | PUBLIC INTERFACES
@@ -185,5 +193,7 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
             // set its lifetime
             self::$cache->setLifetime($config['cache']['lifetime']);
         }
+
+        $this->encoding = $config['encoding'];
     }
 }
