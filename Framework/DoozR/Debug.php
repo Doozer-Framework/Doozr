@@ -76,8 +76,7 @@ use Whoops\Handler\PrettyPageHandler;
 class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
 {
     /**
-     * holds the information (status) of debug-mode (true
-     * = enabled / false = disabled)
+     * The debug-mode state (true = enabled / false = disabled)
      *
      * @var boolean
      * @access protected
