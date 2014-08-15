@@ -482,7 +482,7 @@ function str_split_camelcase($string)
 function is_json($string)
 {
     if (is_string($string)) {
-        return !preg_match(
+        $result = !preg_match(
             '/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/',
             preg_replace(
                 '/"(\\.|[^"\\\])*"/',
@@ -490,6 +490,8 @@ function is_json($string)
                 $string
             )
         );
+
+        return $result && (json_decode($string) !== null);
     }
 
     return false;

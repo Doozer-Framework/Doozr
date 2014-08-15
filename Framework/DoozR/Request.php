@@ -72,7 +72,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
  */
 class DoozR_Request extends DoozR_Base_State_Container
 {
-
     /**
      * The type native for PHP request sources
      *
@@ -89,6 +88,12 @@ class DoozR_Request extends DoozR_Base_State_Container
      */
     const EMULATED = 1;
 
+    /**
+     * The request sources valid for active running mode.
+     *
+     * @var array
+     * @access protected
+     */
     protected $requestSources;
 
 
@@ -127,43 +132,14 @@ class DoozR_Request extends DoozR_Base_State_Container
     }
 
     /**
-     * Transforms a given PHP-Global (e.g. SERVER [without "$_"]) to an object with an array interface
-     *
-     * This method is intend to transform a given PHP-Global (e.g. SERVER [without "$_"])
-     * to an object with an array interface.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @throws DoozR_Exception
-     * @return void
-     * @access public
-     */
-    protected function transform()
-    {
-        // get dynamic the sources
-        $requestSources = array_change_value_case(func_get_args(), CASE_UPPER);
-
-        // iterate over given sources
-        foreach ($requestSources as $requestSource) {
-            if (!in_array($requestSource, $this->_requestSources)) {
-                throw new DoozR_Exception(
-                    'Invalid request-source "$_'.$requestSource.'" passed to '.__METHOD__
-                );
-            }
-
-            // build objects from global request array(s) like SERVER, GET, POST | CLI
-            $this->transformToRequestObject($requestSource);
-        }
-
-        // successful transformed
-        return true;
-    }
-
-    /**
      * Detects important parts of request and brings them in a more ore better usable order.
      *
+     * @param string $requestUri The request URI of current request
+     * @param string $sapi       The SAPI used
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access protected
+     * @access public
      */
     public function determineState($requestUri, $sapi = PHP_SAPI)
     {
@@ -215,12 +191,6 @@ class DoozR_Request extends DoozR_Base_State_Container
         );
     }
 
-
-    protected function getRequestType()
-    {
-        return $this->requestType;
-    }
-
     /**
      * Returns the method (POST / GET / PUT ... || CLI) of the current processed request.
      *
@@ -235,6 +205,50 @@ class DoozR_Request extends DoozR_Base_State_Container
         } else {
             return strtoupper($this->getRequestType());
         }
+    }
+
+    /**
+     * Transforms a given PHP-Global (e.g. SERVER [without "$_"]) to an object with an array interface
+     *
+     * This method is intend to transform a given PHP-Global (e.g. SERVER [without "$_"])
+     * to an object with an array interface.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @throws DoozR_Exception
+     * @return void
+     * @access protected
+     */
+    protected function transform()
+    {
+        // get dynamic the sources
+        $requestSources = array_change_value_case(func_get_args(), CASE_UPPER);
+
+        // iterate over given sources
+        foreach ($requestSources as $requestSource) {
+            if (!in_array($requestSource, $this->_requestSources)) {
+                throw new DoozR_Exception(
+                    'Invalid request-source "$_'.$requestSource.'" passed to '.__METHOD__
+                );
+            }
+
+            // build objects from global request array(s) like SERVER, GET, POST | CLI
+            $this->transformToRequestObject($requestSource);
+        }
+
+        // successful transformed
+        return true;
+    }
+
+    /**
+     * Getter for request type.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The active request type
+     * @access protected
+     */
+    protected function getRequestType()
+    {
+        return $this->requestType;
     }
 
     /**
@@ -303,47 +317,60 @@ class DoozR_Request extends DoozR_Base_State_Container
         ) {
             $arguments = file_get_contents("php://input");
             $GLOBALS['_' . $method]['DOOZR_REQUEST_BODY'] = $arguments;
-
-            // JSON detect and extract.
-            /*
-            $json = $this->isJson($arguments);
-            if ($json !== null) {
-                $GLOBALS['_' . $method]['json'] = $json;
-            }
-            */
         }
 
         return true;
     }
 
     /**
-     * @param $data
-     * @return bool
+     * Setter for request sources.
+     *
+     * @param array $requestSources The request sources to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
-    /*
-    protected function isJson($data)
-    {
-        $data = json_decode($data, true);
-        return (is_array($data) === true) ? $data : null;
-    }
-    */
-
-    /**
-     * @param $requestSources
-     */
-    protected function setRequestSources($requestSources)
+    protected function setRequestSources(array $requestSources)
     {
         $this->requestSources = $requestSources;
     }
 
+    /**
+     * Setter for request sources.
+     *
+     * @param array $requestSources The request sources to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function requestSources(array $requestSources)
+    {
+        $this->setRequestSources($requestSources);
+        return $this;
+    }
+
+    /**
+     * Getter for request sources.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array|null The request sources stored, otherwise NULL
+     * @access protected
+     */
     protected function getRequestSources()
     {
         return $this->requestSources;
     }
 
     /**
-     * @param $mode
-     * @return array
+     * Combines the request sources to a single array by passed mode.
+     *
+     * @param string $mode The active mode to return request sources for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The combined request sources
+     * @access protected
      */
     protected function emitValidRequestSources($mode)
     {
@@ -388,11 +415,8 @@ class DoozR_Request extends DoozR_Base_State_Container
         return $requestSources;
     }
 
-
     /**
-     * Returns input prefixed with an underscore
-     *
-     * This method is intend to add and underscore as prefix.
+     * Returns input prefixed with an underscore.
      *
      * @param string $value The string to add an underscore to
      *

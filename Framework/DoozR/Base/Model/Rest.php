@@ -465,6 +465,11 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
         // Combine arguments from "route" with arguments from "request"
         $arguments = $this->mergeArguments($routeArguments, $requestArguments);
 
+        // Check for submitted DOOZR_REQUEST_BODY and extract the structure so we can access the arguments
+        if (isset($arguments['DOOZR_REQUEST_BODY']) === true && is_json($arguments['DOOZR_REQUEST_BODY'])) {
+            $arguments = object_to_array(json_decode($arguments['DOOZR_REQUEST_BODY']));
+        }
+
         $data = null;
 
         // Dispatch to resource manager if one is defined...
