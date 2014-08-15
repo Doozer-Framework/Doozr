@@ -69,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/View/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_Interface
+class DoozR_Base_View_Rest extends DoozR_Base_View
 {
     /**
      * Default REST API response header(s)
@@ -169,7 +169,7 @@ class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_In
         // Custom default header configured?
         try {
             $headers = object_to_array(
-                $this->config->transmission->header->api->rest()
+                $this->configuration->transmission->header->api->rest()
             );
 
         } catch (Exception $e) {
@@ -219,7 +219,7 @@ class DoozR_Base_View_Rest extends DoozR_Base_View implements DoozR_Base_View_In
         }
 
         // Send our data as HTML through response
-        $response->sendJson($data, $this->getFingerprint(1), null, false, false, true, $status);
+        $response->sendJson($data, $this->generateFingerprint(1), null, false, false, true, $status);
 
         /*
         if (isset($data->error)) {

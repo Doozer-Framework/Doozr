@@ -108,23 +108,5 @@ class DoozR_Base_Class_Singleton_Strict extends DoozR_Base_Class_Singleton_Gener
 
         // return instance
         return $instance;
-
-
-        /*
-        // check for instance (requires loading?)
-        if (!self::$instance) {
-            // decide call-type by given parameter
-            if (empty($arguments)) {
-                self::$instance = parent::getInstance();
-            } else {
-                self::$instance = parent::getInstance($arguments);
-            }
-        }
-
-        // return instance
-        return self::$instance;
-        */
     }
 }
-
-?>

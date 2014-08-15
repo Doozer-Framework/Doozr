@@ -90,6 +90,16 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
      */
     protected static $strict = false;
 
+    /**
+     * The registry instance injected in all core classes
+     * based on DoozR_Base_Class.
+     *
+     * @var DoozR_Registry
+     * @access protected
+     * @static
+     */
+    protected static $registry;
+
 
     /**
      * Instance getter for singleton instances
@@ -279,6 +289,49 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
                 return null;
             }
         }
+    }
+
+    /**
+     * Setter for registry
+     *
+     * @param DoozR_Registry $registry The registry of DoozR
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     * @static
+     */
+    protected static function setRegistry(DoozR_Registry $registry)
+    {
+        self::$registry = $registry;
+    }
+
+    /**
+     * Setter for registry
+     *
+     * @param DoozR_Registry $registry The registry of DoozR
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function registry(DoozR_Registry $registry)
+    {
+        self::setRegistry($registry);
+        return $this;
+    }
+
+    /**
+     * Getter for registry
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Registry The registry of DoozR
+     * @access protected
+     * @static
+     */
+    protected static function getRegistry()
+    {
+        return self::$registry;
     }
 
     /**

@@ -146,24 +146,26 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * Constructor.
      *
-     * @param DoozR_Base_State_Interface $requestState    The whole request as processed by "Route"
-     * @param array                      $request         The request
-     * @param array                      $translation     The translation required to read the request
-     * @param DoozR_Config_Interface     $configuration   The DoozR main config instance
-     * @param DoozR_Base_Model           $model           The model to communicate with backend (db)
-     * @param DoozR_Base_View            $view            The view to display results
+     * @param DoozR_Registry             $registry      Instance of DoozR_Registry containing all core components
+     * @param DoozR_Base_State_Interface $requestState  The whole request as processed by "Route"
+     * @param array                      $request       The request
+     * @param array                      $translation   The translation required to read the request
+     * @param DoozR_Config_Interface     $configuration The DoozR main config instance
+     * @param DoozR_Base_Model           $model         The model to communicate with backend (db)
+     * @param DoozR_Base_View            $view          The view to display results
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Presenter_Rest
      * @access public
      */
     public function __construct(
+        DoozR_Registry             $registry,
         DoozR_Base_State_Interface $requestState,
         array                      $request,
         array                      $translation,
-        DoozR_Config_Interface     $configuration  = null,
-        DoozR_Base_Model           $model          = null,
-        DoozR_Base_View            $view           = null
+        DoozR_Config_Interface     $configuration = null,
+        DoozR_Base_Model           $model         = null,
+        DoozR_Base_View            $view          = null
     ) {
         // We need to hook in here - to make use of this proxy for installing JsonResponseHandler ;)
         $whoops = new Whoops\Run();
@@ -174,6 +176,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
 
         // Forward (proxy) to parent
         parent::__construct(
+            $registry,
             $requestState,
             $request,
             $translation,
@@ -532,12 +535,13 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      */
     protected function validateInputArguments(array $argumentsRequired, DoozR_Request_Arguments $argumentsSent)
     {
-        $valid = true;
+        $valid       = true;
+        $requestBody = json_decode($this->getStateObject()->getArguments()->DOOZR_REQUEST_BODY, true);
 
         // ... and iterate them to find missing elements
         foreach ($argumentsRequired as $requiredArgument => $requiredValue) {
             // Can the required value be retrieved from GET, POST, ...
-            if (!isset($argumentsSent->{$requiredArgument})) {
+            if (!isset($argumentsSent->{$requiredArgument}) && (!isset($requestBody[$requiredArgument]))) {
                 $valid = false;
             }
         }

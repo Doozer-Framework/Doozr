@@ -55,7 +55,6 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Path/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 
 /**
  * DoozR Path
@@ -95,18 +94,15 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      */
     private static $path = array();
 
-
     /**
-     * constructs the class
-     *
-     * constructor builds the class
+     * Constructor.
      *
      * @param string $pathToRoot        The path to DoozR (DOOZR_DOCUMENT_ROOT)
      * @param string $pathToApplication The path to applications root directory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
+     * @return \DoozR_Path
+     * @access protected
      */
     protected function __construct($pathToRoot = null, $pathToApplication = null)
     {
@@ -264,7 +260,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         self::$path['model'] = $this->_combine($root, array('Framework', 'Model'));
 
         // path to services
-        self::$path['module'] = $this->_combine($root, array('Framework', 'Service'));
+        self::$path['service'] = $this->_combine($root, array('Framework', 'Service'));
 
         // path to controller
         self::$path['controller'] = $this->_combine($root, array('Framework', 'DoozR', 'Controller'));
@@ -278,11 +274,8 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         // path to auth
         self::$path['auth'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Auth'));
 
-        $systemp = sys_get_temp_dir().DIRECTORY_SEPARATOR;
-
         // path to cache
-           //self::$_path['cache'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Cache'));
-        self::$path['cache'] = $systemp;
+        self::$path['cache'] = DOOZR_SYSTEM_TEMP;
 
         // path to config
         self::$path['config'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Config'));
@@ -292,11 +285,10 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
 
         // path to log
            //self::$_path['log'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Log'));
-        self::$path['log'] = $systemp;
+        self::$path['log'] = DOOZR_SYSTEM_TEMP;
 
         // path to temp
-           //self::$_path['temp'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Temp'));
-        self::$path['temp'] = $systemp;
+        self::$path['temp'] = DOOZR_SYSTEM_TEMP;
 
         // path to data-public (APP)
         self::$path['data_public'] = $this->_combine($pathToApplication, array('Data', 'Public'));
@@ -454,12 +446,13 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @return boolean True if successful otherwise false
      * @access private
      * @static
+     * @throws DoozR_Exception
      */
     public function set($identifier, $path, $force = false)
     {
         // check if already exist and prevent overwrite if not force
         if (isset(self::$path[$identifier]) && !is_null(self::$path[$identifier]) && !$force) {
-            throw new DoozR_Base_Exception(
+            throw new DoozR_Exception(
                 'Path with identifier "'.$identifier.'" is already defined! Set $force to TRUE to overwrite it.'
             );
         }
@@ -533,7 +526,6 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The corrected new merged path
      * @access public
-     * @static
      */
     public function mergePath($pathBase, $pathMerge = '')
     {
@@ -583,12 +575,12 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * converts a given module name to a path
+     * converts a given service name to a path
      *
-     * This method is intend to convert a given module name to a path.
+     * This method is intend to convert a given service name to a path.
      *
-     * @param string $serviceName The name of the module to retrieve the path for
-     * @param string $namespace  The namespace to use for building path to module
+     * @param string $serviceName The name of the service to retrieve the path for
+     * @param string $namespace  The namespace to use for building path to service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The path requested
@@ -596,9 +588,45 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @static
      * @deprecated
      */
-    public static function moduleToPath($serviceName, $namespace = 'DoozR')
+    public static function serviceToPath($serviceName, $namespace = 'DoozR')
     {
         $service = ucfirst(str_replace('_', self::$_separator, $serviceName));
-        return self::_correctPath(self::$path['module'].$namespace.self::$_separator.$service.self::$_separator);
+        return self::_correctPath(
+            self::$path['service'] . $namespace . self::$_separator . $service . self::$_separator
+        );
+    }
+
+    /**
+     * Nice magic access to stored path's
+     *
+     * @param string     $method    The method name
+     * @param $arguments $arguments One argument to pass by would be a new path to be set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Result depending on operation
+     * @access public
+     * @throws DoozR_Path_Exception
+     */
+    public function __call($method, $arguments)
+    {
+        $method = str_split_camelcase($method);
+
+        if (count($method) === 2) {
+            $identifier = strtolower($method[1]);
+
+            if (isset(self::$path[$identifier]) === false) {
+                throw new DoozR_Path_Exception(
+                    'Path "' . $identifier . '" does not exist!'
+                );
+            } else {
+                if (strtolower($method[0]) === 'get') {
+                    $result = self::$path[$identifier];
+                } else {
+                    $result = self::$path[$identifier] = (isset($arguments[0])) ? $arguments[0] : null;
+                }
+
+                return $result;
+            }
+        }
     }
 }

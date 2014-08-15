@@ -288,7 +288,9 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
     ) {
         // prevent misuse
         if (!array_key_exists($type, $this->availableLogtypes)) {
-            throw new DoozR_Logger_InvalidArgumentException('Invalid log type: '.$type.' passed to '.__METHOD__);
+            throw new DoozR_Logger_InvalidArgumentException(
+                'Invalid log type: ' . $type . ' passed to ' . __METHOD__
+            );
         }
 
         /*

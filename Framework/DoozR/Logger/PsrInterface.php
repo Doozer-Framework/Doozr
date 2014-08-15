@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Logger - Constant
+ * DoozR - Logger - PsrInterface
  *
  * PsrInterface.php - PSR Logger Interface
  *
@@ -68,20 +68,18 @@
  */
 
 /**
- * DoozR - Logger - Constant
+ * DoozR - Logger - PsrInterface
  *
  * PSR Logger Interface
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Logger
+ * @package    DoozR_Logger
+ * @subpackage DoozR_Logger_PsrInterface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Abstract.php, Interface.php
- * @since      -
  */
 interface DoozR_Logger_PsrInterface
 {

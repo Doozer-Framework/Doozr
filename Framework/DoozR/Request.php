@@ -91,27 +91,29 @@ class DoozR_Request extends DoozR_Base_State_Container
 
     protected $requestSources;
 
+
     /**
      * Constructor.
      *
      * Custom constructor which is required to set app.
      * And then it calls the parent constructor which does the bootstrapping.
      *
-     * @param DoozR_Registry $app                     The registry containing all important instances
+     * @param DoozR_Registry             $registry    The registry containing all important instances
      * @param DoozR_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
-     * @param string                                  The request URI for overriding detection of real
+     * @param string                     $requestUri  The request URI for overriding detection of real
+     * @param string                     $sapi        The SAPI mode of active PHP Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Request
      * @access public
      */
     public function __construct(
-        DoozR_Registry $app,
+        DoozR_Registry             $registry,
         DoozR_Base_State_Interface $stateObject,
-        $requestUri = null,
-        $sapi = PHP_SAPI
+                                   $requestUri  = null,
+                                   $sapi        = PHP_SAPI
     ) {
-        $this->setApp($app);
+        $this->setRegistry($registry);
 
         parent::__construct($stateObject);
 
@@ -285,14 +287,46 @@ class DoozR_Request extends DoozR_Base_State_Container
     {
         global $_PUT, $_DELETE;
 
-        // check if current request type must be emulated
-        if ($this->requestSources[$method] === self::EMULATED) {
-            parse_str(file_get_contents('php://input'), $parameter);
-            $GLOBALS['_' . $method] = $parameter;
+        $headers = $this->getStateObject()->getHeaders();
+
+        // Check if current request type must be emulated OR
+        // If we reach here cause of a POST request without header content-type application/x-www-form-urlencoded
+        if (
+            ($this->requestSources[$method] === self::EMULATED) ||
+            (
+                $method === DoozR_Request_State::METHOD_POST &&
+                (
+                    (isset($headers['CONTENT_TYPE']) === false) ||
+                    (stristr(strtolower($headers['CONTENT_TYPE']), 'application/x-www-form-urlencoded') === false)
+                )
+            )
+        ) {
+            $arguments = file_get_contents("php://input");
+            $GLOBALS['_' . $method]['DOOZR_REQUEST_BODY'] = $arguments;
+
+            // JSON detect and extract.
+            /*
+            $json = $this->isJson($arguments);
+            if ($json !== null) {
+                $GLOBALS['_' . $method]['json'] = $json;
+            }
+            */
         }
 
         return true;
     }
+
+    /**
+     * @param $data
+     * @return bool
+     */
+    /*
+    protected function isJson($data)
+    {
+        $data = json_decode($data, true);
+        return (is_array($data) === true) ? $data : null;
+    }
+    */
 
     /**
      * @param $requestSources

@@ -315,25 +315,20 @@ extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_I
 
 
     /**
-     * constructor
-     *
-     * This method is the constructor of the core class.
+     * Constructor.
      *
      * @param string $key The key to use (optional)
+     * @see   setKey()
      *
-     * @see     setKey()
-     *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Crypt_Service_Container_Aes
+     * @access public
      */
     public function __construct($key = null)
-	{
-	    if ($key) {
+    {
+        if ($key) {
             $this->setKey($key);
-	    }
+        }
     }
 
 
@@ -366,7 +361,7 @@ extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_I
     *   to encrypt is linear to the size of the ciphertext.
     **/
     public function encrypt($x)
-	{
+    {
         $t = ""; // 16-byte block
         $y = ""; // returned cipher text;
 

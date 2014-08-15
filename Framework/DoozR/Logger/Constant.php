@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Interface
+ * @subpackage DoozR_Logger_Constant
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -58,8 +58,8 @@
  * Constant.php - Logger constants
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Logger
+ * @package    DoozR_Logger
+ * @subpackage DoozR_Logger_Constant
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

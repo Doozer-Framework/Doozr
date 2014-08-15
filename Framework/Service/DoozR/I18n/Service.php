@@ -55,7 +55,6 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Detector.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Translator.php';
-#require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Template/Service/Lib/PHPTAL/PHPTAL/TranslationService.php';
 
 /**
  * DoozR - I18n - Service
@@ -376,7 +375,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function getDetector()
     {
-        return DoozR_I18n_Service_Detector::getInstance(self::$config, $this->registry);
+        return DoozR_I18n_Service_Detector::getInstance(self::$config, self::getRegistry());
     }
 
     /**
@@ -412,7 +411,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             return $this->instanciate(
                 'DoozR_I18n_Service_Localize_'.$type,
                 array(
-                    $this->registry,
+                    self::getRegistry(),
                     $input['locale'],
                     null,
                     self::$config,
@@ -603,22 +602,68 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     public function setVar($key, $value_escaped)
     {
         $this->initTemplateTranslator();
-
-        #if ($value_escaped === true) {
-            self::$templateTranslator->{$key} = htmlentities($value_escaped);
-        #} else {
-        #    self::$_templateTranslator->{$key} = $value_escaped;
-        #}
-
+        //htmlentities($value_escaped)
+        $this->setVariable($key, $value_escaped);
         return true;
     }
 
     /**
+     * @var array
+     */
+    protected $variables = array();
+
+    public function setVariable($key, $value)
+    {
+        $this->variables[$key] = $value;
+    }
+
+    public function variable($key, $value)
+    {
+        $this->setVariable($key, $value);
+        return $this;
+    }
+
+    public function getVariable($key)
+    {
+        return $this->variables[$key];
+    }
+
+    public function getDefinedVariables()
+    {
+        return array_keys($this->variables);
+    }
+
+    public function getVariables()
+    {
+        return $this->variables;
+    }
+
+    public function __set($key, $value)
+    {
+        $this->setVariable($key, $value);
+    }
+
+    public function replaceVariables($pattern, $string, $replace)
+    {
+        $count = preg_match($pattern, $string, $result);
+
+        if ($count > 0) {
+            for ($i = 0; $i < count($result); $i+=2) {
+                $string = str_replace($result[$i], $this->getVariable($result[$i+1]), $string);
+            }
+        }
+
+        return $string;
+    }
+
+
+
+
+    /**
      * Translate a gettext key and interpolate variables.
      *
-     * @param string $key        translation key, e.g. "hello ${username}!"
-     * @param string $htmlescape if true, you should HTML-escape translated string. You should never HTML-escape
-     *                           interpolated variables.
+     * @param string  $key        Translation key, e.g. "hello ${username}!" or a simple one "hello_message_user"
+     * @param boolean $htmlescape TRUE then HTML-escape translated string. You should never HTML-escape interpolated variables.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The translation for passed key on success, otherwise passed key
@@ -627,20 +672,33 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function translate($key, $htmlescape = true)
     {
-        // assume value is empty
-        $value = '';
-
+        // Init the translator instance first. We need to call this stupid on each
         $this->initTemplateTranslator();
 
-        #$lookup = str_replace(' ', '_', strtolower($key));
+        $htmlescape = true;
 
+        /*
+         * @todo Bugfix : here everything gets encoded and this return trash bin whatever
+         */
         if ($htmlescape === true) {
             $value = self::$templateTranslator->__($key);
         } else {
             $value = self::$templateTranslator->_($key);
         }
 
+        $value = $this->replaceVariables(
+            '/\${(.*[A-Za-z0-9])}/',
+            $value,
+            $this->getVariables()
+        );
+
         return (strlen($value) && $value !== $key) ? $value : $key;
+    }
+
+
+    protected function splitTranslation($translation)
+    {
+        pred($translation);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -757,7 +815,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
 
         } else {
             $config = DoozR_Loader_Serviceloader::load('Config', 'Ini');
-            $path   = $this->registry->path;
+            $path   = self::getRegistry()->path;
             $file   = $path->get(
                 'app',
                 'Data/Private/I18n/' . $locale . '/' . self::FILE_NAME_L10N . '.' . self::FILE_EXTENSION_L10N

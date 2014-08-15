@@ -97,7 +97,4 @@ class DoozR_Template_Service_Exception extends DoozR_Exception
         // call parents constructor
         parent::__construct($message, $code, $previous);
     }
-
 }
-
-?>

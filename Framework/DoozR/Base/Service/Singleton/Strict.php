@@ -71,36 +71,21 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton/Strict.php';
 class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Strict
 {
     /**
-     * Contains the instance of DoozR_Registry
+     * Constructor.
      *
-     * @var object
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Base_Service_Singleton_Strict
      * @access protected
-     * @static
-     */
-    protected $registry;
-
-
-    /**
-     * constructs the class
-     *
-     * constructor builds the class
-     *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
      */
     protected function __construct()
     {
-        // filter out registry and store accessible through static $registry!
+        // Filter out registry and store accessible through static $registry!
         $arguments = func_get_args();
-        $this->registry = &$arguments[0];
+        self::setRegistry($arguments[0]);
         $arguments = array_slice($arguments, 1);
 
         // dispatch remaining stuff
         if ($this->hasMethod('__tearup')) {
-
             if ((func_num_args() - 1) > 0) {
                 call_user_func_array(
                     array($this, '__tearup'),
@@ -119,11 +104,9 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
      *
      * This method is called on desctruction of the class
      *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
      */
     protected function __desctruct()
     {

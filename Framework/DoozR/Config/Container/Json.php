@@ -159,8 +159,6 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
             $configuration = $this->cache->read($uid);
 
         } else {
-            pre('not cached');
-
             if (is_string($resource)) {
                 // get configuration (JSON)
                 $configuration = $this->_readConfigurationFile($resource);
@@ -168,9 +166,6 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
                 // is array || object
                 $configuration = json_encode($resource);
             }
-
-            pre($resource);
-            pre($configuration);
 
             // parse the configuration
             $configuration = $this->_parse(

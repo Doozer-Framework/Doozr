@@ -78,36 +78,28 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
 {
     /**
-     * The registry for local access
-     *
-     * @var DoozR_Registry
-     * @access private
-     */
-    private $_registry;
-
-    /**
      * The resource to process
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_resource;
+    protected $resource;
 
     /**
      * The name of the template engine
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_library;
+    protected $library;
 
     /**
      * The name of the template engine
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $path;
+    protected $path;
 
 
     /**
@@ -127,7 +119,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
      */
     public function fetch($return = false)
     {
-        switch ($this->_library) {
+        switch ($this->library) {
         case 'phptal':
             // execute the template
             try {
@@ -162,7 +154,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
      */
     public function setTemplate($resource)
     {
-        $this->_resource = $resource;
+        $this->resource = $resource;
     }
 
     /**
@@ -171,34 +163,85 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
      * This method is the constructor of this class.
      *
      * @param DoozR_Registry &$registry The instance of DoozR_Registry
-     * @param string         $resource  The resource to load
-     * @param array          $config    The resource to set as input (optional)
+     * @param string $resource The resource to load
+     * @param array $config The resource to set as input (optional)
      *                                  defaults come from config
      *
+     * @throws DoozR_Template_Service_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Template_Service
      * @access public
      */
     public function __construct(DoozR_Registry &$registry, $resource = null, array $config = null)
     {
-        // store registry
-        $this->_registry = $registry;
-
-        // store resource
-        $this->_resource = $resource;
-
-        // detect and store settings
+        // Detect and store settings
         if ($config) {
-            $this->path    = $config['path'];
-            $this->_library = $config['library'];
+            $path    = $config['path'];
+            $library = $config['library'];
         } else {
-            $this->path    = $this->_registry->config->base->template->path;
-            $this->_library = $this->_registry->config->base->template->engine->library;
+            $path    = $registry->config->base->template->path;
+            $library = $registry->config->base->template->engine->library;
         }
 
-        // get egine running
-        $this->_initEngine($this->_library);
+        self::setRegistry($registry);
+        $this->setResource($resource);
+        $this->setPath($path);
+        $this->setLibrary($library);
+
+        // Start the engine ...
+        $this->initEngine($this->library, $this->path);
     }
+
+
+    protected function setPath($path)
+    {
+        $this->path = $path;
+    }
+
+    protected function path($path)
+    {
+        $this->setPath($path);
+        return $this;
+    }
+
+    protected function getPath()
+    {
+        return $this->path;
+    }
+
+    protected function setLibrary($library)
+    {
+        $this->library = $library;
+    }
+
+    protected function library($library)
+    {
+        $this->setLibrary($library);
+        return $this;
+    }
+
+    protected function getLibrary()
+    {
+        return $this->library;
+    }
+
+    protected function setResource($resource)
+    {
+        $this->resource = $resource;
+    }
+
+    protected function resource($resource)
+    {
+        $this->setResource($resource);
+        return $this;
+    }
+
+    protected function getResource()
+    {
+        return $this->resource;
+    }
+
+
 
     /**
      * Initializes the engine (e.g. smarty or phptal) and store the instance
@@ -208,20 +251,20 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @throws DoozR_Template_Service_Exception
      */
-    private function _initEngine($engine)
+    protected function initEngine($engine)
     {
         switch ($engine) {
         case 'phptal':
             //
-            include_once $this->getPathToClass().'Service/Lib/PHPTAL/PHPTAL.php';
-            $this->setDecoratedObject(new PHPTAL($this->_resource));
+            #include_once $this->getPathToClass().'Service/Lib/PHPTAL/PHPTAL.php';
+            $this->setDecoratedObject(new PHPTAL($this->resource));
             break;
         default:
         throw new DoozR_Template_Service_Exception(
-            'Configured engine "'.$this->_library.'" is currently not supported!'
+            'Configured engine "'.$this->library.'" is currently not supported!'
         );
         }
     }
@@ -245,7 +288,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
      */
     public function assignVariable($variable = null, $value = null)
     {
-        switch ($this->_library) {
+        switch ($this->library) {
         case 'phptal':
             return ($this->{$variable} = $value);
         break;

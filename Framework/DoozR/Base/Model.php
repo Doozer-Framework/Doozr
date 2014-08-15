@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model/Interface.php';
 class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_Model_Interface
 {
     /**
-     * holds data for CRUD operation(s)
+     * Data for CRUD operation(s)
      *
      * @var mixed
      * @access protected
@@ -80,7 +80,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     protected $data;
 
     /**
-     * contains the complete request
+     * The complete request
      *
      * @var array
      * @access protected
@@ -96,7 +96,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     protected $originalRequest;
 
     /**
-     * contains the translation for reading request
+     * Translation for reading request
      *
      * @var array
      * @access protected
@@ -104,7 +104,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     protected $translation;
 
     /**
-     * Contains an instance of the module DoozR_Cache_Service
+     * Instance of the DoozR_Cache_Service
      *
      * @var DoozR_Cache_Service
      * @access protected
@@ -121,43 +121,241 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
 
 
     /**
-     * Constructor of this class
+     * Constructor.
      *
-     * @param DoozR_Base_State_Interface $requestState The whole request as state
-     * @param array               $request             The whole request as processed by "Route"
-     * @param array               $translation         The translation required to read the request
-     * @param DoozR_Cache_Service $cache               An instance of DoozR_Cache_Service
-     * @param DoozR_Config        $configuration       The main configuration
+     * @param DoozR_Registry             $registry      DoozR_Registry containing all core components
+     * @param DoozR_Base_State_Interface $requestState  Whole request as state
+     * @param array                      $request       Whole request as processed by "Route"
+     * @param array                      $translation   Translation required to read the request
+     * @param DoozR_Cache_Service        $cache         Instance of DoozR_Cache_Service
+     * @param DoozR_Config               $configuration Main configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Model
      * @access public
-     * @throws DoozR_Exception
+     * @throws DoozR_Base_Model_Exception
      */
     public function __construct(
+        DoozR_Registry             $registry,
         DoozR_Base_State_Interface $requestState,
         array                      $request,
         array                      $translation,
         DoozR_Cache_Service        $cache,
         DoozR_Config               $configuration
     ) {
-        // Store
-        $this->request         = $request;
-        $this->translation     = $translation;
-        $this->originalRequest = $requestState->getRequest();
-        $this->cache           = $cache;
+        // Store all passed instances
+        $this
+            ->registry($registry)
+            ->request($request)
+            ->translation($translation)
+            ->originalRequest($requestState->getRequest())
+            ->cache($cache)
+            ->configuration($configuration);
 
-        $this->setConfiguration($configuration);
-
-        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        // Check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
             $result = $this->__tearup($request, $translation);
+
             if ($result !== true) {
-                throw new DoozR_Exception(
-                    '__tearup() must return true. __tearup() returned: ' . var_export($result, true)
+                throw new DoozR_Base_Model_Exception(
+                    '__tearup() must (if set) return TRUE. __tearup() executed and it returned: ' .
+                    var_export($result, true)
                 );
             }
         }
+    }
+
+    /**
+     * Setter for request.
+     *
+     * @param array $request The request to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRequest(array $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * Setter for request.
+     *
+     * @param array $request The request to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function request(array $request)
+    {
+        $this->setRequest($request);
+        return $this;
+    }
+
+    /**
+     * Getter for request.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array|null The request stored, otherwise NULL
+     * @access protected
+     */
+    protected function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * Setter for translation.
+     *
+     * @param array $translation The translation to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setTranslation(array $translation)
+    {
+        $this->translation = $translation;
+    }
+
+    /**
+     * Setter for translation.
+     *
+     * @param array $translation The translation to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function translation(array $translation)
+    {
+        $this->setTranslation($translation);
+        return $this;
+    }
+
+    /**
+     * Getter for translation.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array|null The translation stored, otherwise NULL
+     * @access protected
+     */
+    protected function getTranslation()
+    {
+        return $this->translation;
+    }
+
+    /**
+     * Setter for originalRequest.
+     *
+     * @param mixed $originalRequest The originalRequest to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setOriginalRequest($originalRequest)
+    {
+        $this->originalRequest = $originalRequest;
+    }
+
+    /**
+     * Setter for originalRequest.
+     *
+     * @param mixed $originalRequest The originalRequest to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function originalRequest($originalRequest)
+    {
+        $this->setOriginalRequest($originalRequest);
+        return $this;
+    }
+
+    /**
+     * Getter for originalRequest.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The originalRequest stored, otherwise NULL
+     * @access protected
+     */
+    protected function getOriginalRequest()
+    {
+        return $this->originalRequest;
+    }
+
+    /**
+     * Setter for cache.
+     *
+     * @param DoozR_Cache_Service $cache The cache service instance to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setCache(DoozR_Cache_Service $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
+     * Setter for cache.
+     *
+     * @param DoozR_Cache_Service $cache The cache service instance to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function cache(DoozR_Cache_Service $cache)
+    {
+        $this->setCache($cache);
+        return $this;
+    }
+
+    /**
+     * Getter for cache.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Cache_Service|null The cache service instance stored, otherwise NULL
+     * @access protected
+     */
+    protected function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
+     * This method (container) is intend to set the data for a requested mode.
+     *
+     * @param mixed $data The data (array prefered) to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Setter for data with fluent API support for chaining calls to this class.
+     *
+     * @param mixed $data The data to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Model $this Instance for chaining
+     * @access public
+     */
+    public function data($data)
+    {
+        $this->setData($data);
+        return $this;
     }
 
     /**
@@ -190,17 +388,44 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     }
 
     /**
-     * This method (container) is intend to set the data for a requested mode.
+     * Setter for configuration.
      *
-     * @param mixed $data The data (array prefered) to set
+     * @param DoozR_Config_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setData($data)
+    protected function setConfiguration(DoozR_Config_Interface $configuration)
     {
-        $this->data = $data;
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * Setter for configuration with fluent API support for chaining calls to this class.
+     *
+     * @param DoozR_Config_Interface $configuration The
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    protected function configuration(DoozR_Config_Interface $configuration)
+    {
+        $this->setConfiguration($configuration);
+        return $this;
+    }
+
+    /**
+     * Getter for configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Config_Interface The configuration stored
+     * @access public
+     */
+    protected function getConfiguration()
+    {
+        return $this->configuration;
     }
 
     /**
@@ -218,21 +443,6 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
         $string = str_replace('{{', '', $string);
         $string = str_replace('}}', '', $string);
         return htmlentities($string, ENT_QUOTES, 'UTF-8');
-    }
-
-    /**
-     * This method is intend to call the teardown method of a model if exist
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function __destruct()
-    {
-        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
-        if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
-            $this->__teardown();
-        }
     }
 
     /**
@@ -284,32 +494,6 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     }
 
     /**
-     * Setter for configuration.
-     *
-     * @param DoozR_Config_Interface $configuration The configuation object
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    protected function setConfiguration(DoozR_Config_Interface $configuration)
-    {
-        $this->configuration = $configuration;
-    }
-
-    /**
-     * Getter for configuration.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config_Interface The configuration stored
-     * @access public
-     */
-    protected function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    /**
      * Delete of cruD
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -329,6 +513,21 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
             }
 
             return $result;
+        }
+    }
+
+    /**
+     * This method is intend to call the teardown method of a model if exist
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function __destruct()
+    {
+        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
+            $this->__teardown();
         }
     }
 }

@@ -151,7 +151,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
      * @access protected
      * @static
      */
-    protected static $registry;
+    protected static $registryInstance;
 
     /**
      * The default object.
@@ -194,7 +194,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
         $autorun = true
     ) {
         /* @var $requestState DoozR_Request_State */
-        self::$registry = $registry;
+        self::$registryInstance = $registry;
 
         // Get exclude(s) and build exclude-regexp of it/them
         $exclude = regexp($requestState->getRoutes()->exclude, 'exclude');
@@ -237,7 +237,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
         $translated = self::translate(self::$request, self::$translationMatrix);
 
         // Dispatch the new route to logger-subsystem (e.g. for use as filename in file-logger)
-        self::$registry->logger->route(implode('_', $translated));
+        self::$registryInstance->logger->route(implode('_', $translated));
 
         // store the route as active route
         self::$activeRoute = $translated;
@@ -247,11 +247,11 @@ final class DoozR_Route extends DoozR_Base_State_Container
         self::$requestState->setActiveRoute(self::$activeRoute);
         self::$requestState->setRequest(self::$request);
         self::$requestState->setTranslationMatrix(self::$translationMatrix);
-        self::$requestState->setPattern(self::$registry->config->base->pattern->type());
+        self::$requestState->setPattern(self::$registryInstance->config->base->pattern->type());
 
         // Check for usage of DoozR's MVC-/MVP-structure ...
-        if (self::$registry->config->base->pattern->enabled()) {
-            self::$registry->back->run(
+        if (self::$registryInstance->config->base->pattern->enabled()) {
+            self::$registryInstance->back->run(
                 self::$requestState
             );
         }

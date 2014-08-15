@@ -198,8 +198,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param DoozR_Config_Interface   $config     The instance of the DoozR core config
-     * @param DoozR_Logger_Interface   $logger     The instance of the DoozR huge logging facade (subsystem)
+     * @param DoozR_Registry           $registry   Instance of DoozR_Registry containing all core components
+     * @param DoozR_Config_Interface   $config     Instance of the DoozR core config
+     * @param DoozR_Logger_Interface   $logger     Instance of the DoozR logging facade (subsystem)
      * @param DoozR_Filesystem_Service $filesystem Instance of filesystem service
      * @param DoozR_Cache_Service      $cache      Instance of cache service
      *
@@ -208,12 +209,14 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @access public
      */
     public function __construct(
+        DoozR_Registry           $registry,
         DoozR_Config_Interface   $config,
         DoozR_Logger_Interface   $logger,
         DoozR_Filesystem_Service $filesystem,
         DoozR_Cache_Service      $cache
     ) {
         $this
+            ->registry($registry)
             ->configuration($config)
             ->logger($logger)
             ->filesystem($filesystem)
@@ -248,11 +251,12 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
                 $this->initModel(
                     $this->getObject(),
                     array(
+                        $this->getRegistry(),
                         $requestState,
                         $this->getRoute(),
                         $this->getTranslation(),
                         $this->getCache(),
-                        $this->getConfig(),
+                        $this->getConfiguration(),
                     )
                 )
             );
@@ -262,11 +266,12 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
                 $this->initView(
                     $this->getObject(),
                     array(
+                        $this->getRegistry(),
                         $requestState,
                         $this->getRoute(),
                         $this->getTranslation(),
                         $this->getCache(),
-                        $this->getConfig(),
+                        $this->getConfiguration(),
                         DoozR_Controller_Front::getInstance(DoozR_Registry::getInstance()),
                     )
                 )
@@ -278,10 +283,11 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
                     $this->getObject(),
                     'Presenter',
                     array(
+                        $this->getRegistry(),
                         $requestState,
                         $this->getRoute(),
                         $this->getTranslation(),
-                        $this->getConfig(),
+                        $this->getConfiguration(),
                         $this->model,
                         $this->view,
                     )
@@ -308,12 +314,15 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     }
 
     /**
+     * Dispatches a call.
      *
      * @param $connector
      * @param $model
      * @param $view
+     * @param $object
+     * @param $action
      *
-     * @return bool TRUE on success, otherwise FALSE
+     * @return $this Instance for chaining
      * @access protected
      * @throws DoozR_Connector_Exception
      */
@@ -347,11 +356,22 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             }
         }
 
-        // return instance for chaining
+        // Return instance for chaining
         return $this;
     }
 
-
+    /**
+     * Sends a HTTP Response to client using front controller.
+     * Is used in case of core errors which can't be processed through system.
+     *
+     * @param string $code    The code used for response e.g. 404 ...
+     * @param string $message The message for response
+     * @param bool   $json    TRUE to send as JSON response, FALSE to send plain status
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function sendHttpResponse($code, $message, $json = false)
     {
         /* @var $front DoozR_Controller_Front */
@@ -412,178 +432,440 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         return $valid;
     }
 
+    /**
+     * Setter for object.
+     *
+     * @param string $object The object of current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setObject($object)
     {
         $this->object = $object;
     }
 
+    /**
+     * Setter for object.
+     *
+     * @param string $object The object of current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function object($object)
     {
         $this->setObject($object);
         return $this;
     }
 
+    /**
+     * Getter for object.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The object is set, otherwise NULL
+     * @access protected
+     */
     protected function getObject()
     {
         return $this->object;
     }
 
+    /**
+     * Setter for route.
+     *
+     * @param string $route The route of current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setRoute($route)
     {
         $this->route = $route;
     }
 
+    /**
+     * Setter for route.
+     *
+     * @param string $route The route of current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function route($route)
     {
         $this->setRoute($route);
         return $this;
     }
 
+    /**
+     * Getter for route.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The route if set, otherwise NULL
+     * @access protected
+     */
     protected function getRoute()
     {
         return $this->route;
     }
 
-    protected function setTranslation($translation)
+    /**
+     * Setter for translation.
+     *
+     * @param array $translation The translation of current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setTranslation(array $translation)
     {
         $this->translation = $translation;
     }
 
-    protected function translation($translation)
+    /**
+     * Setter for translation.
+     *
+     * @param array $translation The translation of current request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function translation(array $translation)
     {
         $this->setTranslation($translation);
         return $this;
     }
 
+    /**
+     * Getter for translation.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array|null Translation as array if set, otherwise NULL
+     * @access protected
+     */
     protected function getTranslation()
     {
         return $this->translation;
     }
 
+    /**
+     * Setter for action.
+     *
+     * @param string $action The current action
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setAction($action)
     {
         $this->action = $action;
     }
 
+    /**
+     * Setter for action.
+     *
+     * @param string $action The current action
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function action($action)
     {
         $this->setAction($action);
         return $this;
     }
 
+    /**
+     * Getter for action.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The action if set, otherwise NULL
+     * @access protected
+     */
     protected function getAction()
     {
         return $this->action;
     }
 
-    protected function setConfig($configuration)
+    /**
+     * Setter for configuration.
+     *
+     * @param DoozR_Config_Interface $configuration Instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setConfiguration($configuration)
     {
         $this->config = $configuration;
     }
 
+    /**
+     * Setter for configuration.
+     *
+     * @param DoozR_Config_Interface $configuration Instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function configuration($configuration)
     {
-        $this->setConfig($configuration);
+        $this->setConfiguration($configuration);
         return $this;
     }
 
-    protected function getConfig()
+    /**
+     * Getter for configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Config_Interface|null DoozR_Config_Interface if set, otherwise NULL
+     * @access protected
+     */
+    protected function getConfiguration()
     {
         return $this->config;
     }
 
+    /**
+     * Setter for logger.
+     *
+     * @param DoozR_Logger_Interface $logger Instance of logger
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setLogger(DoozR_Logger_Interface $logger)
     {
         $this->logger = $logger;
     }
 
+    /**
+     * Setter for logger.
+     *
+     * @param DoozR_Logger_Interface $logger Instance of logger
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function logger(DoozR_Logger_Interface $logger)
     {
         $this->setLogger($logger);
         return $this;
     }
 
+    /**
+     * Getter for logger.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Logger_Interface|null DoozR_Logger_Interface if set, otherwise NULL
+     * @access protected
+     */
     protected function getLogger()
     {
         return $this->logger;
     }
 
+    /**
+     * Setter for filesystem.
+     *
+     * @param DoozR_Filesystem_Service $filesystem The filesystem service instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setFilesystem(DoozR_Filesystem_Service $filesystem)
     {
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * Setter for filesystem.
+     *
+     * @param DoozR_Filesystem_Service $filesystem The filesystem service instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function filesystem(DoozR_Filesystem_Service $filesystem)
     {
         $this->setFilesystem($filesystem);
         return $this;
     }
 
+    /**
+     * Getter for filesystem.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Filesystem_Service|null DoozR_Filesystem_Service if set, otherwise NULL
+     * @access protected
+     */
     protected function getFilesystem()
     {
         return $this->filesystem;
     }
 
+    /**
+     * Setter for cache.
+     *
+     * @param DoozR_Cache_Service $cache Instance of DoozR cache service
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setCache(DoozR_Cache_Service $cache)
     {
         $this->cache = $cache;
     }
 
+    /**
+     * Setter for cache.
+     *
+     * @param DoozR_Cache_Service $cache Instance of DoozR cache service
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function cache(DoozR_Cache_Service $cache)
     {
         $this->setCache($cache);
         return $this;
     }
 
+    /**
+     * Getter for cache.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Cache_Service|null DoozR_Cache_Service if set, otherwise NULL
+     * @access protected
+     */
     protected function getCache()
     {
         return $this->cache;
     }
 
-    protected function setConnector($connector)
+    /**
+     * Setter for connector.
+     *
+     * @param DoozR_Base_Connector_Interface $connector The connector instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setConnector(DoozR_Base_Connector_Interface $connector)
     {
         $this->connector = $connector;
     }
 
-    protected function connector($connector)
+    /**
+     * Setter for connector.
+     *
+     * @param DoozR_Base_Connector_Interface $connector The connector instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function connector(DoozR_Base_Connector_Interface $connector)
     {
         $this->setConnector($connector);
         return $this;
     }
 
     /**
-     * @return DoozR_Base_Connector_Interface
+     * Getter for connector.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Connector_Interface|null DoozR_Base_Connector_Interface if set, otherwise NULL
+     * @access protected
      */
     protected function getConnector()
     {
         return $this->connector;
     }
 
-    protected function setModel($model)
+    /**
+     * Setter for model.
+     *
+     * @param DoozR_Base_Model_Interface $model The model
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setModel(DoozR_Base_Model_Interface $model)
     {
         $this->model = $model;
     }
 
+    /**
+     * Setter for model.
+     *
+     * @param DoozR_Base_Model_Interface $model The model
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function model($model)
     {
-        $this->setConnector($model);
+        $this->setModel($model);
         return $this;
     }
 
     /**
-     * @return DoozR_Base_Model_Interface
+     * Getter for model.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Model_Interface|null DoozR_Base_Model_Interface if set, otherwise NULL
+     * @access protected
      */
     protected function getModel()
     {
         return $this->model;
     }
 
-    protected function setView($view)
+    /**
+     * Setter for view.
+     *
+     * @param DoozR_Base_View_Interface $view The view
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setView(DoozR_Base_View_Interface $view)
     {
         $this->view = $view;
     }
 
-    protected function view($view)
+    /**
+     * Setter for view.
+     *
+     * @param DoozR_Base_View_Interface $view The view
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function view(DoozR_Base_View_Interface $view)
     {
         $this->setView($view);
         return $this;

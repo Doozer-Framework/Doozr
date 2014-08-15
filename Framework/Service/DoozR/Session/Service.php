@@ -4,8 +4,10 @@
 /**
  * DoozR - Session - Service
  *
- * Service.php - Session-Management-Class with support for en-/decrypting sessions (+ vars)
- * with high secure encryption standard AES
+ * Service.php - Session Facade to PHP's session implementation. Brings a lot of required
+ * stuff like support for en-/decrypting sessions (for both variables and content - both
+ * configurable) with high secure encryption standard AES256! Also brings session fixation
+ * protection with a configurable regenerate cycle, IP-binding, and so on ...
  *
  * PHP versions 5
  *
@@ -54,13 +56,15 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Serviceloader.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
 
 /**
  * DoozR - Session - Service
  *
- * Session-Management-Class with support for en-/decrypting sessions (+ vars) with high secure encryption standard AES
+ * Session Facade to PHP's session implementation. Brings a lot of required
+ * stuff like support for en-/decrypting sessions (for both variables and content - both
+ * configurable) with high secure encryption standard AES256! Also brings session fixation
+ * protection with a configurable regenerate cycle, IP-binding, and so on ...
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -77,101 +81,101 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     implements DoozR_Base_Crud_Interface
 {
     /**
-     * Contains instance of module DoozR_Crypt
+     * Instance of DoozR_Crypt
      *
-     * @var object
-     * @access private
+     * @var DoozR_Crypt
+     * @access protected
      */
-    private $_crypt;
+    protected $crypt;
 
     /**
-     * Contains instance of DoozR_Logger
+     * Instance of DoozR_Logger
      *
-     * @var object
-     * @access private
+     * @var DoozR_Logger
+     * @access protected
      */
-    private $_logger;
+    protected $logger;
 
     /**
-     * The session-id
+     * Session-Id
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_id;
+    protected $id;
 
     /**
-     * The IP-address of the client
+     * IP-address of the client
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_clientIp;
+    protected $clientIp;
 
     /**
-     * The user-agent of the client
+     * User-Agent of the client
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_userAgent;
+    protected $userAgent;
 
     /**
-     * The domain used for cookie(s)
+     * Domain used for cookie(s)
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_domain;
+    protected $domain;
 
     /**
      * The path used for session cookie(s)
      *
      * @var integer
-     * @access private
+     * @access protected
      */
-    private $path = self::DEFAULT_BIND_PATH_PATH;
+    protected $path = self::DEFAULT_BIND_PATH_PATH;
 
     /**
-     * The lifetime of the session.
+     * Lifetime of Session.
      * Default is 3600 (1h = 60 minutes * 60 seconds)
      *
      * @var integer
-     * @access private
+     * @access protected
      */
-    private $_lifetime = self::DEFAULT_LIFETIME;
+    protected $lifetime = self::DEFAULT_LIFETIME;
 
     /**
-     * Contains the garbage collector time.
+     * Garbage collector time.
      *
      * @var integer
-     * @access private
+     * @access protected
      */
-    private $_gcTime = self::DEFAULT_GCTIME;
+    protected $gcTime = self::DEFAULT_GCTIME;
 
     /**
-     * holds session identifier name
+     * Session identifier name
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_identifier = self::DEFAULT_IDENTIFIER;
+    protected $identifier = self::DEFAULT_IDENTIFIER;
 
     /**
      * Contains status of ssl secure
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_ssl = self::DEFAULT_SEC_FLAG_SSL;
+    protected $ssl = self::DEFAULT_SEC_FLAG_SSL;
 
     /**
      * Contains status of httpOnly secure
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_httpOnly = self::DEFAULT_SEC_FLAG_HTTPONLY;
+    protected $httpOnly = self::DEFAULT_SEC_FLAG_HTTPONLY;
 
     /**
      * Contains obfuscate status for session (-identifier/-name)
@@ -180,26 +184,26 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @see: $_identifier
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_obfuscate = self::DEFAULT_OBFUSCATE;
+    protected $obfuscate = self::DEFAULT_OBFUSCATE;
 
     /**
      * holds status of session encrypting
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_encrypt = self::DEFAULT_ENCRYPT;
+    protected $encrypt = self::DEFAULT_ENCRYPT;
 
     /**
      * Contains true if cookies are used for storing session
      * otherwise false if not
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_useCookies = self::DEFAULT_USE_COOKIES;
+    protected $useCookies = self::DEFAULT_USE_COOKIES;
 
     /**
      * Contains the current status of session.
@@ -207,17 +211,17 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * False = modifications of parameter still possible
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_started = false;
+    protected $started = false;
 
     /**
      * Contains the private key for en-/ and decryption
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_privateKey;
+    protected $privateKey;
 
     /**
      * Contains the count of cycles on which the Session-Id
@@ -233,9 +237,9 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @example: "start"-calls are executed right after a session was started.
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_callStack = array(
+    protected $callStack = array(
         'start' => array()
     );
 
@@ -244,9 +248,9 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * like http-only. Default assumes not supported = false
      *
      * @var boolean
-     * @access private
+     * @access protected
      */
-    private $_flags = array(
+    protected $flags = array(
         'httpOnly' => false,
         'ssl'      => false
     );
@@ -434,10 +438,6 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     const DEFAULT_SEC_FLAG_HTTPONLY = false;
 
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
     /**
      * replacement for __construct
      *
@@ -458,7 +458,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     public function __tearup($sessionId = null, $autoInit = false, $phpVersion = DOOZR_PHP_VERSION)
     {
         // get instance of logger
-        $this->_logger = (isset($this->registry->logger)) ? $this->registry->logger : null;
+        $this->logger = (isset(self::getRegistry()->logger)) ? self::getRegistry()->logger : null;
 
         // store session-id always
         $this->setId($sessionId);
@@ -475,10 +475,10 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         $this->setFlagStatus('ssl', ($phpVersion >= 4.1));
 
         // automatic start session?
-        if ($autoInit === true || $this->registry->config->session->autoinit()) {
+        if ($autoInit === true || self::getRegistry()->config->session->autoinit()) {
             // start initialization with config from core
             $this->autoInit(
-                $this->registry->config->session()
+                self::getRegistry()->config->session()
             );
         }
     }
@@ -496,22 +496,22 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function autoInit($config)
     {
-        // convert to object e.g. for case if user passes array
+        // Convert to object e.g. for case if user passes array
         if (is_array($config)) {
             $config = array_to_object($config);
         }
 
-        // setup basics
+        // Setup basics
         $this->configure(
             $config->identifier,
             $config->lifetime,
             $config->gcTime
         );
 
-        // setup security if enabled
+        // Setup security if enabled
         if ($config->security->enabled) {
 
-            // security features
+            // Security features
             $this->security(
                 $config->security->ssl,
                 $config->security->httponly
@@ -524,22 +524,22 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
                 $this->disableObfuscation();
             }
 
-            // ip binding
+            // IP binding
             if ($config->security->bind->ip->enabled) {
                 $this->bindToIp($config->security->bind->ip->octets);
             }
 
-            // domain binding
+            // Domain binding
             if ($config->security->bind->domain->enabled) {
                 $this->bindToDomain($config->security->bind->domain->mode);
             }
 
-            // path binding
+            // Path binding
             if ($config->security->bind->path->enabled) {
                 $this->bindToPath($config->security->bind->path->path);
             }
 
-            // encryption
+            // Encryption
             if ($config->security->encryption->enabled) {
                 // enable encryption of session
                 $this->enableEncryption(
@@ -582,12 +582,12 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
 
         // set the identifier from configuration
         $this->setLifetime($lifetime);
-        ini_set('session.use_cookies', ($this->_useCookies) ? 1 : 0);
-        ini_set('session.cookie_lifetime', $this->_lifetime);
+        ini_set('session.use_cookies', ($this->useCookies) ? 1 : 0);
+        ini_set('session.cookie_lifetime', $this->lifetime);
 
         // set garbage collector timeout
         $this->setGcTime($gcTime);
-        ini_set('session.gc_maxlifetime', $this->_gcTime);
+        ini_set('session.gc_maxlifetime', $this->gcTime);
     }
 
     /**
@@ -649,7 +649,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         // check for lowered octet count
         if ($octets < 4) {
             // ... and if -> construct ip by given octet count
-            $ip = $this->_getDotParts($ip, $octets);
+            $ip = $this->getDotParts($ip, $octets);
         }
 
         // try to read from session
@@ -699,7 +699,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         if (!is_ip($domain)) {
             switch (strtolower($mode)) {
             case 'subdomain':
-                $domain = '.'.$this->_getDotParts($domain, 2, 'rtl');
+                $domain = '.'.$this->getDotParts($domain, 2, 'rtl');
                 break;
             }
         }
@@ -739,20 +739,20 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function enableEncryption($cipher = self::DEFAULT_ENCRYPT_CIPHER, $encoding = self::DEFAULT_ENCRYPT_ENCODING)
     {
-        // get security
+        // Get security
         include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Security.php';
 
-        // get module crypt
-        $this->_crypt = DoozR_Loader_Serviceloader::load('crypt', $cipher, $encoding);
+        // Get module crypt
+        $this->crypt = DoozR_Loader_Serviceloader::load('crypt', $cipher, $encoding);
 
-        // store private key for en-/decryption
-        $this->_privateKey = DoozR_Security::getPrivateKey();
+        // Store private key for en-/decryption
+        $this->privateKey = DoozR_Security::getPrivateKey();
 
-        // set key to crypt-module
-        $this->_crypt->setKey($this->_privateKey);
+        // Set key to crypt-module
+        $this->crypt->setKey($this->privateKey);
 
         // set enabled
-        $this->_encrypt = true;
+        $this->encrypt = true;
     }
 
     /**
@@ -766,7 +766,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function disableEncryption()
     {
-        $this->_encrypt = false;
+        $this->encrypt = false;
     }
 
     /**
@@ -780,7 +780,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function useEncryption()
     {
-        return ($this->_encrypt === true);
+        return ($this->encrypt === true);
     }
 
     /**
@@ -835,7 +835,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         }
 
         // set session-cookie-parameter
-        $this->_setSessionCookie(
+        $this->setSessionCookie(
             $this->getIdentifier(),
             ($sessionId) ? $sessionId : session_id(),
             $this->getLifetime(),
@@ -846,7 +846,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         );
 
         // check stack for functions to execute
-        $callStack = $this->_callStack['start'];
+        $callStack = $this->callStack['start'];
 
         // iterate over callstack
         foreach ($callStack as $call) {
@@ -908,7 +908,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setStarted($status)
     {
-        $this->_started = $status;
+        $this->started = $status;
     }
 
     /**
@@ -922,7 +922,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function wasStarted()
     {
-        return $this->_started;
+        return $this->started;
     }
 
     /**
@@ -941,10 +941,10 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     {
         if (is_array($flag)) {
             foreach ($flag as $singleFeature) {
-                $this->_flags[$singleFeature] = $status;
+                $this->flags[$singleFeature] = $status;
             }
         } else {
-            $this->_flags[$flag] = $status;
+            $this->flags[$flag] = $status;
         }
     }
 
@@ -961,10 +961,10 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getFlagStatus($flag = null)
     {
-        if (!$flag || !isset($this->_flags[$flag])) {
-            return $this->_flags;
+        if (!$flag || !isset($this->flags[$flag])) {
+            return $this->flags;
         } else {
-            return $this->_flags[$flag];
+            return $this->flags[$flag];
         }
     }
 
@@ -981,7 +981,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setClientIp($clientIp)
     {
-        $this->_clientIp = $clientIp;
+        $this->clientIp = $clientIp;
     }
 
     /**
@@ -995,7 +995,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getClientIp()
     {
-        return $this->_clientIp;
+        return $this->clientIp;
     }
 
     /**
@@ -1011,7 +1011,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setUserAgent($userAgent)
     {
-        $this->_userAgent = $userAgent;
+        $this->userAgent = $userAgent;
     }
 
     /**
@@ -1025,7 +1025,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getUserAgent()
     {
-        return $this->_userAgent;
+        return $this->userAgent;
     }
 
     /**
@@ -1041,7 +1041,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setDomain($domain)
     {
-        $this->_domain = $domain;
+        $this->domain = $domain;
     }
 
     /**
@@ -1055,7 +1055,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getDomain()
     {
-        return $this->_domain;
+        return $this->domain;
     }
 
     /**
@@ -1069,7 +1069,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function enableObfuscation()
     {
-        $this->_obfuscate = true;
+        $this->obfuscate = true;
     }
 
     /**
@@ -1083,7 +1083,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function disableObfuscation()
     {
-        $this->_obfuscate = false;
+        $this->obfuscate = false;
     }
 
     /**
@@ -1097,7 +1097,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function useObfuscation()
     {
-        return ($this->_obfuscate === true);
+        return ($this->obfuscate === true);
     }
 
     /**
@@ -1113,7 +1113,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setSsl($status)
     {
-        $this->_ssl = $status;
+        $this->ssl = $status;
     }
 
     /**
@@ -1127,7 +1127,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getSsl()
     {
-        return $this->_ssl;
+        return $this->ssl;
     }
 
     /**
@@ -1143,7 +1143,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setHttpOnly($status)
     {
-        $this->_httpOnly = $status;
+        $this->httpOnly = $status;
     }
 
     /**
@@ -1157,7 +1157,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getHttpOnly()
     {
-        return $this->_httpOnly;
+        return $this->httpOnly;
     }
 
     /**
@@ -1175,10 +1175,10 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     public function set($variable, $value)
     {
         // translate (if encryption enabled) variable
-        $variable = $this->_translate($variable);
+        $variable = $this->translate($variable);
 
         // translate (if encryption enabled) value
-        $value = $this->_translate($value);
+        $value = $this->translate($value);
 
         // and store
         $_SESSION[$variable] = $value;
@@ -1201,14 +1201,14 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     public function get($variable, $value = null)
     {
         // translate call for variable identifier (_translate() just encrypt the name if encryption is enabled)
-        $variable = $this->_translate($variable);
+        $variable = $this->translate($variable);
 
         // check if requestes var is set
         if (isset($_SESSION[$variable])) {
             // if session is encrypted
             if ($this->useEncryption()) {
                 // get decrypted value -> decrypt -> unserialized
-                $value = $this->_crypt->decrypt($_SESSION[$variable], $this->_privateKey);
+                $value = $this->crypt->decrypt($_SESSION[$variable], $this->privateKey);
             } else {
                 // return plain from session
                 $value = $_SESSION[$variable];
@@ -1238,7 +1238,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     public function issetVariable($variable)
     {
         // translate the variable-name
-        $variable = $this->_translate($variable);
+        $variable = $this->translate($variable);
 
         // return the isset status of given variable
         return isset($_SESSION[$variable]);
@@ -1258,7 +1258,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     public function unsetVariable($variable)
     {
         // translate variable name
-        $variable = $this->_translate($variable);
+        $variable = $this->translate($variable);
 
         // unset
         unset($_SESSION[$variable]);
@@ -1280,7 +1280,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setId($sessionId)
     {
-        $this->_id = $sessionId;
+        $this->id = $sessionId;
     }
 
     /**
@@ -1294,7 +1294,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -1319,7 +1319,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         }
 
         // store identifier
-        $this->_identifier = $identifier;
+        $this->identifier = $identifier;
     }
 
     /**
@@ -1333,16 +1333,28 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getIdentifier()
     {
-        // get identifier
-        $identifier = $this->_identifier;
+        // Get identifier
+        $identifier = $this->identifier;
 
-        // if identifier must be obfuscated
+
+        // Who is requesting (fingerprint client)
+        $allHeaders = getallheaders();
+
+        // Get arguments
+        $headers = array(
+            (isset($allHeaders['USER_AGENT']))      ? $allHeaders['USER_AGENT']      : null,
+            (isset($allHeaders['ACCEPT']))          ? $allHeaders['ACCEPT']          : null,
+            (isset($allHeaders['ACCEPT_LANGUAGE'])) ? $allHeaders['ACCEPT_LANGUAGE'] : null,
+            (isset($allHeaders['ACCEPT_ENCODING'])) ? $allHeaders['ACCEPT_ENCODING'] : null,
+        );
+
+        // If identifier must be obfuscated
         if ($this->useObfuscation()) {
-            $identifier = $this->_hash(
+            $identifier = $this->generateHash(
                 $identifier.
-                $this->getFingerprint(
+                $this->generateFingerprint(
                     $this->getClientIp(),
-                    $this->getUserAgent()
+                    $headers
                 )
             );
         }
@@ -1360,12 +1372,12 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @return string Fingerprint for input
      * @access public
      */
-    public function getFingerprint()
+    public function generateFingerprint()
     {
-        // assume empty fingerprint
+        // Assume empty fingerprint
         $fingerprint = '';
 
-        // get arguments
+        // Get arguments
         $arguments = func_get_args();
 
         foreach ($arguments as $argument) {
@@ -1388,7 +1400,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setLifetime($lifetime)
     {
-        $this->_lifetime = $lifetime;
+        $this->lifetime = $lifetime;
     }
 
     /**
@@ -1402,7 +1414,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getLifetime()
     {
-        return $this->_lifetime;
+        return $this->lifetime;
     }
 
     /**
@@ -1418,7 +1430,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function setGcTime($gcTime)
     {
-        $this->_gcTime = $gcTime;
+        $this->gcTime = $gcTime;
     }
 
     /**
@@ -1432,7 +1444,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     public function getGcLifetime()
     {
-        return $this->_gcTime;
+        return $this->gcTime;
     }
 
     /**
@@ -1505,14 +1517,14 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         // set only if cycle count is given
         if ($cycles > 0) {
             // execute right after session start
-            $this->_callStack['start']['regenerate'] = array(
+            $this->callStack['start']['regenerate'] = array(
                 $this,
                 'handleRegenerate'
             );
         } else {
             // remove from callstack if exists
-            if (isset($this->_callStack['start']['regenerate'])) {
-                unset($this->_callStack['start']['regenerate']);
+            if (isset($this->callStack['start']['regenerate'])) {
+                unset($this->callStack['start']['regenerate']);
             }
         }
     }
@@ -1592,7 +1604,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         }
 
         // reset session cookie
-        $status &= $this->_setSessionCookie(
+        $status &= $this->setSessionCookie(
             $this->getIdentifier(),
             $this->getId(),
             $lifetime,
@@ -1672,14 +1684,6 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         return $this->unsetVariable($key);
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN PRIVATE METHODS
-     ******************************************************************************************************************/
-
     /**
      * Forwards a message to passed logger if exists (not null)
      *
@@ -1691,8 +1695,8 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      */
     protected function log($message)
     {
-        if ($this->_logger !== null) {
-            $this->_logger->log($message);
+        if ($this->logger !== null) {
+            $this->logger->log(DoozR_Logger_Constant::DEBUG, $message);
         }
     }
 
@@ -1710,10 +1714,10 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      * @param mixed   $httpOnly   NULL (default) to do not set this flag, TRUE to set, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
+     * @return boolean TRUE if operation was successful, otherwise FALSE
+     * @access protected
      */
-    private function _setSessionCookie($identifier, $sessionId, $lifetime, $path, $domain, $ssl, $httpOnly = null)
+    protected function setSessionCookie($identifier, $sessionId, $lifetime, $path, $domain, $ssl, $httpOnly = null)
     {
         // calculate concrete expiration date/time
         $expire = time() + $lifetime;
@@ -1721,11 +1725,13 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
         // check for httpOnly - cause only supported >= 5.2
         if ($httpOnly != null && $this->getFlagStatus('httpOnly')) {
             session_set_cookie_params($lifetime, $path, $domain, $ssl, $httpOnly);
-            return setcookie($identifier, $sessionId, $expire, $path, $domain, $ssl, $httpOnly);
+            $result = setcookie($identifier, $sessionId, $expire, $path, $domain, $ssl, $httpOnly);
         } else {
             session_set_cookie_params($lifetime, $path, $domain, $ssl);
-            return setcookie($identifier, $sessionId, $expire, $path, $domain, $ssl);
+            $result = setcookie($identifier, $sessionId, $expire, $path, $domain, $ssl);
         }
+
+        return $result;
     }
 
     /**
@@ -1737,13 +1743,13 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The input encrypted or plain if encryption is enabled
-     * @access private
+     * @access protected
      */
-    private function _translate($string)
+    protected function translate($string)
     {
         // check if encryption is enabled
         if ($this->useEncryption()) {
-            $string = $this->_crypt->encrypt($string, $this->_privateKey);
+            $string = $this->crypt->encrypt($string, $this->privateKey);
         }
 
         // (otherwise just) return the string
@@ -1761,9 +1767,9 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting String
-     * @access private
+     * @access protected
      */
-    private function _getDotParts($string, $parts, $direction = 'ltr')
+    protected function getDotParts($string, $parts, $direction = 'ltr')
     {
         if ($direction == 'ltr') {
             return implode('.', array_slice(explode('.', $string), 0, $parts));
@@ -1773,20 +1779,36 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     }
 
     /**
-     * This method is intend to return hash-value for passed string.
+     * Returns hash-value for passed in phrase.
      *
-     * @param string $string The string to hash
+     * @param string $phrase The phrase to return hash for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting String
-     * @access privat
+     * @access protected
      */
-    private function _hash($string)
+    protected function generateHash($phrase)
     {
-        return md5($string);
-    }
+        // bytes * bits
+        $size = strlen($phrase) * 8;
 
-    /*******************************************************************************************************************
-     * \\ END PRIVATE METHODS
-     ******************************************************************************************************************/
+        if (DOOZR_SECURE_HASH === true && $size >= 1024) {
+            $hash = hash('sha512', $phrase);
+
+        } elseif (DOOZR_SECURE_HASH === true && $size >= 768) {
+            $hash = hash('sha256', $phrase);
+
+        } elseif (DOOZR_SECURE_HASH === true && $size >= 512) {
+            $hash = hash('sha256', $phrase);
+
+        } elseif ($size >= 320) {
+            $hash = sha1($phrase);
+
+        } else {
+            $hash = md5($phrase);
+
+        }
+
+        return $hash;
+    }
 }

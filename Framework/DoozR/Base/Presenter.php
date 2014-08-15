@@ -150,50 +150,53 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * The count of root nodes
      *
      * @var integer
-     * @access private
+     * @access protected
      */
-    private $_nodes;
+    protected $nodes;
 
     /**
      * The ids of the route
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_ids;
+    protected $ids;
 
     /**
      * The URL of the route
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_url;
+    protected $url;
 
     /**
      * The route
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_route;
+    protected $route;
 
 
     /**
      * Constructor.
      *
-     * @param DoozR_Base_State_Interface $requestState    The whole request as state
-     * @param array                      $request         The request
-     * @param array                      $translation     The translation required to read the request
-     * @param DoozR_Config_Interface     $configuration   The DoozR main config instance
-     * @param DoozR_Base_Model           $model           The model to communicate with backend (db)
-     * @param DoozR_Base_View            $view            The view to display results
+     * @param DoozR_Registry             $registry      Instance of DoozR_Registry containing all core components
+     * @param DoozR_Base_State_Interface $requestState  The whole request as state
+     * @param array                      $request       The request
+     * @param array                      $translation   The translation required to read the request
+     * @param DoozR_Config_Interface     $configuration The DoozR main config instance
+     * @param DoozR_Base_Model           $model         The model to communicate with backend (db)
+     * @param DoozR_Base_View            $view          The view to display results
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Presenter
      * @access public
+     * @throws DoozR_Base_Presenter_Exception
      */
     public function __construct(
+        DoozR_Registry             $registry,
         DoozR_Base_State_Interface $requestState,
         array                      $request,
         array                      $translation,
@@ -201,14 +204,15 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
         DoozR_Base_Model           $model            = null,
         DoozR_Base_View            $view             = null
     ) {
-        /* @var $requestState DoozR_Request_State */
-        $this->request         = $request;
-        $this->translation     = $translation;
-        $this->originalRequest = $requestState->getRequest();
-        $this->model           = $model;
-        $this->view            = $view;
-
-        $this->setConfiguration($configuration);
+        // Store instances for further use ...
+        $this
+            ->registry($registry)
+            ->request($request)
+            ->translation($translation)
+            ->originalRequest($requestState->getRequest())
+            ->model($model)
+            ->view($view)
+            ->setConfiguration($configuration);
 
         // Check if an app is configured -> enable autoloading for it automagically
         if (isset($this->getConfiguration()->app)) {
@@ -222,30 +226,49 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
 
         // check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
-            $this->__tearup($this->request, $this->translation);
+            $result = $this->__tearup($this->request, $this->translation);
+
+            if ($result !== true) {
+                throw new DoozR_Base_Presenter_Exception(
+                    '__tearup() must (if set) return TRUE. __tearup() executed and it returned: ' .
+                    var_export($result, true)
+                );
+            }
         }
     }
 
     /**
-     * This method is intend to call the teardown method of a model if exist
+     * Setter for request.
+     *
+     * @param array $request The request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function __destruct()
+    protected function setRequest(array $request)
     {
-        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
-        if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
-            $this->__teardown();
-        }
+        $this->request = $request;
     }
 
     /**
-     * Returns the current active processed request as array.
-     * If passed FALSE ($original = false) this method will
-     * return the modified (already rewritten request) when
-     * TRUE is passed then this method will return the original
+     * Setter for request.
+     *
+     * @param array $request The request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function request(array $request)
+    {
+        $this->setRequest($request);
+        return $this;
+    }
+
+    /**
+     * Returns the current active processed request as array. If passed FALSE ($original = false) this method will
+     * return the modified (already rewritten request) when TRUE is passed then this method will return the original
      * request.
      *
      * @param boolean $original TRUE [default] to retrieve the raw request, FALSE to retrieve rewritten request
@@ -266,8 +289,342 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     }
 
     /**
-     * Registers an autoloader instance SPL with highest priority
-     * for loading classes of the app.
+     * Setter for translation.
+     *
+     * @param array $translation The translation to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setTranslation(array $translation)
+    {
+        $this->translation = $translation;
+    }
+
+    /**
+     * Setter for translation.
+     *
+     * @param array $translation The translation to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function translation(array $translation)
+    {
+        $this->setTranslation($translation);
+        return $this;
+    }
+
+    /**
+     * Getter for translation.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array|null The translation stored, otherwise NULL
+     * @access protected
+     */
+    protected function getTranslation()
+    {
+        return $this->translation;
+    }
+
+    /**
+     * Setter for originalRequest.
+     *
+     * @param mixed $originalRequest The originalRequest to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setOriginalRequest($originalRequest)
+    {
+        $this->originalRequest = $originalRequest;
+    }
+
+    /**
+     * Setter for originalRequest.
+     *
+     * @param mixed $originalRequest The originalRequest to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function originalRequest($originalRequest)
+    {
+        $this->setOriginalRequest($originalRequest);
+        return $this;
+    }
+
+    /**
+     * Getter for originalRequest.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The originalRequest stored, otherwise NULL
+     * @access protected
+     */
+    protected function getOriginalRequest()
+    {
+        return $this->originalRequest;
+    }
+
+    /**
+     * Setter for model.
+     *
+     * @param DoozR_Base_Model $model The model to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setModel(DoozR_Base_Model $model)
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * @param DoozR_Base_Model $model
+     * @return $this
+     */
+    protected function model(DoozR_Base_Model $model)
+    {
+        $this->setModel($model);
+        return $this;
+    }
+
+    /**
+     * Getter for model.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Model|null The model if set, otherwise NULL
+     * @access protected
+     */
+    protected function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Setter for view.
+     *
+     * @param DoozR_Base_View $view The view to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setView(DoozR_Base_View $view)
+    {
+        $this->view = $view;
+    }
+
+    /**
+     * Setter for view.
+     *
+     * @param DoozR_Base_View $view The view to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function view(DoozR_Base_View $view)
+    {
+        $this->setView($view);
+        return $this;
+    }
+
+    /**
+     * Getter for view.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_View|null The view if set, otherwise NULL
+     * @access protected
+     */
+    protected function getView()
+    {
+        return $this->view;
+    }
+
+    /**
+     * This method (container) is intend to set the data for a requested mode.
+     *
+     * @param mixed $data The data (array preferred) to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean True if everything wends fine, otherwise false
+     * @access public
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        // notify observers about new data
+        $this->notify();
+    }
+
+    /**
+     * Setter for data.
+     *
+     * @param mixed $data The data to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function data($data)
+    {
+        $this->setData($data);
+        return $this;
+    }
+
+    /**
+     * This method (container) is intend to return the data for a requested mode.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data for the mode requested
+     * @access public
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Sets the ids of the route
+     *
+     * @param array $ids The ids of the route
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function setIds(array $ids)
+    {
+        $this->ids = $ids;
+    }
+
+    /**
+     * Sets the ids of the route
+     *
+     * @param array $ids The ids of the route
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function ids(array $ids)
+    {
+        $this->setIds($ids);
+        return $this;
+    }
+
+    /**
+     * Returns the ids of the route.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The ids of the route
+     * @access protected
+     */
+    protected function getIds()
+    {
+        return $this->ids;
+    }
+
+    /**
+     * Setter for configuration.
+     *
+     * @param DoozR_Config_Interface $configuration The configuation object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    protected function setConfiguration(DoozR_Config_Interface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * Setter for configuration.
+     *
+     * @param DoozR_Config_Interface $configuration The configuation object
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    protected function configuration(DoozR_Config_Interface $configuration)
+    {
+        $this->setConfiguration($configuration);
+        return $this;
+    }
+
+    /**
+     * Getter for configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Config_Interface The configuration stored
+     * @access public
+     */
+    protected function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * Sets the count of root nodes for request.
+     *
+     * @param integer $countOfRootNodes The count of root nodes
+     *
+     * @example if request is /foo/bar/1234 and the root node count
+     *          is 2 then all operations will use /foo and /bar as
+     *          root.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setNodes($countOfRootNodes)
+    {
+        $this->nodes = $countOfRootNodes;
+    }
+
+    /**
+     * Sets the count of root nodes for request.
+     *
+     * @param integer $countOfRootNodes The count of root nodes
+     *
+     * @example if request is /foo/bar/1234 and the root node count
+     *          is 2 then all operations will use /foo and /bar as
+     *          root.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Presenter
+     * @access protected
+     */
+    protected function nodes($countOfRootNodes)
+    {
+        $this->setNodes($countOfRootNodes);
+
+        return $this;
+    }
+
+    /**
+     * Returns the count of root nodes.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer The count of root nodes
+     * @access protected
+     */
+    protected function getNodes()
+    {
+        return $this->nodes;
+    }
+
+    /**
+     * Registers an autoloader instance SPL with highest priority for loading classes of the app.
      *
      * @param object $app The app configuration object
      *
@@ -374,35 +731,6 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     }
 
     /**
-     * This method (container) is intend to set the data for a requested mode.
-     *
-     * @param mixed   $data      The data (array preferred) to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if everything wends fine, otherwise false
-     * @access public
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-
-        // notify observers about new data
-        $this->notify();
-    }
-
-    /**
-     * This method (container) is intend to return the data for a requested mode.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data for the mode requested
-     * @access public
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
      * Adds a HTTP-method (verb like GET, HEAD, PUT, POST ...) to the list
      * of allowed methods for this presenter.
      *
@@ -410,7 +738,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @see    http://tools.ietf.org/html/rfc1945#page-30
-     * @return DoozR_Base_Presenter Instance for chaining
+     * @return $this Instance for chaining
      * @access protected
      */
     protected function allow($methods)
@@ -569,7 +897,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      */
     protected function route($route)
     {
-        $this->_route = $route;
+        $this->route = $route;
 
         return $this;
     }
@@ -585,153 +913,8 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      */
     protected function url($url)
     {
-        $this->_url = $url;
+        $this->url = $url;
         return $this;
-    }
-
-    /**
-     * Sets the ids of the route
-     *
-     * @param array $ids The ids of the route
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter
-     * @access protected
-     */
-    protected function ids(array $ids)
-    {
-        $this->setIds($ids);
-        return $this;
-    }
-
-    /**
-     * Sets the ids of the route
-     *
-     * @param array $ids The ids of the route
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter
-     * @access protected
-     */
-    protected function setIds(array $ids)
-    {
-        $this->_ids = $ids;
-    }
-
-    /**
-     * Returns the ids of the route.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The ids of the route
-     * @access protected
-     */
-    protected function getIds()
-    {
-        return $this->_ids;
-    }
-
-    /**
-     * Setter for configuration.
-     *
-     * @param DoozR_Config_Interface $configuration The configuation object
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    protected function setConfiguration(DoozR_Config_Interface $configuration)
-    {
-        $this->configuration = $configuration;
-    }
-
-    /**
-     * Getter for configuration.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config_Interface The configuration stored
-     * @access public
-     */
-    protected function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    /**
-     * Sets the count of root nodes for request.
-     *
-     * @param integer $countOfRootNodes The count of root nodes
-     *
-     * @example if request is /foo/bar/1234 and the root node count
-     *          is 2 then all operations will use /foo and /bar as
-     *          root.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter
-     * @access protected
-     */
-    protected function nodes($countOfRootNodes)
-    {
-        $this->setNodes($countOfRootNodes);
-
-        return $this;
-    }
-
-    /**
-     * Sets the count of root nodes for request.
-     *
-     * @param integer $countOfRootNodes The count of root nodes
-     *
-     * @example if request is /foo/bar/1234 and the root node count
-     *          is 2 then all operations will use /foo and /bar as
-     *          root.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setNodes($countOfRootNodes)
-    {
-        $this->_nodes = $countOfRootNodes;
-    }
-
-    /**
-     * Returns the count of root nodes.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The count of root nodes
-     * @access protected
-     */
-    protected function getNodes()
-    {
-        return $this->_nodes;
-    }
-
-    /**
-     * Setter for model.
-     *
-     * @param DoozR_Base_Model $model The model to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setModel(DoozR_Base_Model $model)
-    {
-        $this->model = $model;
-    }
-
-    /**
-     * Getter for model.
-     *
-     * @param DoozR_Base_Model $model The model to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Model|null The model if set, otherwise NULL
-     * @access protected
-     */
-    protected function getModel()
-    {
-        return $this->model;
     }
 
     /**
@@ -746,5 +929,20 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     {
         // runs all the stuff required to setup the API service
         return $this;
+    }
+
+    /**
+     * This method is intend to call the teardown method of a model if exist
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function __destruct()
+    {
+        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
+            $this->__teardown();
+        }
     }
 }

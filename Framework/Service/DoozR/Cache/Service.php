@@ -55,7 +55,6 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Psr/Cache/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Exception.php';
 
 /**
  * DoozR - Cache - Service
@@ -245,7 +244,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     {
         // correct format filename
         $container = ucfirst(strtolower($container));
-        $filename  = $this->getPathToClass().'Service'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.$container.'.php';
+
+        $filename  = $this->getPathToClass() .
+            'Service' . DIRECTORY_SEPARATOR . 'Container' . DIRECTORY_SEPARATOR . $container . '.php';
 
         return file_exists($filename);
     }
@@ -845,12 +846,14 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of the container
      * @access private
+     * @throws DoozR_Cache_Service_Exception
      */
     private function _containerFactory($container, array $containerOptions = array())
     {
         $container = ucfirst(strtolower($container));
         $class     = __CLASS__.'_Container_'.$container;
-        $file      = $this->registry->path->get('module').str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+        $file      = $this->getRegistry()->path->get('service') .
+            str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
 
         // check if file exists
         if (!file_exists($file)) {
@@ -906,6 +909,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if dataset could be written, otherwise FALSE
      * @access public
+     * @throws DoozR_Cache_Service_Exception
      */
     private function _createExt($id, $data, $expires = null, $group = 'Default', $userdata = '')
     {

@@ -271,7 +271,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
     {
         $container = ucfirst(strtolower($container));
         $class     = __CLASS__.'_Container_'.$container;
-        $file      = $this->registry->path->get('module').str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+        $file      = $this->registry->path->get('service').str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
 
         // check if file exists
         if (!file_exists($file)) {

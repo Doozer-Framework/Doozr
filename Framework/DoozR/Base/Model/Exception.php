@@ -2,10 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Class
+ * DoozR - Base - Model - Exception
  *
- * Class.php - Base-Class for all classes of the DoozR Framework except
- * the classes following the singleton pattern.
+ * Exception.php - Exception for Model
  *
  * PHP versions 5
  *
@@ -45,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Base
- * @subpackage DoozR_Base_Class
+ * @subpackage DoozR_Base_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,85 +52,23 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Tools.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 
 /**
- * DoozR - Base - Class
+ * DoozR - Base - Model - Rest - Exception
  *
- * Base-Class for all classes of the DoozR Framework except the classes following
- * the singleton pattern.
+ * Exception for base Model
  *
  * @category   DoozR
  * @package    DoozR_Base
- * @subpackage DoozR_Base_Class
+ * @subpackage DoozR_Base_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Class extends DoozR_Base_Tools
+class DoozR_Base_Model_Exception extends DoozR_Base_Exception
 {
-    /**
-     * The registry instance injected in all core classes
-     * based on DoozR_Base_Class.
-     *
-     * @var DoozR_Registry
-     * @access protected
-     */
-    protected $registry;
-
-
-    /**
-     * Constructor.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Class Instance
-     * @access public
-     */
-    public function __construct()
-    {
-        // Intentionally left blank - But is required for generic Serviceloader!
-    }
-
-    /**
-     * Setter for registry
-     *
-     * @param DoozR_Registry $registry The registry instance
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setRegistry(DoozR_Registry $registry)
-    {
-        $this->registry = $registry;
-    }
-
-    /**
-     * Setter for registry with fluent API support for chaining calls.
-     *
-     * @param DoozR_Registry $registry The registry instance
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access protected
-     */
-    protected function registry(DoozR_Registry $registry)
-    {
-        $this->setRegistry($registry);
-        return $this;
-    }
-
-    /**
-     * Getter for registry
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Registry The registry of DoozR
-     * @access protected
-     */
-    protected function getRegistry()
-    {
-        return $this->registry;
-    }
+    // Intentionally left blank -> Just for namespacing
 }

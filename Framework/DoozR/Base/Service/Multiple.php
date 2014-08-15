@@ -71,18 +71,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
 class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container
 {
     /**
-     * Contains the instance of DoozR_Registry
-     *
-     * @var object
-     * @access protected
-     * @static
-     */
-    protected $registry;
-
-    /**
-     * Autoloader auto install control flag
-     * If set to TRUE in inheritent class the autoloader
-     * will be installed automatically.
+     * Autoloader auto install control flag.
+     * If set to TRUE in inheritent class the autoloader will be installed automatically.
      *
      * @var boolean
      * @access protected
@@ -101,15 +91,13 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container
     /**
      * Constructor.
      *
-     * This method acts as constructor.
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Service_Multiple
      * @access public
      */
     public function __construct()
     {
-        // filter out registry and store accessible through static $registry!
+        // Filter out registry and store accessible through static $registry!
         $arguments = func_get_args();
         $this->registry = &$arguments[0];
         $arguments = array_slice($arguments, 1);
@@ -136,9 +124,7 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container
     }
 
     /**
-     * Destructor
-     *
-     * This method acts as destructor.
+     * Destructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

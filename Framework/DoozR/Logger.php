@@ -75,7 +75,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Constant.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Abstract.php, Interface.php
  */
 final class DoozR_Logger extends DoozR_Logger_Abstract
     implements
@@ -300,7 +299,6 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
         }
 
         $this->clear();
-        #$this->clearContent();
     }
 
     /*------------------------------------------------------------------------------------------------------------------

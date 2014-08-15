@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Security
+ * DoozR - Security
  *
- * Security.php - Security of the DoozR Framework
+ * Security.php - Access to private/public keys for security operations of
+ * the DoozR Framework.
  *
  * PHP versions 5
  *
@@ -58,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 /**
  * DoozR Security
  *
- * Security of the DoozR Framework
+ * Access to private/public keys for security operations of the DoozR Framework.
  *
  * @category   DoozR
  * @package    DoozR_Core
@@ -72,56 +73,49 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 class DoozR_Security extends DoozR_Base_Class_Singleton
 {
     /**
-     * Contains an instance of DoozR_Config
+     * Instance of DoozR_Config
      *
-     * @var object
-     * @access private
+     * @var DoozR_Config
+     * @access protected
      */
-    private static $_config;
+    protected static $config;
 
     /**
      * Contains an instance of DoozR_Logger
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private static $_logger;
+    protected static $logger;
 
 
     /**
-     * constructor
+     * Constructor.
      *
-     * This method is the constructor of the core class.
+     * @param DoozR_Config $config Instance of DoozR_Config
+     * @param DoozR_Logger $logger Instance of DoozR_Logger
      *
-     * @param object $config An instance of DoozR_Config
-     * @param object $logger An instance of DoozR_Logger
-     *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Security
+     * @access protected
      */
     protected function __construct(DoozR_Config $config, DoozR_Logger $logger)
     {
-        // store instances
-        self::$_config = $config;
-        self::$_logger = $logger;
+        self::$config = $config;
+        self::$logger = $logger;
     }
 
     /**
-     * returns the current private key
+     * Returns private key of DoozR
      *
      * This method is intend to return the current private key.
      *
-     * @param integer $bit The Bit-Count for the private key (e.g. 256 / 512 / 1024)
+     * @param int $bit The Bit-Count for the private key (e.g. 256 / 512 / 1024)
      *
-     * @return  string The current private key
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @throws  DoozR_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The current private key
+     * @access public
+     * @throws DoozR_Exception
      */
     public static function getPrivateKey($bit = 256)
     {
@@ -134,7 +128,7 @@ class DoozR_Security extends DoozR_Base_Class_Singleton
         $bytes = round($bit / 8);
 
         // get whole key
-        $key = self::$_config->crypt->keys->private();
+        $key = self::$config->crypt->keys->private();
 
         // return extracted key
         return substr($key, (strlen($key) - $bytes), $bytes);

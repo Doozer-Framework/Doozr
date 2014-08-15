@@ -87,7 +87,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * @var DoozR_Registry
      * @access protected
      */
-    protected $registry;
+    #protected $registry;
 
     /**
      * holds the reference to request
@@ -165,7 +165,8 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
         DoozR_Registry $registry
     ) {
         // NEW: Store only the registry/app instance
-        $this->registry = $registry;
+        #$this->registry = $registry;
+        self::setRegistry($registry);
 
         // OLD: Store instance(s)
         $this->_config = $registry->config;

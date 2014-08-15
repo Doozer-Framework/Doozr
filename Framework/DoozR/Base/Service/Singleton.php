@@ -71,14 +71,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
 {
     /**
-     * Instance of DoozR_Registry
-     *
-     * @var object
-     * @access protected
-     */
-    protected $registry;
-
-    /**
      * Autoloader auto install control flag
      * If set to TRUE in inheritent class the autoloader
      * will be installed automatically.
@@ -106,14 +98,12 @@ class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
      */
     protected function __construct()
     {
-        // filter out registry and store accessible through static $registry!
-        $arguments      = func_get_args();
-        $this->registry = &$arguments[0];
-        $arguments      = array_slice($arguments, 1);
+        // Filter out registry and store accessible through static $registry!
+        $arguments = func_get_args();
+        self::setRegistry($arguments[0]);
+        $arguments = array_slice($arguments, 1);
 
-        /**
-         * Check for automagically install autoloader
-         */
+        // Check for automagically install autoloader
         if ($this->autoloader === true) {
             $this->initAutoloader($this->getName());
         }

@@ -81,6 +81,14 @@
                 "constructor": "getInstance",
                 "dependencies": [
                     {
+                        "identifier": "DoozR_Registry",
+                        "classname": "DoozR_Registry",
+                        "instance": null,
+                        "config": {
+                            "type": "constructor"
+                        }
+                    },
+                    {
                         "identifier": "DoozR_Config",
                         "classname": "DoozR_Config",
                         "instance": null,

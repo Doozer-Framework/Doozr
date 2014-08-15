@@ -158,7 +158,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @access protected
      * @static
      */
-    protected static $registry;
+    #protected static $registry;
 
     /**
      * Instance of Dependeny-Injection map
@@ -895,19 +895,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
             //preg_match('/\d+/', self::$version, $version);
             return self::$version;
         }
-    }
-
-    /**
-     * Returns the registry of the current execution
-     * prefilled with all the base services of DoozR
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Registry
-     * @access public
-     */
-    public function getRegistry()
-    {
-        return self::$registry;
     }
 
     /*------------------------------------------------------------------------------------------------------------------

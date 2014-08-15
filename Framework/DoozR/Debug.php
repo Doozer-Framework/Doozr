@@ -189,9 +189,9 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         // Add some DoozR specific ingredients
         $exceptionHandler->setPageTitle('DoozR');
         $exceptionHandler->addDataTable("DoozR runtime environment", array(
-                "DOOZR_OS"            => DOOZR_OS,
-                "DOOZR_PHP_VERSION"   => DOOZR_PHP_VERSION,
-                "DOOZR_DOCUMENT_ROOT" => DOOZR_DOCUMENT_ROOT
+                "DOOZR_OS"            => (string)DOOZR_OS,
+                "DOOZR_PHP_VERSION"   => (string)DOOZR_PHP_VERSION,
+                "DOOZR_DOCUMENT_ROOT" => (string)DOOZR_DOCUMENT_ROOT
             )
         );
 

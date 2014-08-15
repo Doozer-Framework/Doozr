@@ -145,7 +145,7 @@ class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
      */
     public static function __callStatic($signature, $arguments)
     {
-        $targetClassname = get_class($this->decoratedObject);
+        $targetClassname = get_class(self::$decoratedObject);
 
         if ($arguments) {
             $result = call_user_func_array(

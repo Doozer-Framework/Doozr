@@ -64,8 +64,9 @@
 define('DOOZR_PHP_VERSION',   floatval(PHP_VERSION));
 define('DOOZR_PHP_ERROR_MAX', PHP_INT_MAX);
 define('DOOZR_OS',            strtoupper(PHP_OS));
-define('DOOZR_WIN',           (substr(DOOZR_OS, 0, 3) === 'WIN'));
-define('DOOZR_UNIX',          (DIRECTORY_SEPARATOR == '/' && !DOOZR_WIN));
+define('DOOZR_WIN',           (substr(DOOZR_OS, 0, 3) === 'WIN') && DIRECTORY_SEPARATOR !== '/');
+define('DOOZR_UNIX',          (DIRECTORY_SEPARATOR === '/' && !DOOZR_WIN));
+define('DOOZR_SECURE_HASH',   (DOOZR_PHP_VERSION > 5.11));
 
 
 /*----------------------------------------------------------------------------------------------------------------------

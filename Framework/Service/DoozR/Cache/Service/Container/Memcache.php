@@ -127,7 +127,7 @@ implements DoozR_Cache_Service_Container_Interface
 
 
     /**
-     * constructor
+     * Constructor.
      *
      * This method is intend to act as constructor.
      * If you use custom configuration options -> ensure that they are enabled via $thisContainerAllowedOptions!
@@ -135,7 +135,7 @@ implements DoozR_Cache_Service_Container_Interface
      * @param array $options Custom configuration options
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
+     * @return DoozR_Cache_Service_Container_Memcache
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */

@@ -128,7 +128,7 @@ interface DoozR_Path_Interface
      * @access  public
      * @static
      */
-    public static function moduleToPath($serviceName, $namespace = 'DoozR');
+    public static function serviceToPath($serviceName, $namespace = 'DoozR');
 
     /**
      * returns slash-corrected path
