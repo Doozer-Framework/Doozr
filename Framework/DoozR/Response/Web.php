@@ -758,7 +758,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function sendHtml($buffer, $etag = null, $exit = true, $charset = null)
     {
-        // check if we can deliver just a simple 304 Not modified
+        // Check if we can deliver just a simple 304 Not modified
         if ($etag && $etag === $etagReceived = $this->getEtagFromServerVariables()) {
 
             // send header and close connection
@@ -768,31 +768,27 @@ class DoozR_Response_Web extends DoozR_Base_Response
                  ->closeConnection();
         }
 
-        // otherwise we do all the checking stuff and return the complete data retrieve charset
+        // Otherwise we do all the checking stuff and return the complete data retrieve charset
         $charset = $this->getCharset($charset);
 
-        // get data of content (html)
-        $contentLength = strlen($buffer);
-
+        // Check for gzip-compression
         if ($this->isGzipCompressed() === true) {
             $this->sendHeader('Content-Encoding: gzip');
+
+        } else {
+            // Content length only a good idea if not compressed later ;)
+            $contentLength = mb_strlen($buffer);
+            $this->sendHeader('Content-Length: ' . $contentLength);
         }
 
-        // check if not already sent
-        if (!headers_sent($file, $line)) {
-            // we send html
-            header('Content-type: text/html; charset='.$charset);
+        // we send html
+        $this->sendHeader('Content-type: text/html; charset=' . $charset);
 
-            // the content has a special length
-            header('Content-Length: '.$contentLength);
-
-            if ($etag) {
-                // send an etag for php content -> reduce re-load
-                header('ETag: '.$etag);
-
-                // needed for session default override:
-                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            }
+        if ($etag) {
+            // send an etag for php content -> reduce re-load
+            $this
+                ->sendHeader('ETag: ' . $etag)
+                ->sendHeader('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         }
 
         // send the buffer/data

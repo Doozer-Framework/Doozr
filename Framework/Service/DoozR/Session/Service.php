@@ -1334,19 +1334,21 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     public function getIdentifier()
     {
         // Get identifier
-        $identifier = $this->identifier;
-
+        $identifier = 'aloha'; //$this->identifier;
 
         // Who is requesting (fingerprint client)
         $allHeaders = getallheaders();
 
         // Get arguments
+        /*
         $headers = array(
             (isset($allHeaders['USER_AGENT']))      ? $allHeaders['USER_AGENT']      : null,
             (isset($allHeaders['ACCEPT']))          ? $allHeaders['ACCEPT']          : null,
             (isset($allHeaders['ACCEPT_LANGUAGE'])) ? $allHeaders['ACCEPT_LANGUAGE'] : null,
             (isset($allHeaders['ACCEPT_ENCODING'])) ? $allHeaders['ACCEPT_ENCODING'] : null,
         );
+        */
+        $headers = array();
 
         // If identifier must be obfuscated
         if ($this->useObfuscation()) {
