@@ -67,7 +67,7 @@ define('DOOZR_OS',            strtoupper(PHP_OS));
 define('DOOZR_WIN',           (substr(DOOZR_OS, 0, 3) === 'WIN') && DIRECTORY_SEPARATOR !== '/');
 define('DOOZR_UNIX',          (DIRECTORY_SEPARATOR === '/' && !DOOZR_WIN));
 define('DOOZR_SECURE_HASH',   (DOOZR_PHP_VERSION > 5.11));
-
+define('DOOZR_SAPI',          php_sapi_name());
 
 /*----------------------------------------------------------------------------------------------------------------------
 | EXTENDING PHP SUPERGLOBALS
@@ -995,15 +995,21 @@ function pred($data = 'EMPTY_PRED_CALL', $return = false, $color = '#7CFC00', $c
     die();
 }
 
-
 /*----------------------------------------------------------------------------------------------------------------------
 | PHP 5.3 EMULATION
 +---------------------------------------------------------------------------------------------------------------------*/
 
 if (DOOZR_PHP_VERSION < 5.3) {
-    include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Php.php';
+    include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Php/5_3.php';
 }
 
+/*----------------------------------------------------------------------------------------------------------------------
+| PHP 5.4 EMULATION
++---------------------------------------------------------------------------------------------------------------------*/
+
+if (DOOZR_PHP_VERSION < 5.4) {
+    include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Php/5_4.php';
+}
 
 /*----------------------------------------------------------------------------------------------------------------------
 | LINUX EMULATION IF WE RUN ON WINDOWS OS'

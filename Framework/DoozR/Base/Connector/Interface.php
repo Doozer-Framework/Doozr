@@ -68,5 +68,6 @@
  */
 interface DoozR_Base_Connector_Interface
 {
-    // Intentionally left blank - Just used for namespacing
+    // Intentionally left blank - Just used for namespace
+    public function getType();
 }

@@ -2,9 +2,11 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base Presenter Interface
+ * DoozR - Extend - Emulate - Linux
  *
- * Interface.php - Base Presenter Interface of the DoozR Framework
+ * 5_4.php - This include extends PHP's functionality by emulating missing
+ *           functionality in PHP versions <= 5.4. It use native PHP-Code
+ *           replacements of PHP's C-implementations in newer PHP releases.
  *
  * PHP versions 5
  *
@@ -40,11 +42,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
+ * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @package    DoozR_Extend
+ * @subpackage DoozR_Extend_Emulate_Php
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,23 +54,20 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Connector/Interface.php';
-
-/**
- * DoozR - Base Presenter Interface
- *
- * Base Presenter Interface of the DoozR Framework
- *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
- * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2014 Benjamin Carl
- * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
- */
-interface DoozR_Base_Presenter_Interface extends DoozR_Base_Connector_Interface
+if (!function_exists('http_response_code'))
 {
-    // Intentionally left blank - Just used for namespace
+    function http_response_code($code = null)
+    {
+        static $status = 200;
+
+        if ($code !== null) {
+            #header('X-PHP-Response-Code: ' . $code, true, $code); <-- error with php fcgim try this
+            header('none', false, $code);
+            if (!headers_sent()) {
+                $status = $code;
+            }
+        }
+
+        return $status;
+    }
 }

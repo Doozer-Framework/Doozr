@@ -79,7 +79,6 @@ final class DoozR_Error_Exception extends DoozR_Exception
      * returning chaos instead. Like the following getError method:
      */
 
-
     /**
      * Returns the real error from a packed error exception
      *

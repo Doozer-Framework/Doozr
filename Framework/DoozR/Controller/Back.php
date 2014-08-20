@@ -56,6 +56,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Connector/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/View/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
 
 /**
  * DoozR - Controller - Back
@@ -178,20 +179,8 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      */
     protected $cache;
 
-    /**
-     * HTTP STATUS 400
-     *
-     * @var integer
-     * @access const
-     */
-    const HTTP_STATUS_400 = 400;
 
-    /**
-     * HTTP STATUS 404
-     *
-     * @var integer
-     * @access const
-     */
+    const HTTP_STATUS_400 = 400;
     const HTTP_STATUS_404 = 404;
 
 
@@ -328,14 +317,27 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      */
     protected function dispatch($connector, $model, $view, $object, $action)
     {
-        // We must respond with an exception here cause this should never ever happen and so its an
-        // exceptional state and nothing we must handle with a nice response! We see this as an server
-        // triggered error so its an 5XXer. 501 means: Not Implemented (sounds good)
+        /**
+         * We must respond with an exception here cause this should never ever happen and so its an
+         * exceptional state and nothing we must handle with a nice response! This can be a client or server
+         * triggered error/exception so we decide to give the client the responsibility by returning 400 resp. 404
+         */
         if (($status = $this->validateRequest($connector, $action)) !== true) {
+
+            switch ($status) {
+                case self::HTTP_STATUS_400:
+                    $message = 'No connector instance to execute route ("/' . $object .'/' . $action . '") on. Sure it exists?';
+                    break;
+
+                case self::HTTP_STATUS_404:
+                default:
+                    $message = 'Method: "' . $action . '()" in instance of class: "' . $object . '" not available/callable. Sure it exists?';
+                    break;
+            }
+
             throw new DoozR_Connector_Exception(
-                'Method: "' . $action . '()" in instance of class: "' . $object .
-                '" not available/callable. Sure it exists?',
-                501
+                $message,
+                $status
             );
 
         } else {
@@ -769,7 +771,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @return void
      * @access protected
      */
-    protected function setConnector(DoozR_Base_Connector_Interface $connector)
+    protected function setConnector(DoozR_Base_Connector_Interface $connector = null)
     {
         $this->connector = $connector;
     }
@@ -810,7 +812,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @return void
      * @access protected
      */
-    protected function setModel(DoozR_Base_Model_Interface $model)
+    protected function setModel(DoozR_Base_Model_Interface $model = null)
     {
         $this->model = $model;
     }
@@ -851,7 +853,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @return void
      * @access protected
      */
-    protected function setView(DoozR_Base_View_Interface $view)
+    protected function setView(DoozR_Base_View_Interface $view = null)
     {
         $this->view = $view;
     }

@@ -77,7 +77,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @var boolean
      * @access protected
      */
-    protected $isGzipCompressed = false;
+    protected $gzipEnabled = false;
 
     /**
      * The status of GZIP-Initializing to prevent calling 'ob_gzhandler' twice!
@@ -155,7 +155,6 @@ class DoozR_Response_Web extends DoozR_Base_Response
         // call parents constructor
         parent::__construct($config, $logger);
 
-        // initialize "gzip"-transmission
         $this->initializeGzipCompression();
     }
 
@@ -670,46 +669,44 @@ class DoozR_Response_Web extends DoozR_Base_Response
         ) {
             // send header and close connection
             $this->sendHttpStatus(304)
-            ->sendHeader('ETag: '.$etag)
-            ->sendHeader('Cache-Control: must-revalidate, post-check=0, pre-check=0')
-            ->closeConnection();
+                ->sendHeader('ETag: '.$etag)
+                ->sendHeader('Cache-Control: must-revalidate, post-check=0, pre-check=0')
+                ->closeConnection();
 
         } else {
             // Send (custom or modified) status header
             $this->sendHttpStatus($status);
-
         }
 
-        // retrieve charset
+        // Retrieve charset
         $charset = $this->getCharset($charset);
 
-        // check if allready encoded
+        // Check if encoded already
         if (!$alreadyJsonEncoded) {
-            // fix encoding
-            //$buffer = $this->fixEncoding($buffer, $charset);
-
-            // finally encode to JSON
+            // encode to JSON
             $buffer = json_encode($buffer);
         }
 
-        // get length of content
-        $contentLength = mb_strlen($buffer);
+        // Check for gzip-compression
+        if ($this->isGzipCompressed() === true) {
+            $this->sendHeader('Content-Encoding: gzip');
 
+        } else {
+            // Content length only a good idea if not compressed later ;)
+            $contentLength = mb_strlen($buffer);
+            $this->sendHeader('Content-Length: ' . $contentLength);
+        }
 
         // check if not already sent
-        if (!headers_sent($file, $line) && $addHeader === true) {
+        if ($addHeader === true) {
             // we send JSON
-            header('Content-type: application/json charset='.$charset);
-
-            // the content has a special length
-            header('Content-Length: ' . $contentLength);
+            $this->sendHeader('Content-type: application/json charset=' . $charset);
 
             if ($etag) {
                 // send an etag for php content -> reduce re-load
-                header('ETag: '.$etag);
-
-                // needed for session default override:
-                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                $this
+                    ->sendHeader('ETag: ' . $etag)
+                    ->sendHeader('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             }
         }
 
@@ -725,6 +722,25 @@ class DoozR_Response_Web extends DoozR_Base_Response
         // return this for chaining
         return $this;
     }
+
+
+    protected $header = array();
+
+
+    public function addHeader($header)
+    {
+        if (in_array($header, $this->header) === false) {
+            $this->header[] = $header;
+        }
+    }
+
+    public function removeHeader($header)
+    {
+        if (($key = array_search($header, $this->header)) !== false) {
+            unset($this->header[$key]);
+        }
+    }
+
 
     /**
      * Sends "text/html" to client
@@ -758,9 +774,8 @@ class DoozR_Response_Web extends DoozR_Base_Response
         // get data of content (html)
         $contentLength = strlen($buffer);
 
-        // send data compressed?
-        if ($this->isGzipCompressed()) {
-            ob_start('ob_gzhandler');
+        if ($this->isGzipCompressed() === true) {
+            $this->sendHeader('Content-Encoding: gzip');
         }
 
         // check if not already sent
@@ -872,14 +887,20 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @throws DoozR_Exception
      */
-    public function sendHeader($header)
+    public function sendHeader($header = null)
     {
+        if ($header === null) {
+            $header = $this->header;
+        }
+
         if (!headers_sent($file, $line)) {
             if (is_array($header)) {
                 $elements = count($header);
+
                 for ($i = 0; $i < $elements; ++$i) {
                     header($header[$i]);
                 }
+
             } elseif (is_object($header)) {
                 foreach ($header as $property) {
                     header($property);
@@ -889,8 +910,8 @@ class DoozR_Response_Web extends DoozR_Base_Response
             }
 
         } else {
-            $message = __CLASS__.': Failed while sending HTTP-Header ['.self::HTTP_VERSION.'] "'.
-                var_export($header, true).'. Headers already sent in file: '.$file.' on line: '.$line;
+            $message = __CLASS__ . ': Sending HTTP-Header [' . self::HTTP_VERSION . '] "' .
+                var_export($header, true) . ' failed. Headers already sent in file: ' . $file . ' on line: ' . $line;
 
             throw new DoozR_Exception($message);
         }
@@ -937,7 +958,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function isGzipCompressed()
     {
-        return $this->isGzipCompressed;
+        return $this->gzipEnabled;
     }
 
     /**
@@ -960,32 +981,26 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @access public
      * @throws Exception
      */
-    public static function redirect($url, $type = self::REDIRECT_TYPE_HEADER, $time = 0)
+    public function redirect($url, $type = self::REDIRECT_TYPE_HEADER, $time = 0)
     {
-        // need instance of this class for any actions
-        $responseClass = new self;
-
         switch ($type) {
-        case self::REDIRECT_TYPE_HTML:
-            echo '<meta http-equiv="refresh" content="'.$time.'"; URL="'.$url.'">';
-            break;
-        case self::REDIRECT_TYPE_JS:
-            echo '<script type="text/javascript">window.location = "'.$url.'";</script>';
-            break;
-        case self::REDIRECT_TYPE_HEADER:
-            // header status code
-            $responseClass->sendHttpStatus(307);
-
-            // redirect header
-            header('Location: '.$url);
-
-            // close connection
-            //$this->closeConnection();
-            break;
-        default:
-        throw new Exception('Unknown redirect type given! ( '.$type.' )');
-            break;
+            case self::REDIRECT_TYPE_HTML:
+                echo '<meta http-equiv="refresh" content="'.$time.'"; URL="'.$url.'">';
+                break;
+            case self::REDIRECT_TYPE_JS:
+                echo '<script type="text/javascript">window.location = "'.$url.'";</script>';
+                break;
+            case self::REDIRECT_TYPE_HEADER:
+                $this
+                    ->sendHttpStatus(307)
+                    ->sendHeader('Location: ' . $url)
+                    ->closeConnection();
+                break;
+            default:
+                throw new Exception('Unknown redirect type given! ( '.$type.' )');
+                break;
         }
+
         exit;
     }
 
@@ -1093,30 +1108,29 @@ class DoozR_Response_Web extends DoozR_Base_Response
     }
 
     /**
-     * Handles GZIP use for transmission as defined in core-config.
+     * Initializes gzip-compression for output send via this Response class (should! be every single byte ;).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|bool TRUE if gzip could be set, otherwise FALSE if gzip could not, NULL if gzip is disabled in conf.
+     * @return bool TRUE if gzip-compression could be initialized, otherwise FALSE
      * @access protected
      */
     protected function initializeGzipCompression()
     {
-        // check first if not already activated
-        if (!self::$initialized['gzip']) {
+        // Check first if not already activated
+        if (self::$initialized['gzip'] === false) {
+            // Is "gzip" enabled in configuration
+            $this->gzipEnabled = $this->config->transmission->gzip->enabled();
 
-            $this->isGzipCompressed = $this->config->transmission->gzip();
-
-            // "gzip" enabled in configuration?
-            if ($this->isGzipCompressed) {
-                /*
+            // if yes then try to start handler now:
+            if ($this->gzipEnabled === true) {
+                // Try to enable with inline fallback to ob_start if operation fails ...
                 if (!self::$initialized['gzip'] = ob_start('ob_gzhandler')) {
                     self::$initialized['gzip'] = ob_start();
-                    $this->isGzipCompressed = false;
+                    $this->gzipEnabled = false;
                 }
-                */
             } else {
                 self::$initialized['gzip'] = ob_start();
-                $this->isGzipCompressed = false;
+                $this->gzipEnabled = false;
             }
         }
 

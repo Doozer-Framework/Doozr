@@ -4,7 +4,7 @@
 /**
  * DoozR - Extend - Emulate - Linux
  *
- * Php.php - This include extends PHP's functionality by emulating missing
+ * 5_3.php - This include extends PHP's functionality by emulating missing
  *           functionality in PHP versions <= 5.3. It use native PHP-Code
  *           replacements of PHP's C-implementations in newer PHP releases.
  *
@@ -140,73 +140,73 @@ function get_called_class($backtrace = false, $level = 1)
         throw new Exception('type not set');
     } else {
         switch ($backtrace[$level]['type']) {
-        case '::':
-            /**
-             * test patch for detecting called-class in case of using call_user_func or call_user_func_array
-             */
-            if (!isset($backtrace[$level]['file']) && isset($backtrace[$level+1]['function'])
-                && in_array($backtrace[$level+1]['function'], array('call_user_func', 'call_user_func_array'))
-            ) {
-                if (is_array($backtrace[$level+1]['args'][0])) {
-                    return $backtrace[$level+1]['args'][0][0];
-                } else {
-                    $signature = explode('::', $backtrace[$level+1]['args'][0]);
-                    return $signature[0];
+            case '::':
+                /**
+                 * test patch for detecting called-class in case of using call_user_func or call_user_func_array
+                 */
+                if (!isset($backtrace[$level]['file']) && isset($backtrace[$level+1]['function'])
+                    && in_array($backtrace[$level+1]['function'], array('call_user_func', 'call_user_func_array'))
+                ) {
+                    if (is_array($backtrace[$level+1]['args'][0])) {
+                        return $backtrace[$level+1]['args'][0][0];
+                    } else {
+                        $signature = explode('::', $backtrace[$level+1]['args'][0]);
+                        return $signature[0];
+                    }
                 }
-            }
-            /**
-             * end test patch
-             */
+                /**
+                 * end test patch
+                 */
 
-            $lines = file($backtrace[$level]['file']);
-            $i = 0;
-            $callerLine = '';
+                $lines = file($backtrace[$level]['file']);
+                $i = 0;
+                $callerLine = '';
 
-            do {
-                $i++;
-                $callerLine = $lines[$backtrace[$level]['line']-$i].$callerLine;
-            } while (stripos($callerLine, $backtrace[$level]['function']) === false);
+                do {
+                    $i++;
+                    $callerLine = $lines[$backtrace[$level]['line']-$i].$callerLine;
+                } while (stripos($callerLine, $backtrace[$level]['function']) === false);
 
-            preg_match('/([a-zA-Z0-9\_]+)::'.$backtrace[$level]['function'].'/', $callerLine, $matches);
+                preg_match('/([a-zA-Z0-9\_]+)::'.$backtrace[$level]['function'].'/', $callerLine, $matches);
 
-            if (!isset($matches[1])) {
-                pred('NO CALLER');
-                // must be an edge case.
-                throw new Exception('Could not find caller class: originating method call is obscured.');
-            }
+                if (!isset($matches[1])) {
+                    pred('NO CALLER');
+                    // must be an edge case.
+                    throw new Exception('Could not find caller class: originating method call is obscured.');
+                }
 
-            switch ($matches[1]) {
-            case 'self':
-            case 'parent':
-            return get_called_class($backtrace, $level+1);
-            break;
+                switch ($matches[1]) {
+                    case 'self':
+                    case 'parent':
+                        return get_called_class($backtrace, $level+1);
+                        break;
+
+                    default:
+                        return $matches[1];
+                        break;
+
+                }
+                break;
+
+            // won't get here.
+            case '->':
+                switch ($backtrace[$level]['function']) {
+                    case '__get':
+                        // edge case -> get class of calling object
+                        if (!is_object($backtrace[$level]['object'])) {
+                            throw new Exception('Edge case fail. __get called on non object.');
+                        }
+                        return get_class($backtrace[$level]['object']);
+                        break;
+
+                    default:
+                        return $backtrace[$level]['class'];
+                }
+                break;
 
             default:
-            return $matches[1];
-            break;
-
-            }
-            break;
-
-        // won't get here.
-        case '->':
-            switch ($backtrace[$level]['function']) {
-            case '__get':
-                // edge case -> get class of calling object
-                if (!is_object($backtrace[$level]['object'])) {
-                    throw new Exception('Edge case fail. __get called on non object.');
-                }
-            return get_class($backtrace[$level]['object']);
-            break;
-
-            default:
-            return $backtrace[$level]['class'];
-            }
-            break;
-
-        default:
-        throw new Exception('Unknown backtrace method type.');
-        break;
+                throw new Exception('Unknown backtrace method type.');
+                break;
         }
     }
 }

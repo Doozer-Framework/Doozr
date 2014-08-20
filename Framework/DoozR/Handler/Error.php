@@ -102,9 +102,6 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      */
     public static function handle($number = '', $message = '', $file = '', $line = 0, $context = array())
     {
-        echo $message;
-        die;
-
         // get error type
         $type = self::getErrorType($number);
 
@@ -119,7 +116,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         // Now dispatch the error processable and from userland catchable as Exception
         throw new DoozR_Error_Exception($message, $number, $error);
 
-        // We return FALSE as signal that we handled the error
+        // We return FALSE as signal that we handled the error - required by PHP >= 5.2
         return false;
     }
 

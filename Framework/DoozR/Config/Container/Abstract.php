@@ -500,8 +500,10 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * This method is intend to return a node/value from config. The magic-method __call
      * is used for generic chaining and returning values.
      *
-     * @param string $node          The node to return
-     * @param array  $returnAsArray TRUE to return node/value as array, otherwise FALSE to return object (default)
+     * @param string $node The node to return
+     * @param $value
+     * @throws DoozR_Config_Container_Exception
+     * @internal param array $returnAsArray TRUE to return node/value as array, otherwise FALSE to return object (default)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Requested node/value

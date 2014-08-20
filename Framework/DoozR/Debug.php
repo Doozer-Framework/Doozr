@@ -190,8 +190,12 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         $exceptionHandler->setPageTitle('DoozR');
         $exceptionHandler->addDataTable("DoozR runtime environment", array(
                 "DOOZR_OS"            => (string)DOOZR_OS,
+                "DOOZR_SAPI"          => (string)DOOZR_SAPI,
                 "DOOZR_PHP_VERSION"   => (string)DOOZR_PHP_VERSION,
-                "DOOZR_DOCUMENT_ROOT" => (string)DOOZR_DOCUMENT_ROOT
+                "DOOZR_DOCUMENT_ROOT" => (string)DOOZR_DOCUMENT_ROOT,
+                "DOOZR_SYSTEM_TEMP"   => (string)DOOZR_SYSTEM_TEMP,
+                "DOOZR_ERROR_MAX"     => (string)DOOZR_PHP_ERROR_MAX,
+                "DOOZR_SECURE_HASH"   => (string)DOOZR_SECURE_HASH,
             )
         );
 

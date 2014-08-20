@@ -105,6 +105,14 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     protected $configuration;
 
     /**
+     * Type of connector.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $type = 'Presenter';
+
+    /**
      * Complete request
      *
      * @var array
@@ -379,7 +387,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @return void
      * @access protected
      */
-    protected function setModel(DoozR_Base_Model $model)
+    protected function setModel(DoozR_Base_Model $model = null)
     {
         $this->model = $model;
     }
@@ -388,7 +396,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @param DoozR_Base_Model $model
      * @return $this
      */
-    protected function model(DoozR_Base_Model $model)
+    protected function model(DoozR_Base_Model $model = null)
     {
         $this->setModel($model);
         return $this;
@@ -415,7 +423,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @return void
      * @access protected
      */
-    protected function setView(DoozR_Base_View $view)
+    protected function setView(DoozR_Base_View $view = null)
     {
         $this->view = $view;
     }
@@ -429,7 +437,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function view(DoozR_Base_View $view)
+    protected function view(DoozR_Base_View $view = null)
     {
         $this->setView($view);
         return $this;
@@ -572,6 +580,24 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     {
         return $this->configuration;
     }
+
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    public function type($type)
+    {
+        $this->setType($type);
+        return $this;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
 
     /**
      * Sets the count of root nodes for request.
