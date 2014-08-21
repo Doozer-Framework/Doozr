@@ -73,7 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Constant.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Abstract.php, Interface.php
+ * @final
  */
 final class DoozR_Logger_Collecting extends DoozR_Logger_Abstract implements
      DoozR_Logger_Interface,

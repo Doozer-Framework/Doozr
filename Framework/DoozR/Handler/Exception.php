@@ -74,6 +74,7 @@ define('E_USER_CORE_FATAL_EXCEPTION', 23523);
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
+ * @final
  */
 final class DoozR_Handler_Exception extends DoozR_Base_Class
 {
@@ -97,8 +98,7 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         // In range of 100 - 599 we do send a HTTP response by logic and laws of DoozR
         if ($exception->getCode() >= 100 && $exception->getCode() <= 599) {
             $code    = $exception->getCode();
-            $message = ($debug === true) ? $exception->getMessage() : '';
-            //header('HTTP/1.1 ' . $exception->getCode() . ' ' . $message);
+            $message = ($debug === true) ? $exception->getMessage() : constant('DoozR_Http::STATUS_' . $code);
 
         } else {
             $code    = '500';
@@ -110,12 +110,9 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
 
         if (headers_sent($file, $line) === false) {
             header('HTTP/1.1 ' . $code . ' ' . $message);
-            exit;
-
-        } else {
-            echo '<h1>' . $code . '</h1><p>' . $message . '</p><p><small>Headers already sent in file: ' .
-                 $file . ' on line: ' . $line . '</small></p>';
-
         }
+
+        echo '<h1>' . $code . '</h1><h2>' . $message . '</h2>';
+        exit;
     }
 }

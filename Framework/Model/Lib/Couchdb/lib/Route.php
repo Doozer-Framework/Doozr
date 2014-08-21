@@ -67,8 +67,8 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
+ * @final
  */
-
 final class Doodi_Couchdb_Route
 {
     /**

@@ -68,6 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
+ * @final
  */
 final class DoozR_Handler_Error extends DoozR_Base_Class
 {

@@ -55,6 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Detector.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Translator.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface.php';
 
 /**
  * DoozR - I18n - Service

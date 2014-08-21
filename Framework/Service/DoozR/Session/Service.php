@@ -57,6 +57,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Session/Service/Interface.php';
 
 /**
  * DoozR - Session - Service
@@ -78,7 +79,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
  * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 class DoozR_Session_Service extends DoozR_Base_Service_Singleton
-    implements DoozR_Base_Crud_Interface
+    implements
+    DoozR_Base_Crud_Interface,
+    DoozR_Session_Service_Interface
 {
     /**
      * Instance of DoozR_Crypt

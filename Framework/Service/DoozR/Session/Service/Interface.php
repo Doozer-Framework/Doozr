@@ -2,10 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Error - Exception
+ * DoozR - I18n - Service
  *
- * Exception.php - Error Exception used for Exceptions which are forwarded
- * from Error_Handler
+ * Interface.php - This interface is a contract for dependencies
+ * outside e.g.
  *
  * PHP versions 5
  *
@@ -44,51 +44,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Error
- * @subpackage DoozR_Error_Exception
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
- * DoozR - Error - Exception
+ * DoozR - I18n - Service
  *
- * Error Exception used for Exceptions which are forwarded from Error_Handler
+ * Interface.php - This interface is a contract for dependencies
+ * outside e.g.
  *
  * @category   DoozR
- * @package    DoozR_Error
- * @subpackage DoozR_Error_Exception
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @final
  */
-final class DoozR_Error_Exception extends DoozR_Exception
+interface DoozR_Session_Service_Interface
 {
-    /**
-     * Intentionally left blank -> Namespacing
-     *
-     * Do not use this Exception in your code!!!
-     * Otherwise some important mechanics won't work as expected and
-     * returning chaos instead. Like the following getError method:
-     */
-
-    /**
-     * Returns the real error from a packed error exception
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Exception The error exception
-     * @access public
-     */
-    public function getError()
-    {
-        return $this->getTrace()[1];
-    }
+    /* intentionally left blank */
 }
