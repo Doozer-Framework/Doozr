@@ -480,7 +480,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
             );
         }
 
-        // check if translator is already initialized
+        // Check if translator is already initialized
         if (!self::$translatorInterface[$this->encoding]) {
             self::$translatorInterface[$this->encoding] = $this->getTranslatorInterface();
         }
@@ -495,11 +495,11 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         // encode result? => check mode
         switch ($mode) {
         case self::MODE_TRANSLATE_ENCODE:
-            $translation = htmlspecialchars(utf8_encode($translation), null, 'UTF-8');
+            $translation = htmlspecialchars($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5 , 'UTF-8');
             break;
 
         case self::MODE_TRANSLATE_ENCODE_PLUS:
-            $translation = htmlentities(utf8_encode($translation));
+            $translation = htmlentities($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5 , 'UTF-8', false);
             break;
         }
 

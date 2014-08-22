@@ -405,7 +405,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
 
         // check for redirect -> !
         if ($input['redirect']) {
-            // return $this->getFormatter($type, $this->getClientPreferedLocale());
             return $this->getLocalizer($type, $input['redirect']);
 
         } else {
@@ -547,6 +546,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     public function setEncoding($encoding)
     {
         $this->initTemplateTranslator();
+
         $this->encoding = $encoding;
 
         return true;
@@ -574,17 +574,17 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * @param string $domain The domain to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return string The domain as array capsulated
      * @access public
      * @see PHPTAL_TranslationService::useDomain()
      */
-    public function useDomain($domain)
+    public function useDomain($domain, $dummy = null)
     {
         $this->initTemplateTranslator();
 
         self::$templateTranslator->setNamespace($domain);
 
-        return true;
+        return array($domain);
     }
 
     /**
@@ -676,8 +676,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         // Init the translator instance first. We need to call this stupid on each
         $this->initTemplateTranslator();
 
-        $htmlescape = true;
-
         /*
          * @todo Bugfix : here everything gets encoded and this return trash bin whatever
          */
@@ -687,6 +685,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             $value = self::$templateTranslator->_($key);
         }
 
+        // Replace the contained placeholder keys with the content of these variables:
         $value = $this->replaceVariables(
             '/\${(.*[A-Za-z0-9])}/',
             $value,

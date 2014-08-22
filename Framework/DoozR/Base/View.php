@@ -725,25 +725,27 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     }
 
     /**
-     * This method is intend to render the current state of the view as html.
-     * For this it makes use of the base template engine, and html5 template
-     * files. If you need another output or something like this, you must
+     * This method is intend to render the current state of the view as html. For this it makes use of the base
+     * template engine, and html5 template files. If you need another output or something like this, you must
      * overwrite this method.
      *
-     * @param array              $data        The data as override for internal stored data
-     * @param string             $fingerprint Optional fingerprint used as cache identifier for front- and backend!
-     *                                        Hint: Rendering user specific data an user identifier MUST be used as salt
-     *                                        when generating the fingerprint!!! Otherwise user specific data can and
-     *                                        will be sent to another user!. So the following rule should be followed:
-     *                                         - generic view/template no user data = fingerprint by content/path/url
-     *                                         - user specific view/template with user data = use session-id or user-id!
-     * @param DoozR_I18n_Service $i18n        An instance of a DoozR I18n service
+     * @param array                     $data        The data as override for internal stored data
+     * @param string                    $fingerprint Optional fingerprint used as cache identifier for front- and
+     *                                               backend! Hint: Rendering user specific data an user identifier
+     *                                               MUST be used as salt when generating the fingerprint!!!
+     *                                               Otherwise user specific data can and will be sent to another
+     *                                               user!. So the following rule should be followed:
+     *                                                   - generic view/template no user data = fingerprint by
+     *                                                     content/path/url
+     *                                                   - user specific view/template with user data = use
+     *                                                     session-id or user-id!
+     * @param PHPTAL_TranslationService $i18n        An instance of a DoozR I18n service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if successful, otherwise FALSE
      * @access protected
      */
-    protected function render(array $data = array(), $fingerprint = null, DoozR_I18n_Service $i18n = null)
+    protected function render(array $data = array(), $fingerprint = null, PHPTAL_TranslationService $i18n = null)
     {
         $this->setFingerprint(
             $this->generateFingerprint(
@@ -780,6 +782,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
 
             // if I18n passed -> forward to template engine (e.g. PHPTAL)
             if ($i18n !== null) {
+                $i18n->useDomain($this->translateToTextdomain());
                 $template->setTranslator($i18n);
             }
 
@@ -819,20 +822,23 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
         /* @var $response DoozR_Response_Web */
         $response = $this->getFront()->getResponse();
 
-        // header configured?
+
+        // Try to get default header for responses from configuration and add them here ...
         try {
             $headers = $this->configuration->transmission->header();
         } catch (Exception $e) {
-            $headers = null;
+            $headers = array();
         }
 
-        /*
-        // send configured header
-        foreach ($headers as $type => $header) {
-            pred($headers);
-            $response->sendHeader($header);
+        foreach ($headers as $category) {
+            foreach ($category as $type => $header) {
+                if ($type === 'mvp') {
+                    foreach ($header as $key => $value) {
+                        $response->sendHeader($key . ': ' . $value);
+                    }
+                }
+            }
         }
-        */
 
         // Shorten fingerprint (extra long) to used as etag for client (reduces the weight transported <=> directions)
         $etag = md5($this->getFingerprint());
@@ -857,7 +863,20 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
         $action = ucfirst($this->request[$this->translation[1]]);
 
         // construct relative filename (+path) for current-view template
-        return $object.DIRECTORY_SEPARATOR.$action;
+        return $object . DIRECTORY_SEPARATOR . $action;
+    }
+
+    /**
+     * Translates the current setup of view parameter to a textdomain which can
+     * and should be used to translate strings (i18n) for example via gettext
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The textdomain
+     * @access protected
+     */
+    protected function translateToTextdomain()
+    {
+        return strtolower($this->request[$this->translation[0]]);
     }
 
     /**
