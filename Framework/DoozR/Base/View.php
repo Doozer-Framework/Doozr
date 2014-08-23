@@ -791,6 +791,9 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
                 $template->{$key} = $value;
             }
 
+            // Inject locale and some other vars
+            $template->{'doozr_locale'} = $i18n->getActiveLocale();
+
             // setup template compile output dir
             $template->setPhpCodeDestination(
                 $this->configuration->phptal->directories->compiled()
