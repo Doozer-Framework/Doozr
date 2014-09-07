@@ -1011,9 +1011,11 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function __destruct()
     {
+        /*
         if (DOOZR_DEBUG === true) {
             $this->sendHeader('X-DoozR-Debug: 1');
         }
+        */
     }
 
     /**
@@ -1112,6 +1114,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     protected function initializeGzipCompression()
     {
+        /*
         // Check first if not already activated
         if (self::$initialized['gzip'] === false) {
             // Is "gzip" enabled in configuration
@@ -1131,5 +1134,6 @@ class DoozR_Response_Web extends DoozR_Base_Response
         }
 
         return self::$initialized['gzip'];
+        */
     }
 }

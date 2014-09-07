@@ -137,6 +137,14 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     protected $headers;
 
     /**
+     * The extracted (possible JSON structure) submitted in request body!
+     *
+     * @var stdClass
+     * @access protected
+     */
+    protected $requestBody;
+
+    /**
      * The routes available for dispatching.
      *
      * @var \stdClass
@@ -451,21 +459,45 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     }
 
     /**
+     * Setter for request arguments.
+     *
+     * @param DoozR_Request_Arguments $arguments
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_Arguments The arguments
+     * @access public
+     */
+    public function setArguments(DoozR_Request_Arguments $arguments)
+    {
+        $this->addHistory(__METHOD__, func_get_args());
+        $this->arguments = $arguments;
+    }
+
+    /**
+     * Setter for request arguments.
+     *
+     * @param DoozR_Request_Arguments $arguments
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function arguments(DoozR_Request_Arguments $arguments)
+    {
+        $this->setArguments($arguments);
+        return $this;
+    }
+
+    /**
      * Getter for arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The arguments
+     * @return DoozR_Request_Arguments The arguments
      * @access public
      */
     public function getArguments()
     {
         return $this->arguments;
-    }
-
-    public function setArguments(DoozR_Request_Arguments $arguments)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->arguments = $arguments;
     }
 
     /**
@@ -854,6 +886,53 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     public function getProtocol()
     {
         return $this->protocol;
+    }
+
+    /**
+     * Setter for request body.
+     *
+     * @param \stdClass $requestBody The request body to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setRequestBody(\stdClass $requestBody)
+    {
+        $this->requestBody = $requestBody;
+    }
+
+    /**
+     * Setter for request body.
+     *
+     * @param \stdClass $requestBody The request body to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function requestBody(\stdClass $requestBody)
+    {
+        $this->setRequestBody($requestBody);
+        return $this;
+    }
+
+    /**
+     * Getter for requestBody.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \stdClass|null The request body if set otherwise NULL
+     * @access public
+     */
+    public function getRequestBody($associative = false)
+    {
+        if ($associative === true) {
+            $requestBody = object_to_array($this->requestBody);
+        } else {
+            $requestBody = $this->requestBody;
+        }
+
+        return $requestBody;
     }
 
     /**

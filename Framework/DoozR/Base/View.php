@@ -623,7 +623,6 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
             } elseif (method_exists($this, '__render')) {
                 // Always check fallback -> one generic __render for all actions :) maybe used in API's
                 $result = $this->{'__render'}($this->data);
-
             }
         }
 
@@ -824,7 +823,6 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
 
         /* @var $response DoozR_Response_Web */
         $response = $this->getFront()->getResponse();
-
 
         // Try to get default header for responses from configuration and add them here ...
         try {

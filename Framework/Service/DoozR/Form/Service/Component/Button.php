@@ -78,6 +78,18 @@ class DoozR_Form_Service_Component_Button extends DoozR_Form_Service_Component_I
      */
     protected $tag = DoozR_Form_Service_Constant::HTML_TAG_BUTTON;
 
+    /**
+     * The template is required for output. Each HTML-Component inherits
+     * this base template and so every component based on this base class
+     * is renderable. This template produces at least a correct HTML tag
+     * which must not be valid in an other context!
+     *
+     * @var string
+     * @access protected
+     */
+    protected $template = DoozR_Form_Service_Constant::TEMPLATE_DEFAULT_CLOSING;
+
+
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/

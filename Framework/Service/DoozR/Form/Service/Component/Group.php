@@ -73,6 +73,14 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html.ph
 class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Html
 {
     /**
+     * The tag of this component
+     *
+     * @var string
+     * @access protected
+     */
+    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_DIV;
+
+    /**
      * The template is required for output. Each HTML-Component inherits
      * this base template and so every element based on this base class
      * is renderable. This template produces at least a correct HTML tag
@@ -81,7 +89,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
      * @var string
      * @access protected
      */
-    protected $template = '<div>{{INNER-HTML}}</div>';
+    protected $template = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
 
     /**
      * This defines the order of the components
@@ -95,7 +103,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     protected $order = array(
         self::LABEL,
         self::COMPONENT,
-        self::MESSAGE
+        self::MESSAGE,
     );
 
     /**
@@ -155,11 +163,11 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface $renderer = null,
+        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
         DoozR_Form_Service_Validator_Interface $validator = null,
-        $label = null,
-        $component = null,
-        $message = null
+                                               $label     = null,
+                                               $component = null,
+                                               $message   = null
     ) {
         if ($label !== null) {
             if (is_array($label)) {
@@ -362,6 +370,60 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     }
 
     /**
+     * Setter for order.
+     *
+     * @param array $order The order of elements. MUST include: self::LABEL, self::COMPONENT, self::MESSAGE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @throws DoozR_Form_Service_Exception
+     */
+    public function setOrder(array $order)
+    {
+        // Check requirements
+        if (
+            in_array(self::LABEL,     $order) === false ||
+            in_array(self::COMPONENT, $order) === false ||
+            in_array(self::MESSAGE,   $order) === false
+        ) {
+            throw new DoozR_Form_Service_Exception(
+                'Alda'
+            );
+        }
+
+        $this->order = $order;
+    }
+
+    /**
+     * Setter for order.
+     *
+     * @param array $order The order of elements. MUST include: self::LABEL, self::COMPONENT, self::MESSAGE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     * @throws DoozR_Form_Service_Exception
+     */
+    public function order(array $order)
+    {
+        $this->setOrder($order);
+        return $this;
+    }
+
+    /**
+     * Getter for order.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The order
+     * @access public
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
      * Renders a component a returns it HTML code.
      *
      * @param boolean $force TRUE to re-render a already rendered component,
@@ -375,7 +437,9 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     public function render($force = false)
     {
         // Do custom sort and stuff like this and proxy forward the call to render to renderer->render(...)
-        $this->sort($this->order);
+        $this->setChilds(
+            $this->sort($this->order)
+        );
 
         // Return the rendered result
         return parent::render($force);
@@ -407,6 +471,9 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
         foreach ($order as $identifier) {
             $components = $this->{$matrix[$identifier]}();
             foreach ($components as $component) {
+                $index = count($ordered);
+                $this->indexReverse[$identifier][0] = $index;
+                $this->index[$index] = $identifier;
                 $ordered[] = $component;
             }
         }

@@ -78,6 +78,19 @@ class DoozR_Form_Service_Constant
     const PREFIX = 'DoozR_Form_Service_';
 
     /**
+     * Identifier for the container object
+     * in an AngularJS scope. So in this default setup
+     * hidden fields available through
+     *
+     * @example $scope.hidden.[NAME]
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const SCOPE = '';
+
+    /**
      * The default name used at init for default (e.g. for optional I18n namespace)
      *
      * @var string

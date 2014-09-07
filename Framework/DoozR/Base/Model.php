@@ -96,6 +96,14 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     protected $originalRequest;
 
     /**
+     * The request state object of DoozR
+     *
+     * @var DoozR_Request_State
+     * @access protected
+     */
+    protected $requestState;
+
+    /**
      * Translation for reading request
      *
      * @var array
@@ -149,6 +157,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
             ->request($request)
             ->translation($translation)
             ->originalRequest($requestState->getRequest())
+            ->requestState($requestState)
             ->cache($cache)
             ->configuration($configuration);
 
@@ -286,6 +295,47 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     protected function getOriginalRequest()
     {
         return $this->originalRequest;
+    }
+
+    /**
+     * Setter for requestState.
+     *
+     * @param DoozR_Request_State $requestState The request state to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRequestState($requestState)
+    {
+        $this->requestState = $requestState;
+    }
+
+    /**
+     * Setter for requestState.
+     *
+     * @param DoozR_Request_State $requestState The request state to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function requestState($requestState)
+    {
+        $this->setRequestState($requestState);
+        return $this;
+    }
+
+    /**
+     * Getter for requestState.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_State|null The requestState stored, otherwise NULL
+     * @access protected
+     */
+    protected function getRequestState()
+    {
+        return $this->requestState;
     }
 
     /**
@@ -514,6 +564,39 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
 
             return $result;
         }
+    }
+
+    /**
+     * Returns an array containing a flat structure for a breadcrumb navigation
+     *
+     * @param $url The URL used to extract breadcrumb from
+     *
+     * @author Benjamin Carl <benjamin.carl@clickalicious.de>
+     * @return array The resulting breadcrumb structure
+     * @access protected
+     */
+    protected function getBreadcrumbByUrl($url, $home = 'Home')
+    {
+        $nodes      = explode('/', $url);
+        $countNodes = count($nodes);
+
+        $breadcrumb = array();
+        $root       = '';
+
+        for ($i = 0; $i < $countNodes; ++$i) {
+            $node = ($i === 0) ? $home : $nodes[$i];
+            $breadcrumb[] = array(
+                'href'   => ($i === 0) ? '/' : ($root . '/' . $node),
+                'text'   => $node,
+                'active' => ($i === ($countNodes - 1)),
+                'class'  => ($i === ($countNodes - 1)) ? 'active' : null,
+                'id'     => ($i === ($countNodes - 1)) ? 'breadcrumb' : null,
+            );
+
+            $root .= ($i > 0) ? ('/' . $node) : '';
+        }
+
+        return $breadcrumb;
     }
 
     /**

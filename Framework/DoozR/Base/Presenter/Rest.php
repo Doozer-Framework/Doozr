@@ -168,11 +168,13 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         DoozR_Base_View            $view          = null
     ) {
         // We need to hook in here - to make use of this proxy for installing JsonResponseHandler ;)
+        /*
         $whoops = new Whoops\Run();
         $jsonErrorHandler = new Whoops\Handler\JsonResponseHandler();
         #$jsonErrorHandler->onlyForAjaxRequests(true);
         $whoops->pushHandler($jsonErrorHandler);
         $whoops->register();
+        */
 
         // Forward (proxy) to parent
         parent::__construct(
@@ -504,23 +506,14 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         }
 
         // Try to get data and check if authorization required and failed
-        try {
-            $data = $this->getModel()->getData(
-                $this->getStateObject(), $routeConfig
-            );
+        $data = $this->getModel()->getData(
+            $this->getStateObject(), $routeConfig
+        );
 
-            // Retrieve data from model so that VIEW and MODEL are informed (Observer and this here is the Subject)
-            $this->setData(
-                $data
-            );
-
-        } catch (DoozR_Base_Model_Rest_Exception $e) {
-
-            throw new DoozR_Base_Presenter_Rest_Exception(
-                $e->getMessage(),
-                $e->getCode()
-            );
-        }
+        // Retrieve data from model so that VIEW and MODEL are informed (Observer and this here is the Subject)
+        $this->setData(
+            $data
+        );
     }
 
     /**
@@ -536,12 +529,12 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     protected function validateInputArguments(array $argumentsRequired, DoozR_Request_Arguments $argumentsSent)
     {
         $valid       = true;
-        $requestBody = json_decode($this->getStateObject()->getArguments()->DOOZR_REQUEST_BODY, true);
+        $requestBody = $this->getStateObject()->getRequestBody();
 
         // ... and iterate them to find missing elements
         foreach ($argumentsRequired as $requiredArgument => $requiredValue) {
             // Can the required value be retrieved from GET, POST, ...
-            if (!isset($argumentsSent->{$requiredArgument}) && (!isset($requestBody[$requiredArgument]))) {
+            if (!isset($argumentsSent->{$requiredArgument}) && (!isset($requestBody->{$requiredArgument}))) {
                 $valid = false;
             }
         }

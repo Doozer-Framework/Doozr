@@ -350,9 +350,19 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
                 $this->connector->{$action}();
 
             } catch (DoozR_Base_Presenter_Rest_Exception $e) {
-                $this->sendHttpResponse($e->getCode(), $e->getMessage(), true);
+                // Send JSON response on REST requests
+                //$this->sendHttpResponse($e->getCode(), $e->getMessage(), true);
+
+                /**
+                 * At this point the exception was populated throughout the whole subsystem.
+                 * Its totally clear what the error was and now the question should! be
+                 * Is this a dev session? (debug === true) then send the whole exception + our
+                 * default format for REST responses! If not debug send only the default fields!
+                 */
+                $this->sendJsonResponse($this->repackExceptionData($e));
 
             } catch (DoozR_Base_Presenter_Exception $e) {
+                // Send "normal" (default) response on default requests
                 $this->sendHttpResponse($e->getCode(), $e->getMessage());
 
             }
@@ -360,6 +370,40 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
 
         // Return instance for chaining
         return $this;
+    }
+
+    /**
+     * Disassemble exception to a usable format.
+     *
+     * @param Exception $exception The exception to disassemble
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \stdClass New assembled object
+     * @access protected
+     */
+    protected function repackExceptionData(Exception $exception)
+    {
+        // Get debug state
+        $debug = (defined('DOOZR_DEBUG') === true) ? DOOZR_DEBUG : true;
+
+        $data           = new \stdClass();
+        $data->message  = $exception->getMessage();
+        $data->code     = $exception->getCode();
+        $data->meta     = array();
+        $data->security = array();
+
+        if (isset($exception->token) === true) {
+            $data->security['token'] = $exception->token;
+        }
+
+        if ($debug === true) {
+            $data->meta['code']     = $exception->getCode();
+            $data->meta['file']     = $exception->getFile();
+            $data->meta['line']     = $exception->getLine();
+            $data->meta['previous'] = object_to_array($exception->getPrevious());
+        }
+
+        return $data;
     }
 
     /**
@@ -405,6 +449,27 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
 
         exit;
     }
+
+
+    protected function sendJsonResponse($e)
+    {
+        /* @var $front DoozR_Controller_Front */
+        $front = DoozR_Controller_Front::getInstance();
+
+        /* @var $response DoozR_Response_Web */
+        $response = $front->getResponse();
+
+        $response->sendJson(
+            $e,
+            null,
+            null,
+            false,
+            false,
+            true,
+            $e->code
+        );
+    }
+
 
     /**
      * Validates the existing request data. A request needs at least a connector-instance

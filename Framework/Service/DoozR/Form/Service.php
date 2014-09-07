@@ -76,25 +76,341 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Constant.php';
 class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade
 {
     /**
-     * Constructor.
+     * Name of token field.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $fieldnameToken;
+
+    /**
+     * Name of submitted field.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $fieldnameSubmitted;
+
+    /**
+     * Name of step field.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $fieldnameStep;
+
+    /**
+     * Name of the steps field.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $fieldnameSteps;
+
+    /**
+     * Session service instance.
+     *
+     * @var DoozR_Session_Service
+     * @access protected
+     */
+    protected $session;
+
+
+    /**
+     * Constructor replacement.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __tearup()
+    public function __tearup(DoozR_Session_Service $session = null)
     {
-        /*
-        // configure
-        //$this->setI18n($i18n);
-        $this->setMaxFileSize();
+        if ($session === null) {
+            $session = DoozR_Loader_Serviceloader::load('session');
+        }
 
-        // lookup for last request
-        $this->lookupSubmission($name);
+        // Store session
+        $this->setSession($session);
 
-        // prevent browser and middleware (as long as it recognize the headers)
-        // from caching form-content
-        $this->sendHeaders();
-        */
+        $this
+            ->fieldnameToken(
+                DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_TOKEN
+            )
+            ->fieldnameSubmitted(
+                DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED
+            )
+            ->fieldnameStep(
+                DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP
+            )
+            ->fieldnameSteps(
+                DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS
+            );
+
+        return true;
+    }
+
+    /**
+     * Setter for session.
+     *
+     * @param DoozR_Session_Service $session The session service instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setSession(DoozR_Session_Service $session)
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * Setter for session.
+     *
+     * @param DoozR_Session_Service $session The session service instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function session(DoozR_Session_Service $session)
+    {
+        $this->setSession($session);
+        return $this;
+    }
+
+    /**
+     * Getter for session.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Session_Service|null The instance if set, otherwise NULL
+     * @access protected
+     */
+    protected function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * Setter for fieldname token.
+     *
+     * @param string $fieldnameToken Fieldname
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setFieldnameToken($fieldnameToken)
+    {
+        $this->fieldnameToken = $fieldnameToken;
+    }
+
+    /**
+     * Setter for fieldname token.
+     *
+     * @param string $fieldnameToken Fieldname
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function fieldnameToken($fieldnameToken)
+    {
+        $this->setFieldnameToken($fieldnameToken);
+        return $this;
+    }
+
+    /**
+     * Getter for fieldname token.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the token field
+     * @access public
+     */
+    public function getFieldnameToken()
+    {
+        return $this->fieldnameToken;
+    }
+
+    /**
+     * Setter for fieldname submitted.
+     *
+     * @param string $fieldnameSubmitted Fieldname
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setFieldnameSubmitted($fieldnameSubmitted)
+    {
+        $this->fieldnameSubmitted = $fieldnameSubmitted;
+    }
+
+    /**
+     * Setter for fieldname submitted.
+     *
+     * @param string $fieldnameSubmitted Fieldname
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function fieldnameSubmitted($fieldnameSubmitted)
+    {
+        $this->setFieldnameSubmitted($fieldnameSubmitted);
+        return $this;
+    }
+
+    /**
+     * Getter for fieldname submitted.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the submitted field
+     * @access public
+     */
+    public function getFieldnameSubmitted()
+    {
+        return $this->fieldnameSubmitted;
+    }
+
+    /**
+     * Setter for fieldname step.
+     *
+     * @param string $fieldnameStep Fieldname
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setFieldnameStep($fieldnameStep)
+    {
+        $this->fieldnameStep = $fieldnameStep;
+    }
+
+    /**
+     * Setter for fieldname step.
+     *
+     * @param string $fieldnameStep Fieldname
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function fieldnameStep($fieldnameStep)
+    {
+        $this->setFieldnameStep($fieldnameStep);
+        return $this;
+    }
+
+    /**
+     * Getter for fieldname step.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the step field
+     * @access public
+     */
+    public function getFieldnameStep()
+    {
+        return $this->fieldnameStep;
+    }
+
+    /**
+     * Setter for fieldname steps.
+     *
+     * @param string $fieldnameSteps Fieldname
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setFieldnameSteps($fieldnameSteps)
+    {
+        $this->fieldnameSteps = $fieldnameSteps;
+    }
+
+    /**
+     * Setter for fieldname steps.
+     *
+     * @param string $fieldnameSteps Fieldname
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function fieldnameSteps($fieldnameSteps)
+    {
+        $this->setFieldnameSteps($fieldnameSteps);
+        return $this;
+    }
+
+    /**
+     * Getter for fieldname steps.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the steps field
+     * @access public
+     */
+    public function getFieldnameSteps()
+    {
+        return $this->fieldnameSteps;
+    }
+
+    /**
+     * Returns name of form handable if current request is handable by DoozR_Form_Service, otherwise FALSE.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|bool The name of the form which is handable by DoozR_Form_Service if exist, otherwise FALSE
+     * @access public
+     */
+    public function isHandable()
+    {
+        // Assume that request is not! handable by DoozR_Form_Service -> The API does only share some parts with MVP def
+        $handable = false;
+
+        /* @var $requestState DoozR_Request_State */
+        $requestState = $this->getRegistry()->request;
+
+        // Get required input to search in ...
+        $requestArguments = $requestState->getArguments();
+        $requestBody      = $requestState->getRequestBody();
+
+        if (isset($requestArguments->{$this->getFieldnameSubmitted()}) === true) {
+            $handable = $requestArguments->{$this->getFieldnameSubmitted()};
+
+        } elseif (isset($requestBody->{$this->getFieldnameSubmitted()}) === true) {
+            $handable = $requestBody->{$this->getFieldnameSubmitted()};
+        }
+
+        return $handable;
+    }
+
+    /**
+     * Returns Form-Manager instance (yep i know damn name) to manage the form(s).
+     *
+     * @author Benjamin Carl <benjamin.carl@clickalicious.de>
+     * @return DoozR_Form_Service_FormManager
+     * @access public
+     */
+    public function getFormManager($namespace, $arguments = null, $requestMethod = null, $angular = false)
+    {
+        // Create a new form-container which combines the control-layer and the HTML parts
+        return new DoozR_Form_Service_FormManager(
+            $namespace,                                                // The namespace (used for session, I18n, ...)
+            null,                                                      // Could ne I18n
+            new DoozR_Form_Service_Component_Input(                    // Input element <- for cloning [DI]
+                new DoozR_Form_Service_Renderer_Html(),
+                new DoozR_Form_Service_Validator_Generic()
+            ),
+            new DoozR_Form_Service_Component_Form(                     // The form element we operate on [DI]
+                new DoozR_Form_Service_Renderer_Html(),
+                new DoozR_Form_Service_Validator_Generic()
+            ),
+            new DoozR_Form_Service_Store_Session($this->getSession()), // The session store [DI]
+            new DoozR_Form_Service_Renderer_Html(),                    // A Renderer -> Native = HTML [DI]
+            new DoozR_Form_Service_Validate_Validator(),               // A Validator to validate the elements [DI]
+            new DoozR_Form_Service_Validate_Error(),                   // A Error object <- for cloning [DI]
+            $arguments,                                                // The currents requests arguments
+            $requestMethod,
+            $angular                                                   // Bind to AngularJS directive (inject ng-model!)
+        );
     }
 }

@@ -67,15 +67,16 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://en.wikipedia.org/wiki/HTTP-Statuscode
  */
 class DoozR_Http extends DoozR_Base_Class
 {
-    const REQUEST_METHOD_GET = 'GET';
-    const REQUEST_METHOD_PUT = 'PUT';
-    const REQUEST_METHOD_POST = 'POST';
-    const REQUEST_METHOD_HEAD = 'HEAD';
+    const REQUEST_METHOD_GET     = 'GET';
+    const REQUEST_METHOD_PUT     = 'PUT';
+    const REQUEST_METHOD_POST    = 'POST';
+    const REQUEST_METHOD_HEAD    = 'HEAD';
     const REQUEST_METHOD_OPTIONS = 'OPTIONS';
-    const REQUEST_METHOD_DELETE = 'DELETE';
+    const REQUEST_METHOD_DELETE  = 'DELETE';
 
 
     const STATUS_100 = 'Continue';
@@ -97,6 +98,7 @@ class DoozR_Http extends DoozR_Base_Class
     const STATUS_305 = 'Use Proxy';
     const STATUS_307 = 'Temporary Redirect';
 
+    // 400er
     const STATUS_400 = 'Bad Request';
     const STATUS_401 = 'Unauthorized';
     const STATUS_402 = 'Payment Required';
@@ -116,7 +118,21 @@ class DoozR_Http extends DoozR_Base_Class
     const STATUS_416 = 'Requested range not satisfiable';
     const STATUS_417 = 'Expectation Failed';
     const STATUS_418 = 'I\'m a teapot';
+    const STATUS_420 = 'Policy Not Fulfilled';
+    const STATUS_421 = 'There are too many connections from your internet address';
+    const STATUS_422 = 'Unprocessable Entity';
+    const STATUS_423 = 'Locked';
+    const STATUS_424 = 'Failed Dependency';
+    const STATUS_425 = 'Unordered Collection';
+    const STATUS_426 = 'Upgrade Required';
+    const STATUS_428 = 'Precondition Required';
+    const STATUS_429 = 'Too Many Requests';
+    const STATUS_431 = 'Request Header Fields Too Large';
+    const STATUS_444 = 'No Response';
+    const STATUS_449 = 'The request should be retried after doing the appropriate action';
+    const STATUS_451 = 'Unavailable For Legal Reasons';
 
+    // 500er
     const STATUS_500 = 'Internal Server Error';
     const STATUS_501 = 'Not Implemented';
     const STATUS_502 = 'Bad Gateway';
@@ -135,4 +151,15 @@ class DoozR_Http extends DoozR_Base_Class
     const STATUS_PARTIAL_CONTENT               = self::STATUS_206;
 
 }
+
+
+/*
+case 400:                   // GENERAL:               All x00er are general ;) error
+case 401:                   // UNAUTHORIZED:          If a user is not loggedin for a resource access
+case 403:                   // FORBIDDEN:             If user does not have right to access a resource
+case 404:                   // NOT FOUND:             The resource accessed does not exist
+case 405:                   // METHOD NOT ALLOWED:    For not allowed Verb
+case 406:                   // NOT ACCEPTABLE         For missing argument + message
+case 422:                   // UNPROCESSABLE ENTITIY: Error in arguments or while processing model
+*/
 

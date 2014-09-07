@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * DoozR - Base - Rest - Exception
  *
- * Html.php - Contract for all form components including <form> itself.
+ * Exception.php - Exception for REST in general as base for M,V,P ...
  *
  * PHP versions 5
  *
@@ -43,138 +43,180 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @package    DoozR_Base
+ * @subpackage DoozR_Base_Rest
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
+
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 
 /**
- * DoozR - Form - Service
+ * DoozR - Base - Rest - Exception
  *
- * Contract for all form components including <form> itself.
+ * Exception for REST in general as base for M,V,P ...
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @package    DoozR_Base
+ * @subpackage DoozR_Base_Rest
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-interface DoozR_Form_Service_Component_Interface_Form
+class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
 {
     /**
-     * Returns the valid state of the component.
+     * The token of the request to manage exchange for failed API calls.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if component state is valid, otherwise FALSE
+     * @var array
      * @access public
      */
-    public function isValid();
+    public $token = array();
 
     /**
-     * Stores/adds the passed validation information.
+     * The error(s) of the request for an detailed error response to provide
+     * good data for frontend(s).
      *
-     * @param string      $validation The type of validation
-     * @param null|string $value      The value for validation or NULL
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Input
+     * @var array
      * @access public
      */
-    public function addValidation($validation, $value = null);
+    public $error = array();
+
 
     /**
-     * Getter for validation.
+     * Constructor.
+     *
+     * @param string         $message  The exception-message
+     * @param integer        $code     The code of the exception
+     * @param Exception|null $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
+     * @param array          $token    A new token for exchange with client.
+     * @param array          $error    An array containing detailed errors for each submitted field with validation set!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Validations as array
+     * @return \DoozR_Base_Rest_Exception
      * @access public
      */
-    public function getValidation();
+    public function __construct(
+              $message  = null,
+              $code     = 0,
+              $previous = null,
+        array $token    = array(),
+        array $error    = array()
+    ) {
+        // Store error & token in this layer is a REST API thing!
+        $this->setToken($token);
+        $this->setError($error);
+
+        // call parents constructor
+        parent::__construct($message, $code, $previous);
+    }
 
     /**
-     * Setter for validator.
+     * Setter for token.
      *
-     * @param DoozR_Form_Service_Validator_Interface $validator The validator instance
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Validator_Interface The validator instance
-     * @access public
-     */
-    public function setValidator(DoozR_Form_Service_Validator_Interface $validator);
-
-    /**
-     * Getter for validator.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Validator_Interface The validator instance
-     * @access public
-     */
-    public function getValidator();
-
-    /**
-     * Setter for value.
-     *
-     * @param mixed $value The value to set
+     * @param array $token The token to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setValue($value);
+    public function setToken(array $token) {
+        $this->token = $token;
+    }
 
     /**
-     * Getter for value.
+     * Setter for token.
+     *
+     * @param array $token The token to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Value of this component
+     * @return $this Instance for chaining
      * @access public
      */
-    public function getValue();
+    public function token(array $token) {
+        $this->setToken($token);
+        return $this;
+    }
 
     /**
-     * Setter for submitted value.
-     *
-     * @param mixed $value The submitted value of this component
+     * Getter for token.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return array|null The token if set, otherwise NULL
      * @access public
      */
-    public function setSubmittedValue($value);
+    public function getToken() {
+        return $this->token;
+    }
 
     /**
-     * Getter for submitted value.
+     * Setter for error.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Submitted value of the component
-     * @access public
-     */
-    public function getSubmittedValue();
-
-    /**
-     * Setter for name.
-     *
-     * @param string $name The name to set
+     * @param array $error The error(s) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setName($name);
+    public function setError(array $error)
+    {
+        $this->error = $error;
+    }
 
     /**
-     * Getter for name.
+     * Setter for error.
+     *
+     * @param array $error The error(s) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Name of this component
+     * @return $this Instance for chaining
      * @access public
      */
-    public function getName();
+    public function error(array $error)
+    {
+        $this->setError($error);
+        return $this;
+    }
+
+    /**
+     * Getter for error.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The error(s) if set, otherwise empty
+     * @access public
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    /**
+     * Exports current state as json for API responses.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The response for the API
+     * @access public
+     */
+    public function toJsonResponse()
+    {
+        $data = array(
+            'error' => $this->getError(),
+            'security' => array(
+                'token' => $this->getToken(),
+            ),
+            'meta' => array(
+                'message' => $this->getMessage(),
+                'code'    => $this->getCode(),
+                'file'    => $this->getFile(),
+                'line'    => $this->getLine(),
+            )
+        );
+
+        return json_encode($data);
+    }
 }

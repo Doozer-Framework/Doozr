@@ -317,6 +317,17 @@ class DoozR_Request extends DoozR_Base_State_Container
         ) {
             $arguments = file_get_contents("php://input");
             $GLOBALS['_' . $method]['DOOZR_REQUEST_BODY'] = $arguments;
+
+            // Automagically prepare data send in body (often JSON!) as object (auto extract)- Why? Just to be nice :O
+            $data = json_decode($arguments, false);
+
+            if ($data === null) {
+                $data = $arguments;
+            }
+
+            // AND as a test we store this as ready somewhere cause we know the information right here and do not
+            // need to do additional checks for existence somewhere else in code.
+            $this->getStateObject()->setRequestBody($data);
         }
 
         return true;

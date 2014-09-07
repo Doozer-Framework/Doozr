@@ -121,6 +121,14 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     protected $request;
 
     /**
+     * The request state.
+     *
+     * @var DoozR_Base_State|DoozR_Request_State
+     * @access protected
+     */
+    protected $requestState;
+
+    /**
      * This array contains the required arguments
      * to run a specific action in a specific context
      *
@@ -215,6 +223,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
         // Store instances for further use ...
         $this
             ->registry($registry)
+            ->requestState($requestState)
             ->request($request)
             ->translation($translation)
             ->originalRequest($requestState->getRequest())
@@ -294,6 +303,47 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
         }
 
         return $request;
+    }
+
+    /**
+     * Setter for requestState.
+     *
+     * @param DoozR_Base_State $requestState The requestState
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRequestState(DoozR_Base_State $requestState)
+    {
+        $this->requestState = $requestState;
+    }
+
+    /**
+     * Setter for requestState.
+     *
+     * @param DoozR_Base_State $requestState The requestState
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function requestState(DoozR_Base_State $requestState)
+    {
+        $this->setRequestState($requestState);
+        return $this;
+    }
+
+    /**
+     * Returns requestState.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_State|DoozR_Request_State The requestState
+     * @access public
+     */
+    public function getRequestState()
+    {
+        return $this->requestState;
     }
 
     /**

@@ -170,7 +170,8 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
         $attributes = $this->getAttributes();
         $innerHtml  = $this->getInnerHtml();
 
-        $result = $this->getRenderer()->render(
+        $renderer = $this->getRenderer();
+        $result = $renderer->render(
             $force,
             $template,
             $tag,
@@ -286,6 +287,35 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
         $this->notify();
 
         return $result;
+    }
+
+    /**
+     * Setter for childs.
+     *
+     * @param array $childs The childs to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setChilds(array $childs)
+    {
+        $this->childs = $childs;
+    }
+
+    /**
+     * Setter for childs.
+     *
+     * @param array $childs The childs to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function childs(array $childs)
+    {
+        $this->setChilds($childs);
+        return $this;
     }
 
     /**

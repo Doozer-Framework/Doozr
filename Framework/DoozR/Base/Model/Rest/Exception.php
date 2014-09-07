@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Rest/Exception.php';
 
 /**
  * DoozR - Base - Model - Rest - Exception
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Model_Rest_Exception extends DoozR_Base_Exception
+class DoozR_Base_Model_Rest_Exception extends DoozR_Base_Rest_Exception
 {
-    // Just for namespace ...
+    // Intentionally left blank - Just for namespace
 }

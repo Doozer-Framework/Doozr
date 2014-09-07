@@ -493,6 +493,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         );
 
         // encode result? => check mode
+        /*
         switch ($mode) {
         case self::MODE_TRANSLATE_ENCODE:
             $translation = htmlspecialchars($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5 , 'UTF-8');
@@ -502,6 +503,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
             $translation = htmlentities($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5 , 'UTF-8', false);
             break;
         }
+        */
 
         // return the result
         return $translation;

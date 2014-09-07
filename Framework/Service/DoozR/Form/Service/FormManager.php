@@ -201,10 +201,30 @@ class DoozR_Form_Service_FormManager
     /**
      * The argument passed with current request
      *
-     * @var object
+     * @var \stdClass|DoozR_Request_Arguments|object|null
      * @access protected
      */
     protected $arguments;
+
+    /**
+     * The request method used for current request
+     *
+     * @var string
+     * @access protected
+     */
+    protected $requestMethod;
+
+    /**
+     * TRUE to inject angular model directives for hidden fields.
+     * @example If set to TRUE hidden fields will get a ng-model=""
+     *          directive automagically injected bound to the name
+     *          of the hidden field:
+     *          <input type="hidden" name="send" ng-model="send" />
+     *
+     * @var boolean
+     * @access protected
+     */
+    protected $angularDirectives = false;
 
     /**
      * Collection of META fields
@@ -242,30 +262,34 @@ class DoozR_Form_Service_FormManager
     /**
      * Constructor.
      *
-     * @param string                                      $namespace     The namespace to operate in/on (name of form)
-     * @param DoozR_I18n_Service_Interface                $i18n          The I18n Translator instance if required
-     * @param DoozR_Form_Service_Component_Input          $inputInstance The input instance for cloning meta fields
-     * @param DoozR_Form_Service_Component_Interface_Form $form          The Form instance (the main object)
-     * @param DoozR_Form_Service_Store_Interface          $store         The Store instance
-     * @param DoozR_Form_Service_Renderer_Interface       $renderer      The Renderer instance for rendering HTML e.g.
-     * @param DoozR_Form_Service_Validate_Validator       $validator     The validator instance
-     * @param DoozR_Form_Service_Validate_Error           $errorInstance The error instance for cloning error messages
-     * @param DoozR_Request_Arguments                     $arguments     The Arguments passed with this request
+     * @param string                                      $namespace         The namespace to operate on (name of form)
+     * @param DoozR_I18n_Service_Interface                $i18n              The I18n Translator instance if required
+     * @param DoozR_Form_Service_Component_Input          $inputInstance     The input instance for cloning meta fields
+     * @param DoozR_Form_Service_Component_Interface_Form $form              The Form instance (the main object)
+     * @param DoozR_Form_Service_Store_Interface          $store             The Store instance
+     * @param DoozR_Form_Service_Renderer_Interface       $renderer          The Renderer instance for e.g. HTML-output
+     * @param DoozR_Form_Service_Validate_Validator       $validator         The validator instance
+     * @param DoozR_Form_Service_Validate_Error           $errorInstance     The  instance for cloning error messages
+     * @param \stdClass                                   $arguments         The Arguments passed with this request
+     * @param string                                      $requestMethod     The request method
+     * @param boolean                                     $angularDirectives Controls angular directives to hidden elems
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Form_Service_FormManager Instance
      * @access public
      */
     public function __construct(
-        $namespace = DoozR_Form_Service_Constant::DEFAULT_NAMESPACE,
-        DoozR_I18n_Service_Interface $i18n = null,
-        DoozR_Form_Service_Component_Input $inputInstance = null,
-        DoozR_Form_Service_Component_Interface_Form $form = null,
-        DoozR_Form_Service_Store_Interface $store = null,
-        DoozR_Form_Service_Renderer_Interface $renderer = null,
-        DoozR_Form_Service_Validate_Validator $validator = null,
-        DoozR_Form_Service_Validate_Error $errorInstance = null,
-        DoozR_Request_Arguments $arguments = null
+        $namespace                                                     = DoozR_Form_Service_Constant::DEFAULT_NAMESPACE,
+        DoozR_I18n_Service_Interface                $i18n              = null,
+        DoozR_Form_Service_Component_Input          $inputInstance     = null,
+        DoozR_Form_Service_Component_Interface_Form $form              = null,
+        DoozR_Form_Service_Store_Interface          $store             = null,
+        DoozR_Form_Service_Renderer_Interface       $renderer          = null,
+        DoozR_Form_Service_Validate_Validator       $validator         = null,
+        DoozR_Form_Service_Validate_Error           $errorInstance     = null,
+                                                    $arguments         = null,
+                                                    $requestMethod     = null,
+                                                    $angularDirectives = false
     ) {
         // Store instances for further use
         $this->setNamespace($namespace);
@@ -277,6 +301,8 @@ class DoozR_Form_Service_FormManager
         $this->setValidator($validator);
         $this->setErrorInstance($errorInstance);
         $this->setArguments($arguments);
+        $this->setRequestMethod($requestMethod);
+        $this->setAngularDirectives($angularDirectives);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -349,6 +375,21 @@ class DoozR_Form_Service_FormManager
     }
 
     /**
+     * Setter for step.
+     *
+     * @param null|int $step The step to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function step($step = null)
+    {
+        $this->setStep($step);
+        return $this;
+    }
+
+    /**
      * Getter for step.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -374,15 +415,15 @@ class DoozR_Form_Service_FormManager
         // and now check if submission identifier exists in current request
         if (
             isset($submittedData->{$fieldnameStep}) &&
-            $submittedData[$fieldnameStep] <= $registry['lastvalidstep']
+            $submittedData->{$fieldnameStep} <= $registry['lastvalidstep']
         ) {
-            $step = $submittedData[$fieldnameStep];
+            $step = $submittedData->{$fieldnameStep};
 
         } elseif (
-            isset($submittedData[$fieldnameJump]) &&
-            $submittedData[$fieldnameJump] <= $registry['lastvalidstep']
+            isset($submittedData->{$fieldnameJump}) &&
+            $submittedData->{$fieldnameJump} <= $registry['lastvalidstep']
         ) {
-            $step = $submittedData[$fieldnameJump];
+            $step = $submittedData->{$fieldnameJump};
 
         }
 
@@ -410,6 +451,21 @@ class DoozR_Form_Service_FormManager
     }
 
     /**
+     * Setter for steps.
+     *
+     * @param integer $steps The steps
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function steps($steps = DoozR_Form_Service_Constant::STEP_DEFAULT_LAST)
+    {
+        $this->setSteps($steps);
+        return $this;
+    }
+
+    /**
      * Getter for steps.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -424,6 +480,25 @@ class DoozR_Form_Service_FormManager
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Generates a new token which is set to registry and returned after operation.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The fresh generated token
+     * @access public
+     */
+    public function updateToken()
+    {
+        $stored = $this->getRegistry();
+        $this->generateToken();
+        $token = $this->getToken();
+        $stored['token'] = $token;
+        $this->setRegistry($stored);
+
+        return $token;
+    }
+
 
     /**
      * Renders the forms after the preparation is done. This method does generate a token for the current form
@@ -458,7 +533,7 @@ class DoozR_Form_Service_FormManager
     public function getValue($name, $default = null)
     {
         /**
-         * WHERE No matter whre from look in step registry last! cause for stepping support
+         * WHERE No matter where from look in step registry last! cause for stepping support
          */
         $value = $this->getSubmittedValue($name);
 
@@ -574,10 +649,12 @@ class DoozR_Form_Service_FormManager
      */
     public function setI18n(DoozR_I18n_Service_Interface $i18n = null)
     {
-        $this->i18n = $i18n->getTranslator();
-        $this->i18n->setNamespace(
-            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
-        );
+        if ($i18n !== null) {
+            $this->i18n = $i18n->getTranslator();
+            $this->i18n->setNamespace(
+                DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
+            );
+        }
     }
 
     /**
@@ -629,6 +706,10 @@ class DoozR_Form_Service_FormManager
      */
     public function setForm(DoozR_Form_Service_Component_Interface_Form $form)
     {
+        // Check for namespace inject requirement
+        if ($this->getNamespace() !== null && $form->getName() === null) {
+            $form->setName($this->getNamespace());
+        }
         $this->form = $form;
     }
 
@@ -636,7 +717,7 @@ class DoozR_Form_Service_FormManager
      * Getter for form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_I18n_Service_Component_Html_Interface The form instance if set, otherwise NULL
+     * @return null|DoozR_Form_Service_Component_Form The form instance if set, otherwise NULL
      * @access public
      */
     public function getForm()
@@ -778,7 +859,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for arguments.
      *
-     * @param DoozR_Request_Arguments $arguments The arguments to set
+     * @param \stdClass $arguments The arguments to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -793,12 +874,94 @@ class DoozR_Form_Service_FormManager
      * Getter for arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Request_Arguments The DoozR_Request_Arguments as object if set, otherwise NULL
+     * @return null|\stdClass The DoozR_Request_Arguments as object if set, otherwise NULL
      * @access public
      */
     public function getArguments()
     {
         return $this->arguments;
+    }
+
+    /**
+     * Setter for requestMethod.
+     *
+     * @param string $requestMethod The request method
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setRequestMethod($requestMethod)
+    {
+        $this->requestMethod = $requestMethod;
+    }
+
+    /**
+     * Setter for requestMethod.
+     *
+     * @param string $requestMethod The request method
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function requestMethod($requestMethod)
+    {
+        $this->setRequestMethod($requestMethod);
+        return $this;
+    }
+
+    /**
+     * Getter for requestMethod.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The request method used, or NULL if not set
+     * @access public
+     */
+    public function getRequestMethod()
+    {
+        return $this->requestMethod;
+    }
+
+    /**
+     * Setter for angularDirectives.
+     *
+     * @param boolean TRUE to enable automagically inject of angular directive ng-model for hidden meta components.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setAngularDirectives($angularDirectives)
+    {
+        $this->angularDirectives = $angularDirectives;
+    }
+
+    /**
+     * Setter for angularDirectives.
+     *
+     * @param boolean TRUE to enable automagically inject of angular directive ng-model for hidden meta components.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function angularDirectives($angularDirectives)
+    {
+        $this->setAngularDirectives($angularDirectives);
+        return $this;
+    }
+
+    /**
+     * Getter for arguments.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE or FALSE depending on state
+     * @access public
+     */
+    public function getAngularDirectives()
+    {
+        return $this->angularDirectives;
     }
 
     /**
@@ -813,6 +976,21 @@ class DoozR_Form_Service_FormManager
     public function setInvalidTokenBehavior($behavior)
     {
         $this->invalidTokenBehavior = $behavior;
+    }
+
+    /**
+     * Sets the behavior for the case that an invalid token is used for submission.
+     *
+     * @param integer $behavior The behavior to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function invalidTokenBehavior($behavior)
+    {
+        $this->setInvalidTokenBehavior($behavior);
+        return $this;
     }
 
     /**
@@ -856,9 +1034,9 @@ class DoozR_Form_Service_FormManager
      * @throws DoozR_Form_Service_Exception
      * @internal param mixed $value The value to store
      *
-     * @author   Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
-     * @access   protected
+     * @access protected
      */
     public function removeFromRegistry($key, $component = null)
     {
@@ -888,25 +1066,49 @@ class DoozR_Form_Service_FormManager
         return true;
     }
 
-    public function getRegistry($default = null)
-    {
-        $registry = $this->getStore()->read(
-            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
-        );
-
-        if ($registry === null && $default !== null) {
-            $registry = $default;
-        }
-
-        return $registry;
-    }
-
+    /**
+     * Setter for registry.
+     *
+     * @param mixed $registry The registry
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The registry
+     * @access public
+     */
     public function setRegistry($registry)
     {
         return $this->getStore()->create(
             DoozR_Form_Service_Constant::PREFIX . $this->getNamespace(),
             $registry
         );
+    }
+
+    /**
+     * Getter for registry (not the framework one -> this here is the internal store/storage-engine).
+     *
+     * @param null|mixed $default The default return value in case of an error.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The registry
+     * @access public
+     */
+    public function getRegistry($default = null)
+    {
+        $registry = null;
+
+        try {
+            $registry = $this->getStore()->read(
+                DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
+            );
+        } catch ( DoozR_Session_Service_Exception $e) {
+            // Nothing
+        }
+
+        if ($registry === null && $default !== null) {
+            $registry = $default;
+        }
+
+        return $registry;
     }
 
     /**
@@ -948,7 +1150,7 @@ class DoozR_Form_Service_FormManager
             // and now check if submission identifier exists in current request
             if (
                 isset($submittedData->{$fieldnameSubmissionStatus}) &&
-                $submittedData[$fieldnameSubmissionStatus] === $this->namespace
+                $submittedData->{$fieldnameSubmissionStatus} === $this->namespace
             ) {
                 $submitted = true;
             }
@@ -963,10 +1165,9 @@ class DoozR_Form_Service_FormManager
     /**
      * Returns the validity of the form.
      *
+     * @param int $step The step to check
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @param int $step
-     *
      * @return boolean TRUE is the form is valid, otherwise FALSE
      * @access public
      */
@@ -991,6 +1192,20 @@ class DoozR_Form_Service_FormManager
         }
 
         return $valid;
+    }
+
+    /**
+     * Inverted isValid from above.
+     *
+     * @param int $step The step to return for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if is invalid, otherwise FALSE
+     * @access public
+     */
+    public function isInvalid($step = 1)
+    {
+        return !$this->isValid($step);
     }
 
     /**
@@ -1028,12 +1243,12 @@ class DoozR_Form_Service_FormManager
                     $fieldnameStep  = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP;
                     $fieldnameSteps = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
 
-                    $step = (isset($submittedData[$fieldnameStep])) ?
-                        $submittedData[$fieldnameStep] :
+                    $step = (isset($submittedData->{$fieldnameStep})) ?
+                        $submittedData->{$fieldnameStep} :
                         $this->step;
 
-                    $steps = (isset($submittedData[$fieldnameSteps])) ?
-                        $submittedData[$fieldnameSteps] :
+                    $steps = (isset($submittedData->{$fieldnameSteps})) ?
+                        $submittedData->{$fieldnameSteps} :
                         $this->steps;
 
                     if ($step === $steps) {
@@ -1136,15 +1351,20 @@ class DoozR_Form_Service_FormManager
         );
 
         // 2nd step of all check if correct method was used for submission
-        if ($this->getArguments()->getSource() !== $registry['method']) {
+        if (strtolower($this->getRequestMethod()) !== strtolower($registry['method'])) {
             $this->setError(
             // use array here -> I18n arguments as seoond key
                 array(
                     'error'   => DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
                         DoozR_Form_Service_Validate_Constant::REQUESTTYPE_INVALID,
+
                     'context' => array(
-                        'method' => ucfirst(strtolower($this->getArguments()->getSource()))
-                    )
+                        'method' => ucfirst(
+                            strtolower(
+                                $this->getRequestMethod()
+                            )
+                        )
+                    ),
                 )
             );
             return false;
@@ -1191,14 +1411,14 @@ class DoozR_Form_Service_FormManager
      *
      * @param array                                     $components The components to validate from request
      * @param integer                                   $step       The step currently active
-     * @param array|\DoozR_Request_Arguments            $arguments  The arguments
+     * @param \stdClass|null                            $arguments  The arguments
      * @param array|\DoozR_Form_Service_Store_Interface $store      The store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if valid, otherwise FALSE if invalid
      * @access protected
      */
-    protected function validateComponents(array $components, $step = 1, $arguments = array(), &$store = array())
+    protected function validateComponents(array $components, $step = 1, \stdClass $arguments = null, &$store = array())
     {
         $valid = true;
 
@@ -1241,7 +1461,7 @@ class DoozR_Form_Service_FormManager
 
                     } else {
                         $isFile = false;
-                        $value  = isset($arguments[$component]) ? $arguments[$component] : null;
+                        $value  = isset($arguments->{$component}) ? $arguments->{$component} : null;
                         $check  = $this->validator->validate($value, $configuration['validation']);
                     }
 
@@ -1615,8 +1835,8 @@ class DoozR_Form_Service_FormManager
 
         $arguments = $this->getArguments();
 
-        if (isset($arguments[$variable])) {
-            $result = $arguments[$variable];
+        if (isset($arguments->{$variable})) {
+            $result = $arguments->{$variable};
         }
 
         // and return the variables value
@@ -1746,7 +1966,7 @@ class DoozR_Form_Service_FormManager
         $salt      = $this->getSalt();
         $name      = $this->getNamespace();
 
-        // generate token from unqiue input
+        // generate token from unique input
         $this->setToken(
             md5($ip . $userAgent . $name . $salt)
         );
@@ -1825,6 +2045,18 @@ class DoozR_Form_Service_FormManager
         $input->setType('hidden');
         $input->setValue($this->getStep());
 
+        // Check for directive inject
+        if ($this->getAngularDirectives() === true) {
+            $input->setAttribute(
+                'ng-model',
+                DoozR_Form_Service_Constant::SCOPE . DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP
+            );
+
+            $input->setAttribute(
+                'value-transfer', $this->getNamespace()
+            );
+        }
+
         $this->form->addChild($input);
     }
 
@@ -1841,6 +2073,18 @@ class DoozR_Form_Service_FormManager
         $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS);
         $input->setType('hidden');
         $input->setValue($this->getSteps());
+
+        // Check for directive inject
+        if ($this->getAngularDirectives() === true) {
+            $input->setAttribute(
+                'ng-model',
+                DoozR_Form_Service_Constant::SCOPE . DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS
+            );
+
+            $input->setAttribute(
+                'value-transfer', $this->getNamespace()
+            );
+        }
 
         $this->form->addChild($input);
     }
@@ -1859,6 +2103,18 @@ class DoozR_Form_Service_FormManager
         $input->setType('hidden');
         $input->setValue($this->getToken());
 
+        // Check for directive inject
+        if ($this->getAngularDirectives() === true) {
+            $input->setAttribute(
+                'ng-model',
+                DoozR_Form_Service_Constant::SCOPE . DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_TOKEN
+            );
+
+            $input->setAttribute(
+                'value-transfer', $this->getNamespace()
+            );
+        }
+
         $this->form->addChild($input);
     }
 
@@ -1875,6 +2131,18 @@ class DoozR_Form_Service_FormManager
         $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED);
         $input->setType('hidden');
         $input->setValue($this->getNamespace());
+
+        // Check for directive inject
+        if ($this->getAngularDirectives() === true) {
+            $input->setAttribute(
+                'ng-model',
+                DoozR_Form_Service_Constant::SCOPE . DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED
+            );
+
+            $input->setAttribute(
+                'value-transfer', $this->getNamespace()
+            );
+        }
 
         $this->form->addChild($input);
     }
