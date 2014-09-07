@@ -243,6 +243,22 @@ abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Ser
     }
 
     /**
+     * Stores/adds the passed validation information.
+     *
+     * @param string      $validation The type of validation
+     * @param null|string $value      The value for validation or NULL
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function validation($validation, $value = null)
+    {
+        $this->addValidation($validation, $value);
+        return $this;
+    }
+
+    /**
      * Getter for validation.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

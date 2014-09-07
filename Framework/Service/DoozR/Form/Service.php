@@ -55,6 +55,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton/Facade.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Validate/Constant.php';
 
 /**
  * DoozR - Form - Service

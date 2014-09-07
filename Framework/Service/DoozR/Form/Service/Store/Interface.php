@@ -68,7 +68,5 @@
  */
 interface DoozR_Form_Service_Store_Interface
 {
-    /**
-     * Currently only used as contract for typehinting
-     */
+    // Intentionally left empty - Just used for namespace
 }

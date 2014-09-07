@@ -1337,7 +1337,7 @@ class DoozR_Form_Service_FormManager
         if (!$this->validateRegistry()) {
             $this->setError(
                 DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
-                DoozR_Form_Service_Validate_Constant::STORE_INVALID,
+                DoozR_Form_Service_Validate_Constant::ERROR_STORE_INVALID,
                 'form'
             );
 
@@ -1356,7 +1356,7 @@ class DoozR_Form_Service_FormManager
             // use array here -> I18n arguments as seoond key
                 array(
                     'error'   => DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
-                        DoozR_Form_Service_Validate_Constant::REQUESTTYPE_INVALID,
+                        DoozR_Form_Service_Validate_Constant::ERROR_REQUESTTYPE_INVALID,
 
                     'context' => array(
                         'method' => ucfirst(
@@ -1375,7 +1375,7 @@ class DoozR_Form_Service_FormManager
             $this->handleInvalidToken($registry);
             $this->setError(
                 DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
-                DoozR_Form_Service_Validate_Constant::TOKEN_INVALID
+                DoozR_Form_Service_Validate_Constant::ERROR_TOKEN_INVALID
             );
             return false;
         }
@@ -1395,7 +1395,7 @@ class DoozR_Form_Service_FormManager
         ) {
             $this->setError(
                 DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
-                DoozR_Form_Service_Validate_Constant::ELEMENTS_INVALID
+                DoozR_Form_Service_Validate_Constant::ERROR_ELEMENTS_INVALID
             );
             return false;
         }

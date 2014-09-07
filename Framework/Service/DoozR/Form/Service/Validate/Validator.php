@@ -53,6 +53,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Validate/Constant.php';
+
 /**
  * DoozR - Service - Form - Validator
  *
@@ -69,258 +71,6 @@
 class DoozR_Form_Service_Validate_Validator
 {
     /**
-     * valid type for required components/fields "required" means that this component/field
-     * must be submitted no matter if it is empty or value is an empty string. it just
-     * need to be submitted.
-     *
-     * if you are looking for a validation that check for a given value - with not
-     * accepting empty submissions:
-     * @see VALIDATIONTYPE_NOTEMPTY
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_REQUIRED = 'required';
-
-    /**
-     * valid type for not-empty components/fields "notempty" means that this component/field
-     * must be submitted with a value. at minimum one char must be submitted. empty
-     * submissions are invalid.
-     *
-     * if you are looking for a validation that just checks if a field
-     * was submitted:
-     * @see VALIDATIONTYPE_REQUIRED
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_NOTEMPTY = 'notempty';
-
-    /**
-     * valid type for empty components/fields "empty" means that this component/field must be
-     * submitted without a value. The counterpart to "notempty"
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_EMPTY = 'empty';
-
-    /**
-     * valid type for not-empty components/fields "notnull" means that this component/field must
-     * be submitted with a value. A value != 0 and != NULL !!! at minimum one char must be
-     * submitted. empty submissions are invalid.
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_NOTNULL = 'notnull';
-
-    /**
-     * valid type for alphabetic components/fields "alphabetic" means that this component/field
-     * must be submitted with a value. at minimum one char must be submitted. empty
-     * submissions are invalid.
-     *
-     * if you are looking for a validation that just checks if a field was submitted:
-     * @see VALIDATIONTYPE_REQUIRED
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_ALPHABETIC = 'alphabetic';
-
-    /**
-     * valid type for numeric components/fields "numeric" means that this component/field must be
-     * submitted with a value. at minimum one char must be submitted. empty submissions are
-     * invalid.
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_NUMERIC = 'numeric';
-
-    /**
-     * valid type for boolean components/fields "boolean" means that this component/field must be
-     * submitted with a value => TRUE or FALSE
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_BOOLEAN = 'boolean';
-
-    /**
-     * valid type for boolean components/fields "double" means that this component/field must be
-     * submitted with a value e.g. 1.0 1.1 ...
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_DOUBLE = 'double';
-
-    /**
-     * valid type for boolean components/fields "integer" means that this component/field must be
-     * submitted with a value e.g. 1 or 2 or 234 or 43547.
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_INTEGER = 'integer';
-
-    /**
-     * Validation type for string
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_STRING = 'string';
-
-    /**
-     * Validation type for linked fields
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_LINK = 'link';
-
-    /**
-     * valid type for exact-value-match components/fields "value" means that this component/field
-     * must exactly (===) match the stored value.
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_VALUE = 'value';
-
-    /**
-     * valid type for impact validation (impact is detected by PHP-IDS if enabled)
-     * we only check for impact if PHP-IDS is enabled in config. otherwise we have no
-     * base for validation.
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_IMPACT = 'impact';
-
-    /**
-     * valid-type for minimal length required
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_MINLENGTH = 'minlength';
-
-    /**
-     * valid-type for maximal length allowed
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_MAXLENGTH = 'maxlength';
-
-    /**
-     * valid-type for email (check syntax)
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_EMAIL = 'email';
-
-    /**
-     * valid-type for email (live deliver-to-postbox check)
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_EMAILAUTH = 'emailauth';
-
-    /**
-     * valid-type for IP-Addresses
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_IP = 'ip';
-
-    /**
-     * valid-type for lowercase input (a-z)
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_LOWERCASE = 'lowercase';
-
-    /**
-     * valid-type for uppercase input (A-Z)
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_UPPERCASE = 'uppercase';
-
-    /**
-     * valid-type for post-/zipcode input
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_POSTCODE = 'postcode';
-
-    /**
-     * valid-type for USTID input
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_USTID = 'ustid';
-
-    /**
-     * valid-type for invalid values input
-     *
-     * @var string
-     * @access public
-     */
-    const VALIDATIONTYPE_INVALID = 'invalid';
-
-    /**
-     * Error flag for invalid filetype
-     *
-     * @var string
-     *
-     * @access public
-     * @const
-     */
-    const VALIDATIONTYPE_FILETYPE = 'filetype';
-
-    /**
-     * Error flag for invalid min filesize
-     *
-     * @var string
-     *
-     * @access public
-     * @const
-     */
-    const VALIDATIONTYPE_FILESIZEMIN = 'filesizemin';
-
-    /**
-     * Error flag for invalid max filesize
-     *
-     * @var string
-     *
-     * @access public
-     * @const
-     */
-    const VALIDATIONTYPE_FILESIZEMAX = 'filesizemax';
-
-    /**
-     * Error flag for invalid file extension
-     *
-     * @var string
-     *
-     * @access public
-     * @const
-     */
-    const VALIDATIONTYPE_FILEEXTENSION = 'fileextension';
-
-    /**
      * The preferred order for validations to increase perfomance / speed up validating
      * we use this order to validate values.
      *
@@ -329,33 +79,33 @@ class DoozR_Form_Service_Validate_Validator
      * @static
      */
     protected static $typeOrderMatrix = array(
-        self::VALIDATIONTYPE_IMPACT        =>  0,
-        self::VALIDATIONTYPE_REQUIRED      =>  1,
-        self::VALIDATIONTYPE_NOTEMPTY      =>  2,
-        self::VALIDATIONTYPE_ALPHABETIC    =>  3,
-        self::VALIDATIONTYPE_VALUE         =>  4,
-        self::VALIDATIONTYPE_MINLENGTH     =>  5,
-        self::VALIDATIONTYPE_MAXLENGTH     =>  6,
-        self::VALIDATIONTYPE_EMAIL         =>  7,
-        self::VALIDATIONTYPE_EMAILAUTH     =>  8,
-        self::VALIDATIONTYPE_NUMERIC       =>  9,
-        self::VALIDATIONTYPE_NOTNULL       => 10,
-        self::VALIDATIONTYPE_IP            => 11,
-        self::VALIDATIONTYPE_LOWERCASE     => 12,
-        self::VALIDATIONTYPE_UPPERCASE     => 13,
-        self::VALIDATIONTYPE_POSTCODE      => 14,
-        self::VALIDATIONTYPE_USTID         => 15,
-        self::VALIDATIONTYPE_EMPTY         => 16,
-        self::VALIDATIONTYPE_BOOLEAN       => 17,
-        self::VALIDATIONTYPE_DOUBLE        => 18,
-        self::VALIDATIONTYPE_INTEGER       => 19,
-        self::VALIDATIONTYPE_STRING        => 20,
-        self::VALIDATIONTYPE_LINK          => 21,
-        self::VALIDATIONTYPE_INVALID       => 22,
-        self::VALIDATIONTYPE_FILETYPE      => 23,
-        self::VALIDATIONTYPE_FILESIZEMIN   => 24,
-        self::VALIDATIONTYPE_FILESIZEMAX   => 25,
-        self::VALIDATIONTYPE_FILEEXTENSION => 26,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_IMPACT        =>  0,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_REQUIRED      =>  1,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_NOTEMPTY      =>  2,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_EMPTY         =>  3,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_VALUE         =>  4,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_ALPHABETIC    =>  5,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_MINLENGTH     =>  6,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH     =>  7,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_EMAIL         =>  8,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_EMAILAUTH     =>  9,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_NUMERIC       => 10,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_NOTNULL       => 11,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_IP            => 12,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_LOWERCASE     => 13,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_UPPERCASE     => 14,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_POSTCODE      => 15,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_USTID         => 16,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_BOOLEAN       => 17,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_DOUBLE        => 18,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_INTEGER       => 19,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_STRING        => 20,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_LINK          => 21,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_INVALID       => 22,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_FILETYPE      => 23,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_FILESIZEMIN   => 24,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_FILESIZEMAX   => 25,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_FILEEXTENSION => 26,
     );
 
     /**
@@ -387,6 +137,7 @@ class DoozR_Form_Service_Validate_Validator
      */
     protected $currentValidationtypes = array();
 
+
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -403,7 +154,7 @@ class DoozR_Form_Service_Validate_Validator
      * @return boolean TRUE if given information is valid, otherwise FALSE if invalid
      * @access public
      */
-    public function validate($value, $validationTypes = self::VALIDATIONTYPE_REQUIRED)
+    public function validate($value, $validationTypes = DoozR_Form_Service_Validate_Constant::VALIDATE_REQUIRED)
     {
         // we assume a valid result
         $valid = true;
@@ -662,9 +413,13 @@ class DoozR_Form_Service_Validate_Validator
      */
     public function validateAlphabetic($value, $charCount = null)
     {
+        if (is_array($charCount)) {
+            $charCount = $charCount[0];
+        }
+
         // check for character limitation
-        if ($charCount) {
-            $pattern = "/^[a-zA-Z???????]{0,".$charCount."}$/";
+        if ($charCount !== null) {
+            $pattern = "/^[a-zA-Z???????]{0," . $charCount . "}$/";
         } else {
             $pattern = '/^[A-Za-z???????]+$/';
         }
@@ -845,11 +600,13 @@ class DoozR_Form_Service_Validate_Validator
         );
 
         if (!isset($pattern[$countrycode])) {
-            throw new DoozR_Form_Service_Exception('Unknown country-code "'.$countrycode.'" for USTID-validation!');
+            throw new DoozR_Form_Service_Exception(
+                'Unknown country-code "' . $countrycode . '" for USTID-validation!'
+            );
         }
 
         // validate and return
-        return (bool)preg_match('/'.$pattern[$countrycode].'/', $value);
+        return (bool)preg_match('/' . $pattern[$countrycode] . '/', $value);
     }
 
     /**
@@ -890,11 +647,13 @@ class DoozR_Form_Service_Validate_Validator
         );
 
         if (!isset($pattern[$countrycode])) {
-            throw new DoozR_Form_Service_Exception('Unknown country-code "'.$countrycode.'" for postcode-validation!');
+            throw new DoozR_Form_Service_Exception(
+                'Unknown country-code "' . $countrycode . '" for postcode-validation!'
+            );
         }
 
         // validate and return
-        return (bool)preg_match('/'.$pattern[$countrycode].'/', $value);
+        return (bool)preg_match('/' . $pattern[$countrycode] . '/', $value);
     }
 
     /**
@@ -1161,7 +920,7 @@ class DoozR_Form_Service_Validate_Validator
      */
     protected function getValidationMethodnameByType($validationtype)
     {
-        return 'validate'.ucfirst($validationtype);
+        return 'validate' . ucfirst($validationtype);
     }
 
     /**
@@ -1199,9 +958,7 @@ class DoozR_Form_Service_Validate_Validator
     }
 
     /**
-     * comparemethod for _sortValidationtypes()
-     *
-     * comparemethod for _sortValidationtypes()
+     * Comparemethod for _sortValidationtypes()
      *
      * @param mixed $a The value to compare ...
      * @param mixed $b ... against this value
@@ -1253,11 +1010,11 @@ class DoozR_Form_Service_Validate_Validator
 
         // types to be removed before ordering
         $removeTypes = array(
-            self::VALIDATIONTYPE_VALUE,
-            self::VALIDATIONTYPE_MINLENGTH,
-            self::VALIDATIONTYPE_MAXLENGTH,
-            self::VALIDATIONTYPE_POSTCODE,
-            self::VALIDATIONTYPE_USTID
+            DoozR_Form_Service_Validate_Constant::VALIDATE_VALUE,
+            DoozR_Form_Service_Validate_Constant::VALIDATE_MINLENGTH,
+            DoozR_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH,
+            DoozR_Form_Service_Validate_Constant::VALIDATE_POSTCODE,
+            DoozR_Form_Service_Validate_Constant::VALIDATE_USTID
         );
 
         // iterate over non-sortable validation-types and split
