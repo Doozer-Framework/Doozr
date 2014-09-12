@@ -152,7 +152,7 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
      * @return void
      * @access public
      */
-    public function setMultiple($status)
+    public function setMultiValue($status)
     {
         $this->multiValue = $status;
     }
@@ -164,7 +164,7 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
      * @return boolean TRUE if field is multi select, FALSE if not
      * @access public
      */
-    public function getMultiple()
+    public function getMultiValue()
     {
         return $this->multiValue;
     }
@@ -201,7 +201,7 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
     public function setAttribute($key, $value = null)
     {
         if ($key === 'name' && stristr($value, $this->multiMarker) !== false) {
-            $this->setMultiple(true);
+            $this->setMultiValue(true);
         }
 
         parent::setAttribute($key, $value);

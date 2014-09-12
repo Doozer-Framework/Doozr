@@ -324,6 +324,15 @@ class DoozR_Form_Service_Validate_Constant
      */
     const VALIDATE_FILEEXTENSION = 'fileextension';
 
+    /**
+     * Error flag for regular expression fails.
+     *
+     * @var string
+     *
+     * @access public
+     * @const
+     */
+    const VALIDATE_REGULAREXPRESSION = 'regularexpression';
 
     /*------------------------------------------------------------------------------------------------------------------
     | Constants for Error fields & prefixes & suffixes

@@ -188,6 +188,18 @@ class DoozR_Base_View_Rest extends DoozR_Base_View
     }
 
     /**
+     * This method (container) is intend to return the data for a requested mode.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Response_Rest
+     * @access public
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
      * Sends header of the API to the client. Those header containing the API-Version
      * and some more fields.
      *
@@ -202,34 +214,16 @@ class DoozR_Base_View_Rest extends DoozR_Base_View
         /* @var $response DoozR_Response_Web */
         $response = $this->front->getResponse();
 
-        $data = $this->getData();
-
-        // Check for custom status and extract + delete it
-        if (isset($data['status']) === true) {
-            $status = $data['status'];
-
-        } else {
-            $status = (isset($data['error']) === true) ? 400 : 200;
-        }
-
-        unset($data['status']);
-
-        if ($data['result'] === null) {
-            unset($data['result']);
-        }
-
-        // Send our data as HTML through response
-        $response->sendJson($data, $this->generateFingerprint(1), null, false, false, true, $status);
-
-        /*
-        if (isset($data->error)) {
-            $response->sendHttpStatus(400, null, true, $data->error->message);
-
-        } else {
-            // Send our data as HTML through response
-            $response->sendJson($data, $this->getFingerprint(1));
-        }
-        */
+        // Send our data as JSON through response
+        $response->sendJson(
+            $this->getData()->toJson(false),
+            $this->generateFingerprint(1),
+            null,
+            false,
+            false,
+            true,
+            $this->getData()->getCode()
+        );
     }
 
     /**

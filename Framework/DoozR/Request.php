@@ -299,7 +299,7 @@ class DoozR_Request extends DoozR_Base_State_Container
      */
     protected function emulateRequest($method)
     {
-        global $_PUT, $_DELETE;
+        global $_PUT, $_DELETE, $_REQUEST;
 
         $headers = $this->getStateObject()->getHeaders();
 
@@ -315,19 +315,34 @@ class DoozR_Request extends DoozR_Base_State_Container
                 )
             )
         ) {
-            $arguments = file_get_contents("php://input");
-            $GLOBALS['_' . $method]['DOOZR_REQUEST_BODY'] = $arguments;
+            //$GLOBALS['_' . $method]['DOOZR_REQUEST_BODY'] = file_get_contents("php://input");
+            // So we @ DoozR decided that we equalize the accessibility of arguments passed to a PHP process.
+            // To do so we extract the data from request body as single arguments instead of taking them as something
+            // completely different. So we also inject the values into global $_REQUEST.
+            $requestBody = file_get_contents("php://input");
 
-            // Automagically prepare data send in body (often JSON!) as object (auto extract)- Why? Just to be nice :O
-            $data = json_decode($arguments, false);
+            // Check for empty request body
+            if (strlen($requestBody) > 0) {
 
-            if ($data === null) {
-                $data = $arguments;
+                // Automagically prepare data send in body (often JSON!) as object (auto extract)- Why? Just to be nice :O
+                $data = json_decode($requestBody, false);
+
+                // Check if response could be extracted (= JSON input) if not do conversion to stdClass now:
+                if ($data === null) {
+                    $data  = new \stdClass();
+                    $input = explode('&', $requestBody);
+
+                    foreach ($input as $argumentSet) {
+                        $keyValue = explode('=', $argumentSet);
+                        $data->{$keyValue[0]} = isset($keyValue[1]) ? $keyValue[1] : null;
+                    }
+                }
+
+                foreach ($data as $argument => $value) {
+                    $GLOBALS['_' . $method][$argument] = $value;
+                    $_REQUEST[$argument] = $value;
+                }
             }
-
-            // AND as a test we store this as ready somewhere cause we know the information right here and do not
-            // need to do additional checks for existence somewhere else in code.
-            $this->getStateObject()->setRequestBody($data);
         }
 
         return true;

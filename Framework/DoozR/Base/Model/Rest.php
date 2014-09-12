@@ -182,7 +182,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @param boolean $result The result to set TRUE or FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Model_Rest Instance for chaining
+     * @return $this Instance for chaining
      * @access protected
      */
     protected function result($result)
@@ -209,7 +209,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @param integer $status The HTTP Status of current operation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Model_Rest Instance for chaining
+     * @return $this Instance for chaining
      * @access protected
      */
     protected function setStatus($status)
@@ -223,7 +223,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @param integer $status The HTTP Status of current operation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Model_Rest Instance for chaining
+     * @return $this Instance for chaining
      * @access protected
      */
     protected function status($status)
@@ -338,6 +338,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
         $output = array();
 
         foreach ($input as $keyValueStore) {
+
             foreach ($keyValueStore as $key => $value) {
                 $output[$this->escape($key)] = strval($value);
             }
@@ -366,49 +367,6 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
         }
 
         return $method;
-    }
-
-    /**
-     * Build a package for response which is basically an array structure which
-     * is very common when converted to JSON.
-     *
-     * @param            $success TRUE if the response package is a success response, otherwise FALSE
-     * @param mixed|null $data    The data to return to client (RAW response)
-     * @param integer    $status  Custom HTTP-Status override possible. 200 = OK = default.
-     * @param array      $error   The error(s) array if success is false
-     *
-     * @example array(
-     *              success => true|false
-     *              result  => The data for the client (We can name it the RAW-response)
-     *              error   => The error field containing one or more array entries with errors
-     *                         (only set if success === false)
-     *          );
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The response package
-     * @access protected
-     */
-    protected function packageResponse(
-        $success,
-        $data        = null,
-        $status      = DoozR_Base_Presenter_Rest::STATUS_OK_DEFAULT,
-        array $error = array()
-    ) {
-        if ($success === true) {
-            $response = array(
-                'status'  => $status,
-                'success' => $success,
-                'result'  => $data,
-            );
-        } else {
-            $response = array(
-                'status'  => $status,
-                'result'  => $data,
-                'error'   => $error
-            );
-        }
-
-        return $response;
     }
 
     /**

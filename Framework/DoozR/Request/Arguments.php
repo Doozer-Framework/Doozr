@@ -587,4 +587,11 @@ class DoozR_Request_Arguments extends DoozR_Base_Class
         $this->input[$key] = $value;
         $this->arguments = $this->transformToObject($this->input);
     }
+
+    public function toJson()
+    {
+        foreach ($this->arguments as $argument => $value) {
+            pred($argument);
+        }
+    }
 }

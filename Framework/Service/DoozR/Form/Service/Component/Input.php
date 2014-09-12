@@ -483,7 +483,7 @@ class DoozR_Form_Service_Component_Input extends DoozR_Form_Service_Component_Fo
      * @return void
      * @access public
      */
-    public function setMultiple($multiple)
+    public function setMultiValue($multiple)
     {
         $this->setAttribute('multiple', $multiple);
     }
@@ -495,7 +495,7 @@ class DoozR_Form_Service_Component_Input extends DoozR_Form_Service_Component_Fo
      * @return string The multiple value if set, otherwise NULL
      * @access public
      */
-    public function getMultiple()
+    public function getMultiValue()
     {
         return $this->getAttribute('multiple');
     }

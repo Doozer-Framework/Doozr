@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Base
- * @subpackage DoozR_Base_Tools
+ * @subpackage DoozR_Base_Development
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -59,7 +59,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Base
- * @subpackage DoozR_Base_Tools
+ * @subpackage DoozR_Base_Development
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @author     $LastChangedBy$
  * @copyright  2005 - 2014 Benjamin Carl

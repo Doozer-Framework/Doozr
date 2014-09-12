@@ -76,7 +76,7 @@ class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
      * @var array
      * @access public
      */
-    public $token = array();
+    public $token = null;
 
     /**
      * The error(s) of the request for an detailed error response to provide
@@ -105,8 +105,8 @@ class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
               $message  = null,
               $code     = 0,
               $previous = null,
-        array $token    = array(),
-        array $error    = array()
+        array $token    = null,
+        array $error    = null
     ) {
         // Store error & token in this layer is a REST API thing!
         $this->setToken($token);
@@ -125,7 +125,7 @@ class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
      * @return void
      * @access public
      */
-    public function setToken(array $token) {
+    public function setToken(array $token = null) {
         $this->token = $token;
     }
 
@@ -163,7 +163,7 @@ class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
      * @return void
      * @access public
      */
-    public function setError(array $error)
+    public function setError(array $error = null)
     {
         $this->error = $error;
     }
@@ -202,21 +202,34 @@ class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
      * @return array The response for the API
      * @access public
      */
-    public function toJsonResponse()
+    public function toJson()
     {
-        $data = array(
-            'error' => $this->getError(),
-            'security' => array(
-                'token' => $this->getToken(),
-            ),
-            'meta' => array(
-                'message' => $this->getMessage(),
-                'code'    => $this->getCode(),
-                'file'    => $this->getFile(),
-                'line'    => $this->getLine(),
-            )
-        );
+        $response = new DoozR_Base_Response_Rest();
+        $response
+            ->status(DoozR_Base_Response_Rest::STATUS_ERROR)
+            ->message($this->getMessage())
+            ->data(array('error' => $this->getError()));
 
-        return json_encode($data);
+        $data = $response->getData();
+
+        // Check token exchange required then inject
+        if ($this->getToken() !== null) {
+            $data['security'] = array('token' => $this->getToken());
+        }
+
+        // Now here is the interesting part in this logic ...
+        if (defined('DOOZR_DEBUG') === true && DOOZR_DEBUG === true) {
+            // add debug information!
+            $data['meta'] = array(
+                'message' => $this->getMessage(),
+                'code' => $this->getCode(),
+                'file' => $this->getFile(),
+                'line' => $this->getLine(),
+            );
+        }
+
+        $response->setData($data);
+
+        return $response->toJson();
     }
 }

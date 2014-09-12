@@ -76,7 +76,7 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
 {
     /**
      * Status if component is capable of
-     * submitting multiple values
+     * submitting multi-value values
      *
      * @var boolean
      * @access protected
@@ -85,14 +85,14 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
 
     /**
      * The addition to name for rendering HTML
-     * code for multiple input checkboxes.
+     * code for multi-value input checkboxes.
      *
      * @example <input type="checkbox" name="foo[]" ...
      *
      * @var string
      * @access  protected
      */
-    protected $multiMarker = '[]';
+    protected $multiValueSuffix = '[]';
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -143,28 +143,84 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
     }
 
     /**
-     * Sets the multiple status of this element.
+     * Sets the multi-marker of this element.
      *
-     * @param boolean TRUE to mark this field as multi select field,
-     *                FALSE to do not
+     * @param string $suffix The multi suffix something like "[]".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setMultiple($status)
+    public function setMultiValueSuffix($suffix)
+    {
+        $this->multiValueSuffix = $suffix;
+    }
+
+    /**
+     * Sets the multi-marker of this element.
+     *
+     * @param string $suffix The multi suffix something like "[]".
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function multiValueSuffix($suffix)
+    {
+        $this->setMultiValueSuffix($suffix);
+        return $this;
+    }
+
+    /**
+     * Returns the multi-marker of this element.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The multi suffix
+     * @access public
+     */
+    public function getMultiValueSuffix()
+    {
+        return $this->multiValue;
+    }
+
+
+    /**
+     * Sets the multi-value status of this element.
+     *
+     * @param boolean $status TRUE $boolean to mark this field as multi select field, FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setMultiValue($status)
     {
         $this->multiValue = $status;
     }
 
     /**
-     * Returns the multiple status of this element.
+     * Sets the multi-value status of this element.
+     *
+     * @param boolean $status TRUE $boolean to mark this field as multi select field, FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function multiValue($status)
+    {
+        $this->setMultiValue($status);
+        return $this;
+    }
+
+    /**
+     * Returns the multi-value status of this element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if field is multi select, FALSE if not
      * @access public
      */
-    public function getMultiple()
+    public function getMultiValue()
     {
         return $this->multiValue;
     }
@@ -184,7 +240,10 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
      */
     public function setName($name)
     {
-        $name .= '[]';
+        if ($this->getMultiValue() === true) {
+            $name .= $this->getMultiValueSuffix();
+        }
+
         return parent::setName($name);
     }
 
@@ -200,8 +259,8 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
      */
     public function setAttribute($key, $value = null)
     {
-        if ($key === 'name' && stristr($value, $this->multiMarker) !== false) {
-            $this->setMultiple(true);
+        if ($key === 'name' && stristr($value, $this->getMultiValueSuffix()) !== false) {
+            $this->setMultiValue(true);
         }
 
         parent::setAttribute($key, $value);
@@ -221,7 +280,7 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
         $value = parent::getAttribute($key);
 
         if ($key === 'name') {
-            $value = str_replace($this->multiMarker, '', $value);
+            $value = str_replace($this->multiValueSuffix, '', $value);
         }
 
         return $value;
@@ -241,7 +300,7 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
         $name = $this->getAttribute('name');
 
         if ($ripBrackets === true) {
-            $name = str_replace($this->multiMarker, '', $name);
+            $name = str_replace($this->multiValueSuffix, '', $name);
         }
 
         return $name;

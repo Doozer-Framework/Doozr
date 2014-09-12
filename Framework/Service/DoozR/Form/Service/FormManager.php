@@ -270,7 +270,7 @@ class DoozR_Form_Service_FormManager
      * @param DoozR_Form_Service_Renderer_Interface       $renderer          The Renderer instance for e.g. HTML-output
      * @param DoozR_Form_Service_Validate_Validator       $validator         The validator instance
      * @param DoozR_Form_Service_Validate_Error           $errorInstance     The  instance for cloning error messages
-     * @param \stdClass                                   $arguments         The Arguments passed with this request
+     * @param \stdClass|DoozR_Request_Arguments           $arguments         The Arguments passed with this request
      * @param string                                      $requestMethod     The request method
      * @param boolean                                     $angularDirectives Controls angular directives to hidden elems
      *
@@ -1411,14 +1411,14 @@ class DoozR_Form_Service_FormManager
      *
      * @param array                                     $components The components to validate from request
      * @param integer                                   $step       The step currently active
-     * @param \stdClass|null                            $arguments  The arguments
+     * @param \stdClass|DoozR_Request_Arguments|null    $arguments  The arguments
      * @param array|\DoozR_Form_Service_Store_Interface $store      The store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if valid, otherwise FALSE if invalid
      * @access protected
      */
-    protected function validateComponents(array $components, $step = 1, \stdClass $arguments = null, &$store = array())
+    protected function validateComponents(array $components, $step = 1, $arguments = null, &$store = array())
     {
         $valid = true;
 

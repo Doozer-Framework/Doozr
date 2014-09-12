@@ -79,33 +79,34 @@ class DoozR_Form_Service_Validate_Validator
      * @static
      */
     protected static $typeOrderMatrix = array(
-        DoozR_Form_Service_Validate_Constant::VALIDATE_IMPACT        =>  0,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_REQUIRED      =>  1,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_NOTEMPTY      =>  2,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_EMPTY         =>  3,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_VALUE         =>  4,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_ALPHABETIC    =>  5,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_MINLENGTH     =>  6,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH     =>  7,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_EMAIL         =>  8,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_EMAILAUTH     =>  9,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_NUMERIC       => 10,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_NOTNULL       => 11,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_IP            => 12,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_LOWERCASE     => 13,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_UPPERCASE     => 14,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_POSTCODE      => 15,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_USTID         => 16,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_BOOLEAN       => 17,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_DOUBLE        => 18,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_INTEGER       => 19,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_STRING        => 20,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_LINK          => 21,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_INVALID       => 22,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_FILETYPE      => 23,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_FILESIZEMIN   => 24,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_FILESIZEMAX   => 25,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_FILEEXTENSION => 26,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_IMPACT            =>  0,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_REQUIRED          =>  1,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_NOTEMPTY          =>  2,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_EMPTY             =>  3,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_VALUE             =>  4,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_ALPHABETIC        =>  5,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_MINLENGTH         =>  6,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH         =>  7,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_EMAIL             =>  8,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_EMAILAUTH         =>  9,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_NUMERIC           => 10,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_NOTNULL           => 11,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_IP                => 12,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_LOWERCASE         => 13,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_UPPERCASE         => 14,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_POSTCODE          => 15,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_USTID             => 16,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_BOOLEAN           => 17,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_DOUBLE            => 18,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_INTEGER           => 19,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_STRING            => 20,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_LINK              => 21,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_INVALID           => 22,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_REGULAREXPRESSION => 23,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_FILETYPE          => 24,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_FILESIZEMIN       => 25,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_FILESIZEMAX       => 26,
+        DoozR_Form_Service_Validate_Constant::VALIDATE_FILEEXTENSION     => 27,
     );
 
     /**
@@ -263,6 +264,25 @@ class DoozR_Form_Service_Validate_Validator
         );
 
         return in_array($extension, $validValues);
+    }
+
+    /**
+     * ...
+     *
+     * @param array $value       A file upload array structure (object) like $_SESSION
+     * @param array $validValues The valid values to validate against
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if could be validatet, otherwise FALSE
+     * @access public
+     */
+    public function validateRegularexpression($value, array $validValues)
+    {
+        if (isset($validValues[0]) && is_array($validValues[0])) {
+            $validValues = $validValues[0];
+        }
+
+        return (preg_match($validValues[0], $value) > 0);
     }
 
     /**
