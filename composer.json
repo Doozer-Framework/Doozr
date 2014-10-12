@@ -19,6 +19,7 @@
       "phptal/phptal": "1.3.0",
       "filp/whoops": "1.2.*@dev"
   },
+  "minimum-stability": "dev",
   "keywords": [
     "php",
     "framework",
