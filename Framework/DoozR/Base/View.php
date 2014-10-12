@@ -610,6 +610,9 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
         // Store data (reached) from model in this view!
         $this->data = $data;
 
+        // Assume null result out if render = false
+        $result = null;
+
         // Do render the view?
         if ($render) {
             // Lookup specific renderer

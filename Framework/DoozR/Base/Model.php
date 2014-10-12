@@ -420,15 +420,32 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     public function getData($force = false)
     {
         if ($this->data === null || $force === true) {
-            // custom generic overload solution
-            if (method_exists($this, '__data')) {
+
+            // Get action
+            $action = $this->getRequestState()->getActiveRoute()[$this->getRequestState()->getTranslationMatrix()[1]];
+
+            // Assume no method to call
+            $method = false;
+
+            // Check for concrete method call
+            if (method_exists($this, '__data' . ucfirst($action))) {
+                // Concrete integration ...
+                $method = '__data' . ucfirst($action);
+
+            } elseif (method_exists($this, '__data')) {
+                // custom generic overload solution
+                $method = '__data';
+            }
+
+            // Call if method detected ...
+            if ($method !== false) {
                 $arguments = func_get_args();
 
                 if (count($arguments) > 0) {
-                    call_user_func_array(array($this, '__data'), $arguments);
+                    call_user_func_array(array($this, $method), $arguments);
 
                 } else {
-                    call_user_func(array($this, '__data'));
+                    call_user_func(array($this, $method));
 
                 }
             }

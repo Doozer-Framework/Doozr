@@ -97,7 +97,6 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     public function lookup($string, $key = null, $arguments = null)
     {
         if (is_array($string) === true) {
-            pre($string);
             $translate = 'FAIL';
         } else {
             $translate = $string;
