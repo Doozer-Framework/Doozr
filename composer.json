@@ -19,6 +19,11 @@
       "phptal/phptal": "1.3.0",
       "filp/whoops": "1.2.*@dev"
   },
+  "autoload": {
+      "psr-0": {
+          "DoozR": "Framework/"
+      }
+  },
   "minimum-stability": "dev",
   "keywords": [
     "php",
