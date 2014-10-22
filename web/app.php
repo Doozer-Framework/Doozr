@@ -36,7 +36,16 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  */
 
-putenv('DOOZR_APP_ROOT=../app');
+/**
+ * You can override the default app path by a defined constant:
+ * define('DOOZR_APP_ROOT', '/path/to/app');
+ * 
+ * or by an environment variable which can be set via apache config
+ * for example on a per vhost base or like this with PHP:
+ * putenv('DOOZR_APP_ROOT', '/path/to/app');
+ *
+ * In the default install you won't need this statements above!
+ */
 
 /**
  * Get composer as well as DoozR's router the rest is magic ...

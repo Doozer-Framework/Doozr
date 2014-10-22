@@ -77,8 +77,8 @@ if ($documentRoot === false) {
     $root    = $_SERVER['DOCUMENT_ROOT'];
     $path    = '';
 
-    for ($i = count($partial)-1; $i > -1; --$i) {
-        $path = $s.$partial[$i].$path;
+    for ($i = count($partial) - 1; $i > -1; --$i) {
+        $path = $s . $partial[$i] . $path;
 
         if (realpath($root.$path) === __FILE__) {
             $path = $root.$path;
@@ -112,7 +112,8 @@ if (defined('DOOZR_APP_ROOT') === false) {
     if (getenv('DOOZR_APP_ROOT') !== false) {
         $appRoot = getenv('DOOZR_APP_ROOT');
     } else {
-        $appRoot = '';
+        $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . '/../app') . DIRECTORY_SEPARATOR;
+        $appRoot = ($defaultAppRoot !== false) ? $defaultAppRoot : '';
     }
 
     // Check for important! trailing slash

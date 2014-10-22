@@ -697,47 +697,8 @@ if (!function_exists('pre')) {
      */
     function pre($data, $return = false, $color = '#7CFC00', $cursor = 'pointer')
     {
-        // check for string given ...
-        if (!is_string($data)) {
-            /*
-            if (!is_object($data)) {
-                $data = var_export($data, true);
-            } else {
-                // what shall we do with a drunken object ...
-                //$data = var_export($data, true);
-                ob_start();
-                var_dump($data);
-                $data = ob_get_contents();
-                ob_end_clean();
-            }
-            */
-            ob_start();
-            var_export($data);
-            $data = ob_get_contents();
-            ob_end_clean();
-        }
-
-        // change color to a nicer viewable one!
-        $data = str_replace('cc0000', 'ccc', $data);
-
-        // define new-line ctrl-char
-        $nl = "\n";
-
-        // check for formatting (web | cli)
-        if (detectRunningMode() != 'cli') {
-            $id      = md5($data);
-            $style   = 'position:relative;padding:10px;width:auto;color:'.$color;
-            $style  .= ';background-color:#494545;border:2px groove #990099;z-index:1000;cursor:'.$cursor.';';
-            $output  = '<style>#DoozRpre'.$id.'{'.$style.'}</style>';
-            $output .= '<style media="print">#DoozRpre'.$id.'{font-weight:normal;border:0;background-color:none ';
-            $output .= '!important;color:#000 !important;}</style>';
-            $output .= '<pre id="DoozRpre'.$id.'">';
-            $output .= $data;
-            $output .= '</pre>';
-        } else {
-            $output = banner($data);
-        }
-
+        ladybug_dump($data);
+        
         // now check -> return?
         if (!$return) {
             echo $output;
@@ -991,8 +952,7 @@ function banner($data = '', $nl = "\n")
  */
 function pred($data = 'EMPTY_PRED_CALL', $return = false, $color = '#7CFC00', $cursor = 'pointer')
 {
-    pre($data, $return, $color, $cursor);
-    die();
+    ladybug_dump_die($data);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
