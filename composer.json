@@ -24,6 +24,7 @@
           "DoozR": "Framework/"
       }
   },
+  "include-path": ["Framework/"],
   "minimum-stability": "dev",
   "keywords": [
     "php",
