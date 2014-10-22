@@ -281,9 +281,9 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     /**
      * Proxy to getInstance to reduce confusion e.g. when bootstrapping the application.
      *
-     * @param array   $runtimeConfiguration Configuration to override app- and core-configuration on run level
-     *                                      (e.g. Unit Tests ...)
-     * @param booelan $virtual              TRUE to signalize DoozR that it is running virtual, default = FALSE
+     * @param array $runtimeConfiguration Configuration to override app- and core-configuration on run level
+     *                                    (e.g. Unit Tests ...)
+     * @param bool  $virtual              TRUE to signalize DoozR that it is running virtual, default = FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Core The core instance
@@ -508,10 +508,24 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
             self::$path->get('config').'.config'
         );
 
+
         // Read config from: Application
-        self::$config->read(
-            self::$path->get('app', 'Data\Private\Config\.config')
-        );
+        /**
+         * @todo: Maybe remove it from here? And put it to App (Userland) like
+         *
+         * $config = $registry->config;
+         * $config->merge(DoozR_Config_Parser_Json('path/to/my/override/config.json');
+         *
+         * OR
+         *
+         * $config = $registry->config;
+         * $config->merge(DoozR_Config_Parser('path/to/my/override/config.json');
+         */
+        if (file_exists(self::$path->get('app', 'Data\Private\Config\.config'))) {
+            self::$config->read(
+                self::$path->get('app', 'Data\Private\Config\.config')
+            );
+        }
 
         // check for runtime configuration
         if (count($runtimeConfiguration)) {
@@ -714,7 +728,12 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         // Get instance of back controller
         self::$back = self::$container->build('DoozR_Controller_Back', array(
                 DoozR_Loader_Serviceloader::load('filesystem'),
-                DoozR_Loader_Serviceloader::load('cache', DOOZR_UNIX, self::$config->cache->container())
+                DoozR_Loader_Serviceloader::load(
+                    'cache',
+                    DOOZR_UNIX,
+                    self::$config->cache->container(),
+                    object_to_array(self::$config->cache->{self::$config->cache->container()}())
+                )
             )
         );
 

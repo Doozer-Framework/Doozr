@@ -1,11 +1,13 @@
 <?php
 
 // Path to doctrine common class-loader
+/*
 $classLoader = realpath_ext(
     DOOZR_DOCUMENT_ROOT . '..' . '/vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php'
 );
 
 require_once $classLoader;
+*/
 
 
 // Annotations loader

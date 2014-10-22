@@ -287,11 +287,10 @@ final class DoozR_Route extends DoozR_Base_State_Container
 
         // parse the parts
         for ($i = 0; $i < $countParts; ++$i) {
-
-            if (isset($request[$i])) {
+            if (isset($request[$i]) && !is_array($request[$i])) {
                 $$translation[$i] = ucfirst(strtolower($request[$i]));
             } else {
-                $$translation[$i] = 'Default';
+                $$translation[$i] = 'Index';
             }
 
             // a list for dispatch (name => value - pairs)

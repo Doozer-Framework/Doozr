@@ -180,9 +180,7 @@ implements DoozR_Cache_Service_Container_Interface
 
         // important: check cache directory
         if (!$this->directory) {
-            throw new DoozR_Cache_Service_Exception(
-                'No cache-directory configured! Please configure "directory" if you use container of type "File".'
-            );
+            $this->directory = sys_get_temp_dir();
         }
 
         // clear file status cache
@@ -376,7 +374,7 @@ implements DoozR_Cache_Service_Container_Interface
         // throw exception if filehandle can not be received
         if (!$fileHandle) {
             throw new DoozR_Cache_Service_Exception(
-                'Can\'t access "'.$file.'" to store cache data. Check access rights and path'
+                'Can\'t access "' . $file . '" to store cache data. Check access rights and path'
                );
         }
 
@@ -389,8 +387,8 @@ implements DoozR_Cache_Service_Container_Interface
         // 1st line: expiration date
         // 2nd line: user data
         // 3rd+ lines: cache data
-        fwrite($fileHandle, $this->getExpiresAbsolute($expires)."\n");
-        fwrite($fileHandle, $userdata."\n");
+        fwrite($fileHandle, $this->getExpiresAbsolute($expires) . "\n");
+        fwrite($fileHandle, $userdata . "\n");
         fwrite($fileHandle, $this->encode($data));
 
         // remove file-lock
@@ -425,17 +423,13 @@ implements DoozR_Cache_Service_Container_Interface
 
         // if file does not exist -> then there is nothing to read
         if (!file_exists($file)) {
-            return array(
-                null,
-                null,
-                null
-            );
+            return null;
         }
 
         // otherwise retrieve the content
         if (!($fileHandle = @fopen($file, 'rb'))) {
             throw new DoozR_Cache_Service_Exception(
-                'Can\'t access cache file "'.$file.'". Check access rights and path.'
+                'Can\'t access cache file "' . $file . '". Check access rights and path.'
               );
         }
 
@@ -476,7 +470,7 @@ implements DoozR_Cache_Service_Container_Interface
     }
 
     /**
-     * removes a dataset finally from container
+     * Removes a dataset finally from container
      *
      * This method is intend to remove an dataset finally from container.
      *

@@ -174,12 +174,28 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         $this->logger = $logger;
         $this->cache  = DoozR_Loader_Serviceloader::load('cache', DOOZR_UNIX);
 
+        // try to load file container
+        try {
+            $this->cache->setContainer('filesystem');
+
+        } catch (DoozR_Cache_Service_Exception $e) {
+            var_dump($e->getMessage());
+            die;
+
+            throw new DoozR_Exception(
+                'Error while initializing cache! Neither file nor memcache container can be used.',
+                null,
+                $e
+            );
+        }
+
+        /*
         // try to use memcache as container
         try {
             $this->cache->setContainer('memcache');
 
         } catch (Exception $e) {
-            // use file-container as fallback
+            // Use file-container as fallback
             $this->cache->setContainerOptions(
                 array(
                     'directory'      => $path->get('cache'),
@@ -189,7 +205,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
 
             // try to load file container
             try {
-                $this->cache->setContainer('file');
+                $this->cache->setContainer('filesystem');
 
             } catch (DoozR_Cache_Service_Exception $e) {
                 throw new DoozR_Exception(
@@ -199,6 +215,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
                 );
             }
         }
+        */
 
         $this->attachDefaultReplacements();
     }
@@ -462,6 +479,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Requested node/value
      * @access public
+     * @throws DoozR_Config_Container_Exception
      */
     public function __get($node)
     {

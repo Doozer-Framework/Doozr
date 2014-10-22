@@ -106,9 +106,22 @@ define('DOOZR_DOCUMENT_ROOT', $documentRoot);
 | CHECK FOR PASSED APP PATH
 +---------------------------------------------------------------------------------------------------------------------*/
 
-$pathAppRoot = getenv('DOOZR_APP_ROOT');
+// First we check for configured correct DOOZR_APP_ROOT
+if (defined('DOOZR_APP_ROOT') === false) {
 
-if ($pathAppRoot !== false) {
+    if (getenv('DOOZR_APP_ROOT') !== false) {
+        $pathAppRoot = getenv('DOOZR_APP_ROOT');
+
+    } elseif (getenv('DOOZR_PATH_APP') !== false) {
+        $pathAppRoot = realpath(DOOZR_DOCUMENT_ROOT . getenv('DOOZR_PATH_APP'));
+
+    } else {
+        $pathAppRoot = '';
+    }
+
+    // Check for important! trailing slash
+    $pathAppRoot = rtrim($pathAppRoot, $s) . $s;
+
     define('DOOZR_APP_ROOT', $pathAppRoot);
 }
 

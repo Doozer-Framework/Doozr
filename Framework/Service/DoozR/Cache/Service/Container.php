@@ -206,7 +206,7 @@ abstract class DoozR_Cache_Service_Container
      */
     public function read($id, $group)
     {
-        // preloading activated?
+        // Preloading activated?
         if ($this->_preload) {
             // do a checked preload
             $this->_checkedPreload($id, $group);
@@ -304,9 +304,9 @@ abstract class DoozR_Cache_Service_Container
      */
     public function isCached($id, $group)
     {
-        // is preloading activated?
-        if ($this->_preload) {
-            // do a checked preload
+        // Is preloading activated?
+        if ($this->_preload === true) {
+            // Do a checked preload ...
             $this->_checkedPreload($id, $group);
 
             return !($this->_unknown);
@@ -376,26 +376,22 @@ abstract class DoozR_Cache_Service_Container
      */
     private function _preload($id, $group)
     {
-        // whatever happens, remember the preloaded ID
-        $this->_id = $id;
-        $this->_group = $group;
-
-        // try to read result by id-group
+        // Try to read result by id-group
         $result = $this->read($id, $group);
 
-        //list($this->_expires, $this->_data, $this->_userdata) = $result;
-
-        if ($this->_expires === null) {
-            // Uuups, unknown ID
+        if ($result === null) {
+            // Uuups, could not be preloaded ...
             $this->flushPreload();
-            return false;
+            $result = false;
+
+        } else {
+            $this->_id    = $id;
+            $this->_group = $group;
+            $result = true;
+
         }
 
-        //
-        $this->_unknown = false;
-
-
-        return true;
+        return $result;
     }
 
     /**
@@ -411,8 +407,8 @@ abstract class DoozR_Cache_Service_Container
      */
     private function _checkedPreload($id, $group)
     {
-        // if the active set id or group is different from last preloading
-        if ($this->_id != $id || $this->_group != $group) {
+        // If the active set id or group is different from last preloading
+        if ($this->_id !== $id || $this->_group !== $group) {
             $this->_preload($id, $group);
         }
     }
@@ -491,8 +487,6 @@ abstract class DoozR_Cache_Service_Container
      */
     protected function decode($data)
     {
-        pre($data);
-
         if ($this->encodingMode == 'base64') {
             return unserialize(base64_decode($data));
         } else {

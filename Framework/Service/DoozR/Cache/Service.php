@@ -371,6 +371,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
         if ($this->isCached($id, $group) && !$this->isExpired($id, $group)) {
             // then return the content
             return $this->_container->read($id, $group);
+
         } else {
             // if not exist throw exception
             throw new DoozR_Cache_Service_Exception(

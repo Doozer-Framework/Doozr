@@ -542,14 +542,15 @@ implements DoozR_Cache_Service_Container_Interface
         // API requires to add server first
         $memcache->addServer($hostname, $port);
 
-        // then we check if its up
-        if ($memcache->getServerStatus($hostname, $port) == 0) {
+        // Then we check if its up
+        $stats = $memcache->getExtendedStats();
+        if (isset($stats[$hostname.':'.$port]) && ($stats[$hostname.':'.$port] === false)) {
             throw new DoozR_Cache_Service_Exception(
                 'Server seems to be down. Could not connect to hostname: "'.$hostname.'" on Port: "'.$port.'".'
             );
         }
 
-        // and finally we try to connect
+        // Finally we try to connect
         if (!@$memcache->connect($hostname, $port)) {
             throw new DoozR_Cache_Service_Exception(
                 'Error while connecting to host: "'.$hostname.'" on Port: "'.$port.'". Connection failed.'
@@ -560,5 +561,3 @@ implements DoozR_Cache_Service_Container_Interface
         return $memcache;
     }
 }
-
-?>

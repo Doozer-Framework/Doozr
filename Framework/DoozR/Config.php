@@ -116,7 +116,7 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
         $enableCaching = false
     ) {
         // store
-        $this->path   = $path;
+        $this->path    = $path;
         $this->_logger = $logger;
 
         // create instance through factory and set as object to decorate!
