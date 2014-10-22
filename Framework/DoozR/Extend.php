@@ -681,6 +681,10 @@ function checksum()
 
 // check if method allready exists
 if (!function_exists('pre')) {
+
+    ladybug_set_theme('modern');
+    ladybug_set_format('html');
+
     /**
      * prints out or return a colorized output (no color in CLI-Mode)
      *
@@ -698,13 +702,6 @@ if (!function_exists('pre')) {
     function pre($data, $return = false, $color = '#7CFC00', $cursor = 'pointer')
     {
         ladybug_dump($data);
-        
-        // now check -> return?
-        if (!$return) {
-            echo $output;
-        } else {
-            return $output;
-        }
     }
 }
 
