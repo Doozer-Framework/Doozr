@@ -110,19 +110,15 @@ define('DOOZR_DOCUMENT_ROOT', $documentRoot);
 if (defined('DOOZR_APP_ROOT') === false) {
 
     if (getenv('DOOZR_APP_ROOT') !== false) {
-        $pathAppRoot = getenv('DOOZR_APP_ROOT');
-
-    } elseif (getenv('DOOZR_PATH_APP') !== false) {
-        $pathAppRoot = realpath(DOOZR_DOCUMENT_ROOT . getenv('DOOZR_PATH_APP'));
-
+        $appRoot = getenv('DOOZR_APP_ROOT');
     } else {
-        $pathAppRoot = '';
+        $appRoot = '';
     }
 
     // Check for important! trailing slash
-    $pathAppRoot = rtrim($pathAppRoot, $s) . $s;
+    $appRoot = rtrim($appRoot, $s) . $s;
 
-    define('DOOZR_APP_ROOT', $pathAppRoot);
+    define('DOOZR_APP_ROOT', $appRoot);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
