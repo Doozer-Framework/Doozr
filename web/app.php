@@ -2,13 +2,6 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Unit-Test - Bootstrap
- *
- * Bootstrap.php - The bootstrapper for Unit-Testing DoozR
- *
- * PHP versions 5
- *
- * LICENSE:
  * DoozR - The PHP-Framework
  *
  * Copyright (c) 2005 - 2014, Benjamin Carl - All rights reserved.
@@ -41,35 +34,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
- *
- * @category   DoozR
- * @package    DoozR_Test
- * @subpackage DoozR_Test_Bootstrapper
- * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2014 Benjamin Carl
- * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
  */
+
+putenv('DOOZR_APP_ROOT=../app');
 
 /**
- * detect path to DoozR
+ * Get composer as well as DoozR's router the rest is magic ...
  */
-$pathToDoozR = str_replace(
-    '_test' . DIRECTORY_SEPARATOR . 'Include' . DIRECTORY_SEPARATOR . 'Bootstrapper.php',
-    '',
-    realpath(__FILE__)
-);
+require_once '../vendor/Autoload.php';
+require_once 'Route.php';
 
 /**
- * some basic pre-unit-test check
+ * If you want to call normal files within this directory feel free to :)
  */
-if (file_exists($pathToDoozR)) {
-    // define DoozR root folder
-    define('DOOZR_UT_DOCUMENT_ROOT', $pathToDoozR);
-} else {
-    // STOP execution -> show error
-    pred('Execution STOPPED. Please check path to DoozR (automatic detected "' . $pathToDoozR . '")');
-}
-
-?>

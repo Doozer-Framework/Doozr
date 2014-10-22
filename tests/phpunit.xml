@@ -6,7 +6,7 @@
     bootstrap="../Framework/DoozR/Bootstrap.php">
     <testsuites>
         <testsuite name="DoozR_I18n_Service">
-            <directory>../Framework/Service/DoozR/I18n/_test/</directory>
+            <directory>../Framework/Service/DoozR/I18n/tests/</directory>
         </testsuite>
     </testsuites>
 

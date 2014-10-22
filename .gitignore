@@ -4,7 +4,7 @@
 __*/
 /.buildpath
 /.project
-_doc/html/*
+doc/html/*
 /.settings
 /App/Data/Private/Temp/*.php
 /.externalToolBuilders
@@ -12,4 +12,4 @@ _doc/html/*
 /vendor
 
 /composer.lock
-/_test/Log
+/tests/Log
