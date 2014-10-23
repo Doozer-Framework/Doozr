@@ -47,7 +47,8 @@ Navigate to a path where you want your environment running. If you plan to use *
         "minimum-stability": "dev",
         "require": {},
         "require-dev": {
-        "clickalicious/doozr": "dev-master"
+            "clickalicious/doozr": "dev-master"
+        }
     }
     
 
