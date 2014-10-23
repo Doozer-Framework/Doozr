@@ -55,6 +55,8 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Response.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
+use DebugBar\StandardDebugBar;
+
 /**
  * DoozR - Response - Web
  *
@@ -758,6 +760,13 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function sendHtml($buffer, $etag = null, $exit = true, $charset = null)
     {
+        if (DOOZR_DEBUG === true) {
+            $debugbar = new StandardDebugBar();
+            $debugbarRenderer = $debugbar->getJavascriptRenderer();
+            $debugbarRenderer->setBaseUrl('/assets');
+            $buffer .= $debugbarRenderer->renderHead() . $debugbarRenderer->render();
+        }
+
         // Check if we can deliver just a simple 304 Not modified
         if ($etag && $etag === $etagReceived = $this->getEtagFromServerVariables()) {
 

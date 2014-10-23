@@ -206,7 +206,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
         preg_match_all($pattern, $requestState->getRequestUri(), $request);
 
         // Check for redirect/fillup routes ...
-        self::$request = self::redirect($request, object_to_array($requestState->getRoutes()->routes));
+        self::$request = self::redirect($request[0], object_to_array($requestState->getRoutes()->routes));
 
         // Get pattern translation as array from config
         self::$translationMatrix = explode('/', $requestState->getRoutes()->pattern->translation);
@@ -281,8 +281,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
         // the translated result
         $result = array();
 
-        // get count of parts used in current pattern
-        // outside the following loop -> performance
+        // Get count of parts used in current pattern outside the following loop -> performance
         $countParts = count($translation);
 
         // parse the parts
@@ -361,7 +360,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
 
             // check for existing route redirects for "object" & "action"
             if (isset($routeRedirects[$route[0]][$route[1]])) {
-                $node = $routeRedirects[$route[0]][$route[1]];
+                $node  = $routeRedirects[$route[0]][$route[1]];
                 $route = array_merge($node, array_slice($route, 2));
 
             } elseif (isset($routeRedirects[$route[0]])) {
