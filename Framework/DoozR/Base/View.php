@@ -786,15 +786,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
             if ($i18n !== null) {
                 $i18n->useDomain($this->translateToTextdomain());
                 $template->setTranslator($i18n);
+                $template->{'doozr_locale'} = $i18n->getActiveLocale();
             }
 
             // Assign data from passed in array to template (for use as a template variable)
             foreach ($data as $key => $value) {
                 $template->{$key} = $value;
             }
-
-            // Inject locale and some other vars
-            $template->{'doozr_locale'} = $i18n->getActiveLocale();
 
             // setup template compile output dir
             $template->setPhpCodeDestination(
