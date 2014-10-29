@@ -52,9 +52,9 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI.'Parser/Abstract.php';
-require_once DI_PATH_LIB_DI.'Parser/Interface.php';
-require_once DI_PATH_LIB_DI.'Exception.php';
+require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
+require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
+require_once DI_PATH_LIB_DI . 'Exception.php';
 
 /**
  * Di Constructor Parser
@@ -79,7 +79,7 @@ class DoozR_Di_Parser_Constructor extends DoozR_Di_Parser_Abstract implements Do
      * Parse out the constructor of a class (eg. for singleton classes)
      *
      * This method is intend to parse out the name of the constructor. This method is used for singleton classes
-     * or classes which can not be instanciated via "new" operator.
+     * or classes which can not be instantiated via "new" operator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The name of the method which act as constructor
@@ -145,7 +145,7 @@ class DoozR_Di_Parser_Constructor extends DoozR_Di_Parser_Abstract implements Do
 
                 // check for instantiation
                 if (strpos($methodSourcecode, 'new self(')
-                    || strpos($methodSourcecode, 'new '.$this->input['class'].'(')
+                    || strpos($methodSourcecode, 'new ' . $this->input['class'] . '(')
                 ) {
                     $constructor = $possibleConstructor->name;
                     break;

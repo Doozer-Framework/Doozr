@@ -66,11 +66,28 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-interface DoozR_Config_Interface
+interface DoozR_Config_Interface extends DoozR_Config_Container_Interface
 {
     /**
-     * EMPTY but IMPORTANT contract for Config used in DoozR
-     * for fullfilment of DI contracts
+     * Setter for key => value pairs of config.
+     *
+     * @param string $node  The key used for entry
+     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
+    public function set($node, $value);
 
+    /**
+     * Getter for value of passed key.
+     *
+     * @param string $node The key used for value lookup.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The value if set, otherwise NULL
+     * @access public
+     */
+    public function get($node);
 }

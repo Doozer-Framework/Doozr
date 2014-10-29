@@ -120,7 +120,7 @@ abstract class DoozR_Cache_Service_Container
     private $_unknown = true;
 
     /**
-     * Encoding mode for cache data: base64 or addslashes() (slash).
+     * Encoding runtimeEnvironment for cache data: base64 or addslashes() (slash).
      * base64 or slash
      *
      * @var string

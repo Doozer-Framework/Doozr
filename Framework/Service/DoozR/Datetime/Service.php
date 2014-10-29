@@ -68,22 +68,21 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
 class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
 {
     /**
-     * holds the DateTime-Instance of this instance
+     * Holds the DateTime-Instance of this instance
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_dateTime;
+    protected $dateTime;
 
 
     /**
-     * replacement for __construct
+     * Replacement for __construct
      *
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
@@ -94,7 +93,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function __tearup()
     {
-        $this->_dateTime = new DateTime();
+        $this->dateTime = new DateTime();
     }
 
     /**
@@ -115,7 +114,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
         }
 
         // format date
-        $date = $this->_formatDate($date);
+        $date = $this->formatDate($date);
 
         // get timestamp from date
         $date = $this->_getTimestamp(
@@ -128,7 +127,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
         );
 
         // update current date/time
-        $this->_dateTime->setTimestamp($date);
+        $this->dateTime->setTimestamp($date);
     }
 
     /**
@@ -144,7 +143,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function getDate($format = 'd.m.Y')
     {
-        return date($format, $this->_dateTime->getTimestamp());
+        return date($format, $this->dateTime->getTimestamp());
     }
 
     /**
@@ -160,7 +159,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function getTime($format = 'H:i:s')
     {
-        return date($format, $this->_dateTime->getTimestamp());
+        return date($format, $this->dateTime->getTimestamp());
     }
 
     /**
@@ -177,7 +176,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     public function getSecond($timestamp = false)
     {
         if (!$timestamp) {
-            $timestamp = $this->_dateTime->getTimestamp();
+            $timestamp = $this->dateTime->getTimestamp();
         }
 
         return (int) date('s', $timestamp);
@@ -197,7 +196,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     public function getMinute($timestamp = false)
     {
         if (!$timestamp) {
-            $timestamp = $this->_dateTime->getTimestamp();
+            $timestamp = $this->dateTime->getTimestamp();
         }
 
         return date('i', $timestamp);
@@ -217,7 +216,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     public function getHour($timestamp = false)
     {
         if (!$timestamp) {
-            $timestamp = $this->_dateTime->getTimestamp();
+            $timestamp = $this->dateTime->getTimestamp();
         }
 
         return date('G', $timestamp);
@@ -237,7 +236,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     public function getDay($timestamp = false)
     {
         if (!$timestamp) {
-            $timestamp = $this->_dateTime->getTimestamp();
+            $timestamp = $this->dateTime->getTimestamp();
         }
 
         return date('j', $timestamp);
@@ -257,7 +256,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     public function getWeek($timestamp = false)
     {
         if (!$timestamp) {
-            $timestamp = $this->_dateTime->getTimestamp();
+            $timestamp = $this->dateTime->getTimestamp();
         }
 
         return (int) date('W', $timestamp);
@@ -277,7 +276,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     public function getWeekday($timestamp = false)
     {
         if (!$timestamp) {
-            $timestamp = $this->_dateTime->getTimestamp();
+            $timestamp = $this->dateTime->getTimestamp();
         }
 
         return date('w', $timestamp);
@@ -297,7 +296,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     public function getMonth($timestamp = false)
     {
         if (!$timestamp) {
-            $timestamp = $this->_dateTime->getTimestamp();
+            $timestamp = $this->dateTime->getTimestamp();
         }
 
         return date('n', $timestamp);
@@ -317,7 +316,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     public function getYear($timestamp = false)
     {
         if (!$timestamp) {
-            $timestamp = $this->_dateTime->getTimestamp();
+            $timestamp = $this->dateTime->getTimestamp();
         }
 
         return date('Y', $timestamp);
@@ -334,7 +333,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function getMySqlDateTime()
     {
-        return $this->_format('Y-m-d H:i:s');
+        return $this->format('Y-m-d H:i:s');
     }
 
     /**
@@ -348,7 +347,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function getDin5008DateTime()
     {
-        return $this->_format('d.m.Y H:i:s');
+        return $this->format('d.m.Y H:i:s');
     }
 
     /**
@@ -362,7 +361,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function getDin5008Date()
     {
-        return $this->_format('d.m.Y');
+        return $this->format('d.m.Y');
     }
 
     /**
@@ -376,7 +375,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function getMySqlDateNull()
     {
-        return $this->_format('Y-m-d 00:00:00');
+        return $this->format('Y-m-d 00:00:00');
     }
 
     /**
@@ -390,7 +389,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function getMySQLDate()
     {
-        return $this->_format('Y-m-d');
+        return $this->format('Y-m-d');
     }
 
     /**
@@ -404,7 +403,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function getMySQLCompactDate()
     {
-        return $this->_format('Ymd');
+        return $this->format('Ymd');
     }
 
     /**
@@ -426,13 +425,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to return current Date as Timestamp.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getTimeStamp()
     {
-        return $this->_dateTime->getTimestamp();
+        return $this->dateTime->getTimestamp();
     }
 
     /**
@@ -496,7 +495,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function addSecond($count = 1, $update = true)
     {
-        return $this->_add($count, 'second', $update);
+        return $this->add($count, 'second', $update);
     }
 
     /**
@@ -515,7 +514,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function subtractSecond($count = 1, $update = true)
     {
-        return $this->_subtract($count, 'second', $update);
+        return $this->subtract($count, 'second', $update);
     }
 
     /**
@@ -534,7 +533,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function addMinute($count = 1, $update = true)
     {
-        return $this->_add($count, 'minutes', $update);
+        return $this->add($count, 'minutes', $update);
     }
 
     /**
@@ -553,7 +552,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function subtractMinute($count = 1, $update = true)
     {
-        return $this->_subtract($count, 'minute', $update);
+        return $this->subtract($count, 'minute', $update);
     }
 
     /**
@@ -572,7 +571,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function addHour($count = 1, $update = true)
     {
-        return $this->_add($count, 'hour', $update);
+        return $this->add($count, 'hour', $update);
     }
 
     /**
@@ -591,7 +590,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function subtractHour($count = 1, $update = true)
     {
-        return $this->_subtract($count, 'hour', $update);
+        return $this->subtract($count, 'hour', $update);
     }
 
     /**
@@ -610,7 +609,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function addDay($count = 1, $update = true)
     {
-        return $this->_add($count, 'day', $update);
+        return $this->add($count, 'day', $update);
     }
 
     /**
@@ -629,7 +628,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function subtractDay($count = 1, $update = true)
     {
-        return $this->_subtract($count, 'day', $update);
+        return $this->subtract($count, 'day', $update);
     }
 
     /**
@@ -648,7 +647,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function addWeek($count = 1, $update = true)
     {
-        return $this->_add($count, 'week', $update);
+        return $this->add($count, 'week', $update);
     }
 
     /**
@@ -667,7 +666,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function subtractWeek($count = 1, $update = true)
     {
-        return $this->_subtract($count, 'week', $update);
+        return $this->subtract($count, 'week', $update);
     }
 
     /**
@@ -686,7 +685,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function addMonth($count = 1, $update = true)
     {
-        return $this->_add($count, 'month', $update);
+        return $this->add($count, 'month', $update);
     }
 
     /**
@@ -705,7 +704,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function subtractMonth($count = 1, $update = true)
     {
-        return $this->_subtract($count, 'month', $update);
+        return $this->subtract($count, 'month', $update);
     }
 
     /**
@@ -724,7 +723,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function addYear($count = 1, $update = true)
     {
-        return $this->_add($count, 'year', $update);
+        return $this->add($count, 'year', $update);
     }
 
     /**
@@ -743,7 +742,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function subtractYear($count = 1, $update = true)
     {
-        return $this->_subtract($count, 'year', $update);
+        return $this->subtract($count, 'year', $update);
     }
 
     /**
@@ -762,7 +761,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      */
     public function getDiff($date, $unit = 'd')
     {
-        $date = $this->_formatDate($date);
+        $date = $this->formatDate($date);
 
         $date = $this->_getTimestamp(
             $date[0], // hour
@@ -775,7 +774,7 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
 
         $dateTime = new DateTime();
         $dateTime->setTimestamp($date);
-        $diff = $this->_dateTime->diff($dateTime);
+        $diff = $this->dateTime->diff($dateTime);
 
         /**
            possible return values
@@ -870,13 +869,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param string  $unit   The unit to use for calculation
      * @param boolean $update TRUE to upate current date/time with new value, FALSE to return fresh instance
      *
-     * @return  mixed TRUE/FALSE as result of update, otherwise fresh DateTime-Instance
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE/FALSE as result of update, otherwise fresh DateTime-Instance
+     * @access protected
      */
-    private function _add($count, $unit = 'day', $update = true)
+    protected function add($count, $unit = 'day', $update = true)
     {
-        return $this->_dateCalculation($count, $unit, $update, '+');
+        return $this->dateCalculation($count, $unit, $update, '+');
     }
 
     /**
@@ -888,13 +887,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param string  $unit   The unit to use for calculation
      * @param boolean $update TRUE to upate current date/time with new value, FALSE to return fresh instance
      *
-     * @return  mixed TRUE/FALSE as result of update, otherwise fresh DateTime-Instance
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE/FALSE as result of update, otherwise fresh DateTime-Instance
+     * @access protected
      */
-    private function _subtract($count, $unit = 'day', $update = true)
+    protected function subtract($count, $unit = 'day', $update = true)
     {
-        return $this->_dateCalculation($count, $unit, $update, '-');
+        return $this->dateCalculation($count, $unit, $update, '-');
     }
 
     /**
@@ -907,22 +906,23 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param boolean $update    TRUE to upate current date/time with new value, FALSE to return fresh instance
      * @param string  $operation "+" to add/incread, "-" to subtract/decrease
      *
-     * @return  mixed TRUE/FALSE as result of update, otherwise fresh DateTime-Instance
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE/FALSE as result of update, otherwise fresh DateTime-Instance
+     * @access protected
      */
-    private function _dateCalculation($count, $unit, $update, $operation = '+')
+    protected function dateCalculation($count, $unit, $update, $operation = '+')
     {
         $timestamp = strtotime(
             date(
-                'd.m.Y H:i:s', strtotime(
+                'd.m.Y H:i:s',
+                strtotime(
                     $this->getDate('Y-m-d H:i:s')
                 )
             ) . " ".$operation.$count." ".$unit
         );
 
         if ($update) {
-            return $this->_dateTime->setTimestamp($timestamp);
+            return $this->dateTime->setTimestamp($timestamp);
         } else {
             $dateTime = new DateTime();
             $dateTime->setTimestamp($timestamp);
@@ -937,13 +937,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * @param string $format The format to use
      *
-     * @return  string Date/Time formatted
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Date/Time formatted
+     * @access protected
      */
-    private function _format($format = 'd.m.Y H:i:s')
+    protected function format($format = 'd.m.Y H:i:s')
     {
-        return date($format, $this->_dateTime->getTimestamp());
+        return date($format, $this->dateTime->getTimestamp());
     }
 
     /**
@@ -955,11 +955,11 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param string $format    The format to use
      * @param string $separator The separator used in date-format
      *
-     * @return  string Date/Time formatted
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Date/Time formatted
+     * @access protected
      */
-    private function _formatDate($date, $format = 'H/i/s/m/d/Y', $separator = '/')
+    protected function formatDate($date, $format = 'H/i/s/m/d/Y', $separator = '/')
     {
         $date = date($format, strtotime($date));
         return explode($separator, $date);
@@ -978,10 +978,10 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param string $year   The year
      *
      * @return  string UNIX-Timestamp
-     * @access  private
+     * @access  protected
      * @author  Benjamin Carl <opensource@clickalicious.de>
      */
-    private function _getTimestamp(
+    protected function _getTimestamp(
         $hour,
         $minute,
         $second,

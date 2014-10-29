@@ -69,17 +69,25 @@
 interface DoozR_Registry_Interface
 {
     /**
-     * @param null $identifier
+     * The official and supported way of getting stored objects from registry.
      *
-     * @return mixed
+     * @param string|null $identifier The identifier to return content for, NULL to return all objects
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The stored variable if exist, otherwise NULL
+     * @access public
      */
-    public static function get($identifier = null);
+    public function get($identifier = null);
 
     /**
-     * @param      $variable
-     * @param null $identifier
+     * The official and supported way of storing objects in registry.
      *
-     * @return mixed
+     * @param mixed       $variable   The variable to store
+     * @param string|null $identifier The identifier to store variable under
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    public static function set(&$variable, $identifier = null);
+    public function set($variable, $identifier = null);
 }

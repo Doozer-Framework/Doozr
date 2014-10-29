@@ -380,7 +380,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     }
 
     /**
-     * This method (container) is intend to set the data for a requested mode.
+     * This method (container) is intend to set the data for a requested runtimeEnvironment.
      *
      * @param mixed $data The data (array prefered) to set
      *
@@ -409,12 +409,12 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     }
 
     /**
-     * This method (container) is intend to return the data for a requested mode.
+     * This method (container) is intend to return the data for a requested runtimeEnvironment.
      *
      * @param boolean $force TRUE to force retrieval fresh data, otherwise FALSE to use already retrieved [default]
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data for the mode requested
+     * @return mixed The data for the runtimeEnvironment requested
      * @access public
      */
     public function getData($force = false)

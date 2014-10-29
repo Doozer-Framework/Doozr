@@ -68,67 +68,49 @@
  */
 interface DoozR_Config_Container_Interface
 {
-    // CRUD on config-container
+    /**
+     * Creates a configuration node.
+     *
+     * @param string $node The node to create
+     * @param string $data The data to write to config
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @access public
+     */
+    public function create($node, $data);
 
     /**
-     * creates a configuration resource
+     * Reads and return a configuration node.
      *
-     * This method is intend to create a configuration resource.
+     * @param mixed $node The node to read/parse
      *
-     * @param string  $resource The resource to create
-     * @param string  $data     The data to write to config
-     *
-     * @return  boolean TRUE if entry was created succesful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data from cache if successful, otherwise NULL
+     * @access public
      */
-    public function create($resource, $data);
+    public function read($node);
 
     /**
-     * reads a configuration-resource
+     * Updates a configuration node.
      *
-     * This method is intend to read a configuration-resource.
+     * @param string $node  The configuration node
+     * @param string $value The data to write
      *
-     * @param mixed $resource The resource to read/parse
-     *
-     * @return  mixed The data from cache if succesful, otherwise NULL
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @access public
      */
-    public function read($resource);
+    public function update($node, $value);
 
     /**
-     * updates a configuration-resource
+     * Deletes a node.
      *
-     * This method is intend to update a configuration-resource.
+     * @param string $node The node to delete
      *
-     * @param string  $resource The configuration resource
-     * @param string  $data     The data to write to cache
-     *
-     * @return  boolean TRUE if entry was created succesful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
+     * @access public
      */
-    public function update($resource, $data);
-
-    /**
-     * deletes a resource
-     *
-     * This method is intend to delete a resource.
-     *
-     * @param string $resource The resource to delete
-     *
-     * @return  boolean TRUE if entry was deleted succesful, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     */
-    public function delete($resource);
+    public function delete($node);
 }

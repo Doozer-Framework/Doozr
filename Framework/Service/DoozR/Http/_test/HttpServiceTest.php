@@ -94,7 +94,7 @@ class HttpServiceTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        // Instanciate DoozR -> this will manage some base setup
+        // Instantiate DoozR -> this will manage some base setup
         DoozR_Core::getInstance();
 
         $this->init();

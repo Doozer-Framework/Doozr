@@ -89,7 +89,7 @@ class DoozR_Request extends DoozR_Base_State_Container
     const EMULATED = 1;
 
     /**
-     * The request sources valid for active running mode.
+     * The request sources valid for active running runtimeEnvironment.
      *
      * @var array
      * @access protected
@@ -106,7 +106,7 @@ class DoozR_Request extends DoozR_Base_State_Container
      * @param DoozR_Registry             $registry    The registry containing all important instances
      * @param DoozR_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
      * @param string                     $requestUri  The request URI for overriding detection of real
-     * @param string                     $sapi        The SAPI mode of active PHP Instance
+     * @param string                     $sapi        The SAPI runtimeEnvironment of active PHP Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Request
@@ -152,7 +152,7 @@ class DoozR_Request extends DoozR_Base_State_Container
         // Store SAPI (CLI, HTTPD, APACHE ....)
         $this->getStateObject()->setSapi($sapi);
 
-        // Store mode the framework runs in. Something like CLI or CLI-SERVER (PHP's internal webserver) or ...
+        // Store runtimeEnvironment the framework runs in. Something like CLI or CLI-SERVER (PHP's internal webserver) or ...
         $mode = $this->getModeBySapi($sapi);
 
         // Set valid request sources
@@ -160,8 +160,8 @@ class DoozR_Request extends DoozR_Base_State_Container
             $this->emitValidRequestSources($mode)
         );
 
-        // Store the mode
-        $this->getStateObject()->setMode($mode);
+        // Store the runtimeEnvironment
+        $this->getStateObject()->setRuntimeEnvironment($mode);
 
         // Store method
         $this->getStateObject()->setMethod(
@@ -390,9 +390,9 @@ class DoozR_Request extends DoozR_Base_State_Container
     }
 
     /**
-     * Combines the request sources to a single array by passed mode.
+     * Combines the request sources to a single array by passed runtimeEnvironment.
      *
-     * @param string $mode The active mode to return request sources for
+     * @param string $mode The active runtimeEnvironment to return request sources for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The combined request sources
@@ -406,7 +406,7 @@ class DoozR_Request extends DoozR_Base_State_Container
         );
 
         switch ($mode) {
-            case DoozR_Request_State::RUNNING_MODE_CLI:
+            case DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI:
                 $requestSources = array_merge(
                     $requestSources,
                     array(
@@ -415,8 +415,8 @@ class DoozR_Request extends DoozR_Base_State_Container
                 );
                 break;
 
-            case DoozR_Request_State::RUNNING_MODE_WEB:
-            case DoozR_Request_State::RUNNING_MODE_HTTPD:
+            case DoozR_Request_State::RUNTIME_ENVIRONMENT_WEB:
+            case DoozR_Request_State::RUNTIME_ENVIRONMENT_HTTPD:
             default:
                 $requestSources = array_merge(
                     $requestSources,
@@ -500,21 +500,21 @@ class DoozR_Request extends DoozR_Base_State_Container
      * @param string $sapi The SAPI of PHP
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The mode [web | cli | cli-server]
+     * @return string The runtimeEnvironment [web | cli | cli-server]
      * @access protected
      */
     protected function getModeBySapi($sapi)
     {
-        // Assume default running mode
-        $mode = DoozR_Request_State::RUNNING_MODE_WEB;
+        // Assume default running runtimeEnvironment
+        $mode = DoozR_Request_State::RUNTIME_ENVIRONMENT_WEB;
 
-        // Detect running mode through php functionality
+        // Detect running runtimeEnvironment through php functionality
         switch ($sapi) {
             case 'cli':
-                $mode = DoozR_Request_State::RUNNING_MODE_CLI;
+                $mode = DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI;
                 break;
             case 'cli-server':
-                $mode = DoozR_Request_State::RUNNING_MODE_HTTPD;
+                $mode = DoozR_Request_State::RUNTIME_ENVIRONMENT_HTTPD;
                 break;
         }
 

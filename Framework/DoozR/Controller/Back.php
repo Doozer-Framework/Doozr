@@ -214,8 +214,8 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
 
     /**
      * Runs the request passed as argument by dispatching it to the backend layers.
-     * This can be "Model" "View" "Presenter" in MVP mode or "Model" "View" "Controller"
-     * in MVC mode.
+     * This can be "Model" "View" "Presenter" in MVP runtimeEnvironment or "Model" "View" "Controller"
+     * in MVC runtimeEnvironment.
      *
      * @param DoozR_Base_State_Interface $requestState The request state
      *

@@ -2,9 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Logger - File
+ * DoozR - Logger - Debugbar
  *
- * File.php - This logger logs all passed content to a logfile.
+ * Debugbar.php - This logger is a bridge to PHP Debug Bar's logging system (
+ *   http://phpdebugbar.com/docs/base-collectors.html#messages
+ * ) we decided to use this logger - which can be combined with all the other
+ * loggers - to bring the logging functionality of PHP Debug Bar to the devs.
+ * So when developing DoozR you can simply call $logger->log('Foo', LEVEL);
+ * and be sure if logging level config is OK the log entry will also appear in
+ * debug bar.
  *
  * PHP versions 5
  *
@@ -44,7 +50,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Logger
- * @subpackage DoozR_Logger_File
+ * @subpackage DoozR_Logger_Debugbar
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -58,21 +64,26 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/PsrInterface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Constant.php';
 
 /**
- * DoozR - Logger - File
+ * DoozR - Logger - Debugbar
  *
- * File.php - This logger logs all passed content to a logfile.
+ * This logger is a bridge to PHP Debug Bar's logging system (
+ *   http://phpdebugbar.com/docs/base-collectors.html#messages
+ * ) we decided to use this logger - which can be combined with all the other
+ * loggers - to bring the logging functionality of PHP Debug Bar to the devs.
+ * So when developing DoozR you can simply call $logger->log('Foo', LEVEL);
+ * and be sure if logging level config is OK the log entry will also appear in
+ * debug bar.
  *
  * @category   DoozR
  * @package    DoozR_Logger
- * @subpackage DoozR_Logger_File
+ * @subpackage DoozR_Logger_Debugbar
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @see        Abstract.php, Interface.php
  */
-class DoozR_Logger_File extends DoozR_Logger_Abstract implements
+class DoozR_Logger_Debugbar extends DoozR_Logger_Abstract implements
     DoozR_Logger_Interface,
     DoozR_Logger_PsrInterface,
     SplObserver
@@ -83,7 +94,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      * @var string
      * @access protected
      */
-    protected $name = 'File';
+    protected $name = 'Debugbar';
 
     /**
      * Version of this logger
@@ -93,52 +104,13 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      */
     protected $version = '$Id$';
 
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | BEGIN FILE-LOGGER SPECIFIC VARIABLES
-    +-----------------------------------------------------------------------------------------------------------------*/
-
     /**
-     * the file we log to
+     * The identifier of this instance
      *
      * @var string
      * @access protected
      */
-    protected $logfile;
-
-    /**
-     * use persistence filehandle for log-operation(s)?
-     * true to keep the handle opened for the length of each request
-     * false to reopen the file (retrieving a handle) for each log entry
-     *
-     * @var boolean
-     * @access protected
-     */
-    protected $persistent = true;
-
-    /**
-     * holds the status of "overwrite" or "append" runtimeEnvironment
-     * True to append log to file, false to overwrite
-     *
-     * @var boolean
-     * @access protected
-     */
-    protected $append = true;
-
-    /**
-     * holds the instance of module filesystem
-     *
-     * @var object
-     * @access protected
-     */
-    protected $filesystem = null;
-
-    /**
-     * Instance of the path-manager
-     *
-     * @var object
-     * @access protected
-     */
-    protected $path;
+    protected $identifier = '';
 
 
     /**
@@ -150,161 +122,13 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      * @internal param DoozR_Config $config The configuration instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Logger_File
+     * @return \DoozR_Logger_Debugbar
      * @access public
      */
     public function __construct(DoozR_Datetime_Service $datetime, $level = null, $fingerprint = null)
     {
         // call parents constructor
         parent::__construct($datetime, $level, $fingerprint);
-
-        // get registry
-        $registry = DoozR_Registry::getInstance();
-
-        // store path-manager
-        $this->setPath($registry->path);
-
-        // set logfile-name (+path)
-        $this->setLogfile($_SERVER['PHP_SELF']);
-
-        // set filesystem service
-        $this->setFilesystem(
-            DoozR_Loader_Serviceloader::load('filesystem')
-        );
-    }
-
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | Setter & Getter
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Setter for path.
-     *
-     * @param DoozR_Path_Interface $path The path manager
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setPath(DoozR_Path_Interface $path)
-    {
-        $this->path = $path;
-    }
-
-    /**
-     * Getter for path.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Path|null The path manager instance if set, otherwise NULL
-     * @access public
-     */
-    public function getPathToClass($resolveSymlinks = false)
-    {
-        return $this->path;
-    }
-
-    /**
-     * Setter for logfile.
-     *
-     * @param string $filename The log-filename
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setLogfile($filename)
-    {
-        $this->logfile = $this->path->get('log', basename($filename).'.txt');
-    }
-
-    /**
-     * Getter for logfile.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The name of the logfile if set, otherwise NULL
-     * @access public
-     */
-    public function getLogfile()
-    {
-        return $this->logfile;
-    }
-
-    /**
-     * Setter for filesystem.
-     *
-     * @param DoozR_Filesystem_Service $filesystem The filesystem instance
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setFilesystem(DoozR_Filesystem_Service $filesystem)
-    {
-        $this->filesystem = $filesystem;
-    }
-
-    /**
-     * Getter for filesystem.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Filesystem_Service|null The DoozR_Filesystem_Service instance if set, otherwise NULL
-     * @access public
-     */
-    public function getFilesystem()
-    {
-        return $this->filesystem;
-    }
-
-    /**
-     * Setter for persistent status
-     *
-     * @param boolean $status TRUE = write persistent, FALSE do not
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setPersistent($status = true)
-    {
-        $this->persistent = $status;
-    }
-
-    /**
-     * Getter for persistent status
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if persistent write is on, otherwise FALSE if not
-     * @access public
-     */
-    public function getPersistent()
-    {
-        return $this->persistent;
-    }
-
-    /**
-     * Setter for append status
-     *
-     * @param boolean $status TRUE = append, FALSE do not [overwrite]
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setAppend($status = true)
-    {
-        $this->append = $status;
-    }
-
-    /**
-     * Getter for append status
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if append is on, otherwise FALSE if not
-     * @access public
-     */
-    public function getAppend()
-    {
-        return $this->append;
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -322,7 +146,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      */
     public function route($name)
     {
-        $this->logfile = $name;
+        $this->identifier = $name;
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -347,6 +171,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
                 $logs = $subject->getCollectionRaw();
 
                 foreach ($logs as $log) {
+
                     $this->log(
                         $log['type'],
                         $log['message'],
@@ -384,47 +209,14 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
 
             // build the log-line
             $content = $logEntry['time'].' '.
-                '['.$logEntry['type'].'] '.
-                $logEntry['fingerprint'].' '.
-                $logEntry['message'].
-                $this->lineBreak.$this->getLineSeparator().$this->lineBreak;
-
-            // use persistent write to write content to file?
-            if ($this->getPersistent() === true) {
-                $this->getFilesystem()->pwrite($this->getLogfile(), $content, $this->getAppend());
-
-            } else {
-                $this->getFilesystem()->write($this->getLogfile(), $content, $this->getAppend());
-
-            }
+                       '['.$logEntry['type'].'] '.
+                       $logEntry['fingerprint'].' '.
+                       $logEntry['message'].
+                       $this->lineBreak.$this->getLineSeparator().$this->lineBreak;
         }
 
         // so we can clear the existing log
         $this->clearContent();
     }
 
-    /**
-     * Returns the separator for this very specific logger
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The line separator -> empty in this case
-     * @access protected
-     */
-    protected function getLineSeparator()
-    {
-        return $this->lineSeparator;
-    }
-
-    /**
-     * This method is intend to add the defined line-separator to log-content.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access protected
-     */
-    protected function separate()
-    {
-        // do nothing to seperate in system logger
-        return true;
-    }
 }

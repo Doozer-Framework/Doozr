@@ -103,7 +103,7 @@ class DoozR_Di_Factory
      ******************************************************************************************************************/
 
     /**
-     * Instanciates a class without further dependencies
+     * Instantiates a class without further dependencies
      *
      * This method is intend to instanciate a class. The classname is the name of the class to instanciate
      * and arguments is an (optional) array of arguments which are passed to the class as additional arguments
@@ -121,7 +121,7 @@ class DoozR_Di_Factory
         // get reflection
         $this->_reflector = new ReflectionClass($classname);
 
-        // check if is instanciable (simple mode)
+        // check if is instanciable (simple runtimeEnvironment)
         $this->_instanciable = $this->_reflector->isInstantiable();
 
         // default
@@ -185,7 +185,7 @@ class DoozR_Di_Factory
      ******************************************************************************************************************/
 
     /**
-     * Instanciates a class including it dependencies
+     * Instantiates a class including it dependencies
      *
      * This method is intend to instanciate a class and pass the required dependencies to it.
      * The depencies are preconfigured and passed to this method as $setup. The classname is
@@ -252,7 +252,7 @@ class DoozR_Di_Factory
     }
 
     /**
-     * Instanciates a class without further dependencies
+     * Instantiates a class without further dependencies
      *
      * This method is intend to instanciate a class. The classname is the name of the class to instanciate
      * and arguments is an (optional) array of arguments which are passed to the class as additional arguments
@@ -272,7 +272,7 @@ class DoozR_Di_Factory
     }
 
     /**
-     * Instanciates a class and process the optional arguments and injections
+     * Instantiates a class and process the optional arguments and injections
      *
      * This method is intend to instanciate a class and pass the required dependencies to it.
      * The depencies are preconfigured and passed to this method as $setup. The classname is

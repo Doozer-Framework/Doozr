@@ -182,7 +182,7 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
                 $html = $this->tpl($html, $variables);
             }
 
-            $this->html = $html . DoozR_Form_Service_Constant::NEW_LINE;
+            $this->html = $html . PHP_EOL;
         }
 
         return $this->html;
@@ -333,8 +333,8 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
             !isset($methodSplitted[1])
         ) {
             trigger_error(
-                'Call to undefined function: ' . $method . '. Arguments: ' . var_export($arguments, true) . "\n"
-            #'Callstack: '.var_export(, true)
+                'Call to undefined function: ' . $method . '. Arguments: ' . var_export($arguments, true) . PHP_EOL
+                #'Callstack: '.var_export(, true)
             );
 
         }

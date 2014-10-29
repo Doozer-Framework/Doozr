@@ -134,23 +134,24 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * @param array  $context The context variable and value from error context
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Everytime TRUE
-     * @access private
+     * @return string Message
+     * @access protected
      * @static
      */
-    private static function _formatMessage(
-        $type    = 'N.A.',
-        $nr      = null,
+    protected static function formatMessage(
+        $type = 'N.A.',
+        $nr = null,
         $message = 'N.A.',
-        $file    = 'N.A.',
-        $line    = null,
+        $file = 'N.A.',
+        $line = null,
         $context = array()
     ) {
-        // format message
-        $message  = 'TYPE: '.$type."\n".'NR: ['.$nr.']'."\n".'MESSAGE: '.wordwrap($message, 120)."\n";
-        $message .= 'IN FILE: '.$file."\n".'ON LINE: '.$line."\n";
-        // add php-version and server-os
-        $message .= 'PHP-Version: '.PHP_VERSION.' ('.PHP_OS.')';
+        // Format message
+        $message  = 'TYPE: '.$type . PHP_EOL . 'NR: [' . $nr . ']' . PHP_EOL . 'MESSAGE: ' . wordwrap($message, 120) . PHP_EOL;
+        $message .= 'IN FILE: ' . $file . PHP_EOL . 'ON LINE: ' . $line . PHP_EOL;
+
+        // Add php-version and server-os
+        $message .= 'PHP-Version: ' . PHP_VERSION . ' (' . PHP_OS . ')';
 
         // finally return formatted message
         return $message;

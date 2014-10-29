@@ -138,7 +138,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     protected $append = array();
 
     /**
-     * The silent mode
+     * The silent runtimeEnvironment
      * TRUE = suppress exceptions / FALSE show exceptions
      *
      * @var boolean
@@ -490,7 +490,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     }
 
     /**
-     * Sets the silent-mode
+     * Sets the silent-runtimeEnvironment
      *
      * @param boolean $mode TRUE to be silent, otherwise FALSE
      *
@@ -522,10 +522,10 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     }
 
     /**
-     * Returns the current silent-mode
+     * Returns the current silent-runtimeEnvironment
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if silent-mode enabled, otherwise FALSE
+     * @return boolean TRUE if silent-runtimeEnvironment enabled, otherwise FALSE
      * @access public
      */
     public function getSilent()

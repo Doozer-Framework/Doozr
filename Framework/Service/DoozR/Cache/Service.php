@@ -415,7 +415,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * @param string $group The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted succesful, otherwise FALSE
+     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */

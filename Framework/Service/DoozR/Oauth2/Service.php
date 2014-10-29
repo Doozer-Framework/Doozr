@@ -97,7 +97,7 @@ class DoozR_Oauth2_Service extends DoozR_Base_Service_Multiple_Facade
     /**
      * Constructor of this class
      *
-     * @param integer $mode The mode of this service instance (can be either server or client)
+     * @param integer $mode The runtimeEnvironment of this service instance (can be either server or client)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object instance of this class

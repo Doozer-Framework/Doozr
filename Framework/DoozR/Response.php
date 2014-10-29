@@ -2,14 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Route
+ * DoozR - Response
  *
- * Route.php - Extends Apache/IIS/... mod_rewrite.
- * This script takes the argument(s) passed to by mod_rewrite (.htaccess) and
- * parse the Object, Action ... out of it. For this it makes use of the
- * configuration, which contains the excludes, the pattern, translation and the
- * regexp. Afterwards it checks for configured pattern (MVP, MVC, or none) and
- * dispatches the call accordingly.
+ * Response.php - Response state container.
  *
  * PHP versions 5
  *
@@ -48,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Router
+ * @package    DoozR_Response
+ * @subpackage DoozR_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -57,43 +52,69 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once 'DoozR/Bootstrap.php';
-require_once 'DoozR/Route.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Registry.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
 
-// Run the DoozR core to prepare base and extend PHP
-DoozR_Core::run();
+/**
+ * DoozR - Response
+ *
+ * Response state container.
+ *
+ * @category   DoozR
+ * @package    DoozR_Response
+ * @subpackage DoozR_Response
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2014 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/DoozR/
+ */
+class DoozR_Response extends DoozR_Base_State_Container
+{
+    /**
+     * The type native for PHP request sources
+     *
+     * @var integer
+     * @access const
+     */
+    const NATIVE = 0;
 
-// Get registry and configuration as well
-/* @var $registry DoozR_Registry */
-$registry = DoozR_Registry::getInstance();
-$config   = $registry->getConfig();
+    /**
+     * The type emulated for PHP request sources
+     *
+     * @var integer
+     * @access const
+     */
+    const EMULATED = 1;
 
-// Inject route from config to request state
-$registry->getRequest()->setRoutes($config->route());
+    protected $header;
 
-// Combine supported runtime environments
-$supportedEnvironments = array(
-    DoozR_Request_State::RUNTIME_ENVIRONMENT_WEB,
-    DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI,
-    DoozR_Request_State::RUNTIME_ENVIRONMENT_HTTPD,
-);
+    protected $buffer;
 
-// Check for supported runtimeEnvironment
-if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnvironments) === true) {
 
-    // Run route init
-    DoozR_Route::init(
-        $registry,
-        $registry->getRequest(),
-        $config->base->pattern->autorun()
-    );
 
-} else {
+    /**
+     * Constructor.
+     *
+     * Custom constructor which is required to set app.
+     * And then it calls the parent constructor which does the bootstrapping.
+     *
+     * @param DoozR_Registry             $registry    The registry containing all important instances
+     * @param DoozR_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
+     * @param string                     $sapi        The SAPI runtimeEnvironment of active PHP Instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Response
+     * @access public
+     */
+    public function __construct(
+        DoozR_Registry             $registry,
+        DoozR_Base_State_Interface $stateObject,
+                                   $sapi         = PHP_SAPI
+    ) {
+        $this->setRegistry($registry);
 
-    // UNKNOWN and/or currently not supported!
-    $msg  = 'DoozR - The PHP-Framework - Git-Version: ' . DoozR_Core::getVersion(true) . ' (on ' . php_uname() . ') - ';
-    $msg .= 'Running a DoozR-based application in "' . mb_strtoupper($runningMode) . '"-runtimeEnvironment is not supported!';
-
-    // show message
-    pred($msg);
+        parent::__construct($stateObject);
+    }
 }

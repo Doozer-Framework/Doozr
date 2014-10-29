@@ -1551,7 +1551,7 @@ class JSParser
 		if ($this->t->scanOperand)
 			throw $this->t->newSyntaxError('Missing operand');
 
-		// Resume default mode, scanning for operands, not operators.
+		// Resume default runtimeEnvironment, scanning for operands, not operators.
 		$this->t->scanOperand = true;
 		$this->t->unget();
 

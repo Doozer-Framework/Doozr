@@ -314,7 +314,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * This method protocolizes request details if running in debug-mode
+     * This method protocolizes request details if running in debug-runtimeEnvironment
      * enabled. This should help debugging the application.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -374,7 +374,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
         if ($string === true) {
             $allheaders = '';
             foreach ($header as $headerName => $headerValue) {
-                $allheaders .= $headerName.' = '.$headerValue."\n";
+                $allheaders .= $headerName . ' = ' . $headerValue . PHP_EOL;
             }
             $header = $allheaders;
         }
@@ -396,7 +396,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
 
         foreach ($_REQUEST as $parameter => $value) {
             $cleaned  = self::clean($value);
-            $request .= $parameter.' = '.((is_array($cleaned)) ? serialize($cleaned) : $cleaned)."\n";
+            $request .= $parameter.' = '.((is_array($cleaned)) ? serialize($cleaned) : $cleaned) . PHP_EOL;
         }
 
         return $request;

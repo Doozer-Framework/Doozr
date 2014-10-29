@@ -343,7 +343,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      *
      * This method is a shortcut to DoozR_Di_Map::wire().
      *
-     * @param integer $mode   The mode to use for wiring
+     * @param integer $mode   The runtimeEnvironment to use for wiring
      * @param array   $matrix The wire matrix containing instances to wire
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

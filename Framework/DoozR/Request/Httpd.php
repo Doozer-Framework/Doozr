@@ -73,7 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Interface.php';
 class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_Interface
 {
     /**
-     * holds the type of os-mode for commands
+     * holds the type of os-runtimeEnvironment for commands
      * e.g. -- for other and / for windows
      *
      * @string
@@ -82,7 +82,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
     private $_commandMode;
 
     /**
-     * holds the forced command-mode
+     * holds the forced command-runtimeEnvironment
      * e.g. -- for other and / for windows
      *
      * @string
@@ -383,7 +383,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
         if ($string === true) {
             $allheaders = '';
             foreach ($header as $headerName => $headerValue) {
-                $allheaders .= $headerName.' = '.$headerValue."\n";
+                $allheaders .= $headerName . ' = ' . $headerValue . PHP_EOL;
             }
             $header = $allheaders;
         }
@@ -405,7 +405,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
 
         foreach ($_REQUEST as $parameter => $value) {
             $cleaned  = self::clean($value);
-            $request .= $parameter.' = '.((is_array($cleaned)) ? serialize($cleaned) : $cleaned)."\n";
+            $request .= $parameter . ' = ' . ((is_array($cleaned)) ? serialize($cleaned) : $cleaned) . PHP_EOL;
         }
 
         return $request;
@@ -463,7 +463,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
     }
 
     /**
-     * This method protocolizes request details if running in debug-mode
+     * This method protocolizes request details if running in debug-runtimeEnvironment
      * enabled. This should help debugging the application.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -490,9 +490,9 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
     }
 
     /**
-     * detects command-mode from OS
+     * detects command-runtimeEnvironment from OS
      *
-     * Detects which command-mode (formatting) is used for console mode (CLI).
+     * Detects which command-runtimeEnvironment (formatting) is used for console runtimeEnvironment (CLI).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string "win" if windos is detected as OS, otherwise "other".

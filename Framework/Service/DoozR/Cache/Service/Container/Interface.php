@@ -82,7 +82,7 @@ interface DoozR_Cache_Service_Container_Interface
      * @param null|mixed $userdata The additional userdata
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created succesful, otherwise FALSE
+     * @return boolean TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
     public function create($id, $data, $expires, $group, $userdata = null);
@@ -97,7 +97,7 @@ interface DoozR_Cache_Service_Container_Interface
      * @param string $group The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data from cache if succesful, otherwise NULL
+     * @return mixed The data from cache if successful, otherwise NULL
      * @access public
      */
     public function read($id, $group);
@@ -129,7 +129,7 @@ interface DoozR_Cache_Service_Container_Interface
      * @param string $group The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted succesful, otherwise FALSE
+     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
      * @access public
      */
     public function delete($id, $group);
@@ -142,7 +142,7 @@ interface DoozR_Cache_Service_Container_Interface
      * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted succesful, otherwise FALSE
+     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
      * @access protected
      */
     public function garbageCollection($maxlifetime);

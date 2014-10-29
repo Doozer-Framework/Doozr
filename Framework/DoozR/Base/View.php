@@ -79,7 +79,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     protected $data;
 
     /**
-     * The output mode used
+     * The output runtimeEnvironment used
      *
      * @var int
      * @access protected
@@ -633,10 +633,10 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     }
 
     /**
-     * This method (container) is intend to return the data for a requested mode.
+     * This method (container) is intend to return the data for a requested runtimeEnvironment.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data for the mode requested
+     * @return mixed The data for the runtimeEnvironment requested
      * @access public
      */
     public function getData()
@@ -686,9 +686,9 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     }
 
     /**
-     * Setter for output mode.
+     * Setter for output runtimeEnvironment.
      *
-     * @param int $outputMode The output mode in format PHPTAL understand & accepts
+     * @param int $outputMode The output runtimeEnvironment in format PHPTAL understand & accepts
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -700,9 +700,9 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     }
 
     /**
-     * Setter for output mode.
+     * Setter for output runtimeEnvironment.
      *
-     * @param int $outputMode The output mode in format PHPTAL understand & accepts
+     * @param int $outputMode The output runtimeEnvironment in format PHPTAL understand & accepts
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -715,10 +715,10 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     }
 
     /**
-     * Getter for output mode.
+     * Getter for output runtimeEnvironment.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return int|null Output mode if set, otherwise NULL
+     * @return int|null Output runtimeEnvironment if set, otherwise NULL
      * @access public
      */
     public function getOutputMode()
@@ -779,7 +779,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
             /* @var $template PHPTAL */
             $template = DoozR_Loader_Serviceloader::load('template', $templateFile);
 
-            // Set output mode ...
+            // Set output runtimeEnvironment ...
             $template->setOutputMode($this->getOutputMode());
 
             // if I18n passed -> forward to template engine (e.g. PHPTAL)

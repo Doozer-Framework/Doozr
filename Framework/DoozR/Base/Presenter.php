@@ -506,7 +506,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     }
 
     /**
-     * This method (container) is intend to set the data for a requested mode.
+     * This method (container) is intend to set the data for a requested runtimeEnvironment.
      *
      * @param mixed $data The data (array preferred) to set
      *
@@ -538,10 +538,10 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     }
 
     /**
-     * This method (container) is intend to return the data for a requested mode.
+     * This method (container) is intend to return the data for a requested runtimeEnvironment.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data for the mode requested
+     * @return mixed The data for the runtimeEnvironment requested
      * @access public
      */
     public function getData()

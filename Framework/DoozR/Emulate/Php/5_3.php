@@ -89,7 +89,7 @@ define('E_USER_DEPRECATED', 1024);
 function parse_ini_string($string)
 {
     $array = array();
-    $lines = explode("\n", $string);
+    $lines = explode(PHP_EOL, $string);
 
     foreach ($lines as $line) {
         $statement = preg_match("/^(?!;)(?P<key>[\w+\.\-]+?)\s*=\s*(?P<value>.+?)\s*$/", $line, $match);

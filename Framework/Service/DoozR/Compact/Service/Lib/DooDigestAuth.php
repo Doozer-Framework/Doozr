@@ -13,11 +13,11 @@
  *
  * <p>HTTP digest authentication can be used with the URI router.
  * HTTP digest is much more recommended over the use of HTTP Basic auth which doesn't provide any encryption.
- * If you are running PHP on Apache in CGI/FastCGI mode, you would need to
+ * If you are running PHP on Apache in CGI/FastCGI runtimeEnvironment, you would need to
  * add the following line to your .htaccess for digest auth to work correctly.</p>
  * <code>RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]</code>
  *
- * <p>This class is tested under Apache 2.2 and Cherokee web server. It should work in both mod_php and cgi mode.</p>
+ * <p>This class is tested under Apache 2.2 and Cherokee web server. It should work in both mod_php and cgi runtimeEnvironment.</p>
  *
  * @author Leng Sheng Hong <darkredz@gmail.com>
  * @version $Id: DooDigestAuth.php 1000 2009-07-7 18:27:22
@@ -29,7 +29,7 @@ class DooDigestAuth{
     /**
      * Authenticate against a list of username and passwords.
      *
-     * <p>HTTP Digest Authentication doesn't work with PHP in CGI mode,
+     * <p>HTTP Digest Authentication doesn't work with PHP in CGI runtimeEnvironment,
      * you have to add this into your .htaccess <code>RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]</code></p>
      *
      * @param string $realm Name of the authentication session

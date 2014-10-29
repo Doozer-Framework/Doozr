@@ -118,8 +118,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     protected static $position = 0;
 
     /**
-     * The count of elements precalculated for countable
-     * interface.
+     * The count of elements peculated for countable interface.
      *
      * @var integer
      * @access protected
@@ -139,9 +138,8 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The identifier for reading the stored variable
      * @access public
-     * @static
      */
-    public static function set(&$variable, $identifier = null)
+    public function set($variable, $identifier = null)
     {
         // generate identifier if not passed
         if ($identifier === null) {
@@ -169,9 +167,8 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The stored variable if exist
      * @access public
-     * @static
      */
-    public static function get($identifier = null)
+    public function get($identifier = null)
     {
         $result = null;
 
@@ -181,12 +178,12 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
         } else {
             if (isset(self::$_lookup[$identifier])) {
                 $result = self::$_references[self::$_lookup[$identifier]];
-
+                /*
             } else {
                 // simulate PHP's behavior by using custom error
                 $message = 'Undefined property: '.__CLASS__.'::'.$identifier;
                 $type    = E_USER_NOTICE;
-                trigger_error($message, $type);
+                trigger_error($message, $type);*/
             }
         }
 
@@ -205,7 +202,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function __set($identifier, $value)
     {
-        return self::set($value, $identifier);
+        return $this->set($value, $identifier);
     }
 
     /**
@@ -219,7 +216,407 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function __get($identifier)
     {
-        return self::get($identifier);
+        return $this->get($identifier);
+    }
+
+
+
+
+
+    /**
+     * ==========================================================
+     */
+
+
+
+    /**
+     * Setter for DoozR DI Container.
+     *
+     * @param DoozR_Di_Container $container The DI container to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setContainer(DoozR_Di_Container $container)
+    {
+        $this->set($container, 'container');
+    }
+
+    /**
+     * Getter for DoozR DI Container.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Di_Container Container instance
+     * @access public
+     */
+    public function getContainer()
+    {
+        return $this->get('container');
+    }
+
+    /**
+     * Setter for request (state).
+     *
+     * @param DoozR_Request_State $request The request state to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setRequest(DoozR_Request_State $request)
+    {
+        $this->set($request, 'request');
+    }
+
+    /**
+     * Getter for request (state).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_State The request state
+     * @access public
+     */
+    public function getRequest()
+    {
+        return $this->get('request');
+    }
+
+    /**
+     * Setter for response (state).
+     *
+     * @param DoozR_Response_State $response The response state
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setResponse(DoozR_Response_State $response)
+    {
+        $this->set($response, 'response');
+    }
+
+    /**
+     * Getter for response (state).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Response_State The response state
+     * @access public
+     */
+    public function getResponse()
+    {
+        return $this->get('response');
+    }
+
+    /**
+     * Setter for map.
+     *
+     * @param DoozR_Di_Map The map to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setMap(DoozR_Di_Map $map)
+    {
+        $this->set($map, 'map');
+    }
+
+    /**
+     * Getter for map.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Di_Map The Di Map instance
+     * @access public
+     */
+    public function getMap()
+    {
+        return $this->get('map');
+    }
+
+    /**
+     * Setter for front.
+     *
+     * @param DoozR_Controller_Front $front Front controller instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setFront(DoozR_Controller_Front $front)
+    {
+        $this->set($front, 'front');
+    }
+
+    /**
+     * Getter for front controller.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Controller_Front Front controller instance
+     * @access public
+     */
+    public function getFront()
+    {
+        return $this->get('front');
+    }
+
+    /**
+     * Setter for back.
+     *
+     * @param DoozR_Controller_Back $back The back controller.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setBack(DoozR_Controller_Back $back)
+    {
+        $this->set($back, 'back');
+    }
+
+    /**
+     * Getter for back.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Controller_Back The back controller
+     * @access public
+     */
+    public function getBack()
+    {
+        return $this->get('back');
+    }
+
+    /**
+     * Setter for logger.
+     *
+     * @param DoozR_Logger_Interface $logger The logger to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setLogger(DoozR_Logger_Interface $logger)
+    {
+        $this->set($logger, 'logger');
+    }
+
+    /**
+     * Getter for logger.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Logger The logger instance
+     * @access public
+     */
+    public function getLogger()
+    {
+        return $this->get('logger');
+    }
+
+    /**
+     * Setter for config.
+     *
+     * @param DoozR_Config $config Instance of config
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setConfig(DoozR_Config $config)
+    {
+        $this->set($config, 'config');
+    }
+
+    /**
+     * Getter for config.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Config The config instance
+     * @access public
+     */
+    public function getConfig()
+    {
+        return $this->get('config');
+    }
+
+    /**
+     * Setter for path.
+     *
+     * @param DoozR_Path $path Instance of path
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setPath(DoozR_Path $path)
+    {
+        $this->set($path, 'path');
+    }
+
+    /**
+     * Getter for path.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Path The path instance
+     * @access public
+     */
+    public function getPath()
+    {
+        return $this->get('path');
+    }
+
+    /**
+     * Setter for encoding.
+     *
+     * @param DoozR_Encoding $encoding Instance of encoding
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setEncoding(DoozR_Encoding $encoding)
+    {
+        $this->set($encoding, 'encoding');
+    }
+
+    /**
+     * Getter for encoding.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Encoding The instance of encoding
+     * @access public
+     */
+    public function getEncoding()
+    {
+        return $this->get('encoding');
+    }
+
+    /**
+     * Setter for locale.
+     *
+     * @param DoozR_Locale $locale Instance of locale
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setLocale(DoozR_Locale $locale)
+    {
+        $this->set($locale, 'locale');
+    }
+
+    /**
+     * Getter for locale.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Locale Instance of locale
+     * @access public
+     */
+    public function getLocale()
+    {
+        return $this->get('locale');
+    }
+
+    /**
+     * Setter for debug.
+     *
+     * @param DoozR_Debug $debug Instance of debug
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setDebug(DoozR_Debug $debug)
+    {
+        $this->set($debug, 'debug');
+    }
+
+    /**
+     * Getter for debug.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Debug Instance of debug
+     * @access public
+     */
+    public function getDebug()
+    {
+        return $this->get('debug');
+    }
+
+    /**
+     * Setter for security.
+     *
+     * @param DoozR_Security $security Instance of security
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setSecurity(DoozR_Security $security)
+    {
+        $this->set($security, 'security');
+    }
+
+    /**
+     * Getter for security.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Security Instance of security
+     * @access public
+     */
+    public function getSecurity()
+    {
+        return $this->get('security');
+    }
+
+    /**
+     * Setter for model.
+     *
+     * @param DoozR_Model $model Instance of model
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setModel(DoozR_Model $model)
+    {
+        $this->set($model, 'model');
+    }
+
+    /**
+     * Getter for model.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Model Instance of model
+     * @access public
+     */
+    public function getModel()
+    {
+        return $this->get('model');
+    }
+
+    /**
+     * Setter for debugbar.
+     *
+     * @param DebugBar\StandardDebugBar $debugBar Instance of $debugbar
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setDebugbar(DebugBar\StandardDebugBar $debugBar)
+    {
+        $this->set($debugBar, 'debugbar');
+    }
+
+    /**
+     * Getter for debugbar.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DebugBar\StandardDebugBar Instance of StandardDebugBar
+     * @access public
+     */
+    public function getDebugbar()
+    {
+        return $this->get('debugbar');
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+

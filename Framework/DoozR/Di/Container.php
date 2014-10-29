@@ -90,7 +90,7 @@ class DoozR_Di_Container
     private $_namespace;
 
     /**
-     * The mode the instance operates in
+     * The runtimeEnvironment the instance operates in
      *
      * @var integer
      * @access private
@@ -123,7 +123,7 @@ class DoozR_Di_Container
     const DEFAULT_NAMESPACE   = 'Di';
 
     /**
-     * The mode used to handle maps
+     * The runtimeEnvironment used to handle maps
      * This can be either
      * STATIC  = Used for static
      * DYNAMIC = Used for dynamic creation of instances
@@ -262,23 +262,23 @@ class DoozR_Di_Container
      * instance of requested class.
      *
      * @param string $classname The name of the class to build
-     * @param mixed  $arguments Arguments to pass to class (works only in dynamic mode)
+     * @param mixed  $arguments Arguments to pass to class (works only in dynamic runtimeEnvironment)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of the given class
+     * @return object|mixed Instance of the given class
      * @access public
      * @throws DoozR_Di_Exception
      */
     public function build($classname, $arguments = null)
     {
-        // check if all required dependencies are set [DoozR_Di_Factory, DoozR_Di_Map, ...]
+        // Check if all required dependencies are set [DoozR_Di_Factory, DoozR_Di_Map, ...]
         if (!$this->requirementsFulfilled()) {
             throw new DoozR_Di_Exception(
                 'Error building an instance. Requirements not fulfilled. Provide all required dependencies.'
             );
         }
 
-        // get setup for static || dynamic
+        // Get setup for static || dynamic
         if ($this->_mode === self::MODE_DYNAMIC) {
             $setup = $this->getMap()->getCollection()->getSetup($classname);
 
@@ -287,15 +287,15 @@ class DoozR_Di_Container
 
         }
 
-        // store arguments if given
+        // Store arguments if given
         if ($arguments !== null && is_array($arguments)) {
             $setup['arguments'] = $arguments;
         }
 
-        // check if a setup exists
+        // Check if a setup exists
         if ($setup['dependencies'] === null) {
             throw new DoozR_Di_Exception(
-                'Error building instance. No setup for class "'.$classname.'" found!'
+                'Error building instance. No recipe for class "' . $classname . '" found!'
             );
         }
 
@@ -338,7 +338,7 @@ class DoozR_Di_Container
      * more than one instance of container if needed/required by your application.
      *
      * @param string  $namespace The namespace of the DoozR_Di_Container instance
-     * @param integer $mode      The mode used to handle maps
+     * @param integer $mode      The runtimeEnvironment used to handle maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Di_Container Instance
@@ -349,7 +349,8 @@ class DoozR_Di_Container
     {
         if (!isset(self::$_instances[$namespace])) {
             self::$_instances[$namespace] = new self(
-                $namespace, $mode
+                $namespace,
+                $mode
             );
         }
 
@@ -393,7 +394,7 @@ class DoozR_Di_Container
      * This method is the constructor.
      *
      * @param string  $namespace The namespace to operate
-     * @param integer $mode      The mode used to handle maps
+     * @param integer $mode      The runtimeEnvironment used to handle maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Di_Container The current instance of the Container for chaining/fluent-interface

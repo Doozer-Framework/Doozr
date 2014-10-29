@@ -76,7 +76,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param string $uId An unique-Id to identify the Autoloader later from outside the SPL-Facade.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function setUid($uId);
@@ -100,7 +100,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param string $namespace A namespace for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function setNamespace($namespace);
@@ -124,7 +124,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param integer $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function setPriority($priority);
@@ -148,7 +148,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param string $description A description for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function setDescription($description);
@@ -172,7 +172,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param string $extension A file-extension used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function addExtension($extension);
@@ -185,7 +185,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param array $extensions A list of file-extensions used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function addExtensions(array $extensions);
@@ -209,7 +209,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param string $class A name of a class containing the Autoloader-Method used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function setClass($class);
@@ -244,7 +244,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param string $method A method-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function setMethod($method);
@@ -268,7 +268,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param string $function A function-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function setFunction($function);
@@ -292,7 +292,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function setPath($path);
@@ -306,7 +306,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was succesful, otherwise false
+     * @return boolean true if setting was successful, otherwise false
      * @access public
      */
     public function addPath($path);

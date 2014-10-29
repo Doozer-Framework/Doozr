@@ -9018,7 +9018,7 @@ function serverBase(url) {
 
 /**
  * LocationHtml5Url represents an url
- * This object is exposed as $location service when HTML5 mode is enabled and supported
+ * This object is exposed as $location service when HTML5 runtimeEnvironment is enabled and supported
  *
  * @constructor
  * @param {string} appBase application base URL
@@ -9085,8 +9085,8 @@ function LocationHtml5Url(appBase, basePrefix) {
 
 /**
  * LocationHashbangUrl represents url
- * This object is exposed as $location service when developer doesn't opt into html5 mode.
- * It also serves as the base class for html5 mode fallback on legacy browsers.
+ * This object is exposed as $location service when developer doesn't opt into html5 runtimeEnvironment.
+ * It also serves as the base class for html5 runtimeEnvironment fallback on legacy browsers.
  *
  * @constructor
  * @param {string} appBase application base URL
@@ -9213,7 +9213,7 @@ LocationHashbangInHtml5Url.prototype =
   LocationHtml5Url.prototype = {
 
   /**
-   * Are we in html5 mode?
+   * Are we in html5 runtimeEnvironment?
    * @private
    */
   $$html5: false,
@@ -9763,7 +9763,7 @@ function $LogProvider(){
           logFn = console[type] || console.log || noop,
           hasApply = false;
 
-      // Note: reading logFn.apply throws an error in IE11 in IE8 document mode.
+      // Note: reading logFn.apply throws an error in IE11 in IE8 document runtimeEnvironment.
       // The reason behind this is that console.log has type "object" in IE8...
       try {
         hasApply = !!logFn.apply;
@@ -13225,17 +13225,17 @@ function $SceDelegateProvider() {
  *
  * # Strict Contextual Escaping
  *
- * Strict Contextual Escaping (SCE) is a mode in which AngularJS requires bindings in certain
+ * Strict Contextual Escaping (SCE) is a runtimeEnvironment in which AngularJS requires bindings in certain
  * contexts to result in a value that is marked as safe to use for that context.  One example of
  * such a context is binding arbitrary html controlled by the user via `ng-bind-html`.  We refer
  * to these contexts as privileged or SCE contexts.
  *
  * As of version 1.2, Angular ships with SCE enabled by default.
  *
- * Note:  When enabled (the default), IE8 in quirks mode is not supported.  In this mode, IE8 allows
+ * Note:  When enabled (the default), IE8 in quirks runtimeEnvironment is not supported.  In this runtimeEnvironment, IE8 allows
  * one to execute arbitrary javascript by the use of the expression() syntax.  Refer
  * <http://blogs.msdn.com/b/ie/archive/2008/10/16/ending-expressions.aspx> to learn more about them.
- * You can ensure your document is in standards mode and not quirks mode by adding `<!doctype html>`
+ * You can ensure your document is in standards runtimeEnvironment and not quirks runtimeEnvironment by adding `<!doctype html>`
  * to the top of your HTML document.
  *
  * SCE assists in writing code in way that (a) is secure by default and (b) makes auditing for
@@ -13552,7 +13552,7 @@ function $SceProvider() {
 
   this.$get = ['$parse', '$sniffer', '$sceDelegate', function(
                 $parse,   $sniffer,   $sceDelegate) {
-    // Prereq: Ensure that we're not running in IE8 quirks mode.  In that mode, IE allows
+    // Prereq: Ensure that we're not running in IE8 quirks runtimeEnvironment.  In that runtimeEnvironment, IE allows
     // the "expression(javascript expression)" syntax which is insecure.
     if (enabled && $sniffer.msie && $sniffer.msieDocumentMode < 8) {
       throw $sceMinErr('iequirks',
@@ -13946,7 +13946,7 @@ function $SnifferProvider() {
       history: !!($window.history && $window.history.pushState && !(android < 4) && !boxee),
       // jshint +W018
       hashchange: 'onhashchange' in $window &&
-                  // IE8 compatible mode lies
+                  // IE8 compatible runtimeEnvironment lies
                   (!documentMode || documentMode > 7),
       hasEvent: function(event) {
         // IE9 implements 'input' event it's so fubared that we rather pretend that it doesn't have
@@ -16594,7 +16594,7 @@ function addNativeHtml5Validators(ctrl, validatorName, element) {
 
 function textInputType(scope, element, attr, ctrl, $sniffer, $browser) {
   var validity = element.prop('validity');
-  // In composition mode, users are still inputing intermediate text buffer,
+  // In composition runtimeEnvironment, users are still inputing intermediate text buffer,
   // hold the listener until composition is done.
   // More about composition events: https://developer.mozilla.org/en-US/docs/Web/API/CompositionEvent
   if (!$sniffer.android) {
@@ -18287,7 +18287,7 @@ var ngClassEvenDirective = classDirective('Even', 1);
  *
  * `ngCloak` works in cooperation with the following css rule embedded within `angular.js` and
  * `angular.min.js`.
- * For CSP mode please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
+ * For CSP runtimeEnvironment please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
  *
  * ```css
  * [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -18549,13 +18549,13 @@ var ngControllerDirective = [function() {
  * any of these restrictions.
  *
  * AngularJS uses `Function(string)` generated functions as a speed optimization. Applying the `ngCsp`
- * directive will cause Angular to use CSP compatibility mode. When this mode is on AngularJS will
- * evaluate all expressions up to 30% slower than in non-CSP mode, but no security violations will
+ * directive will cause Angular to use CSP compatibility runtimeEnvironment. When this runtimeEnvironment is on AngularJS will
+ * evaluate all expressions up to 30% slower than in non-CSP runtimeEnvironment, but no security violations will
  * be raised.
  *
- * CSP forbids JavaScript to inline stylesheet rules. In non CSP mode Angular automatically
+ * CSP forbids JavaScript to inline stylesheet rules. In non CSP runtimeEnvironment Angular automatically
  * includes some CSS rules (e.g. {@link ng.directive:ngCloak ngCloak}).
- * To make those directives work in CSP mode, include the `angular-csp.css` manually.
+ * To make those directives work in CSP runtimeEnvironment, include the `angular-csp.css` manually.
  *
  * In order to use this feature put the `ngCsp` directive on the root element of the application.
  *
@@ -20117,7 +20117,7 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
  * provided to the ngShow attribute. The element is shown or hidden by removing or adding
  * the `ng-hide` CSS class onto the element. The `.ng-hide` CSS class is predefined
  * in AngularJS and sets the display style to none (using an !important flag).
- * For CSP mode please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
+ * For CSP runtimeEnvironment please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
  *
  * ```html
  * <!-- when $scope.myValue is truthy (element is visible) -->
@@ -20277,7 +20277,7 @@ var ngShowDirective = ['$animate', function($animate) {
  * provided to the ngHide attribute. The element is shown or hidden by removing or adding
  * the `ng-hide` CSS class onto the element. The `.ng-hide` CSS class is predefined
  * in AngularJS and sets the display style to none (using an !important flag).
- * For CSP mode please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
+ * For CSP runtimeEnvironment please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
  *
  * ```html
  * <!-- when $scope.myValue is truthy (element is hidden) -->

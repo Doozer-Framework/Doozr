@@ -20,7 +20,7 @@ The **I18n** Service provides different interfaces to handle translations. Curre
 ### Caching
 Translating from memory instead from files on disk is much faster so the **I18n** Service makes intensive use of caching to increase the performance of an application. This also helps to scale better. The DoozR I18n Service provides access to different caching backends like memcached, Redis, and some more (see **Supported caching backends**).
 
-**Important!** Caching is not available in *gettext™* mode. If the mode is *gettext™* the **I18n** Service does not provide any caching (beside runtime caching) instead it relies on gettext's very own caching built in. Double caching would just increase calculation time. To get an overview of the cache enabled interfaces (modes) see the following table ...
+**Important!** Caching is not available in *gettext™* runtimeEnvironment. If the runtimeEnvironment is *gettext™* the **I18n** Service does not provide any caching (beside runtime caching) instead it relies on gettext's very own caching built in. Double caching would just increase calculation time. To get an overview of the cache enabled interfaces (modes) see the following table ...
 
 ##### Cache enabled interfaces
 
@@ -37,7 +37,7 @@ The **I18n** Service relies on the **Cache** Service and so the following cachin
  - **Redis** (cache in Memory - not yet public available)
 
 #### Setup 
-The **I18n** Service requires you to setup a directory structure usable by the interface of your choice. The structure looks very similar at the end of the day but there are some slightly differences between *Gettext* and *Text* mode which we will cover next.
+The **I18n** Service requires you to setup a directory structure usable by the interface of your choice. The structure looks very similar at the end of the day but there are some slightly differences between *Gettext* and *Text* runtimeEnvironment which we will cover next.
 
 #### Gettext
 If you choose *gettext™* as interface to translations then you need to create a directory structure like this:
@@ -62,7 +62,7 @@ If you choose *Text* as interface to translations then you need to create a dire
                     LC_MESSAGES\
                         *.ini     (Textdomain[namespace].po file(s))
  
-Also no magic. The Text mode is based on ini-Files which can be handled fast and with good performance with native PHP and caching of contents is also not that difficult. We used this way a long time and currently evaluating to migrate over to gettext cause it is easier for translators to handle.
+Also no magic. The Text runtimeEnvironment is based on ini-Files which can be handled fast and with good performance with native PHP and caching of contents is also not that difficult. We used this way a long time and currently evaluating to migrate over to gettext cause it is easier for translators to handle.
 
 An example ini-Translation file would look like this:
 

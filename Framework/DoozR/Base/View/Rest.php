@@ -188,7 +188,7 @@ class DoozR_Base_View_Rest extends DoozR_Base_View
     }
 
     /**
-     * This method (container) is intend to return the data for a requested mode.
+     * This method (container) is intend to return the data for a requested runtimeEnvironment.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Base_Response_Rest

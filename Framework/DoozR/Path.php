@@ -125,7 +125,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      */
     private function _init($pathToRoot, $pathToApplication)
     {
-        // check for rootfolder mode
+        // check for rootfolder runtimeEnvironment
         // null = try to detect root | true = use const DOOZR_DOCUMENT_ROOT | ELSE = take path from parameter
         switch ($pathToRoot) {
         case null:

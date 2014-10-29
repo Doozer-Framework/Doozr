@@ -78,8 +78,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Session/Service/Interface.php'
  * @service    Singleton
  * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
-class DoozR_Session_Service extends DoozR_Base_Service_Singleton
-    implements
+class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     DoozR_Base_Crud_Interface,
     DoozR_Session_Service_Interface
 {
@@ -339,7 +338,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
     const DEFAULT_BIND_DOMAIN = true;
 
     /**
-     * The default mode for binding to domain
+     * The default runtimeEnvironment for binding to domain
      *
      * @example:
      * domain = use full domain (www.example.tld)
@@ -684,7 +683,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton
      *
      * This method is intend to bind the session (cookie) to the passed domain.
      *
-     * @param string $mode   The mode. Can be "domain" (uses the full domain) or "subdomain" uses (.subdomain.tld)
+     * @param string $mode   The runtimeEnvironment. Can be "domain" (uses the full domain) or "subdomain" uses (.subdomain.tld)
      * @param string $domain The domain to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

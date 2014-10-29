@@ -94,7 +94,7 @@ class DoozR_Base_Template_Engine extends DoozR_Base_Facade_Singleton
     protected $template;
 
     /**
-     * Contains the mode in which the output shut be send.
+     * Contains the runtimeEnvironment in which the output shut be send.
      * Can be either PHPTAL::XHTML or PHPTAL::HTML5 or
      * any other supported namespace of the template engine
      * used.

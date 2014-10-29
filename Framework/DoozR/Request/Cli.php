@@ -73,7 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Interface.php';
 class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Interface
 {
     /**
-     * holds the type of os-mode for commands
+     * holds the type of os-runtimeEnvironment for commands
      * e.g. -- for other and / for windows
      *
      * @string
@@ -82,7 +82,7 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
     private $_commandMode;
 
     /**
-     * holds the forced command-mode
+     * holds the forced command-runtimeEnvironment
      * e.g. -- for other and / for windows
      *
      * @string
@@ -171,20 +171,20 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
          * check CLI overrides
          */
 
-        // check for force-mode
+        // check for force-runtimeEnvironment
         for ($i = 0; $i < $argc; ++$i) {
-            if (stristr($argv[$i], 'force-mode')) {
+            if (stristr($argv[$i], 'force-runtimeEnvironment')) {
                 $this->_forceCommandMode = $argv[$i+1];
                 break;
             }
         }
 
-        // ceck for forced command-mode
+        // ceck for forced command-runtimeEnvironment
         if (!$this->_forceCommandMode) {
-            // detect OS for definition of command-seperator [can be overridden by force-mode LIN|WIN]
+            // detect OS for definition of command-seperator [can be overridden by force-runtimeEnvironment LIN|WIN]
             $this->_commandMode = $this->_detectCommandMode();
         } else {
-            // set forced mode
+            // set forced runtimeEnvironment
             $this->_commandMode = $this->_forceCommandMode;
         }
 
@@ -199,7 +199,7 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
         // inject the given arguments as $_SERVER['REQUEST_URI']
         #$this->_injectRequestUri($argv, $argc);
 
-        // in CLI mode we do not have globals like $_GET so we create $_CLI + fill also the all-rounder $_REQUEST
+        // in CLI runtimeEnvironment we do not have globals like $_GET so we create $_CLI + fill also the all-rounder $_REQUEST
         $_CLI     = $argumentsPreprocessed;
         $_REQUEST = $_CLI;
     }
@@ -304,9 +304,9 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
     }
 
     /**
-     * detects command-mode from OS
+     * detects command-runtimeEnvironment from OS
      *
-     * Detects which command-mode (formatting) is used for console mode (CLI).
+     * Detects which command-runtimeEnvironment (formatting) is used for console runtimeEnvironment (CLI).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string "win" if windos is detected as OS, otherwise "other".

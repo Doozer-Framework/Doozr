@@ -94,7 +94,7 @@ interface vfsStreamContent
     public function at(vfsStreamContainer $container);
 
     /**
-     * change file mode to given permissions
+     * change file runtimeEnvironment to given permissions
      *
      * @param   int               $permissions
      * @return  vfsStreamContent

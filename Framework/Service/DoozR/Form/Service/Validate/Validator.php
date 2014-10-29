@@ -874,7 +874,7 @@ class DoozR_Form_Service_Validate_Validator
                             $t = 1000 * (microtime(true) - $before);
 
                             // log
-                            pre(htmlentities('$smtpCommand'."\n".'$response').'('.sprintf('%.2f', $t).' ms)');
+                            pre(htmlentities('$smtpCommand' . PHP_EOL . '$response') . '(' . sprintf('%.2f', $t) . ' ms)');
 
                             if (!$meta['timed_out'] && preg_match('/^5\d\d[ -]/', $response)) {
                                 // log

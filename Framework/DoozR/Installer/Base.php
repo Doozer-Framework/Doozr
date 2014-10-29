@@ -2,14 +2,11 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Route
+ * DoozR - Installer - Framework
  *
- * Route.php - Extends Apache/IIS/... mod_rewrite.
- * This script takes the argument(s) passed to by mod_rewrite (.htaccess) and
- * parse the Object, Action ... out of it. For this it makes use of the
- * configuration, which contains the excludes, the pattern, translation and the
- * regexp. Afterwards it checks for configured pattern (MVP, MVC, or none) and
- * dispatches the call accordingly.
+ * Framework.php - Installer script for installing web + app folder to document root
+ * after using composer to install DoozR. It's a convenient way to get DoozR
+ * running.
  *
  * PHP versions 5
  *
@@ -48,8 +45,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Router
+ * @package    DoozR_Installer
+ * @subpackage DoozR_Installer_Framework
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -57,43 +54,28 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once 'DoozR/Bootstrap.php';
-require_once 'DoozR/Route.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 
-// Run the DoozR core to prepare base and extend PHP
-DoozR_Core::run();
+use Composer\Script\Event;
 
-// Get registry and configuration as well
-/* @var $registry DoozR_Registry */
-$registry = DoozR_Registry::getInstance();
-$config   = $registry->getConfig();
+/**
+ * DoozR - Installer - Framework
+ *
+ * Installer script for installing web + app folder to document root
+ * after using composer to install DoozR. It's a convenient way to get DoozR
+ * running.
+ *
+ * @category   DoozR
+ * @package    DoozR_Handler
+ * @subpackage DoozR_Handler_Error
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2014 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/DoozR/
+ * @final
+ */
+class DoozR_Installer_Base extends DoozR_Base_Class
+{
 
-// Inject route from config to request state
-$registry->getRequest()->setRoutes($config->route());
-
-// Combine supported runtime environments
-$supportedEnvironments = array(
-    DoozR_Request_State::RUNTIME_ENVIRONMENT_WEB,
-    DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI,
-    DoozR_Request_State::RUNTIME_ENVIRONMENT_HTTPD,
-);
-
-// Check for supported runtimeEnvironment
-if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnvironments) === true) {
-
-    // Run route init
-    DoozR_Route::init(
-        $registry,
-        $registry->getRequest(),
-        $config->base->pattern->autorun()
-    );
-
-} else {
-
-    // UNKNOWN and/or currently not supported!
-    $msg  = 'DoozR - The PHP-Framework - Git-Version: ' . DoozR_Core::getVersion(true) . ' (on ' . php_uname() . ') - ';
-    $msg .= 'Running a DoozR-based application in "' . mb_strtoupper($runningMode) . '"-runtimeEnvironment is not supported!';
-
-    // show message
-    pred($msg);
 }

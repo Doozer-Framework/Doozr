@@ -10,4 +10,4 @@ The Request class is available for both running modes CLI + WEB and available vi
 
     DoozR_Controller_Front->getRequest()
 
-The request object provides access to all passed arguments and some important environment information like request-header (for running mode *WEB*) and OS information (for running mode *CLI*). For more information about the Request-Classes see: Request/README.me
+The request object provides access to all passed arguments and some important environment information like request-header (for running runtimeEnvironment *WEB*) and OS information (for running runtimeEnvironment *CLI*). For more information about the Request-Classes see: Request/README.me

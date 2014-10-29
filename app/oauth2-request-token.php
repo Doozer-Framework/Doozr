@@ -17,7 +17,7 @@
 require_once '../Framework/DoozR/Bootstrap.php';
 
 /**
- * Instanciate DoozR
+ * Instantiate DoozR
  */
 $DoozR = DoozR_Core::getInstance();
 

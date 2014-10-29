@@ -4,7 +4,7 @@
 /**
  * DoozR - Debug
  *
- * Debug.php - Configures PHP dynamic in debug-mode and setup hooks
+ * Debug.php - Configures PHP dynamic in debug-runtimeEnvironment and setup hooks
  * on important parts.
  *
  * PHP versions 5
@@ -61,7 +61,7 @@ use Whoops\Handler\PrettyPageHandler;
 /**
  * DoozR - Debug
  *
- * Configures PHP dynamic in debug-mode and setup hooks
+ * Configures PHP dynamic in debug-runtimeEnvironment and setup hooks
  * on important parts.
  *
  * @category   DoozR
@@ -76,7 +76,7 @@ use Whoops\Handler\PrettyPageHandler;
 class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
 {
     /**
-     * The debug-mode state (true = enabled / false = disabled)
+     * The debug-runtimeEnvironment state (true = enabled / false = disabled)
      *
      * @var boolean
      * @access protected
@@ -96,7 +96,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      * Constructor.
      *
      * @param DoozR_Logger_Interface $logger  An instance of DoozR_Logger
-     * @param boolean                $enabled Defines it debug mode is enabled or not
+     * @param boolean                $enabled Defines it debug runtimeEnvironment is enabled or not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Debug
@@ -109,7 +109,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
 
         // log debug state
         $this->logger->debug(
-            'Debug-Manager - debug-mode enabled = ' . strtoupper(var_export($enabled, true))
+            'Debug-Manager - debug-runtimeEnvironment enabled = ' . strtoupper(var_export($enabled, true))
         );
 
         // check for initial trigger
@@ -135,13 +135,13 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         if ($this->prepareForDevelopment() === true) {
             $this->enabled = true;
             $this->installWhoops();
-            $this->logger->debug('Debug-mode successfully enabled.');
+            $this->logger->debug('Debug-runtimeEnvironment successfully enabled.');
 
         } else {
             $this->enabled = false;
 
             throw new DoozR_Debug_Exception(
-                'Debug-mode could not be enabled! Your system isn\'t configurable at runtime.'
+                'Debug-runtimeEnvironment could not be enabled! Your system isn\'t configurable at runtime.'
             );
         }
     }
@@ -161,13 +161,13 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         if ($this->prepareForProduction() === true) {
             $this->enabled = false;
             $this->uninstallWhoops();
-            $this->logger->debug('Debug-mode successfully disabled!');
+            $this->logger->debug('Debug-runtimeEnvironment successfully disabled!');
 
         } else {
             $this->enabled = true;
 
             throw new DoozR_Debug_Exception(
-                'Debug-mode could not be disabled!'
+                'Debug-runtimeEnvironment could not be disabled!'
             );
         }
     }
@@ -258,7 +258,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      */
     protected function prepareForProduction()
     {
-        // if debug-mode is disabled we must hide all errors to prevent the app from information leakage.
+        // if debug-runtimeEnvironment is disabled we must hide all errors to prevent the app from information leakage.
         // set error_reporting to null (0) to hide PHP's reports
         error_reporting(0);
 

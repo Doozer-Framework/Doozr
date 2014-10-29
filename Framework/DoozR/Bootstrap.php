@@ -172,7 +172,7 @@ $autoloaderService
 
 /**
  * The facade itself is auto instanciating singleton within the
- * register method if not already instanciated! So don't worry
+ * register method if not already instantiated! So don't worry
  * just call the register() method pass a config and everything
  * is handled magically (:
  */
@@ -187,7 +187,7 @@ DoozR_Loader_Autoloader_Spl_Facade::attach(
  | ERROR & EXCEPTION-HANDLING (HOOK)
  ---------------------------------------------------------------------------------------------------------------------*/
 
-// We install the generic handler here! This one is used if not development mode is enabled
+// We install the generic handler here! This one is used if not development runtimeEnvironment is enabled
 // ERROR-HANDLER: register error-handler
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Error.php';
 // set the own exception_handler

@@ -142,7 +142,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     private $_resources = array();
 
     /**
-     * file mode for reading
+     * file runtimeEnvironment for reading
      *
      * @var string
      * @access const
@@ -150,7 +150,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     const FILE_MODE_READ = 'r';
 
     /**
-     * file mode for reading and creating
+     * file runtimeEnvironment for reading and creating
      *
      * @var string
      * @access const
@@ -158,7 +158,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     const FILE_MODE_READ_WRITE = 'r+';
 
     /**
-     * file mode for writing
+     * file runtimeEnvironment for writing
      *
      * @var string
      * @access const
@@ -166,7 +166,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     const FILE_MODE_WRITE = 'w';
 
     /**
-     * file mode for writing and creating
+     * file runtimeEnvironment for writing and creating
      *
      * @var string
      * @access const
@@ -174,7 +174,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     const FILE_MODE_WRITE_READ = 'w+';
 
     /**
-     * file mode for appending
+     * file runtimeEnvironment for appending
      *
      * @var string
      * @access const
@@ -182,7 +182,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     const FILE_MODE_WRITE_APPEND = 'a';
 
     /**
-     * file mode for appending and creating
+     * file runtimeEnvironment for appending and creating
      *
      * @var string
      * @access const
@@ -190,7 +190,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     const FILE_MODE_WRITE_READ_APPEND = 'a+';
 
     /**
-     * file mode for binary operations
+     * file runtimeEnvironment for binary operations
      *
      * @var integer
      * @access const
@@ -198,7 +198,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     const FILE_BINARY = FILE_BINARY;
 
     /**
-     * file mode for ascii operations
+     * file runtimeEnvironment for ascii operations
      *
      * @var integer
      * @access const
@@ -206,7 +206,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     const FILE_TEXT = FILE_TEXT;
 
     /**
-     * file mode for append
+     * file runtimeEnvironment for append
      *
      * @var integer
      * @access const
@@ -214,7 +214,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     const FILE_APPEND = FILE_APPEND;
 
     /**
-     * lock mode for exclusive locking
+     * lock runtimeEnvironment for exclusive locking
      *
      * @var integer
      * @access const
@@ -308,7 +308,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
             );
         }
 
-        // decide which mode
+        // decide which runtimeEnvironment
         if ($append) {
             $result = $this->_append($file, $data, $create);
         } else {
@@ -357,9 +357,9 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     }
 
     /**
-     * Write content to a file in persistent mode
+     * Write content to a file in persistent runtimeEnvironment
      *
-     * This method is intend to write content to a file in persistent mode.
+     * This method is intend to write content to a file in persistent runtimeEnvironment.
      *
      * @param string  $file        The file to write the content to
      * @param string  $data        The content to write to the file
@@ -368,7 +368,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param boolean $modeBoolean TRUE to return result as boolean, otherwise FALSE to return number of bytes written
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed TRUE/FALSE if mode = boolean, otherwise number of bytes written on success + false on failure
+     * @return mixed TRUE/FALSE if runtimeEnvironment = boolean, otherwise number of bytes written on success + false on failure
      * @access public
      * @throws DoozR_Exception
      */
@@ -568,7 +568,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     /**
      * Returns the content of a file
      *
-     * This method is intend to return the content of a file in persistent mode.
+     * This method is intend to return the content of a file in persistent runtimeEnvironment.
      *
      * @param string $file   The name of the file to read
      * @param mixed  $length The number of bytes to read
@@ -963,9 +963,9 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     }
 
     /**
-     * Returns a file-handle for requested mode
+     * Returns a file-handle for requested runtimeEnvironment
      *
-     * This method is intend to return a file-handle for requested mode
+     * This method is intend to return a file-handle for requested runtimeEnvironment
      *
      * @param string  $file File to get handle on
      * @param integer $mode Mode to open file
@@ -980,10 +980,10 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
         $uid = $this->_getUid($file);
 
         // check if any usable handle exists
-        if (!isset($this->_fileHandle[$uid]) || $this->_fileHandle[$uid]['mode'] != $mode) {
+        if (!isset($this->_fileHandle[$uid]) || $this->_fileHandle[$uid]['runtimeEnvironment'] != $mode) {
             // create handle
             $this->_fileHandle[$uid] = array(
-                'mode'   => $mode,
+                'runtimeEnvironment'   => $mode,
                 'handle' => $this->_fopen(
                     $file,
                     $mode
@@ -1294,7 +1294,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend to work as fopen - virtual-fs supporting wrapper.
      *
      * @param string  $file             The file to open
-     * @param integer $mode             The mode to open file in
+     * @param integer $mode             The runtimeEnvironment to open file in
      * @param boolean $use_include_path TRUE to lookup in include path, otherwise FALSE to do not
      * @param mixed   $context          The context to open file in
      *

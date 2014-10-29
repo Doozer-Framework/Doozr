@@ -87,7 +87,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     protected $encoding;
 
     /**
-     * Locale we use for translation if redirect mode enabled
+     * Locale we use for translation if redirect runtimeEnvironment enabled
      *
      * @var string
      * @access protected
@@ -464,7 +464,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * @param string     $key       The string to translate
      * @param mixed      $arguments The arguments used by translator for translation (e.g. inserting values)
-     * @param int|string $mode      The mode in which the translation is requested (normal, encode or encode-plus)
+     * @param int|string $mode      The runtimeEnvironment in which the translation is requested (normal, encode or encode-plus)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed STRING translation on success, otherwise FALSE
@@ -492,9 +492,9 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
             $arguments
         );
 
-        // encode result? => check mode
+        // encode result? => check runtimeEnvironment
         /*
-        switch ($mode) {
+        switch ($runtimeEnvironment) {
         case self::MODE_TRANSLATE_ENCODE:
             $translation = htmlspecialchars($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5 , 'UTF-8');
             break;

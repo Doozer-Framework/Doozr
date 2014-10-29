@@ -170,12 +170,25 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
         $type,
         $message,
         array $context = array(),
-        $time          = null,
-        $fingerprint   = null,
-        $separator     = null
+        $time = null,
+        $fingerprint = null,
+        $separator = null
     ) {
         // call parents log just as normal => so content, raw ... gets filled
         parent::log($type, $message, $context, $time, $fingerprint, $separator);
+
+        // Store message in archive for e.g. debug bar and similar outputs
+        $this->archive(
+            sha1($message . $type . $fingerprint),
+            array(
+                'type'        => $type,
+                'message'     => $message,
+                'context'     => $context,
+                'time'        => $time,
+                'fingerprint' => $fingerprint,
+                'separator'   => $separator,
+            )
+        );
 
         // and now the tricky hook -> notify all observers about the log-event
         $this->notify('log');

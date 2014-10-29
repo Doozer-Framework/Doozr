@@ -34,15 +34,15 @@ class vfsStreamWrapper
      */
     const WRITE                  = 'x';
     /**
-     * file mode: read only
+     * file runtimeEnvironment: read only
      */
     const READONLY               = 0;
     /**
-     * file mode: write only
+     * file runtimeEnvironment: write only
      */
     const WRITEONLY              = 1;
     /**
-     * file mode: read and write
+     * file runtimeEnvironment: read and write
      */
     const ALL                    = 2;
     /**
@@ -58,7 +58,7 @@ class vfsStreamWrapper
      */
     protected static $root;
     /**
-     * file mode: read only, write only, all
+     * file runtimeEnvironment: read only, write only, all
      *
      * @var  int
      */
@@ -213,7 +213,7 @@ class vfsStreamWrapper
      * open the stream
      *
      * @param   string  $path         the path to open
-     * @param   string  $mode         mode for opening
+     * @param   string  $mode         runtimeEnvironment for opening
      * @param   string  $options      options for opening
      * @param   string  $opened_path  full path that was actually opened
      * @return  bool
@@ -224,7 +224,7 @@ class vfsStreamWrapper
         $mode     = str_replace(array('b', '+'), '', $mode);
         if (in_array($mode, array('r', 'w', 'a', 'x')) === false) {
             if (($options & STREAM_REPORT_ERRORS) === STREAM_REPORT_ERRORS) {
-                trigger_error('Illegal mode ' . $mode . ', use r, w, a  or x, flavoured with b and/or +', E_USER_WARNING);
+                trigger_error('Illegal runtimeEnvironment ' . $mode . ', use r, w, a  or x, flavoured with b and/or +', E_USER_WARNING);
             }
 
             return false;
@@ -237,7 +237,7 @@ class vfsStreamWrapper
         if (null !== $this->content) {
             if (self::WRITE === $mode) {
                 if (($options & STREAM_REPORT_ERRORS) === STREAM_REPORT_ERRORS) {
-                    trigger_error('File ' . $path . ' already exists, can not open with mode x', E_USER_WARNING);
+                    trigger_error('File ' . $path . ' already exists, can not open with runtimeEnvironment x', E_USER_WARNING);
                 }
 
                 return false;
@@ -299,10 +299,10 @@ class vfsStreamWrapper
     }
 
     /**
-     * calculates the file mode
+     * calculates the file runtimeEnvironment
      *
-     * @param   string  $mode      opening mode: r, w, a or x
-     * @param   bool    $extended  true if + was set with opening mode
+     * @param   string  $mode      opening runtimeEnvironment: r, w, a or x
+     * @param   bool    $extended  true if + was set with opening runtimeEnvironment
      * @return  int
      */
     protected function calculateMode($mode, $extended)
@@ -415,7 +415,7 @@ class vfsStreamWrapper
     {
         $fileStat = array('dev'     => 0,
                           'ino'     => 0,
-                          'mode'    => $this->content->getType() | $this->content->getPermissions(),
+                          'runtimeEnvironment'    => $this->content->getType() | $this->content->getPermissions(),
                           'nlink'   => 0,
                           'uid'     => $this->content->getUser(),
                           'gid'     => $this->content->getGroup(),
@@ -747,7 +747,7 @@ class vfsStreamWrapper
 
         $fileStat = array('dev'     => 0,
                           'ino'     => 0,
-                          'mode'    => $content->getType() | $content->getPermissions(),
+                          'runtimeEnvironment'    => $content->getType() | $content->getPermissions(),
                           'nlink'   => 0,
                           'uid'     => $content->getUser(),
                           'gid'     => $content->getGroup(),

@@ -163,7 +163,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      * @var string
      * @access protected
      */
-    protected $lineBreak = "\n";
+    protected $lineBreak = PHP_EOL;
 
     /**
      * The line width
@@ -219,16 +219,15 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
         'debug'     => 0,   // 7,
     );
 
-
     /**
      * This method is the constructor and responsible for building the instance.
      *
-     * @param integer      $level       The loglevel of the logger extending this class
-     * @param string       $fingerprint The fingerprint of the client
-     * @param DoozR_Config $config      The configuration instance
+     * @param DoozR_Datetime_Service $datetime    Instance of date/time service
+     * @param integer                $level       The log-level of the logger extending this class
+     * @param string                 $fingerprint The fingerprint of the client
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return \DoozR_Logger_Abstract
      * @access public
      */
     public function __construct(DoozR_Datetime_Service $datetime, $level = null, $fingerprint = null)
@@ -292,13 +291,6 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
                 'Invalid log type: ' . $type . ' passed to ' . __METHOD__
             );
         }
-
-        /*
-        echo 'Level by type: '.$this->getLevelByType($type).'<br />';
-        echo 'Type: '.$type.'<br />';
-        echo '$this->level: '.$this->level.'<br />';
-        echo '$this->name: '.$this->getName(). '<br />';
-        */
 
         // check if we should log this
         if ($this->getLevelByType($type) >= $this->level) {
@@ -446,8 +438,20 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     public final function clear()
     {
+        //$this->history($this->getContentRaw());
         $this->clearContent();
         $this->clearCollection();
+    }
+
+    protected $archive = array();
+    protected function archive($hash, $entry)
+    {
+        $this->archive[$hash] = $entry;
+    }
+
+    public function getArchive()
+    {
+        return $this->archive;
     }
 
     /*------------------------------------------------------------------------------------------------------------------

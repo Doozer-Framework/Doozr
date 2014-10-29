@@ -79,7 +79,7 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
     protected static $instances = array();
 
     /**
-     * Status of using STRICT-SINGLETON mode for this
+     * Status of using STRICT-SINGLETON runtimeEnvironment for this
      * class. In STRICT-SINGLETON-Mode the singleton includes the
      * parameter also.
      *
@@ -117,7 +117,7 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
         // get name of calling class (child)
         $callerSignature = get_called_class();
 
-        // check for strict mode
+        // check for strict runtimeEnvironment
         if (self::$strict === true) {
             // build identifier including parameter
             if (is_array($arguments)) {
@@ -147,7 +147,7 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
         // check for already assigned instance
         if (!isset(self::$instances[$identifier])) {
             // get instance
-            $instance = self::genericInstanciate($callerSignature, $arguments);
+            $instance = self::genericInstantiate($callerSignature, $arguments);
 
             // store instance
             self::$instances[$identifier] = $instance;
@@ -173,7 +173,7 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
      * @access protected
      * @throws Exception
      */
-    protected static function genericInstanciate($className, $arguments = null)
+    protected static function genericInstantiate($className, $arguments = null)
     {
         // check for parameter
         if (is_null($arguments)) {

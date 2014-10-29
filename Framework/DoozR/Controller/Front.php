@@ -71,223 +71,228 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
 {
     /**
-     * Detected running-mode
-     *
-     * holds the detected running mode (web or cli)
+     * Detected runtime environment (web|cli|httpd)
      *
      * @var string
      * @access protected
      */
-    protected $runningMode = 'web';
+    protected $runtimeEnvironment = 'web';
 
     /**
-     * The registry of the Application containing all instances may
-     * required by this front-controller.
+     * The request state of active request
      *
-     * @var DoozR_Registry
+     * @var DoozR_Request_State
      * @access protected
      */
-    #protected $registry;
+    protected $requestState;
 
     /**
-     * holds the reference to request
+     * The response state.
      *
-     * @var object
-     * @access private
+     * @var DoozR_Response_State
+     * @access protected
      */
-    private $_request;
+    protected $responseState;
 
     /**
-     * holds the reference to response
+     * constant RUNTIME_ENVIRONMENT_CLI
      *
-     * @var object
-     * @access private
-     */
-    private $_response;
-
-    /**
-     * holds instance of logger
-     *
-     * @var object
-     * @access private
-     */
-    private $_logger;
-
-    /**
-     * holds instance of config
-     *
-     * @var object
-     * @access private
-     */
-    private $_config;
-
-    /**
-     * constant RUNNING_MODE_CLI
-     *
-     * holds the key for "cli" running mode
+     * holds the key for "cli" running runtimeEnvironment
      *
      * @var string
      * @access public
      */
-    const RUNNING_MODE_CLI = 'cli';
+    const RUNTIME_ENVIRONMENT_CLI = 'cli';
 
     /**
-     * constant RUNNING_MODE_WEB
+     * constant RUNTIME_ENVIRONMENT_WEB
      *
-     * holds the key for "web" running mode
+     * holds the key for "web" running runtimeEnvironment
      *
      * @var string
      * @access public
      */
-    const RUNNING_MODE_WEB = 'web';
+    const RUNTIME_ENVIRONMENT_WEB = 'web';
 
     /**
-     * constant RUNNING_MODE_HTTPD
+     * constant RUNTIME_ENVIRONMENT_HTTPD
      *
-     * holds the key for "httpd" running mode
+     * holds the key for "httpd" running runtimeEnvironment
      *
      * @var string
      * @access public
      */
-    const RUNNING_MODE_HTTPD = 'httpd';
+    const RUNTIME_ENVIRONMENT_HTTPD = 'httpd';
 
 
     /**
      * Constructor.
      *
-     * @param DoozR_Registry $registry The main registry of the application
+     * @param DoozR_Registry       $registry      Central registry of the application
+     * @param DoozR_Request_State  $requestState  Request state
+     * @param DoozR_Response_State $responseState Response state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Controller_Front instance of this class
      * @access protected
      */
     protected function __construct(
-        DoozR_Registry $registry
+        DoozR_Registry       $registry,
+        DoozR_Request_State  $requestState,
+        DoozR_Response_State $responseState
     ) {
-        // NEW: Store only the registry/app instance
-        #$this->registry = $registry;
         self::setRegistry($registry);
 
-        // OLD: Store instance(s)
-        $this->_config = $registry->config;
-        $this->_logger = $registry->logger;
-
-        // first detect the command source
-        $this->runningMode = $this->detectRunningMode();
+        // Store the request state
+        $this
+            ->requestState($requestState)
+            ->responseState($responseState);
     }
 
     /**
-     * This method is intend to include the required files.
+     * Setter for request state.
      *
-     * @param string $part The part (request/response)
-     * @param string $mode The active mode (web/cli) of part
+     * @param DoozR_Request_State $requestState The request state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
-     */
-    private function _includeFile($part, $mode)
-    {
-        include_once DOOZR_DOCUMENT_ROOT . 'DoozR/'.$part.'/'.$mode.'.php';
-    }
-
-    /**
-     * This method is intend to initialize request/response.
-     *
-     * @param string $part The part (request/response)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object The new instanciated class of request/response
      * @access protected
      */
-    protected function initialize($part)
+    protected function setRequestState(DoozR_Request_State $requestState)
     {
-        // mode + part in correct writing
-        $part = ucfirst($part);
-        $mode = ucfirst($this->runningMode);
-
-        // get required include files
-        $this->_includeFile($part, $mode);
-
-        // build classname from part + mode
-        $classname = 'DoozR_'.$part.'_'.$mode;
-
-        // return new instance
-        $instance = $this->instanciate($classname, array($this->_config, $this->_logger));
-
-        return $instance;
+        $this->requestState = $requestState;
     }
 
     /**
-     * This method is intend to return the instance of DoozR_Request_(Web|Cli|Httpd)
-     * depending on environment
+     * Setter for request state.
+     *
+     * @param DoozR_Request_State $requestState The request state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Web or DoozR_Request_Cli or DoozR_Request_Httpd instance
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function requestState(DoozR_Request_State $requestState)
+    {
+        $this->setRequestState($requestState);
+        return $this;
+    }
+
+    /**
+     * Getter for request state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_State|null The stored instance if set, otherwise NULL
+     * @access protected
+     */
+    protected function getRequestState()
+    {
+        return $this->requestState;
+    }
+
+    /**
+     * Setter for response state.
+     *
+     * @param DoozR_Response_State $responseState The response state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setResponseState(DoozR_Response_State $responseState)
+    {
+        $this->responseState = $responseState;
+    }
+
+    /**
+     * Setter for response state.
+     *
+     * @param DoozR_Response_State $responseState The response state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function responseState(DoozR_Response_State $responseState)
+    {
+        $this->setResponseState($responseState);
+        return $this;
+    }
+
+    /**
+     * Getter for response state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Response_State|null The stored instance if set, otherwise NULL
+     * @access protected
+     */
+    protected function getResponseState()
+    {
+        return $this->responseState;
+    }
+
+    /**
+     * Setter for runtime environment.
+     *
+     * @param string $runtimeEnvironment The runtime environment.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRuntimeEnvironment($runtimeEnvironment)
+    {
+        $this->runtimeEnvironment = $runtimeEnvironment;
+    }
+
+    /**
+     * Setter for runtime environment.
+     *
+     * @param string $runtimeEnvironment The runtime environment.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function runtimeEnvironment($runtimeEnvironment)
+    {
+        $this->setRuntimeEnvironment($runtimeEnvironment);
+        return $this;
+    }
+
+    /**
+     * Getter for runtime environment.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The current runtime environment
+     * @access public
+     */
+    public function getRuntimeEnvironment()
+    {
+        return $this->runtimeEnvironment;
+    }
+
+    /**
+     * Returns the request state for userland (developer) as "request".
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_State The request state
      * @access public
      */
     public function getRequest()
     {
-        // lazy init
-        if ($this->_request === null) {
-            $this->_request = $this->initialize('request');
-        }
-
-        // return request instance
-        return $this->_request;
+        return $this->getRequestState();
     }
 
     /**
-     * Returns the instanciated response class (web | cli)
+     * Returns the response state for userland (developer) as "response".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Response instance of either web or cli
+     * @return DoozR_Response_State The response state
      * @access public
      */
     public function getResponse()
     {
-        // lazy init
-        if ($this->_response === null) {
-            $this->_response = $this->initialize('response');
-        }
-
-        return $this->_response;
-    }
-
-    /**
-     * Detects the current running-mode
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The current running-mode either [web | cli | cli-server]
-     * @access protected
-     */
-    protected function detectRunningMode()
-    {
-        // Assume default running mode
-        $mode = self::RUNNING_MODE_WEB;
-
-        // Detect running mode through php functionality
-        switch (PHP_SAPI) {
-            case 'cli':
-                $mode = self::RUNNING_MODE_CLI;
-                break;
-            case 'cli-server':
-                $mode = self::RUNNING_MODE_HTTPD;
-                break;
-        }
-
-        return $mode;
-    }
-
-    /**
-     * Getter for running mode.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The current running-mode either [web | cli]
-     * @access private
-     */
-    public function getRunningMode()
-    {
-        return $this->runningMode;
+        return $this->getResponseState();
     }
 }

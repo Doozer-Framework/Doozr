@@ -547,7 +547,7 @@ if (!function_exists('filename')) {
  * This method is intend to help creating regular-expressions out of a predefined set of expressions.
  *
  * @param string $input The input to create regexp from
- * @param string $mode  The mode to use (e.g. default = creating exclude regexp)
+ * @param string $mode  The runtimeEnvironment to use (e.g. default = creating exclude regexp)
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return string The regexp result string
@@ -561,7 +561,7 @@ function regexp($input, $mode = 'default')
     // assume empty output
     $output = '';
 
-    // operate in requested mode
+    // operate in requested runtimeEnvironment
     switch ($mode) {
     case 'default':
     case 'exclude':
@@ -578,17 +578,17 @@ function regexp($input, $mode = 'default')
 }
 
 /**
- * detects and returns the current running mode of PHP (cli or web)
+ * detects and returns the current running runtimeEnvironment of PHP (cli or web)
  *
- * This method is intend to detect and return the current running mode of PHP (cli or web).
+ * This method is intend to detect and return the current running runtimeEnvironment of PHP (cli or web).
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
- * @return string cli if running-mode = cli otherwise web
+ * @return string cli if running-runtimeEnvironment = cli otherwise web
  * @access public
  */
 function detectRunningMode()
 {
-    // detect running mode through php functionality
+    // detect running runtimeEnvironment through php functionality
     if (php_sapi_name() == 'cli') {
         return 'cli';
     } else {
@@ -861,7 +861,7 @@ function explodeTree($array, $delimiter = '_', $baseval = false)
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return mixed True if $return = false and string with colorized html if $return = true
  */
-function banner($data = '', $nl = "\n")
+function banner($data = '', $nl = PHP_EOL)
 {
     // console buffer max width
     $maxWidthLine  = 78;

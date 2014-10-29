@@ -4,7 +4,11 @@
 /**
  * DoozR - Config
  *
- * Config.php - Config bootstrap of the DoozR Framework
+ * Config.php - Config container for a Json reader (based on filesystem reader) to read Json configurations and
+ * make use of three possible layers of caching [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG] -> [CACHE:FILESYSTEM] ->
+ * read from filesystem/network.
+ * So lookup is (look in runtime cache) then (look in config stored in memory) then (look in memory for file) then
+ * access filesystem/network the 1st time. Speedup!!!
  *
  * PHP versions 5
  *
@@ -58,7 +62,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
 /**
  * DoozR - Config
  *
- * Config bootstrap of the DoozR Framework
+ * Config container for a Json reader (based on filesystem reader) to read Json configurations and
+ * make use of three possible layers of caching [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG] -> [CACHE:FILESYSTEM] ->
+ * read from filesystem/network.
+ * So lookup is (look in runtime cache) then (look in config stored in memory) then (look in memory for file) then
+ * access filesystem/network the 1st time. Speedup!!!
  *
  * @category   DoozR
  * @package    DoozR_Core
@@ -73,22 +81,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
 class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_Interface
 {
     /**
-     * Contains an instance of DoozR_Path
-     *
-     * @var object
-     * @access private
-     */
-    private $path;
-
-    /**
-     * Contains an instance of DoozR_Logger
-     *
-     * @var object
-     * @access private
-     */
-    private $_logger;
-
-    /**
      * Default container of configuration
      * Our preferred type is JSON
      *
@@ -97,8 +89,9 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
      */
     const DEFAULT_CONTAINER = 'Json';
 
+
     /**
-     * This method act as constructor.
+     * Constructor.
      *
      * @param DoozR_Path_Interface   $path          An instance of DoozR_Path
      * @param DoozR_Logger_Interface $logger        An instance of DoozR_Logger
@@ -110,23 +103,19 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
      * @access protected
      */
     protected function __construct(
-        DoozR_Path_Interface $path,
+        DoozR_Path_Interface   $path,
         DoozR_Logger_Interface $logger,
-        $container = self::DEFAULT_CONTAINER,
-        $enableCaching = false
+                               $container     = self::DEFAULT_CONTAINER,
+                               $enableCaching = false
     ) {
-        // store
-        $this->path    = $path;
-        $this->_logger = $logger;
-
         // create instance through factory and set as object to decorate!
         $this->setDecoratedObject(
-            $this->_factory(
-                __CLASS__.'_Container_'.ucfirst(strtolower($container)),
-                $this->path->get('framework'),
+            $this->factory(
+                __CLASS__ . '_Container_' . ucfirst(strtolower($container)),
+                $path->get('framework'),
                 array(
-                    $this->path,
-                    $this->_logger,
+                    $path,
+                    $logger,
                     $enableCaching
                 )
             )
@@ -134,26 +123,117 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
     }
 
     /**
-     * This method is intend to act as factory for creating an instance of a config container.
+     * Factory for creating an instance(s) of a config container.
      *
-     * @param string $class     The classname of container
+     * @param string $class     The name of class of the container
      * @param string $path      The base path to Framework
      * @param mixed  $arguments Arguments to pass to instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object The fresh created instance
-     * @access private
+     * @return DoozR_Config_Container_Json|DoozR_Config_Container_Ini The fresh created instance of Ini | Json | ...
+     * @access protected
      */
-    private function _factory($class, $path, $arguments = null)
+    protected function factory($class, $path, $arguments = null)
     {
-        // get required file
-        include_once $path.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+        include_once $path . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
 
         // create and return a fresh instance
         if ($arguments) {
             return $this->instanciate($class, $arguments);
+
         } else {
             return new $class();
+
         }
+    }
+
+
+
+    /**
+     * Creates a configuration node.
+     *
+     * @param string $node The node to create
+     * @param string $data The data to write to config
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @access public
+     */
+    public function create($node, $data)
+    {
+        return $this->getDecoratedObject()->create($node, $data);
+    }
+
+    /**
+     * Reads and return a configuration node.
+     *
+     * @param mixed $node The node to read/parse
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data from cache if successful, otherwise NULL
+     * @access public
+     */
+    public function read($node)
+    {
+        return $this->getDecoratedObject()->read($node);
+    }
+
+    /**
+     * Updates a configuration node.
+     *
+     * @param string $node  The configuration node
+     * @param string $value The data to write
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @access public
+     */
+    public function update($node, $value)
+    {
+        return $this->getDecoratedObject()->update($node, $value);
+    }
+
+    /**
+     * Deletes a node.
+     *
+     * @param string $node The node to delete
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
+     * @access public
+     */
+    public function delete($node)
+    {
+        return $this->getDecoratedObject()->delete($node);
+    }
+
+
+    /**
+     * Setter for key => value pairs of config.
+     *
+     * @param string $node  The key used for entry
+     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function set($node, $value)
+    {
+        return $this->getDecoratedObject()->{$node} = $value;
+    }
+
+    /**
+     * Getter for value of passed node.
+     *
+     * @param string $node The key used for value lookup.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The value of configuration node if set, otherwise NULL
+     * @access public
+     */
+    public function get($node)
+    {
+        return $this->getDecoratedObject()->{$node};
     }
 }

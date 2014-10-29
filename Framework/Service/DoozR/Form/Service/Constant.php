@@ -373,15 +373,6 @@ class DoozR_Form_Service_Constant
      */
     const HTML_VERSION_5 = 5;
 
-    /**
-     * New line character(s) used when echoing HTML.
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const NEW_LINE = "\n";
-
     /*------------------------------------------------------------------------------------------------------------------
     | Upload related constants
     +-----------------------------------------------------------------------------------------------------------------*/

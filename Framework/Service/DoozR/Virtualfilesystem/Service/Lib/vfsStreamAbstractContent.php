@@ -223,7 +223,7 @@ abstract class vfsStreamAbstractContent implements vfsStreamContent
     }
 
     /**
-     * change file mode to given permissions
+     * change file runtimeEnvironment to given permissions
      *
      * @param   int               $permissions
      * @return  vfsStreamContent

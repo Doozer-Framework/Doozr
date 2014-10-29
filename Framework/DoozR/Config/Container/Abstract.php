@@ -156,6 +156,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      */
     const PLACEHOLDER_END = '}}';
 
+
     /**
      * This method is the constructor of the class.
      *
@@ -485,13 +486,16 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     {
         // first of all get an active chain
         if (!$this->currentChainlink) {
-            $this->currentChainlink = $this->getConfiguration('parsed');
+            $this->resetChainlink();
         }
 
         // check if the node exists
         if (!isset($this->currentChainlink->{$node})) {
+
+            pred($this->getConfiguration('parsed'));
+
             // throw exception
-            throw new DoozR_Config_Container_Exception('Config entry "'.$node.'" does not exist!');
+            throw new DoozR_Config_Container_Exception('Config entry "' . $node . '" does not exist!');
         }
 
         // retrieve next requested chain relative to base
@@ -500,6 +504,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
         // return active instance for chaining ...
         if (is_object($this->currentChainlink)) {
             return $this;
+
         } else {
             // or value if no more chaining possible + reset chain for following calls
             $value = $this->currentChainlink;
@@ -510,6 +515,11 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
             // return
             return $value;
         }
+    }
+
+    protected function resetChainlink()
+    {
+        $this->currentChainlink = $this->getConfiguration('parsed');
     }
 
     /**
@@ -531,13 +541,15 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
     {
         // get active chain
         if (!$this->currentChainlink) {
-            $this->currentChainlink = $this->getConfiguration('parsed');
+            $this->resetChainlink();
         }
 
         // check if the node exists
         if (!isset($this->currentChainlink->{$node})) {
             // throw exception
-            throw new DoozR_Config_Container_Exception('Config entry "'.$node.'" does not exist!');
+            pred($node);
+
+            throw new DoozR_Config_Container_Exception('Config entry "' . $node . '" does not exist!');
         }
 
         // check SET (key,value) or GET (key)

@@ -224,19 +224,19 @@ class vfsStreamFile extends vfsStreamAbstractContent
             case SEEK_CUR:
                 $this->bytes_read += $offset;
                 return true;
-            
+
             case SEEK_END:
                 $this->bytes_read = strlen($this->content) + $offset;
                 return true;
-            
+
             case SEEK_SET:
                 $this->bytes_read = $offset;
                 return true;
-            
+
             default:
                 return false;
         }
-        
+
         return false;
     }
 
@@ -266,7 +266,7 @@ class vfsStreamFile extends vfsStreamAbstractContent
         } else {
             $this->lock = $operation;
         }
-        
+
         return $this;
     }
 
@@ -283,7 +283,7 @@ class vfsStreamFile extends vfsStreamAbstractContent
     }
 
     /**
-     * checks whether file is locked in shared mode
+     * checks whether file is locked in shared runtimeEnvironment
      *
      * @return  bool
      * @since   0.10.0
@@ -295,7 +295,7 @@ class vfsStreamFile extends vfsStreamAbstractContent
     }
 
     /**
-     * checks whether file is locked in exclusive mode
+     * checks whether file is locked in exclusive runtimeEnvironment
      *
      * @return  bool
      * @since   0.10.0

@@ -206,7 +206,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     protected static $registry;
 
     /**
-     * Running mode (CLI || WEB || HTTPD)
+     * Running runtimeEnvironment (CLI || WEB || HTTPD)
      * To know if cookie and session is accessible
      *
      * @var string
@@ -466,7 +466,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * @param boolean $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if detection was succesful
+     * @return boolean TRUE if detection was successful
      * @access protected
      */
     protected function init($lookupAlternative)
@@ -530,7 +530,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
             $this->_writePreferences($userPreferences);
         }
 
-        // init succesfully done (means locale, language and country are set to an existing locale)
+        // init successfully done (means locale, language and country are set to an existing locale)
         return true;
     }
 
@@ -548,7 +548,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // assume result true
         $result = true;
 
-        if (self::$runningMode !== DoozR_Request_State::RUNNING_MODE_CLI) {
+        if (self::$runningMode !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$_stores as $store) {
@@ -561,7 +561,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
             }
         }
 
-        // succesfully retrieved
+        // successfully retrieved
         return $result;
     }
 
@@ -578,7 +578,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         $detectedPreferences = false;
 
         // prevent access to HEADER and IP in CLI does not make sense
-        if (self::$runningMode !== DoozR_Request_State::RUNNING_MODE_CLI) {
+        if (self::$runningMode !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
 
             // try to detect locale by user-agents header
             $detectedPreferences = $this->detectByRequestHeader();
@@ -606,7 +606,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // assume empty user-preferences
         $storedPreferences = null;
 
-        if (self::$runningMode !== DoozR_Request_State::RUNNING_MODE_CLI) {
+        if (self::$runningMode !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$_stores as $store) {
@@ -623,7 +623,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
             }
         }
 
-        // succesfully retrieved
+        // successfully retrieved
         return $storedPreferences;
     }
 

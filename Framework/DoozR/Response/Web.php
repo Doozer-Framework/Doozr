@@ -760,6 +760,8 @@ class DoozR_Response_Web extends DoozR_Base_Response
      */
     public function sendHtml($buffer, $etag = null, $exit = true, $charset = null)
     {
+        die;
+
         if (DOOZR_DEBUG === true) {
             $debugbar = new StandardDebugBar();
             $debugbarRenderer = $debugbar->getJavascriptRenderer();

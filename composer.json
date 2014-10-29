@@ -14,6 +14,7 @@
       "doctrine/couchdb-odm": "dev-master",
       "doctrine/dbal": "2.5.*@dev",
       "doctrine/orm": "2.5.*@dev",
+      "doctrine/annotations": "1.3.*@dev",
       "symfony/console": ">=2.0",
       "firephp/firephp-core": "dev-master",
       "phptal/phptal": "1.3.0",
@@ -48,5 +49,10 @@
       "type": "vcs",
       "url": "https://github.com/clickalicious/DoozR.git"
     }
-  ]
+  ],
+  "scripts": {
+    "post-install-cmd": [
+      "DoozR_Installer_Framework::postInstall"
+    ]
+  }
 }

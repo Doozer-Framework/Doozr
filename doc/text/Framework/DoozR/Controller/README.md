@@ -9,7 +9,7 @@ The *Front-controller* is used to handle everything that *comes-from* and *goes-
 ## Front
 The Front-controller is the layer between the *Client* (CLI|WEB) which request a resource and the Back-controller which dispatches the incoming request (preprocessed) to *Model*, *View* and *Presenter*. The Front-controller is also responsible for sending data as response back to the client. These are some methods provided by the Front-controller:
 
-    getRunningMode() [returns the mode DoozR runs, CLI or WEB]
+    getRuntimeEnvironment() [returns the runtimeEnvironment DoozR runs, CLI or WEB]
     getRequest()     [returns the Request-object of current request]
     getResponse()    [returns the Response-object for current request]
 
@@ -18,7 +18,7 @@ As you may assume the *Front-controller* is more a Decorator which provides acce
     DoozR_Request_(Web|Cli)
 	DoozR_Response_(Web|Cli)
 
-Those classes represents the request object and the response object - based on the current running mode - which can be either *WEB* or *CLI*.
+Those classes represents the request object and the response object - based on the current running runtimeEnvironment - which can be either *WEB* or *CLI*.
 
 ## Back
 The *Back-controller*.

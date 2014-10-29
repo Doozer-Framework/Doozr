@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Request - State
+ * DoozR - Response - State
  *
- * State.php - Request state class for transportation of request data
+ * State.php - Response state class for transportation of response data
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_State
+ * @package    DoozR_Response
+ * @subpackage DoozR_Response_State
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -56,78 +56,21 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
 
 /**
- * DoozR - Request - State
+ * DoozR - Response - State
  *
- * Request state class for transportation of request data
+ * Response state class for transportation of Response data
  *
  * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_State
+ * @package    DoozR_Response
+ * @subpackage DoozR_Response_State
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_Interface
+class DoozR_Response_State extends DoozR_Base_State implements DoozR_Base_State_Interface
 {
-    /**
-     * The runtimeEnvironment DoozR runs ins
-     *
-     * @var string
-     * @access protected
-     */
-    protected $runtimeEnvironment;
-
-    /**
-     * The method used for request
-     *
-     * @var string
-     * @access protected
-     */
-    protected $method;
-
-    /**
-     * The request in DoozR format (array)
-     * for internal use.
-     *
-     * @var array
-     * @access protected
-     */
-    protected $request;
-
-    /**
-     * The clean URL without arguments
-     *
-     * @var string
-     * @access protected
-     */
-    protected $url;
-
-    /**
-     * The request URI
-     *
-     * @var string
-     * @access protected
-     */
-    protected $requestUri;
-
-    /**
-     * The request arguments
-     *
-     * @var array
-     * @access protected
-     */
-    protected $arguments = array();
-
-    /**
-     * The protocol
-     *
-     * @var string
-     * @access protected
-     */
-    protected $protocol;
-
     /**
      * The request headers
      *
@@ -137,55 +80,6 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     protected $headers;
 
     /**
-     * The extracted (possible JSON structure) submitted in request body!
-     *
-     * @var stdClass
-     * @access protected
-     */
-    protected $requestBody;
-
-    /**
-     * The routes available for dispatching.
-     *
-     * @var \stdClass
-     * @access protected
-     */
-    protected $routes;
-
-    /**
-     * The active and dispatched/processed route
-     *
-     * @var array
-     * @access protected
-     */
-    protected $activeRoute;
-
-    /**
-     * The translation matrix
-     *
-     * @var array
-     * @access protected
-     */
-    protected $translationMatrix;
-
-    /**
-     * The pattern
-     *
-     * @var string
-     * @access protected
-     */
-    protected $pattern;
-
-    /**
-     * The is-REST state of the request
-     * state object
-     *
-     * @var boolean
-     * @access protected
-     */
-    protected $rest = false;
-
-    /**
      * History to trace changes in flow.
      *
      * @var array
@@ -193,188 +87,6 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     protected $history = array();
 
-    /**
-     * Request-Method-Types
-     * supported by this controller
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const METHOD_GET     = 'GET';
-    const METHOD_POST    = 'POST';
-    const METHOD_HEAD    = 'HEAD';
-    const METHOD_OPTIONS = 'OPTIONS';
-    const METHOD_PUT     = 'PUT';
-    const METHOD_DELETE  = 'DELETE';
-    const METHOD_TRACE   = 'TRACE';
-    const METHOD_CONNECT = 'CONNECT';
-
-    /**
-     * CLI running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const RUNTIME_ENVIRONMENT_CLI = 'Cli';
-
-    /**
-     * WEB running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const RUNTIME_ENVIRONMENT_WEB = 'Web';
-
-    /**
-     * HTTPD running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const RUNTIME_ENVIRONMENT_HTTPD = 'Httpd';
-
-    /**
-     * Argument entry in URL
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const URL_ARGUMENT_ENTRY = '?';
-
-    /**
-     * Argument separator in URL
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const URL_ARGUMENT_SEPARATOR = '&';
-
-
-    /**
-     * This method returns TRUE if the current requests type is GET.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is GET, otherwise FALSE
-     * @access public
-     */
-    public function isGet()
-    {
-        return ($this->getMethod() === self::METHOD_GET);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type is HEAD.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is HEAD, otherwise FALSE
-     * @access public
-     */
-    public function isHead()
-    {
-        return ($this->getMethod() === self::METHOD_HEAD);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type is PUT.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is PUT, otherwise FALSE
-     * @access public
-     */
-    public function isPut()
-    {
-        return ($this->getMethod() === self::METHOD_PUT);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type is POST.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is POST, otherwise FALSE
-     * @access public
-     */
-    public function isPost()
-    {
-        return ($this->getMethod() === self::METHOD_POST);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type is DELETE.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is DELETE, otherwise FALSE
-     * @access public
-     */
-    public function isDelete()
-    {
-        return ($this->getMethod() === self::METHOD_DELETE);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type is OPTIONS.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is OPTIONS, otherwise FALSE
-     * @access public
-     */
-    public function isOptions()
-    {
-        return ($this->getMethod() === self::METHOD_OPTIONS);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type is TRACE.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is TRACE, otherwise FALSE
-     * @access public
-     */
-    public function isTrace()
-    {
-        return ($this->getMethod() === self::METHOD_TRACE);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type is CONNECT.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is CONNECT, otherwise FALSE
-     * @access public
-     */
-    public function isConnect()
-    {
-        return ($this->getMethod() === self::METHOD_CONNECT);
-    }
-
-    /**
-     * This method is intend to return the SSL-status of the current request.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the request is SSL, otherwise FALSE
-     * @access public
-     */
-    public function isSsl()
-    {
-        return $this->getSsl();
-    }
-
-    /**
-     * Returns the is-REST state of instance
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if instance is a REST state, otherwise FALSE
-     * @access public
-     */
-    public function isRest()
-    {
-        return ($this->rest === true);
-    }
 
     /**
      * Extracts variables from current requests URL
@@ -461,13 +173,13 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for request arguments.
      *
-     * @param DoozR_Request_Arguments $arguments
+     * @param DoozR_Response_Arguments $arguments
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Arguments The arguments
+     * @return DoozR_Response_Arguments The arguments
      * @access public
      */
-    public function setArguments(DoozR_Request_Arguments $arguments)
+    public function setArguments(DoozR_Response_Arguments $arguments)
     {
         $this->addHistory(__METHOD__, func_get_args());
         $this->arguments = $arguments;
@@ -476,13 +188,13 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for request arguments.
      *
-     * @param DoozR_Request_Arguments $arguments
+     * @param DoozR_Response_Arguments $arguments
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    public function arguments(DoozR_Request_Arguments $arguments)
+    public function arguments(DoozR_Response_Arguments $arguments)
     {
         $this->setArguments($arguments);
         return $this;
@@ -492,7 +204,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * Getter for arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Arguments The arguments
+     * @return DoozR_Response_Arguments The arguments
      * @access public
      */
     public function getArguments()
@@ -520,7 +232,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $verb The HTTP-Verb
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function verb($verb)
@@ -562,7 +274,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $method The method used for requesting data from DoozR
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function method($method)
@@ -592,24 +304,24 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @return void
      * @access public
      */
-    public function setRuntimeEnvironment($mode)
+    public function setMode($mode)
     {
         $this->addHistory(__METHOD__, func_get_args());
-        $this->runtimeEnvironment = $mode;
+        $this->mode = $mode;
     }
 
     /**
      * Setter for runtimeEnvironment.
      *
-     * @param string $runtimeEnvironment The runtimeEnvironment DoozR is running in (WEB, CLI, CLI-SERVER)
+     * @param string $mode The runtimeEnvironment DoozR is running in (WEB, CLI, CLI-SERVER)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
-    public function runtimeEnvironment($runtimeEnvironment)
+    public function mode($mode)
     {
-        $this->setRuntimeEnvironment($runtimeEnvironment);
+        $this->setMode($mode);
         return $this;
     }
 
@@ -620,9 +332,9 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @return string The runtimeEnvironment DoozR is running in (WEB, CLI, CLI-SERVER)
      * @access public
      */
-    public function getRuntimeEnvironment()
+    public function getMode()
     {
-        return $this->runtimeEnvironment;
+        return $this->mode;
     }
 
     /**
@@ -646,7 +358,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $url The url
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function url($url)
@@ -676,7 +388,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @return void
      * @access public
      */
-    public function setRequestUri($requestUri)
+    public function setResponseUri($requestUri)
     {
         $this->addHistory(__METHOD__, func_get_args());
         $this->requestUri = $requestUri;
@@ -688,12 +400,12 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $requestUri The request URI used for request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function requestUri($requestUri)
     {
-        $this->setRequestUri($requestUri);
+        $this->setResponseUri($requestUri);
         return $this;
     }
 
@@ -704,7 +416,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @return string The request URI used for request
      * @access public
      */
-    public function getRequestUri()
+    public function getResponseUri()
     {
         return $this->requestUri;
     }
@@ -730,7 +442,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $sapi The sapi DoozR running on
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function sapi($sapi)
@@ -772,7 +484,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param boolean $ssl SSL state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function ssl($ssl)
@@ -814,7 +526,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array $headers The headers to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function headers(array $headers)
@@ -867,7 +579,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $protocol The protocol used
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function protocol($protocol)
@@ -897,7 +609,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @return void
      * @access public
      */
-    public function setRequestBody(\stdClass $requestBody)
+    public function setResponseBody(\stdClass $requestBody)
     {
         $this->requestBody = $requestBody;
     }
@@ -913,7 +625,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function requestBody(\stdClass $requestBody)
     {
-        $this->setRequestBody($requestBody);
+        $this->setResponseBody($requestBody);
         return $this;
     }
 
@@ -924,7 +636,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @return \stdClass|null The request body if set otherwise NULL
      * @access public
      */
-    public function getRequestBody($associative = false)
+    public function getResponseBody($associative = false)
     {
         if ($associative === true) {
             $requestBody = object_to_array($this->requestBody);
@@ -956,7 +668,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param stdClass $routes The routes object (often retrieved from config)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function routes(\stdClass $routes)
@@ -998,7 +710,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array $activeRoute The active and dispatched/processed route!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function activeRoute(array $activeRoute)
@@ -1028,7 +740,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @return void
      * @access public
      */
-    public function setRequest(array $request)
+    public function setResponse(array $request)
     {
         $this->addHistory(__METHOD__, func_get_args());
         $this->request = $request;
@@ -1040,12 +752,12 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array $request The request in DoozR format
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function request(array $request)
     {
-        $this->setRequest($request);
+        $this->setResponse($request);
         return $this;
     }
 
@@ -1056,7 +768,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @return array The request
      * @access public
      */
-    public function getRequest()
+    public function getResponse()
     {
         return $this->request;
     }
@@ -1082,7 +794,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array $translationMatrix The translation matrix
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function translationMatrix(array $translationMatrix)
@@ -1124,7 +836,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $pattern The pattern (MVP) ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function pattern($pattern)
@@ -1166,7 +878,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param boolean TRUE to mark state REST, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access public
      */
     public function rest($rest)
@@ -1194,7 +906,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array  $arguments The methods argument
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return DoozR_Response_State Instance for chaining
      * @access protected
      */
     protected function addHistory($method, $arguments)
@@ -1218,5 +930,53 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     public function getHistory()
     {
         return $this->history;
+    }
+
+
+
+
+
+    /**
+     * Sends "text/html" to client
+     *
+     * This method is intend to send "text/html" to client.
+     *
+     * @param string  $buffer  The data to send
+     * @param string  $etag    The Etag to send, null to prevent sending
+     * @param boolean $exit    Close connection after output?
+     * @param string  $charset The charset/encoding to use for sending (header-value)
+     *
+     * @return DoozR_Response_Web The current instance for chaining
+     * @access public
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function sendHtml($buffer, $etag = null, $exit = true, $charset = null)
+    {
+        $registry = DoozR_Registry::getInstance();
+
+        if (DOOZR_DEBUG === true) {
+            $debugbar = $registry->getDebugbar();
+
+            $archive = $registry->getLogger()->getArchive();
+
+            foreach ($archive as $logentry) {
+                if (!empty($logentry)) {
+                    $debugbar['messages']->{$logentry['type']}($logentry['message']);
+                }
+            }
+
+            $debugbar['time']->stopMeasure('request-cycle');
+            $debugbarRenderer = $debugbar->getJavascriptRenderer();
+            $debugbarRenderer->setBaseUrl('/assets');
+            $buffer .= $debugbarRenderer->renderHead() . $debugbarRenderer->render();
+        }
+
+        // we send html
+        header('Content-type: text/html; charset=UTF-8');
+
+        // send the buffer/data
+        echo $buffer;
+
+        die;
     }
 }

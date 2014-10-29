@@ -387,8 +387,8 @@ implements DoozR_Cache_Service_Container_Interface
         // 1st line: expiration date
         // 2nd line: user data
         // 3rd+ lines: cache data
-        fwrite($fileHandle, $this->getExpiresAbsolute($expires) . "\n");
-        fwrite($fileHandle, $userdata . "\n");
+        fwrite($fileHandle, $this->getExpiresAbsolute($expires) . PHP_EOL);
+        fwrite($fileHandle, $userdata . PHP_EOL);
         fwrite($fileHandle, $this->encode($data));
 
         // remove file-lock
