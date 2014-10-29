@@ -52,7 +52,7 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI.'Map.php';
+require_once DI_PATH_LIB_DI . 'Map.php';
 
 /**
  * Di Map Static

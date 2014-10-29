@@ -86,6 +86,6 @@ final class DoozR_Installer_Framework extends DoozR_Installer_Base
         $io = $event->getIO();
         $arguments = $event->getArguments();
 
-        
+
     }
 }

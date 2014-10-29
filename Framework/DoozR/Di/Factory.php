@@ -52,8 +52,8 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI.'Exception.php';
-require_once DI_PATH_LIB_DI.'Dependency.php';
+require_once DI_PATH_LIB_DI . 'Exception.php';
+require_once DI_PATH_LIB_DI . 'Dependency.php';
 
 /**
  * Di Factory

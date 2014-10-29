@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Di Map
+ * DoozR - Di - Map
  *
  * Map.php - Map class of the Di-Framework
  *
@@ -42,9 +42,9 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
- * @package    DoozR_Di_Framework
- * @subpackage DoozR_Di_Framework_Map
+ * @category   DoozR
+ * @package    DoozR_Di
+ * @subpackage DoozR_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,16 +52,16 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI.'Exception.php';
+require_once DI_PATH_LIB_DI . 'Exception.php';
 
 /**
- * Di Map
+ * DoozR - Di - Map
  *
  * Map class of the Di-Framework
  *
- * @category   Di
- * @package    DoozR_Di_Framework
- * @subpackage DoozR_Di_Framework_Map
+ * @category   DoozR
+ * @package    DoozR_Di
+ * @subpackage DoozR_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2012 - 2013 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

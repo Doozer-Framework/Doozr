@@ -52,9 +52,9 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI.'Parser/Abstract.php';
-require_once DI_PATH_LIB_DI.'Parser/Interface.php';
-require_once DI_PATH_LIB_DI.'Exception.php';
+require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
+require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
+require_once DI_PATH_LIB_DI . 'Exception.php';
 
 /**
  * Di Annotation Parser
@@ -91,10 +91,6 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     const RANGE_PROPERTIES     = 4;
     const RANGE_SINGLE_ELEMENT = 5;
 
-
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
 
     /**
      * Parses the annotations out of input and return it as array
@@ -137,7 +133,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
         $reflection = new ReflectionClass($input['class']);
 
         // parse annotation(s) from reflection and return result
-        $this->lastResult = $this->_parseFromReflectionByRange($reflection, $range);
+        $this->lastResult = $this->parseFromReflectionByRange($reflection, $range);
 
         //
         return $this->lastResult;
@@ -192,70 +188,62 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
         return ($this->input !== null);
     }
 
-    /*******************************************************************************************************************
-     * PRIVATE + PROTECTED
-     ******************************************************************************************************************/
-
     /**
-     * Parses the dependencies from a given reflection for defined range and optional method or property
-     *
-     * This method is intend to parse the dependencies from a given reflection for defined range and
-     * optional method or property.
+     * Parses the dependencies from a given reflection for defined range and optional method or property.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
-     * @param integer         $range      The range to parse from
+     * @param integer $range The range to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array An raw array containing the dependencies indexed
-     * @access private
+     * @return array An raw array containing the dependencies indexed@access private
+     * @access protected
+     * @throws DoozR_Di_Exception
      */
-    private function _parseFromReflectionByRange(ReflectionClass $reflection, $range)
+    protected function parseFromReflectionByRange(ReflectionClass $reflection, $range)
     {
         $dependencies = array();
 
         switch ($range) {
-        case self::RANGE_CLASS:
-            $dependencies = array_merge($dependencies, $this->_parseFromClassComment($reflection));
-            break;
+            case self::RANGE_CLASS:
+                $dependencies = array_merge($dependencies, $this->parseFromClassComment($reflection));
+                break;
 
-        case self::RANGE_METHODS:
-            $dependencies = array_merge($dependencies, $this->_parseFromClassMethods($reflection));
-            break;
+            case self::RANGE_METHODS:
+                $dependencies = array_merge($dependencies, $this->parseFromClassMethods($reflection));
+                break;
 
-        case self::RANGE_PROPERTIES:
-            $dependencies = array_merge($dependencies, $this->_parseFromClassProperties($reflection));
-            break;
+            case self::RANGE_PROPERTIES:
+                $dependencies = array_merge($dependencies, $this->parseFromClassProperties($reflection));
+                break;
 
-        case self::RANGE_SINGLE_ELEMENT:
-            throw new DoozR_Di_Exception(
-                'Parsing from single element not implemented yet!'
-            );
-            break;
+            case self::RANGE_SINGLE_ELEMENT:
+                throw new DoozR_Di_Exception(
+                    'Parsing from single element not implemented yet!'
+                );
+                break;
 
-        default:
-        case self::RANGE_EVERYTHING:
-            $dependencies = array_merge($dependencies, $this->_parseFromClassComment($reflection));
-            $dependencies = array_merge($dependencies, $this->_parseFromClassMethods($reflection));
-            $dependencies = array_merge($dependencies, $this->_parseFromClassProperties($reflection));
-            break;
+            default:
+            case self::RANGE_EVERYTHING:
+                $dependencies = array_merge($dependencies, $this->parseFromClassComment($reflection));
+                $dependencies = array_merge($dependencies, $this->parseFromClassMethods($reflection));
+                $dependencies = array_merge($dependencies, $this->parseFromClassProperties($reflection));
+                break;
         }
 
         return $dependencies;
     }
 
     /**
-     * Parses the annotations out of input and return it as array
-     *
-     * This method is intend to build an array of options for each of the commands that were matched.
+     * Parses the annotations out of input and return it as array.
      * This options array is readable/similar to a dependency map item.
      *
      * @param string $sourcecode The sourcecode to parse annotations from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the dependencies parsed from annotations found
-     * @access private
+     * @access protected
      */
-    private function _getAnnotationFromSource($sourcecode)
+    protected function getAnnotationFromSource($sourcecode)
     {
         // parse annotations out of source
         $this->data['matched'] = preg_match_all(
@@ -313,19 +301,17 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     }
 
     /**
-     * Parses the dependencies from a given reflection out of the class' comment
-     *
-     * This method is intend to parse the dependencies from a given reflection out of the class' comment.
+     * Parses the dependencies from a given reflection out of the class' comment.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array An raw array containing the dependencies indexed
-     * @access private
+     * @access protected
      */
-    private function _parseFromClassComment(ReflectionClass $reflection)
+    protected function parseFromClassComment(ReflectionClass $reflection)
     {
-        $dependencies = $this->_getAnnotationFromSource($reflection->getDocComment());
+        $dependencies = $this->getAnnotationFromSource($reflection->getDocComment());
 
         // @todo: validate more specific here:
         $type        = isset($dependencies[0]['type']) ? $dependencies[0]['type'] : null;
@@ -341,9 +327,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     }
 
     /**
-     * Parses the dependencies from a given reflection out of the class' methods
-     *
-     * This method is intend to parse the dependencies from a given reflection out of the class' methods.
+     * Parses the dependencies from a given reflection out of the class' methods.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
      *
@@ -351,7 +335,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
      * @return array An raw array containing the dependencies indexed
      * @access private
      */
-    private function _parseFromClassMethods(ReflectionClass $reflection)
+    protected function parseFromClassMethods(ReflectionClass $reflection)
     {
         $result = array();
 
@@ -360,7 +344,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
 
         /* @var $reflectionMethod ReflectionMethod */
         foreach ($reflectionMethods as $reflectionMethod) {
-            $tmpDependency = $this->_getAnnotationFromSource($reflectionMethod->getDocComment());
+            $tmpDependency = $this->getAnnotationFromSource($reflectionMethod->getDocComment());
 
             if ($tmpDependency) {
                 $result[$reflectionMethod->getName()] = $tmpDependency;
@@ -371,17 +355,15 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     }
 
     /**
-     * Parses the dependencies from a given reflection out of the class' properties
-     *
-     * This method is intend to parse the dependencies from a given reflection out of the class' properties.
+     * Parses the dependencies from a given reflection out of the class' properties.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
      *
-     * @return array An raw array containing the dependencies indexed
-     * @access private
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array An raw array containing the dependencies indexed
+     * @access protected
      */
-    private function _parseFromClassProperties(ReflectionClass $reflection)
+    protected function parseFromClassProperties(ReflectionClass $reflection)
     {
         $result = array();
 
@@ -389,7 +371,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
         $reflectionProperties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
 
         foreach ($reflectionProperties as $reflectionProperty) {
-            $tmpDependency = $this->_getAnnotationFromSource($reflectionProperty->getDocComment());
+            $tmpDependency = $this->getAnnotationFromSource($reflectionProperty->getDocComment());
 
             if ($tmpDependency) {
                 $result[$reflectionProperty->getName()] = $tmpDependency;

@@ -52,11 +52,11 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI.'Map.php';
-require_once DI_PATH_LIB_DI.'Factory.php';
-require_once DI_PATH_LIB_DI.'Container.php';
-require_once DI_PATH_LIB_DI.'Dependency.php';
-require_once DI_PATH_LIB_DI.'Collection.php';
+require_once DI_PATH_LIB_DI . 'Map.php';
+require_once DI_PATH_LIB_DI . 'Factory.php';
+require_once DI_PATH_LIB_DI . 'Container.php';
+require_once DI_PATH_LIB_DI . 'Dependency.php';
+require_once DI_PATH_LIB_DI . 'Collection.php';
 
 /**
  * Di Map Fluent

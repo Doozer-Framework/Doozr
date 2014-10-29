@@ -52,10 +52,10 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI.'Importer/Abstract.php';
-require_once DI_PATH_LIB_DI.'Importer/Interface.php';
-require_once DI_PATH_LIB_DI.'Dependency.php';
-require_once DI_PATH_LIB_DI.'Collection.php';
+require_once DI_PATH_LIB_DI . 'Importer/Abstract.php';
+require_once DI_PATH_LIB_DI . 'Importer/Interface.php';
+require_once DI_PATH_LIB_DI . 'Dependency.php';
+require_once DI_PATH_LIB_DI . 'Collection.php';
 
 /**
  * external library Object-Freezer by Sebastian Bergmann
