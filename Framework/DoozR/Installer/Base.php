@@ -54,10 +54,6 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
-
-use Composer\Script\Event;
-
 /**
  * DoozR - Installer - Framework
  *
@@ -75,7 +71,7 @@ use Composer\Script\Event;
  * @link       http://clickalicious.github.com/DoozR/
  * @final
  */
-class DoozR_Installer_Base extends DoozR_Base_Class
+class DoozR_Installer_Base
 {
-
+    //
 }

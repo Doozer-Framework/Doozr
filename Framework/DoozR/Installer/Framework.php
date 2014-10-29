@@ -54,7 +54,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Installer/Base.php';
+use Composer\Script\CommandEvent;
 
 /**
  * DoozR - Installer - Framework
@@ -76,16 +76,198 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Installer/Base.php';
 final class DoozR_Installer_Framework extends DoozR_Installer_Base
 {
     /**
+     * Post install event hook on composer.
      *
-     * @param Event $event
+     * @param CommandEvent $event
+     *
+     * @return bool
      */
-    public static function postInstall(Event $event)
+    public static function postInstall(CommandEvent $event)
     {
-        $composer = $event->getComposer();
-        $name = $event->getEvent();
-        $io = $event->getIO();
-        $arguments = $event->getArguments();
+        // Detect path to composer.json
+        $installPath = self::getInstallPath();
+        $io          = $event->getIO();
+
+        // Questions for tree.
+        $question1 = 'Install DoozR\'s bootstrap project now? (YES/no) ';
+        $question2 = 'Install to "' . $installPath . '"? (YES/no) ';
+        $question3 = 'Please enter path to install to: ';
+        $question4 = 'Please enter path to install to: ';
+
+        // Ask for install?
+        if ($io->askConfirmation($question1, true)) {
+
+            // Ask for path confirm?
+            if ($io->askConfirmation($question2, true)) {
+                try {
+                    $installPath = self::validatePath($installPath);
+                } catch (Exception $e) {
+
+                    if ($installPath = $io->askAndValidate($e->getMessage() . PHP_EOL . $question3, array('DoozR_Installer_Framework', 'validatePath'), 5, $installPath)) {
+                        self::install($installPath);
+                    }
+                }
+
+            } else {
+                if ($installPath = $io->askAndValidate($question4, array('DoozR_Installer_Framework', 'validatePath'), 5)) {
+                    self::install($installPath);
+                }
+            }
+
+            // ok, continue on to composer install
+            return true;
+        }
+
+        // exit composer and terminate installation process
+        exit;
+    }
 
 
+    public static function install($targetDirectory)
+    {
+        // The folders to copy
+        $folders = array(
+            'app',
+            'web',
+        );
+
+        // Define source & destination
+        $source      = self::getSourcePath();
+        $destination = $targetDirectory;
+
+        // Iterate and copy ...
+        foreach ($folders as $folder) {
+            self::xcopy($source . $folder, $destination . $folder);
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates a path for installation.
+     *
+     * @param string $path The path to validate
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if path is valid, otherwise FALSE
+     * @throws Exception
+     */
+    public static function validatePath($path)
+    {
+        if (realpath($path) === false) {
+            throw new Exception(
+                'Path "' . $path . '" does not exist.'
+            );
+        }
+
+        if (is_dir($path) === false || is_writable($path) === false) {
+            throw new Exception(
+                'Make sure path "' . $path . '" exists and that it\'s writable.'
+            );
+        }
+
+        // Make full usable with trailing slash
+        $path = realpath($path) . DIRECTORY_SEPARATOR;
+
+        $folder = array();
+
+        if (file_exists($path . 'app')) {
+            $folder[] = 'app';
+        }
+
+        if (file_exists($path . 'web')) {
+            $folder[] = 'web';
+        }
+
+        if (count($folder) > 0) {
+            throw new Exception(
+                'The target directory contains the following files/folders already: ' . implode(' & ', $folder) . '.' .
+                PHP_EOL . 'Remove those files/folders first and try again.' . PHP_EOL
+            );
+        }
+
+        return $path;
+    }
+
+    /**
+     * Detect and return source path containing the bootstrap project structure.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool Returns true on success, false on failure
+     * @access protected
+     */
+    protected static function getSourcePath()
+    {
+        $path = DIRECTORY_SEPARATOR . implode(
+            DIRECTORY_SEPARATOR,
+            array('Framework', 'DoozR','Installer', 'Framework.php')
+        );
+
+        return realpath(str_replace($path, '', __FILE__)) . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * Copy a file, or recursively copy a folder and its contents
+     *
+     * @param string $source      Source path
+     * @param string $destination Destination path
+     * @param mixed  $permissions New folder creation permissions
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool Returns true on success, false on failure
+     * @access protected
+     */
+    protected static function xcopy($source, $destination, $permissions = 0755)
+    {
+        // Check for symlinks
+        if (is_link($source)) {
+            return symlink(readlink($source), $destination);
+        }
+
+        // Simple copy for a file
+        if (is_file($source)) {
+            return copy($source, $destination);
+        }
+
+        // Make destination directory
+        if (!is_dir($destination)) {
+            mkdir($destination, $permissions);
+        }
+
+        // Loop through the folder
+        $dir = dir($source);
+        while (false !== $entry = $dir->read()) {
+            // Skip pointers
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
+
+            // Deep copy directories
+            self::xcopy(
+                $source . DIRECTORY_SEPARATOR . $entry,
+                $destination . DIRECTORY_SEPARATOR . $entry
+            );
+        }
+
+        // Clean up
+        $dir->close();
+        return true;
+    }
+
+    /**
+     * Returns install path relative to current path.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The install path
+     * @access protected
+     */
+    protected static function getInstallPath()
+    {
+        $path = DIRECTORY_SEPARATOR . implode(
+            DIRECTORY_SEPARATOR,
+            array('vendor', 'clickalicious', 'doozr', 'Framework', 'DoozR','Installer', 'Framework.php')
+        );
+
+        return realpath(str_replace($path, '', __FILE__)) . DIRECTORY_SEPARATOR;
     }
 }
