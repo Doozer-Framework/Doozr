@@ -3,7 +3,7 @@
 
 
 ## Install
-You can install *DoozR* via *composer*.
+You can install *DoozR* via *composer*. We've implmented an installer based on Composer's CLI abstraction. So if you copy the `composer.json` content below you can decide if you want to bootstrap the recommended directory structure (*post-install-cmd*). You will be guided by our installer which copies all required files and folders to a directory of your choice. Just run `composer install`
   
 **composer.json**  
 Navigate to a path where you want your environment running. Lets say you've planned to use **/var/wwwroot/doozr** as folder to start install. Create a file *composer.json* in exactly this folder. When *composer* is called it will create a folder **/var/wwwroot/doozr/web** which your vhost should point to later. Put the following content into your fresh created *composer.json*:
@@ -14,6 +14,11 @@ Navigate to a path where you want your environment running. Lets say you've plan
         "require": {},
         "require-dev": {
             "clickalicious/doozr": "dev-master"
+        }
+        "scripts": {
+            "post-install-cmd": [
+                "DoozR_Installer_Framework::postInstall"
+            ]
         }
     }
     
