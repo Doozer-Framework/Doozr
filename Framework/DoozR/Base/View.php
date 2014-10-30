@@ -776,6 +776,12 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
             // Get name of template file
             $templateFile = $this->configuration->base->template->path() . $this->translateToTemplatefile() . '.html';
 
+            if (file_exists($templateFile) === false) {
+                throw new DoozR_Base_View_Exception(
+                    'The template file "' . $templateFile . '" is required for rendering but it does not exist.'
+                );
+            }
+
             /* @var $template PHPTAL */
             $template = DoozR_Loader_Serviceloader::load('template', $templateFile);
 
