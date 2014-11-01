@@ -74,7 +74,7 @@ class DoozR_Exception extends DoozR_Base_Exception
      * Constructor.
      *
      * @param string    $message  The message of the exception
-     * @param integer   $code     The error-code of the exception
+     * @param int   $code     The error-code of the exception
      * @param Exception $previous An previos throw exception which should be repacked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

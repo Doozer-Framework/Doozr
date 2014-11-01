@@ -164,13 +164,41 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
         self::$container->setMap(self::$map);
 
         // Create instance with arguments ...
+        /* @var DoozR_Base_Service_Interface $instance */
         if ($arguments !== null) {
             $instance = self::$container->build($classname, $arguments);
         } else {
             $instance = self::$container->build($classname);
         }
 
+        // Register service and put the UUID as reference into response
+        $instance->setUuid(
+            self::registerService($service, $instance)
+        );
+
         return $instance;
+    }
+
+    /**
+     * Registers a service in DoozR's registry.
+     *
+     * @param string                       $name    The name of the service.
+     * @param DoozR_Base_Service_Interface $service The service instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected static function registerService($name, DoozR_Base_Service_Interface $service)
+    {
+        // Check how to store service in registry
+        if ($service->isSingleton() === true) {
+            $uuid = self::getRegistry()->set($service, $name);
+        } else {
+            $uuid = self::getRegistry()->add($service, $name);
+        }
+
+        return $uuid;
     }
 
     /**

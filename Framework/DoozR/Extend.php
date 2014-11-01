@@ -142,7 +142,7 @@ function merge_array(array $array_1, array $array_2)
  * A recursive array_change_key_case function
  *
  * @param array   $input The array to change keys in
- * @param integer $case  The case - can be either CASE_UPPER or CASE_LOWER (constants)
+ * @param int $case  The case - can be either CASE_UPPER or CASE_LOWER (constants)
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return array The resulting (processed) array
@@ -215,7 +215,7 @@ function traverse($path)
  * realpath with a switch to not resolve symlinks.
  *
  * @param string $path             The path to return without resolving symlinks
- * @param boolean $resolveSymlinks TRUE to resolve, FALSE to do not
+ * @param bool $resolveSymlinks TRUE to resolve, FALSE to do not
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return string|null The resulting path as string or NULL if failed
@@ -257,7 +257,7 @@ function realpath_ext($path, $resolveSymlinks = false)
  * Changes all values of input to lower- or upper-case
  *
  * @param array   $input The array to change values in
- * @param integer $case  The case - can be either CASE_UPPER or CASE_LOWER (constants)
+ * @param int $case  The case - can be either CASE_UPPER or CASE_LOWER (constants)
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return array The resulting (processed) array
@@ -287,7 +287,7 @@ function array_change_value_case($input, $case = CASE_LOWER)
  *
  * @param array   $array         The array to remove element from
  * @param string  $value         The value to remove (item + key)
- * @param boolean $preserve_keys TRUE to keep keys untouched, otherwise FALSE to reindex
+ * @param bool $preserve_keys TRUE to keep keys untouched, otherwise FALSE to reindex
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return array The resulting (processed) array
@@ -384,7 +384,7 @@ function array_recursive(array $array)
  * Converts an object to an array
  *
  * @param object $object The object to convert
- * @param boolean $recursive TRUE to call this method recursively till last node of input, FALSE to do not
+ * @param bool $recursive TRUE to call this method recursively till last node of input, FALSE to do not
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return array The resulting array
@@ -404,7 +404,7 @@ function object_to_array($object, $recursive = true)
  * Converts input array to an object
  *
  * @param mixed   $array     The array to convert to an object
- * @param boolean $recursive TRUE to call this method recursively till last node of input, FALSE to do not
+ * @param bool $recursive TRUE to call this method recursively till last node of input, FALSE to do not
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return object The resulting object
@@ -424,7 +424,7 @@ function array_to_object(array $array, $recursive = true)
 /**
  * Returns all currently defined variables PHP knows about (global scope)
  *
- * @param boolean $force TRUE to force the retrieval, otherwise FALSE
+ * @param bool $force TRUE to force the retrieval, otherwise FALSE
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return array The global defined variables
@@ -502,7 +502,7 @@ function is_json($string)
  *
  * This method is intend to calculate the crossfoot of a given number.
  *
- * @param integer $number The number to create crossfoot of
+ * @param int $number The number to create crossfoot of
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return integer The calculated crossfoot
@@ -601,7 +601,7 @@ function detectRunningMode()
  *
  * This method is intend to check for protocol and returns it
  *
- * @param boolean $plain TRUE to retrieve the protocol without dot + slashes, otherwise FALSE
+ * @param bool $plain TRUE to retrieve the protocol without dot + slashes, otherwise FALSE
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return string The protocol used while accessing a resource
@@ -801,7 +801,7 @@ function sendNoCacheHeaders()
  *
  * @param array   $array
  * @param string  $delimiter
- * @param boolean $baseval
+ * @param bool $baseval
  *
  * @return array
  */

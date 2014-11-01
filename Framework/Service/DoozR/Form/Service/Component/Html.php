@@ -155,7 +155,7 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
     /**
      * Hook on default renderer for some slighty required modifications on input
      *
-     * @param boolean $force TRUE to force rerendering, otherwise FALSE to use cached result
+     * @param bool $force TRUE to force rerendering, otherwise FALSE to use cached result
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The rendered result
@@ -266,7 +266,7 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
     /**
      * Removes a child from the component.
      *
-     * @param integer $index The index of the child component to remove from component
+     * @param int $index The index of the child component to remove from component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean|null TRUE  if child was removed successfully,

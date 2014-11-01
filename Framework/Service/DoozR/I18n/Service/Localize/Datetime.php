@@ -76,7 +76,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      * 1 = iso date
      * 2 = swatch date
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private $_timeset;
@@ -134,7 +134,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to check if a given timecode is valid.
      *
-     * @param integer $timecode The timecode to check
+     * @param int $timecode The timecode to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if valid, otherwise FALSE
@@ -176,7 +176,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to check if timestamp is valid.
      *
-     * @param integer $timestamp The timestamp to check
+     * @param int $timestamp The timestamp to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if valid, otherwise FALSE
@@ -220,7 +220,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      *
      * This method is intend to convert a timestamp to an iso-date.
      *
-     * @param integer $timestamp The timestamp to convert to an iso-date
+     * @param int $timestamp The timestamp to convert to an iso-date
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting iso-date
@@ -234,7 +234,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to an iso-time.
      *
-     * @param integer $timestamp The timestamp to convert to an iso-time
+     * @param int $timestamp The timestamp to convert to an iso-time
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting iso-time
@@ -248,7 +248,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to an iso-datetime.
      *
-     * @param integer $timestamp The timestamp to convert to an iso-datetime
+     * @param int $timestamp The timestamp to convert to an iso-datetime
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting iso-datetime
@@ -262,7 +262,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to a short-date.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting short-date
@@ -278,7 +278,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      *
      * This method is intend to convert a timestamp to a middle-date.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @return  string The resulting middle-date
      * @access  public
@@ -292,7 +292,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to a long-date.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting long-date
@@ -306,7 +306,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to short-time.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting short-time
@@ -320,7 +320,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to middle-time.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting middle-time
@@ -334,7 +334,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to long-time.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting long-time
@@ -348,7 +348,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to short-Datetime.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting short-Datetime
@@ -362,7 +362,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to middle-Datetime.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting middle-Datetime
@@ -376,7 +376,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to long-Datetime.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting long-Datetime
@@ -390,7 +390,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to localized (I10n) month name.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting month name
@@ -408,7 +408,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to localized (I10n) day name.
      *
-     * @param integer $timestamp The timestamp to convert
+     * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The resulting day name
@@ -461,7 +461,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to set the active timeset.
      *
-     * @param integer $timeset The timeset to set active
+     * @param int $timeset The timeset to set active
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -475,7 +475,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to swatch-time.
      *
-     * @param integer $timestamp The timestamp to convert to swatch-time
+     * @param int $timestamp The timestamp to convert to swatch-time
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Beats of swatch-time for given timestamp
@@ -489,7 +489,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to convert a timestamp to swatch-date.
      *
-     * @param integer $timestamp The timestamp to convert to swatch-time
+     * @param int $timestamp The timestamp to convert to swatch-time
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Swatch-date for given timestamp
@@ -511,7 +511,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to act as format-dispatcher.
      *
-     * @param integer $timestamp The timestamp to format
+     * @param int $timestamp The timestamp to format
      * @param string  $format    The format to use for formatting input
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -539,7 +539,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to act as format-dispatcher.
      *
-     * @param integer $timestamp The timestamp to format
+     * @param int $timestamp The timestamp to format
      * @param string  $format    The format to use for formatting input
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -567,7 +567,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to act as format-dispatcher.
      *
-     * @param integer $timestamp The timestamp to format
+     * @param int $timestamp The timestamp to format
      * @param string  $format    The format to use for formatting input
      *
      * @return mixed Result of request
@@ -618,7 +618,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      * This method is intend to encode a datestring.
      *
      * @param string  $format    The format to use for formatting timestamp
-     * @param integer $timestamp The timestamp to convert/format
+     * @param int $timestamp The timestamp to convert/format
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Result of request

@@ -56,6 +56,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Facade/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Template - Service
@@ -75,7 +76,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
  * @service    Singleton
  * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
-class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
+class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements DoozR_Base_Service_Interface
 {
     /**
      * The resource to process
@@ -110,7 +111,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
      * template code from current instance and returns it -
      * if parameter return is set to TRUE.
      *
-     * @param boolean $return TRUE to return result, FALSE (default) to echo
+     * @param bool $return TRUE to return result, FALSE (default) to echo
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Data from template if $return was set to TRUE, otherwise NULL
@@ -321,4 +322,96 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton
         // return result of assigning
         return $result;
     }
+
+    /**
+     * The name of this service
+     *
+     * @var string
+     * @access protected
+     */
+    protected $name;
+
+    /**
+     * The type of this service.
+     *
+     * @var string
+     * @access protected
+     */
+    protected static $type = self::TYPE_SINGLETON;
+
+    /**
+     * The type for singleton services.
+     *
+     * @var string
+     * @const
+     */
+    const TYPE_SINGLETON = 'singleton';
+
+    /**
+     * The type for multi instance services.
+     *
+     * @var string
+     * @const
+     */
+    const TYPE_MULTIPLE = 'multiple';
+
+    /**
+     * Returns true if service is singleton.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if service is singleton, otherwise FALSE.
+     * @access public
+     */
+    public function isSingleton()
+    {
+        return (self::$type === self::TYPE_SINGLETON);
+    }
+
+    /**
+     * Returns true if service is a multi instance service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if service is multi instance, otherwise FALSE.
+     * @access public
+     */
+    public function isMultiple()
+    {
+        return (self::$type === self::TYPE_MULTIPLE);
+    }
+
+    /**
+     * Returns the name of the service
+     *
+     * This method is intend to return the name of the current
+     * active service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the service
+     * @access public
+     */
+    public function getName()
+    {
+        if ($this->name === null) {
+            $class = get_called_class();
+            if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
+                $this->name = $matches[1];
+            } else {
+                $this->name = '';
+            }
+        }
+
+        return $this->name;
+    }
+    protected $uuid;
+
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
 }

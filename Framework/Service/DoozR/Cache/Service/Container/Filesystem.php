@@ -81,7 +81,7 @@ implements DoozR_Cache_Service_Container_Interface
      * The file locking must improve this problem but it's experimental stuff. So the default value is false.
      * But it seems to give good results
      *
-     * @var boolean
+     * @var bool
      * @access private
      */
     private $_fileLocking = false;
@@ -142,7 +142,7 @@ implements DoozR_Cache_Service_Container_Interface
      * If set to 0, it will take the default (1024 in php 4.2, unlimited in php 4.3)
      * see http://ch.php.net/manual/en/function.fgets.php for details
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $maxUserdataLinelength = 257;
@@ -350,7 +350,7 @@ implements DoozR_Cache_Service_Container_Interface
      *
      * @param string     $id       The dataset Id
      * @param string     $data     The data to write to cache
-     * @param integer    $expires  Date/Time on which the cache-entry expires
+     * @param int    $expires  Date/Time on which the cache-entry expires
      * @param string     $group    The dataset group
      * @param string     $userdata The custom userdata to add
      * @param null|mixed $userdata The additional userdata
@@ -514,7 +514,7 @@ implements DoozR_Cache_Service_Container_Interface
      * to be read from them and if neccessary they have to be unlinked (removed). If you have a user comment
      * for a good default gc probability please add it to to the inline docs.
      *
-     * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param int $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean The result of the operation
@@ -608,7 +608,7 @@ implements DoozR_Cache_Service_Container_Interface
      *
      * This method is intend to do the recursive gc procedure.
      *
-     * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param int $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      * @param string  $directory   Directory to examine - don't sets this parameter, it's used for a
      *                             recursive function call!
      *

@@ -102,7 +102,7 @@ class DoozR_Form_Service_FormManager
      * Jump status of current request. True = we jumped through a deeplink.
      * False = no jump
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $wasJumped;
@@ -147,7 +147,7 @@ class DoozR_Form_Service_FormManager
      * the <input type="file" ...> class on instanciation with
      * the value from PHP's ini.
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $maxFileSize;
@@ -155,7 +155,7 @@ class DoozR_Form_Service_FormManager
     /**
      * The submission status of the form
      *
-     * @var boolean TRUE = submitted, otherwise FALSE
+     * @var bool TRUE = submitted, otherwise FALSE
      * @access protected
      */
     protected $submitted;
@@ -163,21 +163,21 @@ class DoozR_Form_Service_FormManager
     /**
      * The valid status of the form.
      *
-     * @var boolean TRUE = valid, otherwise FALSE
+     * @var bool TRUE = valid, otherwise FALSE
      */
     protected $valid;
 
     /**
      * The finish/completion status of the form.
      *
-     * @var boolean TRUE = complete, otherwise FALSE
+     * @var bool TRUE = complete, otherwise FALSE
      */
     protected $complete;
 
     /**
      * The step we're currently on.
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $step = DoozR_Form_Service_Constant::STEP_DEFAULT_FIRST;
@@ -185,7 +185,7 @@ class DoozR_Form_Service_FormManager
     /**
      * The last (final) step
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $steps = DoozR_Form_Service_Constant::STEP_DEFAULT_LAST;
@@ -193,7 +193,7 @@ class DoozR_Form_Service_FormManager
     /**
      * The behavior when an invalid token arrives
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $invalidTokenBehavior;
@@ -221,7 +221,7 @@ class DoozR_Form_Service_FormManager
      *          of the hidden field:
      *          <input type="hidden" name="send" ng-model="send" />
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $angularDirectives = false;
@@ -272,7 +272,7 @@ class DoozR_Form_Service_FormManager
      * @param DoozR_Form_Service_Validate_Error           $errorInstance     The  instance for cloning error messages
      * @param \stdClass|DoozR_Request_Arguments           $arguments         The Arguments passed with this request
      * @param string                                      $requestMethod     The request method
-     * @param boolean                                     $angularDirectives Controls angular directives to hidden elems
+     * @param bool                                     $angularDirectives Controls angular directives to hidden elems
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Form_Service_FormManager Instance
@@ -338,7 +338,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for step.
      *
-     * @param integer $step The step
+     * @param int $step The step
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -439,7 +439,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for steps.
      *
-     * @param integer $steps The steps
+     * @param int $steps The steps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -453,7 +453,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for steps.
      *
-     * @param integer $steps The steps
+     * @param int $steps The steps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -926,7 +926,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for angularDirectives.
      *
-     * @param boolean TRUE to enable automagically inject of angular directive ng-model for hidden meta components.
+     * @param bool TRUE to enable automagically inject of angular directive ng-model for hidden meta components.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -940,7 +940,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for angularDirectives.
      *
-     * @param boolean TRUE to enable automagically inject of angular directive ng-model for hidden meta components.
+     * @param bool TRUE to enable automagically inject of angular directive ng-model for hidden meta components.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -967,7 +967,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Sets the behavior for the case that an invalid token is used for submission.
      *
-     * @param integer $behavior The behavior to set
+     * @param int $behavior The behavior to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -981,7 +981,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Sets the behavior for the case that an invalid token is used for submission.
      *
-     * @param integer $behavior The behavior to set
+     * @param int $behavior The behavior to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -1212,7 +1212,7 @@ class DoozR_Form_Service_FormManager
      * Returns the completion status of the form. If this method returns TRUE then the form steps are
      * completed, otherwise it would return FALSE.
      *
-     * @param integer $steps The count of steps to check against
+     * @param int $steps The count of steps to check against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if form steps are complete, otherwise FALSE
@@ -1410,7 +1410,7 @@ class DoozR_Form_Service_FormManager
      * This method is intend to validate the passed components.
      *
      * @param array                                     $components The components to validate from request
-     * @param integer                                   $step       The step currently active
+     * @param int                                   $step       The step currently active
      * @param \stdClass|DoozR_Request_Arguments|null    $arguments  The arguments
      * @param array|\DoozR_Form_Service_Store_Interface $store      The store
      *

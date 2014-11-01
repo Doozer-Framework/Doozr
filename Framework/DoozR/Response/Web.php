@@ -76,7 +76,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
     /**
      * The GZIP compression status of the current connection
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $gzipEnabled = false;
@@ -84,7 +84,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
     /**
      * The status of GZIP-Initializing to prevent calling 'ob_gzhandler' twice!
      *
-     * @var boolean
+     * @var bool
      * @access protected
      * @static
      */
@@ -165,9 +165,9 @@ class DoozR_Response_Web extends DoozR_Base_Response
      *
      * sends an default HTTP Status Header like 404, 303 ...
      *
-     * @param integer $statusCode  The statuscode of the HTTP header
+     * @param int $statusCode  The statuscode of the HTTP header
      * @param string  $httpVersion HTTP version used for transfer
-     * @param boolean $echo        TRUE to echo out the
+     * @param bool $echo        TRUE to echo out the
      *
      * @return DoozR_Response_Web The current instance ($this) for chaining
      * @access public
@@ -378,7 +378,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param string  $buffer        The binary-data to send
      * @param string  $type          The type of image [jpeg, gif, png, tiff ...]
      * @param string  $filename      The filename for data to download
-     * @param boolean $forceDownload Close connection after output?
+     * @param bool $forceDownload Close connection after output?
      *
      * @return mixed Bolean True if everything wents fine
      * @access protected
@@ -424,9 +424,9 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * This method is intend to send the data from given buffer to client.
      *
      * @param string  $buffer        The binary-data to send
-     * @param boolean $exit          Close connection after output?
+     * @param bool $exit          Close connection after output?
      * @param string  $filename      The filename for data to download
-     * @param boolean $forceDownload Close connection after output?
+     * @param bool $forceDownload Close connection after output?
      *
      * @return DoozR_Response_Web The current instance for chaining
      * @access public
@@ -452,9 +452,9 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * This method is intend to correctly send png-encoded data to the client.
      *
      * @param string  $buffer        The binary-data to send
-     * @param boolean $exit          Close connection after output?
+     * @param bool $exit          Close connection after output?
      * @param string  $filename      The filename for data to download
-     * @param boolean $forceDownload Close connection after output?
+     * @param bool $forceDownload Close connection after output?
      *
      * @return DoozR_Response_Web The current instance for chaining
      * @access public
@@ -480,9 +480,9 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * This method is intend to correctly send gif-encoded data to the client.
      *
      * @param string  $buffer        The binary-data to send
-     * @param boolean $exit          Close connection after output?
+     * @param bool $exit          Close connection after output?
      * @param string  $filename      The filename for data to download
-     * @param boolean $forceDownload Close connection after output?
+     * @param bool $forceDownload Close connection after output?
      *
      * @return DoozR_Response_Web The current instance for chaining
      * @access public
@@ -529,9 +529,9 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * the user could select for viewing or storage.
      *
      * @param string  $buffer        The binary-data to send
-     * @param boolean $exit          Close connection after output?
+     * @param bool $exit          Close connection after output?
      * @param string  $filename      filename for data to download
-     * @param boolean $forceDownload Close connection after output?
+     * @param bool $forceDownload Close connection after output?
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Response_Web The current instance for chaining
@@ -605,8 +605,8 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * This method is intend to correctly send vcard-encoded data to the client.
      *
      * @param mixed   $buffer   The data to json_encode (optional) and send
-     * @param boolean $filename The name of the vard file
-     * @param boolean $exit     Close connection after output?
+     * @param bool $filename The name of the vard file
+     * @param bool $exit     Close connection after output?
      *
      * @return DoozR_Response_Web The current instance for chaining
      * @access public
@@ -645,9 +645,9 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param mixed   $buffer             The data to json_encode (optional) and send
      * @param string  $etag               The Etag to send, null to prevent sending
      * @param string  $charset            charset for output data
-     * @param boolean $alreadyJsonEncoded The current status of data JSON-encoded = true, not = false
-     * @param boolean $exit               Close connection after output?
-     * @param boolean $addHeader          sending data with JSON header? (SWFUpload does not allow JSON-Data + Header!)
+     * @param bool $alreadyJsonEncoded The current status of data JSON-encoded = true, not = false
+     * @param bool $exit               Close connection after output?
+     * @param bool $addHeader          sending data with JSON header? (SWFUpload does not allow JSON-Data + Header!)
      * @param int     $status             The HTTP status code as integer
      *
      * @return DoozR_Response_Web The current instance for chaining
@@ -751,7 +751,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      *
      * @param string  $buffer  The data to send
      * @param string  $etag    The Etag to send, null to prevent sending
-     * @param boolean $exit    Close connection after output?
+     * @param bool $exit    Close connection after output?
      * @param string  $charset The charset/encoding to use for sending (header-value)
      *
      * @return DoozR_Response_Web The current instance for chaining
@@ -822,7 +822,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      *
      * @param array   $buffer  The data to send
      * @param string  $charset The charset for xml output
-     * @param boolean $exit    Close connection after sending output?
+     * @param bool $exit    Close connection after sending output?
      *
      * @return DoozR_Response_Web The current instance for chaining
      * @access public
@@ -862,7 +862,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * This method is intend to send plain unformatted text e.g. to console.
      *
      * @param string  $buffer The binary-data to send
-     * @param boolean $exit   Close connection after output?
+     * @param bool $exit   Close connection after output?
      *
      * @return DoozR_Response_Web The current instance for chaining
      * @access public
@@ -981,7 +981,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      *
      * @param string  $url  The url to redirect to
      * @param string  $type The type of redirect to use (html, header or js)
-     * @param integer $time The timeout for HTML-redirect in seconds
+     * @param int $time The timeout for HTML-redirect in seconds
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

@@ -69,7 +69,7 @@ abstract class Object_Freezer_Storage
     protected $freezer;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $lazyLoad = FALSE;
 

@@ -105,7 +105,7 @@ class DoozR_Request_Arguments extends DoozR_Base_Class
     /**
      * holds the position of iterator
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $iteratorPosition;

@@ -599,7 +599,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      * This method is the setter for the data to use in the action method.
      *
      * @param mixed   $data   The data to set
-     * @param boolean $render Controls if renderer (if exist) should be called (set to TRUE)
+     * @param bool $render Controls if renderer (if exist) should be called (set to TRUE)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if successful, otherwise FALSE

@@ -338,7 +338,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      * This method is intend to convert the arguments to a request-uri and stores it in $_SERVER['REQUEST_URI'].
      *
      * @param array   $arguments The arguments to use for building request-uri
-     * @param integer $count     The count of arguments to use for building request-uri
+     * @param int $count     The count of arguments to use for building request-uri
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string processed argument-name

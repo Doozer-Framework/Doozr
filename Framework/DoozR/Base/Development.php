@@ -80,7 +80,7 @@ class DoozR_Base_Development
     /**
      * Information if the profiled method was type static
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $profileStatic = false;
@@ -95,7 +95,7 @@ class DoozR_Base_Development
      * @param mixed $class The name of the class to profile or an existing instance
      * @param string $methodname The name of the method to profile
      * @param array $methodargs The arguments to pass to the function
-     * @param integer $invocations The number of times to call the method
+     * @param int $invocations The number of times to call the method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return float The average invocation duration in seconds
@@ -191,7 +191,7 @@ class DoozR_Base_Development
      *
      * This method is intend to print out the details about the last profiled method.
      *
-     * @param boolean $print True [default] to print/echo the profiling-details otherwise it returns the data
+     * @param bool $print True [default] to print/echo the profiling-details otherwise it returns the data
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed [optional] The result of the last profiling operation (only if $print = false)

@@ -83,18 +83,6 @@ class DoozR_Base_Class extends DoozR_Base_Tools
 
 
     /**
-     * Constructor.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Class Instance
-     * @access public
-     */
-    public function __construct()
-    {
-        // Intentionally left blank - But is required for generic Serviceloader!
-    }
-
-    /**
      * Setter for registry
      *
      * @param DoozR_Registry $registry The registry instance
@@ -103,7 +91,7 @@ class DoozR_Base_Class extends DoozR_Base_Tools
      * @return void
      * @access protected
      */
-    protected function setRegistry(DoozR_Registry $registry)
+    protected function setRegistry(DoozR_Registry &$registry)
     {
         $this->registry = $registry;
     }

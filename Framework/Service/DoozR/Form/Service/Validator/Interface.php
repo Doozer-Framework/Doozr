@@ -71,7 +71,7 @@ interface DoozR_Form_Service_Validator_Interface
     /**
      * Validates a passed set of arguments
      *
-     * @param boolean $force TRUE to force validation, FALSE to do not and use cache if exists
+     * @param bool $force TRUE to force validation, FALSE to do not and use cache if exists
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The rendered result

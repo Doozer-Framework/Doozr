@@ -60,6 +60,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Crypt - Service
@@ -79,47 +80,47 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
+class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
 {
     /**
      * holds the AES-cipher object
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_container;
+    protected $container;
 
     /**
      * holds the private key
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_privateKey;
+    protected $privateKey;
 
     /**
      * Contains the name of currently active cipher
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_activeCipher;
+    protected $activeCipher;
 
     /**
      * Contains container encoding
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_containerEncoding = 'base64';
+    protected $containerEncoding = 'base64';
 
     /**
      * Contains the valid encodings including the encode + decode function reference
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_validContainerEncodings = array(
+    protected $validContainerEncodings = array(
         'base64' => array(
             '_encode' => 'base64_encode',
             '_decode' => 'base64_decode'
@@ -163,15 +164,15 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
      */
     public function setCipher($cipher = 'Aes')
     {
-        if ($cipher != $this->_activeCipher) {
+        if ($cipher != $this->activeCipher) {
             // create a new instance of AES
-            $this->_container = $this->_containerFactory($cipher);
+            $this->container = $this->containerFactory($cipher);
 
             // store cipher as active
-            $this->_activeCipher = $cipher;
+            $this->activeCipher = $cipher;
 
             self::setRealObject(
-                $this->_container
+                $this->container
             );
 
             // successful changed
@@ -193,7 +194,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
      */
     public function getCipher()
     {
-        return $this->_activeCipher;
+        return $this->activeCipher;
     }
 
     /**
@@ -207,8 +208,8 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
      */
     public function setEncoding($encoding)
     {
-        if (in_array($encoding, $this->_validContainerEncodings)) {
-            $this->_containerEncoding = $encoding;
+        if (in_array($encoding, $this->validContainerEncodings)) {
+            $this->containerEncoding = $encoding;
         }
     }
 
@@ -223,7 +224,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
      */
     public function getEncoding()
     {
-        return $this->_containerEncoding;
+        return $this->containerEncoding;
     }
 
     /**
@@ -237,7 +238,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
      */
     private function _encode($data)
     {
-        $function = $this->_validContainerEncodings[$this->_containerEncoding][__FUNCTION__];
+        $function = $this->validContainerEncodings[$this->containerEncoding][__FUNCTION__];
         return call_user_func($function, $data);
     }
 
@@ -252,7 +253,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
      */
     private function _decode($data)
     {
-        $function = $this->_validContainerEncodings[$this->_containerEncoding][__FUNCTION__];
+        $function = $this->validContainerEncodings[$this->containerEncoding][__FUNCTION__];
         return call_user_func($function, $data);
     }
 
@@ -264,10 +265,10 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of the container
-     * @access private
+     * @access protected
      * @throws DoozR_Exception
      */
-    private function _containerFactory($container, array $containerOptions = array())
+    protected function containerFactory($container, array $containerOptions = array())
     {
         $container = ucfirst(strtolower($container));
         $class     = __CLASS__.'_Container_'.$container;
@@ -289,7 +290,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
      *
      * @param string  $data   The data to encrypt
      * @param mixed   $key    The key to use for encryption
-     * @param boolean $encode TRUE to encode the data, otherwise FALSE to do not
+     * @param bool $encode TRUE to encode the data, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The encrypted $content
@@ -298,10 +299,10 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
     public function encrypt($data, $key = null, $encode = true)
     {
         if ($key) {
-            $this->_container->setKey($key);
+            $this->container->setKey($key);
         }
 
-        $data = $this->_container->encrypt($data);
+        $data = $this->container->encrypt($data);
 
         if ($encode) {
             $data = $this->_encode($data);
@@ -315,7 +316,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
      *
      * @param string  $data   The data to decrypt
      * @param mixed   $key    The key to use for decryption
-     * @param boolean $decode TRUE to decode the data, otherwise FALSE to do not
+     * @param bool $decode TRUE to decode the data, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The decrypted $data
@@ -324,7 +325,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
     public function decrypt($data, $key = null, $decode = true)
     {
         if ($key) {
-            $this->_container->setKey($key);
+            $this->container->setKey($key);
         }
 
         if ($decode) {
@@ -333,7 +334,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade
             );
         }
 
-        $data = $this->_container->decrypt($data);
+        $data = $this->container->decrypt($data);
 
         return $data;
     }

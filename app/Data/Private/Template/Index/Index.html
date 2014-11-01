@@ -1,0 +1,13 @@
+<html>
+<head>
+    <title tal:content="title">title</title>
+</head>
+<body>
+    <p>Current year: <span tal:replace="year">2014</span></p>
+
+    <div class="item" tal:repeat="human people">
+        <div id="content" tal:content="human"/>
+    </div>
+
+</body>
+</html>

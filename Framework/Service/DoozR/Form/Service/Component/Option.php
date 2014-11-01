@@ -115,7 +115,7 @@ class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_F
     /**
      * Setter for disabled status
      *
-     * @param boolean $state The status
+     * @param bool $state The status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

@@ -86,7 +86,7 @@ class DoozR_Di_Exporter_Json extends DoozR_Di_Exporter_Abstract implements DoozR
      *
      * This method is intend to write current content of DoozR_Di_Collection ($this->collection) to a JSON-File.
      *
-     * @param boolean $exportInstances TRUE to export instances as well, otherwise FALSE to do not
+     * @param bool $exportInstances TRUE to export instances as well, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE

@@ -75,7 +75,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * Permission level for: Everyone is allowed to access no matter of level, id, role, ...
      * This is required for fetching legal website content for blog ... or logging in!
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -84,7 +84,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     /**
      * Status of processing (HTTP-Response code)
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $status = DoozR_Http::STATUS_OK;
@@ -92,7 +92,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     /**
      * The result of the current operation
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $result = false;
@@ -165,7 +165,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     /**
      * Setter for result
      *
-     * @param boolean $result The result to set TRUE or FALSE
+     * @param bool $result The result to set TRUE or FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -179,7 +179,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     /**
      * Setter for result
      *
-     * @param boolean $result The result to set TRUE or FALSE
+     * @param bool $result The result to set TRUE or FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -206,7 +206,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     /**
      * Setter for status
      *
-     * @param integer $status The HTTP Status of current operation
+     * @param int $status The HTTP Status of current operation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -220,7 +220,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     /**
      * Setter for status
      *
-     * @param integer $status The HTTP Status of current operation
+     * @param int $status The HTTP Status of current operation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining

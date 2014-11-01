@@ -181,7 +181,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
      *
      * @param DoozR_Registry_Interface   $registry     The registry of DoozR.
      * @param DoozR_Base_State_Interface $requestState The request state instance for retrieving all request data
-     * @param boolean                    $autorun      TRUE to automatic run/execute the route
+     * @param bool                    $autorun      TRUE to automatic run/execute the route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE

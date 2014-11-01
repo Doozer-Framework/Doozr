@@ -73,7 +73,7 @@ abstract class DoozR_Cache_Service_Container
     /**
      * Flag indicating wheter to preload datasets or not.
      *
-     * @var boolean
+     * @var bool
      * @access private
      */
     private $_preload = true;
@@ -90,7 +90,7 @@ abstract class DoozR_Cache_Service_Container
      * Expiration timestamp of a preloaded dataset.
      * 0 means never, endless
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private $_expires = 0;
@@ -114,7 +114,7 @@ abstract class DoozR_Cache_Service_Container
     /**
      * Flag indicating that the dataset requested for preloading is unknown.
      *
-     * @var boolean
+     * @var bool
      * @access private
      */
     private $_unknown = true;
@@ -136,7 +136,7 @@ abstract class DoozR_Cache_Service_Container
      * the garbage collection deletes as many entries as necessary to reach the
      * lowwater mark.
      *
-     * @var integer
+     * @var int
      * @see lowwater
      * @access protected
      */
@@ -145,7 +145,7 @@ abstract class DoozR_Cache_Service_Container
     /**
      * Lowwater mark
      *
-     * @var integer
+     * @var int
      * @see highwater
      * @access protected
      */
@@ -226,7 +226,7 @@ abstract class DoozR_Cache_Service_Container
      *
      * @param string  $id       The dataset Id
      * @param string  $data     The data to write to cache
-     * @param integer $expires  Date/Time on which the cache-entry expires
+     * @param int $expires  Date/Time on which the cache-entry expires
      * @param string  $group    The dataset group
      * @param string  $userdata The custom userdata to add
      *
@@ -320,7 +320,7 @@ abstract class DoozR_Cache_Service_Container
      *
      * @param string  $id     The dataset Id
      * @param string  $group  The dataset group
-     * @param integer $maxAge Maximum age timestamp
+     * @param int $maxAge Maximum age timestamp
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The dataset value, NULL on failure
@@ -539,7 +539,7 @@ abstract class DoozR_Cache_Service_Container
      * method in your container and call parent::garbageCollection($maxlifetime) or $this->flushPreload() on
      * every call first.
      *
-     * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param int $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

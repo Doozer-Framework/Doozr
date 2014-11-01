@@ -78,7 +78,7 @@ class DoozR_I18n_Service_Localize_Number extends DoozR_I18n_Service_Localize_Abs
      * This method is intend to format a given value as percentage value.
      *
      * @param string  $value      The value to format as percentage value
-     * @param boolean $showSymbol TRUE to show %-symbol, FALSE to hide
+     * @param bool $showSymbol TRUE to show %-symbol, FALSE to hide
      * @param string  $spacer     The spacer placed between value and symbol
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -108,7 +108,7 @@ class DoozR_I18n_Service_Localize_Number extends DoozR_I18n_Service_Localize_Abs
      * This method is intend to format a given value as percentage value.
      *
      * @param string  $value                 The value to format as percentage value
-     * @param boolean $floatingPointNotation Controls if the number should be formatted by floating point notation
+     * @param bool $floatingPointNotation Controls if the number should be formatted by floating point notation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The formatted percentage value

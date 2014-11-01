@@ -55,6 +55,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton/Strict.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Filesystem - Service
@@ -73,73 +74,65 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
  * @service    Singleton
  * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
-class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
+class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict implements DoozR_Base_Service_Interface
 {
     /**
      * holds the status of "is-virtual" of this instance
      *
-     * @var boolean
-     * @access private
+     * @var bool
+     * @access protected
      */
-    private $_isVirtual = false;
-
-    /**
-     * Contains an instance of DoozR_Registry
-     *
-     * @var object
-     * @access private
-     */
-    private $_registry;
+    protected $isVirtual = false;
 
     /**
      * holds a reference of module virtualfilesystem
      *
      * @var object
-     * @access private
+     * @access protected
      */
-    private $_vfs;
+    protected $vfs;
 
     /**
      * contains the last used path of vfs
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_vfsLastPath;
+    protected $vfsLastPath;
 
     /**
      * holds the pattern to check NULL-Byte against
      *
      * @var string
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_nullBytePattern = "\0";
+    protected static $nullBytePattern = "\0";
 
     /**
      * holds data about the current resource
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_currentResourceInformation;
+    protected $currentResourceInformation;
 
     /**
      * Contains all open file-handles for persistent access
      *
      * @see __teardown()
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_fileHandle = array();
+    protected $fileHandle = array();
 
     /**
      * holds data about resources
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_resources = array();
+    protected $resources = array();
 
     /**
      * file runtimeEnvironment for reading
@@ -192,7 +185,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     /**
      * file runtimeEnvironment for binary operations
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const FILE_BINARY = FILE_BINARY;
@@ -200,7 +193,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     /**
      * file runtimeEnvironment for ascii operations
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const FILE_TEXT = FILE_TEXT;
@@ -208,7 +201,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     /**
      * file runtimeEnvironment for append
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const FILE_APPEND = FILE_APPEND;
@@ -216,7 +209,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     /**
      * lock runtimeEnvironment for exclusive locking
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const FILE_LOCK_EXCLUSIVE = LOCK_EX;
@@ -224,7 +217,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     /**
      * complete copy (whole file) max length
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const PHP_STREAM_COPY_ALL = 2000000;
@@ -236,7 +229,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
      *
-     * @param boolean $virtual True to mock a filesystem (vfs = virtual filesystem)
+     * @param bool $virtual True to mock a filesystem (vfs = virtual filesystem)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -247,10 +240,10 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
         // is virtual?
         if ($virtual !== false) {
             // store information that this instance is virtual (fs)
-            $this->_isVirtual = true;
+            $this->isVirtual = true;
 
             // get vfs instance
-            $this->_vfs = DoozR_Loader_Serviceloader::load('virtualfilesystem');
+            $this->vfs = DoozR_Loader_Serviceloader::load('virtualfilesystem');
         }
     }
 
@@ -267,7 +260,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     public function __teardown()
     {
         // close all (still) open file handles
-        foreach ($this->_fileHandle as $uid => $fileHandle) {
+        foreach ($this->fileHandle as $uid => $fileHandle) {
             // close
             fclose($fileHandle['handle']);
         }
@@ -287,9 +280,9 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      *
      * @param string  $file        The file to write the content to
      * @param string  $data        The content to write to the file
-     * @param boolean $append      TRUE to append to, FALSE to rewrite the file
-     * @param boolean $create      TRUE to create file if it not exist, FALSE to do not
-     * @param boolean $modeBoolean TRUE to return result as boolean, otherwise FALSE to return number of bytes written
+     * @param bool $append      TRUE to append to, FALSE to rewrite the file
+     * @param bool $create      TRUE to create file if it not exist, FALSE to do not
+     * @param bool $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
@@ -298,7 +291,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      */
     public function write($file, $data, $append = false, $create = true, $modeBoolean = true)
     {
-        // preproccessing
+        // Preprocessing
         $file = $this->_preProcess($file);
 
         // exception for the case that the file|folder isn't writable
@@ -363,12 +356,12 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      *
      * @param string  $file        The file to write the content to
      * @param string  $data        The content to write to the file
-     * @param boolean $append      TRUE to append to, FALSE to rewrite the file
-     * @param boolean $create      TRUE to create file if it not exist, FALSE to do not
-     * @param boolean $modeBoolean TRUE to return result as boolean, otherwise FALSE to return number of bytes written
+     * @param bool $append      TRUE to append to, FALSE to rewrite the file
+     * @param bool $create      TRUE to create file if it not exist, FALSE to do not
+     * @param bool $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed TRUE/FALSE if runtimeEnvironment = boolean, otherwise number of bytes written on success + false on failure
+     * @return mixed TRUE/FALSE if runtimeEnvironment = bool, otherwise number of bytes written on success + false on failure
      * @access public
      * @throws DoozR_Exception
      */
@@ -409,9 +402,9 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      *
      * @param string  $file        The file to write the content to
      * @param string  $data        The content to write to the file
-     * @param boolean $create      TRUE to create file if it not exist, FALSE to do not
-     * @param boolean $append      Controls if the content should be appended or rewrite the file
-     * @param boolean $modeBoolean TRUE to return result as boolean, otherwise FALSE to return number of bytes written
+     * @param bool $create      TRUE to create file if it not exist, FALSE to do not
+     * @param bool $append      Controls if the content should be appended or rewrite the file
+     * @param bool $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
@@ -454,8 +447,8 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      *
      * @param string  $file       The file to write the content to
      * @param string  $data       The content to write to the file
-     * @param boolean $create     TRUE to create file if it not exist, FALSE to do not
-     * @param boolean $writecheck Controls if writecheck should be performed
+     * @param bool $create     TRUE to create file if it not exist, FALSE to do not
+     * @param bool $writecheck Controls if writecheck should be performed
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
@@ -486,8 +479,8 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      *
      * @param string  $file        The file to write the content to
      * @param string  $data        The content to write to the file
-     * @param boolean $create      TRUE to create file if it not exists, FALSE to do not
-     * @param boolean $modeBoolean TRUE to return result as boolean, otherwise FALSE to return number of bytes written
+     * @param bool $create      TRUE to create file if it not exists, FALSE to do not
+     * @param bool $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
@@ -532,10 +525,10 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend to return the content of a file.
      *
      * @param string  $file             File to read from
-     * @param integer $maxlen           Number of bytes to read
-     * @param boolean $use_include_path TRUE to search file in include path, otherwise FALSE to do not
+     * @param int $maxlen           Number of bytes to read
+     * @param bool $use_include_path TRUE to search file in include path, otherwise FALSE to do not
      * @param string  $context          Context for reading from file
-     * @param integer $offset           The offset from which to start reading
+     * @param int $offset           The offset from which to start reading
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The content of the file
@@ -659,7 +652,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource The resource to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if resource exists, otherwise FALSE
+     * @return bool TRUE if resource exists, otherwise FALSE
      * @access public
      */
     public function exists($resource)
@@ -708,11 +701,11 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend to remove a resource from filesystem.
      *
      * @param string  $resource  The resource to remove
-     * @param boolean $recursive TRUE to remove content (if directory) recursive
+     * @param bool $recursive TRUE to remove content (if directory) recursive
      * @param string  $context   The context
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the resource was removed, FALSE otherwise.
+     * @return bool TRUE if the resource was removed, FALSE otherwise.
      * @access public
      * @throws DoozR_Exception
      */
@@ -736,11 +729,11 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend to remove a resource from filesystem.
      *
      * @param string  $resource  The resource to remove
-     * @param boolean $recursive TRUE to remove content (if directory) recursive
+     * @param bool $recursive TRUE to remove content (if directory) recursive
      * @param string  $context   The context
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the resource was removed, FALSE otherwise.
+     * @return bool TRUE if the resource was removed, FALSE otherwise.
      * @access public
      */
     public function unlink($resource, $recursive = false, $context = null)
@@ -756,7 +749,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource The resource to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the resource is writable, FALSE otherwise.
+     * @return bool TRUE if the resource is writable, FALSE otherwise.
      * @access public
      */
     public function is_writable($resource)
@@ -775,7 +768,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource The resource to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the file exists and is a regular file, FALSE otherwise.
+     * @return bool TRUE if the file exists and is a regular file, FALSE otherwise.
      * @access public
      */
     public function is_file($resource)
@@ -795,7 +788,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource The resource to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the file exists and is a directory, FALSE otherwise.
+     * @return bool TRUE if the file exists and is a directory, FALSE otherwise.
      * @access public
      */
     public function is_dir($resource)
@@ -821,12 +814,12 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * returns the status of "is-virtual" of this instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if instance works on virtual filesystem, otherwise false
+     * @return bool True if instance works on virtual filesystem, otherwise false
      * @access private
      */
     public function isVirtual()
     {
-        return $this->_isVirtual;
+        return $this->isVirtual;
     }
 
     /**
@@ -865,13 +858,13 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
         $path = $this->_vfsSlashes($path);
 
         // and store as root for virtual-filesystem
-        if ($this->_vfsLastPath != $path) {
-            $this->_vfs->setup($path);
-            $this->_vfsLastPath = $path;
+        if ($this->vfsLastPath != $path) {
+            $this->vfs->setup($path);
+            $this->vfsLastPath = $path;
         }
 
         // wrap file
-        return $this->_vfs->url($resource);
+        return $this->vfs->url($resource);
     }
 
     /*******************************************************************************************************************
@@ -897,9 +890,9 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     protected function setCurrentResourceInformation($information, $part = null)
     {
         if ($part) {
-            $this->_currentResourceInformation[$part] = $information;
+            $this->currentResourceInformation[$part] = $information;
         } else {
-            $this->_currentResourceInformation = $information;
+            $this->currentResourceInformation = $information;
         }
 
     }
@@ -918,9 +911,9 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     protected function getCurrentResourceInformation($part = null)
     {
         if ($part) {
-            return $this->_currentResourceInformation[$part];
+            return $this->currentResourceInformation[$part];
         } else {
-            return $this->_currentResourceInformation;
+            return $this->currentResourceInformation;
         }
     }
 
@@ -938,7 +931,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      */
     protected function setResourceInformation($uid, array $information)
     {
-        $this->_resources[$uid] = $information;
+        $this->resources[$uid] = $information;
     }
 
     /**
@@ -956,9 +949,9 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     protected function getResourceInformation($uid, $part = null)
     {
         if ($part) {
-            return isset($this->_resources[$uid][$part]) ? $this->_resources[$uid][$part] : false;
+            return isset($this->resources[$uid][$part]) ? $this->resources[$uid][$part] : false;
         } else {
-            return $this->_resources[$uid];
+            return $this->resources[$uid];
         }
     }
 
@@ -968,7 +961,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend to return a file-handle for requested runtimeEnvironment
      *
      * @param string  $file File to get handle on
-     * @param integer $mode Mode to open file
+     * @param int $mode Mode to open file
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Handle on given file
@@ -980,9 +973,9 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
         $uid = $this->_getUid($file);
 
         // check if any usable handle exists
-        if (!isset($this->_fileHandle[$uid]) || $this->_fileHandle[$uid]['runtimeEnvironment'] != $mode) {
+        if (!isset($this->fileHandle[$uid]) || $this->fileHandle[$uid]['runtimeEnvironment'] != $mode) {
             // create handle
-            $this->_fileHandle[$uid] = array(
+            $this->fileHandle[$uid] = array(
                 'runtimeEnvironment'   => $mode,
                 'handle' => $this->_fopen(
                     $file,
@@ -992,7 +985,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
         }
 
         // return the correct handle
-        return $this->_fileHandle[$uid]['handle'];
+        return $this->fileHandle[$uid]['handle'];
     }
 
     /**
@@ -1047,8 +1040,8 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      *
      * @param string  $file        The file to write to
      * @param string  $data        The content to write
-     * @param boolean $create      TRUE to create file if it not exists, otherwise FALSE to do not
-     * @param integer $customFlags Custom flags as integer
+     * @param bool $create      TRUE to create file if it not exists, otherwise FALSE to do not
+     * @param int $customFlags Custom flags as integer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed INTEGER bytes written on success, otherwise FALSE on error
@@ -1070,8 +1063,8 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      *
      * @param string  $file        The file to write to
      * @param string  $data        The content to write
-     * @param boolean $create      TRUE to create file if it not exists, otherwise FALSE to do not
-     * @param integer $customFlags Custom flags as integer
+     * @param bool $create      TRUE to create file if it not exists, otherwise FALSE to do not
+     * @param int $customFlags Custom flags as integer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed INTEGER bytes written on success, otherwise FALSE on error
@@ -1110,7 +1103,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
         $uid = $this->_getUid($resource);
 
         // already processed in current stack?
-        if (!isset($this->_resources[$uid])) {
+        if (!isset($this->resources[$uid])) {
             // remove trailing trash ...
             $resource = trim($resource, "\t\r\n\0\x0B");
 
@@ -1118,7 +1111,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
             $this->_nullByteCheck($resource);
 
             // store the information
-            $this->_resources[$uid] = array(
+            $this->resources[$uid] = array(
                 'resource' => $resource,
                 'uid'      => $uid,
                 'safe'     => true
@@ -1126,7 +1119,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
         }
 
         // map data to currentResource
-        $this->setCurrentResourceInformation($this->_resources[$uid]);
+        $this->setCurrentResourceInformation($this->resources[$uid]);
 
         // return safe resource
         return $resource;
@@ -1156,7 +1149,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource The resource to check if writable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if resource is writable
+     * @return bool True if resource is writable
      * @throws DoozR_Base_Exception_Generic
      * @access private
      */
@@ -1191,7 +1184,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      */
     private function _nullByteCheck($resource)
     {
-        if (strpos($resource, self::$_nullBytePattern) !== false) {
+        if (strpos($resource, self::$nullBytePattern) !== false) {
             throw new DoozR_Base_Exception_Generic(__CLASS__.'() -> NULL-Byte injection caught!');
         }
     }
@@ -1212,12 +1205,12 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource Path to the resource to unlink
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Returns TRUE if the resource could be deleted, otherwise FALSE
+     * @return bool Returns TRUE if the resource could be deleted, otherwise FALSE
      * @access private
      */
     private function _unlink($resource)
     {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $resource = $this->_prepareForVfs($resource);
         }
 
@@ -1233,12 +1226,12 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource Path to the resource to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Returns TRUE if the resource is a file, otherwise FALSE
+     * @return bool Returns TRUE if the resource is a file, otherwise FALSE
      * @access private
      */
     private function _is_file($resource)
     {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $resource = $this->_prepareForVfs($resource);
         }
 
@@ -1254,12 +1247,12 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource Path to the resource to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Returns TRUE if the resource is a directory, otherwise FALSE
+     * @return bool Returns TRUE if the resource is a directory, otherwise FALSE
      * @access private
      */
     private function _is_dir($resource)
     {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $resource = $this->_prepareForVfs($resource);
         }
 
@@ -1275,12 +1268,12 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource Path to the resource to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Returns the file in an array. Upon failure, returns FALSE.
+     * @return bool Returns the file in an array. Upon failure, returns FALSE.
      * @access private
      */
     private function _file($resource)
     {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $resource = $this->_prepareForVfs($resource);
         }
 
@@ -1294,8 +1287,8 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend to work as fopen - virtual-fs supporting wrapper.
      *
      * @param string  $file             The file to open
-     * @param integer $mode             The runtimeEnvironment to open file in
-     * @param boolean $use_include_path TRUE to lookup in include path, otherwise FALSE to do not
+     * @param int $mode             The runtimeEnvironment to open file in
+     * @param bool $use_include_path TRUE to lookup in include path, otherwise FALSE to do not
      * @param mixed   $context          The context to open file in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1304,7 +1297,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      */
     private function _fopen($file, $mode = self::FILE_MODE_BINARY, $use_include_path = false, $context = null)
     {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $file = $this->_prepareForVfs($file);
         }
 
@@ -1319,7 +1312,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend to work as fread - virtual-fs supporting wrapper.
      *
      * @param mixed   $handle The handle to read from
-     * @param integer $length The number of bytes to read
+     * @param int $length The number of bytes to read
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Returns the read string or FALSE on failure.
@@ -1338,7 +1331,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      *
      * @param mixed   $handle The handle to write to
      * @param string  $data   The data to write as string
-     * @param integer $length The number of bytes to write
+     * @param int $length The number of bytes to write
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Returns the read string or FALSE on failure.
@@ -1363,7 +1356,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      */
     private function _filesize($file)
     {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $file = $this->_prepareForVfs($file);
         }
 
@@ -1378,12 +1371,12 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource Path to the file or directory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Returns TRUE if the file or directory specified by file exists, otherwise FALSE
+     * @return bool Returns TRUE if the file or directory specified by file exists, otherwise FALSE
      * @access private
      */
     private function _resource_exists($resource)
     {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $resource = $this->_prepareForVfs($resource);
         }
 
@@ -1399,12 +1392,12 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * @param string $resource The resource being checked.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the resource exists and is writable, otherwise FALSE
+     * @return bool TRUE if the resource exists and is writable, otherwise FALSE
      * @access private
      */
     private function _is_writable($resource)
     {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $resource = $this->_prepareForVfs($resource);
         }
 
@@ -1418,14 +1411,14 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend to work as file_get_contents - virtual-fs supporting wrapper
      *
      * @param string  $file             Name of the file to read.
-     * @param boolean $use_include_path TRUE to use include path, FALSE to do not
+     * @param bool $use_include_path TRUE to use include path, FALSE to do not
      * @param mixed   $context          A valid context resource created with stream_context_create().
      *                                  If you don't need to use a custom context, you can skip this parameter by NULL.
-     * @param integer $offset           The offset where the reading starts on the original stream.
+     * @param int $offset           The offset where the reading starts on the original stream.
      *                                  Seeking (offset) is not supported with remote files. Attempting to seek on
      *                                  non-local files may work with small offsets, but this is unpredictable because
      *                                  it works on the buffered stream.
-     * @param integer $maxlen           Maximum length of data read. The default is to read until end of file is
+     * @param int $maxlen           Maximum length of data read. The default is to read until end of file is
      *                                  reached. Note that this parameter is applied to the stream processed by the
      *                                  filters.
      *
@@ -1441,7 +1434,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
         $offset = -1,
         $maxlen = self::PHP_STREAM_COPY_ALL
     ) {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $file = $this->_prepareForVfs($file);
         }
 
@@ -1455,7 +1448,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      *
      * @param string  $file    Path to the file where to write the data.
      * @param mixed   $data    The data to write. Can be either a string, an array or a stream resource
-     * @param integer $flags   The value of flags can be any combination joined with the binary OR (|) operator
+     * @param int $flags   The value of flags can be any combination joined with the binary OR (|) operator
      * @param mixed   $context A valid context resource created with stream_context_create()
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1465,7 +1458,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      */
     private function _file_put_contents($file, $data, $flags = 0, $context = null)
     {
-        if ($this->_isVirtual) {
+        if ($this->isVirtual) {
             $file = $this->_prepareForVfs($file);
         }
 
@@ -1486,8 +1479,9 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
      * This method is intend to report non implemented methods.
      *
      * @param string $methodSignature The method called
-     * @param array  $arguments       The arguments passed to method call
+     * @param array $arguments The arguments passed to method call
      *
+     * @throws DoozR_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
@@ -1501,4 +1495,36 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Singleton_Strict
     /*******************************************************************************************************************
      * \\ END MAGIC METHODS
      ******************************************************************************************************************/
+    /**
+     * Returns TRUE if the service is a singleton.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if service is singleton, otherwise FALSE
+     * @access public
+     */
+    public function isSingleton() {
+        // TODO: Implement isSingleton() method.
+    }
+
+    /**
+     * Returns TRUE if the service is a multiple.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if service is multiple, otherwise FALSE
+     * @access public
+     */
+    public function isMultiple() {
+        // TODO: Implement isMultiple() method.
+    }
+
+    /**
+     * Returns name of the service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the service.
+     * @access public
+     */
+    public function getName() {
+        // TODO: Implement getName() method.
+    }
 }

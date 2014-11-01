@@ -142,7 +142,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     /**
      * Setter for enabled
      *
-     * @param boolean $enabled TRUE is database (model) is enabled. FALSE to set disabled.
+     * @param bool $enabled TRUE is database (model) is enabled. FALSE to set disabled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -156,7 +156,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     /**
      * Setter for enabled
      *
-     * @param boolean $enabled TRUE is database (model) is enabled. FALSE to set disabled.
+     * @param bool $enabled TRUE is database (model) is enabled. FALSE to set disabled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Model Instance for chaining

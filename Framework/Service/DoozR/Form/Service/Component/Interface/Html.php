@@ -89,7 +89,7 @@ interface DoozR_Form_Service_Component_Interface_Html
     /**
      * Removes a child from the component.
      *
-     * @param integer $index The index of the child component to remove from component
+     * @param int $index The index of the child component to remove from component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean|null TRUE  if child was removed successfully,
@@ -131,7 +131,7 @@ interface DoozR_Form_Service_Component_Interface_Html
     /**
      * Renders a component a returns it HTML code.
      *
-     * @param boolean $force TRUE to re-render a already rendered component,
+     * @param bool $force TRUE to re-render a already rendered component,
      *                       otherwise FALSE to use cached result if exist
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

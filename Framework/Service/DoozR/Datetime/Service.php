@@ -486,8 +486,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of seconds - if FALSE then
      * a fresh DateTime-Instance is returned with increased seconds.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased seconds
      * @access  public
@@ -505,8 +505,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of seconds - if FALSE then
      * a fresh DateTime-Instance is returned with increased seconds.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased seconds
      * @access  public
@@ -524,8 +524,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of minutes - if FALSE then
      * a fresh DateTime-Instance is returned with increased minutes.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased minutes
      * @access  public
@@ -543,8 +543,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of minutes - if FALSE then
      * a fresh DateTime-Instance is returned with increased minutes.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased minutes
      * @access  public
@@ -562,8 +562,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of hours - if FALSE then
      * a fresh DateTime-Instance is returned with increased hours.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased hours
      * @access  public
@@ -581,8 +581,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of hours - if FALSE then
      * a fresh DateTime-Instance is returned with increased hours.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased hours
      * @access  public
@@ -600,8 +600,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of days - if FALSE then
      * a fresh DateTime-Instance is returned with increased days.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased days
      * @access  public
@@ -619,8 +619,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of days - if FALSE then
      * a fresh DateTime-Instance is returned with increased days.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased days
      * @access  public
@@ -638,8 +638,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of week - if FALSE then
      * a fresh DateTime-Instance is returned with increased week.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased week
      * @access  public
@@ -657,8 +657,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of weeks - if FALSE then
      * a fresh DateTime-Instance is returned with increased weeks.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased weeks
      * @access  public
@@ -676,8 +676,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of month - if FALSE then
      * a fresh DateTime-Instance is returned with increased month.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased month
      * @access  public
@@ -695,8 +695,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of month - if FALSE then
      * a fresh DateTime-Instance is returned with increased month.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased month
      * @access  public
@@ -714,8 +714,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of years - if FALSE then
      * a fresh DateTime-Instance is returned with increased years.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased years
      * @access  public
@@ -733,8 +733,8 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * the current Date/Time will be increased by given amount of years - if FALSE then
      * a fresh DateTime-Instance is returned with increased years.
      *
-     * @param integer $count  The count to use for operation
-     * @param boolean $update TRUE to update the current DateTime, FALSE to return fresh instance
+     * @param int $count  The count to use for operation
+     * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
      * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased years
      * @access  public
@@ -865,9 +865,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to add some value to current date/time.
      *
-     * @param integer $count  The amount to add
+     * @param int $count  The amount to add
      * @param string  $unit   The unit to use for calculation
-     * @param boolean $update TRUE to upate current date/time with new value, FALSE to return fresh instance
+     * @param bool $update TRUE to upate current date/time with new value, FALSE to return fresh instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed TRUE/FALSE as result of update, otherwise fresh DateTime-Instance
@@ -883,9 +883,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to subtract some value to current date/time.
      *
-     * @param integer $count  The amount to subtract
+     * @param int $count  The amount to subtract
      * @param string  $unit   The unit to use for calculation
-     * @param boolean $update TRUE to upate current date/time with new value, FALSE to return fresh instance
+     * @param bool $update TRUE to upate current date/time with new value, FALSE to return fresh instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed TRUE/FALSE as result of update, otherwise fresh DateTime-Instance
@@ -901,9 +901,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to operate on date/time.
      *
-     * @param integer $count     The amount to subtract
+     * @param int $count     The amount to subtract
      * @param string  $unit      The unit to use for calculation
-     * @param boolean $update    TRUE to upate current date/time with new value, FALSE to return fresh instance
+     * @param bool $update    TRUE to upate current date/time with new value, FALSE to return fresh instance
      * @param string  $operation "+" to add/incread, "-" to subtract/decrease
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

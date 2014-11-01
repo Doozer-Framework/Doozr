@@ -289,7 +289,7 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      *
      * returns the directory to the ORM/DBA.
      *
-     * @param boolean $stripLibrary TRUE to get just the root to ORM, otherwise FALSE to retrieve full-path
+     * @param bool $stripLibrary TRUE to get just the root to ORM, otherwise FALSE to retrieve full-path
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The path to the current ORM/DBA

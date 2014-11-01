@@ -165,7 +165,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * The count of root nodes
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $nodes;
@@ -288,7 +288,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * return the modified (already rewritten request) when TRUE is passed then this method will return the original
      * request.
      *
-     * @param boolean $original TRUE [default] to retrieve the raw request, FALSE to retrieve rewritten request
+     * @param bool $original TRUE [default] to retrieve the raw request, FALSE to retrieve rewritten request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The request
@@ -652,7 +652,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Sets the count of root nodes for request.
      *
-     * @param integer $countOfRootNodes The count of root nodes
+     * @param int $countOfRootNodes The count of root nodes
      *
      * @example if request is /foo/bar/1234 and the root node count
      *          is 2 then all operations will use /foo and /bar as
@@ -670,7 +670,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Sets the count of root nodes for request.
      *
-     * @param integer $countOfRootNodes The count of root nodes
+     * @param int $countOfRootNodes The count of root nodes
      *
      * @example if request is /foo/bar/1234 and the root node count
      *          is 2 then all operations will use /foo and /bar as

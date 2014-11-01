@@ -95,7 +95,7 @@ class DoozR_Form_Service_Validate_Error
     /**
      * The error-code
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $errorCode = 0;
@@ -322,7 +322,7 @@ class DoozR_Form_Service_Validate_Error
     /**
      * Returns error-message by error-code
      *
-     * @param integer $errorCode The error-code to return error-message for
+     * @param int $errorCode The error-code to return error-message for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The error-message

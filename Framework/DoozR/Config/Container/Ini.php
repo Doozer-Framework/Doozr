@@ -85,7 +85,7 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * Controls caching
      * TRUE to enable caching, or FALSE to do disable
      *
-     * @var boolean
+     * @var bool
      * @access private
      * @static
      */
@@ -136,7 +136,7 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * This method is intend to read a configuration and optionally merge it into an existing one.
      *
      * @param string  $resource The resource to read
-     * @param boolean $merge    TRUE to merge the read configuration into existing configuration
+     * @param bool $merge    TRUE to merge the read configuration into existing configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -304,7 +304,7 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * This method is intend to return parsed configuration.
      *
      * @param string  $configuration    The raw configuration
-     * @param boolean $multiDimensional TRUE to parse ini file multidimensional, FALSE to do not
+     * @param bool $multiDimensional TRUE to parse ini file multidimensional, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The array containing configuration

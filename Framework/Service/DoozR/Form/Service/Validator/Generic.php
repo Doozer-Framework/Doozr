@@ -75,7 +75,7 @@ class DoozR_Form_Service_Validator_Generic extends DoozR_Form_Service_Validator_
     /**
      * Validates the input.
      *
-     * @param boolean $force TRUE to force revalidation, otherwise FALSE to do not
+     * @param bool $force TRUE to force revalidation, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

@@ -211,8 +211,8 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to check the validity of a choosen format.
      *
-     * @param integer $countChoices The count of choices maximum possible
-     * @param integer $format       The format (choice) of user
+     * @param int $countChoices The count of choices maximum possible
+     * @param int $format       The format (choice) of user
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The given input if valid, otherwise 0
@@ -233,9 +233,9 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to convert a liquid value from the input system to the output system.
      *
-     * @param integer $input        The input
-     * @param integer $inputFormat  The format of the input
-     * @param integer $outputFormat The format to use for output
+     * @param int $input        The input
+     * @param int $inputFormat  The format of the input
+     * @param int $outputFormat The format to use for output
      *
      * @example
      * (input)$format:
@@ -291,9 +291,9 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to convert a liquid value from the input system to the output system.
      *
-     * @param integer $input        The input
-     * @param integer $inputFormat  The format of the input
-     * @param integer $outputFormat The format to use for output
+     * @param int $input        The input
+     * @param int $inputFormat  The format of the input
+     * @param int $outputFormat The format to use for output
      *
      * @example
      * (input/output)$format:
@@ -340,7 +340,7 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to convert a temperature value from the input system to the output system.
      *
-     * @param integer $input The input
+     * @param int $input The input
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return double The result of the conversion
@@ -373,7 +373,7 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to return the localized (translated) unit for the last conversion.
      *
-     * @param integer $type The type to use for retrieving the unit (1 = short, 2 = long, 3 = abbr long)
+     * @param int $type The type to use for retrieving the unit (1 = short, 2 = long, 3 = abbr long)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The requested unit
@@ -414,8 +414,8 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to convert a cooking value to teaspoon (is)|teaspoon (uscs).
      *
-     * @param integer $input  The input to convert
-     * @param integer $format The format to use for conversion
+     * @param int $input  The input to convert
+     * @param int $format The format to use for conversion
      *
      * @example
      * (input)$format:
@@ -443,8 +443,8 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to convert a capacity value to mm�|cu in.
      *
-     * @param integer $input  The input to convert
-     * @param integer $format The format to use for conversion
+     * @param int $input  The input to convert
+     * @param int $format The format to use for conversion
      *
      * @example
      * (input)$format:
@@ -474,8 +474,8 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to convert a linear value to mm|in
      *
-     * @param integer $input  The input to convert
-     * @param integer $format The format to use for conversion
+     * @param int $input  The input to convert
+     * @param int $format The format to use for conversion
      *
      * @example
      * (input/output)$format:
@@ -505,8 +505,8 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to convert a surface value to mm�|sq in
      *
-     * @param integer $input  The input to convert
-     * @param integer $format The format to use for conversion
+     * @param int $input  The input to convert
+     * @param int $format The format to use for conversion
      *
      * @example
      * (input)$format:
@@ -539,8 +539,8 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to convert a weight value to mg|grain (no british weights!).
      *
-     * @param integer $input  The input to convert
-     * @param integer $format The format to use for conversion
+     * @param int $input  The input to convert
+     * @param int $format The format to use for conversion
      *
      * @example
      * (input)$format:
@@ -572,8 +572,8 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     /**
      * This method is intend to convert a liquid value to ml|min.
      *
-     * @param integer $input  The input to convert
-     * @param integer $format The format to use for conversion
+     * @param int $input  The input to convert
+     * @param int $format The format to use for conversion
      *
      * @example
      * (input)$format:

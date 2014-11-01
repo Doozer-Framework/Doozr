@@ -86,7 +86,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * holds the init-done status
      * TRUE = already initialized, otherwise FALSE
      *
-     * @var boolean
+     * @var bool
      * @access private
      * @static
      */
@@ -96,7 +96,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
     /**
      * This method is intend to initialize the basic setup.
      *
-     * @param boolean $checkMagicAutoload TRUE to keep magic function __autoload working, otherwise FALSE
+     * @param bool $checkMagicAutoload TRUE to keep magic function __autoload working, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -416,7 +416,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * This method is intend to change the priority (order on spl-autoloader stack) for previously registered ALs.
      *
      * @param string  $uId      The unique-Id of the AL to change priority for
-     * @param integer $priority The new priority of the AL
+     * @param int $priority The new priority of the AL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -494,7 +494,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * This method is intend to change the file-extension priority (order on spl-file-extension stack).
      *
      * @param string  $fileExtension The file-extension to change priority for
-     * @param integer $priority      The new priority of the file-extension
+     * @param int $priority      The new priority of the file-extension
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -568,7 +568,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      *
      * This method is intend to check if a autoloader is registered.
      *
-     * @param boolean $isClass    True if Autoloader-Method is part of a class
+     * @param bool $isClass    True if Autoloader-Method is part of a class
      * @param string  $class      The name of the class containing the Autoloader-Method
      * @param string  $method     The name of the Autolaoder-Method (Function)
      * @param mixed   $autoloader A already retrieved list of currently registered SPL-Autoloaders

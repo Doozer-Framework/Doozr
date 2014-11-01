@@ -55,6 +55,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Api.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Rest - Service
@@ -74,13 +75,13 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Api.php';
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Rest_Service extends DoozR_Base_Service_Multiple
+class DoozR_Rest_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
 {
     /**
      * Constructor.
      *
      * @param array   $route
-     * @param integer $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means
+     * @param int $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means
      *                                that /Foo/Bar/ will be taken as root and ripped out)
      *
      * @internal param array $request The original request

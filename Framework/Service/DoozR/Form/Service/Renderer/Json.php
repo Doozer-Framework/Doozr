@@ -81,7 +81,7 @@ class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstr
     /**
      * Renders a passed templates with variables childs and attributes.
      *
-     * @param boolean $force      TRUE to force rerendering, FALSE to accept cached result
+     * @param bool $force      TRUE to force rerendering, FALSE to accept cached result
      * @param array   $template   The template to render
      * @param string  $tag        The tag of the element to render
      * @param array   $variables  The variables to use for rendering
@@ -125,7 +125,7 @@ class DoozR_Form_Service_Renderer_Json extends DoozR_Form_Service_Renderer_Abstr
     /**
      * Return JSON-encoded result! So we prevent double JSON encoding
      *
-     * @param boolean $encode TRUE to return JSON encoded, FALSE to return unencoded
+     * @param bool $encode TRUE to return JSON encoded, FALSE to return unencoded
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The rendered result JSON encoded

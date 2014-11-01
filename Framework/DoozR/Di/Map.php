@@ -106,7 +106,7 @@ class DoozR_Di_Map
      * WIRE_MODE_MANUAL    = Wiring is done manually by you
      * WIRE_MODE_AUTOMATIC = Wiring is done automatically
      *
-     * @var integer
+     * @var int
      * @access public
      */
     const WIRE_MODE_MANUAL    = 1;
@@ -223,7 +223,7 @@ class DoozR_Di_Map
      * with the existing map. This connection is identified by the "id" in the map and the "key" in the
      * array.
      *
-     * @param integer $mode   This can be either WIRE_MODE_MANUAL or WIRE_MODE_AUTOMATIC
+     * @param int $mode   This can be either WIRE_MODE_MANUAL or WIRE_MODE_AUTOMATIC
      * @param array   $matrix A matrix defining the relation between an Id and an Instance as key => value pair
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

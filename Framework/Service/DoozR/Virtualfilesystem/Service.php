@@ -55,6 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Virtualfilesystem - Service
@@ -72,7 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade
+class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
 {
     /**
      * Constructor of this class

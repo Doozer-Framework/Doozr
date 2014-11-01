@@ -78,7 +78,7 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
      * Status if component is capable of
      * submitting multi-value values
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $multiValue = true;
@@ -187,7 +187,7 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
     /**
      * Sets the multi-value status of this element.
      *
-     * @param boolean $status TRUE $boolean to mark this field as multi select field, FALSE to do not
+     * @param bool $status TRUE $boolean to mark this field as multi select field, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -201,7 +201,7 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
     /**
      * Sets the multi-value status of this element.
      *
-     * @param boolean $status TRUE $boolean to mark this field as multi select field, FALSE to do not
+     * @param bool $status TRUE $boolean to mark this field as multi select field, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -289,7 +289,7 @@ class DoozR_Form_Service_Component_Checkbox extends DoozR_Form_Service_Component
     /**
      * Returns the name of this element without brackets by default.
      *
-     * @param boolean $ripBrackets TRUE to remove brackets from name, FALSE to do not
+     * @param bool $ripBrackets TRUE to remove brackets from name, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string|null The name of this element with or without brackets, or NULL if not set

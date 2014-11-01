@@ -74,7 +74,7 @@ class DoozR_Cache_Service_Exception extends DoozR_Exception
      * Constructor.
      *
      * @param string  $message  The exception-message
-     * @param integer $code     The code of the exception
+     * @param int $code     The code of the exception
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
      *
      * @author  Benjamin Carl <opensource@clickalicious.de>

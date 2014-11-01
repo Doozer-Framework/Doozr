@@ -659,7 +659,7 @@ class DoozR_Form_Service_Component_Input extends DoozR_Form_Service_Component_Fo
     /**
      * Sets the HTML input element property "autocapitalize"
      *
-     * @param boolean $state The state to set
+     * @param bool $state The state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

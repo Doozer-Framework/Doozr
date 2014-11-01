@@ -93,7 +93,7 @@ interface DoozR_Form_Service_Component_Interface_File
     /**
      * Sets the maximum size in bytes a file is allowed to have.
      *
-     * @param integer|string $maxFilesize The maximum allowed size in bytes
+     * @param int|string $maxFilesize The maximum allowed size in bytes
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The size in bytes

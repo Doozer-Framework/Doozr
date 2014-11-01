@@ -180,7 +180,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * The is-REST state of the request
      * state object
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $rest = false;
@@ -754,7 +754,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for SSL.
      *
-     * @param boolean $ssl SSL state
+     * @param bool $ssl SSL state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -769,7 +769,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for SSL.
      *
-     * @param boolean $ssl SSL state
+     * @param bool $ssl SSL state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Request_State Instance for chaining
@@ -826,7 +826,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Getter for headers.
      *
-     * @param boolean $string TRUE to return string, FALSE to return array
+     * @param bool $string TRUE to return string, FALSE to return array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array|string The headers
@@ -1148,7 +1148,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for rest.
      *
-     * @param boolean TRUE to mark state REST, otherwise FALSE
+     * @param bool TRUE to mark state REST, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -1163,7 +1163,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for rest.
      *
-     * @param boolean TRUE to mark state REST, otherwise FALSE
+     * @param bool TRUE to mark state REST, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Request_State Instance for chaining

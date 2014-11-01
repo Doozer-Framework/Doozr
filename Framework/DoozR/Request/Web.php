@@ -343,7 +343,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     /**
      * Returns all headers from request (the so called Request-Headers).
      *
-     * @param boolean $string TRUE to return them as string, otherwise FALSE (default) to return array
+     * @param bool $string TRUE to return them as string, otherwise FALSE (default) to return array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean The result as array or string

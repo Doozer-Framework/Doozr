@@ -133,7 +133,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * Marks a configuration as changed (dirty)
      * So it can be written to filesystem on __destruct
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $dirty = false;
@@ -162,7 +162,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      *
      * @param DoozR_Path_Interface   $path          An instance of DoozR_Path
      * @param DoozR_Logger_Interface $logger        An instance of DoozR_Logger
-     * @param boolean                $enableCaching TRUE to enable caching, otherwise FALSE to do not
+     * @param bool                $enableCaching TRUE to enable caching, otherwise FALSE to do not
      *
      * @throws DoozR_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -421,7 +421,7 @@ class DoozR_Config_Container_Abstract extends DoozR_Base_Class_Singleton_Strict
      * raw, processed, parsed).
      *
      * @param array   $configuration The configuration array to store
-     * @param boolean $merge         TRUE if configuration should be merged with existing
+     * @param bool $merge         TRUE if configuration should be merged with existing
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

@@ -82,7 +82,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     /**
      * The range to parse from
      *
-     * @var integer
+     * @var int
      * @access public
      */
     const RANGE_EVERYTHING     = 1;
@@ -99,7 +99,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
      * This options array is readable/similar to a dependency map item. This method requires only
      * argument one ($identifier) to work properly.
      *
-     * @param integer $range The range to parse from
+     * @param int $range The range to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the dependencies build from annotations
@@ -192,7 +192,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
      * Parses the dependencies from a given reflection for defined range and optional method or property.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
-     * @param integer $range The range to parse from
+     * @param int $range The range to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array An raw array containing the dependencies indexed@access private

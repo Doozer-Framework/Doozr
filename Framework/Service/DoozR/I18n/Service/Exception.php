@@ -74,7 +74,7 @@ class DoozR_I18n_Service_Exception extends DoozR_Exception
      * This method is intend to act as constructor.
      *
      * @param string  $message  The exception-message
-     * @param integer $code     The code of the exception
+     * @param int $code     The code of the exception
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

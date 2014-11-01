@@ -87,7 +87,7 @@ abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Ser
      * Status if component is capable of
      * submitting multiple values
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $multiValue = false;

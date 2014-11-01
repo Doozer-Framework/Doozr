@@ -170,7 +170,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      *
      * holds the line width. following our coding standards - the line width default = 120 char
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $lineWidth = 120;
@@ -178,7 +178,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
     /**
      * The level specific for this logger
      *
-     * @var integer
+     * @var int
      * @access private
      */
     protected $level;
@@ -205,7 +205,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      * @example: 'emergency' => 0 means that emergency is level 0
      *           as 'debug' is level 7
      *
-     * @var integer
+     * @var int
      * @access const
      */
     protected $availableLogtypes = array(
@@ -223,7 +223,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      * This method is the constructor and responsible for building the instance.
      *
      * @param DoozR_Datetime_Service $datetime    Instance of date/time service
-     * @param integer                $level       The log-level of the logger extending this class
+     * @param int                $level       The log-level of the logger extending this class
      * @param string                 $fingerprint The fingerprint of the client
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -513,7 +513,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
     /**
      * Setter for level.
      *
-     * @param integer $level The level to set
+     * @param int $level The level to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -764,7 +764,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      *
      * @param string  $content   The string to be formatted
      * @param string  $type      The type to be formatted
-     * @param boolean $lineBreak TRUE to use defined line break, FALSE to do not
+     * @param bool $lineBreak TRUE to use defined line break, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The formatted string to log

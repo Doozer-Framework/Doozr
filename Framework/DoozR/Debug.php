@@ -78,7 +78,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     /**
      * The debug-runtimeEnvironment state (true = enabled / false = disabled)
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $enabled = false;
@@ -96,7 +96,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      * Constructor.
      *
      * @param DoozR_Logger_Interface $logger  An instance of DoozR_Logger
-     * @param boolean                $enabled Defines it debug runtimeEnvironment is enabled or not
+     * @param bool                $enabled Defines it debug runtimeEnvironment is enabled or not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Debug

@@ -102,7 +102,7 @@ class DoozR_Form_Service_Constant
     /**
      * The default step if no step is/was set before
      *
-     * @var integer
+     * @var int
      * @acces public
      * @const
      */
@@ -111,7 +111,7 @@ class DoozR_Form_Service_Constant
     /**
      * The default amount of steps till finish is 1 (1/1)
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -176,7 +176,7 @@ class DoozR_Form_Service_Constant
      * Token behavior constants
      * DENY = Block access to page (tries to send 404)
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -186,7 +186,7 @@ class DoozR_Form_Service_Constant
      * Token behavior constants
      * IGNORE = No matter if valid or invalid - the token just get ignored
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -196,7 +196,7 @@ class DoozR_Form_Service_Constant
      * Token behavior constants
      * DENY = Block access to page (tries to send 404)
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -358,7 +358,7 @@ class DoozR_Form_Service_Constant
     /**
      * HTML-Version 4 flag.
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -367,7 +367,7 @@ class DoozR_Form_Service_Constant
     /**
      * HTML-Version 5 flag.
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */

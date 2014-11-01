@@ -101,7 +101,7 @@ implements DoozR_Cache_Service_Container_Interface
      * TRUE  to compress content with zlib from memcache
      * FALSE to store content uncompressed
      *
-     * @var boolean
+     * @var bool
      * @access private
      */
     private $_compress = true;
@@ -170,7 +170,7 @@ implements DoozR_Cache_Service_Container_Interface
      *
      * @param string  $id      The dataset Id
      * @param string  $value   The data to write to cache
-     * @param integer $expires Date/Time on which the cache-entry expires
+     * @param int $expires Date/Time on which the cache-entry expires
      * @param string  $group   The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -237,7 +237,7 @@ implements DoozR_Cache_Service_Container_Interface
      *
      * @param string  $id       The dataset Id
      * @param string  $value    The data to write to cache
-     * @param integer $expires  Date/Time on which the cache-entry expires
+     * @param int $expires  Date/Time on which the cache-entry expires
      * @param string  $group    The dataset group
      * @param string  $userdata The custom userdata to add
      *
@@ -326,7 +326,7 @@ implements DoozR_Cache_Service_Container_Interface
      * This method is intend to delete all entries which exceed the highwater marker. For
      * expiration we do not care cause memcache has its own garbage collector
      *
-     * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param int $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean The result of the operation

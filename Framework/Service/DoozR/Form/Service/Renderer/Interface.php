@@ -71,7 +71,7 @@ interface DoozR_Form_Service_Renderer_Interface
     /**
      * Renders a passed templates with variables childs and attributes
      *
-     * @param boolean $force      TRUE to force rerendering, FALSE to allow caching
+     * @param bool $force      TRUE to force rerendering, FALSE to allow caching
      * @param array   $template   The template to render
      * @param string  $tag        The html tag we are about to render
      * @param array   $variables  The variables to use for rendering

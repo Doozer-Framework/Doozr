@@ -85,7 +85,7 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
      *
      * Must be set by the extending class
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected static $strict = false;
@@ -179,11 +179,8 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
         if (is_null($arguments)) {
             // with no parameter -> just return the instance
             return new $className();
-        } else {
-            // just a try ...
-            // FIXME: make the next line workin' with arrays and objects !!!
-            //return new $className(implode(',', $arguments));
 
+        } else {
             // not so nice but the fastest solution i've found
             switch (count($arguments)) {
             case 1:
@@ -282,11 +279,9 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
                 );
                 break;
             default:
-                throw new Exception(
-                    __CLASS__.' - '.__METHOD__.' : More than 10 parameters not supported. You\'ve tried to use '.
-                    count($arguments).' parameter.'
-                );
-                return null;
+                // Failover
+                $reflection = new ReflectionClass($className);
+                return $reflection->newInstanceArgs($arguments);
             }
         }
     }
@@ -301,7 +296,7 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
      * @access protected
      * @static
      */
-    protected static function setRegistry(DoozR_Registry $registry)
+    protected static function setRegistry(DoozR_Registry &$registry)
     {
         self::$registry = $registry;
     }

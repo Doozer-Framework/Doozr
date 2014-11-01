@@ -54,6 +54,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Oauth2/Service/Lib/Oauth2/Autoloader.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Oauth2 - Service
@@ -71,12 +72,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Oauth2/Service/Lib/Oauth2/Auto
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Oauth2_Service extends DoozR_Base_Service_Multiple_Facade
+class DoozR_Oauth2_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
 {
     /**
      * Mode CLIENT
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const MODE_CLIENT = 0;
@@ -84,7 +85,7 @@ class DoozR_Oauth2_Service extends DoozR_Base_Service_Multiple_Facade
     /**
      * Mode SERVER
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const MODE_SERVER = 1;
@@ -97,7 +98,7 @@ class DoozR_Oauth2_Service extends DoozR_Base_Service_Multiple_Facade
     /**
      * Constructor of this class
      *
-     * @param integer $mode The runtimeEnvironment of this service instance (can be either server or client)
+     * @param int $mode The runtimeEnvironment of this service instance (can be either server or client)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object instance of this class

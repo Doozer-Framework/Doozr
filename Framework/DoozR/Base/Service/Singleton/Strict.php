@@ -71,6 +71,60 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton/Strict.php';
 class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Strict
 {
     /**
+     * Autoloader auto install control flag
+     * If set to TRUE in inheritent class the autoloader
+     * will be installed automatically.
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $autoloader = false;
+
+    /**
+     * The name of this service
+     *
+     * @var string
+     * @access protected
+     */
+    protected $name;
+
+    /**
+     * The type of this service.
+     *
+     * @var string
+     * @access protected
+     */
+    protected static $type = self::TYPE_SINGLETON;
+
+    /**
+     * The type for singleton services.
+     *
+     * @var string
+     * @const
+     */
+    const TYPE_SINGLETON = 'singleton';
+
+    /**
+     * The type for multi instance services.
+     *
+     * @var string
+     * @const
+     */
+    const TYPE_MULTIPLE = 'multiple';
+
+    protected $uuid;
+
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    /**
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -100,12 +154,86 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
     }
 
     /**
-     * called on destruction of the instance
+     * Returns true if service is singleton.
      *
-     * This method is called on desctruction of the class
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if service is singleton, otherwise FALSE.
+     * @access public
+     */
+    public function isSingleton()
+    {
+        return (self::$type === self::TYPE_SINGLETON);
+    }
+
+    /**
+     * Returns true if service is a multi instance service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if service is multi instance, otherwise FALSE.
+     * @access public
+     */
+    public function isMultiple()
+    {
+        return (self::$type === self::TYPE_MULTIPLE);
+    }
+
+    /**
+     * Initialize autoloader for this service.
+     *
+     * Each service get its own autoloader attached to SPL autoloaders.
+     *
+     * @param string $service The name of the service to init autoloader for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
+     * @access protected
+     */
+    protected function initAutoloader($service)
+    {
+        // Register services custom autoloader
+        $autoloaderService = new DoozR_Loader_Autoloader_Spl_Config();
+        $autoloaderService
+            ->setNamespace('DoozR_' . $service)
+            ->setNamespaceSeparator('_')
+            ->addExtension('php')
+            ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
+            ->setDescription('DoozR\'s ' . $service . ' service autoloader. Timestamp: ' . time());
+
+        // Add to SPL through facade
+        $this->autoloader = DoozR_Loader_Autoloader_Spl_Facade::attach(
+            $autoloaderService
+        );
+    }
+
+    /**
+     * Returns the name of the service
+     *
+     * This method is intend to return the name of the current
+     * active service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the service
+     * @access public
+     */
+    public function getName()
+    {
+        if ($this->name === null) {
+            $class = get_called_class();
+            if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
+                $this->name = $matches[1];
+            } else {
+                $this->name = '';
+            }
+        }
+
+        return $this->name;
+    }
+
+    /**
+     * Called on destruction
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object instance of this class
      * @access protected
      */
     protected function __desctruct()

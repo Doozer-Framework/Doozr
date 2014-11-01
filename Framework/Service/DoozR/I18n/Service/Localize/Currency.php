@@ -73,7 +73,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
     /**
      * Notation for display currency with symbol like $, €
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -82,7 +82,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
     /**
      * Notation for display currency with text like USD, EUR
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */

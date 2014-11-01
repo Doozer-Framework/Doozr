@@ -96,7 +96,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
     /**
      * The default log level from config (once set)
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $defaultLoglevel;
@@ -121,7 +121,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
      * The position of the iterator for iterating
      * elements.
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $position = 0;
@@ -131,7 +131,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
      * Constructor.
      *
      * @param DoozR_Datetime_Service $datetime    Instance of Datetime-Service for date-operations
-     * @param integer|null           $level       The logger level | if not passed the max is set
+     * @param int|null           $level       The logger level | if not passed the max is set
      * @param string|null            $fingerprint The fingerprint of the current client|will be
      *                                            generated if not passed
      *
@@ -201,7 +201,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
      * Removes all attached loggers. Optionally it removes
      * all contents as well.
      *
-     * @param boolean $clearContents TRUE to remove all content from logger,
+     * @param bool $clearContents TRUE to remove all content from logger,
      *                               FALSE to keep it
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -244,7 +244,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
     /**
      * This method is intend to set the default log-level.
      *
-     * @param integer $level The log-level to set as standard
+     * @param int $level The log-level to set as standard
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -383,7 +383,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
     /**
      * Sets the value for the passed offset
      *
-     * @param integer $offset The offset to set value for
+     * @param int $offset The offset to set value for
      * @param mixed   $value  The value to write
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

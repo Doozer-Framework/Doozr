@@ -91,7 +91,7 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
     /**
      * Contains the current status of decorated class
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $enabled;

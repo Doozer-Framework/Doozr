@@ -92,7 +92,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     /**
      * The PORT
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $port;
@@ -124,7 +124,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     /**
      * The multi connect state
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $multiple = false;
@@ -141,7 +141,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * The silent runtimeEnvironment
      * TRUE = suppress exceptions / FALSE show exceptions
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $silent = false;
@@ -448,7 +448,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     /**
      * Sets the port used for request
      *
-     * @param integer $port The port to set
+     * @param int $port The port to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -464,7 +464,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     /**
      * Shortcut to setPort
      *
-     * @param integer $port The port to set
+     * @param int $port The port to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Http_Service Instance for chaining
@@ -492,7 +492,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     /**
      * Sets the silent-runtimeEnvironment
      *
-     * @param boolean $mode TRUE to be silent, otherwise FALSE
+     * @param bool $mode TRUE to be silent, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -508,7 +508,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     /**
      * Shortcut to setSilentMode
      *
-     * @param boolean $mode TRUE to be silent, otherwise FALSE
+     * @param bool $mode TRUE to be silent, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Http_Service $this The current instance for chaining

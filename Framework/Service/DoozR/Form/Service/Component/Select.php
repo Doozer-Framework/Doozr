@@ -266,7 +266,7 @@ class DoozR_Form_Service_Component_Select extends DoozR_Form_Service_Component_F
     /**
      * Proxy to removeChild() to filter input components
      *
-     * @param integer $index The index of the component to remove
+     * @param int $index The index of the component to remove
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

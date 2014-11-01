@@ -96,7 +96,7 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
      * @param DoozR_Path_Interface   $path          An instance of DoozR_Path
      * @param DoozR_Logger_Interface $logger        An instance of DoozR_Logger
      * @param string                 $container     A container e.g. Json or Ini
-     * @param boolean                $enableCaching TRUE to enable internal caching, FALSE to do not
+     * @param bool                $enableCaching TRUE to enable internal caching, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Config

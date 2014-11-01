@@ -60,7 +60,7 @@ require_once 'Object/Freezer/Util.php';
 class Object_Freezer
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $autoload = TRUE;
 

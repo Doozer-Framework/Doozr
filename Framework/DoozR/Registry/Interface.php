@@ -89,5 +89,5 @@ interface DoozR_Registry_Interface
      * @return void
      * @access public
      */
-    public function set($variable, $identifier = null);
+    public function set(&$variable, $identifier = null);
 }

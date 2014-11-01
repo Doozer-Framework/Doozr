@@ -118,7 +118,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     /**
      * status of initialization
      *
-     * @var boolean
+     * @var bool
      * @access private
      * @static
      */
@@ -183,7 +183,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     /**
      * The lifetime for stored preferences
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private static $_preferenceLifetime = 7776000;
@@ -192,7 +192,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * TRUE if any new value was detected, otherwise
      * FALSE
      *
-     * @var boolean
+     * @var bool
      * @access private
      */
     private $_touched = false;
@@ -206,13 +206,13 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     protected static $registry;
 
     /**
-     * Running runtimeEnvironment (CLI || WEB || HTTPD)
+     * Runtime environment (CLI || WEB || HTTPD)
      * To know if cookie and session is accessible
      *
      * @var string
      * @access protected
      */
-    protected static $runningMode;
+    protected static $runtimeEnvironment;
 
 
     /**
@@ -229,7 +229,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     {
         // Store registry
         self::$registry    = $registry;
-        self::$runningMode = self::$registry->request->getMode();
+        self::$runtimeEnvironment = self::$registry->request->getMode();
 
         // locale defaults
         self::$_defaults = array(
@@ -413,7 +413,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     /**
      * This method is intend to detect the user prefered locale.
      *
-     * @param boolean $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
+     * @param bool $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_I18n_Service_Detector Instance for chaining
@@ -463,7 +463,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     /**
      * This method is intend to initialize and start the detection.
      *
-     * @param boolean $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
+     * @param bool $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if detection was successful
@@ -548,7 +548,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // assume result true
         $result = true;
 
-        if (self::$runningMode !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (self::$runtimeEnvironment !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$_stores as $store) {
@@ -578,7 +578,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         $detectedPreferences = false;
 
         // prevent access to HEADER and IP in CLI does not make sense
-        if (self::$runningMode !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (self::$runtimeEnvironment !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
 
             // try to detect locale by user-agents header
             $detectedPreferences = $this->detectByRequestHeader();
@@ -606,7 +606,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // assume empty user-preferences
         $storedPreferences = null;
 
-        if (self::$runningMode !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (self::$runtimeEnvironment !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$_stores as $store) {

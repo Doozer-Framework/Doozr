@@ -56,12 +56,12 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton/Facade.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Constant.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Validate/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Form - Service
  *
- * Service for generating valid and 100% x-browser compatible
- * HTML-Forms
+ * Service for generating valid and 100% x-browser compatible HTML-Forms
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -74,7 +74,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Validate/Constant
  * @service    Singleton
  * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
-class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade
+class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements DoozR_Base_Service_Interface
 {
     /**
      * Name of token field.

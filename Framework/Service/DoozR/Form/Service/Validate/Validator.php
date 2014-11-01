@@ -425,7 +425,7 @@ class DoozR_Form_Service_Validate_Validator
      * Validates if given value fulfill the requirement "alphabetic".
      *
      * @param mixed   $value     The value to validate
-     * @param integer $charCount The character limitation (optional)
+     * @param int $charCount The character limitation (optional)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if fulfilled requirements, otherwise FALSE

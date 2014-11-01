@@ -114,7 +114,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * HTTP Status default = OK
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -123,7 +123,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * HTTP Status 201 = OK for create
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -132,7 +132,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * HTTP Status 204 = OK for delete
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */

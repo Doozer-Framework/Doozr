@@ -54,6 +54,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Acl - Service
@@ -71,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
+class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
 {
     /**
      * The actions supported by this ACL
@@ -86,13 +87,26 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
         self::ACTION_DELETE
     );
 
+    /**
+     * Some state to hold information if user is logged in
+     *
+     * @var bool
+     * @access protected
+     */
     protected $loggedin = false;
+
+    /**
+     * Tells us if a login is required for the resource this ACL was bound to
+     *
+     * @var bool
+     * @access protected
+     */
     protected $loginRequired = false;
 
     /**
      * The type of this ACL
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $type;
@@ -100,7 +114,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     /**
      * The current FIXED user permissions
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $permissions;
@@ -144,7 +158,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     /**
      * Type for provider (e.g. a REST endpoint or something like this)
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -153,7 +167,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     /**
      * Type for consumer (e.g. an User or a Group or a Robot)
      *
-     * @var integer
+     * @var int
      * @access public
      * @const
      */
@@ -163,8 +177,8 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     /**
      * Constructor.
      *
-     * @param integer $type        The type of this ACL (Consumer | Provider)
-     * @param integer $permissions The permissions code that will be tested against. It is optional and not needed
+     * @param int $type        The type of this ACL (Consumer | Provider)
+     * @param int $permissions The permissions code that will be tested against. It is optional and not needed
      *                             when only using the class to generate a new permissions code.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -221,7 +235,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     /**
      * Setter for type.
      *
-     * @param integer $type The type of the ACL
+     * @param int $type The type of the ACL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -235,7 +249,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     /**
      * Setter for type.
      *
-     * @param integer $type The type of the ACL
+     * @param int $type The type of the ACL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Acl_Service The current instance for chaining
@@ -262,7 +276,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     /**
      * Setter for permissions.
      *
-     * @param integer $permissions The permissions to set
+     * @param int $permissions The permissions to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -276,7 +290,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     /**
      * Setter for permissions.
      *
-     * @param integer $permissions The permissions to set
+     * @param int $permissions The permissions to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Acl_Service The current instance for chaining
@@ -408,7 +422,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple
     /**
      * Checks if the provided action is allowed when using the provided permissions code.
      *
-     * @param integer $permissions A permissions code to check if access could be granted
+     * @param int $permissions A permissions code to check if access could be granted
      * @param string  $action      The action to test check if granted
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

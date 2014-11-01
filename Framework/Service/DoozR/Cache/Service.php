@@ -55,6 +55,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Psr/Cache/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Cache - Service
@@ -74,12 +75,14 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Psr/Cache/Interface.php';
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_Psr_Cache_Interface
+class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements
+    DoozR_Psr_Cache_Interface,
+    DoozR_Base_Service_Interface
 {
     /**
      * Current working status
      *
-     * @var boolean
+     * @var bool
      * @access private
      */
     private $_enabled = true;
@@ -119,7 +122,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     /**
      * is os unix
      *
-     * @var boolean
+     * @var bool
      * @access private
      */
     private $_isUnix;
@@ -145,7 +148,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * Garbage collection: probability in percent
      * 0 => never
      *
-     * @var integer
+     * @var int
      * @access private
      * @see $_gcTime, $_gcMaxlifetime
      */
@@ -159,7 +162,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * of seconds.
      *
      * @see $_gcProbability, $_gcMaxlifetime
-     * @var integer
+     * @var int
      * @access public
      */
     private $_gcTime = 1;
@@ -167,7 +170,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
     /**
      * Time of the last run
      *
-     * @var integer
+     * @var int
      * @access private
      * @static
      */
@@ -179,7 +182,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * This method is intend to act as constructor.
      *
-     * @param boolean $isUnix           TRUE if current OS is unix-type, FALSE if not
+     * @param bool $isUnix           TRUE if current OS is unix-type, FALSE if not
      * @param string  $container        The container to use for caching
      * @param array   $containerOptions The configuration/options for the container instance
      *
@@ -309,7 +312,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * @param mixed   $data    The data to store
      * @param string  $id      The dataset Id
-     * @param integer $expires The time to expire
+     * @param int $expires The time to expire
      * @param string  $group   The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -387,7 +390,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * @param mixed   $data    The data to store
      * @param string  $id      The dataset Id
-     * @param integer $expires The time to expire
+     * @param int $expires The time to expire
      * @param string  $group   The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -595,7 +598,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * This method sets the given Lifetime.
      *
-     * @param integer $lifetime The Lifetime to set
+     * @param int $lifetime The Lifetime to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -627,7 +630,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      * ID clashes might occur from time to time although they are extreme unlikely!
      *
      * @param mixed   $value     Value to generate Id for
-     * @param boolean $setActive TRUE to store Id directly, otherwise FALSE
+     * @param bool $setActive TRUE to store Id directly, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string An unique-Id
@@ -792,7 +795,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * This method is intend to call the garbage-collector of the cache-container.
      *
-     * @param boolean $force TRUE to force a garbage collection run, otherwise FALSE (default)
+     * @param bool $force TRUE to force a garbage collection run, otherwise FALSE (default)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -820,7 +823,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * This method is intend to reset this module.
      *
-     * @param boolean $return TRUE if this method should return TRUE on success,
+     * @param bool $return TRUE if this method should return TRUE on success,
      *                        otherwise FALSE to return FALSE value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -903,7 +906,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements DoozR_P
      *
      * @param string  $id       The dataset Id
      * @param mixed   $data     The data to cache
-     * @param integer $expires  The time to expire
+     * @param int $expires  The time to expire
      * @param string  $group    The dataset group
      * @param string  $userdata The userdata to add
      *

@@ -92,7 +92,7 @@ class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
      * Constructor.
      *
      * @param string         $message  The exception-message
-     * @param integer        $code     The code of the exception
+     * @param int        $code     The code of the exception
      * @param Exception|null $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      * @param array          $token    A new token for exchange with client.
      * @param array          $error    An array containing detailed errors for each submitted field with validation set!

@@ -77,7 +77,7 @@ interface DoozR_Cache_Service_Container_Interface
      *
      * @param string     $id      The dataset Id
      * @param string     $data    The data to write to cache
-     * @param integer    $expires Date/Time on which the cache-entry expires
+     * @param int    $expires Date/Time on which the cache-entry expires
      * @param string     $group   The dataset group
      * @param null|mixed $userdata The additional userdata
      *
@@ -109,7 +109,7 @@ interface DoozR_Cache_Service_Container_Interface
      *
      * @param string     $id       The dataset Id
      * @param string     $data     The data to write to cache
-     * @param integer    $expires  Date/Time on which the cache-entry expires
+     * @param int    $expires  Date/Time on which the cache-entry expires
      * @param string     $group    The dataset group
      * @param string     $userdata The custom userdata to add
      * @param null|mixed $userdata The additional userdata
@@ -139,7 +139,7 @@ interface DoozR_Cache_Service_Container_Interface
      *
      * This method is intend to cleanup the cache-entries.
      *
-     * @param integer $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param int $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if entry was deleted successful, otherwise FALSE

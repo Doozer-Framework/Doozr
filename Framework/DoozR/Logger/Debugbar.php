@@ -117,7 +117,7 @@ class DoozR_Logger_Debugbar extends DoozR_Logger_Abstract implements
      * Constructor.
      *
      * @param DoozR_Datetime_Service $datetime
-     * @param integer $level The loglevel of the logger extending this class
+     * @param int $level The loglevel of the logger extending this class
      * @param string $fingerprint The fingerprint of the client
      * @internal param DoozR_Config $config The configuration instance
      *

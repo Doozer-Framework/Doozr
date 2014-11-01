@@ -72,7 +72,7 @@ class DoozR_Di_Collection implements ArrayAccess, Iterator
     /**
      * The position of Iterator
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private $_position = 0;

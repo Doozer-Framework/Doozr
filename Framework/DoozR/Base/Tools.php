@@ -152,7 +152,7 @@ class DoozR_Base_Tools
     /**
      * Returns the filename and path (combined) of the parent of this "Base"
      *
-     * @param boolean $resolveSymlinks TRUE to resolve symlinks to real path FALSE to do not
+     * @param bool $resolveSymlinks TRUE to resolve symlinks to real path FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The filename and path of the parent class

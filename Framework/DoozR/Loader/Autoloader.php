@@ -366,7 +366,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      *
      * This method is intend to set the spl-autoloader stack priority of this instance.
      *
-     * @param integer $priority The priority to set (0 = highest possible)
+     * @param int $priority The priority to set (0 = highest possible)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

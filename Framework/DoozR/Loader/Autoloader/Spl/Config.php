@@ -75,122 +75,122 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * (used to identify the Autoloader later outside the SPL-Facade)
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_uId;
+    protected $uid;
 
     /**
      * Holds the name of the Autoloader
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_namespace;
+    protected $namespace;
 
     /**
      * Holds the priority of the Autolaoder
      * (used to [re]order the SPL-List of Autoloaders)
      *
-     * @var integer
-     * @access private
+     * @var int
+     * @access protected
      */
-    private $_priority;
+    protected $priority;
 
     /**
      * Holds the description of the Autoloader
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_description;
+    protected $description;
 
     /**
      * Holds the file-extensions
      * (used by SPL-Facade to setup the list of file-extension indexed by SPL)
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_extension = array();
+    protected $extension = array();
 
     /**
      * Holds the (optional) classname containing the Autoloader-Method (Function)
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_class;
+    protected $class;
 
     /**
      * Holds the name of the Autoloader-Method (Function)
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_method = 'load';
+    protected $method = 'load';
 
     /**
      * Holds a list of paths used by Autoloader for file-lookup (class-files)
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_path = array();
+    protected $path = array();
 
     /**
      * Holds the information if Autoloader-Method is standalone (procedural Function) or part of a class
      *
-     * @var boolean
-     * @access private
+     * @var bool
+     * @access protected
      */
-    private $_isClass = false;
+    protected $isClass = false;
 
     /**
      * Holds the information if Autoloader-Method is standalone (procedural Function) or part of a class
      *
-     * @var boolean
-     * @access private
+     * @var bool
+     * @access protected
      */
-    private $_isLoader = true;
+    protected $isLoader = true;
 
     /**
      * The namespace for the Autoloader
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_namespaceSeparator;
+    protected $namespaceSeparator;
 
     /**
      * The directory separator for current OS
      *
      * @var string The directory separator
-     * @access private
+     * @access protected
      */
-    private $_separator = DIRECTORY_SEPARATOR;
+    protected $separator = DIRECTORY_SEPARATOR;
 
 
     /**
-     * Setter for $_namespaceSeparator
+     * Setter for $namespaceSeparator
      *
-     * This method is intend as Setter for $_namespaceSeparator.
+     * This method is intend as Setter for $namespaceSeparator.
      *
      * @param string $namespace The namespace of the loader
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return DoozR_Loader_Autoloader_Spl_Config
      * @access public
      */
     public function setNamespaceSeparator($namespace)
     {
-        $this->_namespaceSeparator = $namespace;
+        $this->namespaceSeparator = $namespace;
         return $this;
     }
 
     /**
-     * Getter for $_namespaceSeparator
+     * Getter for $namespaceSeparator
      *
-     * This method is intend as Getter for $_uId.
+     * This method is intend as Getter for $uid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted unique-Id of the Autoloader
@@ -198,13 +198,13 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function getNamespaceSeparator()
     {
-        return $this->_namespaceSeparator;
+        return $this->namespaceSeparator;
     }
 
     /**
-     * Setter for $_uId
+     * Setter for $uid
      *
-     * This method is intend as Setter for $_uId.
+     * This method is intend as Setter for $uid.
      *
      * @param string $uId An unique-Id to identify the Autoloader later from outside the SPL-Facade.
      *
@@ -214,14 +214,14 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function setUid($uId)
     {
-        $this->_uId = $uId;
+        $this->uid = $uId;
         return $this;
     }
 
     /**
-     * Getter for $_uId
+     * Getter for $uid
      *
-     * This method is intend as Getter for $_uId.
+     * This method is intend as Getter for $uid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted unique-Id of the Autoloader
@@ -229,15 +229,15 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function getUid()
     {
-        return $this->_uId;
+        return $this->uid;
     }
 
     /**
-     * Setter for $_namespace
+     * Setter for $namespace
      *
-     * This method is intend as Setter for $_namespace.
+     * This method is intend as Setter for $namespace.
      *
-     * @param string $name A name for the Autoloader.
+     * @param string $namespace A namespace for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
@@ -245,16 +245,16 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function setNamespace($namespace)
     {
-        $this->_namespace = $namespace;
+        $this->namespace = $namespace;
         $this->setUid(md5($namespace.microtime()));
 
         return $this;
     }
 
     /**
-     * Getter for $_namespace
+     * Getter for $namespace
      *
-     * This method is intend as Getter for $_namespace.
+     * This method is intend as Getter for $namespace.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted name of the Autoloader
@@ -262,15 +262,15 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function getNamespace()
     {
-        return $this->_namespace;
+        return $this->namespace;
     }
 
     /**
-     * Setter for $_priority
+     * Setter for $priority
      *
-     * This method is intend as Setter for $_priority.
+     * This method is intend as Setter for $priority.
      *
-     * @param integer $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
+     * @param int $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
@@ -278,14 +278,14 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function setPriority($priority)
     {
-        $this->_priority = $priority;
+        $this->priority = $priority;
         return $this;
     }
 
     /**
-     * Getter for $_priority
+     * Getter for $priority
      *
-     * This method is intend as Getter for $_priority.
+     * This method is intend as Getter for $priority.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The previous setted priority of the Autoloader
@@ -293,13 +293,13 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function getPriority()
     {
-        return $this->_priority;
+        return $this->priority;
     }
 
     /**
-     * Setter for $_description
+     * Setter for $description
      *
-     * This method is intend as Setter for $_description.
+     * This method is intend as Setter for $description.
      *
      * @param string $description A description for the Autoloader.
      *
@@ -309,14 +309,14 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function setDescription($description)
     {
-        $this->_description = $description;
+        $this->description = $description;
         return $this;
     }
 
     /**
-     * Getter for $_description
+     * Getter for $description
      *
-     * This method is intend as Getter for $_description.
+     * This method is intend as Getter for $description.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted description of the Autoloader
@@ -324,13 +324,13 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function getDescription()
     {
-        return $this->_description;
+        return $this->description;
     }
 
     /**
-     * Setter for a single file-extension (added to $_extension)
+     * Setter for a single file-extension (added to $extension)
      *
-     * This method is intend as Setter for a single file-extension (added to $_extension).
+     * This method is intend as Setter for a single file-extension (added to $extension).
      *
      * @param string $extension A file-extension used by the Autoloader.
      *
@@ -344,12 +344,12 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
 
         (!preg_match('/^\./', $extension)) ? $extension = '.'.$extension : '';
 
-        if ($this->_extension) {
-            if (!in_array($extension, $this->_extension)) {
-                $this->_extension[] = $extension;
+        if ($this->extension) {
+            if (!in_array($extension, $this->extension)) {
+                $this->extension[] = $extension;
             }
         } else {
-            $this->_extension[] = $extension;
+            $this->extension[] = $extension;
         }
 
         // for chaining
@@ -357,14 +357,14 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
     }
 
     /**
-     * Setter for a list of (array) file-extensions (added to $_extension)
+     * Setter for a list of (array) file-extensions (added to $extension)
      *
-     * This method is intend as Setter for a list of (array) file-extensions (added to $_extension).
+     * This method is intend as Setter for a list of (array) file-extensions (added to $extension).
      *
      * @param array $extensions A list of file-extensions used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-       @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return $this Instance for chaining
      * @access public
      */
     public function addExtensions(array $extensions)
@@ -381,9 +381,9 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
     }
 
     /**
-     * Getter for $_extension
+     * Getter for $extension
      *
-     * This method is intend as Getter for $_extension.
+     * This method is intend as Getter for $extension.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The previous setted extension(s) used by the Autoloader
@@ -391,11 +391,11 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function getExtension()
     {
-        return $this->_extension;
+        return $this->extension;
     }
 
     /**
-     * Setter for $_class
+     * Setter for $class
      *
      * This method is intend as Setter for a class containing the Autoloader-Method (Function).
      *
@@ -408,20 +408,20 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
     public function setClass($class)
     {
         // is this autoloader class based or simple method
-        $this->_isClass  = true;
-        $this->_isLoader = false;
+        $this->isClass  = true;
+        $this->isLoader = false;
 
         // store classname
-        $this->_class = $class;
+        $this->class = $class;
 
         // for chaining
         return $this;
     }
 
     /**
-     * Getter for $_class
+     * Getter for $class
      *
-     * This method is intend as Getter for $_class.
+     * This method is intend as Getter for $class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted class used by the Autoloader
@@ -429,7 +429,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function getClass()
     {
-        return $this->_class;
+        return $this->class;
     }
 
     /**
@@ -443,11 +443,11 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function isClass()
     {
-        return (!is_null($this->_class));
+        return (!is_null($this->class));
     }
 
     /**
-     * Setter for $_method
+     * Setter for $method
      *
      * This method is intend as Setter for a method (function) used as "loader" by the Autoloader.
      *
@@ -460,19 +460,19 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
     public function setMethod($method)
     {
         // is this autoloader class based or simple method
-        $this->_isClass = ($this->_class);
+        $this->isClass = ($this->class);
 
         // store method
-        $this->_method = $method;
+        $this->method = $method;
 
         // for chaining
         return $this;
     }
 
     /**
-     * Getter for $_method
+     * Getter for $method
      *
-     * This method is intend as Getter for $_method.
+     * This method is intend as Getter for $method.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted method used by the Autoloader
@@ -480,11 +480,11 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function getMethod()
     {
-        return $this->_method;
+        return $this->method;
     }
 
     /**
-     * Setter for $_method (alias for setMethod())
+     * Setter for $method (alias for setMethod())
      *
      * This method is intend as Setter for a method (function) used as "loader" by the Autoloader.
      *
@@ -501,9 +501,9 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
     }
 
     /**
-     * Getter for $_method (alias for getMethod())
+     * Getter for $method (alias for getMethod())
      *
-     * This method is intend as Getter for $_method.
+     * This method is intend as Getter for $method.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted method used by the Autoloader
@@ -515,7 +515,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
     }
 
     /**
-     * Setter for $_path
+     * Setter for $path
      *
      * This method is intend as Setter for a path or a list of (array) paths used for lookup by the Autoloader.
      *
@@ -529,9 +529,9 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
     {
         // check given type
         if (is_array($path)) {
-            $result = ($this->_path = $path);
+            $result = ($this->path = $path);
         } else {
-            $result = ($this->_path = array($path));
+            $result = ($this->path = array($path));
         }
 
         // for chaining
@@ -539,7 +539,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
     }
 
     /**
-     * Setter for $_path
+     * Setter for $path
      *
      * This method is intend as Setter for a path. It adds a single path or a list of (array) paths to the already
      * exiting path(s).
@@ -547,32 +547,28 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return $this Instance for chaining
      * @access public
      */
     public function addPath($path)
     {
-        // assume operation fails
-        $result = false;
-
-        // check given type
+        // Check given type
         if (is_array($path)) {
-            $result = array_unique(array_merge($this->_path, $path));
+            array_unique(array_merge($this->path, $path));
         } else {
             // check if not already exist
-            if (!in_array($path, $this->_path)) {
-                $result = ($this->_path[] = $path);
+            if (!in_array($path, $this->path)) {
+                $this->path[] = $path;
             }
         }
 
-        // for chaining
         return $this;
     }
 
     /**
-     * Getter for $_path
+     * Getter for $path
      *
-     * This method is intend as Getter for $_path.
+     * This method is intend as Getter for $path.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The previous setted path(s) used by the Autoloader
@@ -580,7 +576,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function getPath()
     {
-        return $this->_path;
+        return $this->path;
     }
 
     /**
@@ -593,7 +589,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      */
     public function isLoader()
     {
-        return $this->_isLoader;
+        return $this->isLoader;
     }
 
     /**
@@ -608,7 +604,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
     public function load($classname)
     {
         // get namespace of current instance
-        $currentNamespace = $this->_namespace.$this->_namespaceSeparator;
+        $currentNamespace = $this->namespace . $this->namespaceSeparator;
 
         // get namespace from passed classname
         $namespace = substr($classname, 0, strlen($currentNamespace));
@@ -616,29 +612,28 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
         // check if requested class must be loaded by this instance of loader
         // this is a good example use case for namespacing which makes sense
         if (
-            $this->_namespace === null ||
+            $this->namespace === null ||
             $currentNamespace === $namespace
         ) {
-            $filename  = '';
-            $namespace = '';
-            $lastNamespaceSeperatorPosition = strripos($classname, $this->_namespaceSeparator);
+            $filename = '';
+            $lastNamespaceSeparatorPosition = strripos($classname, $this->namespaceSeparator);
 
-            if ($lastNamespaceSeperatorPosition !== false) {
-                $namespace = substr($classname, 0, $lastNamespaceSeperatorPosition);
-                $classname = substr($classname, $lastNamespaceSeperatorPosition + 1);
+            if ($lastNamespaceSeparatorPosition !== false) {
+                $namespace = substr($classname, 0, $lastNamespaceSeparatorPosition);
+                $classname = substr($classname, $lastNamespaceSeparatorPosition + 1);
                 $filename  = str_replace(
-                    $this->_namespaceSeparator,
-                    $this->_separator,
+                    $this->namespaceSeparator,
+                    $this->separator,
                     $namespace
-                ).$this->_separator;
+                ).$this->separator;
             }
 
-            $filename .= str_replace('_', $this->_separator, $classname).'.php';
+            $filename .= str_replace('_', $this->separator, $classname).'.php';
             $path      = $this->getPath();
 
             if ($path !== null) {
                 foreach ($path as $singlePath) {
-                    $filename = $singlePath.$this->_separator.$filename;
+                    $filename = $singlePath.$this->separator.$filename;
                     if (file_exists($filename)) {
                         include_once $filename;
                         return true;
@@ -647,7 +642,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
             }
         }
 
-        // nothing done
+        // Nothing done
         return false;
     }
 }

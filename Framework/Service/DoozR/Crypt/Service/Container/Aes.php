@@ -96,7 +96,7 @@ extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_I
      * The number of 32-bit words comprising the plaintext and
      * columns comrising the state matrix of an AES cipher.
      *
-     * @var integer
+     * @var int
      * @access private
      * @static
      */
@@ -106,7 +106,7 @@ extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_I
      * The number of 32-bit words comprising the cipher key in
      * this AES cipher.
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private $_nk;
@@ -114,7 +114,7 @@ extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_I
     /**
      * The number of rounds in this AES cipher.
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private $_rounds;
@@ -122,7 +122,7 @@ extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_I
     /**
      * The key schedule in this AES cipher.
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private $_word;
@@ -139,7 +139,7 @@ extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_I
     /**
      * Determines the lenght of key z
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private $keyLength;

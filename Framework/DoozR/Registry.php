@@ -55,6 +55,9 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Registry/Interface.php';
 
+use Rhumsaa\Uuid\Uuid;
+use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+
 /**
  * DoozR - Registry
  *
@@ -84,7 +87,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * @access protected
      * @static
      */
-    protected static $_lookup = array();
+    protected static $lookup = array();
 
     /**
      * To be more flexible for a reverse lookup
@@ -94,7 +97,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * @access protected
      * @static
      */
-    protected static $_reverseLookup = array();
+    protected static $reverseLookup = array();
 
     /**
      * Lookup matrix for implementation of ArrayAccess
@@ -105,13 +108,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * @access protected
      * @static
      */
-    protected static $_references = array();
+    protected static $references = array();
 
     /**
      * The position of the iterator for iterating
      * elements.
      *
-     * @var integer
+     * @var int
      * @access protected
      * @static
      */
@@ -120,7 +123,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * The count of elements peculated for countable interface.
      *
-     * @var integer
+     * @var int
      * @access protected
      * @static
      */
@@ -139,21 +142,21 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * @return string The identifier for reading the stored variable
      * @access public
      */
-    public function set($variable, $identifier = null)
+    public function set(&$variable, $identifier = null)
     {
-        // generate identifier if not passed
+        // Generate identifier if not passed
         if ($identifier === null) {
             $identifier = sha1(serialize($variable));
         }
 
         // store the variable as reference
-        self::$_references[]          = $variable;
-        $index                        = count(self::$_references)-1;
-        self::$_lookup[$identifier]   = $index;
-        self::$_reverseLookup[$index] = $identifier;
+        self::$references[]          = $variable;
+        $index                        = count(self::$references)-1;
+        self::$lookup[$identifier]   = $index;
+        self::$reverseLookup[$index] = $identifier;
 
         // store count of elements
-        self::$count = $index+1;
+        self::$count = $index + 1;
 
         // return identifier for outer use
         return $identifier;
@@ -173,22 +176,46 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
         $result = null;
 
         if ($identifier === null) {
-            $result = self::$_lookup;
-
+            $result = self::$lookup;
         } else {
-            if (isset(self::$_lookup[$identifier])) {
-                $result = self::$_references[self::$_lookup[$identifier]];
-                /*
-            } else {
-                // simulate PHP's behavior by using custom error
-                $message = 'Undefined property: '.__CLASS__.'::'.$identifier;
-                $type    = E_USER_NOTICE;
-                trigger_error($message, $type);*/
+            if (isset(self::$lookup[$identifier])) {
+                $result = self::$references[self::$lookup[$identifier]];
             }
         }
 
         return $result;
     }
+
+    /**
+     * Adds an multi element like a multi instance service to registry by generating UUID for instances.
+     *
+     * @param $variable
+     * @param null $identifier
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string
+     * @access public
+     */
+    public function add(&$variable, $identifier = null)
+    {
+        $identifier = $this->getUuid();
+        return $this->set($variable, $identifier);
+    }
+
+
+    protected function getUuid($salt = null)
+    {
+        // Generate a version 4 (random) UUID object
+        $uuid4 = Uuid::uuid4();
+
+        if ($salt === null) {
+            $salt = microtime(true);
+        }
+
+        return sha1($uuid4->toString() . $salt);
+    }
+
+
 
     /**
      * This method is a shortcut wrapper to set()
@@ -635,10 +662,10 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     public function offsetExists($offset)
     {
         if (!is_int($offset)) {
-            $offset = array_search($offset, self::$_reverseLookup);
+            $offset = array_search($offset, self::$reverseLookup);
         }
 
-        return (isset(self::$_references[$offset]));
+        return (isset(self::$references[$offset]));
     }
 
     /**
@@ -653,16 +680,16 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     public function offsetGet($offset)
     {
         if (!is_int($offset)) {
-            $offset = array_search($offset, self::$_reverseLookup);
+            $offset = array_search($offset, self::$reverseLookup);
         }
 
-        return self::$_references[$offset];
+        return self::$references[$offset];
     }
 
     /**
      * Sets the value for the passed offset
      *
-     * @param integer $offset The offset to set value for
+     * @param int $offset The offset to set value for
      * @param mixed   $value  The value to write
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -671,11 +698,11 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function offsetSet($offset, $value)
     {
-        if (!is_int($offset) && $exist = array_search($offset, self::$_reverseLookup)) {
+        if (!is_int($offset) && $exist = array_search($offset, self::$reverseLookup)) {
             $offset = $exist;
         }
 
-        self::$_references[$offset] = $value;
+        self::$references[$offset] = $value;
     }
 
     /**
@@ -689,10 +716,10 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function offsetUnset($offset)
     {
-        $identifier = self::$_reverseLookup[$offset];
-        unset(self::$_lookup[$identifier]);
-        unset(self::$_reverseLookup[$identifier]);
-        unset(self::$_references[$identifier]);
+        $identifier = self::$reverseLookup[$offset];
+        unset(self::$lookup[$identifier]);
+        unset(self::$reverseLookup[$identifier]);
+        unset(self::$references[$identifier]);
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -720,7 +747,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function valid()
     {
-        return self::$position < count(self::$_references);
+        return self::$position < count(self::$references);
     }
 
     /**
@@ -744,7 +771,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function current()
     {
-        return self::$_references[self::$position];
+        return self::$references[self::$position];
     }
 
     /**

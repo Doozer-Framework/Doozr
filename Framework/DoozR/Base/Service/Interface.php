@@ -69,24 +69,29 @@
 interface DoozR_Base_Service_Interface
 {
     /**
-     * replacement for __construct in services
-     *
-     * This method is intend to act as replacement constructor in services.
+     * Returns TRUE if the service is a singleton.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool TRUE if service is singleton, otherwise FALSE
      * @access public
      */
-    //public function __tearup();
+    public function isSingleton();
 
     /**
-     * replacement for __destruct in services
-     *
-     * This method is intend to act as replacement destructor in services.
+     * Returns TRUE if the service is a multiple.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool TRUE if service is multiple, otherwise FALSE
      * @access public
      */
-    //public function __teardown();
+    public function isMultiple();
+
+    /**
+     * Returns name of the service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the service.
+     * @access public
+     */
+    public function getName();
 }

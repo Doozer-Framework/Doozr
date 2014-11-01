@@ -121,7 +121,7 @@ interface DoozR_Autoload_Spl_Config_Interface
      *
      * This method is intend as setter for $_priority.
      *
-     * @param integer $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
+     * @param int $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean true if setting was successful, otherwise false

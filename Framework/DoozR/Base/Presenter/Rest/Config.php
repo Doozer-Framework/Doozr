@@ -91,7 +91,7 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * Count of nodes for this route
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $nodes = 0;
@@ -155,7 +155,7 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * Login required status for this route config.
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $login = false;
@@ -248,7 +248,7 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * Setter for nodes
      *
-     * @param integer $nodes The count of nodes for this config
+     * @param int $nodes The count of nodes for this config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -262,7 +262,7 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * Chaining setter for nodes
      *
-     * @param integer $nodes The count of nodes for this config
+     * @param int $nodes The count of nodes for this config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
@@ -607,7 +607,7 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * Getter for real route
      *
-     * @param boolean $asString TRUE to return route as string, otherwise FALSE to return array
+     * @param bool $asString TRUE to return route as string, otherwise FALSE to return array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string|array The active route as array or as string

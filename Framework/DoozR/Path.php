@@ -200,8 +200,8 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * This method is intend to switch up n level from a given base path.
      *
      * @param string  $path                  The input path
-     * @param integer $level                 The count of levels to move up
-     * @param boolean $preserveTrailingSlash TRUE to preserve trailing slash if exist, FALSE to do not
+     * @param int $level                 The count of levels to move up
+     * @param bool $preserveTrailingSlash TRUE to preserve trailing slash if exist, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Path n level up
@@ -410,7 +410,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      *
      * @param string  $identifier    The path which should be returned
      * @param string  $add           An extension to the path requested
-     * @param boolean $trailingSlash True to add a trailing slash (false = default)
+     * @param bool $trailingSlash True to add a trailing slash (false = default)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The path requested
@@ -440,7 +440,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      *
      * @param string  $identifier The name of the path which should be set
      * @param string  $path       The path which should be set
-     * @param boolean $force      True to force overwrite of already existing identifier
+     * @param bool $force      True to force overwrite of already existing identifier
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean True if successful otherwise false

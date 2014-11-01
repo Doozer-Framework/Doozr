@@ -118,7 +118,7 @@ abstract class DoozR_Form_Service_Renderer_Abstract
     /**
      * Renders a passed templates with variables childs and attributes
      *
-     * @param boolean $force      TRUE to force rerendering, otherwise FALSE to do not
+     * @param bool $force      TRUE to force rerendering, otherwise FALSE to do not
      * @param array   $template   The template to render
      * @param string  $tag        The tag of the component
      * @param array   $variables  The variables to use for rendering

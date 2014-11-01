@@ -97,7 +97,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
     /**
      * The line where the exception was thrown
      *
-     * @var integer
+     * @var int
      * @access public
      */
     public $line;
@@ -105,7 +105,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
     /**
      * The code of the exception
      *
-     * @var integer
+     * @var int
      * @access public
      */
     public $code;
@@ -131,7 +131,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * Constructor.
      *
      * @param string    $message  The exception-message
-     * @param integer   $code     The code of the exception
+     * @param int   $code     The code of the exception
      * @param Exception $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -153,7 +153,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * Generates an unique code for each exception type.
      *
      * @param string  $file The exception-message
-     * @param integer $code The error-code of the exception
+     * @param int $code The error-code of the exception
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer An unique error-code
@@ -308,7 +308,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
     /**
      * Setter for line.
      *
-     * @param integer|string $line The line to set
+     * @param int|string $line The line to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -322,7 +322,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
     /**
      * Setter for line.
      *
-     * @param integer|string $line The line to set
+     * @param int|string $line The line to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Base_Exception

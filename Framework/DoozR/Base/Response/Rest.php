@@ -134,7 +134,7 @@ class DoozR_Base_Response_Rest extends DoozR_Base_Class
     /**
      * Setter for status.
      *
-     * @param integer $status The HTTP Status of current operation
+     * @param int $status The HTTP Status of current operation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Base_Model_Rest Instance for chaining
@@ -164,7 +164,7 @@ class DoozR_Base_Response_Rest extends DoozR_Base_Class
     /**
      * Setter for status.
      *
-     * @param integer $status The HTTP Status of current operation
+     * @param int $status The HTTP Status of current operation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining

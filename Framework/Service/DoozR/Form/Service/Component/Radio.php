@@ -78,7 +78,7 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
      * Status if component is capable of
      * submitting multiple values
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $multiValue = true;
@@ -145,7 +145,7 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
     /**
      * Sets the multiple status of this element.
      *
-     * @param boolean TRUE to mark this field as multi select field,
+     * @param bool TRUE to mark this field as multi select field,
      *                FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -230,7 +230,7 @@ class DoozR_Form_Service_Component_Radio extends DoozR_Form_Service_Component_In
     /**
      * Returns the name of this element without brackets by default.
      *
-     * @param boolean $ripBrackets TRUE to remove brackets from name, FALSE to do not
+     * @param bool $ripBrackets TRUE to remove brackets from name, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string|null The name of this element with or without brackets, or NULL if not set

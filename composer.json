@@ -33,9 +33,11 @@
   "minimum-stability": "dev",
   "keywords": [
     "php",
-    "framework",
     "mvp",
-    "doozr"
+    "framework",
+    "mvc",
+    "doozr",
+    "clickalicious"
   ],
   "homepage": "http://doozr.clickalicious.de/",
   "license": [

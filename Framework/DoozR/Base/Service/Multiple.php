@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Service Multiple
+ * DoozR - Base - Service - Multiple
  *
  * Multiple.php - Base-Service for building multi-instance services
  *
@@ -55,7 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
 
 /**
- * DoozR Base Service Multiple
+ * DoozR - Base - Service - Multiple
  *
  * Base-Service for building multi-instance services
  *
@@ -72,9 +72,9 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container
 {
     /**
      * Autoloader auto install control flag.
-     * If set to TRUE in inheritent class the autoloader will be installed automatically.
+     * If set to TRUE in inheriting class the autoloader will be installed automatically.
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $autoloader = false;
@@ -86,6 +86,32 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container
      * @access protected
      */
     protected $name;
+
+    protected $uuid;
+
+    /**
+     * The type of this service.
+     *
+     * @var string
+     * @access protected
+     */
+    protected static $type = self::TYPE_MULTIPLE;
+
+    /**
+     * The type for singleton services.
+     *
+     * @var string
+     * @const
+     */
+    const TYPE_SINGLETON = 'singleton';
+
+    /**
+     * The type for multi instance services.
+     *
+     * @var string
+     * @const
+     */
+    const TYPE_MULTIPLE = 'multiple';
 
 
     /**
@@ -99,8 +125,13 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container
     {
         // Filter out registry and store accessible through static $registry!
         $arguments = func_get_args();
-        $this->registry = &$arguments[0];
+        $this->setRegistry($arguments[0]);
         $arguments = array_slice($arguments, 1);
+
+        // Check for automagically install autoloader
+        if ($this->autoloader === true) {
+            $this->initAutoloader($this->getName());
+        }
 
         // dispatch remaining stuff
         if ($this->hasMethod('__tearup')) {
@@ -118,9 +149,93 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container
                 );
             }
         }
+    }
 
-        // e.g. log loading of module
-        return parent::__construct();
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+
+    /**
+     * Returns true if service is singleton.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if service is singleton, otherwise FALSE.
+     * @access public
+     */
+    public function isSingleton()
+    {
+        return (self::$type === self::TYPE_SINGLETON);
+    }
+
+    /**
+     * Returns true if service is a multi instance service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if service is multi instance, otherwise FALSE.
+     * @access public
+     */
+    public function isMultiple()
+    {
+        return (self::$type === self::TYPE_MULTIPLE);
+    }
+
+    /**
+     * Initialize autoloader for this service.
+     *
+     * Each service get its own autoloader attached to SPL autoloaders.
+     *
+     * @param string $service The name of the service to init autoloader for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function initAutoloader($service)
+    {
+        // Register services custom autoloader
+        $autoloaderService = new DoozR_Loader_Autoloader_Spl_Config();
+        $autoloaderService
+            ->setNamespace('DoozR_' . $service)
+            ->setNamespaceSeparator('_')
+            ->addExtension('php')
+            ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
+            ->setDescription('DoozR\'s ' . $service . ' service autoloader. Timestamp: ' . time());
+
+        // Add to SPL through facade
+        $this->autoloader = DoozR_Loader_Autoloader_Spl_Facade::attach(
+            $autoloaderService
+        );
+    }
+
+    /**
+     * Returns the name of the service
+     *
+     * This method is intend to return the name of the current
+     * active service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the service
+     * @access public
+     */
+    public function getName()
+    {
+        if ($this->name === null) {
+            $class = get_called_class();
+            if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
+                $this->name = $matches[1];
+            } else {
+                $this->name = '';
+            }
+        }
+
+        return $this->name;
     }
 
     /**

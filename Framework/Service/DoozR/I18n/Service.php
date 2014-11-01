@@ -56,6 +56,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Detector.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Translator.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - I18n - Service
@@ -76,7 +77,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface.php';
 class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     implements
     PHPTAL_TranslationService,
-    DoozR_I18n_Service_Interface
+    DoozR_I18n_Service_Interface,
+    DoozR_Base_Service_Interface
 {
     /**
      * The encoding
@@ -386,7 +388,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * @param string $locale The locale to use for formatter
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_I18n_Service_Format_Abstract The instance of the locale-detector
+     * @return DoozR_I18n_Service_Localize_Abstract The instance of the locale-detector
      * @access public
      * @throws DoozR_I18n_Service_Exception
      */
@@ -608,6 +610,8 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         return true;
     }
 
+
+
     /**
      * @var array
      */
@@ -664,7 +668,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * Translate a gettext key and interpolate variables.
      *
      * @param string  $key        Translation key, e.g. "hello ${username}!" or a simple one "hello_message_user"
-     * @param boolean $htmlescape TRUE then HTML-escape translated string. You should never HTML-escape interpolated variables.
+     * @param bool $htmlescape TRUE then HTML-escape translated string. You should never HTML-escape interpolated variables.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The translation for passed key on success, otherwise passed key

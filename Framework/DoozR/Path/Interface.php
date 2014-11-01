@@ -95,7 +95,7 @@ interface DoozR_Path_Interface
      *
      * @param string  $identifier    The path which should be returned
      * @param string  $add           An extension to the path requested
-     * @param boolean $trailingSlash True to add a trailing slash (false = default)
+     * @param bool $trailingSlash True to add a trailing slash (false = default)
      *
      * @return  string The path requested
      * @access  private
@@ -108,7 +108,7 @@ interface DoozR_Path_Interface
      *
      * @param string  $identifier The name of the path which should be set
      * @param string  $path       The path which should be set
-     * @param boolean $force      True to force overwrite of already existing identifier
+     * @param bool $force      True to force overwrite of already existing identifier
      *
      * @return  boolean True if successful otherwise false
      * @access  private

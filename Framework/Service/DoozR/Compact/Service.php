@@ -56,6 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Compact/Service/Lib/Minify.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Config.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Compact - Service
@@ -71,10 +72,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Facade.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @service    Multiple
- *
  */
-class DoozR_Compact_Service extends Minify
+class DoozR_Compact_Service extends Minify implements DoozR_Base_Service_Interface
 {
+    /**
+     * @throws DoozR_Exception
+     */
     public function __construct()
     {
         // now configure a new autoloader spl config

@@ -77,7 +77,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
     protected $revisions = array();
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $debug = FALSE;
 

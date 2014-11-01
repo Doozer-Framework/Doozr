@@ -139,7 +139,7 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
      * of parsing HTML-components "properties" and makes use of the $template
      * variable and the mini-templating functionality of this class (tpl()).
      *
-     * @param boolean $force TRUE to override primitive caching (FALSE = default)
+     * @param bool $force TRUE to override primitive caching (FALSE = default)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed|string

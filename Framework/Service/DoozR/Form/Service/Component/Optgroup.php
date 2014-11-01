@@ -103,7 +103,7 @@ class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component
     /**
      * Proxy to removeChild() to filter input components
      *
-     * @param integer $index The index of the component to remove
+     * @param int $index The index of the component to remove
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -117,7 +117,7 @@ class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component
     /**
      * Setter for disabled status
      *
-     * @param boolean $state The status
+     * @param bool $state The status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

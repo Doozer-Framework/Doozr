@@ -288,7 +288,7 @@ class DoozR_Request_Securitylayer
      * checks detected impact and stops all operations if impact is higher then allowed
      * it stops the execution and returns a 400 Bad Request Header to client.
      *
-     * @param integer $totalImpact The total-impact (sum of all impacts of the request)
+     * @param int $totalImpact The total-impact (sum of all impacts of the request)
      *
      * @return void
      *

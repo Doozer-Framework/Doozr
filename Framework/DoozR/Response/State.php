@@ -466,7 +466,7 @@ class DoozR_Response_State extends DoozR_Base_State implements DoozR_Base_State_
     /**
      * Setter for SSL.
      *
-     * @param boolean $ssl SSL state
+     * @param bool $ssl SSL state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -481,7 +481,7 @@ class DoozR_Response_State extends DoozR_Base_State implements DoozR_Base_State_
     /**
      * Setter for SSL.
      *
-     * @param boolean $ssl SSL state
+     * @param bool $ssl SSL state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Response_State Instance for chaining
@@ -538,7 +538,7 @@ class DoozR_Response_State extends DoozR_Base_State implements DoozR_Base_State_
     /**
      * Getter for headers.
      *
-     * @param boolean $string TRUE to return string, FALSE to return array
+     * @param bool $string TRUE to return string, FALSE to return array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array|string The headers
@@ -860,7 +860,7 @@ class DoozR_Response_State extends DoozR_Base_State implements DoozR_Base_State_
     /**
      * Setter for rest.
      *
-     * @param boolean TRUE to mark state REST, otherwise FALSE
+     * @param bool TRUE to mark state REST, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -875,7 +875,7 @@ class DoozR_Response_State extends DoozR_Base_State implements DoozR_Base_State_
     /**
      * Setter for rest.
      *
-     * @param boolean TRUE to mark state REST, otherwise FALSE
+     * @param bool TRUE to mark state REST, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Response_State Instance for chaining
@@ -943,7 +943,7 @@ class DoozR_Response_State extends DoozR_Base_State implements DoozR_Base_State_
      *
      * @param string  $buffer  The data to send
      * @param string  $etag    The Etag to send, null to prevent sending
-     * @param boolean $exit    Close connection after output?
+     * @param bool $exit    Close connection after output?
      * @param string  $charset The charset/encoding to use for sending (header-value)
      *
      * @return DoozR_Response_Web The current instance for chaining

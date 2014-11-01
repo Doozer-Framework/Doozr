@@ -83,7 +83,7 @@ class DoozR_Di_Factory
      * Contains the is-instanciable status of the
      * currently process class
      *
-     * @var boolean
+     * @var bool
      * @access private
      */
     private $_instanciable;

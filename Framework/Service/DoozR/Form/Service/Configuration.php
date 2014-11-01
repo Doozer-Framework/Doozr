@@ -103,7 +103,7 @@ class DoozR_Form_Service_Configuration
     /**
      * Dirty flag.
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $dirty = false;

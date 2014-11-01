@@ -110,7 +110,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      * true to keep the handle opened for the length of each request
      * false to reopen the file (retrieving a handle) for each log entry
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $persistent = true;
@@ -119,7 +119,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      * holds the status of "overwrite" or "append" runtimeEnvironment
      * True to append log to file, false to overwrite
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $append = true;
@@ -145,7 +145,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      * Constructor.
      *
      * @param DoozR_Datetime_Service $datetime
-     * @param integer $level The loglevel of the logger extending this class
+     * @param int $level The loglevel of the logger extending this class
      * @param string $fingerprint The fingerprint of the client
      * @internal param DoozR_Config $config The configuration instance
      *
@@ -258,7 +258,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
     /**
      * Setter for persistent status
      *
-     * @param boolean $status TRUE = write persistent, FALSE do not
+     * @param bool $status TRUE = write persistent, FALSE do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -284,7 +284,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
     /**
      * Setter for append status
      *
-     * @param boolean $status TRUE = append, FALSE do not [overwrite]
+     * @param bool $status TRUE = append, FALSE do not [overwrite]
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

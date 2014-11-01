@@ -58,6 +58,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Session/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Session - Service
@@ -80,7 +81,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Session/Service/Interface.php'
  */
 class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     DoozR_Base_Crud_Interface,
-    DoozR_Session_Service_Interface
+    DoozR_Session_Service_Interface,
+    DoozR_Base_Service_Interface
 {
     /**
      * Instance of DoozR_Crypt
@@ -133,7 +135,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * The path used for session cookie(s)
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $path = self::DEFAULT_BIND_PATH_PATH;
@@ -142,7 +144,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * Lifetime of Session.
      * Default is 3600 (1h = 60 minutes * 60 seconds)
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $lifetime = self::DEFAULT_LIFETIME;
@@ -150,7 +152,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * Garbage collector time.
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $gcTime = self::DEFAULT_GCTIME;
@@ -166,7 +168,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * Contains status of ssl secure
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $ssl = self::DEFAULT_SEC_FLAG_SSL;
@@ -174,7 +176,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * Contains status of httpOnly secure
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $httpOnly = self::DEFAULT_SEC_FLAG_HTTPONLY;
@@ -185,7 +187,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * it is set like set in:
      * @see: $_identifier
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $obfuscate = self::DEFAULT_OBFUSCATE;
@@ -193,7 +195,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * holds status of session encrypting
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $encrypt = self::DEFAULT_ENCRYPT;
@@ -202,7 +204,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * Contains true if cookies are used for storing session
      * otherwise false if not
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $useCookies = self::DEFAULT_USE_COOKIES;
@@ -212,7 +214,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * True = session already started by calling session_start(),
      * False = modifications of parameter still possible
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $started = false;
@@ -229,7 +231,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * Contains the count of cycles on which the Session-Id
      * get regenerated. Default = 0 = never/disabled
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $regenerateCycles = self::DEFAULT_REGENERATE_CYCLES;
@@ -249,7 +251,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * Contains status of supporting setcookie features added with PHP 5.2
      * like http-only. Default assumes not supported = false
      *
-     * @var boolean
+     * @var bool
      * @access protected
      */
     protected $flags = array(
@@ -268,7 +270,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * The default lifetime (of session)
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const DEFAULT_LIFETIME = 3600;
@@ -276,7 +278,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * The default garbage-collector timeout
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const DEFAULT_GCTIME = 3600;
@@ -284,7 +286,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * The default status of obfuscate
      *
-     * @var boolean
+     * @var bool
      * @access const
      */
     const DEFAULT_OBFUSCATE = false;
@@ -293,7 +295,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * The default status of cookie usage for session transmission
      * between client and server
      *
-     * @var boolean
+     * @var bool
      * @access const
      */
     const DEFAULT_USE_COOKIES = true;
@@ -301,7 +303,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * The default status of binding session to clients IP
      *
-     * @var boolean
+     * @var bool
      * @access const
      */
     const DEFAULT_BIND_IP = false;
@@ -312,7 +314,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * value like 2 = XXX.XXX e.g. if a proxy (AOL) is between
      * client and server.
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const DEFAULT_BIND_IP_OCTETS = 4;
@@ -332,7 +334,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * TRUE = set cookie validity for active domain (www.example.tld)
      * FALSE = disabled
      *
-     * @var boolean
+     * @var bool
      * @access const
      */
     const DEFAULT_BIND_DOMAIN = true;
@@ -354,7 +356,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * TRUE to enable (default = "/")
      * FALSE to disable
      *
-     * @var boolean
+     * @var bool
      * @access const
      */
     const DEFAULT_BIND_PATH = false;
@@ -376,7 +378,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * TRUE = enable encryption
      * FALSE = disable encryption
      *
-     * @var boolean
+     * @var bool
      * @access const
      */
     const DEFAULT_ENCRYPT = false;
@@ -410,7 +412,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * 1     = on each request
      * 2 - X = on each 2nd or X-st/nd/rd request
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const DEFAULT_REGENERATE_CYCLES = 0;
@@ -426,7 +428,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * The default flag status for SSL support
      *
-     * @var boolean
+     * @var bool
      * @access const
      */
     const DEFAULT_SEC_FLAG_SSL = false;
@@ -434,7 +436,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     /**
      * The default flag status for HTTPOnly support
      *
-     * @var boolean
+     * @var bool
      * @access const
      */
     const DEFAULT_SEC_FLAG_HTTPONLY = false;
@@ -450,7 +452,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * SWFUpload/Multiupload-SWF lost session_id while uploading: http://code.google.com/p/swfupload/wiki/FAQ
      *
      * @param string  $sessionId  The session-Id to use as predefined
-     * @param boolean $autoInit   TRUE to automatically start session, FALSE to do not
+     * @param bool $autoInit   TRUE to automatically start session, FALSE to do not
      * @param double  $phpVersion The PHP-Version this instance of session module running on
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -567,8 +569,8 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * This method is intend to set the basic configuration up.
      *
      * @param string  $identifier The identifier to use for session
-     * @param integer $lifetime   The lifetime of the session
-     * @param integer $gcTime     The timeout in seconds of garbage collector
+     * @param int $lifetime   The lifetime of the session
+     * @param int $gcTime     The timeout in seconds of garbage collector
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -597,8 +599,8 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * This method is intend to setup the session security.
      *
-     * @param boolean $ssl      TRUE to enable ssl flag for cookies/session, FALSE to do not
-     * @param boolean $httpOnly TRUE to enable httpOnly flag for cookies/session, FALSE to do not
+     * @param bool $ssl      TRUE to enable ssl flag for cookies/session, FALSE to do not
+     * @param bool $httpOnly TRUE to enable httpOnly flag for cookies/session, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -634,7 +636,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * Through changing $octets to a lower value you are able to bind to an ip address
      * also if the user is using a proxy-connection like AOL-users do.
      *
-     * @param integer $octets The count of octets to use for binding session to ip
+     * @param int $octets The count of octets to use for binding session to ip
      * @param string  $ip     The Ip-Address of the client to bind session to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -902,7 +904,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * This method is intend to set the status of session started to passed value.
      *
-     * @param boolean $status TRUE if session was started, FALSE if not
+     * @param bool $status TRUE if session was started, FALSE if not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -933,7 +935,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * This method is intend to set the status of a given flag.
      *
      * @param string  $flag   The flag to set status for
-     * @param boolean $status The status TRUE or FALSE
+     * @param bool $status The status TRUE or FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -1107,7 +1109,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * This method is intend to set the status of SSL-encryption.
      *
-     * @param boolean $status TRUE if SSL is enabled, otherwise FALSE if not
+     * @param bool $status TRUE if SSL is enabled, otherwise FALSE if not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -1137,7 +1139,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * This method is intend to return the status of SSL-encryption.
      *
-     * @param boolean $status TRUE if HTTP-Only is supported, otherwise FALSE if not
+     * @param bool $status TRUE if HTTP-Only is supported, otherwise FALSE if not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -1396,7 +1398,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * This method is intend to set the lifetime.
      *
-     * @param integer $lifetime The lifetime to set
+     * @param int $lifetime The lifetime to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -1426,7 +1428,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * This method is intend to set the garbage collector timeout.
      *
-     * @param integer $gcTime The time to set
+     * @param int $gcTime The time to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -1472,7 +1474,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * This method is intend to return the path.
      *
-     * @param boolean $resolveSymlinks NOT USED HERE
+     * @param bool $resolveSymlinks NOT USED HERE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The active path
@@ -1506,7 +1508,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * This method is intend to configure the regeneration of the Session-Id by given cycles.
      *
-     * @param integer $cycles The count of cycles used for regeneration. 0 = disabled,
+     * @param int $cycles The count of cycles used for regeneration. 0 = disabled,
      *                        1 = on every request ... 8 = on each 8th request ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1584,7 +1586,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * This method is intend to regenerate the session-id for current session
      *
-     * @param boolean $flush TRUE to flush the whole session content, otherwise FALSE to transfer to new session
+     * @param bool $flush TRUE to flush the whole session content, otherwise FALSE to transfer to new session
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if everything wents fine, otherwise FALSE
@@ -1711,10 +1713,10 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      *
      * @param string  $identifier The identifier to set
      * @param string  $sessionId  The current session id
-     * @param integer $lifetime   The lifetime of the session and cookie
+     * @param int $lifetime   The lifetime of the session and cookie
      * @param string  $path       The path for the session cookie validity (default = / = all subfolder)
      * @param string  $domain     The domain to set
-     * @param boolean $ssl        TRUE to submit cookie via SSL only, otherwise FALSE to do not so
+     * @param bool $ssl        TRUE to submit cookie via SSL only, otherwise FALSE to do not so
      * @param mixed   $httpOnly   NULL (default) to do not set this flag, TRUE to set, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1766,7 +1768,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * This method is intend to return a part of the input string splitted by count of dots from left or right.
      *
      * @param string  $string    The string to split
-     * @param integer $parts     The count of parts to return
+     * @param int $parts     The count of parts to return
      * @param string  $direction The direction for processing. Can be either LTR or RTL.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

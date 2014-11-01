@@ -92,7 +92,7 @@ class DoozR_Di_Container
     /**
      * The runtimeEnvironment the instance operates in
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private $_mode;
@@ -128,7 +128,7 @@ class DoozR_Di_Container
      * STATIC  = Used for static
      * DYNAMIC = Used for dynamic creation of instances
      *
-     * @var integer
+     * @var int
      * @access public
      */
     const MODE_STATIC  = 1;
@@ -145,7 +145,7 @@ class DoozR_Di_Container
      * This method is intend to merge a new DoozR_Di_Map with an existing one.
      *
      * @param DoozR_Di_Map  $map      The map to merge in
-     * @param boolean $override TRUE to override the existing map, FALSE to merge the maps
+     * @param bool $override TRUE to override the existing map, FALSE to merge the maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -338,7 +338,7 @@ class DoozR_Di_Container
      * more than one instance of container if needed/required by your application.
      *
      * @param string  $namespace The namespace of the DoozR_Di_Container instance
-     * @param integer $mode      The runtimeEnvironment used to handle maps
+     * @param int $mode      The runtimeEnvironment used to handle maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Di_Container Instance
@@ -394,7 +394,7 @@ class DoozR_Di_Container
      * This method is the constructor.
      *
      * @param string  $namespace The namespace to operate
-     * @param integer $mode      The runtimeEnvironment used to handle maps
+     * @param int $mode      The runtimeEnvironment used to handle maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Di_Container The current instance of the Container for chaining/fluent-interface

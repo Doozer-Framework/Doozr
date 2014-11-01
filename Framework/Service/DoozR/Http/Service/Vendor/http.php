@@ -1,12 +1,12 @@
 <?php
 class Http_Exception extends Exception{
-    const NOT_MODIFIED = 304; 
-    const BAD_REQUEST = 400; 
-    const NOT_FOUND = 404; 
-    const NOT_ALOWED = 405; 
-    const CONFLICT = 409; 
-    const PRECONDITION_FAILED = 412; 
-    const INTERNAL_ERROR = 500; 
+    const NOT_MODIFIED = 304;
+    const BAD_REQUEST = 400;
+    const NOT_FOUND = 404;
+    const NOT_ALOWED = 405;
+    const CONFLICT = 409;
+    const PRECONDITION_FAILED = 412;
+    const INTERNAL_ERROR = 500;
 }
 
 class Http_Multiple_Error
@@ -15,7 +15,7 @@ class Http_Multiple_Error
     private $_type   = null;
     private $_url    = null;
     private $_params = null;
-    
+
     function __construct($status, $type, $url, $params)
     {
         $this->_status = $status;
@@ -23,22 +23,22 @@ class Http_Multiple_Error
         $this->_url    = $url;
         $this->_params = $params;
     }
-    
+
     function getStatus()
     {
         return $this->_status;
     }
-    
+
     function getType()
     {
         return $this->_type;
     }
-    
+
     function getUrl()
     {
         return $this->_url;
     }
-    
+
     function getParams()
     {
         return $this->_params;
@@ -55,13 +55,13 @@ class Http
 
     const HTTP  = 'http';
     const HTTPS = 'https';
-    
+
     private $_connMultiple = false;
     /**
      * Factory of the class. Lazy connect
      *
      * @param string $host
-     * @param integer $port
+     * @param int $port
      * @param string $user
      * @param string $pass
      * @return Http
@@ -70,7 +70,7 @@ class Http
     {
         return new self($host, $port, $protocol, false);
     }
-    
+
     /**
      *
      * @return Http
@@ -86,7 +86,7 @@ class Http
         $this->_append[] = $http;
         return $this;
     }
-    
+
     private $_silentMode = false;
     /**
      *
@@ -96,18 +96,18 @@ class Http
     public function silentMode($mode=true)
     {
         $this->_silentMode = $mode;
-        return $this;    
+        return $this;
     }
-    
+
     protected function __construct($host, $port, $protocol, $connMultiple)
     {
         $this->_connMultiple = $connMultiple;
-        
+
         $this->_host     = $host;
         $this->_port     = $port;
         $this->_protocol = $protocol;
     }
-    
+
     public function setCredentials($user, $pass)
     {
         $this->_user = $user;
@@ -121,7 +121,7 @@ class Http
     const PUT    = 'PUT';
 
     private $_requests = array();
-    
+
     /**
      * @param string $url
      * @param array $params
@@ -132,7 +132,7 @@ class Http
         $this->_requests[] = array(self::PUT, $this->_url($url), $params);
         return $this;
     }
-    
+
     /**
      * @param string $url
      * @param array $params
@@ -154,7 +154,7 @@ class Http
         $this->_requests[] = array(self::GET, $this->_url($url), $params);
         return $this;
     }
-    
+
     /**
      * @param string $url
      * @param array $params
@@ -165,12 +165,12 @@ class Http
         $this->_requests[] = array(self::DELETE, $this->_url($url), $params);
         return $this;
     }
-    
+
     public function _getRequests()
     {
         return $this->_requests;
     }
-    
+
     /**
      * PUT request
      *
@@ -182,7 +182,7 @@ class Http
     {
         return $this->_exec(self::PUT, $this->_url($url), $params);
     }
-    
+
     /**
      * POST request
      *
@@ -206,7 +206,7 @@ class Http
     {
         return $this->_exec(self::GET, $this->_url($url), $params);
     }
-    
+
     /**
      * DELETE Request
      *
@@ -233,7 +233,7 @@ class Http
     }
 
     /**
-     * Builds absolute url 
+     * Builds absolute url
      *
      * @param unknown_type $url
      * @return unknown
@@ -259,7 +259,7 @@ class Http
     {
         $headers = $this->_headers;
         $s = curl_init();
-        
+
         if(!is_null($this->_user)){
            curl_setopt($s, CURLOPT_USERPWD, $this->_user.':'.$this->_pass);
         }
@@ -302,7 +302,7 @@ class Http
         }
         return $out;
     }
-    
+
     public function run()
     {
         if ($this->_connMultiple) {
@@ -311,7 +311,7 @@ class Http
             return $this->_run();
         }
     }
-    
+
     private function _runMultiple()
     {
         $out= null;
@@ -320,13 +320,13 @@ class Http
             foreach ($this->_append as $_append) {
                 $arr = array_merge($arr, $_append->_getRequests());
             }
-            
+
             $this->_requests = $arr;
             $out = $this->_run();
         }
         return $out;
     }
-    
+
     private function _run()
     {
         $headers = $this->_headers;
@@ -335,15 +335,15 @@ class Http
         $mh = curl_multi_init();
         foreach ($this->_requests as $id => $reg) {
             $curly[$id] = curl_init();
-            
+
             $type   = $reg[0];
             $url    = $reg[1];
             $params = $reg[2];
-            
+
             if(!is_null($this->_user)){
                curl_setopt($curly[$id], CURLOPT_USERPWD, $this->_user.':'.$this->_pass);
             }
-            
+
             switch ($type) {
                 case self::DELETE:
                     curl_setopt($curly[$id], CURLOPT_URL, $url . '?' . http_build_query($params));
@@ -365,16 +365,16 @@ class Http
             }
             curl_setopt($curly[$id], CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curly[$id], CURLOPT_HTTPHEADER, $headers);
-            
+
             curl_multi_add_handle($mh, $curly[$id]);
         }
-    
+
         $running = null;
         do {
             curl_multi_exec($mh, $running);
             sleep(0.2);
         } while($running > 0);
-    
+
         foreach($curly as $id => $c) {
             $status = curl_getinfo($c, CURLINFO_HTTP_CODE);
             switch ($status) {

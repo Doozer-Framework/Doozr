@@ -121,7 +121,7 @@ function parse_ini_string($string)
  * not tested yet
  *
  * @param mixed   $backtrace Boolean FALSE on init, array with retrieved debug_backtrace() result to reduce load
- * @param integer $level     Level of current recursion starting with one (1)
+ * @param int $level     Level of current recursion starting with one (1)
  *
  * @author  Benjamin Carl <opensource@clickalicious.de>
  * @return  string The name of the called class

@@ -77,7 +77,7 @@ class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Inp
     /**
      * The maximum filesize allowed for fileuploads in Bytes.
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $maxFilesize = 0;
@@ -210,7 +210,7 @@ class DoozR_Form_Service_Component_File extends DoozR_Form_Service_Component_Inp
     /**
      * Sets the maximum size in bytes a file is allowed to have.
      *
-     * @param integer|string $maxFilesize The maximum allowed size in bytes
+     * @param int|string $maxFilesize The maximum allowed size in bytes
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The size in bytes

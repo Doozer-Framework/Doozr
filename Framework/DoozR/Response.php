@@ -75,7 +75,7 @@ class DoozR_Response extends DoozR_Base_State_Container
     /**
      * The type native for PHP request sources
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const NATIVE = 0;
@@ -83,7 +83,7 @@ class DoozR_Response extends DoozR_Base_State_Container
     /**
      * The type emulated for PHP request sources
      *
-     * @var integer
+     * @var int
      * @access const
      */
     const EMULATED = 1;

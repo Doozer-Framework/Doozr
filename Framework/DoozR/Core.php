@@ -181,7 +181,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     /**
      * This method is intend to start the timer for measurement.
      *
-     * @param boolean $includeWalltime TRUE to start timer including time from routing (absolute request time)
+     * @param bool $includeWalltime TRUE to start timer including time from routing (absolute request time)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -203,7 +203,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * bootstrapping process from outside by implementing this method as public. So you are able
      * to unit-test your application with a fresh bootstrapped core on each run.
      *
-     * @param boolean $rerun                TRUE to rerun the bootstrapper, otherwise FALSE to keep state
+     * @param bool $rerun                TRUE to rerun the bootstrapper, otherwise FALSE to keep state
      * @param array   $runtimeConfiguration The runtime configuration to pass to config (ovveride configuration)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -707,10 +707,10 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     protected static function initServices()
     {
         // Get runtimeEnvironment app currently runs in
-        $runningMode = self::$registry->getRequest()->getRuntimeEnvironment();
+        $runtimeEnvironment = self::$registry->getRequest()->getRuntimeEnvironment();
 
         // Get default services for runtimeEnvironment
-        $services = self::$registry->getConfig()->base->services->{strtolower($runningMode)}();
+        $services = self::$registry->getConfig()->base->services->{strtolower($runtimeEnvironment)}();
 
         foreach ($services as $service) {
             self::$registry->{$service} = DoozR_Loader_Serviceloader::load($service);
@@ -814,7 +814,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     /**
      * This method is intend to return the version of DoozR.
      *
-     * @param boolean $justRevision If set to true the method returns the revision as integer, otherwise full rev-string
+     * @param bool $justRevision If set to true the method returns the revision as integer, otherwise full rev-string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The version of DoozR

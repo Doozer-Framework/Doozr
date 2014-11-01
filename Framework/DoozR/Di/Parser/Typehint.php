@@ -230,7 +230,7 @@ class DoozR_Di_Parser_Typehint extends DoozR_Di_Parser_Abstract implements DoozR
      *
      * @param string  $method    The name of the method to parse signature of
      * @param string  $signature The signature to parse
-     * @param boolean $cleanup   TRUE to direct cleanup the result and store only arguments with typehint
+     * @param bool $cleanup   TRUE to direct cleanup the result and store only arguments with typehint
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the parsed arguments and method name

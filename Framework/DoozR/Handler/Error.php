@@ -92,7 +92,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * @param int|string $number  Number of Error (constant)
      * @param string     $message Error description as String
      * @param string     $file    File in which the error occured
-     * @param integer    $line    Line in which the error occured
+     * @param int    $line    Line in which the error occured
      * @param array      $context The variables with name and value from error context
      *
      * @throws DoozR_Error_Exception
@@ -245,7 +245,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * This method is intend to return the translation from php-errorcode
      * to our internal types.
      *
-     * @param integer $error The PHP-type of the error (PHP constant)
+     * @param int $error The PHP-type of the error (PHP constant)
      *
      * @return string The translation type for input
      * @access public

@@ -80,7 +80,7 @@ abstract class DoozR_Base_Exception_Generic_Abstract extends Exception
     /**
      * holds the exception error-code/nr/#
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $code = 0;
@@ -96,7 +96,7 @@ abstract class DoozR_Base_Exception_Generic_Abstract extends Exception
     /**
      * line of the file where the exception was initially thrown
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $line;
@@ -106,7 +106,7 @@ abstract class DoozR_Base_Exception_Generic_Abstract extends Exception
      * Constructor.
      *
      * @param string     $message  The exception-message
-     * @param integer    $code     The code of the exception
+     * @param int    $code     The code of the exception
      * @param \Exception $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

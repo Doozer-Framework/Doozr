@@ -73,8 +73,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Config/Service/Exception.php';
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface,
-      DoozR_Config_Interface
+class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
+    DoozR_Base_Service_Interface,
+    DoozR_Config_Interface
 {
     /**
      * contains an instance of the class/object decorated
@@ -133,7 +134,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements DoozR_
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
      *
      * @param string  $type          The type of config container (Ini, Json, ...)
-     * @param boolean $enableCaching TRUE to enable caching, FALSE to disable it
+     * @param bool $enableCaching TRUE to enable caching, FALSE to disable it
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -257,6 +258,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements DoozR_
      *
      * @param string $property The property to return
      *
+     * @throws DoozR_Config_Service_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The data from property
      * @access public
@@ -337,5 +339,86 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements DoozR_
         } else {
             return new $class();
         }
+    }
+
+    /**
+     * Updates a configuration node.
+     *
+     * @param string $node The configuration node
+     * @param string $value The data to write
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @access public
+     */
+    public function update( $node, $value ) {
+        // TODO: Implement update() method.
+    }
+
+    /**
+     * Setter for key => value pairs of config.
+     *
+     * @param string $node The key used for entry
+     * @param mixed $value The value (every type allow) be sure to check if it is supported by your chosen config type
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function set( $node, $value ) {
+        // TODO: Implement set() method.
+    }
+
+    /**
+     * Getter for value of passed key.
+     *
+     * @param string $node The key used for value lookup.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The value if set, otherwise NULL
+     * @access public
+     */
+    public function get( $node ) {
+        // TODO: Implement get() method.
+    }
+
+    /**
+     * Creates a configuration node.
+     *
+     * @param string $node The node to create
+     * @param string $data The data to write to config
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @access public
+     */
+    public function create( $node, $data ) {
+        // TODO: Implement create() method.
+    }
+
+    /**
+     * Reads and return a configuration node.
+     *
+     * @param mixed $node The node to read/parse
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data from cache if successful, otherwise NULL
+     * @access public
+     */
+    public function read( $node ) {
+        // TODO: Implement read() method.
+    }
+
+    /**
+     * Deletes a node.
+     *
+     * @param string $node The node to delete
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
+     * @access public
+     */
+    public function delete( $node ) {
+        // TODO: Implement delete() method.
     }
 }

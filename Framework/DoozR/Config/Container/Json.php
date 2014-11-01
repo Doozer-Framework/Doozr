@@ -85,7 +85,7 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
      * Controls caching
      * TRUE to enable caching, or FALSE to do disable
      *
-     * @var boolean
+     * @var bool
      * @access private
      * @static
      */
@@ -96,7 +96,7 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
      *
      * @param DoozR_Path_Interface|object $path An instance of DoozR_Path
      * @param DoozR_Logger_Interface|object $logger An instance of DoozR_Logger
-     * @param boolean $enableCaching TRUE to enable internal caching, FALSE to do not
+     * @param bool $enableCaching TRUE to enable internal caching, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Config_Container_Json
@@ -142,7 +142,7 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
      * This method is intend to read a configuration and optionally merge it into an existing one.
      *
      * @param string  $resource The resource to read
-     * @param boolean $merge    TRUE to merge the read configuration into existing configuration
+     * @param bool $merge    TRUE to merge the read configuration into existing configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -229,7 +229,7 @@ class DoozR_Config_Container_Json extends DoozR_Config_Container_Abstract implem
      * This method is intend to return parsed configuration.
      *
      * @param string  $configuration The raw configuration
-     * @param boolean $jsonToArray   TRUE to work with an array instead of an object
+     * @param bool $jsonToArray   TRUE to work with an array instead of an object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The array containing configuration

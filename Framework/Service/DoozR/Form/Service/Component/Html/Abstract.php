@@ -91,7 +91,7 @@ abstract class DoozR_Form_Service_Component_Html_Abstract
     /**
      * The HTML-Version this component is for/from
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $htmlVersion = DoozR_Form_Service_Constant::HTML_VERSION_5;
@@ -99,7 +99,7 @@ abstract class DoozR_Form_Service_Component_Html_Abstract
     /**
      * The HTML-Version this component is for/from
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $attributes = array();

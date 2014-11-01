@@ -80,7 +80,7 @@ class DoozR_Request_Argument
     /**
      * The impact of this parameter-value
      *
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $impact = 0;
@@ -109,8 +109,8 @@ class DoozR_Request_Argument
      * it turns all non-safe characters to its htmlentities.
      *
      * @param mixed   $mixed        The input to clean
-     * @param boolean $stripTags    TRUE to strip tags from mixed, otherwise FALSE to do not
-     * @param boolean $htmlEntities TRUE to convert non-url safe characters to URL-encoded values, FALSE to do not
+     * @param bool $stripTags    TRUE to strip tags from mixed, otherwise FALSE to do not
+     * @param bool $htmlEntities TRUE to convert non-url safe characters to URL-encoded values, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The cleaned input
@@ -237,7 +237,7 @@ class DoozR_Request_Argument
      *
      * sets the impact of this value
      *
-     * @param integer $impact The impact of this Request-Value
+     * @param int $impact The impact of this Request-Value
      *
      * @return void
      * @access public

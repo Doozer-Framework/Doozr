@@ -343,7 +343,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      *
      * This method is a shortcut to DoozR_Di_Map::wire().
      *
-     * @param integer $mode   The runtimeEnvironment to use for wiring
+     * @param int $mode   The runtimeEnvironment to use for wiring
      * @param array   $matrix The wire matrix containing instances to wire
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -366,7 +366,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      *
      * This method is intend to set the configuration of the dependency class.
      *
-     * @param boolean $returnContainer TRUE to return container instance, FALSE to return map instance
+     * @param bool $returnContainer TRUE to return container instance, FALSE to return map instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Di_Container Instance of the container for active namespace
@@ -396,7 +396,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      *
      * @param array   $arguments The arguments to pass to build()
      * @param string  $classname The (optional) name of the class to build instance of
-     * @param boolean $wire      TRUE to automatic wire instances, otherwise FALSE to do not
+     * @param bool $wire      TRUE to automatic wire instances, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)

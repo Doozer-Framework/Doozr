@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
 /**
  * DoozR - Password - Service
@@ -70,13 +71,13 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
  * @service    Multiple
  * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
  */
-class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
+class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
 {
     /**
      * type of userfriendly (speakable) passwords like
      * "KobuGeMa" or "HaKeLoPi" ...
      *
-     * @var integer
+     * @var int
      * @access private
      * @static
      */
@@ -86,7 +87,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      * type of userfriendly (speakable) passwords like
      * "KobuGeMa" or "HaKeLoPi" ...
      *
-     * @var integer
+     * @var int
      * @access private
      * @static
      */
@@ -96,7 +97,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      * type of alphanum password - all Alpha's lower + upper + all
      * digits
      *
-     * @var integer
+     * @var int
      * @access private
      * @const
      */
@@ -106,7 +107,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      * type of alphanum password - all Alpha's lower + upper + all
      * digits + standard special chars like !"�%&/()??'*:; ...
      *
-     * @var integer
+     * @var int
      * @access private
      * @const
      */
@@ -117,7 +118,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      * digits + standard special chars like !"�%&/()??'*:; ...
      * AND special chars like ^�~ ...
      *
-     * @var integer
+     * @var int
      * @access private
      * @const
      */
@@ -126,7 +127,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
     /**
      * holds the return type for password - plain
      *
-     * @var integer
+     * @var int
      * @access private
      * @const
      */
@@ -135,7 +136,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
     /**
      * holds the return type for password - md5
      *
-     * @var integer
+     * @var int
      * @access private
      * @const
      */
@@ -146,7 +147,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      * Passwordhash is DoozR's and some other major software's
      * hashing framework. More:
      *
-     * @var integer
+     * @var int
      * @access private
      * @const
      */
@@ -383,8 +384,8 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      *
      * This method is intend to generate a random password.
      *
-     * @param integer $type       The type of the password to generate
-     * @param integer $length     The length of the password to generate
+     * @param int $type       The type of the password to generate
+     * @param int $length     The length of the password to generate
      * @param string  $returnType The return-type of the password to generate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -447,7 +448,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      * This method is intend to generate a userfriendly password.
      *
      * @param array   $base   The base for creation (array of chars)
-     * @param integer $length The length of the password to generate
+     * @param int $length The length of the password to generate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The password
@@ -483,8 +484,8 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade
      *
      * This method is intend to return a random generated integer.
      *
-     * @param integer $min The mininmal value
-     * @param integer $max The maximal value
+     * @param int $min The mininmal value
+     * @param int $max The maximal value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The random value

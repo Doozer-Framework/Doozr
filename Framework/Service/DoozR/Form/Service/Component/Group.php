@@ -426,7 +426,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     /**
      * Renders a component a returns it HTML code.
      *
-     * @param boolean $force TRUE to re-render a already rendered component,
+     * @param bool $force TRUE to re-render a already rendered component,
      *                       otherwise FALSE to use cached result if exist
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
