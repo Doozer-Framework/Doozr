@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Di Bootstrapper
+ * DoozR - Di - Bootstrapper
  *
  * Bootstrap.php - Bootstrapper of the Di-Framework
  *
  * PHP versions 5
  *
  * LICENSE:
- * Di - The Dependency Injection Framework
+ * DoozR - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,10 +43,10 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di_Framework
- * @subpackage DoozR_Di_Framework_Bootstrap
+ * @package    DoozR_Di
+ * @subpackage DoozR_Di_Bootstrap
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2012 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
@@ -59,11 +59,11 @@ define('DI_PATH_LIB_DI', rtrim(dirname(__FILE__)).DIRECTORY_SEPARATOR);
 define(
     'DI_PATH_LIB',
     str_replace(
-        'Di'.DIRECTORY_SEPARATOR.'Lib'.DIRECTORY_SEPARATOR.'Di'.DIRECTORY_SEPARATOR,
-        'Di'.DIRECTORY_SEPARATOR.'Lib'.DIRECTORY_SEPARATOR,
+        'Di' . DIRECTORY_SEPARATOR . 'Lib' . DIRECTORY_SEPARATOR . 'Di' . DIRECTORY_SEPARATOR,
+        'Di' . DIRECTORY_SEPARATOR . 'Lib' . DIRECTORY_SEPARATOR,
         DI_PATH_LIB_DI
     )
 );
 
 // update include path'
-set_include_path(get_include_path().PATH_SEPARATOR.DI_PATH_LIB);
+set_include_path(get_include_path() . PATH_SEPARATOR.DI_PATH_LIB);

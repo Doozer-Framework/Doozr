@@ -386,7 +386,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      */
     public static function addIncludePath($path)
     {
-        $path = get_include_path().PATH_SEPARATOR.$path;
+        $path = get_include_path() . PATH_SEPARATOR.$path;
         set_include_path($path);
     }
 
@@ -537,7 +537,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         $newPath = '';
 
         // define replace patterns
-        $pattern_1 = '..'.DIRECTORY_SEPARATOR;
+        $pattern_1 = '..' . DIRECTORY_SEPARATOR;
 
         //check for pattern_1 = '../'
         if (stristr($pathMerge, $pattern_1)) {

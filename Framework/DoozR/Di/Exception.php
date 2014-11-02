@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Di Exception
+ * DoozR - Di - Exception
  *
  * Exception.php - Base Exception class of the Di-Framework
  *
  * PHP versions 5
  *
  * LICENSE:
- * Di - The Dependency Injection Framework
+ * DoozR - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,10 +43,10 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di_Framework
- * @subpackage DoozR_Di_Framework_Exception
+ * @package    DoozR_Di
+ * @subpackage DoozR_Di_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2012 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
@@ -55,15 +55,15 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
- * Di Exception
+ * DoozR - Di - Exception
  *
  * Base Exception class of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di_Framework
- * @subpackage DoozR_Di_Framework_Exception
+ * @package    DoozR_Di
+ * @subpackage DoozR_Di_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2012 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */

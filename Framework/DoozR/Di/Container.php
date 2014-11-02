@@ -9,7 +9,7 @@
  * PHP versions 5
  *
  * LICENSE:
- * Di - The Dependency Injection Framework
+ * DoozR - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -46,7 +46,7 @@
  * @package    DoozR_Di
  * @subpackage DoozR_Di_Container
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2012 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
@@ -66,7 +66,7 @@ require_once DI_PATH_LIB_DI . 'Exception.php';
  * @package    DoozR_Di
  * @subpackage DoozR_Di_Container
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2012 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */

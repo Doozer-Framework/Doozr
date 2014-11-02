@@ -33,11 +33,11 @@
   "include-path": ["Framework/"],
   "minimum-stability": "dev",
   "keywords": [
-    "php",
-    "mvp",
     "framework",
+    "mvp",
     "mvc",
     "doozr",
+    "REST",
     "clickalicious"
   ],
   "homepage": "http://doozr.clickalicious.de/",

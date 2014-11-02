@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Di Exporter Json
+ * DoozR - Di - Exporter Json
  *
  * Json.php - Exporter (JSON-Localize) of the Di-Framework
  *
  * PHP versions 5
  *
  * LICENSE:
- * Di - The Dependency Injection Framework
+ * DoozR - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,10 +43,10 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di_Framework
- * @subpackage DoozR_Di_Framework_Exporter_Json
+ * @package    DoozR_Di
+ * @subpackage DoozR_Di_Exporter_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2012 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
@@ -63,15 +63,15 @@ require_once DI_PATH_LIB_DI . 'Collection.php';
 require_once DI_PATH_LIB.'Object/Freezer.php';
 
 /**
- * Di Exporter Json
+ * DoozR - Di - Exporter Json
  *
  * Exporter (JSON-Localize) of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di_Framework
- * @subpackage DoozR_Di_Framework_Exporter_Json
+ * @package    DoozR_Di
+ * @subpackage DoozR_Di_Exporter_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2012 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
@@ -114,7 +114,7 @@ class DoozR_Di_Exporter_Json extends DoozR_Di_Exporter_Abstract implements DoozR
         // check if input directory exists and if it is writable
         if (!is_dir(dirname($this->output)) || (!is_writable(dirname($this->output)))) {
             throw new DoozR_Di_Exception(
-                'Could not export map. Output directory "'.dirname($this->output).'" does not exist or isn\'t writable.'
+                'Could not export map. Output directory "' . Dirname($this->output).'" does not exist or isn\'t writable.'
             );
         }
 

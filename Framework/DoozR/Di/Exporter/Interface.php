@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Di Exporter Interface
+ * DoozR - Di - Exporter Interface
  *
  * Interface.php - Interface class for all Exporter of the Di-Framework
  *
  * PHP versions 5
  *
  * LICENSE:
- * Di - The Dependency Injection Framework
+ * DoozR - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,25 +43,25 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di_Framework
- * @subpackage DoozR_Di_Framework_Exporter_Interface
+ * @package    DoozR_Di
+ * @subpackage DoozR_Di_Exporter_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2012 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
  */
 
 /**
- * Di Exporter Interface
+ * DoozR - Di - Exporter Interface
  *
  * Interface class for all Exporter of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di_Framework
- * @subpackage DoozR_Di_Framework_Exporter_Interface
+ * @package    DoozR_Di
+ * @subpackage DoozR_Di_Exporter_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2012 - 2013 Benjamin Carl
+ * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */

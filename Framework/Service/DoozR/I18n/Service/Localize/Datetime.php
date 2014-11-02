@@ -497,7 +497,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function swatchDate($timestamp = 0)
     {
-        return '@d'.date('d.m.y', $timestamp);
+        return '@d' . Date('d.m.y', $timestamp);
     }
 
     /*******************************************************************************************************************
