@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
@@ -92,36 +91,51 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
      */
     public static function postInstall(CommandEvent $event)
     {
+        // Assume we will fail ...
+        $result = false;
+
         // Detect path to composer.json
         $installPath = self::getInstallPath();
 
+        require_once $installPath . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
 
+        $extra = $event->getComposer()->getPackage()->getExtra();
 
-// Force colors
+        // Force colors
         \cli\Colors::enable();
 
-        $installPath = '/usr/bin';
-
-// Menu for first decision
+        // Menu for first decision
         $menu1 = array(
-            'install' => 'Install DoozR\'s bootstrap project',
-            'quit'    => 'Quit',
+            'install' => \cli\Colors::colorize('%N%gInstall DoozR\'s bootstrap project%N'),
+            'quit'    => \cli\Colors::colorize('%N%rQuit %N'),
         );
 
-        $menu2 = 'Install to "' . $installPath . '"';
+        $menu2 = \cli\Colors::colorize('%NInstall to %7%c' . $installPath . '%N');
 
         $menu3 = array(
-            'manual' => 'Enter path to install',
-            'quit'   => 'Quit',
+            'change' => \cli\Colors::colorize('%N%gChange path to install%N'),
+            'quit'   => \cli\Colors::colorize('%N%rQuit%N'),
         );
 
-        $menu4 = 'Now enter path';
+        $menu4 = 'Enter path';
 
 
         while (true) {
+            \cli\line();
+            \cli\line();
             \cli\line(
-                \cli\Colors::colorize('%7%Y%F DoozR installer version: ' . DOOZR_INSTALLER_VERSION . ' %N')
+                \cli\Colors::colorize('%7%Y%F+----------------------------------------------------------------------+%N')
             );
+            \cli\line(
+                \cli\Colors::colorize('%7%Y%F| Welcome to %FDoozR\'s bootstrap project installer.                      |%N')
+            );
+            \cli\line(
+                \cli\Colors::colorize('%7%Y%F| Version: ' . DOOZR_INSTALLER_VERSION . '             |%N')
+            );
+            \cli\line(
+                \cli\Colors::colorize('%7%Y%F+----------------------------------------------------------------------+%N')
+            );
+            \cli\line();
 
             $entry = \cli\Colors::colorize('Your choice:');
             $choice = \cli\menu($menu1, 'install', $entry);
@@ -131,77 +145,146 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
                 break;
             }
 
-            $entry = \cli\Colors::colorize('Your choice:');
             $choice = \cli\choose($menu2, $choices = 'yn', $default = 'y');
             \cli\line();
 
             if ($choice == 'y') {
-                echo 'dasjkdas'; die;
+                $valid = false;
+
+                try {
+                    $valid = self::validatePath($installPath);
+
+                } catch (Exception $e) {
+                    \cli\err(
+                        \cli\Colors::colorize(
+                            '%N%n%1' . $e->getMessage() . '%N%n'
+                        )
+                    );
+                }
+
+                while ($valid === false) {
+                    try {
+                        $installPath = self::validatePath(\cli\prompt($menu4, $default = false, $marker = ': '));
+                        $valid = true;
+
+                    } catch (Exception $e) {
+                        \cli\err(
+                            \cli\Colors::colorize(
+                                '%N%n%1' . $e->getMessage() . '%N%n'
+                            )
+                        );
+                    }
+                }
+
+                $notify = new \cli\notify\Spinner(\cli\Colors::colorize('%N%n%%7%cInstalling bootstrap project ...%N%n'), 100000);
+                $result = self::install($installPath);
+                $notify->finish();
+
+                if ($result === true) {
+                    \cli\line(
+                        \cli\Colors::colorize('%N%n%gInstallation of DoozR\'s bootstrap project was successful.%N%n')
+                    );
+                    \cli\line();
+                    \cli\line('You can use this skeleton for your Apache VHost entry:');
+                    self::showVhostExample($installPath);
+                    \cli\line();
+                    \cli\line(\cli\Colors::colorize('%N%nEnjoy developing with DoozR. Good bye :)'));
+
+                } else {
+                    \cli\line(
+                        \cli\Colors::colorize('%N%n%1Installation of DoozR\'s bootstrap project failed.%N%n')
+                    );
+                }
+
+                break;
 
             } else {
                 $entry = \cli\Colors::colorize('Your choice:');
-                $choice = \cli\menu($menu3, 'manual', $entry);
+                $choice = \cli\menu($menu3, 'change', $entry);
                 \cli\line();
 
-                if ($choice == 'manual') {
-                    $path = cli\prompt($menu4, $default = false, $marker = ': ');
+                if ($choice == 'change') {
+                    $installPath = false;
 
-                    if (true === $path) {
-                        break;
+                    while ($installPath === false) {
+                        try {
+                            $installPath = self::validatePath(\cli\prompt($menu4, $default = false, $marker = ': '));
+
+                        } catch (Exception $e) {
+                            \cli\err(
+                                \cli\Colors::colorize(
+                                    '%N%n%1' . $e->getMessage() . '%N%n'
+                                )
+                            );
+                        }
                     }
+
+                    $notify = new \cli\notify\Spinner(\cli\Colors::colorize('%N%n%%7%cInstalling bootstrap project ...%N%n'), 100000);
+                    $result = self::install($installPath);
+                    $notify->finish();
+
+                    if ($result === true) {
+                        \cli\line(
+                            \cli\Colors::colorize('%N%n%gInstallation of DoozR\'s bootstrap project was successful.%N%n')
+                        );
+                        \cli\line();
+                        \cli\line('You can use this skeleton for your Apache VHost entry:');
+                        self::showVhostExample($installPath);
+                        \cli\line();
+                        \cli\line(\cli\Colors::colorize('%N%nEnjoy developing with DoozR. Good bye :)'));
+                    } else {
+                        \cli\line(
+                            \cli\Colors::colorize('%N%n%1Installation of DoozR\'s bootstrap project failed.%N%n')
+                        );
+                    }
+
+                    break;
                 }
             }
-
             \cli\line();
-        }
-
-
-
-
-
-        $io          = $event->getIO();
-
-        // Questions for tree.
-        $question1 = 'Install DoozR\'s bootstrap project now? (YES/no) ';
-        $question2 = 'Install to "' . $installPath . '"? (YES/no) ';
-        $question3 = 'Please enter path to install to: ';
-        $question4 = 'Please enter path to install to: ';
-
-        // Ask for install?
-        if ($io->askConfirmation($question1, true)) {
-
-            // Ask for path confirm?
-            if ($io->askConfirmation($question2, true)) {
-                try {
-                    $installPath = self::validatePath($installPath);
-                } catch (Exception $e) {
-
-                    if ($installPath = $io->askAndValidate($e->getMessage() . PHP_EOL . $question3, array('DoozR_Installer_Framework', 'validatePath'), 5, $installPath)) {
-                        self::install($installPath);
-                    }
-                }
-
-            } else {
-                if ($installPath = $io->askAndValidate($question4, array('DoozR_Installer_Framework', 'validatePath'), 5)) {
-                    self::install($installPath);
-                }
-            }
+            \cli\line();
 
             // ok, continue on to composer install
-            return true;
+            return $result;
         }
-
-        // exit composer and terminate installation process
-        exit;
     }
 
+    /**
+     * Echoes a VHost Sekeleton with correct path inserted.
+     *
+     * @param $installPath
+     */
+    protected static function showVhostExample($installPath)
+    {
+        \cli\line(\cli\Colors::colorize('%c<VirtualHost *:80>'));
+        \cli\line('    ServerName www.example.com:80');
+        \cli\line('    ServerAlias example.com *.example.com');
+        \cli\line('    ServerAdmin webmaster@example.com');
+        \cli\line('    DocumentRoot "' . $installPath . 'web"');
+        \cli\line('    <Directory "' . $installPath . 'web">');
+        \cli\line('        Options Indexes FollowSymLinks Includes ExecCGI');
+        \cli\line('        AllowOverride All');
+        \cli\line('        Order allow,deny');
+        \cli\line('        Allow from all');
+        \cli\line('        DirectoryIndex app.php index.php index.html index.htm');
+        \cli\line('    </Directory>');
+        \cli\line('</VirtualHost>');
+    }
 
+    /**
+     * Installs the folders required for the bootstrap project from repo to project folder.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @param string $targetDirectory The directory where to put the files/folders.
+     * @return bool TRUE on success, otherwise FALSE
+     */
     public static function install($targetDirectory)
     {
         // The folders to copy
         $folders = array(
             'app',
             'web',
+            'bin',
         );
 
         // Define source & destination
@@ -341,6 +424,6 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
             array('vendor', 'clickalicious', 'doozr', 'Framework', 'DoozR','Installer', 'Framework.php')
         );
 
-        return realpath(str_replace($path, '', __FILE__)) . DIRECTORY_SEPARATOR;
+        return realpath(str_replace($path, '', __FILE__));
     }
 }
