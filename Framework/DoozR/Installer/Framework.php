@@ -1,5 +1,11 @@
+#!/usr/bin/php
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+// Check for execution from www or something!
+if (php_sapi_name() !== 'cli') {
+    die('Please execute the installed from command line.');
+}
 
 /**
  * DoozR - Installer - Framework
@@ -56,6 +62,9 @@
 
 use Composer\Script\CommandEvent;
 
+define('DOOZR_INSTALLER_VERSION', '$Id$');
+ini_set('html_errors', 0);
+
 /**
  * DoozR - Installer - Framework
  *
@@ -71,9 +80,8 @@ use Composer\Script\CommandEvent;
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @final
  */
-final class DoozR_Installer_Framework extends DoozR_Installer_Base
+class DoozR_Installer_Framework extends DoozR_Installer_Base
 {
     /**
      * Post install event hook on composer.
@@ -86,6 +94,71 @@ final class DoozR_Installer_Framework extends DoozR_Installer_Base
     {
         // Detect path to composer.json
         $installPath = self::getInstallPath();
+
+
+
+// Force colors
+        \cli\Colors::enable();
+
+        $installPath = '/usr/bin';
+
+// Menu for first decision
+        $menu1 = array(
+            'install' => 'Install DoozR\'s bootstrap project',
+            'quit'    => 'Quit',
+        );
+
+        $menu2 = 'Install to "' . $installPath . '"';
+
+        $menu3 = array(
+            'manual' => 'Enter path to install',
+            'quit'   => 'Quit',
+        );
+
+        $menu4 = 'Now enter path';
+
+
+        while (true) {
+            \cli\line(
+                \cli\Colors::colorize('%7%Y%F DoozR installer version: ' . DOOZR_INSTALLER_VERSION . ' %N')
+            );
+
+            $entry = \cli\Colors::colorize('Your choice:');
+            $choice = \cli\menu($menu1, 'install', $entry);
+            \cli\line();
+
+            if ($choice == 'quit') {
+                break;
+            }
+
+            $entry = \cli\Colors::colorize('Your choice:');
+            $choice = \cli\choose($menu2, $choices = 'yn', $default = 'y');
+            \cli\line();
+
+            if ($choice == 'y') {
+                echo 'dasjkdas'; die;
+
+            } else {
+                $entry = \cli\Colors::colorize('Your choice:');
+                $choice = \cli\menu($menu3, 'manual', $entry);
+                \cli\line();
+
+                if ($choice == 'manual') {
+                    $path = cli\prompt($menu4, $default = false, $marker = ': ');
+
+                    if (true === $path) {
+                        break;
+                    }
+                }
+            }
+
+            \cli\line();
+        }
+
+
+
+
+
         $io          = $event->getIO();
 
         // Questions for tree.

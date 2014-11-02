@@ -1,0 +1,74 @@
+#!/usr/bin/php
+<?php
+
+if (php_sapi_name() != 'cli') {
+    die('Must run from command line');
+}
+
+
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', 1);
+ini_set('log_errors', 0);
+ini_set('html_errors', 0);
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Force colors
+\cli\Colors::enable();
+
+$installPath = '/usr/bin';
+
+// Menu for first decision
+$menu1 = array(
+    'install' => 'Install DoozR\'s bootstrap project',
+    'quit'    => 'Quit',
+);
+
+$menu2 = 'Install to "' . $installPath . '"';
+
+$menu3 = array(
+    'manual' => 'Enter path to install',
+    'quit'   => 'Quit',
+);
+
+$menu4 = 'Now enter path';
+
+
+while (true) {
+    \cli\line(
+        \cli\Colors::colorize('%7%Y%F DoozR installer version: ' . DOOZR_INSTALLER_VERSION . ' %N')
+    );
+
+    $entry = \cli\Colors::colorize('Your choice:');
+    $choice = \cli\menu($menu1, 'install', $entry);
+    \cli\line();
+
+    if ($choice == 'quit') {
+        break;
+    }
+
+    $entry = \cli\Colors::colorize('Your choice:');
+    $choice = \cli\choose($menu2, $choices = 'yn', $default = 'y');
+    \cli\line();
+
+    if ($choice == 'y') {
+       echo 'dasjkdas'; die;
+
+    } else {
+        $entry = \cli\Colors::colorize('Your choice:');
+        $choice = \cli\menu($menu3, 'manual', $entry);
+        \cli\line();
+
+        if ($choice == 'manual') {
+            $path = cli\prompt($menu4, $default = false, $marker = ': ');
+
+            if (true === $path) {
+                break;
+            }
+        }
+    }
+
+    \cli\line();
+}
+
+?>
