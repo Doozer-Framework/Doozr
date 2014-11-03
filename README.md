@@ -14,7 +14,7 @@ Navigate to a path where you want your environment running. Lets say you've plan
         "require": {},
         "require-dev": {
             "clickalicious/doozr": "dev-master"
-        }
+        },
         "scripts": {
             "post-install-cmd": [
                 "DoozR_Installer_Framework::postInstall"
