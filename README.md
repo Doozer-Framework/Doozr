@@ -28,14 +28,9 @@ After this save and close the file. Open up a shell and navigate to the folder c
     composer install
 
 
-After composer has downloaded and installed all packages the DoozR installer will start. It guides you through the installation of a demo (bootstrap) project. This bootstrap project can help you getting started using DoozR. Be sure to include these lines like in the example above:
+After composer has downloaded and installed all packages the DoozR installer will start. It guides you through the installation of a demo (bootstrap) project. This bootstrap project can help you getting started using DoozR.
 
-        ...
-        "scripts": {
-            "post-install-cmd": [
-                "DoozR_Installer_Framework::postInstall"
-            ]
-        ...
+<img src="http://i.imgur.com/gkyNcpn.jpg" />
 
 This is currently the only "official" provided way installing *DoozR*. *DoozR* of course supports being cloned via *git* or being symlinked from another (shared) folder. Good luck :)
 
