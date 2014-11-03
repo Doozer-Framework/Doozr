@@ -55,14 +55,14 @@ if (php_sapi_name() !== 'cli') {
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: a7674c1b2f44a12e9e4a9fdbb829bedf721e9e84 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 
 
 use Composer\Script\CommandEvent;
 
-define('DOOZR_INSTALLER_VERSION', '$Id$');
+define('DOOZR_INSTALLER_VERSION', '$Id: a7674c1b2f44a12e9e4a9fdbb829bedf721e9e84 $');
 
 /**
  * DoozR - Installer - Framework
@@ -77,7 +77,7 @@ define('DOOZR_INSTALLER_VERSION', '$Id$');
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
+ * @version    Git: $Id: a7674c1b2f44a12e9e4a9fdbb829bedf721e9e84 $
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Installer_Framework extends DoozR_Installer_Base
@@ -171,17 +171,21 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
 
                 // Ask if autodetected install path is ok ...
                 $resolved = self::resolveChoice($menu2);
+
                 if ($resolved === 'y') {
                     // Try to validate and use the auto detected path ...
                     try {
-                        $valid = self::validatePath(self::getInstallPath());
+                        $path  = self::validatePath(self::getInstallPath());
+                        $valid = true;
+
                     } catch (Exception $e) {
                         return self::showError($e->getMessage());
                     }
 
                     // If operation failed above -> Ask user for alternative path to install
-                    if ($valid === false) {
-                        $valid = self::askAlternatePath($menu4);
+                    if ($valid !== true) {
+                    	self::showError('Automatic detected path seems to be invalid. Please choose another path!');
+                        $path = self::askAlternatePath($menu4);
                     }
 
                 } else {
@@ -317,16 +321,14 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
     {
         \cli\line();
         \cli\line(\cli\Colors::colorize('%nEnjoy developing with %yDoozR%n'));
-        \cli\line(
-            'To maintain your app you can now run %k%Uphp app/console%n%N (from your project root: %k%U' .
-            $projectRoot . '%n%N).'
-        );
-        \cli\line('This will offer you options like:');
+        \cli\line('To maintain your app you can now run %k%Uphp app/console%n%N from your project');
+        \cli\line('root: %k%U' . $projectRoot . '%n%N');
         \cli\line();
-        \cli\line('    - Cache management (warming/freezing)');
-        \cli\line('    - Environment management');
-        \cli\line('    - PHP Opcache analytics');
-        \cli\line('    - DoozR diagnostics');
+        \cli\line('This will offer you options like:');
+        \cli\line('  - Cache management (warming/freezing)');
+        \cli\line('  - Environment management');
+        \cli\line('  - PHP Opcache analytics');
+        \cli\line('  - DoozR diagnostics');
     }
 
     /**
