@@ -55,14 +55,13 @@ if (php_sapi_name() !== 'cli') {
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: a7674c1b2f44a12e9e4a9fdbb829bedf721e9e84 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-
 use Composer\Script\CommandEvent;
 
-define('DOOZR_INSTALLER_VERSION', '$Id: a7674c1b2f44a12e9e4a9fdbb829bedf721e9e84 $');
+define('DOOZR_INSTALLER_VERSION', '$Id$');
 
 /**
  * DoozR - Installer - Framework
@@ -77,7 +76,7 @@ define('DOOZR_INSTALLER_VERSION', '$Id: a7674c1b2f44a12e9e4a9fdbb829bedf721e9e84
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id: a7674c1b2f44a12e9e4a9fdbb829bedf721e9e84 $
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_Installer_Framework extends DoozR_Installer_Base

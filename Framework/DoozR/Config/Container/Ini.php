@@ -86,22 +86,22 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
      * TRUE to enable caching, or FALSE to do disable
      *
      * @var bool
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_cacheEnabled = false;
+    protected static $cacheEnabled = false;
 
 
     /**
-     * constructor
+     * Constructor.
      *
-     * This method is the constructor.
+     * @param DoozR_Path_Interface   $path          An instance of DoozR_Path
+     * @param DoozR_Logger_Interface $logger        An instance of DoozR_Logger
+     * @param bool                   $enableCaching TRUE to enable cache, FALSE to disable
      *
-     * @param object $path   An instance of DoozR_Path
-     * @param object $logger An instance of DoozR_Logger
-     *
+     * @throws DoozR_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return DoozR_Config_Container_Ini
      * @access public
      */
     public function __construct(DoozR_Path_Interface $path, DoozR_Logger_Interface $logger, $enableCaching = false)
@@ -167,7 +167,7 @@ class DoozR_Config_Container_Ini extends DoozR_Config_Container_Abstract impleme
             );
 
             // store to cache for next hit if enabled
-            if (self::$_cacheEnabled === true) {
+            if (self::$cacheEnabled === true) {
                 $this->cache->write($configuration);
             }
         }
