@@ -73,7 +73,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @service    Singleton
  * @inject     DoozR_Registry:DoozR_Registry identifier:getInstance type:constructor position:1
  */
 class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements DoozR_Base_Service_Interface

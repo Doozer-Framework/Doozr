@@ -23,7 +23,8 @@
       "raulfraile/ladybug": "dev-master",
       "rhumsaa/uuid": "~2.7",
       "moontoast/math": "dev-master",
-      "wp-cli/php-cli-tools": "dev-master"
+      "wp-cli/php-cli-tools": "dev-master",
+      "donatj/flags": "1.*"
   },
   "autoload": {
       "psr-0": {
