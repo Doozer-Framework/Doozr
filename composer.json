@@ -23,8 +23,7 @@
       "raulfraile/ladybug": "dev-master",
       "rhumsaa/uuid": "~2.7",
       "moontoast/math": "dev-master",
-      "wp-cli/php-cli-tools": "dev-master",
-      "appgati/appgati": "dev-master"
+      "wp-cli/php-cli-tools": "dev-master"
   },
   "autoload": {
       "psr-0": {
@@ -54,9 +53,6 @@
     {
       "type": "vcs",
       "url": "https://github.com/clickalicious/DoozR.git"
-    },{
-      "type": "vcs",
-      "url": "https://github.com/fotuzlab/appgati.git"
     }
   ],
   "config" : {
