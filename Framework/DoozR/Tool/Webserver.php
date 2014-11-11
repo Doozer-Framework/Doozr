@@ -191,7 +191,6 @@ class DoozR_Tool_Webserver extends DoozR_Tool_Abstract
     | Internal helper
     +-----------------------------------------------------------------------------------------------------------------*/
 
-
     /**
      * Start the command processing.
      *
@@ -200,6 +199,7 @@ class DoozR_Tool_Webserver extends DoozR_Tool_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed A result in any form.
      * @access protected
+     * @throws DoozR_Exception
      */
     protected function execute($injectedCommand = null)
     {
@@ -236,7 +236,7 @@ class DoozR_Tool_Webserver extends DoozR_Tool_Abstract
         }
 
         // Default here is nothing to do just show help
-        $this->showHelp($error);
+        $this->showHelp();
 
         return true;
 
@@ -327,13 +327,13 @@ class DoozR_Tool_Webserver extends DoozR_Tool_Abstract
         $router       = self::DEFAULT_ROOTER
     ) {
         // The command to execute
-        $command = sprintf('php -S %s:%s -t %s%s 2>1', $interface, $port, $documentRoot, $router);
+        $command = sprintf('php -S %s:%s -t %s%s 2>&1', $interface, $port, $documentRoot, $router);
 
         // The descriptor specs / pipe definition
         $descriptorspec = array(
-            0 => array('pipe', 'r'),    // STDIN  => Pipe
-            1 => array('pipe', 'w'),    // STDOUT => Pipe
-            2 => array('pipe', 'w'),    // STDERR => Pipe
+            0 => array('pipe', 'r'),         // STDIN  => Pipe
+            1 => array('pipe', 'w'),         // STDOUT => Pipe
+            2 => array('pipe', 'w', 'a'),    // STDERR => Pipe
         );
 
         // Start our built-in web server

@@ -130,9 +130,10 @@ abstract class DoozR_Tool_Abstract extends DoozR_Base_Class
      * @param string $name              The name of this CLI
      * @param string $version           The version of this CLI
      * @param array  $flagConfiguration Configuration for the flags
+     * @param null   $injectCommand
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Tool_Cli
+     * @return DoozR_Tool_Abstract
      * @access public
      */
     public function __construct(

@@ -80,12 +80,12 @@ $configuration = array(
     ),
     'docroot'   => array(
         'type'  => 'string',
-        'value' => '.',
+        'value' => realpath(str_replace('app' . DIRECTORY_SEPARATOR . 'console', '', __FILE__) . 'web'),
         'info'  => 'The document root (to serve from).',
     ),
     'router'   => array(
         'type'  => 'string',
-        'value' => '',
+        'value' => 'app.php',
         'info'  => 'The router (replacement for mod_rewrite).',
     ),
     'version'   => array(
