@@ -368,7 +368,6 @@ class DoozR_Tool_Webserver extends DoozR_Tool_Abstract
             // Check if running in a loop
             while ($this->isRunning($this->server) !== false) {
                 echo $this->fetchStreams($this->pipes);
-                sleep(5);
             }
         }
     }

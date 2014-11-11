@@ -183,7 +183,7 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
 
                     // If operation failed above -> Ask user for alternative path to install
                     if ($valid !== true) {
-                    	self::showError('Automatic detected path seems to be invalid. Please choose another path!');
+                        self::showError('Automatic detected path seems to be invalid. Please choose another path!');
                         $path = self::askAlternatePath($menu4);
                     }
 
@@ -351,6 +351,24 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
         // Iterate and copy ...
         foreach (self::getFolders() as $folder) {
             self::xcopy($source . $folder, $destination . $folder);
+        }
+
+        $target    = realpath($destination . 'vendor/maximebf/debugbar/src/DebugBar/Resources');
+        $link      = (realpath($destination . 'web') !== false) ?
+            realpath($destination . 'web') . DIRECTORY_SEPARATOR . 'assets' :
+            false;
+
+        if ($target !== false && $link !== false) {
+            // Create important symlinks to required assets like for DebugBar
+            $symlinked = symlink($target, $link);
+        } else {
+            $symlinked = false;
+        }
+
+        if ($symlinked === false) {
+            self::showError(
+                'Could not create symlink from "' . $target . '" to "' . $link . '"'
+            );
         }
 
         $notify->finish();

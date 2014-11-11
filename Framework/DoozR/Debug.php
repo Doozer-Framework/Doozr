@@ -135,13 +135,13 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         if ($this->prepareForDevelopment() === true) {
             $this->enabled = true;
             $this->installWhoops();
-            $this->logger->debug('Debug-runtimeEnvironment successfully enabled.');
+            $this->logger->debug('Debug-Mode successfully enabled.');
 
         } else {
             $this->enabled = false;
 
             throw new DoozR_Debug_Exception(
-                'Debug-runtimeEnvironment could not be enabled! Your system isn\'t configurable at runtime.'
+                'Debug-Mode could not be enabled! Your system isn\'t configurable at runtime.'
             );
         }
     }
@@ -161,13 +161,13 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         if ($this->prepareForProduction() === true) {
             $this->enabled = false;
             $this->uninstallWhoops();
-            $this->logger->debug('Debug-runtimeEnvironment successfully disabled!');
+            $this->logger->debug('Debug-Mode successfully disabled!');
 
         } else {
             $this->enabled = true;
 
             throw new DoozR_Debug_Exception(
-                'Debug-runtimeEnvironment could not be disabled!'
+                'Debug-Mode could not be disabled!'
             );
         }
     }

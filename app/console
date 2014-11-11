@@ -85,7 +85,7 @@ $configuration = array(
     ),
     'router'   => array(
         'type'  => 'string',
-        'value' => 'app.php',
+        'value' => 'appServer.php',
         'info'  => 'The router (replacement for mod_rewrite).',
     ),
     'version'   => array(
