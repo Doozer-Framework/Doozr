@@ -324,10 +324,7 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
         \cli\line('root: %k%U' . $projectRoot . '%n%N');
         \cli\line();
         \cli\line('This will offer you options like:');
-        \cli\line('  - Cache management (warming/freezing)');
-        \cli\line('  - Environment management');
-        \cli\line('  - PHP Opcache analytics');
-        \cli\line('  - DoozR diagnostics');
+        \cli\line('  --webserver=start To run DoozR on PHP\'s internal webserver - instantly.');
     }
 
     /**
