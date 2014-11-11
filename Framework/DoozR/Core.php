@@ -91,16 +91,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     DoozR_Interface
 {
     /**
-     * The version of DoozR (automatic setted by git)
-     * !DO NOT MODIFY MANUALLY!
-     *
-     * @var string The GIT SHA1 hash of the last commit
-     * @access public
-     * @static
-     */
-    public static $version = 'Git: $Id$';
-
-    /**
      * Contains the starttime (core instantiated) for measurements
      *
      * @var float
@@ -222,7 +212,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
             self::initLogger();
 
             // log bootstrapping
-            self::$registry->getLogger()->debug('Bootstrapping of DoozR (v ' . self::getVersion(true) . ')');
+            self::$registry->getLogger()->debug('Bootstrapping of DoozR (v ' . DOOZR_VERSION . ')');
 
             self::initPath();
             self::initConfiguration($runtimeConfiguration);
@@ -809,27 +799,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     public static function getCoreExecutiontime()
     {
         return self::$coreExecutionTime;
-    }
-
-    /**
-     * This method is intend to return the version of DoozR.
-     *
-     * @param bool $justRevision If set to true the method returns the revision as integer, otherwise full rev-string
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The version of DoozR
-     * @access public
-     */
-    public static function getVersion($justRevision = false)
-    {
-        if (!$justRevision) {
-            return self::$version;
-
-        } else {
-            // etxract the version from svn-Id
-            //preg_match('/\d+/', self::$version, $version);
-            return self::$version;
-        }
     }
 
     /*------------------------------------------------------------------------------------------------------------------

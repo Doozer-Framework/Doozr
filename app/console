@@ -1,22 +1,128 @@
 #!/usr/bin/php
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-if (php_sapi_name() != 'cli') {
-    die('Must run from command line');
-}
+/**
+ * DoozR - Console
+ *
+ * console - A console PHP script for managing the DoozR Framework installation.
+ *
+ * PHP versions 5
+ *
+ * LICENSE:
+ * DoozR - The PHP-Framework
+ *
+ * Copyright (c) 2005 - 2014, Benjamin Carl - All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ * - All advertising materials mentioning features or use of this software
+ *   must display the following acknowledgement: This product includes software
+ *   developed by Benjamin Carl and other contributors.
+ * - Neither the name Benjamin Carl nor the names of other contributors
+ *   may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Please feel free to contact us via e-mail: opensource@clickalicious.de
+ *
+ * @category   DoozR
+ * @package    DoozR_Console
+ * @subpackage DoozR_Console
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2014 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id: $
+ * @link       http://clickalicious.github.com/DoozR/
+ */
 
+// We do need access to Composer libs
+require_once realpath( __DIR__ . '/../' ) . '/vendor/autoload.php';
 
-error_reporting(E_ALL | E_STRICT);
-ini_set('display_errors', 1);
-ini_set('log_errors', 0);
-ini_set('html_errors', 0);
+// Do the Bootstrap of DoozR
+require_once 'DoozR/Bootstrap.php';
 
-require_once realpath(__DIR__ . '/../') . '/vendor/autoload.php';
-
-// Force colors
-\cli\Colors::enable();
-
-\cli\line();
-\cli\line(
-    \cli\Colors::colorize('%N%n%1Console access prepared but not yet implemented. It took us some more time to get ready.')
+/**
+ * Configuration of available commands/flags supported in this generic entry
+ */
+$configuration = array(
+    'webserver' => array(
+        'type'  => 'string',
+        'value' => false,
+        'info'  => 'Commands for internal webserver. [start|stop|restart|status].',
+    ),
+    'interface' => array(
+        'type'  => 'string',
+        'value' => 'localhost',
+        'info'  => 'The interface to listen on (e.g. 0.0.0.0).',
+    ),
+    'port'      => array(
+        'type'  => 'string',
+        'value' => 80,
+        'info'  => 'The port to listen on.',
+    ),
+    'docroot'   => array(
+        'type'  => 'string',
+        'value' => '.',
+        'info'  => 'The document root (to serve from).',
+    ),
+    'router'   => array(
+        'type'  => 'string',
+        'value' => '',
+        'info'  => 'The router (replacement for mod_rewrite).',
+    ),
+    'version'   => array(
+        'type'  => 'bool',
+        'value' => false,
+        'info'  => 'Display the version of ' . DOOZR_NAME . '.',
+    ),
+    'help'      => array(
+        'type'  => 'bool',
+        'value' => false,
+        'info'  => 'Display this help message.',
+    ),
+    'v'         => array(
+        'type'  => 'short',
+        'info'  => 'Display the version of ' . DOOZR_NAME . '.',
+    ),
+    'h'         => array(
+        'type'  => 'short',
+        'info'  => 'Display this help message.',
+    ),
 );
+
+// Additional security check - just to be sure ;)
+if (php_sapi_name() !== 'cli') {
+    // We don't want to give more information about internals as required so we respond as this resource does not exist
+    throw new DoozR_Exception(
+        'Not Found',
+        404
+    );
+    die;
+
+} else {
+    // Init console and dispatch all further stuff internally
+    $console = new DoozR_Tool_Cli(
+        new donatj\Flags(),
+        DOOZR_NAME,
+        DOOZR_VERSION,
+        $configuration
+    );
+}

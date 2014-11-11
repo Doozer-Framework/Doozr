@@ -91,7 +91,7 @@ if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnviron
 } else {
 
     // UNKNOWN and/or currently not supported!
-    $msg  = 'DoozR - The PHP-Framework - Git-Version: ' . DoozR_Core::getVersion(true) . ' (on ' . php_uname() . ') - ';
+    $msg  = 'DoozR - The PHP-Framework - Git-Version: ' . DOOZR_VERSION . ' (on ' . php_uname() . ') - ';
     $msg .= 'Running a DoozR-based application in "' . strtoupper($registry->getRequest()->getRuntimeEnvironment()) .
             '"-runtimeEnvironment is not supported!';
 
