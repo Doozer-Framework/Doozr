@@ -1,5 +1,4 @@
-# DoozR
-*DoozR* - The lightweight but powerful **MVP** PHP-Framework for **high-performance** websites. Designed to deliver content of high performance websites fast and solid. Designed from Developers for Developers. *DoozR* comes with the right set of **services**. These services enable you to build high-scalable applications with PHP. *DoozR* supports **CLI** and **CGI** as well as running on PHP's internal webserver. A powerful routing mechanism with builtin *I18n* support empowers you to build internationalized applications (on url level!). But *DoozR* has so much more to offer.
+*DoozR* - A lightweight but powerful **MVP** PHP-Framework for **high-performance** websites. Designed to deliver content of high performance websites fast and solid. Designed from Developers for Developers. *DoozR* comes with the right set of **services**. These services enable you to build high-scalable applications with PHP. *DoozR* supports **CLI** and **CGI** as well as running on PHP's internal webserver. A powerful routing mechanism with builtin *I18n* support empowers you to build internationalized applications (on url level!). But *DoozR* has so much more to offer.
 
 
 ## Install
@@ -32,10 +31,10 @@ After composer has downloaded and installed all packages the DoozR installer wil
 
 <img src="http://i.imgur.com/gkyNcpn.jpg" />
 
-This is currently the only "official" provided way installing *DoozR*. *DoozR* of course supports being cloned via *git* or being symlinked from another (shared) folder. Good luck :)
-
 See [Wiki: Your first steps with DoozR](https://github.com/clickalicious/DoozR/wiki/1.-Your-first-steps-with-DoozR) in the DoozR Wiki to get a first but detailed overview on "How DoozR works".
 
+## Runs on PHP's internal webserver
+After you have completed the installation you can run DoozR on PHP's internal webserver. All you need to do for this is to navigate to the install root and call `php app/console --webserver=start`. Default it serves on all devices (0.0.0.0) on port 80. To change the default behavior you can use the commands --port=8080 for example or --interface=localhost.
 
 ## Built-In Services
  - **Acl**
