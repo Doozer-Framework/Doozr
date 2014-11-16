@@ -70,6 +70,15 @@ if (PHP_SAPI === 'cli-server' &&
     return false;
 }
 
+// Override defaults
+$_SERVER['QUERY_STRING'] = (
+    !isset($_SERVER['QUERY_STRING']) ||
+    $_SERVER['QUERY_STRING'] === '/' ||
+    $_SERVER['QUERY_STRING'] === ''
+) ?
+    '/Index/Index/' :
+    $_SERVER['QUERY_STRING'];
+
 require_once 'Route.php';
 
 /**
