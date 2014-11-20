@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Serviceloader/Annotation/Inject.php';
 
 /**
  * DoozR - Base - Service - Multiple
@@ -87,6 +88,12 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container
      */
     protected $name;
 
+    /**
+     * The universal unique identifier for this reesource.
+     *
+     * @var string
+     * @access protected
+     */
     protected $uuid;
 
     /**

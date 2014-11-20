@@ -119,6 +119,33 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      */
     const DEFAULT_NAMESPACE = 'DoozR';
 
+    /**
+     * The default alias for skeleton.
+     *
+     * @var null
+     * @access public
+     * @const
+     */
+    const DEFAULT_ALIAS = null;
+
+    /**
+     * The default name
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const DEFAULT_NAME = null;
+
+    /**
+     * The default info text for the service
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const DEFAULT_INFO = null;
+
 
     /**
      * Loads a service from any namespace.
@@ -137,17 +164,16 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     public static function load($service)
     {
         // Get arguments generic way rip off 1st this is the service name
-        $arguments         = array_slice(func_get_args(), 1);
-        $namespacedService = self::getNamespacedService($service);
-        $classname         = $namespacedService['namespace'] . '_' . ucfirst($namespacedService['service']) . '_Service';
+        $arguments            = array_slice(func_get_args(), 1);
+        $fullQualifiedService = self::getFullQualifiedService($service);
+        $classname            = $fullQualifiedService['namespace'] .
+            '_' . ucfirst($fullQualifiedService['name']) . '_Service';
 
         // Instantiated?
-        if (!self::$instance) {
-            self::init();
-        }
+        (self::$instance === null) ? self::init() : null;
 
         // Load file
-        self::getService(ucfirst(strtolower($service)), $namespacedService['namespace']);
+        self::getService($fullQualifiedService['name'], $fullQualifiedService['namespace']);
 
         // Generate map from annotations in source of current service main entry
         self::$map->generate($classname);
@@ -171,9 +197,14 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
             $instance = self::$container->build($classname);
         }
 
+        // Decide which identifier to use
+        $identifier = ($fullQualifiedService['alias'] !== null) ?
+            $fullQualifiedService['alias'] :
+            $fullQualifiedService['name'];
+
         // Register service and put the UUID as reference into response
         $instance->setUuid(
-            self::registerService($service, $instance)
+            self::registerService($identifier, $instance)
         );
 
         return $instance;
@@ -192,11 +223,8 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     protected static function registerService($name, DoozR_Base_Service_Interface $service)
     {
         // Check how to store service in registry
-        if ($service->isSingleton() === true) {
-            $uuid = self::getRegistry()->set($service, $name);
-        } else {
-            $uuid = self::getRegistry()->add($service, $name);
-        }
+        $uuid = $service->isSingleton() === true ? self::getRegistry()->set($service,
+            $name) : self::getRegistry()->add($service, $name);
 
         return $uuid;
     }
@@ -250,24 +278,60 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      * This method is intend to format a passed service configuration to a named index array.
      * It will automatic inject "DoozR" as namespace for default services.
      *
+     * @param array|string $service The service as full qualified entry array otherwise string name (DoozR default ns)
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Full qualified namespaced service
+     * @return array Full qualified and namespaced service
+     * @access protected
+     * @throws DoozR_Loader_Serviceloader_Exception
+     * @static
+     */
+    protected static function getFullQualifiedService($service)
+    {
+        // Get skeleton with defaults for all minimum required fields
+        $fullQualifiedService = self::getFullQualifiedServiceSkeleton();
+
+        // Check for array mode
+        if (is_array($service) === true) {
+
+            // If an array is found we need at least namespace and service
+            if (isset($service['name']) === false) {
+                throw new DoozR_Loader_Serviceloader_Exception(
+                    'Serviceloader requires at least a "service" name when passing an array()!'
+                );
+            }
+
+            // Extract the data from array
+            $fullQualifiedService['name']   = ucfirst(strtolower($service['name']));
+            $fullQualifiedService['namespace'] = (isset($service['namespace']) === true) ?
+                $service['namespace'] :
+                $fullQualifiedService['namespace'];
+            $fullQualifiedService['alias']     = (isset($service['alias']) === true) ?
+                $service['alias'] :
+                $fullQualifiedService['alias'];
+
+        } else {
+            $fullQualifiedService['name'] = ucfirst(strtolower($service));
+        }
+
+        return $fullQualifiedService;
+    }
+
+    /**
+     * Returns a skeleton for a service configuration array.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Full qualified service skeleton
      * @access protected
      * @static
      */
-    protected static function getNamespacedService($service)
+    protected static function getFullQualifiedServiceSkeleton()
     {
-        if (is_array($service)) {
-            $namespace = $service[0];
-            $service   = $service[1];
-        } else {
-            $namespace = self::DEFAULT_NAMESPACE;
-            $service   = $service;
-        }
-
         return array(
-            'namespace' => $namespace,
-            'service'   => $service
+            'namespace' => self::DEFAULT_NAMESPACE,
+            'name'      => self::DEFAULT_NAME,
+            'alias'     => self::DEFAULT_ALIAS,
+            'info'      => self::DEFAULT_INFO,
         );
     }
 

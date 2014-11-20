@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Virtualfilesystem - Service
+ * DoozR - Loader - Serviceloader - Exception
  *
- * Service.php - DoozR Service for all virtual filesystem operations.
+ * Exception.php - Exception for serviceloader.
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Virtualfilesystem
+ * @package    DoozR_Loader
+ * @subpackage DoozR_Loader_Serviceloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,51 +52,25 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
-
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
 
 /**
- * DoozR - Virtualfilesystem - Service
+ * DoozR - Loader - Serviceloader - Exception
  *
- * DoozR Service for all virtual filesystem operations.
+ * Exception for serviceloader.
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Virtualfilesystem
+ * @package    DoozR_Loader
+ * @subpackage DoozR_Loader_Serviceloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
- * @Inject(
- *     class="DoozR_Registry",
- *     identifier="__construct",
- *     type="constructor",
- *     position=1
- * )
  */
-class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
+class DoozR_Loader_Serviceloader_Exception extends DoozR_Base_Exception
 {
     /**
-     * Constructor of this class
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
-     * @access public
+     * Just used for namespacing.
      */
-    public function __tearup()
-    {
-        // dispatch incoming $realClass to facade.
-        // it can be either an configuration array or an instance
-        include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
-
-        self::setRealObject(
-            new vfsStream()
-        );
-    }
 }

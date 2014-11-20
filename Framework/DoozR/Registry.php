@@ -198,11 +198,22 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
     public function add(&$variable, $identifier = null)
     {
-        $identifier = $this->getUuid();
+        if ($identifier === null) {
+            $identifier = $this->getUuid();
+        }
+
         return $this->set($variable, $identifier);
     }
 
-
+    /**
+     * Returns an random UUID.
+     *
+     * @param string $salt Salt used for generating UUID
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string An random UUID
+     * @access public
+     */
     protected function getUuid($salt = null)
     {
         // Generate a version 4 (random) UUID object
@@ -214,8 +225,6 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
 
         return sha1($uuid4->toString() . $salt);
     }
-
-
 
     /**
      * This method is a shortcut wrapper to set()
@@ -246,15 +255,9 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
         return $this->get($identifier);
     }
 
-
-
-
-
     /**
      * ==========================================================
      */
-
-
 
     /**
      * Setter for DoozR DI Container.

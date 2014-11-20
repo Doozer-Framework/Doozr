@@ -62,6 +62,8 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
+use DoozR\Loader\Serviceloader\Annotation\Inject;
+
 /**
  * DoozR - Crypt - Service
  *
@@ -77,7 +79,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
+ * @Inject(
+ *     class="DoozR_Registry",
+ *     identifier="__construct",
+ *     type="constructor",
+ *     position=1
+ * )
  */
 class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
 {

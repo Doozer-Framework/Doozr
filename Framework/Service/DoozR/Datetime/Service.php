@@ -55,6 +55,8 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
+use DoozR\Loader\Serviceloader\Annotation\Inject;
+
 /**
  * DoozR - Datetime - Service
  *
@@ -68,7 +70,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
+ * @Inject(
+ *     class="DoozR_Registry",
+ *     identifier="__construct",
+ *     type="constructor",
+ *     position=1
+ * )
  */
 class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
 {
@@ -97,15 +104,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * update date/time
-     *
      * This method is intend to update/set the/a new Date/Time.
      *
      * @param string $date The date/time to set
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function setDate($date = null)
     {
@@ -131,15 +136,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current date
-     *
      * This method is intend to return the current date.
      *
      * @param string $format The format to return (same as in PHP's date())
      *
-     * @return  string The date in requested format
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The date in requested format
+     * @access public
      */
     public function getDate($format = 'd.m.Y')
     {
@@ -147,8 +150,6 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current time
-     *
      * This method is intend to return the current time.
      *
      * @param string $format The format to return (same as in PHP's date())
@@ -163,15 +164,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current seconds
-     *
      * This method is intend to return the current seconds.
      *
      * @param mixed $timestamp The timestamp to use as date/time-base
      *
-     * @return  integer Seconds
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer Seconds
+     * @access public
      */
     public function getSecond($timestamp = false)
     {
@@ -183,15 +182,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current minutes
-     *
      * This method is intend to return the current minutes.
      *
      * @param mixed $timestamp The timestamp to use as date/time-base
      *
-     * @return  string Minutes
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Minutes
+     * @access public
      */
     public function getMinute($timestamp = false)
     {
@@ -203,15 +200,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current hour
-     *
      * This method is intend to return the current hour.
      *
      * @param mixed $timestamp The timestamp to use as date/time-base
      *
-     * @return  string Hour
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Hour
+     * @access public
      */
     public function getHour($timestamp = false)
     {
@@ -223,15 +218,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current day
-     *
      * This method is intend to return the current day.
      *
      * @param mixed $timestamp The timestamp to use as date/time-base
      *
-     * @return  string Day
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Day
+     * @access public
      */
     public function getDay($timestamp = false)
     {
@@ -243,15 +236,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current week
-     *
      * This method is intend to return the current week.
      *
      * @param mixed $timestamp The timestamp to use as date/time-base
      *
-     * @return  integer Week
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer Week
+     * @access public
      */
     public function getWeek($timestamp = false)
     {
@@ -263,15 +254,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current weekday
-     *
      * This method is intend to return the current weekday.
      *
      * @param mixed $timestamp The timestamp to use as date/time-base
      *
-     * @return  string Weekday
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Weekday
+     * @access public
      */
     public function getWeekday($timestamp = false)
     {
@@ -283,15 +272,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current month
-     *
      * This method is intend to return the current month.
      *
      * @param mixed $timestamp The timestamp to use as date/time-base
      *
-     * @return  string Month
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Month
+     * @access public
      */
     public function getMonth($timestamp = false)
     {
@@ -309,9 +296,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * @param mixed $timestamp The timestamp to use as date/time-base
      *
-     * @return  string Year
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Year
+     * @access public
      */
     public function getYear($timestamp = false)
     {
@@ -323,13 +310,11 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current MySql-DateTime
-     *
      * This method is intend to return the current MySql-DateTime.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getMySqlDateTime()
     {
@@ -341,9 +326,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to return the current Din5008-DateTime.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getDin5008DateTime()
     {
@@ -355,9 +340,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to return the current Din5008-Date.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getDin5008Date()
     {
@@ -369,9 +354,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to return the current MySql-Date and Time = NULL.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getMySqlDateNull()
     {
@@ -383,9 +368,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to return the current MySql-Date.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getMySQLDate()
     {
@@ -397,9 +382,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to return the current MySql-Compact-Date.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getMySQLCompactDate()
     {
@@ -411,9 +396,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to check if current Date/Time is NULL.
      *
-     * @return  boolean TRUE if NULL, otherwise FALSE
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if NULL, otherwise FALSE
+     * @access public
      */
     public function isNull()
     {
@@ -439,9 +424,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to return current Date as MySql Datetime.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getCurrentMySqlDateTime()
     {
@@ -454,9 +439,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to return current Date as DIN 5008 DateTime.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getCurrentDin5008DateTime()
     {
@@ -465,13 +450,13 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
     }
 
     /**
-     * returns current Date as DIN 5008 Date
+     * Returns current Date as DIN 5008 Date
      *
      * This method is intend to return current Date as DIN 5008 Date.
      *
-     * @return  string The requested value
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The requested value
+     * @access public
      */
     public function getCurrentDin5008Date()
     {
@@ -489,9 +474,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased seconds
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased seconds
+     * @access public
      */
     public function addSecond($count = 1, $update = true)
     {
@@ -508,9 +493,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased seconds
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased seconds
+     * @access public
      */
     public function subtractSecond($count = 1, $update = true)
     {
@@ -527,9 +512,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased minutes
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased minutes
+     * @access public
      */
     public function addMinute($count = 1, $update = true)
     {
@@ -546,9 +531,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased minutes
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased minutes
+     * @access public
      */
     public function subtractMinute($count = 1, $update = true)
     {
@@ -565,9 +550,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased hours
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased hours
+     * @access public
      */
     public function addHour($count = 1, $update = true)
     {
@@ -584,9 +569,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased hours
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased hours
+     * @access public
      */
     public function subtractHour($count = 1, $update = true)
     {
@@ -603,9 +588,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased days
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased days
+     * @access public
      */
     public function addDay($count = 1, $update = true)
     {
@@ -622,9 +607,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased days
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased days
+     * @access public
      */
     public function subtractDay($count = 1, $update = true)
     {
@@ -641,9 +626,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased week
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased week
+     * @access public
      */
     public function addWeek($count = 1, $update = true)
     {
@@ -660,9 +645,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased weeks
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased weeks
+     * @access public
      */
     public function subtractWeek($count = 1, $update = true)
     {
@@ -679,9 +664,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased month
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased month
+     * @access public
      */
     public function addMonth($count = 1, $update = true)
     {
@@ -698,9 +683,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased month
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased month
+     * @access public
      */
     public function subtractMonth($count = 1, $update = true)
     {
@@ -717,9 +702,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased years
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased years
+     * @access public
      */
     public function addYear($count = 1, $update = true)
     {
@@ -736,9 +721,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param int $count  The count to use for operation
      * @param bool $update TRUE to update the current DateTime, FALSE to return fresh instance
      *
-     * @return  mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased years
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed TRUE on success (update), otherwise fresh DateTime-Instance with increased years
+     * @access public
      */
     public function subtractYear($count = 1, $update = true)
     {
@@ -755,9 +740,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param string $date The date used for diff
      * @param string $unit The unit to return
      *
-     * @return  string Result of diff in unit given
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Result of diff in unit given
+     * @access public
      */
     public function getDiff($date, $unit = 'd')
     {
@@ -796,11 +781,11 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * This method is intend to calculate the previous (last) business-day right before the current date.
      *
-     * @param string $lastBusinessDay Defines the last business-day of the week (Monday = 1, ...,  Friday = 5 ...)
+     * @param int $lastBusinessDay Defines the last business-day of the week (Monday = 1, ...,  Friday = 5 ...)
      *
-     * @return  string Result as DateTime-Instance
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Result as DateTime-Instance
      * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
      */
     public function getPreviousBusinessDay($lastBusinessDay = 5)
     {
@@ -826,9 +811,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param float $microtimeStart The microtime-value as start
      * @param float $microtimeEnd   The microtime-value as end
      *
-     * @return  float
-     * @access  public
-     * @since   1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return float The difference
+     * @access public
      */
     public function getMicrotimeDiff($microtimeStart, $microtimeEnd = false)
     {
@@ -847,9 +832,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      *
      * @param string $datetime The MySQL Datetime value to convert.
      *
-     * @return  integer Timestamp
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return integer Timestamp
+     * @access public
      */
     public function convertMySqlDateTimeToPhpTimestamp($datetime)
     {
@@ -977,9 +962,9 @@ class DoozR_Datetime_Service extends DoozR_Base_Service_Multiple implements Dooz
      * @param string $month  The month
      * @param string $year   The year
      *
-     * @return  string UNIX-Timestamp
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string UNIX-Timestamp
+     * @access protected
      */
     protected function _getTimestamp(
         $hour,

@@ -57,6 +57,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Psr/Cache/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
+use DoozR\Loader\Serviceloader\Annotation\Inject;
+
 /**
  * DoozR - Cache - Service
  *
@@ -72,7 +74,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @throws     DoozR_Cache_Service_Exception
- * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
+ * @Inject(
+ *     class="DoozR_Registry",
+ *     identifier="__construct",
+ *     type="constructor",
+ *     position=1
+ * )
  */
 class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements
     DoozR_Psr_Cache_Interface,

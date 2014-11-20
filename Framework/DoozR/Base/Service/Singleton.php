@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Serviceloader/Annotation/Inject.php';
 
 /**
  * DoozR - Base - Service - Singleton

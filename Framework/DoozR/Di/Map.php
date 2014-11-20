@@ -284,7 +284,6 @@ class DoozR_Di_Map
     {
         // iterate raw dependencies, convert to DoozR_Di_Dependency and add it to DoozR_Di_Collection
         foreach ($rawDependencies as $identifier => $dependencies) {
-
             foreach ($dependencies as $setup) {
 
                 if ($setup['type'] === 'constructor' && $identifier !== '__construct') {
@@ -334,17 +333,6 @@ class DoozR_Di_Map
 
                 // if dependency is set to NULL set dependency retrieved from given matrix
                 if ($dependency->getInstance() === null) {
-
-                    /*
-                    // some basic failure prevention
-                    if (!isset($matrix[$dependency->getIdentifier()])) {
-                        throw new DoozR_Di_Exception(
-                            'Error while wiring instance from map with dependency. Instance with identifier: '.
-                            '"'.$dependency->getIdentifier().'" does not exist!'
-                        );
-                    }
-                    */
-
                     // switched condition to positive checking for resources so we
                     // are free to put optional elements in or not
                     if (isset($matrix[$dependency->getIdentifier()])) {

@@ -1,10 +1,12 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+namespace DoozR\Loader\Serviceloader\Annotation;
+
 /**
- * DoozR - Virtualfilesystem - Service
+ * DoozR - Loader - Serviceloader - Annotation - Inject
  *
- * Service.php - DoozR Service for all virtual filesystem operations.
+ * Inject.php - Inject Annotation for DI of DoozR.
  *
  * PHP versions 5
  *
@@ -43,60 +45,113 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Virtualfilesystem
+ * @package    DoozR_Loader
+ * @subpackage DoozR_Loader_Serviceloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
-
-use DoozR\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Virtualfilesystem - Service
+ * DoozR - Loader - Serviceloader - Annotation - Inject
  *
- * DoozR Service for all virtual filesystem operations.
+ * Inject Annotation for DI of DoozR.
+ *
+ * class           string      "DoozR_Registry" ASCII
+ * identifier      string      "__construct" ASCII
+ * instance        null
+ * type            string      "constructor" ASCII
+ * value           null
+ * position        string      "1"
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Virtualfilesystem
+ * @package    DoozR_Loader
+ * @subpackage DoozR_Loader_Serviceloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
- * @Inject(
- *     class="DoozR_Registry",
- *     identifier="__construct",
- *     type="constructor",
- *     position=1
- * )
+ * @Annotation
  */
-class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
+class Inject
 {
     /**
-     * Constructor of this class
+     * The class to inject (name required for automatching of
+     * position in arguments or for instanciating).
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
+     * @var string
      * @access public
      */
-    public function __tearup()
-    {
-        // dispatch incoming $realClass to facade.
-        // it can be either an configuration array or an instance
-        include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
+    public $class;
 
-        self::setRealObject(
-            new vfsStream()
-        );
-    }
+    /**
+     * The identifier for the injection (name of property,
+     * name of method like __construct or something like this).
+     *
+     * @var string
+     * @access public
+     */
+    public $identifier = self::DEFAULT_IDENTIFIER;
+
+    /**
+     * The instance for an injection.
+     *
+     * @var object
+     * @access public
+     */
+    public $instance;
+
+    /**
+     * The type of an injection.
+     *
+     * @var string
+     * @access public
+     */
+    public $type = self::DEFAULT_TYPE;
+
+    /**
+     * The value for an injection.
+     *
+     * @var mixed
+     * @access public
+     */
+    public $value;
+
+    /**
+     * The position for an injection.
+     *
+     * @var int
+     * @access public
+     */
+    public $position = self::DEFAULT_POSITION;
+
+    /**
+     * The default position for an injection.
+     *
+     * @var int
+     * @access public
+     * @const
+     */
+    const DEFAULT_POSITION = 1;
+
+    /**
+     * The default type of an injection.
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const DEFAULT_TYPE = 'constructor';
+
+    /**
+     * The default identifier of an injection.
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const DEFAULT_IDENTIFIER = '__construct';
 }

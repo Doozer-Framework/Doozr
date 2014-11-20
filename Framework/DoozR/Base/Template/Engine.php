@@ -138,16 +138,15 @@ class DoozR_Base_Template_Engine extends DoozR_Base_Facade_Singleton
 
 
     /**
-     * constructor
-     *
-     * This method is the constructor of this class.
+     * Constructor.
      *
      * @param string $resource The resource (file, ...) used as source
      * @param string $library  The library to use as engine
      *
-     * @return void
+     *
      * @access protected
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Base_Template_Engine
      */
     protected function __construct($resource, $library)
     {
@@ -160,19 +159,17 @@ class DoozR_Base_Template_Engine extends DoozR_Base_Facade_Singleton
     }
 
     /**
-     * initializes the template engine
-     *
+     * Initializes the template engine
      * This method is intend to load the configured template-engine via DoozR::module().
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @static
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access private
      */
     private function _init()
     {
         // TODO: check if self::$instance is required here or if we can only set
-        //       decorated object
+        // decorated object
 
         // initialize and store the instance of template engine for further access
         self::$instance = DoozR_Loader_Serviceloader::load($this->library, $this->resource);

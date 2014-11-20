@@ -56,6 +56,8 @@ require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
 require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
 require_once DI_PATH_LIB_DI . 'Exception.php';
 
+use Doctrine\Common\Annotations\AnnotationReader;
+
 /**
  * DoozR - Di - Annotation Parser
  *
@@ -72,6 +74,15 @@ require_once DI_PATH_LIB_DI . 'Exception.php';
 class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements DoozR_Di_Parser_Interface
 {
     /**
+     * An annotation reader instance.
+     *
+     * @var AnnotationReader
+     * @access protected
+     * @static
+     */
+    protected static $annotationReader;
+
+    /**
      * The pattern used to identify our annotations
      *
      * @var string
@@ -80,15 +91,48 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     const BASE_PATTERN = 'inject';
 
     /**
-     * The range to parse from
+     * The range to parse from:
+     * EVERYTHING
      *
      * @var int
      * @access public
      */
-    const RANGE_EVERYTHING     = 1;
-    const RANGE_CLASS          = 2;
-    const RANGE_METHODS        = 3;
-    const RANGE_PROPERTIES     = 4;
+    const RANGE_EVERYTHING = 1;
+
+    /**
+     * The range to parse from:
+     * CLASS = Only from class docblock
+     *
+     * @var int
+     * @access public
+     */
+    const RANGE_CLASS = 2;
+
+    /**
+     * The range to parse from:
+     * METHODS = Only from methods docblocks
+     *
+     * @var int
+     * @access public
+     */
+    const RANGE_METHODS = 3;
+
+    /**
+     * The range to parse from:
+     * PROPERTIES = Only from class properties docblocks
+     *
+     * @var int
+     * @access public
+     */
+    const RANGE_PROPERTIES = 4;
+
+    /**
+     * The range to parse from:
+     * SINGLE = Only from single elements docblock
+     *
+     * @var int
+     * @access public
+     */
     const RANGE_SINGLE_ELEMENT = 5;
 
 
@@ -135,7 +179,6 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
         // parse annotation(s) from reflection and return result
         $this->lastResult = $this->parseFromReflectionByRange($reflection, $range);
 
-        //
         return $this->lastResult;
     }
 
@@ -301,6 +344,22 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
     }
 
     /**
+     * Getter for AnnotationReader with lazy instantiate.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return AnnotationReader Instance of annotation reader
+     * @access protected
+     */
+    protected static function getAnnotationReader()
+    {
+        if (self::$annotationReader === null) {
+            self::$annotationReader = new AnnotationReader();
+        }
+
+        return self::$annotationReader;
+    }
+
+    /**
      * Parses the dependencies from a given reflection out of the class' comment.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
@@ -311,9 +370,29 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
      */
     protected function parseFromClassComment(ReflectionClass $reflection)
     {
+        $result = array();
+
+        $dependencies = self::getAnnotationReader()->getClassAnnotations($reflection);
+
+        foreach ($dependencies as $key => $dependency) {
+            if ($dependency->type === 'constructor' && $dependency->identifier !== '__construct') {
+                $dependency->constructor = $dependency->identifier;
+            } else {
+                $dependency->constructor = '__construct';
+            }
+
+            if (!isset($result[$dependency->identifier])) {
+                $result[$dependency->identifier] = array();
+            }
+
+            $result[$dependency->identifier][] = object_to_array($dependency);
+        }
+
+        return $result;
+
+        /*
         $dependencies = $this->getAnnotationFromSource($reflection->getDocComment());
 
-        // @todo: validate more specific here:
         $type        = isset($dependencies[0]['type']) ? $dependencies[0]['type'] : null;
         $identifier  = isset($dependencies[0]['identifier']) ? $dependencies[0]['identifier'] : null;
 
@@ -322,8 +401,8 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
         } else {
             $constructor = '__construct';
         }
-
         return array($constructor => $dependencies);
+        */
     }
 
     /**

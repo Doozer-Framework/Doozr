@@ -57,6 +57,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Api.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 
+use DoozR\Loader\Serviceloader\Annotation\Inject;
+
 /**
  * DoozR - Rest - Service
  *
@@ -72,7 +74,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  * @throws     DoozR_Rest_Service_Exception
- * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
+ * @Inject(
+ *     class="DoozR_Registry",
+ *     identifier="__construct",
+ *     type="constructor",
+ *     position=1
+ * )
  */
 class DoozR_Rest_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
 {
