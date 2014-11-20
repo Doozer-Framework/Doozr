@@ -159,7 +159,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
      * @var string
      * @access const
      */
-    const DEFAULT_OBJECT = 'Index';
+    const DEFAULT_OBJECT = 'index';
 
     /**
      * The default action.
@@ -167,7 +167,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
      * @var string
      * @access const
      */
-    const DEFAULT_ACTION = 'Read';
+    const DEFAULT_ACTION = 'index';
 
 
     /*******************************************************************************************************************
@@ -287,9 +287,9 @@ final class DoozR_Route extends DoozR_Base_State_Container
         // parse the parts
         for ($i = 0; $i < $countParts; ++$i) {
             if (isset($request[$i]) && !is_array($request[$i])) {
-                $$translation[$i] = ucfirst(strtolower($request[$i]));
+                $$translation[$i] = strtolower($request[$i]);
             } else {
-                $$translation[$i] = 'Index';
+                $$translation[$i] = self::DEFAULT_ACTION;
             }
 
             // a list for dispatch (name => value - pairs)

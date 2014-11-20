@@ -209,7 +209,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
         );
 
         // Get method in correct formatting
-        $method = ucfirst(strtolower($resource));
+        $method = strtolower($resource) . 'Action';
 
         // Try to dispatch to action or fail with exception if action does not exist
         if (is_callable(array($this, $method))) {

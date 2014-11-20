@@ -107,7 +107,6 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      */
     protected $translation;
 
-
     /**
      * holds the directory separator
      *
@@ -179,7 +178,6 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      */
     protected $cache;
 
-
     const HTTP_STATUS_400 = 400;
     const HTTP_STATUS_404 = 404;
 
@@ -231,66 +229,53 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         $this->setObject($this->getRoute()[$this->getTranslation()[0]]);
         $this->setAction($this->getRoute()[$this->getTranslation()[1]]);
 
-        // Init MV(P|C) layer
-        switch ($requestState->getPattern()) {
-
-            case 'MVP':
-            // MODEL
-            $this->setModel(
-                $this->initModel(
-                    $this->getObject(),
-                    array(
-                        $this->getRegistry(),
-                        $requestState,
-                        $this->getRoute(),
-                        $this->getTranslation(),
-                        $this->getCache(),
-                        $this->getConfiguration(),
-                    )
+        // MODEL
+        $this->setModel(
+            $this->initModel(
+                $this->getObject(),
+                array(
+                    $this->getRegistry(),
+                    $requestState,
+                    $this->getRoute(),
+                    $this->getTranslation(),
+                    $this->getCache(),
+                    $this->getConfiguration(),
                 )
-            );
+            )
+        );
 
-            // VIEW
-            $this->setView (
-                $this->initView(
-                    $this->getObject(),
-                    array(
-                        $this->getRegistry(),
-                        $requestState,
-                        $this->getRoute(),
-                        $this->getTranslation(),
-                        $this->getCache(),
-                        $this->getConfiguration(),
-                        DoozR_Controller_Front::getInstance(DoozR_Registry::getInstance()),
-                    )
+        // VIEW
+        $this->setView (
+            $this->initView(
+                $this->getObject(),
+                array(
+                    $this->getRegistry(),
+                    $requestState,
+                    $this->getRoute(),
+                    $this->getTranslation(),
+                    $this->getCache(),
+                    $this->getConfiguration(),
+                    DoozR_Controller_Front::getInstance(DoozR_Registry::getInstance()),
                 )
-            );
+            )
+        );
 
-            // CONNECTOR => PRESENTER or CONTROLLER
-            $this->setConnector(
-                $this->initConnector(
-                    $this->getObject(),
-                    'Presenter',
-                    array(
-                        $this->getRegistry(),
-                        $requestState,
-                        $this->getRoute(),
-                        $this->getTranslation(),
-                        $this->getConfiguration(),
-                        $this->model,
-                        $this->view,
-                    )
+        // CONNECTOR => PRESENTER or CONTROLLER
+        $this->setConnector(
+            $this->initConnector(
+                $this->getObject(),
+                'Presenter',
+                array(
+                    $this->getRegistry(),
+                    $requestState,
+                    $this->getRoute(),
+                    $this->getTranslation(),
+                    $this->getConfiguration(),
+                    $this->model,
+                    $this->view,
                 )
-            );
-            break;
-
-        case 'MVC':
-            default:
-            throw new DoozR_Exception(
-                'MVC pattern not yet implemented!'
-            );
-            break;
-        }
+            )
+        );
 
         // Dispatch the prepared objects
         return $this->dispatch(
@@ -317,12 +302,15 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      */
     protected function dispatch($connector, $model, $view, $object, $action)
     {
+        // Adjust to non official standard fooAction() for actions in presenter.
+        $method = $action . 'Action';
+
         /**
          * We must respond with an exception here cause this should never ever happen and so its an
          * exceptional state and nothing we must handle with a nice response! This can be a client or server
          * triggered error/exception so we decide to give the client the responsibility by returning 400 resp. 404
          */
-        if (($status = $this->validateRequest($connector, $action)) !== true) {
+        if (($status = $this->validateRequest($connector, $method)) !== true) {
 
             switch ($status) {
                 case self::HTTP_STATUS_400:
@@ -331,7 +319,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
 
                 case self::HTTP_STATUS_404:
                 default:
-                    $message = 'Method: "' . $action . '()" in instance of class: "' . $object . '" not available/callable. Sure it exists?';
+                    $message = 'Method: "' . $method . '()" in instance of class: "' . $object . '" not callable. Sure it exists?';
                     break;
             }
 
@@ -347,7 +335,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
 
             // We try to execute the call to presenter e.g. $presenter->Main()
             try {
-                $this->connector->{$action}();
+                $this->connector->{$method}();
 
             } catch (DoozR_Base_Presenter_Rest_Exception $e) {
                 // Send JSON response on REST requests
