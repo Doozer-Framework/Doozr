@@ -5,7 +5,7 @@
  */
 final class Presenter_Index extends DoozR_Base_Presenter
 {
-    public function Index()
+    public function indexAction()
     {
         // get data from model
         $buffer = $this->model->getData();
