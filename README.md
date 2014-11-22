@@ -63,6 +63,6 @@ After you have completed the installation you can run **DoozR** on *PHP*'s inter
 ## API
 **DoozR** provides a ready to use *API* - right after installation. The structure and routes are generic and built using best practices from PHP-community powered projects. If you plan to built a project providing an *API* to other developers or just to be able to build a *SPA* against a clean *API* by yourself then you should definitiv have a look at **DoozR**'s *API* structure.
 
-<a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=Check+out+DoozR+-+The+lightweight+MVP+PHP-Framework+for+high-performance+websites+@phpfluesterer+%23clickalicious+%23DoozR+%23php&tw_p=tweetbutton&url=https%3A%2F%2Fgithub.com%2clickalicious%2DoozR" target="_blank">
+<a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=DoozR%20-%20The%20lightweight%20PHP-Framework%20for%20high-performance%20projects%20%40phpfluesterer%20%23DoozR%20%23php%20https%3A%2F%2Fgithub.com%2Fclickalicious%2FDoozR&tw_p=tweetbutton" target="_blank">
   <img src="http://jpillora.com/github-twitter-button/img/tweet.png"></img>
 </a>
