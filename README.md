@@ -39,7 +39,6 @@ After you have completed the installation you can run **DoozR** on *PHP*'s inter
  
  - **Acl**
  - **Cache**
- - **Compact**
  - **Config**
  - **Crypt**
  - **Datetime**
