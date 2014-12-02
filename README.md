@@ -66,6 +66,8 @@ After you have completed the installation you can run **DoozR** on *PHP*'s inter
   <img src="http://jpillora.com/github-twitter-button/img/tweet.png"></img>
 </a> about DoozR.  
   
-Thank to our sponsors and supporters  
-<img src="https://www.jetbrains.com/phpstorm/documentation/docs/logo_phpstorm.png"></img>
+Thanks to our sponsors and supporters:
+<a href="https://www.jetbrains.com/phpstorm/" title="PHP IDE :: JetBrains PhpStorm">
+    <img src="https://www.jetbrains.com/phpstorm/documentation/docs/logo_phpstorm.png"></img>
+</a>    
 
