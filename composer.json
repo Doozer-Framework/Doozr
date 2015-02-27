@@ -24,7 +24,9 @@
       "rhumsaa/uuid": "~2.7",
       "moontoast/math": "dev-master",
       "wp-cli/php-cli-tools": "dev-master",
-      "donatj/flags": "1.*"
+      "donatj/flags": "1.*",
+      "clickalicious/memcached.php": "~0.4",
+      "nikic/fast-route": "dev-master"
   },
   "autoload": {
       "psr-0": {
