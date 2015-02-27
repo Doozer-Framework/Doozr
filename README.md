@@ -1,3 +1,6 @@
+<img src="https://avatars2.githubusercontent.com/u/514566?v=3&u=4615dfc4970d93dea5d3eaf996b7903ee6e24e20&s=140" align="right" />
+---
+# DoozR
 **DoozR** - A lightweight but powerful *MVP* PHP-Framework for **high-performance** websites. Designed to deliver content of high-performance websites fast and rock solid. Designed from developers for developers. **DoozR** comes with the right set of **services**. These services enable you to build **high-scalable** applications with *PHP*. **DoozR** supports **CLI** and **CGI** as well as running on *PHP*'s internal webserver. A powerful routing mechanism with builtin *I18n* support empowers you to build internationalized applications. But **DoozR** has so much more to offer.
 
 
