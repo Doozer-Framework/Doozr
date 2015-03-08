@@ -121,7 +121,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * @var int
      * @access protected
      */
-    protected $gcMaximumLifetime = 10;
+    protected $gcMaximumLifetime = 86400;
 
     /**
      * Garbage collection: Probability in percent.
