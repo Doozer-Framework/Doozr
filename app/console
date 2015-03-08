@@ -68,6 +68,11 @@ $configuration = array(
         'value' => false,
         'info'  => 'Commands for internal webserver. [start|stop|restart|status].',
     ),
+    'cache' => array(
+        'type'  => 'string',
+        'value' => false,
+        'info'  => 'Commands for cache. [purge|warmup].',
+    ),
     'interface' => array(
         'type'  => 'string',
         'value' => 'localhost',

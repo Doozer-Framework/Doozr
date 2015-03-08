@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Locale
+ * DoozR - Locale
  *
  * Locale.php - Locale bootstrap of the DoozR Framework
  *
@@ -55,7 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 
 /**
- * DoozR Locale
+ * DoozR - Locale
  *
  * Locale bootstrap of the DoozR Framework
  *
@@ -73,84 +73,75 @@ class DoozR_Locale extends DoozR_Base_Class_Singleton
     /**
      * Instance of config
      *
-     * @var object
-     * @access private
+     * @var DoozR_Config
+     * @access protected
      */
-    private $_config;
+    protected $config;
 
     /**
      * Instance of logger
      *
-     * @var object
-     * @access private
+     * @var DoozR_Logger
+     * @access protected
      */
-    private $_logger;
+    protected $logger;
 
 
     /**
-     * constructor
+     * Constructor.
      *
-     * This method is the constructor
+     * @param DoozR_Config $config The config instance
+     * @param DoozR_Logger $logger The logger instance
      *
-     * @param object $config The config instance
-     * @param object $logger The logger instance
-     *
-     * @return  void
-     * @access  protected
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
-     * @DoozRInject DoozR_Config,DoozR_Logger
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Locale
+     * @access protected
      */
-    protected function __construct($config, $logger)
+    protected function __construct(DoozR_Config $config, DoozR_Logger $logger)
     {
-        $this->_config = $config;
-        $this->_logger = $logger;
+        $this->config = $config;
+        $this->logger = $logger;
 
         // retrieve timezone from config
-        $timezone = $this->_config->locale->timezone();
+        $timezone = $this->config->locale->timezone;
 
         // setup
-        $this->_setTimezone($timezone);
+        $this->setTimezone($timezone);
     }
 
     /**
-     * sets the default timezone
+     * Sets the default timezone
      *
      * This method is intend to set the default timezone
      * (e.g. to prevent E_NOTICE from mktime() + time())
      *
      * @param string $timezone The timezone to set
      *
-     * @return  boolean TRUE if timezone could be set, otherwise FALSE
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE if timezone could be set, otherwise FALSE
+     * @access protected
      */
-    private function _setTimezone($timezone = 'Europe/Berlin')
+    protected function setTimezone($timezone = 'Europe/Berlin')
     {
         return date_default_timezone_set($timezone);
     }
 
     /**
-     * returns the current locale setup
+     * Returns the current locale setup
      *
      * This method is intend to return the current locale setup.
      *
-     * @return  array Current locale configuration
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Current locale configuration
+     * @access public
      */
     public function getActiveSetup()
     {
         return array(
-            'charset'  => $this->_config->locale->charset(),
-            'encoding' => $this->_config->locale->encoding(),
-            'language' => $this->_config->locale->language(),
-            'locale'   => $this->_config->locale->locale()
+            'charset'  => $this->config->locale->charset,
+            'encoding' => $this->config->locale->encoding,
+            'language' => $this->config->locale->language,
+            'locale'   => $this->config->locale->locale,
         );
     }
 }

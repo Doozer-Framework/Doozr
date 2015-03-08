@@ -1,0 +1,12 @@
+{
+    "/foo/bar/:id": {
+        "methods": "GET,POST",
+        "presenter": "index",
+        "action": "index"
+    },
+    "/index/index/popel/123/234/test/super/duper": {
+        "methods": "GET",
+        "presenter": "index",
+        "action": "index"
+    }
+}

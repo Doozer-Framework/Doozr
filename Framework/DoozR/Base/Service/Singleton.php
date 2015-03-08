@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Serviceloader/Annotation/Inject.php';
 
 /**
@@ -69,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Serviceloader/Annotation/Inject
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton
+class DoozR_Base_Service_Singleton extends DoozR_Base_Class_Singleton implements DoozR_Base_Service_Interface
 {
     /**
      * Autoloader auto install control flag

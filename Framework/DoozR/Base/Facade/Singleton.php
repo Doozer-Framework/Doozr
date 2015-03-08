@@ -93,6 +93,21 @@ class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
     }
 
     /**
+     * This method is intend to act as setter for $decoratedObject.
+     *
+     * @param object $instance An instance of a class to decorate
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function decoratedObject($instance)
+    {
+        $this->decoratedObject = $instance;
+        return $this;
+    }
+
+    /**
      * This method is intend to act as getter for $decoratedObject.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

@@ -54,7 +54,6 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
  * DoozR Security
@@ -128,7 +127,7 @@ class DoozR_Security extends DoozR_Base_Class_Singleton
         $bytes = round($bit / 8);
 
         // get whole key
-        $key = self::$config->crypt->keys->private();
+        $key = self::$config->crypt->keys->private;
 
         // return extracted key
         return substr($key, (strlen($key) - $bytes), $bytes);

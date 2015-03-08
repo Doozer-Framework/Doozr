@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Cache - Service - Container - Memcache
+ * DoozR - Cache - Service - Container - Memcached
  *
- * Memcache.php - Container Memcache: Serves I/O access to memcached.
+ * Memcached.php - Container Memcached: Serves I/O access to memcached.
  *
  * PHP versions 5
  *
@@ -55,9 +55,9 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container.php';
 
 /**
- * DoozR - Cache - Service - Container - Memcache
+ * DoozR - Cache - Service - Container - Memcached
  *
- * Container Memcache: Serves I/O access to memcached.
+ * Container Memcached: Serves I/O access to memcached.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,7 +68,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Container
+class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Container
 {
     /**
      * The hostname used for connection.
@@ -89,7 +89,7 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
     /**
      * contains the memcache instance (connection)
      *
-     * @var Memcache
+     * @var Memcached
      * @access protected
      */
     protected $connection;
@@ -165,19 +165,19 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
      * @param array $options Custom configuration options
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Cache_Service_Container_Memcache
+     * @return DoozR_Cache_Service_Container_Memcached
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */
     public function __construct(array $options = array())
     {
-        // do the check and transfer of allowed options
+        // Do the check and transfer of allowed options
         parent::__construct($options);
 
-        // check requirements!
-        if (!extension_loaded('memcache')) {
+        // Check requirements!
+        if (!extension_loaded('memcached')) {
             throw new DoozR_Cache_Service_Exception(
-                'In order to use memcache container for caching, the memcache extension must be loaded.'
+                'In order to use memcached container for caching, the "memcached" extension must be loaded.'
             );
         }
 
@@ -628,13 +628,13 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
     /**
      * Setter for connection.
      *
-     * @param Memcache $connection The connection to set
+     * @param Memcached $connection The connection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setConnection(Memcache $connection = null)
+    protected function setConnection(Memcached $connection = null)
     {
         $this->connection = $connection;
     }
@@ -642,13 +642,13 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
     /**
      * Setter for connection.
      *
-     * @param Memcache $connection The connection to set
+     * @param Memcached $connection The connection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function connection(Memcache $connection)
+    protected function connection(Memcached $connection)
     {
         $this->setConnection($connection);
         return $this;
@@ -658,7 +658,7 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
      * Getter for connection.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Memcache|null The memcache connection instance if connected, otherwise FALSE
+     * @return Memcached|null The memcache connection instance if connected, otherwise FALSE
      * @access protected
      */
     protected function getConnection()
@@ -673,13 +673,13 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
      * @param string $port     The port to connect to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Memcache The created instance of memcache
+     * @return Memcached The created instance of memcache
      * @access protected
      * @throws DoozR_Cache_Service_Exception
      */
     protected function connect($hostname, $port)
     {
-        $memcache = new Memcache();
+        $memcache = new Memcached();
 
         // API requires to add server first
         $memcache->addServer($hostname, $port);

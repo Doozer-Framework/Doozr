@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Config Ini Exception
+ * DoozR - Config - Reader - Exception
  *
- * Exception.php - Base Exception of DoozR Config Ini
+ * Exception.php - The Exception for config reader.
  *
  * PHP versions 5
  *
@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Config
- * @subpackage DoozR_Config_Ini
+ * @subpackage DoozR_Config_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,48 +55,20 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
- * DoozR Config Ini Exception
+ * DoozR - Config - Rader - Exception
  *
- * Base Exception of DoozR Config Ini
+ * The Exception for config reader.
  *
  * @category   DoozR
  * @package    DoozR_Config
- * @subpackage DoozR_Config_Ini
+ * @subpackage DoozR_Config_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Config_Ini_Exception extends DoozR_Exception
+class DoozR_Config_Reader_Exception extends DoozR_Exception
 {
-    /**
-     * Constructor.
-     *
-     * This method is intend to act as constructor.
-     *
-     * @param string  $message  The exception-message
-     * @param int $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Config_Ini_Exception instance of this exception
-     * @access  public
-     */
-    public function __construct($message = null, $code = 0, $previous = null)
-    {
-        // add prefix to message
-        $message = 'DoozR_Config_Ini: '.$message;
-
-        // check default code = 0
-        $code = (!$code) ? 0 : $code;
-
-        // get final code
-        $code = $this->generateUniqueCode($this->file, $code);
-
-        // dispatch to parent
-        parent::__construct($message, $code, $previous);
-    }
+    // Just used for namespacing
 }
-
-?>

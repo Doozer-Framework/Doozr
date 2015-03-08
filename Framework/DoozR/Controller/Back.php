@@ -216,66 +216,88 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * in MVC runtimeEnvironment.
      *
      * @param DoozR_Base_State_Interface $requestState The request state
+     * @param array|null                 $error        An optional error array containing error from routing
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @throws DoozR_Exception
+     * @throws DoozR_Route_Exception
      */
-    public function run(DoozR_Base_State_Interface $requestState)
+    public function run(DoozR_Base_State_Interface $requestState, array $error = null)
     {
-        $this->setRoute($requestState->getActiveRoute());
-        $this->setTranslation($requestState->getTranslationMatrix());
-        $this->setObject($this->getRoute()[$this->getTranslation()[0]]);
-        $this->setAction($this->getRoute()[$this->getTranslation()[1]]);
+        if (null !== $error) {
+            $context = '';
 
-        // MODEL
-        $this->setModel(
-            $this->initModel(
-                $this->getObject(),
-                array(
-                    $this->getRegistry(),
-                    $requestState,
-                    $this->getRoute(),
-                    $this->getTranslation(),
-                    $this->getCache(),
-                    $this->getConfiguration(),
-                )
-            )
-        );
+            if (true === is_array($error['context'])) {
+                // Error from routing run-level (run-level = 0)
+                foreach ($error['context'] as $singleContext) {
+                    $context .= ((strlen($context) > 0) ? ', ' : '').$singleContext;
+                }
+            } else {
+                $context = $error['context'];
+            }
+            $error['message'] = sprintf($error['message'], $context);
 
-        // VIEW
-        $this->setView (
-            $this->initView(
-                $this->getObject(),
-                array(
-                    $this->getRegistry(),
-                    $requestState,
-                    $this->getRoute(),
-                    $this->getTranslation(),
-                    $this->getCache(),
-                    $this->getConfiguration(),
-                    DoozR_Controller_Front::getInstance(DoozR_Registry::getInstance()),
-                )
-            )
-        );
+            throw new DoozR_Route_Exception(
+                $error['message'],
+                $error['number']
+            );
 
-        // CONNECTOR => PRESENTER or CONTROLLER
-        $this->setConnector(
-            $this->initConnector(
-                $this->getObject(),
-                'Presenter',
-                array(
-                    $this->getRegistry(),
-                    $requestState,
-                    $this->getRoute(),
-                    $this->getTranslation(),
-                    $this->getConfiguration(),
-                    $this->model,
-                    $this->view,
+        } else {
+            $this->setRoute($requestState->getActiveRoute());
+
+            $route = $requestState->getActiveRoute();
+            $this->setObject($route[0]);
+            $this->setAction($route[1]);
+
+            // MODEL
+            $this->setModel(
+                $this->initModel(
+                    $this->getObject(),
+                    array(
+                        $this->getRegistry(),
+                        $requestState,
+                        $this->getRoute(),
+                        $this->getCache(),
+                        $this->getConfiguration(),
+                        $this->getTranslation(),
+                    )
                 )
-            )
-        );
+            );
+
+            // VIEW
+            $this->setView (
+                $this->initView(
+                    $this->getObject(),
+                    array(
+                        $this->getRegistry(),
+                        $requestState,
+                        $this->getRoute(),
+                        $this->getCache(),
+                        $this->getConfiguration(),
+                        DoozR_Controller_Front::getInstance(DoozR_Registry::getInstance()),
+                        $this->getTranslation(),
+                    )
+                )
+            );
+
+            // CONNECTOR => PRESENTER
+            $this->setConnector(
+                $this->initConnector(
+                    $this->getObject(),
+                    'Presenter',
+                    array(
+                        $this->getRegistry(),
+                        $requestState,
+                        $this->getRoute(),
+                        $this->getConfiguration(),
+                        $this->model,
+                        $this->view,
+                        $this->getTranslation(),
+                    )
+                )
+            );
+        }
 
         // Dispatch the prepared objects
         return $this->dispatch(
@@ -337,9 +359,9 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             try {
                 $this->connector->{$method}();
 
-            } catch (DoozR_Base_Presenter_Rest_Exception $e) {
+            } catch (DoozR_Base_Presenter_Rest_Exception $exception) {
                 // Send JSON response on REST requests
-                //$this->sendHttpResponse($e->getCode(), $e->getMessage(), true);
+                //$this->sendHttpResponse($exception->getCode(), $exception->getMessage(), true);
 
                 /**
                  * At this point the exception was populated throughout the whole subsystem.
@@ -347,11 +369,11 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
                  * Is this a dev session? (debug === true) then send the whole exception + our
                  * default format for REST responses! If not debug send only the default fields!
                  */
-                $this->sendJsonResponse($this->repackExceptionData($e));
+                $this->sendJsonResponse($this->repackExceptionData($exception));
 
-            } catch (DoozR_Base_Presenter_Exception $e) {
+            } catch (DoozR_Base_Presenter_Exception $exception) {
                 // Send "normal" (default) response on default requests
-                $this->sendHttpResponse($e->getCode(), $e->getMessage());
+                $this->sendHttpResponse($exception->getCode(), $exception->getMessage());
 
             }
         }
@@ -1000,22 +1022,17 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
         $instance = null;
 
         // build classname
-        $classname = $layer . '_' . $request;
+        $classname = $layer . '_' . ucfirst($request);
 
         // build location (path and filename)
         $classFileAndPath = DOOZR_APP_ROOT . str_replace('_', $this->separator, $classname) . '.php';
 
         // check if requested layer file exists
         if ($this->filesystem->exists($classFileAndPath)) {
-
-            // Include file
             include_once $classFileAndPath;
-
-            // instanciate
             $instance = $this->instanciate($classname, $arguments);
         }
 
-        // return an instance in either case
         return $instance;
     }
 }

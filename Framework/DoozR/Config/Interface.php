@@ -66,7 +66,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-interface DoozR_Config_Interface extends DoozR_Config_Container_Interface
+interface DoozR_Config_Interface
 {
     /**
      * Setter for key => value pairs of config.

@@ -55,6 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Presenter/Subject.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Presenter/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Route/Annotation/Route.php';
 
 /**
  * DoozR - Base Presenter
@@ -201,10 +202,10 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @param DoozR_Registry             $registry      Instance of DoozR_Registry containing all core components
      * @param DoozR_Base_State_Interface $requestState  The whole request as state
      * @param array                      $request       The request
-     * @param array                      $translation   The translation required to read the request
      * @param DoozR_Config_Interface     $configuration The DoozR main config instance
      * @param DoozR_Base_Model           $model         The model to communicate with backend (db)
      * @param DoozR_Base_View            $view          The view to display results
+     * @param array                      $translation   The translation required to read the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Presenter
@@ -215,21 +216,21 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
         DoozR_Registry             $registry,
         DoozR_Base_State_Interface $requestState,
         array                      $request,
-        array                      $translation,
         DoozR_Config_Interface     $configuration    = null,
         DoozR_Base_Model           $model            = null,
-        DoozR_Base_View            $view             = null
+        DoozR_Base_View            $view             = null,
+        array                      $translation      = null
     ) {
         // Store instances for further use ...
         $this
             ->registry($registry)
             ->requestState($requestState)
             ->request($request)
-            ->translation($translation)
             ->originalRequest($requestState->getRequest())
             ->model($model)
             ->view($view)
-            ->setConfiguration($configuration);
+            ->configuration($configuration)
+            ->translation($translation);
 
         // Check if an app is configured -> enable autoloading for it automagically
         if (isset($this->getConfiguration()->app)) {
@@ -349,13 +350,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Setter for translation.
      *
-     * @param array $translation The translation to set
+     * @param array|null $translation The translation to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setTranslation(array $translation)
+    protected function setTranslation(array $translation = null)
     {
         $this->translation = $translation;
     }
@@ -363,13 +364,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Setter for translation.
      *
-     * @param array $translation The translation to set
+     * @param array|null $translation The translation to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translation(array $translation)
+    protected function translation(array $translation = null)
     {
         $this->setTranslation($translation);
         return $this;

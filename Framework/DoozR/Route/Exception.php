@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Config Container Exception
+ * DoozR - Route - Exception
  *
- * Exception.php - Base Exception of DoozR Config Container
+ * Exception.php - Route Exception of DoozR Framework.
  *
  * PHP versions 5
  *
@@ -42,59 +42,47 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
-* @category   DoozR
-* @package    DoozR_Config
-* @subpackage DoozR_Config_Container
-* @author     Benjamin Carl <opensource@clickalicious.de>
-* @copyright  2005 - 2014 Benjamin Carl
-* @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
-* @version    Git: $Id$
-* @link       http://clickalicious.github.com/DoozR/
-*/
-
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
-
-/**
- * DoozR Config Container Exception
- *
- * Base Exception of DoozR Config Container
- *
  * @category   DoozR
- * @package    DoozR_Config
- * @subpackage DoozR_Config_Container
+ * @package    DoozR_Core
+ * @subpackage DoozR_Core_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Config_Container_Exception extends DoozR_Exception
+
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
+
+/**
+ * DoozR - Route - Exception
+ *
+ * Route Exception of DoozR Framework.
+ *
+ * @category   DoozR
+ * @package    DoozR_Core
+ * @subpackage DoozR_Core_Exception
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2014 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/DoozR/
+ */
+class DoozR_Route_Exception extends DoozR_Exception
 {
     /**
      * Constructor.
      *
-     * This method is intend to act as constructor.
-     *
-     * @param string  $message  The exception-message
-     * @param int $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
+     * @param string    $message  The message of the exception
+     * @param int   $code     The error-code of the exception
+     * @param Exception $previous An previos throw exception which should be repacked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Config_Container_Exception instance of this exception
+     * @return \DoozR_Route_Exception
      * @access public
      */
-    public function __construct($message = null, $code = 0, $previous = null)
+    public function __construct($message = null, $code = 0, Exception $previous = null)
     {
-        // add prefix to message
-        $message = __CLASS__.': '.$message;
-
-        // check default code = 0
-        $code = (!$code) ? 0 : $code;
-
-        // get final code
-        $code = $this->generateUniqueCode($this->file, $code);
-
-        // dispatch to parent
         parent::__construct($message, $code, $previous);
     }
 }

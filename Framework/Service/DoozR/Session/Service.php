@@ -485,10 +485,10 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
         $this->setFlagStatus('ssl', ($phpVersion >= 4.1));
 
         // automatic start session?
-        if ($autoInit === true || self::getRegistry()->config->session->autoinit()) {
+        if ($autoInit === true || self::getRegistry()->config->session->autoinit === true) {
             // start initialization with config from core
             $this->autoInit(
-                self::getRegistry()->config->session()
+                self::getRegistry()->config->session
             );
         }
     }

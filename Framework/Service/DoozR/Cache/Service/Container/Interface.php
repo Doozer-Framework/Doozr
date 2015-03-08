@@ -68,82 +68,109 @@
  */
 interface DoozR_Cache_Service_Container_Interface
 {
-    // CRUD on cache-container
-
     /**
-     * creates a cache-entry
+     * Creates an entry.
      *
-     * This method is intend to create a cache-entry.
-     *
-     * @param string     $id      The dataset Id
-     * @param string     $data    The data to write to cache
-     * @param int    $expires Date/Time on which the cache-entry expires
-     * @param string     $group   The dataset group
-     * @param null|mixed $userdata The additional userdata
+     * @param string $key       The dataset Id
+     * @param string $value     The data to write to cache
+     * @param int    $lifetime  Timestamp on which the cache-entry expires (become stale)
+     * @param string $namespace The namespace of the entry
+     * @param mixed  $userdata  The additional userdata
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
-    public function create($id, $data, $expires, $group, $userdata = null);
-
+    public function create($key, $value, $lifetime, $namespace, $userdata = null);
 
     /**
-     * reads a cache-entry
+     * Reads an entry.
      *
-     * This method is intend to read a cache-entry.
-     *
-     * @param string $id    The dataset Id
-     * @param string $group The dataset group
+     * @param string $key       The key to read
+     * @param string $namespace The namespace to read from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The data from cache if successful, otherwise NULL
      * @access public
      */
-    public function read($id, $group);
+    public function read($key, $namespace);
 
     /**
-     * updates a cache-entry
+     * Updates an entry.
      *
-     * This method is intend to update a cache-entry.
-     *
-     * @param string     $id       The dataset Id
-     * @param string     $data     The data to write to cache
-     * @param int    $expires  Date/Time on which the cache-entry expires
-     * @param string     $group    The dataset group
-     * @param string     $userdata The custom userdata to add
-     * @param null|mixed $userdata The additional userdata
+     * @param string $key       The dataset Id
+     * @param string $value     The data to write to cache
+     * @param int    $lifetime  Date/Time on which the cache-entry expires
+     * @param string $namespace The dataset group
+     * @param mixed  $userdata  The additional userdata
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
-    public function update($id, $data, $expires, $group, $userdata = null);
+    public function update($key, $value, $namespace, $lifetime, $userdata = null);
 
     /**
-     * deletes a dataset from cache
+     * Deletes an entry.
      *
-     * This method is intend to delete an entry from cache.
-     *
-     * @param string $id    The dataset Id
-     * @param string $group The dataset group
+     * @param string $key       The dataset Id
+     * @param string $namespace The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if entry was deleted successful, otherwise FALSE
      * @access public
      */
-    public function delete($id, $group);
+    public function delete($key, $namespace);
 
     /**
-     * cleanup cache
+     * Cleanup cache - only stale items!
      *
-     * This method is intend to cleanup the cache-entries.
-     *
-     * @param int $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param string $namespace The namespace to look in
+     * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if entry was deleted successful, otherwise FALSE
      * @access protected
      */
-    public function garbageCollection($maxlifetime);
+    public function runGarbageCollection($namespace, $lifetime);
+
+    /**
+     * This method is intend to purge the cache. It removes all caches datasets from the cache.
+     *
+     * @param string $namespace The dataset namespace to purge
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of removed datasets on success, otherwise FALSE
+     * @access public
+     */
+    public function purge($namespace);
+
+    /**
+     * Whether the cache entry exists or not.
+     *
+     * @param string $key       The key to check
+     * @param string $namespace The namespace to look in
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if entry exists, otherwise FALSE
+     * @access public
+     */
+    public function exists($key, $namespace);
+
+    /**
+     * Whether the cache entry for key is expired.
+     *
+     * Throws DoozR_Cache_Service_Exception when checking a not existing
+     * key or namespace! Check via exists first!
+     * @see exists()
+     *
+     * @param string $key       The key to check
+     * @param string $namespace The namespace to look in
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if entry expired, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
+     */
+    public function expired($key, $namespace);
 }

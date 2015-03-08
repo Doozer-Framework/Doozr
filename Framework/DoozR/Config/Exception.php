@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Interface-Config-Manager
+ * DoozR - Config - Exception
  *
- * Interface.php - Interface-Config-Manager of the DoozR Framework
+ * Exception.php - The Exception of Config.
  *
  * PHP versions 5
  *
@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Config
- * @subpackage DoozR_Config_Interface
+ * @subpackage DoozR_Config_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,65 +52,23 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
+
 /**
- * DoozR Interface-Config-Manager
+ * DoozR - Config - Exception
  *
- * Interface-Config-Manager of the DoozR Framework
+ * The Exception of Config.
  *
  * @category   DoozR
  * @package    DoozR_Config
- * @subpackage DoozR_Config_Interface
+ * @subpackage DoozR_Config_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-interface DoozR_Config_Container_Interface
+class DoozR_Config_Exception extends DoozR_Exception
 {
-    /**
-     * Creates a configuration node.
-     *
-     * @param string $node The node to create
-     * @param string $data The data to write to config
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
-     * @access public
-     */
-    public function create($node, $data);
-
-    /**
-     * Reads and return a configuration node.
-     *
-     * @param mixed $node The node to read/parse
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data from cache if successful, otherwise NULL
-     * @access public
-     */
-    public function read($node);
-
-    /**
-     * Updates a configuration node.
-     *
-     * @param string $node  The configuration node
-     * @param string $value The data to write
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
-     * @access public
-     */
-    public function update($node, $value);
-
-    /**
-     * Deletes a node.
-     *
-     * @param string $node The node to delete
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
-     * @access public
-     */
-    public function delete($node);
+    // Just used for namespacing
 }

@@ -110,16 +110,16 @@
                 "constructor": "getInstance",
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Path",
-                        "classname": "DoozR_Path",
+                        "identifier": "DoozR_Config_Reader_Json",
+                        "classname": "DoozR_Config_Reader_Json",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Logger",
-                        "classname": "DoozR_Logger",
+                        "identifier": "DoozR_Cache_Service",
+                        "classname": "DoozR_Cache_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"

@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Cache - Service - Container - Memcache
+ * DoozR - Cache - Service - Container - Memcachedphp
  *
- * Memcache.php - Container Memcache: Serves I/O access to memcached.
+ * Memcachedphp.php - Container Memcachedphp: Serves I/O access to memcached.
  *
  * PHP versions 5
  *
@@ -55,9 +55,17 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container.php';
 
 /**
- * DoozR - Cache - Service - Container - Memcache
+ * TEMPORARY SOLUTION
+ */
+require_once 'C:\\Development\\Web\\xampp\\vhosts\\doozr.local\\vendor\\clickalicious\\doozr\\__material\\Temp\\lib\\Clickalicious\\Memcached\\Client.php';
+
+// Use
+use Clickalicious\Memcached\Client;
+
+/**
+ * DoozR - Cache - Service - Container - Memcachedphp
  *
- * Container Memcache: Serves I/O access to memcached.
+ * Container Memcachedphp: Serves I/O access to memcached.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -68,7 +76,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Container
+class DoozR_Cache_Service_Container_Memcachedphp extends DoozR_Cache_Service_Container
 {
     /**
      * The hostname used for connection.
@@ -89,7 +97,7 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
     /**
      * contains the memcache instance (connection)
      *
-     * @var Memcache
+     * @var Clickalicious\Memcached\Client
      * @access protected
      */
     protected $connection;
@@ -165,7 +173,7 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
      * @param array $options Custom configuration options
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Cache_Service_Container_Memcache
+     * @return DoozR_Cache_Service_Container_Memcachedphp
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */
@@ -174,13 +182,6 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
         // do the check and transfer of allowed options
         parent::__construct($options);
 
-        // check requirements!
-        if (!extension_loaded('memcache')) {
-            throw new DoozR_Cache_Service_Exception(
-                'In order to use memcache container for caching, the memcache extension must be loaded.'
-            );
-        }
-
         // Init a connection to server
         $this->setConnection(
             $this->connect($this->getHostname(), $this->getPort())
@@ -188,18 +189,16 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
 
         // Auto adjust max storage (highwater)
         if ($this->getHighwaterMarker() === -1) {
-            $serverStatistics = $this->getConnection()->getExtendedStats();
+            $serverStatistics = $this->getConnection()->stats();
 
-            $server = $this->getHostname() . ':' . $this->getPort();
-
-            if (isset($serverStatistics[$server]['limit_maxbytes']) === false) {
+            if (isset($serverStatistics['limit_maxbytes']) === false) {
                 throw new DoozR_Cache_Service_Exception(
                     sprintf('Could not retrieve "limit_maxbytes" for server "%s"', $server)
                 );
             }
 
             $this->setHighwaterMarker(
-                $serverStatistics[$this->getHostname().':'.$this->getPort()]['limit_maxbytes']
+                $serverStatistics['limit_maxbytes']
             );
         }
     }
@@ -628,13 +627,13 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
     /**
      * Setter for connection.
      *
-     * @param Memcache $connection The connection to set
+     * @param Clickalicious\Memcached\Client $connection The connection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setConnection(Memcache $connection = null)
+    protected function setConnection(Clickalicious\Memcached\Client $connection = null)
     {
         $this->connection = $connection;
     }
@@ -642,13 +641,13 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
     /**
      * Setter for connection.
      *
-     * @param Memcache $connection The connection to set
+     * @param Clickalicious\Memcached\Client $connection The connection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function connection(Memcache $connection)
+    protected function connection(Clickalicious\Memcached\Client $connection)
     {
         $this->setConnection($connection);
         return $this;
@@ -658,7 +657,7 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
      * Getter for connection.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Memcache|null The memcache connection instance if connected, otherwise FALSE
+     * @return Clickalicious\Memcached\Client|null The memcache connection instance if connected, otherwise FALSE
      * @access protected
      */
     protected function getConnection()
@@ -673,18 +672,19 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
      * @param string $port     The port to connect to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Memcache The created instance of memcache
+     * @return Clickalicious\Memcached\Client The created instance of memcached client
      * @access protected
      * @throws DoozR_Cache_Service_Exception
      */
     protected function connect($hostname, $port)
     {
-        $memcache = new Memcache();
+        $memcached = new Clickalicious\Memcached\Client($hostname, $port);
 
         // API requires to add server first
-        $memcache->addServer($hostname, $port);
+        //$memcache->addServer($hostname, $port);
 
         // Finally we try to connect
+        /*
         try {
             @$memcache->connect($hostname, $port);
 
@@ -693,9 +693,10 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
                 sprintf('Error while connecting to host: "%s" on Port: "%s". Connection failed.', $hostname, $port)
             );
         }
+        */
 
         // return instance on success
-        return $memcache;
+        return $memcached;
     }
 
     /**
@@ -748,14 +749,67 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
      * Returns all entries for a passed slab (hostname & port) by passed namespace or all.
      *
      * @param string|null $namespace The namespace to filter on as string, otherwise NULL to fetch all
+     * @param boolean     $flat      TRUE to receive result flat, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array List of entries indexed by key
      * @access protected
      */
-    protected function getAllEntries($namespace = null)
+    protected function getAllEntries($namespace = null, $flat = false)
     {
         // Assume empty result
+        $list = array();
+
+        // Fetch all keys and all values ...
+        $allSlabs = $this->getConnection()->stats(Client::STATS_TYPE_SLABS);
+        $items    = $this->getConnection()->stats(Client::STATS_TYPE_ITEMS);
+
+        if (isset($slabs['active_slabs']) === true) {
+            unset($slabs['active_slabs']);
+        }
+
+        if (isset($slabs['total_malloced']) === true) {
+            unset($slabs['total_malloced']);
+        }
+
+        foreach ($allSlabs AS $slabId => $slabMeta) {
+
+            $cachedump = $this->getConnection()->stats(
+                Client::STATS_TYPE_CACHEDUMP,
+                (int)$slabId,
+                Client::CACHEDUMP_ITEMS_MAX
+            );
+
+            foreach($cachedump as $key => $value) {
+
+                if ($flat === true) {
+
+                    $metaData = $this->getConnection()->gets(array($key), true);
+                    $result[] = array(
+                        'key'    => $key,
+                        'value'  => $metaData[$key]['value'],
+                        'cas'    => $metaData[$key]['meta']['cas'],
+                        'frames' => $metaData[$key]['meta']['frames'],
+                        'flags'  => $metaData[$key]['meta']['flags'],
+                    );
+                } else {
+
+                    $result[$key] = array(
+                        'raw'    => $value,
+                        'value'  => $this->getConnection()->gets(array($key)),
+                        'server' => $this->getConnection()->getHost() . ':' . $this->getConnection()->getPort(),
+                        'slabId' => $slabId,
+                        'age'    => $items['items'][$slabId]['age'],
+                    );
+                }
+            }
+        }
+
+        return $list;
+
+
+        // Assume empty result
+        /*
         $list     = array();
 
         $allSlabs = $this->getConnection()->getExtendedStats(self::MEMCACHE_TYPE_SLABS);
@@ -806,6 +860,7 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
         }
 
         return $list;
+        */
     }
 
     /**

@@ -4,7 +4,7 @@
 /**
  * DoozR - Tool - Webserver
  *
- * console - A console PHP script for managing the DoozR Framework installation.
+ * Webserver.php - Management tool for internal webserver.
  *
  * PHP versions 5
  *
@@ -59,7 +59,7 @@ use \donatj\Flags;
 /**
  * DoozR - Tool - Webserver
  *
- * A console PHP script for managing the DoozR Framework installation.
+ * Management tool for internal webserver.
  *
  * @category   DoozR
  * @package    DoozR_Tool
@@ -73,7 +73,7 @@ use \donatj\Flags;
 class DoozR_Tool_Webserver extends DoozR_Tool_Abstract
 {
     /**
-     * The pipes used foc communicate with internal webserver
+     * The pipes used for communicate with internal webserver
      *
      * @var array
      * @access protected

@@ -38,14 +38,17 @@
 
 // This check prevents access to debug front controllers that are deployed by accident to production servers.
 // Feel free to remove this, extend it, or make something more sophisticated.
-if (isset($_SERVER['HTTP_CLIENT_IP'])
-    || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-    || (!preg_match("/^192/", @$_SERVER['REMOTE_ADDR']) && !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1')))
+if (
+    isset($_SERVER['HTTP_CLIENT_IP']) === true ||
+    isset($_SERVER['HTTP_X_FORWARDED_FOR']) === true ||
+    (
+        !preg_match("/^192/", @$_SERVER['REMOTE_ADDR']) &&
+        !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1'))
+    )
 ) {
     header('HTTP/1.0 403 Forbidden');
-    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+    exit('You are not allowed to access this file. Check ' . basename(__FILE__) . ' for more information.');
 }
-
 
 /**
  * ENVIRONMENT:
@@ -67,31 +70,39 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
  * In the default install you won't need this statements above!
  */
 
+var_dump('We need to modify some parts of routing to get the base working!');
+die;
+
+// start profiling
+uprofiler_enable();
+
 /**
  * Get composer as well as DoozR's router the rest is magic ...
  */
 require_once '../vendor/autoload.php';
-
-/**
- * Check for internal webserver request for real file ...
- */
-if (PHP_SAPI === 'cli-server' &&
-    file_exists(realpath($_SERVER['DOCUMENT_ROOT'] . parse_url($_SERVER['REQUEST_URI'])['path']))
-) {
-    return false;
-}
-
-// Override defaults
-$_SERVER['QUERY_STRING'] = (
-    !isset($_SERVER['QUERY_STRING']) ||
-    $_SERVER['QUERY_STRING'] === '/' ||
-    $_SERVER['QUERY_STRING'] === ''
-) ?
-    '/Index/Index/' :
-    $_SERVER['QUERY_STRING'];
-
 require_once 'Route.php';
 
 /**
  * If you want to call normal files within this directory feel free to :)
  */
+
+// stop profiler
+$uprofiler_data = uprofiler_disable();
+
+//
+// Saving the uprofiler run
+// using the default implementation of iuprofilerRuns.
+//
+include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_lib.php";
+include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_runs.php";
+
+$uprofiler_runs = new uprofilerRuns_Default();
+
+// Save the run under a namespace "uprofiler_doozr".
+//
+// **NOTE**:
+// By default save_run() will automatically generate a unique
+// run id for you. [You can override that behavior by passing
+// a run id (optional arg) to the save_run() method instead.]
+//
+$run_id = $uprofiler_runs->save_run($uprofiler_data, "uprofiler_doozr");

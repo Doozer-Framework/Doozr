@@ -153,12 +153,28 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     protected $routes;
 
     /**
+     * The route config.
+     *
+     * @var \stdClass
+     * @access protected
+     */
+    protected $routeConfig;
+
+    /**
      * The active and dispatched/processed route
      *
      * @var array
      * @access protected
      */
     protected $activeRoute;
+
+    /**
+     * The active route arguments
+     *
+     * @var array
+     * @access protected
+     */
+    protected $activeRouteArguments;
 
     /**
      * The translation matrix
@@ -385,13 +401,13 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed
      * @access public
-     * @throws Exception
+     * @throws DoozR_Exception
      */
     public function get($pattern, $callback = null)
     {
         // Check for required url
         if ($this->getUrl() === null) {
-            throw new Exception('Set URL ($this->setUrl(...)) first.');
+            throw new DoozR_Exception('Set URL ($this->setUrl(...)) first.');
         }
 
         $count   = 0;
@@ -961,7 +977,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function routes(\stdClass $routes)
     {
-        $this->setProtocol($routes);
+        $this->setRoutes($routes);
         return $this;
     }
 
@@ -978,18 +994,73 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     }
 
     /**
-     * Setter for active route.
+     * Setter for routeConfig
      *
-     * @param array $activeRoute The active and dispatched/processed route!
+     * @param stdClass $routeConfig The routes config object (often retrieved from config)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setActiveRoute(array $activeRoute)
+    public function setRouteConfig(\stdClass $routeConfig)
+    {
+        $this->addHistory(__METHOD__, func_get_args());
+        $this->routeConfig = $routeConfig;
+    }
+
+    /**
+     * Setter for routeConfig
+     *
+     * @param stdClass $routeConfig The routes object (often retrieved from config)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_State Instance for chaining
+     * @access public
+     */
+    public function routeConfig(\stdClass $routeConfig)
+    {
+        $this->setRouteConfig($routeConfig);
+        return $this;
+    }
+
+    /**
+     * Getter for routeConfig.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \stdClass The routeConfig
+     * @access public
+     */
+    public function getRouteConfig()
+    {
+        return $this->routeConfig;
+    }
+
+    /**
+     * Setter for active route.
+     *
+     * @param array      $activeRoute    The active and dispatched/processed route!
+     * @param array|null $routeArguments The active route arguments.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @throws DoozR_Exception
+     */
+    public function setActiveRoute(array $activeRoute, array $routeArguments = null)
     {
         $this->addHistory(__METHOD__, func_get_args());
         $this->activeRoute = $activeRoute;
+
+        if (null !== $routeArguments) {
+            if (false === is_array($routeArguments)) {
+                throw new DoozR_Exception(
+                    sprintf('Route arguments must be passed as key => value array!')
+                );
+            } else {
+                $this->activeRouteArguments($routeArguments);
+
+            }
+        }
     }
 
     /**
@@ -1017,6 +1088,48 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     public function getActiveRoute()
     {
         return $this->activeRoute;
+    }
+
+    /**
+     * Setter for active route arguments.
+     *
+     * @param array $activeRouteArguments The active and dispatched/processed route arguments!
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_State Instance for chaining
+     * @access public
+     */
+    public function setActiveRouteArguments(array $activeRouteArguments)
+    {
+        $this->activeRouteArguments = $activeRouteArguments;
+        return $this;
+    }
+
+    /**
+     * Setter for active route arguments.
+     *
+     * @param array $activeRouteArguments The active and dispatched/processed route arguments!
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Request_State Instance for chaining
+     * @access public
+     */
+    public function activeRouteArguments(array $activeRouteArguments)
+    {
+        $this->setActiveRouteArguments($activeRouteArguments);
+        return $this;
+    }
+
+    /**
+     * Getter for active route arguments.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The active route arguments
+     * @access public
+     */
+    public function getActiveRouteArguments()
+    {
+        return $this->activeRouteArguments;
     }
 
     /**

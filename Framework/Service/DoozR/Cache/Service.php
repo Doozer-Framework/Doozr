@@ -55,7 +55,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Psr/Cache/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
 
 use DoozR\Loader\Serviceloader\Annotation\Inject;
 
@@ -81,161 +81,371 @@ use DoozR\Loader\Serviceloader\Annotation\Inject;
  *     position=1
  * )
  */
-class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements
+class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
+    implements
     DoozR_Psr_Cache_Interface,
-    DoozR_Base_Service_Interface
+    DoozR_Base_Crud_Interface
 {
     /**
-     * Current working status
+     * Active namespace
+     *
+     * @var string
+     * @access protected
+     */
+    protected $namespace;
+
+    /**
+     * Active container
+     *
+     * @var DoozR_Cache_Service_Container_Interface
+     * @access protected
+     */
+    protected $container;
+
+    /**
+     * Whether OS is unixoid
      *
      * @var bool
-     * @access private
+     * @access protected
      */
-    private $_enabled = true;
+    protected $unix;
 
     /**
-     * Currently active id
+     * Garbage collector maximum lifetime of an element per default.
      *
-     * @var string
-     * @access private
-     */
-    private $_id;
-
-    /**
-     * Currently active group
-     *
-     * @var string
-     * @access private
-     */
-    private $_group;
-
-    /**
-     * Current container
-     *
-     * @var object
-     * @access private
-     */
-    private $_container;
-
-    /**
-     * Current container options
-     *
-     * @var array
-     * @access private
-     */
-    private $_containerOptions = array();
-
-    /**
-     * is os unix
-     *
-     * @var bool
-     * @access private
-     */
-    private $_isUnix;
-
-    /**
-     * Content from a cache recording
-     *
-     * @var string
-     * @access private
-     */
-    private $_content;
-
-    /**
-    * Garbage collection: Delete all entries not used for n seconds.
-    * Default is one day, 60 * 60 * 24 = 86400 seconds.
-    *
-    * @var  integer
-    * @access private
-    */
-    private $_gcMaxlifetime = 86400;
-
-    /**
-     * Garbage collection: probability in percent
-     * 0 => never
+     * This values controls at what time difference an element in the cache
+     * is referred to as stale. Stale elements get collected and cleaned by
+     * the garbage collecting (gc) process. Default is one day,
+     * 60 * 60 * 24 = 86400 seconds.
      *
      * @var int
-     * @access private
-     * @see $_gcTime, $_gcMaxlifetime
+     * @access protected
      */
-    private $_gcProbability = 1;
+    protected $gcMaximumLifetime = 86400;
 
     /**
-     * Garbage collection: probability in seconds
+     * Garbage collection: Probability in percent.
+     * 0 = never / 100 always
      *
-     * If set to a value above 0 a garbage collection will
-     * flush all cache entries older than the specified number
+     * @var int
+     * @access protected
+     */
+    protected $gcProbability = 50;
+
+    /**
+     * Garbage collection:
+     * probability in seconds
+     *
+     * 60 sec. * 60 min. = 3600
+     *
+     * If set to a value above 0 a garbage collection will flush all cache entries older than the specified number
      * of seconds.
      *
-     * @see $_gcProbability, $_gcMaxlifetime
      * @var int
      * @access public
      */
-    private $_gcTime = 1;
+    protected $gcProbabilityTime = 3600;
 
     /**
      * Time of the last run
      *
      * @var int
-     * @access private
+     * @access protected
      * @static
      */
-    private static $_gcLastRun = 0;
+    protected static $gcLastRunTimestamp;
+
+    /**
+     * Container filesystem (default)
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const CONTAINER_FILESYSTEM = 'filesystem';
+
+    /**
+     * Container memcache (higher performance)
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const CONTAINER_MEMCACHE = 'memcache';
+
+    /**
+     * The default namespace for cache elements.
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const NAMESPACE_DEFAULT = 'doozr.cache';
 
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * This method is intend to act as constructor.
-     *
-     * @param bool $isUnix           TRUE if current OS is unix-type, FALSE if not
-     * @param string  $container        The container to use for caching
-     * @param array   $containerOptions The configuration/options for the container instance
+     * @param string $container        Container to use for caching or a collection with priority to try
+     * @param string $namespace        Namespace to group saved/cached elements under
+     * @param array  $containerOptions Configuration/options for the container instance
+     * @param bool   $unix             TRUE if current OS is unix-type, FALSE if not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __tearup($isUnix = true, $container = null, array $containerOptions = array())
-    {
-        // store
-        $this->_isUnix = $isUnix;
+    public function __tearup(
+              $container,
+              $namespace        = self::NAMESPACE_DEFAULT,
+        array $containerOptions = array(),
+              $unix             = true
+    ) {
+        $this
+            ->namespace_($namespace)
+            ->unix($unix)
+            ->container($container, $containerOptions);
+    }
 
-        // container-type given -> then init
-        if ($container) {
-            // get container
-            $this->setContainer($container, $containerOptions);
+    /**
+     * Creates an cache entry.
+     *
+     * @param string  $key       The key of the entry
+     * @param mixed   $value     The value of the entry
+     * @param int     $lifetime  The time to expire
+     * @param string  $namespace The dataset namespace
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if dataset could be written, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
+     */
+    public function create(
+        $key,
+        $value,
+        $lifetime  = null,
+        $namespace = null
+    ) {
+        // Get namespace if not passed
+        if ($namespace === null) {
+            $namespace = $this->getNamespace();
+        }
+
+        // retrieve expiration date
+        if ($lifetime === null) {
+            $lifetime = $this->getGcMaximumLifetime();
+        }
+
+        // try to create entry
+        if ($this->createExtended($key, $value, $lifetime, $namespace) === false) {
+            throw new DoozR_Cache_Service_Exception(
+                sprintf('Error while creating entry with key: "%s" in namespace: "%s"!', $key, $namespace)
+            );
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns the requested dataset it if exists and is not expired.
+     *
+     * This method is intend to return the requested dataset it if exists and is not expired.
+     *
+     * @param string $key       The key to read
+     * @param string $namespace The namespace to read from
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null Data from cache, otherwise NULL
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
+     */
+    public function read(
+        $key,
+        $namespace = null
+    ) {
+        // Assume we will have a false result
+        $result = null;
+
+        // Get namespace if not passed
+        if ($namespace === null) {
+            $namespace = $this->getNamespace();
+        }
+
+        // Check if content exists
+        if ($this->exists($key, $namespace) !== true) {
+            throw new DoozR_Cache_Service_Exception(
+                sprintf(
+                    'Requested entry with key: "%s" in namespace: "%s" could not be found in cache!', $key, $namespace
+                )
+            );
+        }
+
+        // Check that element is not expired and return ...
+        if ($this->expired($key, $namespace) === false) {
+            // Then return the content;
+            $result = $this->getContainer()->read($key, $namespace);
+        }
+
+        // Return only data not meta overhead (key = 2)
+        return $result[2];
+    }
+
+    /**
+     * Updates an entry.
+     *
+     * @param string $key       The dataset Id
+     * @param string $value     The data to write to cache
+     * @param int    $lifetime  Date/Time on which the cache-entry expires
+     * @param string $namespace The dataset group
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if dataset could be written, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
+     */
+    public function update(
+        $key,
+        $value,
+        $lifetime  = null,
+        $namespace = null
+    ) {
+        if ($namespace === null) {
+            $namespace = $this->getNamespace();
+        }
+
+        return $this->create($key, $value, $lifetime, $namespace);
+    }
+
+    /**
+     * Deletes a dataset from cache
+     *
+     * @param string $key       The key to delete data of
+     * @param string $namespace The namespace to look for key
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if entry was deleted successful, otherwise FALSE
+     * @access public
+     */
+    public function delete($key, $namespace = null)
+    {
+        if ($namespace === null) {
+            $namespace = $this->getNamespace();
+        }
+
+        return $this->getContainer()->delete($key, $namespace);
+    }
+
+    /**
+     * Checks if an cached object exists and return result.
+     *
+     * This method is intend to check if an cached object exists and return result.
+     *
+     * @param string $key       The id of the object to check
+     * @param string $namespace The namespace of the object to check
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if exists, otherwise FALSE
+     * @access public
+     */
+    public function exists($key, $namespace = null)
+    {
+        if ($namespace === null) {
+            $namespace = $this->getNamespace();
+        }
+
+        return $this->getContainer()->exists($key, $namespace);
+    }
+
+    /**
+     * Checks whether an entry is expired.
+     *
+     * @param string $key             The key of the element to check
+     * @param string $namespace       The cache namespace
+     * @param int    $lifetime The maximum age for the cached data in seconds - 0 for endless. If the cached
+     *                                data is older but the given lifetime it will be removed from the cache. You don't
+     *                                have to provide this argument if you call expired(). Every dataset knows it's
+     *                                expire date and will be removed automatically. Use this only if you know what
+     *                                you're doing...
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if entry is expired, otherwise FALSE
+     * @access public
+     * @throws DoozR_Cache_Service_Exception
+     */
+    public function expired($key, $namespace = null, $lifetime = null)
+    {
+        if ($namespace === null) {
+            $namespace = $this->getNamespace();
+        }
+
+        if ($lifetime === null) {
+            $lifetime = $this->getGcMaximumLifetime();
+        }
+
+        return $this->getContainer()->expired($key, $namespace, $lifetime);
+    }
+
+    /**
+     * Calls the garbage-collector of the cache-container.
+     *
+     *  - is forced ($force = true)
+     *  - there was a run before and this run is older = gcProbabilityTime
+     *
+     * @param string $namespace       The namespace to look for elements in
+     * @param bool   $force           TRUE to force a garbage collection run, otherwise FALSE (default) to check
+     * @param int    $maximumLifetime The maximum lifetime of an element
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function garbageCollection($namespace = null, $force = false, $maximumLifetime = null)
+    {
+        // Get our active namespace if no special one passed
+        if ($namespace === null) {
+            $namespace = $this->getNamespace();
+        }
+
+        // The maximum lifetime for the entry in seconds
+        if ($maximumLifetime === null) {
+            $maximumLifetime = $this->getGcMaximumLifetime();
+        }
+
+        // Start the randomizer ...
+        srand(microtime(true));
+
+        // Force || Time and probability based
+        if (
+            ($force) ||                                                                // Forced run
+            (
+                self::$gcLastRunTimestamp !== null &&                                  // Must be run and ...
+                self::$gcLastRunTimestamp < (time() + $this->getGcProbabilityTime())   // ... more than 30 min. before
+            ) ||
+            (rand(1, 100) <= $this->gcProbability)                                     // or randomizer hit?
+        ) {
+            $this->getContainer()->runGarbageCollection($namespace, $maximumLifetime);
+            self::$gcLastRunTimestamp = time();
         }
     }
 
     /**
-     * Sets the options for cache container
+     * Removes all namespace datasets from cache.
      *
-     * This method is intend to set the options for cache container.
-     *
-     * @param array $containerOptions The options to set
+     * @param string $namespace The namespace of the cache item
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return int Number of removed entries
      * @access public
      */
-    public function setContainerOptions(array $containerOptions = array())
+    public function purge($namespace = null)
     {
-        $this->_containerOptions = $containerOptions;
-    }
+        // Get namespace if not passed
+        if ($namespace === null) {
+            $namespace = $this->getNamespace();
+        }
 
-    /**
-     * Returns the options for cache container
-     *
-     * This method is intend to return the options for cache container.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The container options
-     * @access public
-     */
-    public function getContainerOptions()
-    {
-        return $this->_containerOptions;
+        // Return result of purge
+        return $this->getContainer()->purge($namespace);
     }
 
     /**
@@ -246,59 +456,105 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements
      * @param string $container The container name to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if $container exists, otherwise FALSE
+     * @return bool TRUE if $container exists, otherwise FALSE
      * @access public
      */
     public function containerExists($container)
     {
-        // correct format filename
+        // Correct format filename
         $container = ucfirst(strtolower($container));
 
+        // The filename to include
         $filename  = $this->getPathToClass() .
-            'Service' . DIRECTORY_SEPARATOR . 'Container' . DIRECTORY_SEPARATOR . $container . '.php';
+                     'Service' . DIRECTORY_SEPARATOR . 'Container' . DIRECTORY_SEPARATOR . $container . '.php';
 
-        return file_exists($filename);
+        return (file_exists($filename) ? (include_once $filename) : false);
     }
 
     /**
-     * Sets the container used for CRUD cache objects
+     * Setter for gcProbabilityTime.
      *
-     * This method is intend to set the container used for CRUD cache objects.
-     *
-     * @param string $container        The container to set
-     * @param array  $containerOptions The options to use for container
+     * @param int $gcProbabilityTime The gcProbabilityTime to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Cache_Service_Exception
      */
-    public function setContainer($container, array $containerOptions = array())
+    public function setGcProbabilityTime($gcProbabilityTime)
     {
-        // check if container-type exists
-        if (!$this->containerExists($container)) {
-            throw new DoozR_Cache_Service_Exception(
-                'Error! Container: "'.$container.'" does not exist! Please choose an existing container.'
-            );
-        }
-
-        // if options empty
-        if (!count($containerOptions)) {
-            $containerOptions = $this->getContainerOptions();
-        }
-
-        // inject the UNIX boolean into container arguments and store options
-        $containerOptions = array_merge(
-            $containerOptions,
-            array('unix' => $this->_isUnix)
-        );
-
-        // get container with new options
-        $this->_container = $this->_containerFactory($container, $containerOptions);
+        $this->gcProbabilityTime = $gcProbabilityTime;
     }
 
     /**
-     * Cleanup
+     * Setter for gcProbabilityTime.
+     *
+     * @param int $gcProbabilityTime The gcProbabilityTime to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function gcProbabilityTime($gcProbabilityTime)
+    {
+        $this->setGcProbabilityTime($gcProbabilityTime);
+        return $this;
+    }
+
+    /**
+     * Getter for gcProbabilityTime.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool GarbageCollectorMaxLifetime if set, otherwise NULL
+     * @access public
+     */
+    protected function getGcProbabilityTime()
+    {
+        return $this->gcProbabilityTime;
+    }
+
+    /**
+     * Setter for gcMaximumLifetime.
+     *
+     * @param int $gcMaximumLifetime The gcMaximumLifetime to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setGcMaximumLifetime($gcMaximumLifetime)
+    {
+        $this->gcMaximumLifetime = $gcMaximumLifetime;
+    }
+
+    /**
+     * Fluent setter for gcMaximumLifetime.
+     *
+     * @param int $gcMaximumLifetime The gcMaximumLifetime to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance of this class for chaining (fluent interface pattern)
+     * @access public
+     */
+    public function gcMaximumLifetime($gcMaximumLifetime)
+    {
+        $this->gcMaximumLifetime = $gcMaximumLifetime;
+        return $this;
+    }
+
+    /**
+     * Getter for gcMaximumLifetime.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool GarbageCollectorMaxLifetime if set, otherwise NULL
+     * @access public
+     */
+    public function getGcMaximumLifetime()
+    {
+        return $this->gcMaximumLifetime;
+    }
+
+    /**
+     * Cleanup.
      *
      * This method is intend to cleanup on class destruct.
      *
@@ -308,628 +564,240 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple implements
      */
     public function __teardown()
     {
-        $this->_garbageCollection();
+        $this->garbageCollection(
+            $this->getNamespace(),        // Retrieve namespace from this service instance
+            false,                        // At tear-down don't force
+            $this->getGcMaximumLifetime() // The lifetime used to check entries
+        );
     }
 
     /**
-     * Stores the given data in the cache
+     * Setter for container.
      *
-     * This method is intend to store data to cache.
-     *
-     * @param mixed   $data    The data to store
-     * @param string  $id      The dataset Id
-     * @param int $expires The time to expire
-     * @param string  $group   The dataset group
+     * @param string $container       The container to use
+     * @param array $containerOptions The options to pass to container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if dataset could be written, otherwise FALSE
-     * @access public
+     * @return bool TRUE on success, otherwise FALSE
+     * @access protected
      * @throws DoozR_Cache_Service_Exception
      */
-    public function create($data, $id = null, $expires = null, $group = 'Default')
-    {
-        if (!$this->_enabled) {
+    protected function setContainer(
+              $container,
+        array $containerOptions = array()
+    ) {
+        // check if container-type exists
+        if ($this->containerExists($container) === false) {
             throw new DoozR_Cache_Service_Exception(
-                'Error while trying to create content in cache! Please activate cache first.'
+                sprintf('Error! Container: "%s" does not exist! Please choose an existing container.', $container)
             );
         }
 
-        // retrieve correct id
-        $id = $this->_getId($id);
-
-        // retrieve expiration date
-        $expires = (!$expires) ? $this->_gcMaxlifetime : $expires;
-
-        // try to create entry
-        if (!$this->_createExt($id, $data, $expires, $group)) {
-            // failed
-            throw new DoozR_Cache_Service_Exception(
-                'Error while trying to create content in cache!'
-            );
-        }
-
-        // success
-        return true;
+        // Get container with new options
+        return (
+            $this->container = $this->containerFactory(
+                $container,
+                array_merge(
+                    $this->getDefaultOptions(),
+                    $containerOptions
+                )
+            )
+        );
     }
 
     /**
-     * returns the requested dataset it if exists and is not expired
+     * Setter for container.
      *
-     * This method is intend to return the requested dataset it if exists and is not expired.
-     *
-     * @param string $id    The dataset Id
-     * @param string $group The dataset group
+     * @param string $container       The container to use
+     * @param array $containerOptions The options to pass to container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Data from cache, NULL on failure
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      * @throws DoozR_Cache_Service_Exception
      */
-    public function read($id = null, $group = 'Default')
-    {
-        if (!$this->_enabled) {
-            throw new DoozR_Cache_Service_Exception(
-                'Error while trying to read() from cache! Please active cache first.'
-            );
-        }
-
-        // retrieve correct id
-        $id = $this->_getId($id);
-
-        // check if content exists
-        if ($this->isCached($id, $group) && !$this->isExpired($id, $group)) {
-            // then return the content
-            return $this->_container->read($id, $group);
-
-        } else {
-            // if not exist throw exception
-            throw new DoozR_Cache_Service_Exception(
-                'Requested dataset with Id: "'.$id.'" in group: "'.$group.'" could not be found in cache!'
-            );
-        }
+    protected function container(
+              $container,
+        array $containerOptions = null
+    ) {
+        $this->setContainer($container, $containerOptions);
+        return $this;
     }
 
     /**
-     * Updates a dataset
-     *
-     * This method is intend to update a dataset.
-     *
-     * @param mixed   $data    The data to store
-     * @param string  $id      The dataset Id
-     * @param int $expires The time to expire
-     * @param string  $group   The dataset group
+     * Getter for container.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if dataset could be written, otherwise FALSE
-     * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @return null|DoozR_Cache_Service_Container_Interface $container The container
+     * @access protected
      */
-    public function update($data, $id, $expires = 0, $group = 'Default')
+    protected function getContainer()
     {
-        if (!$this->_enabled) {
-            throw new DoozR_Cache_Service_Exception(
-                'Error while trying to update() cache! Please active cache first.'
-            );
-        }
-
-        return $this->create($data, $id, $expires, $group);
+        return $this->container;
     }
 
     /**
-     * Deletes a dataset from cache
+     * Setter for unix.
      *
-     * This method is intend to delete an entry from cache.
-     *
-     * @param string $id    The dataset Id
-     * @param string $group The dataset group
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
-     * @access public
-     * @throws DoozR_Cache_Service_Exception
-     */
-    public function delete($id, $group = 'Default')
-    {
-        if (!$this->_enabled) {
-            throw new DoozR_Cache_Service_Exception(
-                'Error while trying to delete content from cache! Please active cache first.'
-            );
-        }
-
-        //return $this->create('', $id, 0.0001, $group);
-        return $this->_container->delete($id, $group);
-    }
-
-    /**
-     * Checks if a dataset is cached
-     *
-     * This method is intend to check if data was cached before.
-     * Note: this does not say that the cached data is not expired!
-     *
-     * @param string $id    The dataset-Id
-     * @param string $group The cache group
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if dataset is cached, otherwise FALSE
-     * @access public
-     * @throws DoozR_Cache_Service_Exception
-     */
-    public function isCached($id = null, $group = 'Default')
-    {
-        if (!$this->_enabled) {
-            throw new DoozR_Cache_Service_Exception(
-                'Error while trying to check with isCached()! Please activate cache first.'
-            );
-        }
-
-        if (!$id) {
-            $id = $this->_id;
-        }
-
-        // retrieve correct id
-        $id = $this->_getId($id);
-
-        $result = $this->_container->isCached($id, $group);
-
-        return $result;
-    }
-
-    /**
-     * Checks if an cached object exists and return result
-     *
-     * This method is intend to check if an cached object exists and return result.
-     *
-     * @param string $id    The id of the object to check
-     * @param string $group The group of the object to check
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if exists, otherwise FALSE
-     * @access public
-     */
-    public function exists($id = null, $group = 'Default')
-    {
-        return $this->isCached($id, $group);
-    }
-
-    /**
-     * Checks if a dataset is expired
-     *
-     * This method is intend to check if a given dataset(-Id) is already expired.
-     *
-     * @param string $id     The dataset-Id
-     * @param string $group  The cache group
-     * @param intege $maxAge The maximum age for the cached data in seconds - 0 for endless
-     *                       If the cached data is older but the given lifetime it will be removed from the cache.
-     *                       You don't have to provide this argument if you call isExpired(). Every dataset knows
-     *                       it's expire date and will be removed automatically. Use this only if you know what
-     *                       you're doing...
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if dataset is expired, otherwise FALSE
-     * @access public
-     * @throws DoozR_Cache_Service_Exception
-     */
-    public function isExpired($id, $group = 'Default', $maxAge = 0)
-    {
-        if (!$this->_enabled) {
-            throw new DoozR_Cache_Service_Exception(
-                'Error while trying to check with isExpired()! Please active cache first.'
-            );
-        }
-
-        return $this->_container->isExpired($id, $group, $maxAge);
-    }
-
-    /**
-     * Setter for group
-     *
-     * This method is intend to generate and set the group.
-     *
-     * @param string $group The dataset group to use
+     * @param bool $unix The unix to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setGroup($group)
+    protected function setUnix($unix)
     {
-        // store locally
-        $this->_group = $group;
+        $this->unix = $unix;
     }
 
     /**
-     * Getter for group
+     * Fluent setter for unix.
      *
-     * This method returns the group of the current dataset
+     * @param bool $unix The unix to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The group
-     * @access public
+     * @return $this Instance of this class for chaining (fluent interface pattern)
+     * @access protected
      */
-    public function getGroup()
+    protected function unix($unix)
     {
-        return $this->_group;
+        $this->unix = $unix;
+        return $this;
     }
 
     /**
-     * Setter for Id
-     *
-     * Generates and set the (unique-)ID for the current cache operation
-     *
-     * @param string $id A predefined ID to generate a unique ID for
+     * Getter for unix.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * @return null|bool Unix if set, otherwise NULL
+     * @access protected
      */
-    public function setId($id)
+    protected function getUnix()
     {
-        // store locally
-        $this->_id = $id;
-
-        // and in container
-        $this->_container->setId($id);
+        return $this->unix;
     }
 
     /**
-     * Getter for Id
+     * Setter for namespace.
      *
-     * Returns the (unique-)ID _id of the current cache operation
+     * This method is intend to generate and set the namespace.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The (unique-)ID _id of the current cache operation
-     * @access public
-     */
-    public function getId()
-    {
-        return $this->_id;
-    }
-
-    /**
-     * Getter for status
-     *
-     * Returns the current status of the cache-module (enabled = TRUE|FALSE)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if enabled, otherwise FALSE
-     * @access public
-     */
-    public function getStatus()
-    {
-        return $this->_enabled;
-    }
-
-    /**
-     * Setter for lifetime
-     *
-     * This method sets the given Lifetime.
-     *
-     * @param int $lifetime The Lifetime to set
+     * @param string $namespace The dataset namespace to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setLifetime($lifetime)
+    protected function setNamespace($namespace)
     {
-        $this->_gcMaxlifetime = $lifetime;
+        $this->namespace = $namespace;
     }
 
     /**
-     * getter for lifetime
+     * Setter for namespace.
      *
-     * This method is intend to return the current active lifetime.
+     * This method is intend to generate and set the namespace.
+     *
+     * @param string $namespace The dataset namespace to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The lifetime
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function getLifetime()
+    protected function namespace_($namespace)
     {
-        return $this->_gcMaxlifetime;
+        $this->setNamespace($namespace);
+        return $this;
     }
 
     /**
-     * Generates a unique-Id for the given value
+     * Getter for namespace
      *
-     * This is a quick but dirty hack to get a "unique" ID for a any kind of variable.
-     * ID clashes might occur from time to time although they are extreme unlikely!
-     *
-     * @param mixed   $value     Value to generate Id for
-     * @param bool $setActive TRUE to store Id directly, otherwise FALSE
+     * This method returns the namespace of the current dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string An unique-Id
-     * @access public
+     * @return string The namespace
+     * @access protected
      */
-    public function generateId($value = false, $setActive = true)
+    protected function getNamespace()
     {
-        // generate value if not given - serialize it if given
-        $value = (!$value) ? microtime() : serialize($value);
-
-        // get hash
-        $id = md5($value);
-
-        if ($setActive) {
-            $this->setId($id);
-        }
-
-        return $id;
+        return $this->namespace;
     }
 
     /**
-     * Enables cache
+     * Stores a dataset with additional user-defined data.
      *
-     * This method is intend to enable the cache
+     * @param string  $key       The key of the entry
+     * @param mixed   $value     The value of the entry
+     * @param int     $lifetime  The time to expire
+     * @param string  $namespace The dataset namespace
+     * @param string  $userdata  The userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if cache was enabled, otherwise FALSE
+     * @return bool TRUE if dataset could be written, otherwise FALSE
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */
-    public function enable()
-    {
-        $this->_enabled = $this->_reset();
+    protected function createExtended(
+        $key,
+        $value,
+        $lifetime,
+        $namespace,
+        $userdata = ''
+    ) {
+        try {
+            $result = $this->getContainer()->create(
+                $key,
+                $value,
+                $lifetime,
+                $namespace,
+                $userdata
+            );
 
-        if (!$this->_enabled) {
+        } catch (Exception $e) {
             throw new DoozR_Cache_Service_Exception(
-                'Failed to enable cache!'
+                sprintf('Error creating cache entry for with key: "%s".', $key)
             );
         }
 
-        return $this->_enabled;
+        return ($result !== false);
     }
 
     /**
-     * Disables cache
-     *
-     * This method is intend to disable the cache
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if cache was disabled, otherwise FALSE
-     * @access public
-     * @throws DoozR_Cache_Service_Exception
-     */
-    public function disable()
-    {
-        $this->_enabled = $this->_reset(false);
-
-        if ($this->_enabled) {
-            throw new DoozR_Cache_Service_Exception(
-                'Failed to disable cache!'
-            );
-        }
-
-        return !$this->_enabled;
-    }
-
-    /**
-     * Switches the status - from enabled to disabled and vice versa
-     *
-     * This method is intend to switch the status - from enabled to disabled and vice versa.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if cache was disabled, otherwise FALSE
-     * @access public
-     * @throws DoozR_Cache_Service_Exception
-     */
-    public function switchStatus()
-    {
-        if ($this->_enabled) {
-            return $this->disable();
-        } else {
-            return $this->enable();
-        }
-    }
-
-    /**
-     * records content for cache
-     *
-     * This method is intend to record content from PHP's output buffer for
-     * cache.
-     *
-     * @param string $id    The id to use for this dataset when it is stored
-     * @param string $group The dataset group
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     * @throws DoozR_Cache_Service_Exception
-     */
-    public function recordStart($id = false, $group = 'Default')
-    {
-        // create id if not given
-        $this->_id    = ($id) ? $id : $this->generateId();
-        $this->_group = $group;
-
-        // start buffering
-        if (!ob_start()) {
-            throw new DoozR_Cache_Service_Exception(
-                'Cache-recording failed. ob_start() returned false.'
-            );
-        }
-
-        return true;
-    }
-
-    /**
-     * Records content for cache
-     *
-     * This method is intend to record content from PHP's output buffer for
-     * cache.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     * @throws DoozR_Cache_Service_Exception
-     */
-    public function recordStop()
-    {
-        // get content from buffer
-        $this->_content = ob_get_contents();
-
-        // stop buffering
-        ob_end_clean();
-
-        // store the data into the cache with max lifetime
-        if ($this->create($this->_content, $this->_id, $this->_gcMaxlifetime, $this->_group)) {
-            return $this->_id;
-        }
-
-        // failed
-        return false;
-    }
-
-    /**
-     * Removes all group datasets from cache
-     *
-     * This method is intend to remove all group datasets from cache.
-     *
-     * @param string $group The group of the cache item
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer Number of removed entries
-     * @access public
-     */
-    public function flush($group = 'Default')
-    {
-        return $this->_container->flush($group);
-    }
-
-    /**
-     * Calls the garbage-collector of the cache-container
-     *
-     * This method is intend to call the garbage-collector of the cache-container.
-     *
-     * @param bool $force TRUE to force a garbage collection run, otherwise FALSE (default)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
-     */
-    private function _garbageCollection($force = false)
-    {
-        // no exception here cause -> we just save the time for gc if disabled!
-        if (!$this->_enabled) {
-            return;
-        }
-
-        // time and probability based
-        if (($force)
-            || (self::$_gcLastRun && self::$_gcLastRun < (time() + $this->_gcTime))
-            || (rand(1, 100) < $this->_gcProbability)
-        ) {
-            $this->_container->garbageCollection($this->_gcMaxlifetime);
-            self::$_gcLastRun = time();
-        }
-    }
-
-    /**
-     * Resets the cache-module
-     *
-     * This method is intend to reset this module.
-     *
-     * @param bool $return TRUE if this method should return TRUE on success,
-     *                        otherwise FALSE to return FALSE value
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE|FALSE on success
-     * @access private
-     */
-    private function _reset($return = true)
-    {
-        $this->_id      = null;
-        $this->_group   = null;
-        $this->_content = null;
-
-        return $return;
-    }
-
-    /**
-     * Factory for container
-     *
-     * This method is intend to act as factory for container.
+     * Factory for container.
      *
      * @param string $container        The container to create
      * @param array  $containerOptions The configuration/options for the container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of the container
-     * @access private
+     * @return DoozR_Cache_Service_Container_Interface Instance of the container
+     * @access protected
      * @throws DoozR_Cache_Service_Exception
      */
-    private function _containerFactory($container, array $containerOptions = array())
+    protected function containerFactory($container, array $containerOptions = array())
     {
         $container = ucfirst(strtolower($container));
-        $class     = __CLASS__.'_Container_'.$container;
-        $file      = $this->getRegistry()->path->get('service') .
-            str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
-
-        // check if file exists
-        if (!file_exists($file)) {
-            throw new DoozR_Cache_Service_Exception(
-                'Container-File: '.$file.' does not exist!'
-            );
-        }
+        $class     = __CLASS__ . '_Container_' . $container;
+        $file      = DOOZR_DOCUMENT_ROOT . 'Service' . DIRECTORY_SEPARATOR .
+                     str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
 
         include_once $file;
+
         return new $class($containerOptions);
     }
 
     /**
-     * Returns the active id
-     *
-     * This method is intend to return the $id used for input or the internal
-     * stored if given id is null.
-     *
-     * @param string $id The id to use for check
+     * Returns the default options for container.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The id
-     * @access private
-     * @throws DoozR_Cache_Service_Exception
+     * @return array The default options
+     * @access protected
      */
-    private function _getId($id)
+    protected function getDefaultOptions()
     {
-        // if not a special id given - use current active
-        $id = (!$id) ? $this->_id : $id;
-
-        // id no valid id given
-        if (!$id) {
-            throw new DoozR_Cache_Service_Exception(
-                'Error! Invalid Id: "'.$id.'" for operation.'
-            );
-        }
-
-        // return the correct id
-        return $id;
-    }
-
-    /**
-     * Stores a dataset with additional userdefined data
-     *
-     * This method is intend to store a dataset with additional userdefined data.
-     *
-     * @param string  $id       The dataset Id
-     * @param mixed   $data     The data to cache
-     * @param int $expires  The time to expire
-     * @param string  $group    The dataset group
-     * @param string  $userdata The userdata to add
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if dataset could be written, otherwise FALSE
-     * @access public
-     * @throws DoozR_Cache_Service_Exception
-     */
-    private function _createExt($id, $data, $expires = null, $group = 'Default', $userdata = '')
-    {
-        try {
-            $this->_id = $this->_container->create($id, $data, $expires, $group, $userdata);
-
-        } catch (Exception $e) {
-            throw new DoozR_Cache_Service_Exception('Error creating dataset!');
-        }
-
-        return ($this->_id !== false) ? true : false;
+        return array(
+            'unix'      => $this->unix,
+            'namespace' => $this->getNamespace(),
+        );
     }
 }

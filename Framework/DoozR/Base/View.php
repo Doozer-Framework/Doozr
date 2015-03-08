@@ -182,10 +182,10 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      * @param DoozR_Registry             $registry     DoozR_Registry containing all core components
      * @param DoozR_Base_State_Interface $requestState Whole request as state
      * @param array                      $request      The whole request as processed by "Route"
-     * @param array                      $translation  The translation required to read the request
      * @param DoozR_Cache_Service        $cache        An instance of DoozR_Cache_Service
      * @param DoozR_Config               $config       An instance of DoozR_Config with Core-Configuration
      * @param DoozR_Controller_Front     $front        An instance of DoozR_Front
+     * @param array                      $translation  The translation required to read the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_View
@@ -196,22 +196,22 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
         DoozR_Registry             $registry,
         DoozR_Base_State_Interface $requestState,
         array                      $request,
-        array                      $translation,
         DoozR_Cache_Service        $cache,
         DoozR_Config               $config,
-        DoozR_Controller_Front     $front
+        DoozR_Controller_Front     $front,
+        array                      $translation   = null
     ) {
         // Store all instances for further use ...
         $this
             ->registry($registry)
             ->request($request)
-            ->translation($translation)
             ->originalRequest($requestState->getRequest())
             ->cache($cache)
             ->configuration($config)
             ->front($front)
             ->arguments($requestState->getArguments())
-            ->requestState($requestState);
+            ->requestState($requestState)
+            ->translation($translation);
 
         // Check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
@@ -270,13 +270,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for translation.
      *
-     * @param array $translation The translation to set
+     * @param array|null $translation The translation to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setTranslation(array $translation)
+    protected function setTranslation(array $translation = null)
     {
         $this->translation = $translation;
     }
@@ -284,13 +284,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for translation.
      *
-     * @param array $translation The translation to set
+     * @param array|null $translation The translation to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translation(array $translation)
+    protected function translation(array $translation = null)
     {
         $this->setTranslation($translation);
         return $this;
@@ -616,7 +616,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
         // Do render the view?
         if ($render) {
             // Lookup specific renderer
-            $specificViewRenderer = '__render' . ucfirst($this->request[$this->translation[1]]);
+            $specificViewRenderer = '__render' . ucfirst($this->request[0]);
 
             // check if specific renderer is callable
             if (method_exists($this, $specificViewRenderer)) {
@@ -774,7 +774,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
         if ($html === null) {
 
             // Get name of template file
-            $templateFile = $this->configuration->base->template->path() . $this->translateToTemplatefile() . '.html';
+            $templateFile = $this->configuration->base->template->path . $this->translateToTemplatefile() . '.html';
 
             if (file_exists($templateFile) === false) {
                 throw new DoozR_Base_View_Exception(
@@ -802,17 +802,17 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
 
             // setup template compile output dir
             $template->setPhpCodeDestination(
-                $this->configuration->phptal->directories->compiled()
+                $this->configuration->phptal->directories->compiled
             );
 
             // set the encoding of output
             $template->setEncoding(
-                $this->configuration->locale->encoding()
+                $this->configuration->locale->encoding
             );
 
             // Output XHTML or HTML5 ... ?
             $template->setOutputMode(
-                $this->configuration->phptal->settings->outputmode()
+                $this->configuration->phptal->settings->outputmode
             );
 
             // execute = get result
@@ -833,7 +833,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
 
         // Try to get default header for responses from configuration and add them here ...
         try {
-            $headers = $this->configuration->transmission->header();
+            $headers = $this->configuration->transmission->header;
         } catch (Exception $e) {
             $headers = array();
         }
@@ -865,10 +865,10 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     protected function translateToTemplatefile()
     {
         // get object we operate on
-        $object = ucfirst($this->request[$this->translation[0]]);
+        $object = ucfirst($this->request[0]);
 
         // get action we should operate
-        $action = ucfirst($this->request[$this->translation[1]]);
+        $action = ucfirst($this->request[1]);
 
         // construct relative filename (+path) for current-view template
         return $object . DIRECTORY_SEPARATOR . $action;

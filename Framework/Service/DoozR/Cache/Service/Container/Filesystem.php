@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service Cache
+ * DoozR - Cache - Service - Container - Filesystem
  *
  * Filesystem.php - Container Filesystem: Serves I/O access to the filesystem.
  *
@@ -53,10 +53,9 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container/Interface.php';
 
 /**
- * DoozR Service Cache
+ * DoozR - Cache - Service - Container - Filesystem
  *
  * Container Filesystem: Serves I/O access to the filesystem.
  *
@@ -68,11 +67,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container/Interf
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @throws     Service_DoozR_Cache_Service_Exception
- * @service    Multiple
  */
 class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Container
-implements DoozR_Cache_Service_Container_Interface
 {
     /**
      * File locking
@@ -82,33 +78,17 @@ implements DoozR_Cache_Service_Container_Interface
      * But it seems to give good results
      *
      * @var bool
-     * @access private
+     * @access protected
      */
-    private $_fileLocking = false;
-
-    /**
-     * List of cache entries, used within garbageCollection()
-     *
-     * @var array
-     * @access private
-     */
-    private $_entries = array();
+    protected $locking = true;
 
     /**
      * List of group-directories
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_groupDirs = array();
-
-    /**
-     * Total number of bytes required by all cache entries, used within a gc run.
-     *
-     * @var int
-     * @access private
-     */
-    private $_totalSize = 0;
+    protected $directoriesByNamespace = array();
 
     /**
      * Directory where to put the cache files. Make sure to add a trailing slash!
@@ -145,7 +125,7 @@ implements DoozR_Cache_Service_Container_Interface
      * @var int
      * @access protected
      */
-    protected $maxUserdataLinelength = 257;
+    protected $maxUserdataLineLength = 257;
 
     /**
      * the allowed options specific for this container
@@ -156,353 +136,348 @@ implements DoozR_Cache_Service_Container_Interface
     protected $thisContainerAllowedOptions = array(
         'directory',
         'filenamePrefix',
-        'maxUserdataLinelength'
+        'maxUserdataLineLength'
     );
+
+    /**
+     * Whether the filesystem structure used for caching is flat:
+     *
+     * @example /tmp/doozr.cache (better performance)
+     *
+     * or not
+     *
+     * @example /tmp/doozr/cache
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $flatDirectoryStructure = true;
 
 
     /**
-     * constructor
-     *
-     * This method is intend to act as constructor.
-     * If you use custom configuration options -> ensure that they are enabled via $thisContainerAllowedOptions!
+     * Constructor.
      *
      * @param array $options Custom configuration options
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this class
-     * @access public
      * @throws DoozR_Cache_Service_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Cache_Service_Container_Filesystem
+     * @access public
      */
     public function __construct(array $options = array())
     {
-        // do the check and transfer of allowed options
+        // Do the check and transfer of allowed options
         parent::__construct($options);
 
-        // important: check cache directory
-        if (!$this->directory) {
-            $this->directory = sys_get_temp_dir();
-        }
-
-        // clear file status cache
-        clearstatcache();
-
-        // some basic bug-preventive operations
-        $this->_preventiveCorrections();
+        $this
+            ->directory(sys_get_temp_dir() . DIRECTORY_SEPARATOR)
+            ->prepareFilesystemAccess()
+            ->clear();
     }
 
     /**
-     * checks if a dataset exists
+     * Creates a new dataset from input and stores it in cache.
      *
-     * This method is intend to check if a dataset exists.
+     * WARNING: If you supply userdata it must not contain any linebreaks,
+     * otherwise it will break the filestructure.
      *
-     * @param string $id    The id of the dataset
-     * @param string $group The group of the dataset
+     * @param string $key       The entry key
+     * @param string $value     The entry value
+     * @param string $namespace The dataset namespace
+     * @param int    $lifetime  Date/Time on which the cache-entry expires
+     * @param string $userdata  The custom userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if file exist, otherwise FALSE
-     * @access protected
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access public
      * @throws DoozR_Cache_Service_Exception
      */
-    protected function idExists($id, $group)
+    public function create($key, $value, $lifetime, $namespace, $userdata = null)
     {
-        return file_exists(
-            $this->_getFilename($id, $group)
+        // Get internal used key
+        $key = $this->calculateUuid($key);
+
+        // On create we need to purge the old entry from runtime cache ...
+        $this->purgeRuntimeCache($key, $namespace);
+
+        // Get filename ...
+        $filename = $this->getFilenameByKeyAndNamespace($key, $namespace);
+
+        // Build dataset from input
+        $dataset = array(
+            $this->getExpiresAbsolute($lifetime),
+            $userdata,
+            $this->encode($value),
         );
-    }
 
-    /**
-     * does some very important bug-prevention operations
-     *
-     * This method is intend to do some very important bug-prevention operations.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
-     * @throws DoozR_Cache_Service_Exception
-     */
-    private function _preventiveCorrections()
-    {
-        // convert relative paths to absolute. cause it looks like the deconstructor has problems with relative paths
-        if ($this->unix && '/' != $this->directory{0}) {
-            $this->directory = realpath(getcwd().'/'.$this->directory).'/';
-        }
+        // File format: 1st line: expiration date, 2nd line: user data, 3rd+ lines: cache data
+        $result = $this->writeFile(
+            $filename,
+            $dataset
+        );
 
-        // check if a trailing slash is in directory
-        if ($this->directory{strlen($this->directory)-1} != DIRECTORY_SEPARATOR) {
-            $this->directory .= DIRECTORY_SEPARATOR;
-        }
-
-        if (!file_exists($this->directory) || !is_dir($this->directory)) {
-            if (mkdir($this->directory, 0755)) {
-                throw new DoozR_Cache_Service_Exception(
-                    'Cache-Directory could not be created!'
-                );
-            }
-        }
-    }
-
-    /**
-     * deletes a directory and all files in it
-     *
-     * This method is intend to delete a directory and all files in it.
-     *
-     * @param string $directory The directory to delete/remove/unlink
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Number of removed entries on success, otherwise FALSE
-     * @access private
-     * @throws DoozR_Cache_Service_Exception
-     */
-    private function _removeEntries($directory)
-    {
-        if (!is_writable($directory) || !is_readable($directory) || !($directoryHandle = opendir($directory))) {
-            throw new DoozR_Cache_Service_Exception(
-                'Can\'t remove directory "'.$directory.'". Check permissions and path.'
+        if ($result === true) {
+            $this->addToRuntimeCache(
+                $key,
+                $dataset,
+                $namespace
             );
         }
 
-        // count of entries removed
-        $entriesRemoved = 0;
-
-        // iterate
-        while (false !== $file = readdir($directoryHandle)) {
-            if ($file == '.' || $file == '..') {
-                continue;
-            }
-
-            // combine directory + file
-            $file = $directory.$file;
-
-            // check if entry is directory
-            if (is_dir($file)) {
-                // if is directory add slash
-                $file .= DIRECTORY_SEPARATOR;
-
-                // now remove entries and get count
-                $removedEntries = $this->_removeEntries($file);
-
-                // check if return value is valid integer
-                if (is_int($removedEntries)) {
-                    // increase total removed counter
-                    $entriesRemoved += $removedEntries;
-                }
-            } else {
-                // entry is file -> remove
-                if (unlink($file)) {
-                    $entriesRemoved++;
-                }
-            }
-        }
-
-        // according to php-manual the following is needed for windows installations.
-        closedir($directoryHandle);
-
-        // unset the handle - TODO: required?
-        unset($directoryHandle);
-
-        // if directory given isn't the cache-directory -> remove it to
-        if ($directory != $this->directory) {
-            rmdir($directory);
-            $entriesRemoved++;
-        }
-
-        // return the count of removed entries
-        return $entriesRemoved;
+        return $result;
     }
 
     /**
-     * flushes the cache
+     * Reads an entry from cache.
      *
-     * This method is intend to flush the cache. It removes all caches datasets from the cache.
+     * @param string $key       The key to read data from
+     * @param string $namespace The namespace used for that
      *
-     * @param string $group The dataset group to flush
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool|array The data from cache if set, otherwise FALSE
+     * @access public
+     */
+    public function read($key, $namespace)
+    {
+        // Get internal used key
+        $key = $this->calculateUuid($key);
+
+        // Try to retrieve data from runtime cache ...
+        $dataset = $this->getFromRuntimeCache($key, $namespace);
+
+        // Check for result from runtime cache
+        if ($dataset === false) {
+
+            // get filename
+            $filename = $this->getFilenameByKeyAndNamespace($key, $namespace);
+
+            // if file does not exist -> then there is nothing to read
+            if (!file_exists($filename)) {
+                return false;
+            }
+
+            // Read (no lock = change possible from another process!)
+            $dataset = $this->readFile($filename, false);
+        }
+
+        return $dataset;
+    }
+
+    /**
+     * Deletes a dataset from cache.
+     *
+     * @param string $key       The key of the cache entry
+     * @param string $namespace The namespace of the dataset
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean TRUE on success, otherwise FALSE
+     * @access protected
+     */
+    public function delete($key, $namespace)
+    {
+        // Get internal key
+        $key = $this->calculateUuid($key);
+
+        // Assume the process will fail
+        $result = true;
+
+        // First of all - remove element from namespace ...
+        $this->purgeRuntimeCache($key, $namespace);
+
+        // Get file
+        $filename = $this->getFilenameByKeyAndNamespace($key, $namespace);
+
+        // Check if file exists
+        if (file_exists($filename) === true) {
+            $result = unlink($filename);
+
+            // clear php's file cache
+            $this->clear();
+        }
+
+        // return the result
+        return $result;
+    }
+
+    /**
+     * Returns the path to write cache files to for a given namespace.
+     *
+     * @param string $namespace The namespace to return path for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The path to write cache files for given namespace to
+     * @access protected
+     * @throws DoozR_Cache_Service_Exception
+     */
+    protected function getDirectoryByNamespace($namespace, $create = true)
+    {
+        // Check if directory is already known and surely created and writable!
+        if (!isset($this->directoriesByNamespace[$namespace])) {
+
+            // Check for type of directory structure
+            if ($this->isFlatDirectoryStructure() !== true) {
+                $structure = explode(self::NAMESPACE_SEPARATOR, $namespace);
+            } else {
+                $structure = array($namespace);
+            }
+
+            $targetDirectory = $this->getDirectory() . implode(DIRECTORY_SEPARATOR, $structure);
+
+            // Check if not already created ...
+            if ($create === true && file_exists($targetDirectory) === false) {
+
+                // Check if base folder is writable
+                if (is_writeable($this->getDirectory()) === false) {
+                    throw new DoozR_Cache_Service_Exception(
+                        sprintf('Directory: "%s". isn\'t writable. Check permissions and path.', $this->getDirectory())
+                    );
+                }
+
+                $directory = $this->getDirectory();
+
+                foreach ($structure as $node) {
+                    if (file_exists($directory . $node) === false) {
+                        if (!mkdir($directory . $node, 0755)) {
+                            throw new DoozR_Cache_Service_Exception(
+                                sprintf('Can\'t make directory "%s". Check permissions and path.', $directory)
+                            );
+                        }
+
+                        // mach directory
+                        $directory .= $node . DIRECTORY_SEPARATOR;
+                    }
+                }
+
+                // Clears file status cache
+                $this->clear();
+            }
+
+            $this->directoriesByNamespace[$namespace] = $targetDirectory . DIRECTORY_SEPARATOR;
+        }
+
+        return $this->directoriesByNamespace[$namespace];
+    }
+
+    /**
+     * Flushes the cache
+     *
+     * This method is intend to purge the cache. It removes all caches datasets from the cache.
+     *
+     * @param string $namespace The dataset namespace to purge
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of removed datasets on success, otherwise FALSE
      * @access public
      */
-    public function flush($group)
+    public function purge($namespace)
     {
-        // flush
-        $this->flushPreload();
+        $this->purgeRuntimeCache();
 
-        // which directory?
-        $directory = ($group) ? $this->directory.$group.DIRECTORY_SEPARATOR : $this->directory;
+        $directory = $this->getDirectoryByNamespace($namespace);
 
         // delete entries and retrieve count
-        $removedEntries = $this->_removeEntries($directory);
+        $removedEntries = $this->removeEntries($directory);
 
-        // remove group from array
-        unset($this->groupDirs[$group]);
+        // remove namespace from array
+        unset($this->directoriesByNamespace[$namespace]);
 
         // clear PHP's file cache
-        clearstatcache();
+        $this->clear();
 
         // return the count of entries
         return $removedEntries;
     }
 
     /**
-     * stores a dataset
+     * Checks if a dataset exists
      *
-     * This method is intend to write data to cache.
-     * WARNING: If you supply userdata it must not contain any linebreaks, otherwise it will break the filestructure.
+     * This method is intend to check if a dataset exists.
      *
-     * @param string     $id       The dataset Id
-     * @param string     $data     The data to write to cache
-     * @param int    $expires  Date/Time on which the cache-entry expires
-     * @param string     $group    The dataset group
-     * @param string     $userdata The custom userdata to add
-     * @param null|mixed $userdata The additional userdata
+     * @param string $key       The key of the dataset
+     * @param string $namespace The namespace of the dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success
+     * @return boolean TRUE if file exist, otherwise FALSE
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */
-    public function create($id, $data, $expires, $group, $userdata = null)
+    public function exists($key, $namespace)
     {
-        // flush
-        $this->flushPreload($id, $group);
+        // Get internal used key
+        $key = $this->calculateUuid($key);
 
-        // get file to write to
-        $file = $this->_getFilename($id, $group);
-
-        // get handle on file
-        $fileHandle = @fopen($file, 'wb');
-
-        // throw exception if filehandle can not be received
-        if (!$fileHandle) {
-            throw new DoozR_Cache_Service_Exception(
-                'Can\'t access "' . $file . '" to store cache data. Check access rights and path'
-               );
-        }
-
-        // file locking (exclusive lock)
-        if ($this->_fileLocking) {
-            flock($fileHandle, LOCK_EX);
-        }
-
-        // file format:
-        // 1st line: expiration date
-        // 2nd line: user data
-        // 3rd+ lines: cache data
-        fwrite($fileHandle, $this->getExpiresAbsolute($expires) . PHP_EOL);
-        fwrite($fileHandle, $userdata . PHP_EOL);
-        fwrite($fileHandle, $this->encode($data));
-
-        // remove file-lock
-        if ($this->_fileLocking) {
-            flock($fileHandle, LOCK_UN);
-        }
-
-        // close handle
-        fclose($fileHandle);
-
-        // success
-        return true;
+        return file_exists(
+            $this->getFilenameByKeyAndNamespace($key, $namespace)
+        );
     }
 
     /**
-     * reads a dataset
+     * Checks if an element for a passed key & namespace combination is already expired.
      *
-     * This method is intend to read data from cache.
-     *
-     * @param string $id    The dataset Id
-     * @param string $group The dataset group
+     * @param string $key       The key to check
+     * @param string $namespace The namespace to look in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The data from cache
+     * @return bool TRUE if element is expired, otherwise FALSE
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */
-    public function read($id, $group)
+    public function expired($key, $namespace)
     {
-        // get filename
-        $file = $this->_getFilename($id, $group);
+        // Get internal used key
+        $key = $this->calculateUuid($key);
 
-        // if file does not exist -> then there is nothing to read
-        if (!file_exists($file)) {
-            return null;
+        // Assume item expired
+        $result = true;
+
+        // Read content from file with exclusive locking
+        $dataset = $this->readFile(
+            $this->getFilenameByKeyAndNamespace($key, $namespace),
+            false
+        );
+
+        // Check if lifetime of entry (is written within the entry) smaller current timestamp ( = not expired = valid)
+        if ((int)$dataset[0] > time()) {
+            $this->addToRuntimeCache($key, $dataset, $namespace);
+            $result = false;
         }
 
-        // otherwise retrieve the content
-        if (!($fileHandle = @fopen($file, 'rb'))) {
-            throw new DoozR_Cache_Service_Exception(
-                'Can\'t access cache file "' . $file . '". Check access rights and path.'
-              );
-        }
-
-        // file locking (shared lock)
-        if ($this->_fileLocking) {
-            flock($fileHandle, LOCK_SH);
-        }
-
-        // file format:
-        // 1st line: expiration date
-        // 2nd line: user data
-        // 3rd+ lines: cache data
-        $expire = trim(fgets($fileHandle, 12));
-
-        if ($this->maxUserdataLinelength == 0 ) {
-            $userdata = trim(fgets($fileHandle));
-        } else {
-            $userdata = trim(fgets($fileHandle, $this->maxUserdataLinelength));
-        }
-        $buffer = '';
-        while (!feof($fileHandle)) {
-            $buffer .= fread($fileHandle, 8192);
-        }
-        $data = $this->decode($buffer);
-
-        // Unlocking
-        if ($this->_fileLocking) {
-            flock($fileHandle, LOCK_UN);
-        }
-        fclose($fileHandle);
-
-        // last usage date used by the gc - maxlifetime
-        // touch without second param produced stupid entries...
-        touch($file, time());
-        clearstatcache();
-
-        return array($expire, $data, $userdata);
-    }
-
-    /**
-     * Removes a dataset finally from container
-     *
-     * This method is intend to remove an dataset finally from container.
-     *
-     * @param string $id    The id of the dataset
-     * @param string $group The group of the dataset
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access protected
-     */
-    public function delete($id, $group)
-    {
-        // IMPORTANT: flush preload
-        $this->flushPreload($id, $group);
-
-        // get file
-        $file = $this->_getFilename($id, $group);
-
-        // assume the process will fail
-        $result = false;
-
-        // check if file exists
-        if (file_exists($file)) {
-            // delete file
-            $result = unlink($file);
-
-            // clear php's file cache
-            clearstatcache();
-        }
-
-        // return the result
         return $result;
+    }
+
+    /**
+     * Prepares the filesystem for smooth access (directory exists and writable check, trailing slash ...).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     * @throws DoozR_Cache_Service_Exception
+     */
+    protected function prepareFilesystemAccess()
+    {
+        $directory = $this->getDirectory();
+
+        // Convert relative paths to absolute. Cause it looks like the __destruct has problems with relative paths
+        if ($this->unix && DIRECTORY_SEPARATOR !== $directory{0}) {
+            $directory = realpath(getcwd() . DIRECTORY_SEPARATOR . $directory) . DIRECTORY_SEPARATOR;
+        }
+
+        // Check if a trailing slash is in directory -> we require
+        if ($directory{strlen($directory)-1} != DIRECTORY_SEPARATOR) {
+            $directory .= DIRECTORY_SEPARATOR;
+        }
+
+        if (!file_exists($directory) && !is_dir($directory)) {
+            if (mkdir($directory, 0755)) {
+                throw new DoozR_Cache_Service_Exception(
+                    sprintf('Directory "%s" for caching could not be created!', $directory)
+                );
+            }
+        }
+
+        $this->setDirectory($directory);
+
+        return $this;
     }
 
     /**
@@ -514,163 +489,120 @@ implements DoozR_Cache_Service_Container_Interface
      * to be read from them and if neccessary they have to be unlinked (removed). If you have a user comment
      * for a good default gc probability please add it to to the inline docs.
      *
-     * @param int $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param string $namespace   The namespace to delete items from
+     * @param int    $maximumLifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean The result of the operation
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */
-    public function garbageCollection($maxlifetime)
+    public function runGarbageCollection($namespace, $maximumLifetime)
     {
-        // do the flush
-        parent::garbageCollection($maxlifetime);
+        // Clear file cache
+        $this->clear();
 
-        // clear file cache
-        clearstatcache();
+        // Run successful?
+        $result = true;
 
-        // clean up
-        $result = $this->_doGarbageCollection($maxlifetime, $this->directory);
+        // Get the directory to work on -> BUT don't create the structure if not exist
+        $directory = $this->getDirectoryByNamespace($namespace, false);
 
-        // check the space used by the cache entries
-        if ($this->_totalSize > $this->highwater) {
-            krsort($this->_entries);
-            reset($this->_entries);
-
-            while ($this->_totalSize > $this->lowwater && list($lastmod, $entry) = each($this->_entries)) {
-                if (@unlink($entry['file'])) {
-                    $this->_totalSize -= $entry['size'];
-                } else {
-                    throw new DoozR_Cache_Service_Exception(
-                        'Can\'t delete '.$entry['file'].'. Check the permissions.'
-                    );
-                }
-            }
+        if (file_exists($directory) === true) {
+            $result = $this->doGarbageCollection($directory, $maximumLifetime);
         }
 
-        $this->_entries = array();
-        $this->_totalSize = 0;
-
-        // return the result of the operation
+        // Return the result of the operation
         return $result;
     }
 
     /**
-     * returns the filename for the specified id
+     * Does the recursive gc procedure.
      *
-     * This method is intend to return the filename for the specified id.
-     *
-     * @param string $id    The dataset Id
-     * @param string $group The cache group
+     * @param string $directory       Directory to do gc on
+     * @param int    $maximumLifetime Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The filename
-     * @access private
+     * @return bool TRUE on success, otherwise FALSE
+     * @access protected
      * @throws DoozR_Cache_Service_Exception
      */
-    private function _getFilename($id, $group)
+    protected function doGarbageCollection($directory, $maximumLifetime)
     {
-        //
-        if (isset($this->_groupDirs[$group])) {
-            return $this->_groupDirs[$group].$this->filenamePrefix.$id;
-        }
-
-        // construct path/directory
-        $directory = $this->directory.$group.DIRECTORY_SEPARATOR;
-
-        // check if folder is writable
-        if (is_writeable($this->directory)) {
-            if (!file_exists($directory)) {
-                if (!mkdir($directory, 0755)) {
-                    throw new DoozR_Cache_Service_Exception(
-                        'Can\'t make directory "'.$directory.'". Check permissions and path.'
-                    );
-                }
-
-                // clears file status cache
-                clearstatcache();
-            }
-        } else {
-            throw new DoozR_Cache_Service_Exception(
-                'Directory: "'.$this->directory.'". isn\'t writable. Check permissions and path.'
-            );
-        }
-
-        // store
-        $this->_groupDirs[$group] = $directory;
-
-        // return full qualified path + filename
-        return $directory.$this->filenamePrefix.$id;
-    }
-
-    /**
-     * does the recursive gc procedure
-     *
-     * This method is intend to do the recursive gc procedure.
-     *
-     * @param int $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
-     * @param string  $directory   Directory to examine - don't sets this parameter, it's used for a
-     *                             recursive function call!
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
-     * @throws DoozR_Cache_Service_Exception
-     */
-    private function _doGarbageCollection($maxlifetime, $directory)
-    {
-        // check permissions
-        if (!is_writable($directory)
+        // Check permissions
+        if (
+               !is_writable($directory)
             || !is_readable($directory)
             || !($directoryHandle = opendir($directory))
         ) {
             throw new DoozR_Cache_Service_Exception(
-                'Can\'t remove directory "'.$directory.'". Check permissions and path.'
+                sprintf('Can\'t write to directory "%s". Check permissions and path.', $directory)
             );
         }
 
-        // get files
-        while ($file = readdir($directoryHandle)) {
-            // skip . + ..
-            if ($file == '.' || $file == '..') {
+        // Get files from directory ...
+        while ($filename = readdir($directoryHandle)) {
+            if ($filename === '.' || $filename === '..') {
+                // skip . + ..
                 continue;
             }
 
-            $file = $directory.$file;
+            $filename = $directory . $filename;
 
-            if (is_dir($file)) {
-                $this->_doGarbageCollection($maxlifetime, $file.'/');
+            // Security check -> we do NOT have recursive structures cause we cant ...
+            if (is_dir($filename)  ) {
+                $this->doGarbageCollection($filename . DIRECTORY_SEPARATOR, $maximumLifetime);
                 continue;
             }
 
-            // get handle on file
-            $fileHandle = @fopen($file, 'rb');
+            // Get last access-time => BUT WHY`?
+            $lastAccess = filemtime($filename);
 
-            // skip trouble makers but inform the user
-            if (!$fileHandle) {
-                throw new DoozR_Cache_Service_Exception(
-                    'Can\'t access cache file "'.$file.', skipping it. Check permissions and path.'
-                );
-                continue;
-            }
+            // Checking last access is so much faster then reading from file so we try to exclude file read here!
+            if ((time() - $lastAccess) > $maximumLifetime) {
+                if (unlink($filename) === false) {
+                    throw new DoozR_Cache_Service_Exception(
+                        sprintf('Can\'t unlink cache file "%s", skipping. Check permissions and path.', $filename)
+                    );
+                    continue;
+                }
 
-            // get expire date
-            $expire = fgets($fileHandle, 11);
+            } else {
+                // Get handle on file
+                $fileHandle = @fopen($filename, 'rb');
 
-            // close file handle
-            fclose($fileHandle);
+                if (!$fileHandle) {
+                    throw new DoozR_Cache_Service_Exception(
+                        sprintf('Can\'t unlink cache file "%s", skipping. Check permissions and path.', $filename)
+                    );
+                    continue;
+                }
 
-            // get last accesstime
-            $lastused = filemtime($file);
+                // Get expire date from within the file - first line the first 11 bytes.
+                $expire = fgets($fileHandle, 11);
 
-            $this->_entries[$lastused] = array('file' => $file, 'size' => filesize($file));
-            $this->_totalSize += filesize($file);
+                // close file handle
+                fclose($fileHandle);
 
-            // remove if expired
-            if ((($expire && $expire <= time()) || ($lastused <= (time() - $maxlifetime)) ) && !unlink($file)) {
-                throw new DoozR_Cache_Service_Exception(
-                    'Can\'t unlink cache file "'.$file.'", skipping. Check permissions and path.'
-                );
+                // Remove if expired
+                if ($expire <= time()) {
+                    if (unlink($filename) === false) {
+                        throw new DoozR_Cache_Service_Exception(
+                            sprintf('Can\'t unlink cache file "%s", skipping. Check permissions and path.', $filename)
+                        );
+                        continue;
+                    }
+                } else {
+                    $this->addEntry(
+                        $lastAccess,
+                        array(
+                            'file' => $filename,
+                            'size' => filesize($filename)
+                        )
+                    );
+
+                    $this->setTotalSize($this->getTotalSize() + filesize($filename));
+                }
             }
         }
 
@@ -678,6 +610,405 @@ implements DoozR_Cache_Service_Container_Interface
         closedir($directoryHandle);
 
         // flush the disk state cache
+        $this->clear();
+
+        // Check the space used by the cache entries
+        if ($this->getTotalSize() > $this->getHighwaterMarker()) {
+
+            $entries = $this->getEntries();
+            krsort($entries);
+            reset($entries);
+
+            while (($this->getTotalSize() > $this->getLowwaterMarker()) && count($entries) > 0) {
+                $entry = array_shift($entries);
+
+                if (@unlink($entry['file'])) {
+                    $this->setTotalSize($this->getTotalSize() - $entry['size']);
+
+                } else {
+                    throw new DoozR_Cache_Service_Exception(
+                        sprintf('Can\'t unlink cache file "%s". Check permissions and path.', $entry['file'])
+                    );
+                }
+            }
+
+            // Update
+            $this->setEntries($entries);
+        }
+    }
+
+    /**
+     * returns the filename for the specified id
+     *
+     * This method is intend to return the filename for the specified id.
+     *
+     * @param string $key       The key of the dataset
+     * @param string $namespace The cache namespace
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The filename
+     * @access protected
+     * @throws DoozR_Cache_Service_Exception
+     */
+    protected function getFilenameByKeyAndNamespace($key, $namespace)
+    {
+        return $this->getDirectoryByNamespace($namespace) . $this->getFilenamePrefix() . $key;
+    }
+
+    /**
+     * Setter for locking.
+     *
+     * @param int $locking The locking to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setLocking($locking)
+    {
+        $this->locking = $locking;
+    }
+
+    /**
+     * Setter for locking.
+     *
+     * @param int $locking The locking to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function locking($locking)
+    {
+        $this->setLocking($locking);
+        return $this;
+    }
+
+    /**
+     * Getter for locking.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool locking if set, otherwise NULL
+     * @access protected
+     */
+    protected function getLocking()
+    {
+        return $this->locking;
+    }
+
+
+    /**
+     * Setter for directory.
+     *
+     * @param int $directory The directory to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setDirectory($directory)
+    {
+        $this->directory = $directory;
+    }
+
+    /**
+     * Setter for directory.
+     *
+     * @param int $directory The directory to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function directory($directory)
+    {
+        $this->setDirectory($directory);
+        return $this;
+    }
+
+    /**
+     * Getter for directory.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool directory if set, otherwise NULL
+     * @access protected
+     */
+    protected function getDirectory()
+    {
+        return $this->directory;
+    }
+
+    /**
+     * Setter for flatDirectoryStructure.
+     *
+     * @param bool $state TRUE to set to flat, otherwise FALSE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setFlatDirectoryStructure($state)
+    {
+        $this->flatDirectoryStructure = $state;
+    }
+
+    /**
+     * Setter for flatDirectoryStructure.
+     *
+     * @param bool $state TRUE to set to flat, otherwise FALSE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function flatDirectoryStructure($state)
+    {
+        $this->setFlatDirectoryStructure($state);
+        return $this;
+    }
+
+    /**
+     * Getter for flatDirectoryStructure.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool flatDirectoryStructure if set, otherwise NULL
+     * @access protected
+     */
+    protected function getFlatDirectoryStructure()
+    {
+        return $this->flatDirectoryStructure;
+    }
+
+    /**
+     * Alias for getter for flatDirectoryStructure (as is...)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool flatDirectoryStructure if set, otherwise NULL
+     * @access protected
+     */
+    protected function isFlatDirectoryStructure()
+    {
+        return ($this->flatDirectoryStructure === true);
+    }
+
+    /**
+     * Setter for filenamePrefix.
+     *
+     * @param bool $state TRUE to set to flat, otherwise FALSE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setFilenamePrefix($state)
+    {
+        $this->filenamePrefix = $state;
+    }
+
+    /**
+     * Setter for filenamePrefix.
+     *
+     * @param bool $state TRUE to set to flat, otherwise FALSE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function filenamePrefix($state)
+    {
+        $this->setFilenamePrefix($state);
+        return $this;
+    }
+
+    /**
+     * Getter for filenamePrefix.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool filenamePrefix if set, otherwise NULL
+     * @access protected
+     */
+    protected function getFilenamePrefix()
+    {
+        return $this->filenamePrefix;
+    }
+
+    /**
+     * Writes the passed data to file.
+     *
+     * @param string $filename The filename to write to
+     * @param array  $dataset  The dataset to write
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if file could be written successful, otherwise FALSE
+     * @access protected
+     * @throws DoozR_Cache_Service_Exception
+     */
+    protected function writeFile($filename, array $dataset)
+    {
+        // Assume fail
+        $result = false;
+
+        // Get handle on file to write binary ...
+        $fileHandle = @fopen($filename, 'wb');
+
+        if (!$fileHandle) {
+            throw new DoozR_Cache_Service_Exception(
+                sprintf('Can\'t access "%s" to store cache data. Check access rights and path', $filename)
+            );
+        }
+
+        // File locking (exclusive lock)
+        if ($this->getLocking() === true) {
+            flock($fileHandle, LOCK_EX);
+        }
+
+        $result = (fwrite($fileHandle, implode(PHP_EOL, $dataset)) !== false);
+
+        // Remove file-lock
+        if ($this->getLocking() === true) {
+            flock($fileHandle, LOCK_UN);
+        }
+
+        // close handle
+        fclose($fileHandle);
+
+        return $result;
+    }
+
+    /**
+     * Reads a file from filesystem, modifies its "last access time" and returns values structured.
+     *
+     * @param string $filename The filename to read
+     * @param bool   $locking  TRUE to lock file exclusive, FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The data of the data-set prepared in a clean array structure
+     * @access protected
+     * @throws DoozR_Cache_Service_Exception
+     */
+    protected function readFile($filename, $locking = true)
+    {
+        if (!($fileHandle = @fopen($filename, 'rb'))) {
+            throw new DoozR_Cache_Service_Exception(
+                sprintf('Can\'t access cache file "%s". Check access rights and path.', $filename)
+            );
+        }
+
+        // File locking (shared lock)
+        ($locking === true) ?: flock($fileHandle, LOCK_SH);
+
+        // File format: 1st line: expiration date - 2nd line: user data - 3rd+ lines: cache data
+        $expire = trim(fgets($fileHandle, 12));
+
+        if ($this->maxUserdataLineLength == 0 ) {
+            $userdata = trim(fgets($fileHandle));
+        } else {
+            $userdata = trim(fgets($fileHandle, $this->maxUserdataLineLength));
+        }
+
+        $buffer = '';
+        while (!feof($fileHandle)) {
+            $buffer .= fread($fileHandle, 8192);
+        }
+
+        $value = $this->decode($buffer);
+
+        // Unlocking
+        ($locking === true) ?: flock($fileHandle, LOCK_UN);
+
+        fclose($fileHandle);
+
+        // last usage date used by the gc - maxlifetime touch without second param produced stupid entries...
+        touch($filename, time());
+
+        $this->clear();
+
+        // Return the result
+        return array(
+            $expire,
+            $userdata,
+            $value,
+        );
+    }
+
+    /**
+     * Removes entries from cache storage recursive.
+     *
+     * @param string $directory The directory to delete/remove/unlink
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed Number of removed entries on success, otherwise FALSE
+     * @access protected
+     * @throws DoozR_Cache_Service_Exception
+     */
+    protected function removeEntries($directory)
+    {
+        if (
+            !is_writable($directory) ||
+            !is_readable($directory) ||
+            !is_dir($directory) ||
+            !($directoryHandle = opendir($directory))
+        ) {
+            throw new DoozR_Cache_Service_Exception(
+                sprintf('Can\'t remove directory "%s". Check permissions and path.', $directory)
+            );
+        }
+
+        // count of entries removed
+        $entriesRemoved = 0;
+
+        // Iterate
+        while (false !== $file = readdir($directoryHandle)) {
+            if ($file == '.' || $file == '..') {
+                continue;
+            }
+
+            // Combine directory + file
+            $file = $directory . $file;
+
+            // Check if entry is directory
+            if (is_dir($file)) {
+                // if is directory add slash
+                $file .= DIRECTORY_SEPARATOR;
+
+                // Now remove entries and get count
+                $entriesRemoved += $this->removeEntries($file);
+
+            } else {
+                // Entry is a file -> so remove
+                if (unlink($file)) {
+                    $entriesRemoved++;
+                }
+            }
+        }
+
+        // according to php-manual the following is needed for windows installations.
+        closedir($directoryHandle);
+
+        // unset the handle
+        unset($directoryHandle);
+
+        // if directory given isn't the cache-directory -> remove it to
+        if ($directory !== $this->getDirectory()) {
+            rmdir($directory);
+            $entriesRemoved++;
+        }
+
+        // return the count of removed entries
+        return $entriesRemoved;
+    }
+
+    /**
+     * Shortcut to clearstatcache.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function clear()
+    {
+        // clear file status cache
         clearstatcache();
+        return $this;
     }
 }

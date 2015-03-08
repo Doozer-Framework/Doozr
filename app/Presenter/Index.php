@@ -1,7 +1,19 @@
 <?php
 
+
+use DoozR\Route\Annotation\Route;
+
+
 /**
- * Demo Presenter
+ * Index Presenter
+ * from Bootstrap Package
+ *
+ * @Route(
+ *     route="/index/index/popel/123/234/test/super/duper",
+ *     method="GET"
+ *     presenter="index",
+ *     action="index"
+ * )
  */
 final class Presenter_Index extends DoozR_Base_Presenter
 {

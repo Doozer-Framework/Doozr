@@ -442,6 +442,32 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     }
 
     /**
+     * Setter for filesystem.
+     *
+     * @param DoozR_Filesystem_Service $filesystem The filesystem instance to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setFilesystem(DoozR_Filesystem_Service $filesystem)
+    {
+        $this->set($filesystem, 'filesystem');
+    }
+
+    /**
+     * Getter for filesystem.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Filesystem_Service The filesystem instance
+     * @access public
+     */
+    public function getFilesystem()
+    {
+        return $this->get('filesystem');
+    }
+
+    /**
      * Setter for config.
      *
      * @param DoozR_Config $config Instance of config
@@ -465,6 +491,32 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     public function getConfig()
     {
         return $this->get('config');
+    }
+
+    /**
+     * Setter for cache.
+     *
+     * @param DoozR_Psr_Cache_Interface $cache Instance of cache
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setCache(DoozR_Psr_Cache_Interface $cache)
+    {
+        $this->set($cache, 'cache');
+    }
+
+    /**
+     * Getter for cache.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Psr_Cache_Interface The cache instance
+     * @access public
+     */
+    public function getCache()
+    {
+        return $this->get('cache');
     }
 
     /**
