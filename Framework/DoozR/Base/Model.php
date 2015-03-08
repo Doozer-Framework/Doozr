@@ -134,9 +134,9 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
      * @param DoozR_Registry             $registry      DoozR_Registry containing all core components
      * @param DoozR_Base_State_Interface $requestState  Whole request as state
      * @param array                      $request       Whole request as processed by "Route"
-     * @param array                      $translation   Translation required to read the request
      * @param DoozR_Cache_Service        $cache         Instance of DoozR_Cache_Service
      * @param DoozR_Config               $configuration Main configuration
+     * @param array                      $translation   Translation required to read the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Base_Model
@@ -147,19 +147,19 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
         DoozR_Registry             $registry,
         DoozR_Base_State_Interface $requestState,
         array                      $request,
-        array                      $translation,
         DoozR_Cache_Service        $cache,
-        DoozR_Config               $configuration
+        DoozR_Config               $configuration,
+        array                      $translation     = null
     ) {
         // Store all passed instances
         $this
             ->registry($registry)
             ->request($request)
-            ->translation($translation)
             ->originalRequest($requestState->getRequest())
             ->requestState($requestState)
             ->cache($cache)
-            ->configuration($configuration);
+            ->configuration($configuration)
+            ->translation($translation);
 
         // Check for __tearup - Method (it's DoozR's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
@@ -218,13 +218,13 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * Setter for translation.
      *
-     * @param array $translation The translation to set
+     * @param array|null $translation The translation to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setTranslation(array $translation)
+    protected function setTranslation(array $translation = null)
     {
         $this->translation = $translation;
     }
@@ -232,13 +232,13 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * Setter for translation.
      *
-     * @param array $translation The translation to set
+     * @param array|null $translation The translation to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translation(array $translation)
+    protected function translation(array $translation = null)
     {
         $this->setTranslation($translation);
         return $this;
@@ -420,11 +420,8 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     public function getData($force = false)
     {
         if ($this->data === null || $force === true) {
-
-            // Get action
-            $action = $this->getRequestState()->getActiveRoute()[$this->getRequestState()->getTranslationMatrix()[1]];
-
-            // Assume no method to call
+            $route  = $this->getRequestState()->getActiveRoute();
+            $action = $route[0];
             $method = false;
 
             // Check for concrete method call

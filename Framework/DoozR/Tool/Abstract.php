@@ -411,7 +411,7 @@ abstract class DoozR_Tool_Abstract extends DoozR_Base_Class
      * Getter for flags.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The flags
+     * @return donatj\Flags The flags
      * @access protected
      */
     protected function getFlags()

@@ -157,7 +157,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      *                              as an array with additional namespace like: array('namespace', 'service')
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object An/the instance of the requested service
+     * @return DoozR_/(.*)/_Service|object An/the instance of the requested service
      * @access public
      * @static
      */
@@ -223,8 +223,9 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     protected static function registerService($name, DoozR_Base_Service_Interface $service)
     {
         // Check how to store service in registry
-        $uuid = $service->isSingleton() === true ? self::getRegistry()->set($service,
-            $name) : self::getRegistry()->add($service, $name);
+        $uuid = ($service->isSingleton() === true) ?
+            self::getRegistry()->set($service, $name) :
+            self::getRegistry()->add($service, $name);
 
         return $uuid;
     }

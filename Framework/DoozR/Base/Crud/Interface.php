@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Crud Interface
+ * DoozR - Base - Crud - Interface
  *
  * Interface.php - Contract for DoozR compatible CRUD Classes.
  *
@@ -53,7 +53,7 @@
  */
 
 /**
- * DoozR Crud Interface
+ * DoozR - Base - Crud - Interface
  *
  * Contract for DoozR compatible CRUD Classes.
  *
@@ -71,6 +71,9 @@ interface DoozR_Base_Crud_Interface
     /**
      * Creates a new key value pair
      *
+     * @param string $key   The key for creation
+     * @param mixed  $value The value to store
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
@@ -79,6 +82,8 @@ interface DoozR_Base_Crud_Interface
 
     /**
      * Reads the value of the passed key
+     *
+     * @param string $key The key to read data from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Unknown stored value
@@ -89,6 +94,9 @@ interface DoozR_Base_Crud_Interface
     /**
      * Updates the value of a passed key
      *
+     * @param string $key   The key to update data for
+     * @param mixed  $value The value to update
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
@@ -97,6 +105,8 @@ interface DoozR_Base_Crud_Interface
 
     /**
      * Removes a key value pair
+     *
+     * @param string $key The key to update data for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE

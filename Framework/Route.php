@@ -4,12 +4,8 @@
 /**
  * DoozR - Route
  *
- * Route.php - Extends Apache/IIS/... mod_rewrite.
- * This script takes the argument(s) passed to by mod_rewrite (.htaccess) and
- * parse the Object, Action ... out of it. For this it makes use of the
- * configuration, which contains the excludes, the pattern, translation and the
- * regexp. Afterwards it checks for configured pattern (MVP, MVC, or none) and
- * dispatches the call accordingly.
+ * Route.php - Dispatches to DoozR's Routing.
+ *
  *
  * PHP versions 5
  *
@@ -69,7 +65,7 @@ $registry = DoozR_Registry::getInstance();
 $config   = $registry->getConfig();
 
 // Inject route from config to request state
-$registry->getRequest()->setRoutes($config->route());
+$registry->getRequest()->setRouteConfig($config->redirect);
 
 // Combine supported runtime environments
 $supportedEnvironments = array(
@@ -81,11 +77,21 @@ $supportedEnvironments = array(
 // Check for supported runtimeEnvironment
 if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnvironments) === true) {
 
+    if ($config->cache->enabled === true) {
+        /* @var DoozR_Cache_Service $cacheService */
+        $cacheService = $registry->getCache();
+
+    } else {
+        $cacheService = null;
+    }
+
     // Run route init
-    DoozR_Route::init(
+    return DoozR_Route::init(
         $registry,
         $registry->getRequest(),
-        $config->base->pattern->autorun()
+        $cacheService,
+        $config->cache->enabled,
+        $config->base->pattern->autorun
     );
 
 } else {

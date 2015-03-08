@@ -100,9 +100,6 @@ class DoozR_Request extends DoozR_Base_State_Container
     /**
      * Constructor.
      *
-     * Custom constructor which is required to set app.
-     * And then it calls the parent constructor which does the bootstrapping.
-     *
      * @param DoozR_Registry             $registry    The registry containing all important instances
      * @param DoozR_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
      * @param string                     $requestUri  The request URI for overriding detection of real

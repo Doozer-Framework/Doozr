@@ -326,6 +326,10 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
      */
     protected static function getRegistry()
     {
+        if (self::$registry === null) {
+            self::$registry = DoozR_Registry::getInstance();
+        }
+
         return self::$registry;
     }
 

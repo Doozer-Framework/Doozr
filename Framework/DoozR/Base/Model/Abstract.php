@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base-Model-Abstract-Class
+ * DoozR - Base - Model - Abstract
  *
- * DoozRBaseModelAbstract.php - Base/master-abstract-class for building a Model
+ * Abstract.php - Base/master-abstract-class for building a Model
  *
  * PHP versions 5
  *
@@ -55,7 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 
 /**
- * DoozR - Base-Model-Abstract-Class
+ * DoozR - Base - Model - Abstract
  *
  * Base/master-abstract-class for building a Model
  *
@@ -70,10 +70,10 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
  */
 abstract class DoozR_Base_Model_Abstract extends DoozR_Base_Class
 {
-    /*
-	abstract protected function create($data = null);
-	abstract protected function read();
-	abstract protected function update($data = null);
-	abstract protected function delete();
-	*/
+    /**
+     * abstract protected function create($data = null);
+     * abstract protected function read();
+     * abstract protected function update($data = null);
+     * abstract protected function delete();
+     */
 }

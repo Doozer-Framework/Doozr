@@ -56,7 +56,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Facade/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
 
 /**
@@ -76,140 +76,171 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @implements DoozR_Path,DoozR_Logger
  */
-class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_Interface
+class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_Interface
 {
     /**
-     * Default container of configuration
-     * Our preferred type is JSON
+     * The UUID of the active configuration
      *
      * @var string
-     * @access const
+     * @access protected
      */
-    const DEFAULT_CONTAINER = 'Json';
+    protected $uuid = '';
+
+    /**
+     * The cache status.
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $cache;
+
+    /**
+     * Namespace for cache e.g.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $namespace;
+
+    /**
+     * The dirty flag. Indicator for this instance to know
+     * when it is time to start merging and combining UUIDs.
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $dirty = false;
+
+    /**
+     * Instance of cache service.
+     *
+     * @var DoozR_Cache_Service
+     * @access protected
+     */
+    protected $cacheService;
+
+    /**
+     * A config reader instance. In this case (DoozR uses JSON):
+     *
+     * @var DoozR_Config_Reader_Json
+     * @access protected
+     */
+    protected $configReader;
+
+    /**
+     * The merged configuration required for returning content
+     *
+     * @var \stdClass
+     * @access protected
+     */
+    protected $configuration;
+
+    /**
+     * The configuration required for returning content
+     *
+     * @var DoozR_Config_Reader_Json[]
+     * @access protected
+     */
+    protected $configurations;
 
 
     /**
      * Constructor.
      *
-     * @param DoozR_Path_Interface   $path          An instance of DoozR_Path
-     * @param DoozR_Logger_Interface $logger        An instance of DoozR_Logger
-     * @param string                 $container     A container e.g. Json or Ini
-     * @param bool                $enableCaching TRUE to enable internal caching, FALSE to do not
+     * @param DoozR_Config_Reader_Json $configReader A container e.g. Json or Ini
+     * @param DoozR_Cache_Service      $cacheService DoozR_Cache_Service Instance
+     * @param bool                     $cache        TRUE to enable caching, FALSE to do disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Config
      * @access protected
      */
     protected function __construct(
-        DoozR_Path_Interface   $path,
-        DoozR_Logger_Interface $logger,
-                               $container     = self::DEFAULT_CONTAINER,
-                               $enableCaching = false
+        DoozR_Config_Reader_Json $configReader,
+        DoozR_Cache_Service      $cacheService = null,
+                                 $cache        = true
     ) {
-        // create instance through factory and set as object to decorate!
-        $this->setDecoratedObject(
-            $this->factory(
-                __CLASS__ . '_Container_' . ucfirst(strtolower($container)),
-                $path->get('framework'),
-                array(
-                    $path,
-                    $logger,
-                    $enableCaching
-                )
-            )
-        );
+        $this
+            ->configReader($configReader)
+            ->cacheService($cacheService)
+            ->configuration(new \stdClass())
+            ->namespace_(DOOZR_NAMESPACE_FLAT . '.cache.config')
+            ->cache($cache);
     }
 
     /**
-     * Factory for creating an instance(s) of a config container.
+     * Reads a configuration by using the injected DoozR_Config_Reader_Json.
+     * The result of the call will be merged with previously loaded configurations
+     * and it will be cached.
      *
-     * @param string $class     The name of class of the container
-     * @param string $path      The base path to Framework
-     * @param mixed  $arguments Arguments to pass to instance
+     * @param string $filename The filename to parse
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config_Container_Json|DoozR_Config_Container_Ini The fresh created instance of Ini | Json | ...
-     * @access protected
+     * @return DoozR_Config_Reader_Json|mixed|null|stdClass
+     * @throws DoozR_Cache_Service_Exception
+     * @throws DoozR_Config_Reader_Exception
      */
-    protected function factory($class, $path, $arguments = null)
+    public function read($filename)
     {
-        include_once $path . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+        // Create UUID in a generic way
+        $this->setUuid(md5($this->getUuid() . $filename));
 
-        // create and return a fresh instance
-        if ($arguments) {
-            return $this->instanciate($class, $arguments);
+        // Get all loaded configurations
+        $configurations = $this->getConfigurations();
+
+        // Now check if the configuration is in runtime cache
+        if (isset($configurations[$this->getUuid()]) === false) {
+
+            // Otherwise look for cached version?
+            if ($this->getCache() === true) {
+
+                // Yes ... try lookup
+                try {
+                    $configuration = $this->getCacheService()->read($this->getUuid(), $this->getNamespace());
+
+                    // Check returned value => NULL = possible timed out cached entry ...
+                    if ($configuration !== null) {
+
+                        $configurations[$this->getUuid()] = $configuration;
+                        $this->setConfiguration($configuration);
+                        $this->setConfigurations($configurations);
+
+                        return $configuration;
+                    }
+
+                } catch (DoozR_Cache_Service_Exception $e) {
+                    //
+                }
+            }
+
+            // If not cached we need to clone a config parser and begin parsing and merging
+            $configuration = clone $this->getConfigReader();
+            $configuration->read($filename);
+            $configurations[$this->getUuid()] = $configuration->get();
+
+            // Merge with master
+            $configuration = $this->merge(
+                $this->getConfiguration(),
+                $configuration->get()
+            );
+
+            // Store merge result
+            if ($this->getCache() === true) {
+                $this->getCacheService()->create($this->getUuid(), $configuration, null, $this->getNamespace());
+            }
+
+            // Store configurations
+            $this->setConfiguration($configuration);
+            $this->setConfigurations($configurations);
 
         } else {
-            return new $class();
-
+            return $configurations[$this->getUuid()];
         }
     }
 
-
-
-    /**
-     * Creates a configuration node.
-     *
-     * @param string $node The node to create
-     * @param string $data The data to write to config
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
-     * @access public
-     */
-    public function create($node, $data)
-    {
-        return $this->getDecoratedObject()->create($node, $data);
-    }
-
-    /**
-     * Reads and return a configuration node.
-     *
-     * @param mixed $node The node to read/parse
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data from cache if successful, otherwise NULL
-     * @access public
-     */
-    public function read($node)
-    {
-        return $this->getDecoratedObject()->read($node);
-    }
-
-    /**
-     * Updates a configuration node.
-     *
-     * @param string $node  The configuration node
-     * @param string $value The data to write
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
-     * @access public
-     */
-    public function update($node, $value)
-    {
-        return $this->getDecoratedObject()->update($node, $value);
-    }
-
-    /**
-     * Deletes a node.
-     *
-     * @param string $node The node to delete
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
-     * @access public
-     */
-    public function delete($node)
-    {
-        return $this->getDecoratedObject()->delete($node);
-    }
-
-
     /**
      * Setter for key => value pairs of config.
+     * This method does not persist!
      *
      * @param string $node  The key used for entry
      * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
@@ -220,7 +251,7 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
      */
     public function set($node, $value)
     {
-        return $this->getDecoratedObject()->{$node} = $value;
+        //return $this->getDecoratedObject()->{$node} = $value;
     }
 
     /**
@@ -232,8 +263,335 @@ class DoozR_Config extends DoozR_Base_Facade_Singleton implements DoozR_Config_I
      * @return mixed|null The value of configuration node if set, otherwise NULL
      * @access public
      */
-    public function get($node)
+    public function get($node = null)
     {
-        return $this->getDecoratedObject()->{$node};
+        if ($node !== null) {
+            $nodes = explode(':', $node);
+            $configuration = $this->getConfiguration();
+            foreach ($nodes as $node) {
+                $configuration = $configuration->{$node};
+            }
+
+            return $configuration;
+        }
+    }
+
+    /**
+     * Generic getter to provide a DoozR_Config_Reader_Json like interface to master configuration
+     * e.g. DoozR_Config->foo->bar;
+     *
+     * @param string $property The property requested
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The value of the node requested, otherwise NULL
+     * @access public
+     */
+    public function __get($property)
+    {
+        return $this->get($property);
+    }
+
+    /**
+     * Setter for uuid.
+     *
+     * @param string $uuid The uuid to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * Fluent setter for uuid.
+     *
+     * @param string $uuid The uuid to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance of this class for chaining (fluent interface pattern)
+     * @access protected
+     */
+    protected function uuid($uuid)
+    {
+        $this->uuid = $uuid;
+        return $this;
+    }
+
+    /**
+     * Getter for uuid.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string Uuid if set, otherwise NULL
+     * @access protected
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * Setter for namespace.
+     *
+     * @param bool $namespace The namespace to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+    }
+
+    /**
+     * Fluent setter for namespace.
+     *
+     * @param bool $namespace The namespace to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance of this class for chaining (fluent interface pattern)
+     * @access protected
+     */
+    protected function namespace_($namespace)
+    {
+        $this->namespace = $namespace;
+        return $this;
+    }
+
+    /**
+     * Getter for namespace.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null Namespace if set, otherwise NULL
+     * @access protected
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * Setter for cache.
+     *
+     * @param bool $cache The cache to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setCache($cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
+     * Fluent setter for cache.
+     *
+     * @param bool $cache The cache to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance of this class for chaining (fluent interface pattern)
+     * @access protected
+     */
+    protected function cache($cache)
+    {
+        $this->cache = $cache;
+        return $this;
+    }
+
+    /**
+     * Getter for cache.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool Cache if set, otherwise NULL
+     * @access protected
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
+     * Setter for cache service.
+     *
+     * @param DoozR_Cache_Service $cacheService
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setCacheService(DoozR_Cache_Service $cacheService)
+    {
+        $this->cacheService = $cacheService;
+    }
+
+    /**
+     * Fluent setter for cache service.
+     *
+     * @param DoozR_Cache_Service $cacheService
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance of this class for chaining (fluent interface pattern)
+     * @access protected
+     */
+    protected function cacheService(DoozR_Cache_Service $cacheService)
+    {
+        $this->setCacheService($cacheService);
+        return $this;
+    }
+
+    /**
+     * Getter for cache service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|DoozR_Cache_Service Instance of cache service if set, otherwise NULL
+     * @access protected
+     */
+    protected function getCacheService()
+    {
+        return $this->cacheService;
+    }
+
+    /**
+     * Setter for configReader.
+     *
+     * @param DoozR_Config_Reader_Json $configReader
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setConfigReader(DoozR_Config_Reader_Json $configReader)
+    {
+        $this->configReader = $configReader;
+    }
+
+    /**
+     * Fluent setter for config reader.
+     *
+     * @param DoozR_Config_Reader_Json $configReader
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance of this class for chaining (fluent interface pattern)
+     * @access protected
+     */
+    protected function configReader(DoozR_Config_Reader_Json $configReader)
+    {
+        $this->configReader = $configReader;
+        return $this;
+    }
+
+    /**
+     * Getter for configReader.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|DoozR_Config_Reader_Json Instance of configReader if set, otherwise NULL
+     * @access protected
+     */
+    protected function getConfigReader()
+    {
+        return $this->configReader;
+    }
+
+    /**
+     * Setter for configuration.
+     *
+     * @param \stdClass $configuration
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setConfiguration(\stdClass $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * Setter for configuration.
+     *
+     * @param \stdClass $configuration
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function configuration(\stdClass $configuration)
+    {
+        $this->configuration = $configuration;
+        return $this;
+    }
+
+    /**
+     * Getter for configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \stdClass|null The configuration if set, otherwise NULL
+     * @access protected
+     */
+    protected function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * Setter for configuration.
+     *
+     * @param array $configurations The configurations to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setConfigurations(array $configurations)
+    {
+        $this->configurations = $configurations;
+    }
+
+    /**
+     * Setter for configuration.
+     *
+     * @param array $configurations The configurations to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining.
+     * @access protected
+     */
+    protected function configurations(array $configurations)
+    {
+        $this->configurations = $configurations;
+        return $this;
+    }
+
+    /**
+     * Getter for all parsed/processed configurations.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return DoozR_Config_Reader_Json[]
+     * @access protected
+     */
+    protected function getConfigurations()
+    {
+        return $this->configurations;
+    }
+
+    /**
+     * Merges two configurations of type \stdClass.
+     *
+     * @param stdClass $object1 The master configuration
+     * @param stdClass $object2 The configuration to merge with master
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \stdClass The merged result
+     * @access protected
+     */
+    protected function merge(\stdClass $object1, \stdClass $object2)
+    {
+        return array_to_object(
+            array_replace_recursive(object_to_array($object1) , object_to_array($object2))
+        );
     }
 }

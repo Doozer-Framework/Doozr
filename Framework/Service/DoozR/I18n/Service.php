@@ -287,7 +287,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function getAvailableLocales()
     {
-        return self::$config->i18n->defaults->available();
+        return self::$config->i18n->defaults->available;
     }
 
     /**
@@ -301,6 +301,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function setAvailableLocales(array $locales)
     {
+        pred('damn');
         return self::$config->i18n->defaults->available($locales);
     }
 

@@ -53,7 +53,6 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Response.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 use DebugBar\StandardDebugBar;
 
@@ -1061,7 +1060,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
         // check encoding
         if (!$encoding) {
             // get it from config
-            $encoding = $this->config->locale->encoding();
+            $encoding = $this->config->locale->encoding;
 
         } else {
             // to upper for switch

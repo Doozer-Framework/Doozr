@@ -50,11 +50,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- *
- * @since      -
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
  * DoozR - Base - Database - Abstract
@@ -335,7 +331,7 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
         // try to load configuration of orm
         try {
             // retrieve config for ORM/DBA
-            self::$ormConfig = $this->config->database->{$orm}();
+            self::$ormConfig = $this->config->database->{$orm};
 
         } catch(DoozR_Config_Ini_Exception $e) {
 

@@ -324,7 +324,7 @@ class DoozR_Request_Web extends DoozR_Base_Request implements DoozR_Request_Inte
     protected function protocolize()
     {
         // this is expensive so only in debug available
-        if ($this->config->debug->enabled()) {
+        if ($this->config->debug->enabled) {
 
             // log Request-Parameter and Request-Header
             $this->logger->debug(

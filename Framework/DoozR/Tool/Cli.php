@@ -85,7 +85,7 @@ class DoozR_Tool_Cli extends DoozR_Tool_Abstract
      * webserver=restart
      * webserver=status
      *
-     * @param string $injectedCommand An optional injected (and overide) command.
+     * @param string $injectedCommand An optional injected (and override) command.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed A result in any form.
@@ -113,7 +113,20 @@ class DoozR_Tool_Cli extends DoozR_Tool_Abstract
             if ($value !== false && strlen($value) > 0) {
                 switch ($name) {
                     case 'webserver':
-                        $object = new DoozR_Tool_Webserver(
+                        new DoozR_Tool_Webserver(
+                            $this->getFlags(),
+                            $this->getName(),
+                            $this->getVersion(),
+                            array(
+                                $name => $this->getFlagConfiguration($name)
+                            ),
+                            $value
+                        );
+                        exit;
+                        break;
+
+                    case 'cache':
+                        new DoozR_Tool_Cache(
                             $this->getFlags(),
                             $this->getName(),
                             $this->getVersion(),
@@ -131,9 +144,30 @@ class DoozR_Tool_Cli extends DoozR_Tool_Abstract
             }
         }
 
+        $this->showDoozrBanner();
+
         // Default here is nothing to do just show help
         $this->showHelp($error);
 
         return true;
+    }
+
+    /**
+     * Show DoozR banner.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     * @static
+     */
+    protected static function showDoozrBanner()
+    {
+        \cli\line('%N%n%y');
+        \cli\line('  _____     ______     ______     ______     ______');
+        \cli\line(' /\  __-.  /\  __ \   /\  __ \   /\___  \   /\  == \\');
+        \cli\line(' \ \ \/\ \ \ \ \/\ \  \ \ \/\ \  \/_/  /__  \ \  __<');
+        \cli\line('  \ \____-  \ \_____\  \ \_____\   /\_____\  \ \_\ \_\\');
+        \cli\line('   \/____/   \/_____/   \/_____/   \/_____/   \/_/ /_/');
+        \cli\line('%N%n');
     }
 }

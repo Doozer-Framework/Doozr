@@ -307,5 +307,3 @@ final class Doodi_Couchdb_Transformation extends DoozR_Base_Class
         return null;
     }
 }
-
-?>

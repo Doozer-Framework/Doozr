@@ -54,7 +54,6 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Config/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
 
 /**
  * DoozR - Loader - Autoloader - Spl - Facade

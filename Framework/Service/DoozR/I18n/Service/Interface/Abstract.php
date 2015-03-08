@@ -133,11 +133,8 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
 
             // caching enabled?
             if (self::$cache) {
-                // identify cache content by internal crc
-                self::$cache->setId($crc);
-
                 // check if content of translationtable is already cached?
-                $cachedContent = self::$cache->isCached();
+                $cachedContent = self::$cache->read($crc);
 
             } else {
                 // no cache = no result
@@ -154,7 +151,7 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
 
                     if ($translationTable !== false) {
                         // cache translationtable
-                        self::$cache->create($translationTable);
+                        self::$cache->create($crc, $translationTable);
 
                         // set local
                         self::$translationTables[$crc] = $translationTable;
@@ -187,11 +184,25 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
     {
         // if cache enabled - get module cache and setup
         if (!self::$cache && ($config['cache']['enabled'] !== null)) {
-            // get module cache
-            self::$cache = DoozR_Loader_Serviceloader::load('cache', DOOZR_UNIX, $config['cache']['enabled']);
 
-            // set its lifetime
-            self::$cache->setLifetime($config['cache']['lifetime']);
+            if (isset($config['cache']['container']) === false) {
+                if ($container = getenv('DOOZR_CACHE_CONTAINER') === false) {
+                    if (defined('DOOZR_CACHE_CONTAINER') === false) {
+                        define('DOOZR_CACHE_CONTAINER', DoozR_Cache_Service::CONTAINER_FILESYSTEM);
+                    }
+
+                    $container = DOOZR_CACHE_CONTAINER;
+                }
+            } else {
+                $container = $config['cache']['container'];
+            }
+
+            if (isset($config['cache']['namespace']) === false) {
+                $namespace = 'doozr.cache.i18n';
+            }
+
+            // Get module cache
+            self::$cache = DoozR_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX);
         }
 
         $this->encoding = $config['encoding'];

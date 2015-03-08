@@ -52,6 +52,11 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container/Interface.php';
+
+use Rhumsaa\Uuid\Uuid;
+use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+
 /**
  * DoozR - Cache - Service - Container
  *
@@ -65,59 +70,18 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
- * @throws     Service_DoozR_Cache_Service_Exception
- * @service    Multiple
  */
 abstract class DoozR_Cache_Service_Container
+    implements
+    DoozR_Cache_Service_Container_Interface
 {
     /**
-     * Flag indicating wheter to preload datasets or not.
+     * Whether the OS is unixoid.
      *
      * @var bool
-     * @access private
+     * @access protected
      */
-    private $_preload = true;
-
-    /**
-     * Cache group of a preloaded dataset
-     *
-     * @var string
-     * @access private
-     */
-    private $_group = '';
-
-    /**
-     * Expiration timestamp of a preloaded dataset.
-     * 0 means never, endless
-     *
-     * @var int
-     * @access private
-     */
-    private $_expires = 0;
-
-    /**
-     * Value of a preloaded dataset.
-     *
-     * @var string
-     * @access private
-     */
-    private $_data = '';
-
-    /**
-     * userdata field for preloaded datasets
-     *
-     * @var string
-     * @access private
-     */
-    private $_userdata = '';
-
-    /**
-     * Flag indicating that the dataset requested for preloading is unknown.
-     *
-     * @var bool
-     * @access private
-     */
-    private $_unknown = true;
+    protected $unix = true;
 
     /**
      * Encoding runtimeEnvironment for cache data: base64 or addslashes() (slash).
@@ -126,7 +90,7 @@ abstract class DoozR_Cache_Service_Container
      * @var string
      * @access protected
      */
-    protected $encodingMode = 'base64';
+    protected $encoding = 'base64';
 
     /**
      * Highwater mark - maximum space required by all cache entries.
@@ -137,27 +101,35 @@ abstract class DoozR_Cache_Service_Container
      * lowwater mark.
      *
      * @var int
-     * @see lowwater
+     * @see lowwaterMarker
      * @access protected
      */
-    protected $highwater = 2048000;
+    protected $highwaterMarker = 536870912;
 
     /**
      * Lowwater mark
      *
      * @var int
-     * @see highwater
+     * @see highwaterMarker
      * @access protected
      */
-    protected $lowwater = 1536000;
+    protected $lowwaterMarker = 178956971;
 
     /**
-     * ID of a preloaded dataset
+     * Total number of bytes required by all cache entries, used within a gc run.
      *
-     * @var string
-     * @access private
+     * @var int
+     * @access protected
      */
-    private $_id = '';
+    protected $totalSize = 0;
+
+    /**
+     * List of cache entries, used within runGarbageCollection()
+     *
+     * @var array
+     * @access protected
+     */
+    protected $entries = array();
 
     /**
      * Options that can be set in every derived class using it's constructor.
@@ -166,11 +138,48 @@ abstract class DoozR_Cache_Service_Container
      * @access protected
      */
     protected $allContainerAllowedOptions = array(
-        'encodingMode',
-        'highwater',
-        'lowwater',
-        'unix'
+        'encoding',
+        'highwaterMarker',
+        'lowwaterMarker',
+        'unix',
+        'namespace'
     );
+
+    /**
+     * Allowed options specific for this container
+     *
+     * @var array
+     * @access protected
+     */
+    protected $thisContainerAllowedOptions = array();
+
+    /**
+     * Dumb runtime cache implementation.
+     *
+     * @var array
+     * @access protected
+     */
+    protected $runtimeCache = array();
+
+    /**
+     * The encoding base64
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const ENCODING_BASE64 = 'base64';
+
+    /**
+     * The namespace separator
+     *
+     * @example doozr.cache.front.request contains "." as separator
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const NAMESPACE_SEPARATOR = '.';
 
 
     /**
@@ -179,319 +188,384 @@ abstract class DoozR_Cache_Service_Container
      * @param array $options The options passed to this instance at runtime
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return DoozR_Cache_Service_Container Instance of this class
      * @access public
      */
     public function __construct(array $options = array())
     {
-        // configure
-        $this->setOptions(
-            $options,
-            array_merge(
-                $this->allContainerAllowedOptions,
-                $this->thisContainerAllowedOptions
-            )
-        );
-    }
-
-    /**
-     * This method is intend to load a dataset from cache.
-     *
-     * @param string $id    The dataset Id
-     * @param string $group The dataset group
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The dataset value, NULL on failure
-     * @access public
-     */
-    public function read($id, $group)
-    {
-        // Preloading activated?
-        if ($this->_preload) {
-            // do a checked preload
-            $this->_checkedPreload($id, $group);
-            return $this->_data;
-        }
-
-        $result = $this->read($id, $group);
-
-        list( , $data, ) = $result;
-
-        return $data;
+        // Configure
+        $this
+            ->options(
+                $options,
+                array_merge(
+                    $this->allContainerAllowedOptions,
+                    $this->thisContainerAllowedOptions
+                )
+            );
     }
 
     /**
      * This method is intend to write data to cache. It's just a facade to create() cause
      * update isn't fully implemented yet.
      *
-     * @param string  $id       The dataset Id
-     * @param string  $data     The data to write to cache
-     * @param int $expires  Date/Time on which the cache-entry expires
-     * @param string  $group    The dataset group
-     * @param string  $userdata The custom userdata to add
+     * @param string  $key       The dataset Id
+     * @param string  $value     The data to write to cache
+     * @param int     $lifetime  Date/Time on which the cache-entry expires
+     * @param string  $namespace The dataset namespace
+     * @param string  $userdata  The custom userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success
+     * @return bool TRUE on success
      * @access public
-     * @throws DoozR_Cache_Service_Exception
      */
-    public function update($id, $data, $expires, $group, $userdata = null)
+    public function update($key, $value, $namespace, $lifetime = null, $userdata = null)
     {
-        $this->create($id, $data, $expires, $group, $userdata);
+        $this->create($key, $value, $namespace, $lifetime, $userdata);
     }
 
     /**
      * This method returns the userdata from preloaded dataset.
      *
-     * @param string $id    The dataset id
-     * @param string $group The dataset group
+     * @param string $key        The dataset id
+     * @param string $namespace The dataset namespace
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function getUserdata($id, $group)
+    public function getUserdata($key, $namespace)
     {
-        // preloading activated?
-        if ($this->_preload) {
-            // do a checked preload
-            $this->_checkedPreload($id, $group);
-
-            return $this->_userdata;
-        }
-
-        $ret = $this->read($id, $group);
+        $ret = $this->read($key, $namespace);
 
         list( , , $userdata) = $ret;
         return $userdata;
     }
 
     /**
-     * This method sets the id.
+     * This method is intend to check if a dataset is cached.
      *
-     * @param string $id The id to set
+     * @param string $key        The dataset Id
+     * @param string $namespace The dataset namespace
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if cached, otherwise FALSE
+     * @access public
+     */
+    public function cached($key, $namespace)
+    {
+        return $this->exists($key, $namespace);
+    }
+
+    /**
+     * Setter for encoding.
+     *
+     * @param string $encoding The encoding to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setId($id)
+    protected function setEncoding($encoding)
     {
-        $this->_id = $id;
+        $this->encoding = $encoding;
     }
 
     /**
-     * This method returns the id.
+     * Setter for encoding.
+     *
+     * @param string $encoding The encoding to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The current id
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function getId()
+    protected function encoding($encoding)
     {
-        return $this->_id;
+        $this->setEncoding($encoding);
+        return $this;
     }
 
     /**
-     * This method is intend to check if a dataset is cached.
-     *
-     * @param string $id    The dataset Id
-     * @param string $group The dataset group
+     * Getter for encoding.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if cached, otherwise FALSE
-     * @access public
+     * @return null|string Encoding if set, otherwise NULL
+     * @access protected
      */
-    public function isCached($id, $group)
+    protected function getEncoding()
     {
-        // Is preloading activated?
-        if ($this->_preload === true) {
-            // Do a checked preload ...
-            $this->_checkedPreload($id, $group);
-
-            return !($this->_unknown);
-        }
-
-        return $this->idExists($id, $group);
+        return $this->encoding;
     }
 
     /**
-     * This method is intend to check if a dataset is expired.
+     * Setter for highwaterMarker.
      *
-     * @param string  $id     The dataset Id
-     * @param string  $group  The dataset group
-     * @param int $maxAge Maximum age timestamp
+     * @param int $highwaterMarker The highwaterMarker to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The dataset value, NULL on failure
-     * @access public
+     * @return void
+     * @access protected
      */
-    public function isExpired($id, $group, $maxAge)
+    protected function setHighwaterMarker($highwaterMarker)
     {
-        // is preloading enabled?
-        if ($this->_preload) {
-            // do a checked preload
-            $this->_checkedPreload($id, $group);
-
-            if ($this->_unknown) {
-                return false;
-            }
-        } else {
-            // check if at all it is cached
-            if (!$this->isCached($id, $group)) {
-                return false;
-            }
-            // I'm lazy...
-            $ret = $this->read($id, $group);
-
-            list($this->_expires, , ) = $ret;
-        }
-
-        // endless
-        if (0 == $this->_expires) {
-            return false;
-        }
-
-        $expired  = ($this->_expires <= time()) || ($maxAge && ($this->_expires <= $maxAge));
-
-        // you feel fine, Ulf?
-        if ($expired) {
-            // call remove in container
-            $this->delete($id, $group);
-            $this->flushPreload();
-        }
-
-        return $expired;
+        $this->highwaterMarker = $highwaterMarker;
     }
 
     /**
-     * This method is intend to preload a dataset.
+     * Setter for highwaterMarker.
      *
-     * @param string $id    The dataset Id
-     * @param string $group The dataset group
+     * @param int $highwaterMarker The highwaterMarker to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    private function _preload($id, $group)
+    protected function highwaterMarker($highwaterMarker)
     {
-        // Try to read result by id-group
-        $result = $this->read($id, $group);
+        $this->setHighwaterMarker($highwaterMarker);
+        return $this;
+    }
 
-        if ($result === null) {
-            // Uuups, could not be preloaded ...
-            $this->flushPreload();
-            $result = false;
+    /**
+     * Getter for highwaterMarker.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return int highwaterMarker
+     * @access protected
+     */
+    protected function getHighwaterMarker()
+    {
+        return $this->highwaterMarker;
+    }
 
-        } else {
-            $this->_id    = $id;
-            $this->_group = $group;
-            $result = true;
+    /**
+     * Setter for lowwaterMarker.
+     *
+     * @param int $lowwaterMarker The lowwaterMarker to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setLowwaterMarker($lowwaterMarker)
+    {
+        $this->lowwaterMarker = $lowwaterMarker;
+    }
 
+    /**
+     * Setter for lowwaterMarker.
+     *
+     * @param int $lowwaterMarker The lowwaterMarker to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function lowwaterMarker($lowwaterMarker)
+    {
+        $this->setLowwaterMarker($lowwaterMarker);
+        return $this;
+    }
+
+    /**
+     * Getter for lowwaterMarker.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool GarbageCollectorMaxLifetime if set, otherwise NULL
+     * @access protected
+     */
+    protected function getLowwaterMarker()
+    {
+        return $this->lowwaterMarker;
+    }
+
+    /**
+     * Setter for totalSize.
+     *
+     * @param int $totalSize The totalSize to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setTotalSize($totalSize)
+    {
+        $this->totalSize = $totalSize;
+    }
+
+    /**
+     * Setter for totalSize.
+     *
+     * @param int $totalSize The totalSize to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function totalSize($totalSize)
+    {
+        $this->setTotalSize($totalSize);
+        return $this;
+    }
+
+    /**
+     * Getter for totalSize.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool GarbageCollectorMaxLifetime if set, otherwise NULL
+     * @access protected
+     */
+    protected function getTotalSize()
+    {
+        return $this->totalSize;
+    }
+
+    /**
+     * Setter for entries.
+     *
+     * @param array $entries The entries to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setEntries(array $entries)
+    {
+        $this->entries = $entries;
+    }
+
+    /**
+     * Setter for entries.
+     *
+     * @param array $entries The entries to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function entries(array $entries)
+    {
+        $this->setEntries($entries);
+        return $this;
+    }
+
+    /**
+     * Getter for entries.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|array The entries if set, otherwise NULL
+     * @access protected
+     */
+    protected function getEntries()
+    {
+        return $this->entries;
+    }
+
+    /**
+     * Adds an element (entry) to list of entries.
+     *
+     * @param mixed  $key   The key to use as index
+     * @param array  $value The entry to add
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE on success, otherwise false
+     * @access protected
+     */
+    protected function addEntry($key, array $value)
+    {
+        $this->entries[$key] = $value;
+    }
+
+    /**
+     * Setter for runtime cache element.
+     *
+     * @param string $key       The key to store value under
+     * @param array  $dataset   The value to store
+     * @param string $namespace The namespace to use
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function addToRuntimeCache($key, array $dataset, $namespace)
+    {
+        if (!isset($this->runtimeCache[$namespace])) {
+            $this->runtimeCache[$namespace] = array();
+        }
+
+        $this->runtimeCache[$namespace][$key] = $dataset;
+    }
+
+    /**
+     * Getter for runtime cache element.
+     *
+     * @param string $key The key to read from cache
+     * @param string $namespace The namespace to use for zhat
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The value for passed key if exist, otherwise NULL
+     * @access protected
+     * @throws DoozR_Cache_Service_Exception
+     */
+    protected function getFromRuntimeCache($key, $namespace)
+    {
+        $result = false;
+
+        if (isset($this->runtimeCache[$namespace][$key]) === true) {
+            $result = $this->runtimeCache[$namespace][$key];
         }
 
         return $result;
     }
 
     /**
-     * This method is intend to do a checked preload. This means that this
-     * method first checks if the current request was already loaded before.
-     *
-     * @param string $id    The dataset id
-     * @param string $group The dataset group
+     * Returns the whole runtime cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * @return array The runtime cache
+     * @access protected
      */
-    private function _checkedPreload($id, $group)
+    protected function getRuntimeCache()
     {
-        // If the active set id or group is different from last preloading
-        if ($this->_id !== $id || $this->_group !== $group) {
-            $this->_preload($id, $group);
-        }
+        return $this->runtimeCache;
     }
 
     /**
-     * This method is intend to import the requested datafields as object variables if allowed.
+     * Purges the runtime cache.
      *
-     * @param array $requested The values which should be imported as variable into class-namespace
-     * @param array $allowed   The allowed keys (variable-names) - allowed to import
+     * @param string|null $key       The key to purge from runtime cache
+     * @param string|null $namespace The namespace to purge, or NULL to purge all namespaces
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool TRUE if runtime cache was purged, otherwise FALSE
      * @access protected
+     * @throws DoozR_Cache_Service_Exception
      */
-    protected function setOptions(array $requested = array(), array $allowed = array())
+    protected function purgeRuntimeCache($key = null, $namespace = null)
     {
-        foreach ($allowed as $key => $value) {
-            if (isset($requested[$value])) {
-                $this->{$value} = $requested[$value];
+        // Assume will fail
+        $result = false;
+
+        if ($namespace !== null && !isset($this->runtimeCache[$namespace])) {
+            // Nothing to do is a success when purging ...
+            $result = true;
+
+        } else {
+            // Hard reset when both null ...
+            if ($key === null && $namespace === null) {
+                $this->runtimeCache = array();
+
+            } else {
+                if ($key === null) {
+                    $this->runtimeCache[$namespace] = array();
+                } else {
+                    unset($this->runtimeCache[$namespace][$key]);
+                }
+
             }
         }
-    }
 
-    /**
-     * This method is intend to flush the internal preload buffer.
-     * create(), delete() and flush() must call this method to preevent differences between the preloaded values and
-     * the real cache contents.
-     *
-     * @param string $id    The dataset ID, if left out the preloaded values will be flushed. If given the preloaded
-     *                      values will only be flushed if they are equal to the given id and group
-     * @param string $group The dataset group
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function flushPreload($id = '', $group = 'Default')
-    {
-        if (!$id || ($this->_id == $id && $this->_group == $group)) {
-            // clear the internal preload values
-            $this->_id       = '';
-            $this->_group    = '';
-            $this->_data     = '';
-            $this->_userdata = '';
-            $this->_expires  = -1;
-            $this->_unknown  = true;
-        }
-    }
-
-    /**
-     * This method is intend to encode the data for the storage container.
-     *
-     * @param string $data The dataset to encode
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string Encoded data input
-     * @access protected
-     */
-    protected function encode($data)
-    {
-        if ($this->encodingMode == 'base64') {
-            return base64_encode(serialize($data));
-        } else {
-            return serialize($data);
-        }
-    }
-
-    /**
-     * This method is intend to decode the data for the storage container.
-     *
-     * @param string $data The dataset to encode
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string Encoded data input
-     * @access protected
-     */
-    protected function decode($data)
-    {
-        if ($this->encodingMode == 'base64') {
-            return unserialize(base64_decode($data));
-        } else {
-            return unserialize($data);
-        }
+        return $result;
     }
 
     /**
@@ -511,81 +585,112 @@ abstract class DoozR_Cache_Service_Container
     protected function getExpiresAbsolute($expires)
     {
         if (!$expires) {
-            return 0;
-        }
+            $result= 0;
 
-        // for api-compatibility, one has not to provide a "+", if integer is < 946681200 (= Jan 01 2000 00:00:00)
-        if ($expires[0] == '+' || $expires < 946681200) {
-            return(time() + $expires);
-        } elseif ($expires < 100000000000) {
-            //if integer is < 100000000000 (= in 3140 years),
-            // it must be an absolut unixtime
-            // (since the "human readable" definition asks for a higher number)
-            return $expires;
         } else {
-            // else it's "human readable";
-            $year = substr($expires, 0, 4);
-            $month = substr($expires, 4, 2);
-            $day = substr($expires, 6, 2);
-            $hour = substr($expires, 8, 2);
-            $minute = substr($expires, 10, 2);
-            $second = substr($expires, 12, 2);
-            return mktime($hour, $minute, $second, $month, $day, $year);
+            // For API-compatibility, one has not to provide a "+", if integer is < 946681200 (= Jan 01 2000 00:00:00)
+            if ($expires[0] == '+' || $expires < 946681200) {
+                $result = (time() + $expires);
+
+            } elseif ($expires < 100000000000) {
+                //if integer is < 100000000000 (= in 3140 years),
+                // it must be an absolut unixtime (since the "human readable" definition asks for a higher number)
+                $result = $expires;
+
+            } else {
+                // else it's "human readable";
+                $year   = substr($expires, 0, 4);
+                $month  = substr($expires, 4, 2);
+                $day    = substr($expires, 6, 2);
+                $hour   = substr($expires, 8, 2);
+                $minute = substr($expires, 10, 2);
+                $second = substr($expires, 12, 2);
+                $result = mktime($hour, $minute, $second, $month, $day, $year);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * This method is intend to import the requested datafields as object variables if allowed.
+     *
+     * @param array $requested The values which should be imported as variable into class-namespace
+     * @param array $allowed   The allowed keys (variable-names) - allowed to import
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function options(array $requested = array(), array $allowed = array())
+    {
+        foreach ($allowed as $key => $value) {
+            if (isset($requested[$value]) === true) {
+                $this->{$value} = $requested[$value];
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * This method is intend to encode the data for the storage container.
+     *
+     * @param string $data The dataset to encode
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Encoded data input
+     * @access protected
+     */
+    protected function encode($data)
+    {
+        if ($this->getEncoding() === self::ENCODING_BASE64) {
+            return base64_encode(serialize($data));
+        } else {
+            return serialize($data);
         }
     }
 
     /**
-     * This method is intend to start the garbageCollection in child container(s). Please override this
-     * method in your container and call parent::garbageCollection($maxlifetime) or $this->flushPreload() on
-     * every call first.
+     * This method is intend to decode the data for the storage container.
      *
-     * @param int $maxlifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param string $data The dataset to encode
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return string Encoded data input
      * @access protected
      */
-    public function garbageCollection($maxlifetime)
+    protected function decode($data)
     {
-        // flush the internal preload buffer on every call
-        $this->flushPreload();
+        if ($this->getEncoding() === self::ENCODING_BASE64) {
+            return unserialize(base64_decode($data));
+
+        } else {
+            return unserialize($data);
+
+        }
     }
 
     /**
-     * This method is intend to check if a dataset exists.
+     * Calculates a UUID for a passed string.
      *
-     * @param string $id    The id of the dataset
-     * @param string $group The group of the dataset
+     * @param string $input The input to calculate the UUID for.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if Id exist, otherwise FALSE
+     * @return string The UUID
      * @access protected
-     * @abstract
      */
-    abstract protected function idExists($id, $group);
+    protected function calculateUuid($input)
+    {
+        try {
+            // Generate a version 5 (name-based and hashed with SHA1) UUID object
+            $uuid5 = Uuid::uuid5(Uuid::NAMESPACE_DNS, $input);
+            $uuid = $uuid5->toString();
 
-    /**
-     * This method is intend to remove an dataset finally from container.
-     *
-     * @param string $id    The id of the dataset
-     * @param string $group The group of the dataset
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access protected
-     * @abstract
-     */
-    //abstract protected function delete($id, $group);
+        } catch (UnsatisfiedDependencyException $e) {
+            $uuid = sha1($input);
+        }
 
-    /**
-     * This method is intend to flush the cache. It removes all caches datasets from the cache.
-     *
-     * @param string $group The dataset group to flush
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Number of removed datasets on success, otherwise FALSE
-     * @access public
-     * @abstract
-     */
-    abstract public function flush($group);
+        return $uuid;
+    }
 }
