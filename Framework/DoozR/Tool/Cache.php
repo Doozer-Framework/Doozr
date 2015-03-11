@@ -72,14 +72,36 @@ use \donatj\Flags;
  */
 class DoozR_Tool_Cache extends DoozR_Tool_Abstract
 {
+    /**
+     * Valid scopes for cache operations
+     *
+     * @var string[]
+     * @access protected
+     */
+    protected $validScopes = array(
+        self::SCOPE_DOOZR,                  // Everything
+        self::SCOPE_DOOZR_CACHE,            // Default namespace
+        self::SCOPE_DOOZR_ROUTES,           // Routing Matrix
+        self::SCOPE_DOOZR_CONFIG,           // Configuration(s)
+    );
+
    /**
-     * Command purge.
+    * Command purge.
+    *
+    * @var string
+    * @access public
+    * @const
+    */
+    const COMMAND_CLEAR = 'purge';
+
+    /**
+     * Command warmup.
      *
      * @var string
      * @access public
      * @const
      */
-    const COMMAND_CLEAR = 'purge';
+    const COMMAND_WARMUP = 'warmup';
 
     /**
      * Scope everything
@@ -88,7 +110,11 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
      * @access public
      * @const
      */
-    const SCOPE_EVERYTHING = '*';
+    const SCOPE_EVERYTHING    = '*';                        // <= ???
+    const SCOPE_DOOZR         = 'doozr';                    // <= ???
+    const SCOPE_DOOZR_CACHE   = 'doozr.cache';              // <= Default caching namespace of Service Cache
+    const SCOPE_DOOZR_ROUTES  = 'doozr.cache.routes';       // <= Routes of the DoozR Installation
+    const SCOPE_DOOZR_CONFIG  = 'doozr.cache.config';       // <= ???
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -140,11 +166,11 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
         }
 
         if ($result === false) {
-            echo $this->colorize($injectedCommand . ' failed!' . PHP_EOL, '%r');
+            echo $this->colorize($injectedCommand.' failed!'.PHP_EOL, '%r');
             $this->showHelp();
 
         } else {
-            echo $this->colorize($injectedCommand . ' successful!' . PHP_EOL, '%g');
+            echo $this->colorize($injectedCommand.' ('.$result.' element'.(($result != 1) ? 's' : '').') successful!'.PHP_EOL, '%g');
         }
 
         return $result;
@@ -157,7 +183,7 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
      * @param array  $argumentBag A collection of arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function dispatchCommand($command, array $argumentBag = array())
@@ -171,11 +197,11 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
         if (count($arguments) > 1) {
             $command = array_shift($arguments);
         } else {
-            $arguments = array(self::SCOPE_EVERYTHING);
+            // Extract the namespace (scope for action)
+            $arguments = $argumentBag['namespace'];
         }
 
         switch ($command) {
-
             case self::COMMAND_CLEAR:
                 $result = $this->purge(
                     $arguments,
@@ -201,76 +227,61 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
     /**
      * Purges content from cache.
      *
-     * @param string $scope The scope to purge content for.
-     * @param array $argumentBag A bag of arguments from CLI
+     * @param string $namespace   The namespace to purge content for.
+     * @param array  $argumentBag A bag of arguments from CLI
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed A result in any form.
+     * @return mixed|boolean A result in any form or FALSE on error.
      * @access protected
      * @throws DoozR_Exception
      */
     protected function purge(
-              $scope       = self::SCOPE_EVERYTHING,
+              $namespace   = self::SCOPE_EVERYTHING,
         array $argumentBag = array()
     ) {
         // We need to detect the cache container of DoozR or fallback to default
-        if ($container = getenv('DOOZR_CACHE_CONTAINER') === false) {
-            $container = (defined('DOOZR_CACHE_CONTAINER') === true) ?
-                DOOZR_CACHE_CONTAINER :
-                DoozR_Cache_Service::CONTAINER_FILESYSTEM;
+        if (false === $container = getenv('DOOZR_CACHE_CONTAINER')) {
+            if (defined('DOOZR_CACHE_CONTAINER') === false) {
+                define('DOOZR_CACHE_CONTAINER', DoozR_Cache_Service::CONTAINER_FILESYSTEM);
+            }
+            $container = DOOZR_CACHE_CONTAINER;
         }
 
         // Build namespace for cache
-        $namespace = DOOZR_NAMESPACE_FLAT . '.cache';
+        if (in_array($namespace, $this->validScopes) === false) {
+            throw new DoozR_Exception(
+                sprintf('Scope %s not allowed!', $namespace)
+            );
+        }
 
         /* @var DoozR_Cache_Service $cache */
         $cache = DoozR_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX);
 
-        $scope = implode('.', $scope);
+        // We can purge simply everything from passed namespace!
+        try {
+            $result = $cache->garbageCollection($namespace, -1, true);
 
-        switch ($scope) {
-            case '*':
-                // We can purge simply everything from our namespace!
-                try {
-                    $cache->runGarbageCollection($namespace, -1);
-
-                } catch (Exception $e) {
-                    var_dump($e);
-                    die;
-                }
-
-                break;
-
-            case 'routes':
-                throw new DoozR_Exception('Not implemented yet!');
-                break;
-
-            case 'configs':
-                throw new DoozR_Exception('Not implemented yet!');
-                break;
-
-            case 'services':
-                throw new DoozR_Exception('Purging Not implemented yet!');
-                break;
+        } catch (Exception $e) {
+            $result = false;
         }
 
-        return true;
+        return $result;
     }
 
     /**
      * Prepares content for the cache = warmup.
      *
-     * @param string $scope The scope to warmup content for.
+     * @param string $namespace The namespace to warmup content for.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed A result in any form.
      * @access protected
      */
     protected function warmup(
-        $scope       = self::SCOPE_EVERYTHING,
+              $namespace   = self::SCOPE_EVERYTHING,
         array $argumentBag = array()
     ) {
-        var_dump($scope);
+        var_dump($namespace);
         die;
     }
 }

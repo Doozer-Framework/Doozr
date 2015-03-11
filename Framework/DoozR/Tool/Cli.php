@@ -144,6 +144,7 @@ class DoozR_Tool_Cli extends DoozR_Tool_Abstract
             }
         }
 
+        // Show the DoozR header
         $this->showDoozrBanner();
 
         // Default here is nothing to do just show help

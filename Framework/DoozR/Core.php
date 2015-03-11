@@ -264,17 +264,12 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     protected static function initCache()
     {
         // We need to detect the cache container of DoozR or fallback to default
-        if ($container = getenv('DOOZR_CACHE_CONTAINER') === false) {
+        if (false  === $container = getenv('DOOZR_CACHE_CONTAINER')) {
             if (defined('DOOZR_CACHE_CONTAINER') === false) {
                 define('DOOZR_CACHE_CONTAINER', DoozR_Cache_Service::CONTAINER_FILESYSTEM);
             }
             $container = DOOZR_CACHE_CONTAINER;
         }
-
-        /**
-         * TEMPORARY SOLUTION
-         */
-        $container = 'Memcachedphp';
 
         // Build namespace for cache
         $namespace = DOOZR_NAMESPACE_FLAT . '.cache';
