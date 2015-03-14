@@ -1,15 +1,23 @@
+# Project specific
 *.bak
 *.tmp
 *.log
+*.old
 __*/
 /.buildpath
 /.project
-doc/html/*
+docs/html/*
 /.settings
 /App/Data/Private/Temp/*.php
 /.externalToolBuilders
-/.idea
-/vendor
 
-/composer.lock
-/tests/Log
+# Jetbrains / IDE
+/.idea
+
+# Composer
+/vendor
+composer.lock
+
+# Node & npm
+/npm_modules
+
