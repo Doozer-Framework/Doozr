@@ -88,7 +88,7 @@ For a consistent versioning i decided to make use of `Semantic Versioning 2.0.0`
 If you encounter a (potential) security issue don't hesitate to get in contact with me `opensource@clickalicious.de` before releasing it to the public. So i get a chance to prepare and release an update before the issue is getting shared. Thank you!
 
 
-## Participate & share
+## Participate & Share
 
 ... yeah. If you're a code monkey too - maybe we can build a force ;) If you would like to participate in either **Code**, **Comments**, **Documentation**, **Wiki**, **Bug-Reports**, **Unit-Tests**, **Bug-Fixes**, **Feedback** and/or **Critic** then please let me know as well!
 <a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=DoozR%20-%20The%20lightweight%20PHP-Framework%20for%20high-performance%20projects%20%40phpfluesterer%20%23DoozR%20%23php%20https%3A%2F%2Fgithub.com%2Fclickalicious%2FDoozR&tw_p=tweetbutton" target="_blank">
