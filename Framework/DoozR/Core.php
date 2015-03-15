@@ -378,7 +378,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         );
 
         // Log debug message
-        $logger->debug('Bootstrapping of DoozR (v ' . DOOZR_VERSION . ')');
+        //$logger->debug('Bootstrapping of DoozR (v ' . DOOZR_VERSION . ')');
 
         self::$registry->setLogger($logger);
 
