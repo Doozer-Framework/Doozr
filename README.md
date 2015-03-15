@@ -1,7 +1,7 @@
 <img src="https://avatars2.githubusercontent.com/u/514566?v=3&u=4615dfc4970d93dea5d3eaf996b7903ee6e24e20&s=140" align="right" />
 ---
-![Logo of DoozR](docs/logo-large.png)
-The **lightweight** PHP-Framework for **high-performance** websites
+![Logo of DoozR](docs/logo-large.png)  
+The **lightweight** PHP-Framework for **high-performance** websites  
 
 | [![Build Status](https://travis-ci.org/clickalicious/DoozR.svg?branch=master)](https://travis-ci.org/clickalicious/DoozR) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/DoozR.svg)](https://scrutinizer-ci.com/g/clickalicious/DoozR/) 	| [![clickalicious premium](https://img.shields.io/badge/clickalicious-premium-green.svg?style=flat)](https://www.clickalicious.de/) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/DoozR.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause) 	|
 |---	|---	|---	|---	|
@@ -16,11 +16,11 @@ The **lightweight** PHP-Framework for **high-performance** websites
 - [Services](#services)
 - [API](#api)
 - [Versioning](#versioning)
-- [Roadmap](#roadmap)
+- [Roadmap](#roadmap) 
+- [Security-Issues](#security-issues)
 - [Install »](../docs/INSTALL.md) 
 - [Architecture »](../docs/ARCHITECTURE.md)  
 - [License »](LICENSE)  
-
 
 
 ## Features
@@ -81,6 +81,11 @@ For a consistent versioning i decided to make use of `Semantic Versioning 2.0.0`
 - [ ] Scrutinizer and Travis implementation
 - [ ] Bug hunt and quality offensive
 - [ ] Documentation
+
+
+## Security Issues
+
+If you encounter a (potential) security issue don't hesitate to get in contact with me `opensource@clickalicious.de` before releasing it to the public. So i get a chance to prepare and release an update before the issue is getting shared. Thank you!
 
 
 ## Participate & share
