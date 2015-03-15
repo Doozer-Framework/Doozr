@@ -315,7 +315,6 @@ final class DoozR_Route extends DoozR_Base_State_Container
 
         // If cache disabled or routes could not be fetched -> prepare them ...
         if (self::$routes === null) {
-
             // If we reach here we must parse the routes first ...
             $routesFromPresenter = self::getRoutesFromPresenters();
             $routesFromConfig    = self::$registryInstance->getConfig()->routes;
@@ -352,6 +351,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
                 self::$cacheService->create(self::$uuid, self::$routes, null, self::$namespace);
             }
         }
+
 
         // Feed dispatcher with routes
         $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {

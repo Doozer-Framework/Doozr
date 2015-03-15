@@ -156,15 +156,17 @@ abstract class DoozR_Config_Reader_Abstract extends DoozR_Base_Class
             ->cache($enableCache);
     }
 
+
     /**
      * Reads a configuration.
      *
      * @param string $filename The filename of the configuration file to read (parse)
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Config_Reader_Abstract
+     * @throws \DoozR_Cache_Service_Exception
+     * @throws \DoozR_Config_Exception
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
-     * @throws DoozR_Config_Exception
      */
     public function read($filename)
     {
@@ -172,22 +174,22 @@ abstract class DoozR_Config_Reader_Abstract extends DoozR_Base_Class
         $this->setUuid(md5($filename));
 
         // Is cache enabled?
-        if ($this->getCache() === true) {
+        if (true === $this->getCache()) {
             try {
                 $content = $this->getCacheService()->read($this->getUuid());
 
                 // Check result from cache for NULL => timed out cache entry?!
-                if ($content !== null && $content != "") {
+                if ($content !== null && $content !== '') {
                     return $content;
                 }
 
-            } catch (DoozR_Cache_Service_Exception $e) {
-                // nothing
+            } catch (DoozR_Cache_Service_Exception $exception) {
+                // Intentionally left blank
             }
         }
 
         // Check first if we can handle the file (basic check - everything else done by filesystem service)
-        if (file_exists($filename) === false || is_readable($filename) === false) {
+        if (false === file_exists($filename) || false === is_readable($filename)) {
             throw new DoozR_Config_Exception(
                 sprintf('The file "%s" does either not exist or it is not readable.', $filename)
             );
@@ -199,9 +201,13 @@ abstract class DoozR_Config_Reader_Abstract extends DoozR_Base_Class
         // Return the result of the operation ...
         $configuration = $this->process($filename, $this->getUuid());
 
-        // Cache!
-        if ($this->getCache() === true) {
-            $this->getCacheService()->update($this->getUuid(), $configuration);
+        // Store content in cache
+        if (true === $this->getCache()) {
+            if (true !== $this->getCacheService()->update($this->getUuid(), $configuration)) {
+                throw new DoozR_Cache_Service_Exception(
+                    'Error storing configuration in cache!'
+                );
+            }
         }
 
         return $configuration;

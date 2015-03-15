@@ -102,24 +102,22 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract
         // Our identifier -> important :D
         $this->setUuid(md5($filename));
 
+        $configuration = null;
+
         // Is cache enabled?
-        if ($this->getCache() === true) {
+        if (true === $this->getCache()) {
             try {
                 $configuration = $this->getCacheService()->read($this->getUuid());
-
-                // Check value returned! Maybe timed out cache entry ( = null)
-                if ($configuration !== null && $configuration != "") {
-                    $this->setDecodedContent($configuration);
-                    return $configuration;
-                }
-
-            } catch (DoozR_Cache_Service_Exception $e) {
-                // nothing
+            } catch (DoozR_Cache_Service_Exception $exception) {
+                // Intentionally left blank
             }
         }
 
-        // we read the content in same way as before ...
-        $configuration = parent::read($filename);
+        // Either not cached or cache disabled ...
+        if (null === $configuration) {
+            // we read the content in same way as before ...
+            $configuration = parent::read($filename);
+        }
 
         // but we need to validate here cause our domain
         $configuration = $this->validate($configuration);

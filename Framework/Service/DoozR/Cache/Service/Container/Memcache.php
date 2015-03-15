@@ -481,21 +481,21 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
      * to be read from them and if neccessary they have to be unlinked (removed). If you have a user comment
      * for a good default gc probability please add it to to the inline docs.
      *
-     * @param string $namespace   The namespace to delete items from
-     * @param int    $maximumLifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param string $namespace The namespace to delete items from
+     * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean The result of the operation
      * @access public
      * @throws DoozR_Cache_Service_Exception
      */
-    public function runGarbageCollection($namespace, $maximumLifetime)
+    public function garbageCollection($namespace, $lifetime)
     {
         // Run successful?
         $result = true;
 
         if ($this->getConnection() !== null) {
-            $result = $this->doGarbageCollection($namespace, $maximumLifetime);
+            $result = $this->doGarbageCollection($namespace, $lifetime);
         }
 
         // Return the result of the operation
@@ -811,15 +811,15 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
     /**
      * Does the recursive gc procedure.
      *
-     * @param string $namespace       The namespace do run gc on
-     * @param int    $maximumLifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param string $namespace The namespace do run gc on
+     * @param int    $lifetime  Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access protected
      * @throws DoozR_Cache_Service_Exception
      */
-    protected function doGarbageCollection($namespace, $maximumLifetime)
+    protected function doGarbageCollection($namespace, $lifetime)
     {
         $entries = $this->getAllEntries($namespace);
 
@@ -827,7 +827,7 @@ class DoozR_Cache_Service_Container_Memcache extends DoozR_Cache_Service_Contain
         foreach ($entries as $key => $entry) {
 
             // Checking last access is so much faster then reading from file so we try to exclude file read here!
-            if ($entry['age'] > $maximumLifetime) {
+            if ($entry['age'] > $lifetime) {
                 if ($this->getConnection()->delete($key) === false) {
                     throw new DoozR_Cache_Service_Exception(
                         sprintf('Can\'t remove cache entry "%s", skipping. Check permissions.', $key)

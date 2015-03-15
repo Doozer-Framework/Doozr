@@ -64,6 +64,13 @@ DoozR_Core::run();
 $registry = DoozR_Registry::getInstance();
 $config   = $registry->getConfig();
 
+// Iterate filter and prepare URL
+foreach ($config->request->filter as $filter) {
+    $registry->getRequest()->setUrl(
+        preg_replace($filter->search, $filter->replace, $registry->getRequest()->getUrl())
+    );
+}
+
 // Inject route from config to request state
 $registry->getRequest()->setRouteConfig($config->redirect);
 

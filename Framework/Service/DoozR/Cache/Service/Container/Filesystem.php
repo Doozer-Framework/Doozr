@@ -481,23 +481,18 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
     }
 
     /**
-     * deletes all expired files
+     * Deletes all expired files. Garbage collection for files is a rather "expensive", "long time" operation.
+     * All files in the cache directory have to be examined which means that they must be opened for reading,
+     * the expiration date has to be read from them and if necessary they have to be unlinked (removed).
      *
-     * This method is intend to delete all expired files.
-     * Garbage collection for files is a rather "expensive", "long time" operation. All files in the cache
-     * directory have to be examined which means that they must be opened for reading, the expiration date has
-     * to be read from them and if neccessary they have to be unlinked (removed). If you have a user comment
-     * for a good default gc probability please add it to to the inline docs.
-     *
-     * @param string $namespace   The namespace to delete items from
-     * @param int    $maximumLifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param string $namespace The namespace to delete items from
+     * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean The result of the operation
      * @access public
-     * @throws DoozR_Cache_Service_Exception
      */
-    public function runGarbageCollection($namespace, $maximumLifetime)
+    public function garbageCollection($namespace, $lifetime)
     {
         // Clear file cache
         $this->clear();
@@ -509,7 +504,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
         $directory = $this->getDirectoryByNamespace($namespace, false);
 
         if (file_exists($directory) === true) {
-            $result = $this->doGarbageCollection($directory, $maximumLifetime);
+            $result = $this->doGarbageCollection($directory, $lifetime);
         }
 
         // Return the result of the operation
@@ -519,15 +514,15 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
     /**
      * Does the recursive gc procedure.
      *
-     * @param string $directory       Directory to do gc on
-     * @param int    $maximumLifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param string $directory Directory to do gc on
+     * @param int    $lifetime  Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access protected
      * @throws DoozR_Cache_Service_Exception
      */
-    protected function doGarbageCollection($directory, $maximumLifetime)
+    protected function doGarbageCollection($directory, $lifetime)
     {
         // Check permissions
         if (
@@ -551,7 +546,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
 
             // Security check -> we do NOT have recursive structures cause we cant ...
             if (is_dir($filename)  ) {
-                $this->doGarbageCollection($filename . DIRECTORY_SEPARATOR, $maximumLifetime);
+                $this->doGarbageCollection($filename . DIRECTORY_SEPARATOR, $lifetime);
                 continue;
             }
 
@@ -559,7 +554,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
             $lastAccess = filemtime($filename);
 
             // Checking last access is so much faster then reading from file so we try to exclude file read here!
-            if ((time() - $lastAccess) > $maximumLifetime) {
+            if ((time() - $lastAccess) > $lifetime) {
                 if (unlink($filename) === false) {
                     throw new DoozR_Cache_Service_Exception(
                         sprintf('Can\'t unlink cache file "%s", skipping. Check permissions and path.', $filename)
