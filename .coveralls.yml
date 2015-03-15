@@ -1,3 +1,3 @@
 service_name: travis-ci
 
-src_dir: framework
+src_dir: Framework
