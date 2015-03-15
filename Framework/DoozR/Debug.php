@@ -76,7 +76,7 @@ use Whoops\Handler\PrettyPageHandler;
 class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
 {
     /**
-     * The debug-runtimeEnvironment state (true = enabled / false = disabled)
+     * The debug-mode state (true = enabled / false = disabled)
      *
      * @var bool
      * @access protected
@@ -96,7 +96,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      * Constructor.
      *
      * @param DoozR_Logger_Interface $logger  An instance of DoozR_Logger
-     * @param bool                $enabled Defines it debug runtimeEnvironment is enabled or not
+     * @param bool                   $enabled Defines it debug mode is enabled or not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Debug
@@ -109,7 +109,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
 
         // log debug state
         $this->logger->debug(
-            'Debug-Manager - debug-runtimeEnvironment enabled = ' . strtoupper(var_export($enabled, true))
+            'Debug-Manager - debug-mode enabled = ' . strtoupper(var_export($enabled, true))
         );
 
         // check for initial trigger
@@ -258,7 +258,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      */
     protected function prepareForProduction()
     {
-        // if debug-runtimeEnvironment is disabled we must hide all errors to prevent the app from information leakage.
+        // if debug-mode is disabled we must hide all errors to prevent the app from information leakage.
         // set error_reporting to null (0) to hide PHP's reports
         error_reporting(0);
 
