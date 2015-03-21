@@ -63,70 +63,23 @@ require_once 'lib/Clickalicious/Rng/Bootstrap.php';
 $generator = new Clickalicious\Rng\Generator();
 $number    = $generator->generate(1, 10);
 echo '<pre>'.$number.'</pre>';
-die;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /**
- * Demonstration of default generator
- * NO SEED
- * NO MODE ( = default  = MODE_MCRYPT )
+ * Random number generating easily.
+ * Generate a random number with PHP's default rng
+ * between 1 and 10:
  */
-$generator = new Clickalicious\Rng\Generator();
-$generator
-    ->mode(\Clickalicious\Rng\Generator::MODE_MCRYPT)
-    ->seed(123456789);
-
-$randomValue = $generator->generate(1, 10);
-var_dump($randomValue);
-die;
+$generator = new Clickalicious\Rng\Generator(Clickalicious\Rng\Generator::MODE_PHP_DEFAULT);
+$number    = $generator->generate(1, 10);
+echo '<pre>'.$number.'</pre>';
 
 
-
-/*
-$generator = new Clickalicious\Rng\Generator(null, \Clickalicious\Rng\Generator::MODE_PHP_MERSENNE_TWISTER);
-$generator->seed(123);
-*/
-
-
-
-$cycles     = 10;
-$duplicates = 0;
-
-for ($cycle = 0; $cycle < $cycles; ++$cycle) {
-
-    $random = $generator->generate(1, 10);
-
-    if (isset($store[$random]) === true) {
-        $duplicates++;
-    }
-
-    // Store value
-    $store[] = $random;
-
-    echo $random . PHP_EOL;
-}
-
-if ($duplicates > 0) {
-    echo sprintf(
-            'Sorry Master, but i have generated "%s" duplicate values in "%s" cycles. This is "%s" percent.',
-            $duplicates,
-            $cycles,
-            ($duplicates * 100 / $cycles)
-    ) . PHP_EOL;
-}
+/**
+ * Random number generating easily.
+ * Generate a random number with PHP's mersenne twister rng
+ * between 1 and 10:
+ */
+$generator = new Clickalicious\Rng\Generator(Clickalicious\Rng\Generator::MODE_PHP_MERSENNE_TWISTER);
+$number    = $generator->generate(1, 10);
+echo '<pre>'.$number.'</pre>';
