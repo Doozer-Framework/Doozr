@@ -157,73 +157,24 @@ class Generator
     /**
      * Constructor.
      *
-     * @param int|null $seed The optional seed used for randomizer init
-     * @param int $mode      The mode used for generating random numbers.
+     * @param int      $mode The mode used for generating random numbers.
      *                       Default is MCRYPT as the currently best practice for generating random numbers
+     * @param int|null $seed The optional seed used for randomizer init
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
      */
     public function __construct(
-        $seed = null,
-        $mode = self::MODE_MCRYPT
+        $mode = self::MODE_MCRYPT,
+        $seed = null
     ) {
-        // If never (this run) set before -> seed
-        if ($seed === null) {
-            $this->seed(
-                $this->generateSeed()
-            );
+        $this
+            ->mode($mode);
+
+        // Only seed if seed passed -> no longer required (since PHP 4.2.0)
+        if ($seed !== null) {
+            $this->seed($seed);
         }
-
-        $this->setMode($mode);
-    }
-
-    /**
-     * Seeds the RNG.
-     *
-     * @param int $value The seed value
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
-     * @return void
-     * @throws \Clickalicious\Rng\Exception
-     */
-    public function seed($value)
-    {
-        switch ($this->getMode()) {
-
-            case self::MODE_PHP_MERSENNE_TWISTER:
-                mt_srand($value);
-                break;
-
-            case self::MODE_PHP_DEFAULT:
-                srand($value);
-                break;
-
-            case self::MODE_MCRYPT:
-                throw new Exception(
-                    'mcrypt does not require or support seed!'
-                );
-                break;
-        }
-
-        $this->seed = $value;
-    }
-
-    /**
-     * Generate the seed from microtime.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access protected
-     * @return float The seed value
-     * @throws \Clickalicious\Rng\Exception
-     */
-    protected function generateSeed()
-    {
-        list($usec, $sec) = explode(' ', microtime());
-        $value = round((float)$sec + ((float)$usec * 100000), 0);
-
-        return $value;
     }
 
     /**
@@ -257,6 +208,19 @@ class Generator
     }
 
     /**
+     * Generate the seed from microtime.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     * @return int The seed value
+     */
+    public function generateSeed()
+    {
+        list ($usec, $sec) = explode(' ', microtime());
+        return (int)($sec + strrev($usec * 1000000)) + 13;
+    }
+
+    /**
      * "rand" based randomize.
      *
      * @param int $minimum The minimum range border for randomizer
@@ -286,6 +250,7 @@ class Generator
         return mt_rand($minimum, $maximum);
     }
 
+
     /**
      * "mcrypt" based equivalent to rand & mt_rand but better randomness.
      *
@@ -293,33 +258,49 @@ class Generator
      * @param int $maximum The maximum range border for randomizer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      * @return int From *closed* interval [$min, $max]
-     * @throws \Clickalicious\Rng\Exception
+     * @access public
+     * @throws \Clickalicious\Rng\RuntimeException
      */
     protected function mcryptRand($minimum, $maximum)
     {
-        $diff = $maximum - $minimum;
+        $diff = $maximum - ($minimum + 1);
 
-        if ($diff < 0 || $diff > PHP_INT_MAX) {
-            throw new Exception(
-                'Bad range'
-            );
+        if ($diff > PHP_INT_MAX) {
+            throw new RuntimeException('Bad range');
         }
 
-        $bytes = mcrypt_create_iv(4, MCRYPT_DEV_URANDOM);
+        // The largest *multiple* of diff less than our sample
+        $ceiling = floor(PHP_INT_MAX / $diff) * $diff;
 
-        if ($bytes === false || strlen($bytes) !== 4) {
-            throw new Exception(
-                'Unable to read 4 bytes from /dev/urandom'
-            );
-        }
+        do {
+            $bytes = mcrypt_create_iv(PHP_INT_SIZE, MCRYPT_DEV_URANDOM);
 
-        $bytes = unpack("Nint", $bytes);
-        $value = $bytes['int'] & PHP_INT_MAX;    // 32/64-bit safe
-        $fp = (float) $value / 2147483647.0;     // convert to [0,1]
+            if ($bytes === false || strlen($bytes) !== PHP_INT_SIZE) {
+                throw new RuntimeException(
+                    sprintf('Unable to read %s bytes from /dev/urandom', PHP_INT_SIZE)
+                );
+            }
 
-        return round($fp * $diff) + $minimum;
+            if (PHP_INT_SIZE === 8) {
+                // 64-bit versions
+                list($higher, $lower) = array_values(unpack('N2', $bytes));
+                $val = $higher << 32 | $lower;
+
+            } else {
+                // 32-bit versions
+                $val = unpack('Nint', $bytes);
+            }
+
+            $val = $val['int'] & PHP_INT_MAX;
+
+        } while ($val > $ceiling);
+
+        // In the unlikely case our sample is bigger than largest multiple,
+        // just do over until it’s not any more. Perfectly even sampling in
+        // our 0<output<diff domain is mathematically impossible unless
+        // the total number of *valid* inputs is an exact multiple of diff.
+        return $val % $diff + $minimum;
     }
 
     /**
@@ -349,6 +330,8 @@ class Generator
                 }
                 break;
         }
+
+        return true;
     }
 
     /**
@@ -357,28 +340,105 @@ class Generator
      * @param int $mode The mode to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access protected
+     * @access public
      * @return void
-     * @throws \Clickalicious\Rng\Exception
      */
-    protected function setMode($mode)
+    public function setMode($mode)
     {
         // Check for requirements depending on mode
-        $this->checkRequirements($mode);
+        if ($this->checkRequirements($mode) === true) {
+            $this->mode = $mode;
+        }
+    }
 
-        // Finally set mode if nothing breaks us till here.
-        $this->mode = $mode;
+    /**
+     * Fluent setter for mode.
+     *
+     * @param int $mode The mode to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     * @return $this Instance for chaining
+     */
+    public function mode($mode)
+    {
+        $this->setMode($mode);
+        return $this;
     }
 
     /**
      * Getter for mode.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access protected
+     * @access public
      * @return int The active mode
      */
-    protected function getMode()
+    public function getMode()
     {
         return $this->mode;
+    }
+
+    /**
+     * Setter for seed.
+     *
+     * @param int $seed The seed value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     * @return void
+     */
+    public function setSeed($seed)
+    {
+        // We need to call different methods depending on chosen algorithm
+        switch ($this->getMode()) {
+
+            case self::MODE_PHP_MERSENNE_TWISTER:
+                mt_srand($seed);
+                break;
+
+            case self::MODE_PHP_DEFAULT:
+                srand($seed);
+                break;
+
+            case self::MODE_MCRYPT:
+            default:
+                // Intentionally left blank
+                break;
+        }
+
+        $this->seed = $seed;
+    }
+
+    /**
+     * Setter for seed.
+     *
+     * @param int $seed The seed value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     * @return $this Instance for chaining
+     */
+    public function seed($seed)
+    {
+        if (is_int($seed) !== true) {
+            throw new Exception(
+                sprintf('The type of the seed value "%s" need to be int. You passed a(n) "%s".', $seed, gettype($seed))
+            );
+        }
+
+        $this->setSeed($seed);
+        return $this;
+    }
+
+    /**
+     * Getter for seed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     * @return int|null The seed value if set, otherwise FALSE
+     */
+    public function getSeed()
+    {
+        return $this->seed;
     }
 }

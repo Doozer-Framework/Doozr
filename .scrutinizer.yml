@@ -1,6 +1,6 @@
 filter:
-    paths: [Framework/*]
-    excluded_paths: [app/*, bin/*, docs/*, tests/*, web/*]
+    paths: [lib/*]
+    excluded_paths: [bin/*, docs/*, tests/*]
 before_commands:
     - 'composer install --dev --prefer-source'
 tools:

@@ -1,7 +1,7 @@
 <img src="https://avatars2.githubusercontent.com/u/514566?v=3&u=4615dfc4970d93dea5d3eaf996b7903ee6e24e20&s=140" align="right" />
 ---
-![Logo of DoozR](docs/logo-large.png)  
-The **lightweight** PHP-Framework for **high-performance** websites  
+![Logo of Rng](docs/logo-large.png)  
+Random number generator for PHP  
 
 | [![Build Status](https://travis-ci.org/clickalicious/DoozR.svg?branch=master)](https://travis-ci.org/clickalicious/DoozR) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/DoozR.svg)](https://scrutinizer-ci.com/g/clickalicious/DoozR/) 	| [![clickalicious premium](https://img.shields.io/badge/clickalicious-premium-green.svg?style=flat)](https://www.clickalicious.de/) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/DoozR.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause) 	|
 |---	|---	|---	|---	|
@@ -13,8 +13,6 @@ The **lightweight** PHP-Framework for **high-performance** websites
 - [Features](#features)
 - [Requirements](#requirements)
 - [Philosophy](#philosophy)
-- [Services](#services)
-- [API](#api)
 - [Versioning](#versioning)
 - [Roadmap](#roadmap) 
 - [Security-Issues](#security-issues)
@@ -25,14 +23,10 @@ The **lightweight** PHP-Framework for **high-performance** websites
 
 ## Features
 
- - High performance (developed with profiler)
- - Fast routing, caching and request processing
- - Lightweight
- - Intelligent logger subsystem
- - Debugging-Tools/Support
+ - Simple abstraction to PHP core functionality
+ - Best practice PRNG implementation (64-Bit support)
  - Stable + High-Quality 
- - Clean & well documented code
- - No Database-Framework bundled (free choice)
+ - Clean, tested & well documented code
 
 
 ## Requirements
@@ -43,30 +37,6 @@ The **lightweight** PHP-Framework for **high-performance** websites
 ## Philosophy
 
 The **lightweight** PHP-Framework for **high-performance** websites. `DoozR` comes with the right set of core services. Build, test and deploy **high-scalable** applications with `DoozR`. `DoozR` supports the **CLI**, **CGI** and PHP's **Internal Webserver** (for development) SAPI. A powerful routing mechanism with builtin `I18n` support empowers you to build internationalized applications. But **DoozR** has so much more to offer!
-
-
-## Services
-
-`DoozR` is shipped with the following high quality core services:
- 
- - `Acl` (CRUD Secured Objects)
- - `Cache` (Interface to Filesystem + Memcached)
- - `Config` (Configreader mit Caching support for INI, JSON)
- - `Crypt` (Secure En-/Decryption)
- - `Filesystem` (Filesystem wrapper with virtual FS support)
- - `Form` (HTML5 secure form handler + validation)
- - `Http` (Wrapper to CURL)
- - `I18n` (Internationalization + Localization support with gettext emulation)
- - `Password` (Password generator + validator)
- - `Session` (Secure and OO Session interface)
- - `Template` (Interface to PHPTal)
-
-100% `composer` support. For all missing features we can make use of [packagist.org][1]. So just put the required package(s) in your `composer.json` and use them right after installation without need to include `.../vendor/autoload.php` manually. `DoozR` detects the `composer` packages and includes the autoloader of `composer`.
-
-
-## API
-
-`DoozR` provides a ready to use `API` right after installation. The structure and routes are generic and built using best practices from community powered PHP-projects.
 
 
 ## Versioning

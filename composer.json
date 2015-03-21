@@ -10,9 +10,11 @@
     }
   ],
   "require": {
-      "php": ">=5.3.0"
+      "php": ">=5.3.0",
+      "ext-mcrypt": "*"
   },
   "require-dev": {
+      "raulfraile/ladybug": "1.0.*",
       "satooshi/php-coveralls": "dev-master",
       "phpunit/phpunit": "4.5.*"
   },
@@ -40,12 +42,6 @@
     "issues": "https://github.com/clickalicious/Rng/issues",
     "wiki": "https://github.com/clickalicious/Rng/wiki"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/clickalicious/Rng.git"
-    }
-  ],
   "config" : {
     "bin-dir" : "bin"
   }

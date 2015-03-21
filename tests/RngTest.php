@@ -54,7 +54,7 @@
 
 require_once CLICKALICIOUS_RNG_BASE_PATH . 'Clickalicious/Rng/Generator.php';
 
-use \Clickalicious\Rng\Generator;
+use Clickalicious\Rng\Generator;
 
 /**
  * Rng
@@ -73,34 +73,116 @@ use \Clickalicious\Rng\Generator;
 class RngTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Prepare some stuff.
+     * Test: Get instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setUp()
-    {
-        #$this->generator = new Generator();
-    }
-
-    /**
-     * Test: Trigger and handle SERVER ERROR.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    public function testValidMode()
+    public function testInstance()
     {
         $this->assertInstanceOf(
             'Clickalicious\Rng\Generator',
-            new Generator(null, Generator::MODE_PHP_MERSENNE_TWISTER)
+            new Generator()
         );
     }
 
     /**
-     * Test: Trigger and handle SERVER ERROR.
+     * Test: Get instance with mode default
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testModeDefault()
+    {
+        $generator = new Generator();
+
+        $this->assertInstanceOf(
+            'Clickalicious\Rng\Generator',
+            $generator
+        );
+    }
+
+    /**
+     * Test: Get instance with mode php default
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testModePhpDefault()
+    {
+        $generator = new Generator(
+            Generator::MODE_PHP_DEFAULT
+        );
+
+        $this->assertInstanceOf(
+            'Clickalicious\Rng\Generator',
+            $generator
+        );
+    }
+
+    /**
+     * Test: Get instance with mode php mersenne twister default
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testModePhpMersenneTwister()
+    {
+        $generator = new Generator(
+            Generator::MODE_PHP_MERSENNE_TWISTER
+        );
+
+        $this->assertInstanceOf(
+            'Clickalicious\Rng\Generator',
+            $generator
+        );
+    }
+
+    /**
+     * Test generating random number with default setting.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testGenerateDefault()
+    {
+        $generator = new Generator();
+        $this->assertInternalType('int', $generator->generate());
+    }
+
+    /**
+     * Test generating random number with php default implementation.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testGeneratePhpDefault()
+    {
+        $generator = new Generator(Generator::MODE_PHP_DEFAULT);
+        $this->assertInternalType('int', $generator->generate());
+    }
+
+    /**
+     * Test generating random number with php new mersenne twister algorithm.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testGeneratePhpMersenneTwister()
+    {
+        $generator = new Generator(Generator::MODE_PHP_MERSENNE_TWISTER);
+        $this->assertInternalType('int', $generator->generate());
+    }
+
+    /**
+     * Test: Test passing invalid/unknown mode.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -109,17 +191,78 @@ class RngTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidMode()
     {
-        $this->generator = new Generator(null, PHP_INT_MAX);
+        $generator = new Generator(PHP_INT_MAX);
     }
 
     /**
-     * Cleanup after single test. Remove the key created for tests.
+     * Test: Test generating seeds.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function tearDown()
+    public function testSeedGenerating()
     {
+        $generator = new Generator();
+        $seed      = $generator->generateSeed();
+
+        $this->assertInternalType('int', $seed);
+    }
+
+    /**
+     * Test: Test generating instance with seed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testInstanceMcryptWithSeed()
+    {
+        $seed = 123456;
+        $generator = new Generator(Generator::MODE_MCRYPT, $seed);
+        $this->assertSame($seed, $generator->getSeed());
+    }
+
+    /**
+     * Test: Test generating instance with seed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testInstancePhpDefaultWithSeed()
+    {
+        $seed = 123456;
+        $generator = new Generator(Generator::MODE_PHP_DEFAULT, $seed);
+        $this->assertSame($seed, $generator->getSeed());
+    }
+
+    /**
+     * Test: Test generating instance with seed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testInstancePhpMersenneTwisterWithSeed()
+    {
+        $seed = 123456;
+        $generator = new Generator(Generator::MODE_PHP_MERSENNE_TWISTER, $seed);
+        $this->assertSame($seed, $generator->getSeed());
+    }
+
+    /**
+     * Test: Test generating instance with seed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     * @expectedException \Clickalicious\Rng\Exception
+     */
+    public function testInvalidSeed()
+    {
+        $seed = 'Foo';
+        $generator = new Generator();
+        $generator->seed($seed);
     }
 }
