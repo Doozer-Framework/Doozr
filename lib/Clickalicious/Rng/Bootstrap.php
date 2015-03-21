@@ -62,4 +62,4 @@ define(
 );
 
 
-require_once CLICKALICIOUS_RNG_BASE_PATH . 'Clickalicious\Rng\Generator.php';
+require_once CLICKALICIOUS_RNG_BASE_PATH . 'Clickalicious/Rng/Generator.php';
