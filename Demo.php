@@ -62,7 +62,7 @@ require_once 'lib/Clickalicious/Rng/Bootstrap.php';
  */
 $generator = new Clickalicious\Rng\Generator();
 $number    = $generator->generate(1, 10);
-echo '<pre>'.$number.'</pre>';
+echo $number.PHP_EOL;
 
 
 /**
@@ -72,7 +72,7 @@ echo '<pre>'.$number.'</pre>';
  */
 $generator = new Clickalicious\Rng\Generator(Clickalicious\Rng\Generator::MODE_PHP_DEFAULT);
 $number    = $generator->generate(1, 10);
-echo '<pre>'.$number.'</pre>';
+echo $number.PHP_EOL;
 
 
 /**
@@ -82,4 +82,4 @@ echo '<pre>'.$number.'</pre>';
  */
 $generator = new Clickalicious\Rng\Generator(Clickalicious\Rng\Generator::MODE_PHP_MERSENNE_TWISTER);
 $number    = $generator->generate(1, 10);
-echo '<pre>'.$number.'</pre>';
+echo $number.PHP_EOL;
