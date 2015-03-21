@@ -15,9 +15,7 @@ Random number generator for PHP
 - [Philosophy](#philosophy)
 - [Versioning](#versioning)
 - [Roadmap](#roadmap) 
-- [Security-Issues](#security-issues)
-- [Install »](../docs/INSTALL.md) 
-- [Architecture »](../docs/ARCHITECTURE.md)  
+- [Security-Issues](#security-issues)  
 - [License »](LICENSE)  
 
 
@@ -36,7 +34,7 @@ Random number generator for PHP
 
 ## Philosophy
 
-Just a simple abstraction to PHP's existing core functionality. No seed required. State of the art and best practice PRNG impleThe **lightweight** PHP-Framework for **high-performance** websites. `Rng` comes with the right set of core services. Build, test and deploy **high-scalable** applications with `Rng`. `Rng` supports the **CLI**, **CGI** and PHP's **Internal Webserver** (for development) SAPI. A powerful routing mechanism with builtin `I18n` support empowers you to build internationalized applications. But **Rng** has so much more to offer!
+Just a simple abstraction to PHP's existing core functionality. State of the art + best practice PRNG implementation. No seeding required but good seed generator built in.
 
 
 ## Versioning
@@ -58,7 +56,7 @@ If you encounter a (potential) security issue don't hesitate to get in contact w
 ## Participate & Share
 
 ... yeah. If you're a code monkey too - maybe we can build a force ;) If you would like to participate in either **Code**, **Comments**, **Documentation**, **Wiki**, **Bug-Reports**, **Unit-Tests**, **Bug-Fixes**, **Feedback** and/or **Critic** then please let me know as well!
-<a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=Rng%20-%20The%20lightweight%20PHP-Framework%20for%20high-performance%20projects%20%40phpfluesterer%20%23Rng%20%23php%20https%3A%2F%2Fgithub.com%2Fclickalicious%2FRng&tw_p=tweetbutton" target="_blank">
+<a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=Rng%20-%20Random%20number%20generator%20for%20PHP%20%40phpfluesterer%20%23Rng%20%23php%20https%3A%2F%2Fgithub.com%2Fclickalicious%2FRng&tw_p=tweetbutton" target="_blank">
   <img src="http://jpillora.com/github-twitter-button/img/tweet.png"></img>
 </a>
 
