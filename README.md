@@ -5,26 +5,45 @@ Random number generator for PHP
 
 | [![Build Status](https://travis-ci.org/clickalicious/Rng.svg?branch=master)](https://travis-ci.org/clickalicious/Rng) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Rng.svg)](https://scrutinizer-ci.com/g/clickalicious/Rng/) 	| [![clickalicious premium](https://img.shields.io/badge/clickalicious-premium-green.svg?style=flat)](https://www.clickalicious.de/) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/Rng.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause) 	|
 |---	|---	|---	|---	|
-| [![GitHub issues](https://img.shields.io/github/issues/clickalicious/rng.svg?style=flat)](https://github.com/clickalicious/Rng/issues) 	| [![Coverage Status](https://coveralls.io/repos/clickalicious/Rng/badge.svg)](https://coveralls.io/r/clickalicious/Rng)  	| [![GitHub release](https://img.shields.io/github/release/clickalicious/Rng.svg?style=flat)](https://github.com/clickalicious/Rng/releases) 	| [![GitHub stars](https://img.shields.io/github/stars/clickalicious/rng.svg?style=flat)](https://github.com/clickalicious/Rng/stargazers)  	|
+| [![GitHub issues](https://img.shields.io/github/issues/clickalicious/rng.svg?style=flat)](https://github.com/clickalicious/Rng/issues) 	| [![Code Coverage](https://scrutinizer-ci.com/g/clickalicious/Rng/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clickalicious/Rng/?branch=master)  	| [![GitHub release](https://img.shields.io/github/release/clickalicious/Rng.svg?style=flat)](https://github.com/clickalicious/Rng/releases) 	| [![GitHub stars](https://img.shields.io/github/stars/clickalicious/rng.svg?style=flat)](https://github.com/clickalicious/Rng/stargazers)  	|
 
 
 ## Table of Contents
 
 - [Features](#features)
+- [Example](#example)
 - [Requirements](#requirements)
 - [Philosophy](#philosophy)
 - [Versioning](#versioning)
-- [Roadmap](#roadmap) 
+- [Roadmap](#roadmap)
 - [Security-Issues](#security-issues)  
 - [License »](LICENSE)  
-
+ 
 
 ## Features
 
- - Simple abstraction to PHP core functionality
- - Best practice PRNG implementation (64-Bit support)
- - Stable + High-Quality 
+ - State of the Art & best practice PRNG implementation (64-Bit support)
+ - Additional nice OOP abstraction to PHP core functionality
+ - Stable + High-Quality
  - Clean, tested & well documented code
+ - HHVM ready
+
+
+## Example
+
+Generate random number between 1 and 10 with OpenSSL random bytes (default)
+```php
+$generator = new Clickalicious\Rng\Generator();
+$number    = $generator->generate(1, 10);
+echo $number;
+```
+
+Generate random number between 1 and 10 with MCrypt random bytes
+```php
+$generator = new Clickalicious\Rng\Generator(Clickalicious\Rng\Generator::MODE_MCRYPT);
+$number    = $generator->generate(1, 10);
+echo $number;
+```
 
 
 ## Requirements
@@ -44,8 +63,8 @@ For a consistent versioning i decided to make use of `Semantic Versioning 2.0.0`
 
 ## Roadmap
 
-- [ ] > 90% Test Coverage
-- [ ] Scrutinizer and Travis implementation
+- [ ] More tests
+- [ ] Better visualization
 
 
 ## Security Issues
