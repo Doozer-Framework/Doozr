@@ -73,14 +73,16 @@ $generators = array(
     new Clickalicious\Rng\Generator(\Clickalicious\Rng\Generator::MODE_OPEN_SSL),
 );
 
+$countGenerators = count($generators);
+
 // Complete width for all generators
-$totalWidth = count($generators) * $width;
+$totalWidth = $countGenerators * $width;
 $img        = imagecreatetruecolor(count($generators) * $width, $height);
 
 imagefilledrectangle($img, 0, 0, $totalWidth, $height, imagecolorallocate($img, 255, 255, 255));
 
 // Iterate and draw
-for ($i = 0; $i < count($generators); ++$i) {
+for ($i = 0; $i < $countGenerators; ++$i) {
     $color = imagecolorallocate($img, 0, 0, 0);
     $p = 0;
 
