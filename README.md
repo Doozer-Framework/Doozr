@@ -1,7 +1,7 @@
 <img src="https://avatars2.githubusercontent.com/u/514566?v=3&u=4615dfc4970d93dea5d3eaf996b7903ee6e24e20&s=140" align="right" />
 ---
 ![Logo of Rng](docs/logo-large.png)  
-Random number generator for PHP  
+`RNG` (random number generator) for PHP  
 
 | [![Build Status](https://travis-ci.org/clickalicious/Rng.svg?branch=master)](https://travis-ci.org/clickalicious/Rng) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Rng.svg)](https://scrutinizer-ci.com/g/clickalicious/Rng/) 	| [![clickalicious premium](https://img.shields.io/badge/clickalicious-premium-green.svg?style=flat)](https://www.clickalicious.de/) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/Rng.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause) 	|
 |---	|---	|---	|---	|
