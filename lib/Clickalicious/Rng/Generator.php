@@ -86,6 +86,15 @@ class Generator
     protected $seed;
 
     /**
+     * The cryptographic quality switch.
+     * Used in OpenSSL random byte generator for example.
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $crypto;
+
+    /**
      * The active mode. Default set by constructor.
      *
      * @var int
@@ -103,7 +112,8 @@ class Generator
     protected static $validModes = array(
         self::MODE_PHP_DEFAULT,
         self::MODE_PHP_MERSENNE_TWISTER,
-        self::MODE_MCRYPT
+        self::MODE_MCRYPT,
+        self::MODE_OPEN_SSL
     );
 
     /**
@@ -116,7 +126,7 @@ class Generator
      * @see http://php.net/manual/de/function.srand.php
      *      http://php.net/manual/de/function.rand.php
      */
-    const MODE_PHP_DEFAULT = 0;
+    const MODE_PHP_DEFAULT = 1;
 
     /**
      * Mersenne Twister Mode
@@ -129,20 +139,28 @@ class Generator
      *      http://php.net/manual/de/function.mt-srand.php
      *      http://php.net/manual/de/function.mt-rand.php
      */
-    const MODE_PHP_MERSENNE_TWISTER = 1;
+    const MODE_PHP_MERSENNE_TWISTER = 2;
 
     /**
-     * Mersenne Twister Mode
-     * (e.g. mt_srand() + mt_rand())
+     * MCRYPT based PHP /dev/urandom based PRNG implementation.
      *
      * @var int
      * @access public
      * const
-     * @see http://de.wikipedia.org/wiki/Mersenne-Twister
-     *      http://php.net/manual/de/function.mt-srand.php
-     *      http://php.net/manual/de/function.mt-rand.php
+     * @see http://php.net/manual/de/intro.mcrypt.php
+     *      http://mcrypt.sourceforge.net/
      */
-    const MODE_MCRYPT = 2;
+    const MODE_MCRYPT = 4;
+
+    /**
+     * OpenSSL based PHP PRNG implementation.
+     *
+     * @var int
+     * @access public
+     * const
+     * @see http://php.net/manual/de/function.openssl-random-pseudo-bytes.php
+     */
+    const MODE_OPEN_SSL = 8;
 
     /**
      * Name of the extension "mcrypt" for better readability.
@@ -157,18 +175,21 @@ class Generator
     /**
      * Constructor.
      *
-     * @param int      $mode The mode used for generating random numbers.
-     *                       Default is MCRYPT as the currently best practice for generating random numbers
-     * @param int|null $seed The optional seed used for randomizer init
+     * @param int      $mode   The mode used for generating random numbers.
+     *                         Default is MCRYPT as the currently best practice for generating random numbers
+     * @param int|null $seed   The optional seed used for randomizer init
+     * @param bool     $crypto TRUE (default) to enable cryptographic crypto (pseudo) randomness
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
      */
     public function __construct(
-        $mode = self::MODE_MCRYPT,
-        $seed = null
+        $mode   = self::MODE_OPEN_SSL,
+        $seed   = null,
+        $crypto = true
     ) {
         $this
+            ->crypto($crypto)
             ->mode($mode);
 
         // Only seed if seed passed -> no longer required (since PHP 4.2.0)
@@ -180,27 +201,31 @@ class Generator
     /**
      * Generates and returns a (pseudo) random number.
      *
-     * @param int $minimum The minimum value of range
-     * @param int $maximum The maximum value of range
+     * @param int $rangeMinimum The minimum value of range
+     * @param int $rangeMaximum The maximum value of range
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
      * @return int The generated (pseudo) random number
      */
-    public function generate($minimum = 0, $maximum = PHP_INT_MAX)
+    public function generate($rangeMinimum = 0, $rangeMaximum = PHP_INT_MAX)
     {
         switch ($this->getMode()) {
 
+            case self::MODE_OPEN_SSL:
+                $randomValue = $this->genericRand($rangeMinimum, $rangeMaximum, self::MODE_OPEN_SSL);
+                break;
+
             case self::MODE_MCRYPT:
-                $randomValue = $this->mcryptRand($minimum, $maximum);
+                $randomValue = $this->genericRand($rangeMinimum, $rangeMaximum, self::MODE_MCRYPT);
                 break;
 
             case self::MODE_PHP_MERSENNE_TWISTER:
-                $randomValue = $this->mtRand($minimum, $maximum);
+                $randomValue = $this->mtRand($rangeMinimum, $rangeMaximum);
                 break;
 
             case self::MODE_PHP_DEFAULT:
-                $randomValue = $this->rand($minimum, $maximum);
+                $randomValue = $this->rand($rangeMinimum, $rangeMaximum);
                 break;
         }
 
@@ -223,62 +248,79 @@ class Generator
     /**
      * "rand" based randomize.
      *
-     * @param int $minimum The minimum range border for randomizer
-     * @param int $maximum The maximum range border for randomizer
+     * @param int $rangeMinimum The minimum range border for randomizer
+     * @param int $rangeMaximum The maximum range border for randomizer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access protected
      * @return int From *closed* interval [$min, $max]
      */
-    protected function rand($minimum, $maximum)
+    protected function rand($rangeMinimum, $rangeMaximum)
     {
-        return rand($minimum, $maximum);
+        return rand($rangeMinimum, $rangeMaximum);
     }
 
     /**
      * "mt_rand" based randomize.
      *
-     * @param int $minimum The minimum range border for randomizer
-     * @param int $maximum The maximum range border for randomizer
+     * @param int $rangeMinimum The minimum range border for randomizer
+     * @param int $rangeMaximum The maximum range border for randomizer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access protected
      * @return int From *closed* interval [$min, $max]
      */
-    protected function mtRand($minimum, $maximum)
+    protected function mtRand($rangeMinimum, $rangeMaximum)
     {
-        return mt_rand($minimum, $maximum);
+        return mt_rand($rangeMinimum, $rangeMaximum);
     }
-
 
     /**
      * "mcrypt" based equivalent to rand & mt_rand but better randomness.
      *
-     * @param int $minimum The minimum range border for randomizer
-     * @param int $maximum The maximum range border for randomizer
+     * @param int $rangeMinimum The minimum range border for randomizer
+     * @param int $rangeMaximum The maximum range border for randomizer
+     * @param int $source       The source of the random bytes (OpenSSL, MCrypt, ...)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return int From *closed* interval [$min, $max]
-     * @access public
-     * @throws \Clickalicious\Rng\RuntimeException
+     * @access protected
+     * @throws \Clickalicious\Rng\Exception
      */
-    protected function mcryptRand($minimum, $maximum)
-    {
-        $diff = $maximum - ($minimum + 1);
+    protected function genericRand(
+        $rangeMinimum,
+        $rangeMaximum,
+        $source = self::MODE_MCRYPT
+    ) {
+        $diff = $rangeMaximum - ($rangeMinimum + 1);
 
         if ($diff > PHP_INT_MAX) {
-            throw new RuntimeException('Bad range');
+            throw new Exception('Bad range');
         }
 
         // The largest *multiple* of diff less than our sample
         $ceiling = floor(PHP_INT_MAX / $diff) * $diff;
 
         do {
-            $bytes = mcrypt_create_iv(PHP_INT_SIZE, MCRYPT_DEV_URANDOM);
+            switch ($source) {
+                case self::MODE_MCRYPT:
+                    $bytes = $this->getRandomBytesFromMcrypt(PHP_INT_SIZE);
+                    break;
 
-            if ($bytes === false || strlen($bytes) !== PHP_INT_SIZE) {
-                throw new RuntimeException(
-                    sprintf('Unable to read %s bytes from /dev/urandom', PHP_INT_SIZE)
+                case self::MODE_OPEN_SSL:
+                default:
+                    $bytes = $this->getRandomBytesFromOpenSSL(PHP_INT_SIZE, $this->getCrypto());
+                    break;
+            }
+
+            // Check for error
+            if (false === $bytes || PHP_INT_SIZE !== strlen($bytes)) {
+                throw new Exception(
+                    sprintf(
+                        'Failed to read %s bytes from %s.',
+                        PHP_INT_SIZE,
+                        ($source === self::MODE_MCRYPT) ? 'MCrypt' : 'OpenSSL'
+                    )
                 );
             }
 
@@ -296,11 +338,40 @@ class Generator
 
         } while ($val > $ceiling);
 
-        // In the unlikely case our sample is bigger than largest multiple,
-        // just do over until it’s not any more. Perfectly even sampling in
-        // our 0<output<diff domain is mathematically impossible unless
-        // the total number of *valid* inputs is an exact multiple of diff.
-        return $val % $diff + $minimum;
+        // In the unlikely case our sample is bigger than largest multiple, just do over until it’s not any more.
+        // Perfectly even sampling in our 0<output<diff domain is mathematically impossible unless the total number of
+        // *valid* inputs is an exact multiple of diff.
+        return $val % $diff + $rangeMinimum;
+    }
+
+    /**
+     * Returns random bytes from MCrypt.
+     *
+     * @param int $numberOfBytes The number of bytes to read and return
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access protected
+     * @return string The random bytes
+     * @throws \Clickalicious\Rng\Exception
+     */
+    protected function getRandomBytesFromOpenSSL($numberOfBytes, $cryptographic)
+    {
+        return openssl_random_pseudo_bytes($numberOfBytes, $cryptographic);
+    }
+
+    /**
+     * Returns random bytes from MCrypt.
+     *
+     * @param int $numberOfBytes The number of bytes to read and return
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access protected
+     * @return string The random bytes
+     * @throws \Clickalicious\Rng\Exception
+     */
+    protected function getRandomBytesFromMcrypt($numberOfBytes)
+    {
+        return mcrypt_create_iv($numberOfBytes, MCRYPT_DEV_URANDOM);
     }
 
     /**
@@ -328,6 +399,13 @@ class Generator
                         sprintf('Extension "%s" not loaded but required!', self::EXTENSION_MCRYPT)
                     );
                 }
+                break;
+
+            case self::MODE_OPEN_SSL:
+            case self::MODE_PHP_DEFAULT:
+            case self::MODE_PHP_MERSENNE_TWISTER:
+            default:
+                // Intentionally omitted cause not required - listed here for code quality and readability
                 break;
         }
 
@@ -389,7 +467,7 @@ class Generator
      */
     public function setSeed($seed)
     {
-        // We need to call different methods depending on chosen algorithm
+        // We need to call different methods depending on chosen source
         switch ($this->getMode()) {
 
             case self::MODE_PHP_MERSENNE_TWISTER:
@@ -401,6 +479,7 @@ class Generator
                 break;
 
             case self::MODE_MCRYPT:
+            case self::MODE_OPEN_SSL:
             default:
                 // Intentionally left blank
                 break;
@@ -440,5 +519,46 @@ class Generator
     public function getSeed()
     {
         return $this->seed;
+    }
+
+    /**
+     * Setter for crypto.
+     *
+     * @param bool $crypto TRUE to set cryptographic flag, FALSE to disable
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     * @return void
+     */
+    protected function setCrypto($crypto)
+    {
+        $this->crypto = $crypto;
+    }
+
+    /**
+     * Setter for crypto.
+     *
+     * @param bool $crypto TRUE to set cryptographic flag, FALSE to disable
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     * @return $this Instance for chaining
+     */
+    protected function crypto($crypto)
+    {
+        $this->setCrypto($crypto);
+        return $this;
+    }
+
+    /**
+     * Getter for crypto.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     * @return bool|null The crypto flag if set, otherwise NULL
+     */
+    protected function getCrypto()
+    {
+        return $this->crypto;
     }
 }

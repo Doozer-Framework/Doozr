@@ -70,5 +70,5 @@ namespace Clickalicious\Rng;
  */
 class Exception extends \RuntimeException
 {
-    // Namespace
+    // Just for namespace issues
 }

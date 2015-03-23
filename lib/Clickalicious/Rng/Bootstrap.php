@@ -61,5 +61,5 @@ define(
     DIRECTORY_SEPARATOR
 );
 
-
+// Require now the generator itself
 require_once CLICKALICIOUS_RNG_BASE_PATH . 'Clickalicious/Rng/Generator.php';

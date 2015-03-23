@@ -44,7 +44,7 @@
  *
  * @category   Clickalicious
  * @package    Clickalicious_Rng
- * @subpackage Clickalicious_Rng_Tests
+ * @subpackage Clickalicious_Rng_Test
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2015 Benjamin Carl
  * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
@@ -143,6 +143,25 @@ class RngTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test: Get instance with mode php mcrypt extension
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testModePhpMcrypt()
+    {
+        $generator = new Generator(
+            Generator::MODE_MCRYPT
+        );
+
+        $this->assertInstanceOf(
+            'Clickalicious\Rng\Generator',
+            $generator
+        );
+    }
+
+    /**
      * Test generating random number with default setting.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -178,6 +197,19 @@ class RngTest extends PHPUnit_Framework_TestCase
     public function testGeneratePhpMersenneTwister()
     {
         $generator = new Generator(Generator::MODE_PHP_MERSENNE_TWISTER);
+        $this->assertInternalType('int', $generator->generate());
+    }
+
+    /**
+     * Test generating random number with php mcrypt extension algorithm.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    public function testGeneratePhpMcrypt()
+    {
+        $generator = new Generator(Generator::MODE_MCRYPT);
         $this->assertInternalType('int', $generator->generate());
     }
 

@@ -68,7 +68,7 @@ $RECYCLE.BIN/
 
 # Project specific
 __*/
-docs/html/*
+docs/coverage/*
 bin/*
 
 # Common
