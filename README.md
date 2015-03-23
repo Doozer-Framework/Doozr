@@ -28,6 +28,7 @@
  - Clean, tested & well documented code
  - HHVM ready
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/29d1f47a-0deb-47f0-9642-671bebb04795/big.png)](https://insight.sensiolabs.com/projects/29d1f47a-0deb-47f0-9642-671bebb04795)
 
 ## Example
 
