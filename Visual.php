@@ -65,12 +65,6 @@ header("Content-type: image/png");
 $width  = 800;
 $height = 800;
 
-function getColor($num)
-{
-    $hash = md5('color' . $num);
-    return array(hexdec(substr($hash, 0, 2)), hexdec(substr($hash, 2, 2)), hexdec(substr($hash, 4, 2)));
-}
-
 // Our generators
 $generators = array(
     new Clickalicious\Rng\Generator(\Clickalicious\Rng\Generator::MODE_PHP_DEFAULT),
@@ -87,10 +81,7 @@ imagefilledrectangle($img, 0, 0, $totalWidth, $height, imagecolorallocate($img, 
 
 // Iterate and draw
 for ($i = 0; $i < count($generators); ++$i) {
-
-    list($r,$g,$b) = getColor($i * ($i + 1));
-    $color = imagecolorallocate($img, $r, $g, $b);
-
+    $color = imagecolorallocate($img, 0, 0, 0);
     $p = 0;
 
     for ($j = 0; $j < RNG_VISUAL_ITERATIONS; ++$j) {

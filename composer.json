@@ -34,7 +34,7 @@
   ],
   "homepage": "https://github.com/clickalicious/Rng",
   "license": [
-    "The BSD License"
+    "BSD-3-Clause"
   ],
   "support": {
     "email": "opensource@clickalicious.de",

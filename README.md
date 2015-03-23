@@ -53,7 +53,7 @@ echo $number;
 
 ## Philosophy
 
-Just a simple abstraction to PHP's existing core functionality. State of the art + best practice PRNG implementation. No seeding required but good seed generator built in.
+This library provides a State of the Art PRNG implementation for PHP as well as an really nice abstraction to PHP's existing core functionality. No seeding required but good seed generator built in.
 
 
 ## Versioning
