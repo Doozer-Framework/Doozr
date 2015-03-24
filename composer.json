@@ -18,8 +18,8 @@
       "phpunit/phpunit": "4.5.*"
   },
   "autoload": {
-      "psr-0": {
-          "Clickalicious": "lib/"
+      "psr-4": {
+          "Clickalicious": "lib/Clickalicious/"
       }
   },
   "include-path": ["lib/"],
