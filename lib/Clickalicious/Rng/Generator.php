@@ -55,8 +55,6 @@ namespace Clickalicious\Rng;
  * @link       https://github.com/clickalicious/Rng
  */
 
-require_once 'Exception.php';
-
 use Clickalicious\Rng\Exception;
 
 /**

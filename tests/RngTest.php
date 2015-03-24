@@ -52,8 +52,6 @@
  * @link       https://github.com/clickalicious/Rng
  */
 
-require_once CLICKALICIOUS_RNG_BASE_PATH . 'Clickalicious/Rng/Generator.php';
-
 use Clickalicious\Rng\Generator;
 
 /**

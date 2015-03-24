@@ -54,6 +54,9 @@ namespace Clickalicious\Rng;
  * @link       https://github.com/clickalicious/Rng
  */
 
+// Include autoloader
+require_once 'Autoloader.php';
+
 // The base path to /lib/ if we don't have Composer we need to know root path
 define(
     'CLICKALICIOUS_RNG_BASE_PATH',
@@ -61,5 +64,25 @@ define(
     DIRECTORY_SEPARATOR
 );
 
-// Require now the generator itself
-require_once CLICKALICIOUS_RNG_BASE_PATH . 'Clickalicious/Rng/Generator.php';
+// Root node
+$root = realpath(CLICKALICIOUS_RNG_BASE_PATH . '../');
+
+// Check for composer dev dependencies
+if (true === file_exists($root . '/vendor/autoload.php')) {
+    include_once $root . '/vendor/autoload.php';
+}
+
+// Force reporting of all errors ...
+error_reporting(-1);
+
+// Retrieve SAPI PHP is running
+$sapi = strtolower(php_sapi_name());
+
+// Init autoloading
+$loader = new Autoloader();
+
+// register the autoloader
+$loader->register();
+
+// register the base directories for the namespace prefix
+$loader->addNamespace('Clickalicious\Rng', CLICKALICIOUS_RNG_BASE_PATH . 'Clickalicious\Rng');
