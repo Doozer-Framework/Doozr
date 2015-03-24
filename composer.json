@@ -19,7 +19,7 @@
   },
   "autoload": {
       "psr-4": {
-          "Clickalicious": "lib/Clickalicious/"
+          "Clickalicious\\": "lib/Clickalicious/"
       }
   },
   "include-path": ["lib/"],
