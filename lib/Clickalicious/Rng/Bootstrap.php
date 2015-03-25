@@ -14,7 +14,7 @@ namespace Clickalicious\Rng;
  * LICENSE:
  * Rng - Plain vanilla PHP Rng client with full support of Rng protocol.
  *
- * Copyright (c) 2014 - 2015, Benjamin Carl
+ * Copyright (c) 2015, Benjamin Carl
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ namespace Clickalicious\Rng;
  * @package    Clickalicious_Rng
  * @subpackage Clickalicious_Rng_Bootstrap
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2014 - 2015 Benjamin Carl
+ * @copyright  2015 Benjamin Carl
  * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Rng
