@@ -11,6 +11,7 @@ sudo: false
 
 before_install:
   - composer self-update
+  - composer --version
 
 env:
   matrix:
