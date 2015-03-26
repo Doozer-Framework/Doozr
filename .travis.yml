@@ -12,8 +12,13 @@ sudo: false
 before_install:
   - composer self-update
 
+env:
+  matrix:
+    - PREFER_LOWEST="--prefer-lowest"
+    - PREFER_LOWEST=""
+
 before_script:
-  - composer install --prefer-source --prefer-lowest
+  - composer install --prefer-source $PREFER_LOWEST
   - composer --optimize-autoloader
   - mkdir -p ./build/logs
 
