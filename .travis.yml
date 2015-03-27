@@ -12,13 +12,18 @@ before_install:
   - composer self-update
   - composer --version
 
+matrix:
+  allow_failures:
+    php:
+      - hhvm
+
 env:
   matrix:
     - PREFER_LOWEST="--prefer-lowest"
     - PREFER_LOWEST=""
 
 before_script:
-  - composer update --prefer-source $PREFER_LOWEST
+  - travis_retry composer update --prefer-source $PREFER_LOWEST
   - composer --optimize-autoloader
   - mkdir -p ./build/logs
 
@@ -48,9 +53,3 @@ branches:
   only:
     - master
     - stable
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    php:
-      - hhvm
