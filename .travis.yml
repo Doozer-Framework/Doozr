@@ -12,15 +12,9 @@ before_install:
   - composer self-update
   - composer --version
 
-matrix:
-  allow_failures:
-    php:
-      - hhvm
-
 env:
-  matrix:
-    - PREFER_LOWEST="--prefer-lowest"
-    - PREFER_LOWEST=""
+  - PREFER_LOWEST="--prefer-lowest"
+  - PREFER_LOWEST=""
 
 before_script:
   - travis_retry composer update --prefer-source $PREFER_LOWEST
@@ -53,3 +47,9 @@ branches:
   only:
     - master
     - stable
+
+matrix:
+  allow_failures:
+    php:
+      - 7.0
+      - hhvm
