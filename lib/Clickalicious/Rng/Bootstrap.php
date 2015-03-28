@@ -57,6 +57,29 @@ namespace Clickalicious\Rng;
 // Include autoloader
 require_once 'Autoloader.php';
 
+/**
+ * Detects composer in global scope
+ *
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return bool TRUE if composer is active, otherwise FALSE
+ * @access public
+ */
+function composer_running()
+{
+    $result = false;
+    $classes = get_declared_classes();
+    natsort($classes);
+    foreach ($classes as $class) {
+        if (stristr($class, 'ComposerAutoloaderInit')) {
+            $result = true;
+            break;
+        }
+    }
+
+    return $result;
+}
+
+
 // The base path to /lib/ if we don't have Composer we need to know root path
 define(
     'CLICKALICIOUS_RNG_BASE_PATH',
@@ -67,10 +90,24 @@ define(
 // Root node
 $root = realpath(CLICKALICIOUS_RNG_BASE_PATH . '../');
 
-// Check for composer dev dependencies
-if (true === file_exists($root . '/vendor/autoload.php')) {
+// Check for composer existence
+if (true === $composerExist = $composerRunning = file_exists($root . '/vendor/autoload.php')) {
     include_once $root . '/vendor/autoload.php';
+
+} else {
+    $composerExist = $composerRunning = composer_running();
 }
+
+// No need to double detect and so on ...
+define(
+'CLICKALICIOUS_RNG_COMPOSER_EXISTS',
+$composerExist
+);
+
+define(
+'CLICKALICIOUS_RNG_COMPOSER_RUNNING',
+$composerRunning
+);
 
 // Force reporting of all errors ...
 error_reporting(-1);
