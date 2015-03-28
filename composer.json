@@ -30,7 +30,7 @@
     "Random",
     "Randomize",
     "Number",
-    "clickalicious"
+    "mersenne"
   ],
   "homepage": "https://github.com/clickalicious/Rng",
   "license": [
