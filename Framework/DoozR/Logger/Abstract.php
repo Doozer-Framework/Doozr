@@ -223,7 +223,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      * This method is the constructor and responsible for building the instance.
      *
      * @param DoozR_Datetime_Service $datetime    Instance of date/time service
-     * @param int                $level       The log-level of the logger extending this class
+     * @param int                    $level       The log-level of the logger extending this class
      * @param string                 $fingerprint The fingerprint of the client
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -278,12 +278,12 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      * @throws DoozR_Logger_InvalidArgumentException
      */
     public function log(
-        $type,
-        $message,
-        array $context = array(),
-        $time          = null,
-        $fingerprint   = null,
-        $separator     = null
+              $type,
+              $message,
+        array $context     = array(),
+              $time        = null,
+              $fingerprint = null,
+              $separator   = null
     ) {
         // prevent misuse
         if (!array_key_exists($type, $this->availableLogtypes)) {
@@ -444,6 +444,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
     }
 
     protected $archive = array();
+
     protected function archive($hash, $entry)
     {
         $this->archive[$hash] = $entry;

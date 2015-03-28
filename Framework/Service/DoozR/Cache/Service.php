@@ -231,12 +231,12 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
             $namespace = $this->getNamespace();
         }
 
-        // retrieve expiration date
+        // Retrieve expiration date
         if ($lifetime === null) {
             $lifetime = $this->getGcMaximumLifetime();
         }
 
-        // try to create entry
+        // Try to create entry
         if ($this->createExtended($key, $value, $lifetime, $namespace) === false) {
             throw new DoozR_Cache_Service_Exception(
                 sprintf('Error while creating entry with key: "%s" in namespace: "%s"!', $key, $namespace)
@@ -392,15 +392,18 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      *  - there was a run before and this run is older = gcProbabilityTime
      *
      * @param string $namespace       The namespace to look for elements in
-     * @param bool   $force           TRUE to force a garbage collection run, otherwise FALSE (default) to check
      * @param int    $maximumLifetime The maximum lifetime of an element
+     * @param bool   $force           TRUE to force a garbage collection run, otherwise FALSE (default) to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function garbageCollection($namespace = null, $force = false, $maximumLifetime = null)
+    public function garbageCollection($namespace = null, $maximumLifetime = null, $force = false)
     {
+        // Default result
+        $result = 0;
+
         // Get our active namespace if no special one passed
         if ($namespace === null) {
             $namespace = $this->getNamespace();
@@ -423,9 +426,11 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
             ) ||
             (rand(1, 100) <= $this->gcProbability)                                     // or randomizer hit?
         ) {
-            $this->getContainer()->runGarbageCollection($namespace, $maximumLifetime);
+            $result = $this->getContainer()->garbageCollection($namespace, $maximumLifetime);
             self::$gcLastRunTimestamp = time();
         }
+
+        return $result;
     }
 
     /**
@@ -565,9 +570,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
     public function __teardown()
     {
         $this->garbageCollection(
-            $this->getNamespace(),        // Retrieve namespace from this service instance
-            false,                        // At tear-down don't force
-            $this->getGcMaximumLifetime() // The lifetime used to check entries
+            $this->getNamespace(),         // Retrieve namespace from this service instance
+            $this->getGcMaximumLifetime(), // The lifetime used to check entries
+            false                          // At tear-down don't force
         );
     }
 

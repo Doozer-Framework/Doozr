@@ -87,7 +87,7 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * Constructor.
      *
      * @param array   $route
-     * @param int $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means
+     * @param int     $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means
      *                                that /Foo/Bar/ will be taken as root and ripped out)
      *
      * @internal param array $request The original request

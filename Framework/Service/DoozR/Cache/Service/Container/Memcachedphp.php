@@ -472,29 +472,24 @@ class DoozR_Cache_Service_Container_Memcachedphp extends DoozR_Cache_Service_Con
     }
 
     /**
-     * deletes all expired files
+     * Deletes all expired elements. Garbage collection for elements is a rather "expensive", "long time" operation.
+     * All elements in the cache have to be examined which means that they must be opened for reading,
+     * the expiration date has to be read from them and if necessary they have to be removed.
      *
-     * This method is intend to delete all expired files.
-     * Garbage collection for files is a rather "expensive", "long time" operation. All files in the cache
-     * directory have to be examined which means that they must be opened for reading, the expiration date has
-     * to be read from them and if neccessary they have to be unlinked (removed). If you have a user comment
-     * for a good default gc probability please add it to to the inline docs.
-     *
-     * @param string $namespace   The namespace to delete items from
-     * @param int    $maximumLifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param string $namespace The namespace to delete items from
+     * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean The result of the operation
      * @access public
-     * @throws DoozR_Cache_Service_Exception
      */
-    public function runGarbageCollection($namespace, $maximumLifetime)
+    public function garbageCollection($namespace, $lifetime)
     {
         // Run successful?
-        $result = true;
+        $result = 0;
 
         if ($this->getConnection() !== null) {
-            $result = $this->doGarbageCollection($namespace, $maximumLifetime);
+            $result = $this->doGarbageCollection($namespace, $lifetime);
         }
 
         // Return the result of the operation
@@ -780,115 +775,70 @@ class DoozR_Cache_Service_Container_Memcachedphp extends DoozR_Cache_Service_Con
                 Client::CACHEDUMP_ITEMS_MAX
             );
 
+            // Iterate entries from slab
             foreach($cachedump as $key => $value) {
 
-                if ($flat === true) {
+                // Retrieve data from Memcached and meta data as well
+                $metaData = $this->getConnection()->gets(array($key), true);
 
-                    $metaData = $this->getConnection()->gets(array($key), true);
-                    $result[] = array(
+                // Check if we need to handle this one ...
+                if ($namespace === null || (isset($metaData[$key]['value'][3]) === true && $namespace == $metaData[$key]['value'][3])) {
+
+                    // Build array here ...
+                    $data = array(
                         'key'    => $key,
                         'value'  => $metaData[$key]['value'],
                         'cas'    => $metaData[$key]['meta']['cas'],
                         'frames' => $metaData[$key]['meta']['frames'],
                         'flags'  => $metaData[$key]['meta']['flags'],
-                    );
-                } else {
-
-                    $result[$key] = array(
                         'raw'    => $value,
-                        'value'  => $this->getConnection()->gets(array($key)),
                         'server' => $this->getConnection()->getHost() . ':' . $this->getConnection()->getPort(),
                         'slabId' => $slabId,
                         'age'    => $items['items'][$slabId]['age'],
                     );
-                }
-            }
-        }
 
-        return $list;
-
-
-        // Assume empty result
-        /*
-        $list     = array();
-
-        $allSlabs = $this->getConnection()->getExtendedStats(self::MEMCACHE_TYPE_SLABS);
-        $items    = $this->getConnection()->getExtendedStats(self::MEMCACHE_TYPE_ITEMS);
-
-        // Iterate slabs
-        foreach($allSlabs as $server => $slabs) {
-            // Iterate single slab
-            foreach($slabs as $slabId => $slabMeta) {
-                // There is also metadata within array (string index!)
-                if (is_int($slabId) === true) {
-                    $cachedump = $this->getConnection()->getExtendedStats(self::MEMCACHE_TYPE_CACHEDUMP, (int)$slabId);
-
-                    // Iterate all server from slab
-                    foreach ($cachedump as $server => $entries) {
-
-                        if (is_array($entries) === true) {
-                            // Check if at least one entry exist
-                            if (count($entries) > 0) {
-
-                                // Get data for eacht entry and store in list ...
-                                foreach($entries as $key => $data) {
-                                    $dataset = $this->getConnection()->get($key);
-
-                                    if (
-                                        is_array($dataset) === true &&
-                                        isset($dataset[3]) === true &&  // first both checks to be sure we have an dataset
-                                        (
-                                            $namespace === null ||      // this one to either include all (null) or specific
-                                            $namespace === $dataset[3]
-                                        )
-                                    ) {
-                                        // Add to result ...
-                                        $list[$key] = array(
-                                            'value'     => $dataset,
-                                            'namespace' => $dataset[3],
-                                            'server'    => $server,
-                                            'slabId'    => $slabId,
-                                            'age'       => $items[$server]['items'][$slabId]['age'],
-                                        );
-                                    }
-                                }
-                            }
-                        }
+                    // Is this flat?
+                    if ($flat === true) {
+                        $list[] = $data;
+                    } else {
+                        $list[$key] = $data;
                     }
                 }
             }
         }
 
         return $list;
-        */
     }
 
     /**
      * Does the recursive gc procedure.
      *
-     * @param string $namespace       The namespace do run gc on
-     * @param int    $maximumLifetime Maximum lifetime in seconds of an no longer used/touched entry
+     * @param string $namespace The namespace do run gc on
+     * @param int    $lifetime  Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access protected
      * @throws DoozR_Cache_Service_Exception
      */
-    protected function doGarbageCollection($namespace, $maximumLifetime)
+    protected function doGarbageCollection($namespace, $lifetime)
     {
+        $deleted = 0;
         $entries = $this->getAllEntries($namespace);
 
         // Iterate entries ...
         foreach ($entries as $key => $entry) {
 
             // Checking last access is so much faster then reading from file so we try to exclude file read here!
-            if ($entry['age'] > $maximumLifetime) {
+            if ($entry['age'] > $lifetime) {
                 if ($this->getConnection()->delete($key) === false) {
                     throw new DoozR_Cache_Service_Exception(
                         sprintf('Can\'t remove cache entry "%s", skipping. Check permissions.', $key)
                     );
                     continue;
                 }
+                ++$deleted;
+
             } else {
                 $expire = $entry['value'][0];
 
@@ -900,6 +850,8 @@ class DoozR_Cache_Service_Container_Memcachedphp extends DoozR_Cache_Service_Con
                         );
                         continue;
                     }
+                    ++$deleted;
+
                 } else {
                     $this->addEntry(
                         time(),
@@ -937,5 +889,8 @@ class DoozR_Cache_Service_Container_Memcachedphp extends DoozR_Cache_Service_Con
             // Update
             $this->setEntries($entries);
         }
+
+        // Return count of deleted elements
+        return $deleted;
     }
 }

@@ -167,15 +167,20 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
      * @access public
      */
     public function log(
-        $type,
-        $message,
-        array $context = array(),
-        $time = null,
-        $fingerprint = null,
-        $separator = null
+              $type,
+              $message,
+        array $context     = array(),
+              $time        = null,
+              $fingerprint = null,
+              $separator   = null
     ) {
         // call parents log just as normal => so content, raw ... gets filled
         parent::log($type, $message, $context, $time, $fingerprint, $separator);
+
+        // log date time
+        $time = ($time !== null) ?
+            $time :
+            $this->date.' ['.$this->dateTime->getMicrotimeDiff($_SERVER['REQUEST_TIME']).']';
 
         // Store message in archive for e.g. debug bar and similar outputs
         $this->archive(

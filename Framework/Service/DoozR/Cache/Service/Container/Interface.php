@@ -132,7 +132,7 @@ interface DoozR_Cache_Service_Container_Interface
      * @return boolean TRUE if entry was deleted successful, otherwise FALSE
      * @access protected
      */
-    public function runGarbageCollection($namespace, $lifetime);
+    public function garbageCollection($namespace, $lifetime);
 
     /**
      * This method is intend to purge the cache. It removes all caches datasets from the cache.
