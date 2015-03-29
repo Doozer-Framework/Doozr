@@ -57,8 +57,6 @@ $filename = realpath(dirname(__FILE__) . '../../../../../../DoozR/Bootstrap.php'
 if (file_exists($filename)) {
     require_once $filename;
 } else {
-    #echo 'realpath(dirname(__FILE__))' . realpath(dirname(__FILE__)) . '<br />';
-    #echo '../../../../../DoozR/Bootstrap.php<br />';
     require_once realpath(dirname(__FILE__)) . '/../../../../../DoozR/Bootstrap.php';
 }
 
