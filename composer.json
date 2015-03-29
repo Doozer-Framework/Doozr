@@ -39,10 +39,10 @@
   },
   "autoload": {
       "psr-0": {
-          "DoozR": "Framework/"
+          "DoozR": "lib/"
       }
   },
-  "include-path": ["Framework/"],
+  "include-path": ["lib/"],
   "minimum-stability": "dev",
   "keywords": [
     "framework",

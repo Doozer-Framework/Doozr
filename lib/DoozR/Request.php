@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Request
- * @subpackage DoozR_Request
+ * @subpackage DoozR_Request_Core
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Registry.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/State.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
 
@@ -63,7 +64,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
  *
  * @category   DoozR
  * @package    DoozR_Request
- * @subpackage DoozR_Request
+ * @subpackage DoozR_Request_Core
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2014 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -96,6 +97,13 @@ class DoozR_Request extends DoozR_Base_State_Container
      */
     protected $requestSources;
 
+    /**
+     * The request type!
+     *
+     * @var string
+     *
+     */
+    protected $requestType = DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI;
 
     /**
      * Constructor.
@@ -200,6 +208,7 @@ class DoozR_Request extends DoozR_Base_State_Container
         if ($requestMethod = (isset($_SERVER['REQUEST_METHOD'])) ? $_SERVER['REQUEST_METHOD'] : null) {
             return strtoupper($requestMethod);
         } else {
+
             return strtoupper($this->getRequestType());
         }
     }

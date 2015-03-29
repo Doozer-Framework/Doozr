@@ -1,5 +1,5 @@
 filter:
-    paths: [Framework/*]
+    paths: [lib/*]
     excluded_paths: [app/*, bin/*, docs/*, tests/*, web/*]
 before_commands:
     - 'composer install --prefer-source'

@@ -53,7 +53,6 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core/Exception.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger.php';
