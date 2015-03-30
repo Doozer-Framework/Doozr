@@ -46,7 +46,7 @@
  * @package    DoozR_Di
  * @subpackage DoozR_Di_Importer_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2014 Benjamin Carl
+ * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       https://github.com/clickalicious/Di
@@ -71,7 +71,7 @@ require_once DI_PATH_LIB.'Object/Freezer.php';
  * @package    DoozR_Di
  * @subpackage DoozR_Di_Importer_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2014 Benjamin Carl
+ * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
