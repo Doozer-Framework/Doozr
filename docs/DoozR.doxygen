@@ -580,7 +580,7 @@ WARN_LOGFILE           = DoozR_documentation_error.log
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = ../Framework "C:\Program Files\xampp\htdocs\Projekte\DoozR\Framework"
+INPUT                  = ../lib "C:\Program Files\xampp\htdocs\Projekte\DoozR\lib"
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
@@ -643,7 +643,7 @@ EXCLUDE_PATTERNS       = */Smarty/* \
                          */Cpuinfo/Lib/* \
                          */Smarty/* \
                          */App/* \
-                         */Framework/Core/* \
+                         */Lib/Core/* \
                          */Model/Lib/Orm/* \
                          */Model/Lib/Couchdb/* \
                          */DoozR/Logger/Lib/* \
