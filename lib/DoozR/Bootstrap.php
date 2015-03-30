@@ -132,7 +132,9 @@ define('DOOZR_SYSTEM_TEMP', sys_get_temp_dir() . DIRECTORY_SEPARATOR);
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // Try to include composer's autoloader to make all the composer stuff easy available
-@include_once DOOZR_DOCUMENT_ROOT . '../vendor/autoload.php';
+if (composer_running() === false) {
+    include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
+}
 
 /*----------------------------------------------------------------------------------------------------------------------
 | EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
@@ -196,14 +198,16 @@ define('DOOZR_NAMESPACE_FLAT', 'doozr');
 // We install the generic handler here! This one is used if not development runtimeEnvironment is enabled
 // ERROR-HANDLER: register error-handler
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Error.php';
-// set the own exception_handler
+
+// Set the own exception_handler
 set_error_handler(
     array(
         'DoozR_Handler_Error',
         'handle'
     )
 );
-// hook for theoretically "unhandable error(s)" like E_PARSE (smart-hack)
+
+// Hook for theoretically "unhandable error(s)" like E_PARSE (smart-hack)
 register_shutdown_function(
     array(
         'DoozR_Handler_Error',
@@ -213,7 +217,8 @@ register_shutdown_function(
 
 // EXCEPTION-HANDLER: register exception-handler
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Exception.php';
-// set the own exception_handler
+
+// Set own exception_handler
 set_exception_handler(
     array(
         'DoozR_Handler_Exception',
@@ -226,3 +231,26 @@ set_exception_handler(
 +---------------------------------------------------------------------------------------------------------------------*/
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core.php';
+
+
+/**
+ * Detects composer in global scope
+ *
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return bool TRUE if composer is active, otherwise FALSE
+ * @access public
+ */
+function composer_running()
+{
+    $result = false;
+    $classes = get_declared_classes();
+    natsort($classes);
+    foreach ($classes as $class) {
+        if (stristr($class, 'ComposerAutoloaderInit')) {
+            $result = true;
+            break;
+        }
+    }
+
+    return $result;
+}

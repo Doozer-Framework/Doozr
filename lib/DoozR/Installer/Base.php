@@ -195,7 +195,7 @@ class DoozR_Installer_Base
     {
         $path = DIRECTORY_SEPARATOR . implode(
                 DIRECTORY_SEPARATOR,
-                array('vendor', 'clickalicious', 'doozr', 'Framework', 'DoozR','Installer', 'Base.php')
+                array('vendor', 'clickalicious', 'doozr', 'lib', 'DoozR','Installer', 'Base.php')
             );
 
         return realpath(str_replace($path, '', __FILE__));
@@ -261,7 +261,7 @@ class DoozR_Installer_Base
     {
         $path = DIRECTORY_SEPARATOR . implode(
                 DIRECTORY_SEPARATOR,
-                array('Framework', 'DoozR','Installer', 'Base.php')
+                array('lib', 'DoozR','Installer', 'Base.php')
             );
 
         return realpath(str_replace($path, '', __FILE__)) . DIRECTORY_SEPARATOR;

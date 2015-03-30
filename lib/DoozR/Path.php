@@ -244,47 +244,47 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         // get absolute root
         $root = $this->_up($pathToRoot, 1, true);
 
-        // real root (without "Framework" directory)
+        // real root (without "lib" directory)
         self::$path['document_root'] = $root;
 
         // path to core
-        self::$path['core'] = $this->_combine($root, array('Framework', 'DoozR'));
+        self::$path['core'] = $this->_combine($root, array('lib', 'DoozR'));
 
         // path to framework
-        self::$path['framework'] = $this->_combine($root, array('Framework'));
+        self::$path['framework'] = $this->_combine($root, array('lib'));
 
         // path to app
         self::$path['app'] = $pathToApplication;
 
         // path to model
-        self::$path['model'] = $this->_combine($root, array('Framework', 'Model'));
+        self::$path['model'] = $this->_combine($root, array('lib', 'Model'));
 
         // path to services
-        self::$path['service'] = $this->_combine($root, array('Framework', 'Service'));
+        self::$path['service'] = $this->_combine($root, array('lib', 'Service'));
 
         // path to controller
-        self::$path['controller'] = $this->_combine($root, array('Framework', 'DoozR', 'Controller'));
+        self::$path['controller'] = $this->_combine($root, array('lib', 'DoozR', 'Controller'));
 
         // path to data
-        self::$path['data'] = $this->_combine($root, array('Framework', 'Data'));
+        self::$path['data'] = $this->_combine($root, array('lib', 'Data'));
 
         // path to data-private
-        self::$path['data_private'] = $this->_combine($root, array('Framework', 'Data', 'Private'));
+        self::$path['data_private'] = $this->_combine($root, array('lib', 'Data', 'Private'));
 
         // path to auth
-        self::$path['auth'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Auth'));
+        self::$path['auth'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Auth'));
 
         // path to cache
         self::$path['cache'] = DOOZR_SYSTEM_TEMP;
 
         // path to config
-        self::$path['config'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Config'));
+        self::$path['config'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Config'));
 
         // path to font
-        self::$path['font'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Font'));
+        self::$path['font'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Font'));
 
         // path to log
-           //self::$_path['log'] = $this->_combine($root, array('Framework', 'Data', 'Private', 'Log'));
+           //self::$_path['log'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Log'));
         self::$path['log'] = DOOZR_SYSTEM_TEMP;
 
         // path to temp
