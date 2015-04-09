@@ -24,9 +24,9 @@
         <testsuite name="DoozR">
             <directory>.</directory>
         </testsuite>
-        <!--testsuite name="DoozR_I18n_Service">
+        <testsuite name="DoozR_I18n_Service">
             <directory>../lib/Service/DoozR/I18n/tests/</directory>
-        </testsuite-->
+        </testsuite>
     </testsuites>
 
     <logging>

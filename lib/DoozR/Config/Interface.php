@@ -52,6 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Reader/Interface.php';
+
 /**
  * DoozR Config Interface
  *
@@ -66,7 +68,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-interface DoozR_Config_Interface
+interface DoozR_Config_Interface extends DoozR_Config_Reader_Interface
 {
     /**
      * Setter for key => value pairs of config.

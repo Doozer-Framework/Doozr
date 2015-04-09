@@ -95,7 +95,7 @@ You can edit these files with any text-editor you like. Just place one `key = va
 ### Examples (code)
 Detect clients prefered locale:
 
-    $locale = $i18n->getClientPreferedLocale();
+    $locale = $i18n->getClientPreferredLocale();
 
 Get all available locales (defined in config):
 

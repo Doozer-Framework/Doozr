@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Config - Reader - Json
+ * DoozR - Config - Reader - Ini
  *
- * Json.php - Configuration reader for reading JSON configurations and represent
+ * Ini.php - Configuration reader for reading JSON configurations and represent
  * them in an object oriented way. The JSON format is extended and we say
  * JSON+ to it. This class also provides caching of contents through a cache
  * service instance (this can be either memcache, filesystem ...).
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Reader/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
 
 /**
- * DoozR - Config - Reader - Json
+ * DoozR - Config - Reader - Ini
  *
  * Configuration reader for reading JSON configurations and represent
  * them in an object oriented way. The JSON format is extended and we say
@@ -75,7 +75,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements DoozR_Config_Interface
+class DoozR_Config_Reader_Ini extends DoozR_Config_Reader_Abstract implements DoozR_Config_Interface
 {
     /**
      * The decoded content.
@@ -84,6 +84,17 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
      * @access protected
      */
     protected $decodedContent;
+
+    /**
+     * Controls whether the INI sections should be parsed or not.
+     * If set to TRUE the result of parsing will be a multidimensional array,
+     * otherwise a flat structure is returned.
+     *
+     * @var bool
+     * @access public
+     * @const
+     */
+    const PHP_INI_PARSER_PROCESS_SECTIONS = true;
 
 
     /**
@@ -106,7 +117,7 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
         $configuration = null;
 
         // Is cache enabled?
-        if (true === $this->getCache()) {
+        if (true === $this->cacheEnabled()) {
             try {
                 $configuration = $this->getCacheService()->read($this->getUuid());
             } catch (DoozR_Cache_Service_Exception $exception) {
@@ -126,7 +137,8 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
         // Error handling
         if ($configuration === false) {
             throw new DoozR_Config_Reader_Exception(
-                $this->getErrorByCode(json_last_error())
+                'Configuration could no be parsed. Ensure its valid.'
+                /* @TODO Ensure Lint on error with exception = details! */
             );
         }
 
@@ -165,6 +177,9 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
 
     public function set($node, $value = null)
     {
+        echo 1;
+        die;
+
         if ($node !== null) {
             $nodes = explode(':', $node);
             $configuration = $this->getDecodedContent();
@@ -192,6 +207,8 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
     /**
      * Returns the decoded JSON config content as whole or for a passed node.
      *
+     * @param string|null $node The node to return
+     *
      * @return \stdClass The config as stdClass
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -211,7 +228,7 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
 
                 } catch (DoozR_Error_Exception $e) {
                     throw new DoozR_Config_Reader_Exception(
-                        'Configuration does not have a property: "' . $node . '" in configuration.'
+                        sprintf('Configuration does not have a property: "%s" in configuration.', $node)
                     );
                 }
             }
@@ -238,21 +255,23 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
     }
 
     /**
-     * Validates that a passed string is valid json
+     * Validates that a passed string is valid ini
      *
-     * @param string $input The input to validate
+     * @param string $input           The input to validate
+     * @param bool   $processSections TRUE to process sections, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool|string FALSE on error, STRING with result on success
      * @access protected
      */
-    protected function validate($input)
+    protected function validate($input, $processSections = self::PHP_INI_PARSER_PROCESS_SECTIONS)
     {
         if (true === is_string($input)) {
-            $input = @json_decode($input);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                $input = false;
-            }
+            $input = @parse_ini_string($input, $processSections);
+            // Convert our associative array to an object
+            $input = array_to_object(
+                array_change_key_case_recursive($input)
+            );
         }
 
         return $input;
@@ -297,31 +316,5 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
     protected function getDecodedContent()
     {
         return $this->decodedContent;
-    }
-
-    /**
-     * Returns the error string for the code from PHP's json parser
-     *
-     * @param string $errorCode The error code to return message for
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The message for passed error code
-     * @access protected
-     */
-    protected function getErrorByCode($errorCode)
-    {
-        switch ($errorCode) {
-            case JSON_OBJECT_AS_ARRAY:
-                $error = 'Json object as array.';
-                break;
-            case JSON_ERROR_SYNTAX:
-                $error = 'Json syntax error';
-                break;
-            default:
-                $error = 'Unknown error.';
-                break;
-        }
-
-        return $error;
     }
 }

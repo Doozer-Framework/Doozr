@@ -134,7 +134,11 @@ class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
             // caching enabled?
             if (self::$cache) {
                 // check if content of translationtable is already cached?
-                $cachedContent = self::$cache->read($crc);
+                try {
+                    $cachedContent = self::$cache->read($crc);
+                } catch (DoozR_Cache_Service_Exception $e) {
+                    $cachedContent = false;
+                }
 
             } else {
                 // no cache = no result

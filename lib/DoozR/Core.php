@@ -453,6 +453,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
             $config->read($userlandConfigurationFile);
         }
 
+        // Store config
         self::$registry->setConfig($config);
 
         // Important for bootstrap result

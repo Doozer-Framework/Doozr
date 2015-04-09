@@ -197,15 +197,15 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface $registry  The DoozR_Registry instance
-     * @param string                   $locale     The locale this instance is working with
-     * @param string                   $namespace  The active namespace of this format-class
-     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object                   $translator An instance of a translator (for locale)
+     * @param DoozR_Registry_Interface      $registry   The DoozR_Registry instance
+     * @param string                        $locale     The locale this instance is working with
+     * @param string                        $namespace  The active namespace of this format-class
+     * @param object                        $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object                        $configL10n An instance of DoozR_Config_Ini holding the I10n-config (locale)
+     * @param DoozR_I18n_Service_Translator $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return DoozR_I18n_Service_Localize_Currency
      * @access public
      */
     public function __construct(
@@ -216,10 +216,10 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
         $configL10n                               = null,
         DoozR_I18n_Service_Translator $translator = null
     ) {
-        // set type of format-class
+        // Set type of format-class
         $this->type = 'Currency';
 
-        // call parents construtor
+        // Call parents constructor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
 }

@@ -500,7 +500,7 @@ function is_json($string)
 }
 
 /**
- * calculates the crossfoot of a given number
+ * Calculates the crossfoot of a given number
  *
  * This method is intend to calculate the crossfoot of a given number.
  *
@@ -681,7 +681,7 @@ function checksum()
     return crc32($input);
 }
 
-// check if method allready exists
+// Check if method already exists
 if (!function_exists('pre')) {
 
     ladybug_set_theme('modern');

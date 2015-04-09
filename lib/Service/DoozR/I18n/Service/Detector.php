@@ -228,8 +228,8 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     protected function __construct(DoozR_Config_Interface $config, DoozR_Registry_Interface $registry)
     {
         // Store registry
-        self::$registry    = $registry;
-        self::$runtimeEnvironment = self::$registry->request->getMode();
+        self::$registry           = $registry;
+        self::$runtimeEnvironment = self::$registry->getRequest()->getRuntimeEnvironment();
 
         // locale defaults
         self::$_defaults = array(
@@ -240,10 +240,10 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         );
 
         // a collection of locales available
-        self::$_availableLocales = (array)$config->i18n->defaults->available();
+        self::$_availableLocales = (array)$config->i18n->defaults->available;
 
         // get "prefered-locale"-stores in correct order
-        self::$_stores = $config->i18n->user->stores();
+        self::$_stores = $config->i18n->user->stores;
 
         // get lifetime for stored preference data
         self::$_preferenceLifetime = $config->i18n->user->lifetime;

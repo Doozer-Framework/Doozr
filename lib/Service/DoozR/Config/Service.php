@@ -89,7 +89,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      * @var object
      * @access protected
      */
-    private $_decoratedObject;
+    private $decoratedObject;
 
     /**
      * contains an instance of the class/object decorated
@@ -115,7 +115,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      * @var DoozR_Logger_Interface
      * @access private
      */
-    private $_logger;
+    private $logger;
 
     /**
      * Contains the un-decorated properties
@@ -125,9 +125,9 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      * @static
      */
     private static $_ownProperties = array(
-        '_decoratedObject',
-        '_path',
-        '_logger'
+        'decoratedObject',
+        'path',
+        'logger'
     );
 
 
@@ -139,8 +139,8 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
      *
-     * @param string  $type          The type of config container (Ini, Json, ...)
-     * @param bool $enableCaching TRUE to enable caching, FALSE to disable it
+     * @param string $type          The type of config container (Ini, Json, ...)
+     * @param bool   $enableCaching TRUE to enable caching, FALSE to disable it
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -148,20 +148,20 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      */
     public function __tearup($type, $enableCaching = false)
     {
-        // store path manager
+        // Store path manager
         $this->path = $this->registry->path;
 
-        // store logger
-        $this->_logger = $this->registry->logger;
+        // Store logger
+        $this->logger = $this->registry->logger;
 
-        // create instance through factory and set as object to decorate!
+        // Create instance through factory and set as object to decorate!
         $this->setDecoratedObject(
-            $this->_factory(
-                'DoozR_Config_Container_'.ucfirst(strtolower($type)),
+            $this->factory(
+                'DoozR_Config_Service_Container_'.ucfirst(strtolower($type)),
                 DOOZR_DOCUMENT_ROOT,
                 array(
                     $this->path,
-                    $this->_logger,
+                    $this->logger,
                     $enableCaching
                 )
             )
@@ -175,7 +175,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to act as setter for $_decoratedObject.
+     * This method is intend to act as setter for $decoratedObject.
      *
      * @param object $instance An instance of a class to decorate
      *
@@ -185,11 +185,11 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      */
     protected function setDecoratedObject($instance)
     {
-        $this->_decoratedObject = $instance;
+        $this->decoratedObject = $instance;
     }
 
     /**
-     * This method is intend to act as getter for $_decoratedObject.
+     * This method is intend to act as getter for $decoratedObject.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object An instance of a class
@@ -197,7 +197,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      */
     protected function getDecoratedObject()
     {
-        return $this->_decoratedObject;
+        return $this->decoratedObject;
     }
 
     /**
@@ -214,12 +214,12 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
     {
         if ($arguments) {
             $result = call_user_func_array(
-                array($this->_decoratedObject, $signature),
+                array($this->decoratedObject, $signature),
                 $arguments
             );
         } else {
             $result = call_user_func(
-                array($this->_decoratedObject, $signature)
+                array($this->decoratedObject, $signature)
             );
         }
 
@@ -271,14 +271,13 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      */
     public function __get($property)
     {
-        if ($property != '_decoratedObject') {
-            // try to retrieve property from decorated object
-            try {
-                return $this->_decoratedObject->{$property};
+        if ($property != 'decoratedObject') {
 
-            } catch (DoozR_Config_Container_Exception $e) {
+            if (isset($this->decoratedObject->{$property}) === false) {
                 throw new DoozR_Config_Service_Exception('Error reading property!');
             }
+
+            return $this->decoratedObject->{$property};
         }
     }
 
@@ -295,8 +294,8 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      */
     public function __isset($property)
     {
-        if ($property != '_decoratedObject') {
-            return isset($this->_decoratedObject->{$property});
+        if ($property != 'decoratedObject') {
+            return isset($this->decoratedObject->{$property});
         }
     }
 
@@ -314,8 +313,8 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      */
     public function __set($property, $value)
     {
-        if (in_array(self::$_ownProperties[$property])) {
-            return $this->_decoratedObject->{$property} = $value;
+        if (in_array($property, self::$_ownProperties) === false) {
+            return $this->decoratedObject->{$property} = $value;
         }
     }
 
@@ -332,12 +331,12 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The fresh created instance
-     * @access private
+     * @access protected
      */
-    private function _factory($class, $path, $arguments = null)
+    protected function factory($class, $path, $arguments = null)
     {
         // get required file
-        include_once $path.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+        include_once $path.'Service'.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
 
         // create and return a fresh instance
         if ($arguments) {
@@ -357,7 +356,8 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      * @return boolean TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
-    public function update( $node, $value ) {
+    public function update($node, $value)
+    {
         // TODO: Implement update() method.
     }
 
@@ -371,21 +371,24 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      * @return void
      * @access public
      */
-    public function set( $node, $value ) {
+    public function set($node, $value)
+    {
         // TODO: Implement set() method.
     }
 
     /**
      * Getter for value of passed key.
      *
-     * @param string $node The key used for value lookup.
+     * @param string $node    The key used for value lookup.
+     * @param mixed  $default The default value to return, NULL = default
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed|null The value if set, otherwise NULL
      * @access public
      */
-    public function get( $node ) {
-        // TODO: Implement get() method.
+    public function get($node, $default = null)
+    {
+        return $this->decoratedObject->get($node, $default);
     }
 
     /**
@@ -398,21 +401,23 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      * @return boolean TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
-    public function create( $node, $data ) {
+    public function create($node, $data)
+    {
         // TODO: Implement create() method.
     }
 
     /**
-     * Reads and return a configuration node.
+     * Reads and return a configuration file.
      *
-     * @param mixed $node The node to read/parse
+     * @param string $filename The filename to read/parse
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The data from cache if successful, otherwise NULL
      * @access public
      */
-    public function read( $node ) {
-        // TODO: Implement read() method.
+    public function read($filename)
+    {
+        return $this->decoratedObject->read($filename);
     }
 
     /**
@@ -424,7 +429,8 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      * @return boolean TRUE if entry was deleted successful, otherwise FALSE
      * @access public
      */
-    public function delete( $node ) {
+    public function delete($node)
+    {
         // TODO: Implement delete() method.
     }
 }

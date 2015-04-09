@@ -259,7 +259,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
 
         // If no locale was passed then we try to read the preferred locale from client
         if ($locale === null) {
-            $locale = $this->getClientPreferedLocale();
+            $locale = $this->getClientPreferredLocale();
         }
 
         // store the given locale
@@ -301,8 +301,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function setAvailableLocales(array $locales)
     {
-        pred('damn');
-        return self::$config->i18n->defaults->available($locales);
+        return self::$config->i18n->defaults->available = $locales;
     }
 
     /**
@@ -322,7 +321,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         // check if locale is valid
         if (!$this->isValidLocale($locale)) {
             throw new DoozR_I18n_Service_Exception(
-                'The locale "' . $locale . '" is not valid.'
+                sprintf('The locale "%s" is not valid.', $locale)
             );
             $result = false;
         }
@@ -353,7 +352,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * @return string The active locale
      * @access public
      */
-    public function getClientPreferedLocale()
+    public function getClientPreferredLocale()
     {
         if ($this->activeLocale !== null) {
             $locale = $this->activeLocale;
@@ -413,7 +412,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         $type = ucfirst(strtolower($type));
 
         // check for redirect -> !
-        if ($input['redirect']) {
+        if (true === isset($input['redirect']) && $input['redirect'] !== null) {
             return $this->getLocalizer($type, $input['redirect']);
 
         } else {
@@ -455,6 +454,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         // Check if locale is available on system
         $availableLocales = object_to_array($this->getAvailableLocales());
         if (in_array($locale, $availableLocales) === false) {
+
             throw new DoozR_I18n_Service_Exception(
                 'The locale "' . $locale . '" is not available by configuration.'
             );
@@ -583,11 +583,11 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * @param string $domain The domain to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The domain as array capsulated
+     * @return string The domain as array capsuled
      * @access public
      * @see PHPTAL_TranslationService::useDomain()
      */
-    public function useDomain($domain, $dummy = null)
+    public function useDomain($domain)
     {
         $this->initTemplateTranslator();
 
@@ -735,16 +735,19 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         }
 
         // get concrete locale
-        $locale = ($locale !== null) ? $locale : $this->getClientPreferedLocale();
+        $locale = ($locale !== null) ? $locale : $this->getClientPreferredLocale();
 
         $config = $this->getL10nConfigurationByLocale($locale);
 
         // check for redirect of current locale (e.g. from "en-gb" -> "en")
         try {
-            $redirectLocale = $config->redirect->target();
+            $redirectLocale     = $config->redirect->target;
             $this->activeLocale = $redirectLocale;
 
-        } catch (DoozR_Config_Service_Exception $e) {
+        } catch (Whoops\Exception\ErrorException $e) {
+            $redirectLocale = null;
+
+        } catch (Exception $e) {
             $redirectLocale = null;
 
         }
@@ -772,7 +775,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             self::$templateTranslator = $this->getTranslator();
 
             self::$templateTranslator->setNamespace(
-                self::$config->i18n->defaults->namespace()
+                self::$config->i18n->defaults->namespace
             );
         }
     }
@@ -825,17 +828,53 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             $config = self::$configurationByLocale[$locale];
 
         } else {
-            $config = DoozR_Loader_Serviceloader::load('Config', 'Ini');
-            $path   = self::getRegistry()->path;
-            $file   = $path->get(
+            $filename = self::getRegistry()->getPath()->get(
                 'app',
                 'Data/Private/I18n/' . $locale . '/' . self::FILE_NAME_L10N . '.' . self::FILE_EXTENSION_L10N
             );
 
-            $config->read($file);
+            // Read
+            $config = $this->getConfigurationReader();
+            $config->read($filename);
 
             self::$configurationByLocale[$locale] = $config;
         }
+
+        return $config;
+    }
+
+    /**
+     * Returns an instance of DoozR's internal Config-Reader for reading INI-Configurations.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Config_Reader_Ini
+     * @access protected
+     * @throws \DoozR_Di_Exception
+     */
+    protected function getConfigurationReader()
+    {
+        // Caching support wanted
+        $cache = self::$registry->getCache();
+
+        // Add required dependencies
+        self::$registry->getMap()->wire(
+            DoozR_Di_Container::MODE_STATIC,
+            array(
+                'DoozR_Filesystem_Service' => DoozR_Loader_Serviceloader::load('filesystem'),
+                'DoozR_Cache_Service'      => $cache,
+            )
+        );
+
+        // Store map with fresh instances
+        self::$registry->getContainer()->setMap(self::$registry->getMap());
+
+        /* @var DoozR_Config_Reader_Ini $config */
+        $config = self::$registry->getContainer()->build(
+            'DoozR_Config_Reader_Ini',
+            array(
+                true
+            )
+        );
 
         return $config;
     }

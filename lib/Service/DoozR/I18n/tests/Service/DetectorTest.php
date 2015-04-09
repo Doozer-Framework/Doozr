@@ -85,7 +85,7 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
      */
     protected static $fixtures = array(
         'locale' => array(
-            'default' => 'en',
+            'default' => 'en-us',
             'valid'   => 'de',
             'invalid' => 'de-11111de-de-de',
         ),
@@ -140,20 +140,21 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
     public function testDetect()
     {
         $detector = self::$service->getDetector();
-        $this->assertTrue($detector->detect());
+        $detected = $detector->detect();
+        $this->assertInstanceOf('DoozR_I18n_Service_Detector', $detected);
     }
 
     public function testGetLocalePreferences()
     {
-        $detector = self::$service->getDetector();
+        $detector    = self::$service->getDetector();
         $preferences = $detector->getLocalePreferences();
 
-        $this->assertArrayHasKey('locale', $preferences);
+        $this->assertArrayHasKey('locale',   $preferences);
         $this->assertArrayHasKey('language', $preferences);
-        $this->assertArrayHasKey('country', $preferences);
+        $this->assertArrayHasKey('country',  $preferences);
 
-        $this->assertEquals('en', $preferences['locale']);
-        $this->assertEquals('en', $preferences['language']);
-        $this->assertEquals('us', $preferences['country']);
+        $this->assertEquals('en-us', $preferences['locale']);
+        $this->assertEquals('en',    $preferences['language']);
+        $this->assertEquals('us',    $preferences['country']);
     }
 }

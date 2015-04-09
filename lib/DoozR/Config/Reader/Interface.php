@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - I18n - Test
+ * DoozR - Config - Reader - Interface
  *
- * ServiceTest.php - This is the Test-Controller of a Service Test
+ * Interface.php - Base contract for DoozR's config reader.
  *
  * PHP versions 5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @package    DoozR_Config
+ * @subpackage DoozR_Config_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,96 +53,20 @@
  */
 
 /**
- * DoozR - Service - I18n - Test
+ * DoozR - Config - Reader - Interface
  *
- * This is the Test-Controller of a Service Test
+ * Base contract for DoozR's config reader.
  *
  * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @package    DoozR_Config
+ * @subpackage DoozR_Config_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCase
+interface DoozR_Config_Reader_Interface
 {
-    /**
-     * The Service instance for testing
-     *
-     * @var DoozR_Base_Service_Abstract
-     * @access protected
-     */
-    protected static $service;
-
-    /**
-     * The name of the service
-     *
-     * @var string
-     * @access protected
-     */
-    protected static $serviceName;
-
-    /**
-     * The DoozR Core instance
-     *
-     * @var DoozR_Core
-     * @access protected
-     */
-    protected static $core;
-
-    /**
-     * The DoozR Registry
-     *
-     * @var DoozR_Registry
-     * @access protected
-     */
-    protected static $registry;
-
-
-    /**
-     * Prepares setup for Tests
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setUp()
-    {
-        // init the inner core
-        self::$core = DoozR_Core::run();
-
-        // get registry
-        self::$registry = DoozR_Registry::getInstance();
-
-        // load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
-    }
-
-    /**
-     * Tests if the service is loadable and the existing instance
-     * matches the required instance.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function testLoadable()
-    {
-        $this->assertInstanceOf('DoozR_' . self::$serviceName . '_Service', self::$service);
-    }
-
-    /**
-     * Cleanup after test execution
-     *
-     * This method is intend to clean up after tests was executed.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function tearDown()
-    {
-        self::$service = null;
-    }
+    // Intentionally left in this state: For Namespace and typehint
 }

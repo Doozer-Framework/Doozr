@@ -94,11 +94,20 @@ class ServiceTest extends DoozR_Base_Service_Test_Abstract
      */
     protected static $fixtures = array(
         'locale' => array(
-            'default'   => 'en',
+            'default'   => 'en-us',
             'valid'     => 'de',
             'invalid'   => 'de-11111de-de-de',
             'available' => array(
-                'ar', 'de', 'de-at', 'en', 'en-gb', 'es', 'fr', 'it', 'ru',
+                'ar',
+                'de',
+                'de-at',
+                'en',
+                'en-gb',
+                'en-us',
+                'es',
+                'fr',
+                'it',
+                'ru',
             ),
         ),
         'formatter' => array(
@@ -109,7 +118,6 @@ class ServiceTest extends DoozR_Base_Service_Test_Abstract
             'String',
         ),
     );
-
 
     /**
      * Prepares setup for Tests of "I18n"
@@ -188,11 +196,11 @@ class ServiceTest extends DoozR_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testGetClientPreferedLocale()
+    public function testGetClientPreferredLocale()
     {
         $locale = self::$fixtures['locale']['valid'];
 
-        $this->assertEquals($locale, self::$service->getClientPreferedLocale());
+        $this->assertEquals($locale, self::$service->getClientPreferredLocale());
     }
 
     /**
@@ -363,7 +371,7 @@ class ServiceTest extends DoozR_Base_Service_Test_Abstract
     {
         $domain = 'foo';
 
-        $this->assertTrue(self::$service->useDomain($domain));
+        $this->assertEquals(array($domain), self::$service->useDomain($domain));
     }
 
     public function testSetVar()
@@ -378,13 +386,13 @@ class ServiceTest extends DoozR_Base_Service_Test_Abstract
     {
         $key = 'Foo <p>Bar</p>';
         $this->assertEquals($key, self::$service->translate($key, false));
-        $this->assertEquals('Foo &lt;p&gt;Bar&lt;/p&gt;', self::$service->translate($key, true));
+        $this->assertEquals('Foo <p>Bar</p>', self::$service->translate($key, true));
     }
 
     public function testSetLanguage()
     {
         $language = self::$fixtures['locale']['valid'];
-        $this->assertEquals($language, self::$service->setLanguage($language));
+        $this->assertTrue(self::$service->setLanguage($language));
     }
 
     /**

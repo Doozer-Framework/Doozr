@@ -111,8 +111,16 @@ if (defined('DOOZR_APP_ROOT') === false) {
 
     if (getenv('DOOZR_APP_ROOT') !== false) {
         $appRoot = getenv('DOOZR_APP_ROOT');
+
     } else {
-        $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . '/../app') . DIRECTORY_SEPARATOR;
+        // Priority #1: App-Root by Document-Root
+        $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . $s . '..' . $s . 'app');
+
+        // Priority #2: App-Root by DoozR Document-Root
+        if (false === $defaultAppRoot) {
+            $defaultAppRoot = realpath(DOOZR_DOCUMENT_ROOT . '../app');
+        }
+
         $appRoot = ($defaultAppRoot !== false) ? $defaultAppRoot : '';
     }
 

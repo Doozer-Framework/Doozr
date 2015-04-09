@@ -435,14 +435,14 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     protected function getTranslatorInterface()
     {
         // Get type of translator interface from general module configuration
-        $interfaceType = $this->configI18n->i18n->translator->mode();
+        $interfaceType = $this->configI18n->i18n->translator->mode;
 
         // combine some parts to a config for the interface
         $config = array(
-            'path'     => $this->configI18n->i18n->path(),
+            'path'     => $this->configI18n->i18n->path,
             'cache'    => array(
-                'enabled'  => $this->configI18n->cache->container(),
-                'lifetime' => $this->configI18n->cache->lifetime()
+                'enabled'  => $this->configI18n->cache->enabled,
+                'lifetime' => $this->configI18n->cache->lifetime
             ),
             'encoding' => $this->encoding,
         );
