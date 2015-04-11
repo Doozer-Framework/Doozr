@@ -10,17 +10,18 @@ The **lightweight** PHP-Framework for **high-performance** websites
 
 ## Table of Contents
 
-- [Features](#features)
-- [Requirements](#requirements)
-- [Philosophy](#philosophy)
-- [Services](#services)
-- [API](#api)
-- [Versioning](#versioning)
+- [Features](#features) 
+- [Requirements](#requirements) 
+- [Philosophy](#philosophy) 
+- [Services](#services) 
+- [API](#api) 
+- [Versioning](#versioning) 
 - [Roadmap](#roadmap) 
-- [Security-Issues](#security-issues)
-- [Install »](../docs/INSTALL.md) 
-- [Architecture »](../docs/ARCHITECTURE.md)  
-- [License »](LICENSE)  
+- [Security-Issues](#security-issues) 
+- [Install »](https://github.com/clickalicious/DoozR/blob/master/docs/INSTALL.md) 
+- [Architecture »](https://github.com/clickalicious/DoozR/blob/master/docs/ARCHITECTURE.md)
+- [Service: I18n »](https://github.com/clickalicious/DoozR/blob/master/lib/Service/DoozR/I18n/README.md)   
+- [License »](LICENSE) 
 
 
 ## Features

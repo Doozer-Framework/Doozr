@@ -43,7 +43,7 @@ The **I18n** Service requires you to setup a directory structure usable by the i
 If you choose *gettext™* as interface to translations then you need to create a directory structure like this:
  
     Path_To_Translationfiles\
-        de-de\                    (Locale[lowercase]_Countrycode[uppercase])
+        de-de\                    (Locale[lowercase]-Countrycode[lowercase])
             Gettext\
                 de_DE\            (Locale[lowercase]_Countrycode[uppercase])
                     LC_MESSAGES\
@@ -56,7 +56,7 @@ The translation files are plain vanilla [.po files](http://de.wikipedia.org/wiki
 If you choose *Text* as interface to translations then you need to create a directory structure like this:
  
     Path_To_Translationfiles\
-        de-de\                    (Locale[lowercase]_Countrycode[uppercase])
+        de-de\                    (Locale[lowercase]-Countrycode[lowercase])
             Text\
                 de_DE\            (Locale[lowercase]_Countrycode[uppercase])
                     LC_MESSAGES\

@@ -17,7 +17,7 @@ matrix:
 
 before_install:
   - sudo locale-gen en_US
-  - sudo locale-gen en_US.UTF8
+  - sudo locale-gen en_US.UTF-8
   - sudo dpkg-reconfigure locales
   - travis_retry composer selfupdate
   - composer --version
