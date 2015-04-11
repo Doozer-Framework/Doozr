@@ -186,7 +186,7 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
 
-        $this->assertEquals('Ja', $translator->_('Yes'));
+        $this->assertEquals('Yes', $translator->_('Yes'));
     }
 
     /**
