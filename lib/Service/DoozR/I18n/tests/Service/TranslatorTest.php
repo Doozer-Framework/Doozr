@@ -77,9 +77,28 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
      */
     protected static $fixtures = array(
         'locale' => array(
-            'default' => 'en',
-            'valid'   => 'de',
-            'invalid' => 'de-11111de-de-de',
+            'default'   => 'en-us',
+            'valid'     => 'de',
+            'invalid'   => 'de-11111de-de-de',
+            'available' => array(
+                'ar',
+                'de',
+                'de-at',
+                'en',
+                'en-gb',
+                'en-us',
+                'es',
+                'fr',
+                'it',
+                'ru',
+            ),
+        ),
+        'formatter' => array(
+            'Currency',
+            'Datetime',
+            'Measure',
+            'Number',
+            'String',
         ),
         'translation' => array(
             'missing' => 'This is a not translated string.'
