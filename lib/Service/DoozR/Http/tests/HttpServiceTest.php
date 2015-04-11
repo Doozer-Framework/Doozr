@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Service - Http - Test
  *
- * HttpServiceTest.php - Test for Service
+ * HttpServiceTest.php - Tests for Service instance of DoozR Http Service.
  *
  * PHP versions 5.4
  *
@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @subpackage DoozR_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,13 +52,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once 'PHPUnit/Autoload.php';
-require_once 'DoozR/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Service - Http - Test
  *
- * Test for Service
+ * Tests for Service instance of DoozR Http Service.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -69,24 +68,56 @@ require_once 'DoozR/Bootstrap.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class HttpServiceTest extends PHPUnit_Framework_TestCase
+class HttpServiceTest extends DoozR_Base_Service_Test_Abstract
 {
     /**
-     * Contains the service instance for testing
+     * Protocol used
      *
-     * @var DoozR_Http_Service
-     * @access protected
+     * @var string
+     * @access public
+     * @const
      */
-    protected $service;
-
-    // data for connection
     const PROTOCOL = 'http';
-    const HOST     = 'google.de';
-    const PORT     = 80;
+
+    /**
+     * Host to connect to for test
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const HOST = 'google.de';
+
+    /**
+     * Port used
+     *
+     * @var int
+     * @access public
+     * @const
+     */
+    const PORT = 80;
+
+    /**
+     * Username used
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const USERNAME = 'John';
+
+    /**
+     * Password used
+     *
+     * @var int
+     * @access public
+     * @const
+     */
+    const PASSWORD = 'Doe';
 
 
     /**
-     * SETUP
+     * Prepares setup for Tests
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -94,109 +125,92 @@ class HttpServiceTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        // Instantiate DoozR -> this will manage some base setup
-        DoozR_Core::getInstance();
+        self::$serviceName = 'Http';
+        parent::setUp();
 
-        $this->init();
+        // Load service
+        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName);
     }
 
     /**
-     * TEARDOWN
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function tearDown()
-    {
-        // unset
-        $this->service = null;
-    }
-
-    /**
-     * Initialize the Service: Http
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function init()
-    {
-        // load the service with default Service-Loader
-        $this->service = DoozR_Loader_Serviceloader::load('Http');
-    }
-
-    /**
-     * Test: Is the Service "Http" loadable?
+     * Tests if it is possible to set credentials and retrieve them back
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testLoadable()
-    {
-        // test if loaded service class is correct
-        $this->assertEquals('DoozR_Http_Service', get_class($this->service));
-    }
-
     public function testSetCredentials()
     {
-        $user     = 'John';
-        $password = 'Doe';
-
-        // positive behavior
-        $result = $this->service->setCredentials($user, $password);
+        // Positive behavior test
+        $result = self::$service->setCredentials(self::USERNAME, self::PASSWORD);
         $this->assertTrue($result);
 
-        $result = $this->service->credentials($user, $password);
-        $this->assertInstanceOf('DoozR_Http_Service', $result);
+        $result = self::$service->credentials(self::USERNAME, self::PASSWORD);
+        $this->assertInstanceOf(self::$serviceClassName, $result);
 
-        $credentials = $this->service->getCredentials();
+        $credentials = self::$service->getCredentials();
+
         $this->assertArrayHasKey('user', $credentials);
         $this->assertArrayHasKey('password', $credentials);
-        $this->assertEquals($user, $credentials['user']);
-        $this->assertEquals($password, $credentials['password']);
+
+        $this->assertEquals(self::USERNAME, $credentials['user']);
+        $this->assertEquals(self::PASSWORD, $credentials['password']);
     }
 
+    /**
+     * Tests if it is possible to set a host and retrieve it back
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function testSetAndGetHost()
     {
-        $result = $this->service->setHost(self::HOST);
+        $result = self::$service->setHost(self::HOST);
         $this->assertTrue($result);
 
-        $result = $this->service->host(self::HOST);
-        $this->assertInstanceOf('DoozR_Http_Service', $result);
+        $result = self::$service->host(self::HOST);
+        $this->assertInstanceOf(self::$serviceClassName, $result);
 
-        $result = $this->service->getHost();
+        $result = self::$service->getHost();
         $this->assertEquals(self::HOST, $result);
     }
 
     /**
-     * @depends testSetAndGetHost
+     * Tests if it is possible to set a port and retrieve it back
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function testSetAndGetPort()
     {
-        $result = $this->service->setPort(self::PORT);
+        $result = self::$service->setPort(self::PORT);
         $this->assertTrue($result);
 
-        $result = $this->service->port(self::PORT);
-        $this->assertInstanceOf('DoozR_Http_Service', $result);
+        $result = self::$service->port(self::PORT);
+        $this->assertInstanceOf(self::$serviceClassName, $result);
 
-        $result = $this->service->getPort();
+        $result = self::$service->getPort();
         $this->assertEquals(self::PORT, $result);
     }
 
     /**
-     * @depends testSetAndGetPort
+     * Tests if it is possible to set a protocol and retrieve it back
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function testSetAndGetProtocol()
     {
-        $result = $this->service->setProtocol(self::PROTOCOL);
+        $result = self::$service->setProtocol(self::PROTOCOL);
         $this->assertTrue($result);
 
-        $result = $this->service->protocol(self::PROTOCOL);
-        $this->assertInstanceOf('DoozR_Http_Service', $result);
+        $result = self::$service->protocol(self::PROTOCOL);
+        $this->assertInstanceOf(self::$serviceClassName, $result);
 
-        $result = $this->service->getProtocol();
+        $result = self::$service->getProtocol();
         $this->assertEquals(self::PROTOCOL, $result);
     }
 }

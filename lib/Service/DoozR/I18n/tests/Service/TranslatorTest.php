@@ -116,6 +116,9 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
     {
         self::$serviceName = 'I18n';
         parent::setUp();
+
+        // Load service
+        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
     }
 
     /**

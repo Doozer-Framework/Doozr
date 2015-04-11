@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Form - Test
+ * DoozR - Http - Service
  *
- * FormServiceTest.php - Tests for Service instance of DoozR Form Service.
+ * Demo.php - Http Service
  *
  * PHP versions 5.4
  *
@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @subpackage DoozR_Service_Http
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,38 +52,18 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
+require_once '../../../../lib/DoozR/Bootstrap.php';
 
-/**
- * DoozR - Service - Form - Test
- *
- * Tests for Service instance of DoozR Form Service.
- *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
- * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
- * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
- */
-class FormServiceTest extends DoozR_Base_Service_Test_Abstract
-{
-    /**
-     * Prepares setup for Tests of "Form"
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setUp()
-    {
-        self::$serviceName = 'Form';
-        parent::setUp();
-
-        // Load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, $sessionMock);
-    }
-
-}
+/* @var $http DoozR_Http_Service */
+$http = DoozR_Loader_Serviceloader::load('http');
+var_dump(
+    $http
+        ->host('requestb.in')
+        ->port(80)
+        ->protocol(DoozR_Http_Service::CONNECTION_PROTOCOL_HTTP)
+        ->post('ti0ozjti', array('foo' => 'bar'))
+        ->get('ti0ozjti')
+        ->put('ti0ozjti')
+        ->delete('ti0ozjti')
+        ->run()
+);

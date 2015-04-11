@@ -174,7 +174,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @const
      * @access public
      */
-    const HTTP_STATUS_OK      = 200;
+    const HTTP_STATUS_OK = 200;
 
     /**
      * The status for CREATED = 201
@@ -198,7 +198,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @const
      * @access public
      */
-    const CONNECTION_PROTOCOL_HTTP  = 'http';
+    const CONNECTION_PROTOCOL_HTTP = 'http';
 
     /**
      * The protocol HTTPS
@@ -816,8 +816,8 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     /**
      * Format the response as array
      *
-     * @param $status   The statuscode of the response
-     * @param $response The response' content
+     * @param int    $status   The statuscode of the response
+     * @param string $response The response content
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The formatted response
@@ -830,9 +830,6 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
             'response' => $response
         );
     }
-
-
-
 
     /**
      * Initializes a new curl session and returns it
@@ -1073,7 +1070,6 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
 
         // iterate requests and start request(s)
         foreach ($this->requests as $id => $request) {
-
             $session = $this->_init();
 
             $this->_configureCredentials($session);

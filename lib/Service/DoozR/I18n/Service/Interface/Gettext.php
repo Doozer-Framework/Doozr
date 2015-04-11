@@ -160,7 +160,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
                     break;
 
                 case 'en-us':
-                    $locale = 'en_us';
+                    $locale = 'en_US';
                     break;
             }
         }

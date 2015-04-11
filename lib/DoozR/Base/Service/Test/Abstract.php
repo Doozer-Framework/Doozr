@@ -84,6 +84,13 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     protected static $serviceName;
 
     /**
+     * 'DoozR_Http_Service'
+     *
+     * @var
+     */
+    protected static $serviceClassName;
+
+    /**
      * The DoozR Core instance
      *
      * @var DoozR_Core
@@ -112,11 +119,11 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
         // Init the DoozR core to execute
         self::$core = DoozR_Core::run();
 
+        // Store classname
+        self::$serviceClassName = 'DoozR_' . self::$serviceName . '_Service';
+
         // Get registry
         self::$registry = DoozR_Registry::getInstance();
-
-        // Load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
     }
 
     /**
@@ -129,7 +136,7 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
      */
     public function testLoadable()
     {
-        $this->assertInstanceOf('DoozR_' . self::$serviceName . '_Service', self::$service);
+        $this->assertInstanceOf(self::$serviceClassName, self::$service);
     }
 
     /**

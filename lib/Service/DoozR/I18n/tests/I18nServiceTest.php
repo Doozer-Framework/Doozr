@@ -4,7 +4,7 @@
 /**
  * DoozR - Service - I18n - Test
  *
- * ServiceTest.php - Tests for Service instance of DoozR I18n Service.
+ * I18nServiceTest.php - Tests for Service instance of DoozR I18n Service.
  *
  * PHP versions 5.4
  *
@@ -113,6 +113,9 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
     {
         self::$serviceName = 'I18n';
         parent::setUp();
+
+        // Load service
+        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
     }
 
     /**

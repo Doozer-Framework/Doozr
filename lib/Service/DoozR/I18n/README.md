@@ -79,18 +79,12 @@ You can edit these files with any text-editor you like. Just place one `key = va
 `$i18n = DoozR_Loader_Serviceloader::load('i18n');`
 
 ### Components / Classes
- - **Service**
-`DoozR_I18n_Service`
- - **Translator**
-`DoozR_I18n_Service_Translator`
- - **Interface gettext**
-`DoozR_I18n_Service_Interface_Gettext`
- - **Interface text**
-`DoozR_I18n_Service_Interface_Text`
-- **Detector**
-`DoozR_I18n_Service_Detector`
-- **Installer**
-`DoozR_I18n_Service_Install`
+ - **Service** `DoozR_I18n_Service`
+ - **Detector** `DoozR_I18n_Service_Detector`
+ - **Installer** `DoozR_I18n_Service_Install` 
+ - **Translator** `DoozR_I18n_Service_Translator`
+   - **Interface gettext** `DoozR_I18n_Service_Interface_Gettext`
+   - **Interface text** `DoozR_I18n_Service_Interface_Text`
 
 ### Examples (code)
 Detect clients prefered locale:
@@ -116,10 +110,6 @@ Set active locale:
 Get encoding (e.g. UTF-8):
 
     $encoding = $i18n->getEncoding();
-
-Set encoding:
-
-    $i18n->setEncoding('ISO-8859-1');
 
 Set encoding:
 
