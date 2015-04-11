@@ -71,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
 class FormServiceTest extends DoozR_Base_Service_Test_Abstract
 {
     /**
-     * SETUP
+     * Prepares setup for Tests of "Form"
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -83,52 +83,4 @@ class FormServiceTest extends DoozR_Base_Service_Test_Abstract
         parent::setUp();
     }
 
-    /**
-     * Test: Is the Service "Form" loadable?
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function testLoadable()
-    {
-        // test if loaded service class is correct
-        $this->assertEquals('DoozR_Form_Service', get_class($this->service));
-
-        #$mock = $this->getMock('DoozR_Form_Service');
-        #$this->assertTrue($mock instanceof DoozR_Form_Service);
-    }
-
-    /**
-     * Test: Does Service "Form" return the default Form-Name correctly?
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function testForm()
-    {
-        /*
-        $this->assertEquals(
-            DoozR_Form_Service_Constant::DEFAULT_NAME,
-            $this->service->getName()
-        );
-        */
-    }
-
-    /**
-     * Test: Does Service "Form" set and get the name property correctly?
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    /*
-    public function testSetAndGetName()
-    {
-        $name = 'DoozR';
-        $this->service->setName($name);
-        $this->assertEquals($this->service->getName(), $name);
-    }
-    */
 }

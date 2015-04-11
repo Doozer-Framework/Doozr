@@ -684,8 +684,8 @@ function checksum()
 // Check if method already exists
 if (!function_exists('pre')) {
 
-    ladybug_set_theme('modern');
-    ladybug_set_format('html');
+    //ladybug_set_theme('modern');
+    //ladybug_set_format('html');
 
     /**
      * prints out or return a colorized output (no color in CLI-Mode)
