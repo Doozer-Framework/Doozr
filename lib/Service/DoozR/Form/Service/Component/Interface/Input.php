@@ -9,10 +9,10 @@
  * child components (also if it doesn't make sense for some components!) and
  * that a call on render() will return the HTML for the whole component.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *

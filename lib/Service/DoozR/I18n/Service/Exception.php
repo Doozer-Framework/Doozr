@@ -6,10 +6,10 @@
  *
  * Exception.php - Base exception of module I18n
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -73,18 +73,17 @@ class DoozR_I18n_Service_Exception extends DoozR_Exception
     /**
      * This method is intend to act as constructor.
      *
-     * @param string  $message  The exception-message
-     * @param int $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
+     * @param string $message  The exception-message
+     * @param int    $code     The code of the exception
+     * @param object $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object instance of this exception
      * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {
         // add prefix to message
-        $message = 'DoozR_I18n_Service: '.$message;
+        $message = 'DoozR_I18n_Service: ' . $message;
 
         // check default code = 0
         $code = (!$code) ? 0 : $code;

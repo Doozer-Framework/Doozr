@@ -6,10 +6,10 @@
  *
  * Measure.php - Measurement formatter
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -114,9 +114,9 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     private $_output;
 
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN PUBLIC INTERFACES
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to set the measure system for input of the current instance. Can be either uscs or si.

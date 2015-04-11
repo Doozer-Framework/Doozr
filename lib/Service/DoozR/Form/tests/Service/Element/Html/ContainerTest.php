@@ -4,12 +4,12 @@
 /**
  * DoozR - Unit-Test
  *
- * FormServiceTest.php - Test for Service
+ * BaseTest.php - Test for Base
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -52,9 +52,6 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once 'PHPUnit/Autoload.php';
-require_once 'DoozR/Bootstrap.php';
-
 /**
  * DoozR - Unit-Test
  *
@@ -69,104 +66,50 @@ require_once 'DoozR/Bootstrap.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class FormServiceTest extends PHPUnit_Framework_TestCase
+/*
+class ContainerTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Contains the service instance for testing
-     *
-     * @var DoozR_Form_Service
-     * @access protected
-     */
-    protected $service;
-
-
-    /**
-     * SETUP
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setUp()
+    public function testInit()
     {
-        // Instantiate DoozR -> this will manage some base setup
-        DoozR_Core::getInstance();
-
-        $this->init();
+        $base = new DoozR_Form_Service_Element_Html_Html();
+        $this->assertInstanceOf('DoozR_Form_Service_Element_Html_Html', $base);
     }
 
-    /**
-     * TEARDOWN
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function tearDown()
+    public function testSetAndGetAttribute()
     {
-        // unset
-        $this->service = null;
+        $key   = 'foo';
+        $value = 'bar';
+        $base  = new DoozR_Form_Service_Element_Html_Html();
+
+        $this->assertTrue($base->setAttribute($key, $value));
+        $this->assertEquals($value, $base->getAttribute($key));
     }
 
-    /**
-     * Initialize the Service: Form
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function init()
+    public function testSetAndGetAttributes()
     {
-        // load the service with default Service-Loader
-        $this->service = DoozR_Loader_Serviceloader::load('Form');
-    }
+        $base = new DoozR_Form_Service_Element_Html_Html();
 
-    /**
-     * Test: Is the Service "Form" loadable?
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function testLoadable()
-    {
-        // test if loaded service class is correct
-        $this->assertEquals('DoozR_Form_Service', get_class($this->service));
-
-        #$mock = $this->getMock('DoozR_Form_Service');
-        #$this->assertTrue($mock instanceof DoozR_Form_Service);
-    }
-
-    /**
-     * Test: Does Service "Form" return the default Form-Name correctly?
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function testForm()
-    {
-        /*
-        $this->assertEquals(
-            DoozR_Form_Service_Constant::DEFAULT_NAME,
-            $this->service->getName()
+        $attributes = array(
+            'foo' => 'bar',
+            'bar' => 'foo'
         );
-        */
+
+        $this->assertTrue($base->setAttributes($attributes));
+        $this->assertEquals('foo', $base->getAttribute('bar'));
+        $this->assertArrayHasKey('bar', $base->getAttributes());
     }
 
-    /**
-     * Test: Does Service "Form" set and get the name property correctly?
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    /*
-    public function testSetAndGetName()
+    public function testSetAndGetHtml()
     {
-        $name = 'DoozR';
-        $this->service->setName($name);
-        $this->assertEquals($this->service->getName(), $name);
+        $base = new DoozR_Form_Service_Element_Html_Html();
+
+        $attributes = array(
+            'html' => '<html></html>'
+        );
+
+        $this->assertEmpty($base->getHtml());
+        $this->assertTrue($base->setHtml($attributes['html']));
+        $this->assertEquals($attributes['html'], $base->getHtml());
     }
-    */
 }
+*/

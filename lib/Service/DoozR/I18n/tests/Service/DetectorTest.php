@@ -6,10 +6,10 @@
  *
  * DetectorTest.php - Tests for Detector of the DoozR I18n Service.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -125,18 +125,40 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
         $this->assertInstanceOf('DoozR_I18n_Service_Detector', $detector);
     }
 
-    public function testiIsValidLocaleCode()
+    /**
+     * Test: is valid locale code
+     * This test ensures that the validation method of the detector is capable
+     * of validating a locale correctly and is able to diff between valid and
+     * invalid locale strings.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testIsValidLocaleCode()
     {
         $detector = self::$service->getDetector();
 
+        // Positive
         $this->assertTrue($detector->isValidLocaleCode('de'));
         $this->assertTrue($detector->isValidLocaleCode('en'));
         $this->assertTrue($detector->isValidLocaleCode('en-gb'));
+
+        // Negative
         $this->assertFalse($detector->isValidLocaleCode('fr fr'));
         $this->assertFalse($detector->isValidLocaleCode('f'));
         $this->assertFalse($detector->isValidLocaleCode('foo'));
     }
 
+    /**
+     * Test: Detection
+     * This test ensures that the detector is capable of detecting the
+     * clients preferred locale.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function testDetect()
     {
         $detector = self::$service->getDetector();
@@ -144,6 +166,15 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
         $this->assertInstanceOf('DoozR_I18n_Service_Detector', $detected);
     }
 
+    /**
+     * Test: Detection
+     * This test ensures that the detector is capable of detecting the
+     * clients preferred locale.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function testGetLocalePreferences()
     {
         $detector    = self::$service->getDetector();

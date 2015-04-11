@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Service - Form - Test
  *
- * FormTest.php - Test for Form
+ * FormTest.php - Tests for Form element instance of DoozR Form Service.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -52,13 +52,10 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once 'PHPUnit/Autoload.php';
-require_once 'DoozR/Bootstrap.php';
-
 /**
- * DoozR - Unit-Test
+ * DoozR - Service - Form - Test
  *
- * Test for Service
+ * Tests for Form element instance of DoozR Form Service.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -91,31 +88,6 @@ class FormTest extends PHPUnit_Framework_TestCase
     {
         self::$form = null;
     }
-
-    /**
-     * SETUP
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setUp()
-    {
-        #$this-
-    }
-
-    /**
-     * TEARDOWN
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function tearDown()
-    {
-        // unset
-    }
-
 
     /**
      * Test: Is the Service "Form" loadable?

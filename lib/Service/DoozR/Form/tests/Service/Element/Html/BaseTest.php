@@ -4,12 +4,12 @@
 /**
  * DoozR - Unit-Test
  *
- * FormTest.php - Test for Form
+ * BaseTest.php - Test for Base
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -52,9 +52,6 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once 'PHPUnit/Autoload.php';
-require_once 'DoozR/Bootstrap.php';
-
 /**
  * DoozR - Unit-Test
  *
@@ -70,17 +67,49 @@ require_once 'DoozR/Bootstrap.php';
  * @link       http://clickalicious.github.com/DoozR/
  */
 /*
-class AbstractTest extends PHPUnit_Framework_TestCase
+class BaseTest extends PHPUnit_Framework_TestCase
 {
-    public function testSetAndGetId()
+    public function testInit()
     {
-        $stub = $this->getMockForAbstractClass('DoozR_Form_Service_Element_Html_Abstract');
+        $base = new DoozR_Form_Service_Element_Html_Html();
+        $this->assertInstanceOf('DoozR_Form_Service_Element_Html_Html', $base);
+    }
 
-        $stub->expects($this->any())
-            ->method('setId')
-            ->will($this->returnValue(TRUE));
+    public function testSetAndGetAttribute()
+    {
+        $key   = 'foo';
+        $value = 'bar';
+        $base  = new DoozR_Form_Service_Element_Html_Html();
 
-        $this->assertTrue($stub->setId());
+        $this->assertTrue($base->setAttribute($key, $value));
+        $this->assertEquals($value, $base->getAttribute($key));
+    }
+
+    public function testSetAndGetAttributes()
+    {
+        $base = new DoozR_Form_Service_Element_Html_Html();
+
+        $attributes = array(
+            'foo' => 'bar',
+            'bar' => 'foo'
+        );
+
+        $this->assertTrue($base->setAttributes($attributes));
+        $this->assertEquals('foo', $base->getAttribute('bar'));
+        $this->assertArrayHasKey('bar', $base->getAttributes());
+    }
+
+    public function testSetAndGetHtml()
+    {
+        $base = new DoozR_Form_Service_Element_Html_Html();
+
+        $attributes = array(
+            'html' => '<html></html>'
+        );
+
+        $this->assertEmpty($base->getHtml());
+        $this->assertTrue($base->setHtml($attributes['html']));
+        $this->assertEquals($attributes['html'], $base->getHtml());
     }
 }
 */

@@ -6,7 +6,7 @@
  *
  * Interface.php - Parser interface for all Parser of the Di-Framework
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * Di - The Dependency Injection Framework
  *

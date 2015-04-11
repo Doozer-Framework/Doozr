@@ -2,16 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Extend - Emulate - Linux
+ * DoozR - Unit-Test
  *
- * 5_4.php - This include extends PHP's functionality by emulating missing
- *           functionality in PHP versions <= 5.4. It use native PHP-Code
- *           replacements of PHP's C-implementations in newer PHP releases.
+ * FormTest.php - Test for Form
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Extend
- * @subpackage DoozR_Extend_Emulate_Php
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -54,20 +52,32 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-if (!function_exists('http_response_code'))
+/**
+ * DoozR - Unit-Test
+ *
+ * Test for Service
+ *
+ * @category   DoozR
+ * @package    DoozR_Service
+ * @subpackage DoozR_Service_Form
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2015 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/DoozR/
+ */
+/*
+class AbstractTest extends PHPUnit_Framework_TestCase
 {
-    function http_response_code($code = null)
+    public function testSetAndGetId()
     {
-        static $status = 200;
+        $stub = $this->getMockForAbstractClass('DoozR_Form_Service_Element_Html_Abstract');
 
-        if ($code !== null) {
-            #header('X-PHP-Response-Code: ' . $code, true, $code); <-- error with php fcgim try this
-            header('none', false, $code);
-            if (!headers_sent()) {
-                $status = $code;
-            }
-        }
+        $stub->expects($this->any())
+            ->method('setId')
+            ->will($this->returnValue(TRUE));
 
-        return $status;
+        $this->assertTrue($stub->setId());
     }
 }
+*/

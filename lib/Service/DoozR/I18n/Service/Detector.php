@@ -4,12 +4,12 @@
 /**
  * DoozR - I18n - Service
  *
- * Detector.php - Locale detection part of the I18n module
+ * Detector.php - Locale detection part of the I18n service.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 /**
  * DoozR - I18n - Service
  *
- * Locale detection part of the module I18n
+ * Locale detection part of the I18n service.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -71,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
 {
     /**
-     * an array containing the "defaults" for fallback solutions
+     * Array containing the "defaults" for fallback solutions
      *
      * @var array
      * @access private
@@ -80,7 +80,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private static $_defaults;
 
     /**
-     * the store(s) available for storing preferences
+     * Store(s) available for storing preferences
      *
      * @var array
      * @access private
@@ -89,7 +89,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private static $_stores;
 
     /**
-     * the identifier used to identify I18n prefered data in store(s)
+     * Identifier used to identify I18n prefered data in store(s)
      *
      * @var string
      * @access private
@@ -98,16 +98,16 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private static $_identifier;
 
     /**
-     * an array containing all available locales on the system
+     * Array containing all available locales on the system
      *
-     * @var array
+     * @var string[]
      * @access private
      * @static
      */
     private static $_availableLocales;
 
     /**
-     * the session module instance
+     * Instance of session service
      *
      * @var object
      * @access private
@@ -116,7 +116,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private static $_session;
 
     /**
-     * status of initialization
+     * Status of initialization
      *
      * @var bool
      * @access private
@@ -125,7 +125,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private static $_initialized = false;
 
     /**
-     * the current active and prefered locale
+     * Current active and prefered locale
      *
      * @var string
      * @access private
@@ -133,7 +133,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private $_locale;
 
     /**
-     * the current active and prefered weight
+     * Current active and preferred weight
      *
      * @var double
      * @access private
@@ -141,7 +141,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private $_weight;
 
     /**
-     * the current active and prefered language
+     * Current active and preferred language
      *
      * @var string
      * @access private
@@ -149,7 +149,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private $_language;
 
     /**
-     * the current active and prefered country(-code)
+     * Current active and preferred country(-code)
      *
      * @var string
      * @access private
@@ -157,7 +157,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private $_country;
 
     /**
-     * an array containing all detected locales
+     * Array containing all detected locales
      *
      * @var array
      * @access private
@@ -165,7 +165,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private $_detectedLocales;
 
     /**
-     * an array containing all detected languages
+     * Array containing all detected languages
      *
      * @var array
      * @access private
@@ -173,7 +173,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     private $_detectedLanguages;
 
     /**
-     * an array containing all detected countries
+     * Array containing all detected countries
      *
      * @var array
      * @access private
@@ -252,9 +252,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         self::$_identifier = $config->i18n->user->identifier;
     }
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACE
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns the whole collection of detected values
@@ -311,7 +311,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      */
     public function getWeight()
     {
-        // get the stored weight of locale
+        // Get the stored weight of locale
         return $this->_weight;
     }
 
@@ -324,7 +324,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      */
     public function getLocales()
     {
-        // get all stored locales
+        // Get all stored locales
         return $this->_detectedLocales;
     }
 
@@ -452,13 +452,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         return $this;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACE
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN TOOLS + HELPER
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to initialize and start the detection.
@@ -647,7 +643,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * This method is intend to detect the available locales by request-header.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool|array FALSE on error, otherwise ARRAY containing the preferred locale(s)
      * @access protected
      */
     protected function detectByRequestHeader()

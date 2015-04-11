@@ -1,23 +1,36 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/3.7/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
     backupGlobals="true"
-    colors="true" 
-    backupStaticAttributes="false">
-    bootstrap="../../../../DoozR/Bootstrap.php">
+    backupStaticAttributes="false"
+    bootstrap="../../../../DoozR/Bootstrap.php"
+    cacheTokens="false"
+    colors="true"
+    stopOnError="true"
+    stopOnFailure="true"
+    verbose="false"
+    testdox="true"
+    timeoutForSmallTests="1"
+    timeoutForMediumTests="10"
+    timeoutForLargeTests="60"
+    >
+
     <testsuites>
         <testsuite name="DoozR_I18n_Service">
-            <file>ServiceTest.php</file>
-            <file>Service/TranslatorTest.php</file>
-            <file>Service/DetectorTest.php</file>
-            <!--directory>Service/</directory-->
-            <!--exclude>/path/to/exclude</exclude-->
+            <directory>.</directory>
         </testsuite>
     </testsuites>
 
-    <!--logging>
-        <log type="coverage-html" target="./Log/Coverage" charset="UTF-8"
-             yui="true" highlight="true"
-             lowUpperBound="50" highLowerBound="80"/>
-    </logging-->
+    <logging>
+        <log
+            type="testdox"
+        />
+    </logging>
+
+    <php>
+        <const name="DOOZR_IS_UNIT_TEST" value="true" />
+        <includePath>.</includePath>
+        <includePath>../lib</includePath>
+        <ini name="max_execution_time" value="600" />
+    </php>
 </phpunit>

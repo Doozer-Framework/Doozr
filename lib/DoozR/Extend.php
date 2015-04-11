@@ -11,10 +11,10 @@
  * This extension also adds PHP 5.3 functionality and ERROR-types to PHP
  * installations < 5.3 (like get_called_class() ...).
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -952,22 +952,6 @@ function banner($data = '', $nl = PHP_EOL)
 function pred($data = 'EMPTY_PRED_CALL', $return = false, $color = '#7CFC00', $cursor = 'pointer')
 {
     ladybug_dump_die($data);
-}
-
-/*----------------------------------------------------------------------------------------------------------------------
-| PHP 5.3 EMULATION
-+---------------------------------------------------------------------------------------------------------------------*/
-
-if (DOOZR_PHP_VERSION < 5.3) {
-    include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Php/5_3.php';
-}
-
-/*----------------------------------------------------------------------------------------------------------------------
-| PHP 5.4 EMULATION
-+---------------------------------------------------------------------------------------------------------------------*/
-
-if (DOOZR_PHP_VERSION < 5.4) {
-    include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Php/5_4.php';
 }
 
 /*----------------------------------------------------------------------------------------------------------------------

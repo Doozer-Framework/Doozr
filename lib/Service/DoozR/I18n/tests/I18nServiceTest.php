@@ -6,10 +6,10 @@
  *
  * ServiceTest.php - Tests for Service instance of DoozR I18n Service.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -52,14 +52,6 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-$filename = realpath(dirname(__FILE__) . '../../../../../DoozR/Bootstrap.php');
-
-if (file_exists($filename)) {
-    require_once $filename;
-} else {
-    require_once '../../../../DoozR/Bootstrap.php';
-}
-
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
 
 /**
@@ -76,16 +68,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class ServiceTest extends DoozR_Base_Service_Test_Abstract
+class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
 {
-    /**
-     * The Service instance for testing
-     *
-     * @var DoozR_I18n_Service
-     * @access protected
-     */
-    #protected static $service;
-
     /**
      * Data required for running this test(s)
      *
@@ -124,9 +108,9 @@ class ServiceTest extends DoozR_Base_Service_Test_Abstract
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setUp()
+    protected function setUp()
     {
         self::$serviceName = 'I18n';
         parent::setUp();

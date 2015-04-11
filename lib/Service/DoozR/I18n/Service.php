@@ -6,10 +6,10 @@
  *
  * Service.php - I18n Service for internationalization and localization.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -456,7 +456,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         if (in_array($locale, $availableLocales) === false) {
 
             throw new DoozR_I18n_Service_Exception(
-                'The locale "' . $locale . '" is not available by configuration.'
+                sprintf('The locale "%s" is not available by configuration.', $locale)
             );
         }
 
@@ -731,7 +731,9 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     {
         // check for valid locale
         if ($locale && !$this->isValidLocale($locale)) {
-            throw new DoozR_I18n_Service_Exception('Invalid locale: '.$locale);
+            throw new DoozR_I18n_Service_Exception(
+                sprintf('Invalid locale: %s', $locale)
+            );
         }
 
         // get concrete locale

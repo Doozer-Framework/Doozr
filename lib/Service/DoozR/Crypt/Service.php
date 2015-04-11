@@ -12,10 +12,10 @@
  *     Standards Publication 197 - 26th November 2001 -
  *     Text cipher class - This class is using AES crypt algoritm
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *

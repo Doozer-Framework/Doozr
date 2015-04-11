@@ -6,10 +6,10 @@
  *
  * Abstract.php - Abstract base class for formatter of the I18n module
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -182,7 +182,6 @@ abstract class DoozR_I18n_Service_Localize_Abstract extends DoozR_Base_Class
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_ Instance of this class
      * @access public
      */
     public function __construct(

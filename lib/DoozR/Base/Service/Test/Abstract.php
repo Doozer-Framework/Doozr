@@ -6,10 +6,10 @@
  *
  * ServiceTest.php - This is the Test-Controller of a Service Test
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -105,17 +105,17 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setUp()
+    protected function setUp()
     {
-        // init the inner core
+        // Init the DoozR core to execute
         self::$core = DoozR_Core::run();
 
-        // get registry
+        // Get registry
         self::$registry = DoozR_Registry::getInstance();
 
-        // load service
+        // Load service
         self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
     }
 
@@ -139,9 +139,9 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function tearDown()
+    protected function tearDown()
     {
         self::$service = null;
     }

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Service - Form - Test
  *
- * BaseTest.php - Test for Base
+ * ServiceTest.php - Tests for Service instance of DoozR Form Service.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -52,13 +52,12 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once 'PHPUnit/Autoload.php';
-require_once 'DoozR/Bootstrap.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
 
 /**
- * DoozR - Unit-Test
+ * DoozR - Service - Form - Test
  *
- * Test for Service
+ * Tests for Service instance of DoozR Form Service.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -69,50 +68,67 @@ require_once 'DoozR/Bootstrap.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-/*
-class ContainerTest extends PHPUnit_Framework_TestCase
+class FormServiceTest extends DoozR_Base_Service_Test_Abstract
 {
-    public function testInit()
+    /**
+     * SETUP
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setUp()
     {
-        $base = new DoozR_Form_Service_Element_Html_Html();
-        $this->assertInstanceOf('DoozR_Form_Service_Element_Html_Html', $base);
+        self::$serviceName = 'Form';
+        parent::setUp();
     }
 
-    public function testSetAndGetAttribute()
+    /**
+     * Test: Is the Service "Form" loadable?
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testLoadable()
     {
-        $key   = 'foo';
-        $value = 'bar';
-        $base  = new DoozR_Form_Service_Element_Html_Html();
+        // test if loaded service class is correct
+        $this->assertEquals('DoozR_Form_Service', get_class($this->service));
 
-        $this->assertTrue($base->setAttribute($key, $value));
-        $this->assertEquals($value, $base->getAttribute($key));
+        #$mock = $this->getMock('DoozR_Form_Service');
+        #$this->assertTrue($mock instanceof DoozR_Form_Service);
     }
 
-    public function testSetAndGetAttributes()
+    /**
+     * Test: Does Service "Form" return the default Form-Name correctly?
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testForm()
     {
-        $base = new DoozR_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'foo' => 'bar',
-            'bar' => 'foo'
+        /*
+        $this->assertEquals(
+            DoozR_Form_Service_Constant::DEFAULT_NAME,
+            $this->service->getName()
         );
-
-        $this->assertTrue($base->setAttributes($attributes));
-        $this->assertEquals('foo', $base->getAttribute('bar'));
-        $this->assertArrayHasKey('bar', $base->getAttributes());
+        */
     }
 
-    public function testSetAndGetHtml()
+    /**
+     * Test: Does Service "Form" set and get the name property correctly?
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    /*
+    public function testSetAndGetName()
     {
-        $base = new DoozR_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'html' => '<html></html>'
-        );
-
-        $this->assertEmpty($base->getHtml());
-        $this->assertTrue($base->setHtml($attributes['html']));
-        $this->assertEquals($attributes['html'], $base->getHtml());
+        $name = 'DoozR';
+        $this->service->setName($name);
+        $this->assertEquals($this->service->getName(), $name);
     }
+    */
 }
-*/

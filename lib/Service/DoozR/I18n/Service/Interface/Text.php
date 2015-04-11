@@ -6,10 +6,10 @@
  *
  * Text.php - Translation-Interface to text
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -194,7 +194,9 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
     {
         if (!file_exists($filename) || !is_readable($filename)) {
             include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Exception.php';
-            throw new DoozR_I18n_Service_Exception('Translationfile: '.$filename.' does not exist or isn\'t readable.');
+            throw new DoozR_I18n_Service_Exception(
+                sprintf('Translationfile: "%s" does not exist or isn\'t readable.', $filename)
+            );
         }
 
         // assume empty resulting array
@@ -226,12 +228,11 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
      * @access protected
      */
     protected function __construct(array $config)
