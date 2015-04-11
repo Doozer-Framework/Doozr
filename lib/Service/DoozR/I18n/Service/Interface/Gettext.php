@@ -170,9 +170,11 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
 
         $result = setlocale(LC_ALL, $fullQualifiedLocale);
         if ($result === null || $result === false) {
+            /*
             throw new DoozR_I18n_Service_Exception(
                 sprintf('The locale "%s" could not be set. Sure the system (OS) supports it?', $fullQualifiedLocale)
             );
+            */
             $result = false;
         };
 
