@@ -16,6 +16,7 @@ matrix:
   fast_finish: true
 
 before_install:
+  - locale
   - sudo locale-gen en_US.utf8
   - travis_retry composer selfupdate
   - composer --version
