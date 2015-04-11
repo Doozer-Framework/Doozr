@@ -653,6 +653,9 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
             return false;
         }
 
+        var_dump('detectByRequestHeader');
+        die;
+
         // get header accept-language
         //$acceptedLanguages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         // TODO: remove

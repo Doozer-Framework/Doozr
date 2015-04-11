@@ -77,7 +77,7 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
      */
     protected static $fixtures = array(
         'locale' => array(
-            'default' => 'en-us',
+            'default' => 'de',
             'valid'   => 'de',
             'invalid' => 'de-11111de-de-de',
         ),
@@ -176,8 +176,8 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
         $this->assertArrayHasKey('language', $preferences);
         $this->assertArrayHasKey('country',  $preferences);
 
-        $this->assertEquals('en-us', $preferences['locale']);
-        $this->assertEquals('en',    $preferences['language']);
-        $this->assertEquals('us',    $preferences['country']);
+        $this->assertEquals('de', $preferences['locale']);
+        $this->assertEquals('de', $preferences['language']);
+        $this->assertEquals('de', $preferences['country']);
     }
 }

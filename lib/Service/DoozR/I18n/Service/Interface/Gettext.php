@@ -141,6 +141,33 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         return false;
     }
 
+
+    /**
+     * Just some debugging converter for damn windows locales ...
+     * @param $locale
+     *
+     * @return string
+     */
+    protected function prepareLocaleForOs($locale)
+    {
+        if (true === DOOZR_WIN) {
+            switch ($locale) {
+                case 'de':
+                    $locale = 'deu_deu';
+                    break;
+                case 'en':
+                    $locale = 'uk_uk';
+                    break;
+
+                case 'en-us':
+                    $locale = 'en_us';
+                    break;
+            }
+        }
+
+        return $locale;
+    }
+
     /**
      * Initializes gettext™ environment.
      *
@@ -159,22 +186,26 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      */
     protected function initI18n($locale, $encoding, $namespace, $path)
     {
+        // OS fix
+        $localeOsSpecific = $this->prepareLocaleForOs($locale);
+
         // Assume success
         $path           .= DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'Gettext';
         $gettextEncoding = $this->normalizeEncoding($encoding);
-        $gettextLocale   = $this->normalizeLocale($locale);
+        $gettextLocale   = $this->normalizeLocale($localeOsSpecific);
 
         putenv('LANG=' . $this->getLanguageByLocale($gettextLocale));
 
-        $fullQualifiedLocale = $gettextLocale . $gettextEncoding;
+        $fullQualifiedLocale = $gettextLocale;
+        if (false === DOOZR_WIN) {
+            $fullQualifiedLocale .= $gettextEncoding;
+        }
 
         $result = setlocale(LC_ALL, $fullQualifiedLocale);
         if ($result === null || $result === false) {
-            /*
             throw new DoozR_I18n_Service_Exception(
                 sprintf('The locale "%s" could not be set. Sure the system (OS) supports it?', $fullQualifiedLocale)
             );
-            */
             $result = false;
         };
 
