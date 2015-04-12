@@ -200,10 +200,13 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
 
         $fullQualifiedLocales = array(
             $gettextLocale . $gettextEncoding,
-            $gettextLocale
+            $gettextLocale . '.' . $encoding,
+            $gettextLocale,
         );
 
         $result = setlocale(LC_ALL, $fullQualifiedLocales);
+        var_dump($result);
+        echo PHP_EOL;
         if ($result === null || $result === false) {
             throw new DoozR_I18n_Service_Exception(
                 sprintf('The locale could not be set. Sure the system (OS) supports it?')
