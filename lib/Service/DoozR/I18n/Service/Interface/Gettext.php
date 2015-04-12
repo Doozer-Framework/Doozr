@@ -196,16 +196,19 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         $gettextLocale   = $this->normalizeLocale($locale);
 
         putenv('LANG=' . $this->getLanguageByLocale($gettextLocale));
-        putenv('LC_ALL=' . $gettextEncoding);
+        putenv('LC_ALL=' . $gettextLocale);
+        putenv('LC_MESSAGES=' . $gettextLocale);
 
         $fullQualifiedLocales = array(
-            $gettextLocale . $gettextEncoding,
-            $gettextLocale . '.' . $encoding,
+            #$gettextLocale . $gettextEncoding,
+            #$gettextLocale . '.' . $encoding,
             $gettextLocale,
         );
 
         $result = setlocale(LC_ALL, $fullQualifiedLocales);
+        $result2 = setlocale(LC_MESSAGES, $fullQualifiedLocales);
         var_dump($result);
+        var_dump($result2);
         echo PHP_EOL;
         if ($result === null || $result === false) {
             throw new DoozR_I18n_Service_Exception(
