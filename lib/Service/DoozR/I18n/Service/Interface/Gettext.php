@@ -206,10 +206,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         );
 
         $result = setlocale(LC_ALL, $fullQualifiedLocales);
-        $result2 = setlocale(LC_MESSAGES, $fullQualifiedLocales);
-        echo setlocale(LC_MESSAGES, NULL) . PHP_EOL;
-
-        echo PHP_EOL;
+        setlocale(LC_MESSAGES, $fullQualifiedLocales);
         if ($result === null || $result === false) {
             throw new DoozR_I18n_Service_Exception(
                 sprintf('The locale could not be set. Sure the system (OS) supports it?')
@@ -217,7 +214,6 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         };
 
         bind_textdomain_codeset($namespace, $gettextEncoding);
-        echo $path . PHP_EOL;
         bindtextdomain($namespace, $path);
         textdomain($namespace);
 
