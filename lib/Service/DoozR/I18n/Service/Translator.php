@@ -407,7 +407,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     protected function namespaceChanged()
     {
         // init interface for translation
-        #if (!self::$_translatorInterface) {
+        #if (!self::$translatorInterface) {
             self::$translatorInterface[$this->encoding] = $this->getTranslatorInterface();
         #}
 
@@ -441,7 +441,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         $config = array(
             'path'     => $this->configI18n->i18n->path,
             'cache'    => array(
-                'enabled'  => $this->configI18n->cache->enabled,
+                'enabled'  => false, //$this->configI18n->cache->enabled,
                 'lifetime' => $this->configI18n->cache->lifetime
             ),
             'encoding' => $this->encoding,
@@ -485,7 +485,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
             self::$translatorInterface[$this->encoding] = $this->getTranslatorInterface();
         }
 
-        // translate
+        // Translate
         $translation = self::$translatorInterface[$this->encoding]->lookup(
             $key,
             $this->translationTableUid,

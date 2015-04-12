@@ -54,10 +54,6 @@
 
 require_once '../../../../lib/DoozR/Bootstrap.php';
 
-
-var_dump(setlocale(LC_ALL, 'us_us'));
-die;
-
 /* @var $http DoozR_Http_Service */
 $http = DoozR_Loader_Serviceloader::load('http');
 var_dump(

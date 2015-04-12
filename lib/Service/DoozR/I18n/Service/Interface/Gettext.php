@@ -124,7 +124,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * @param array  $namespaces The namespace(s) of the table get build for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The final translationtable for given locale + namespace
+     * @return array Key value based (key[locale] => value[os/system locale])
      * @access protected
      */
     protected function buildTranslationtable($locale, array $namespaces)
@@ -135,10 +135,10 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         /* @todo: Does not make sense in gettext™ to iterate different namespaces?! */
         // iterate over given namespace(s) and configure environment for them
         foreach ($namespaces as $namespace) {
-            $this->initI18n($locale, $this->encoding, $namespace, $path);
+            $result[$locale] = $this->initI18n($locale, $this->encoding, $namespace, $path);
         }
 
-        return false;
+        return $result;
     }
 
 
@@ -155,12 +155,13 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
                 case 'de':
                     $locale = 'deu_deu';
                     break;
+
                 case 'en':
-                    $locale = 'uk_uk';
+                    $locale = 'us_us';
                     break;
 
                 case 'en-us':
-                    $locale = 'en_US';
+                    $locale = 'us_us';
                     break;
             }
         }
@@ -188,25 +189,30 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     {
         // OS fix
         $localeOsSpecific = $this->prepareLocaleForOs($locale);
+        $localeOsSpecific = 'de';
 
         // Assume success
-        $path           .= DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'Gettext';
+        $path           .= DIRECTORY_SEPARATOR . $localeOsSpecific . DIRECTORY_SEPARATOR . 'Gettext';
         $gettextEncoding = $this->normalizeEncoding($encoding);
         $gettextLocale   = $this->normalizeLocale($localeOsSpecific);
 
         putenv('LANG=' . $this->getLanguageByLocale($gettextLocale));
+        putenv('LC_ALL=en');
 
         $fullQualifiedLocale = $gettextLocale;
+        /*
         if (false === DOOZR_WIN) {
             $fullQualifiedLocale .= $gettextEncoding;
         }
+        */
+        //English_United States.1252
 
         $result = setlocale(LC_ALL, $fullQualifiedLocale);
+
         if ($result === null || $result === false) {
             throw new DoozR_I18n_Service_Exception(
                 sprintf('The locale "%s" could not be set. Sure the system (OS) supports it?', $fullQualifiedLocale)
             );
-            $result = false;
         };
 
         bind_textdomain_codeset($namespace, 'UTF-8');

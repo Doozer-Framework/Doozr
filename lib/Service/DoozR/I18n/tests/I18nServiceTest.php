@@ -78,8 +78,8 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
      */
     protected static $fixtures = array(
         'locale' => array(
-            'default'   => 'de',
-            'valid'     => 'de',
+            'default'   => 'en-us',
+            'valid'     => 'en-us',
             'invalid'   => 'de-11111de-de-de',
             'available' => array(
                 'ar',
@@ -87,6 +87,7 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
                 'de-at',
                 'en',
                 'en-gb',
+                'en-us',
                 'es',
                 'fr',
                 'it',

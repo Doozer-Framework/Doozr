@@ -77,8 +77,8 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
      */
     protected static $fixtures = array(
         'locale' => array(
-            'default'   => 'de',
-            'valid'     => 'de',
+            'default'   => 'en-us',
+            'valid'     => 'en-us',
             'invalid'   => 'de-11111de-de-de',
             'available' => array(
                 'ar',
@@ -86,6 +86,7 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
                 'de-at',
                 'en',
                 'en-gb',
+                'en-us',
                 'es',
                 'fr',
                 'it',
@@ -100,7 +101,7 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
             'String',
         ),
         'translation' => array(
-            'missing' => 'This is a not translated string.'
+            'missing' => 'This is a not translated string.',
         ),
     );
 
@@ -193,7 +194,7 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
         $locale = self::$fixtures['locale']['valid'];
         self::$service->setActiveLocale($locale);
         $translator = self::$service->getTranslator();
-        $translationShouldFail = $translator->_('hour');
+        $translator->_('hour');
     }
 
     /**

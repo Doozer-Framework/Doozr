@@ -77,12 +77,12 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
      */
     protected static $fixtures = array(
         'locale' => array(
-            'default' => 'de',
-            'valid'   => 'de',
+            'default' => 'en-us',
+            'valid'   => 'en-us',
             'invalid' => 'de-11111de-de-de',
         ),
         'translation' => array(
-            'missing' => 'This is a not translated string.'
+            'missing' => 'This is a not translated string.',
         ),
         'namespace' => array(
             'valid' => 'default',
@@ -179,8 +179,8 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
         $this->assertArrayHasKey('language', $preferences);
         $this->assertArrayHasKey('country',  $preferences);
 
-        $this->assertEquals('de', $preferences['locale']);
-        $this->assertEquals('de', $preferences['language']);
-        $this->assertEquals('de', $preferences['country']);
+        $this->assertEquals('en-us', $preferences['locale']);
+        $this->assertEquals('en', $preferences['language']);
+        $this->assertEquals('us', $preferences['country']);
     }
 }
