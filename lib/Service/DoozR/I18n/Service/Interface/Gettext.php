@@ -188,30 +188,30 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     protected function initI18n($locale, $encoding, $namespace, $path)
     {
         // OS fix
-        $localeOsSpecific = $this->prepareLocaleForOs($locale);
+        #$localeOsSpecific = $this->prepareLocaleForOs($locale);
 
         // Assume success
-        $path           .= DIRECTORY_SEPARATOR . $localeOsSpecific . DIRECTORY_SEPARATOR . 'Gettext';
+        $path           .= DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'Gettext';
         $gettextEncoding = $this->normalizeEncoding($encoding);
-        $gettextLocale   = $this->normalizeLocale($localeOsSpecific);
+        $gettextLocale   = $this->normalizeLocale($locale);
 
         putenv('LANG=' . $this->getLanguageByLocale($gettextLocale));
+        putenv('LC_ALL=' . $gettextEncoding);
 
-        $fullQualifiedLocale = $gettextLocale;
-        if (false === DOOZR_WIN) {
-            $fullQualifiedLocale .= $gettextEncoding;
-        }
+        $fullQualifiedLocales = array(
+            $gettextLocale . $gettextEncoding,
+            $gettextLocale
+        );
 
-        putenv('LC_ALL=' . $fullQualifiedLocale);
-
-        $result = setlocale(LC_ALL, $fullQualifiedLocale);
+        $result = setlocale(LC_ALL, $fullQualifiedLocales);
         if ($result === null || $result === false) {
             throw new DoozR_I18n_Service_Exception(
-                sprintf('The locale "%s" could not be set. Sure the system (OS) supports it?', $fullQualifiedLocale)
+                sprintf('The locale could not be set. Sure the system (OS) supports it?')
             );
         };
 
         bind_textdomain_codeset($namespace, 'UTF-8');
+        echo $path . PHP_EOL;
         bindtextdomain($namespace, $path);
         textdomain($namespace);
 
