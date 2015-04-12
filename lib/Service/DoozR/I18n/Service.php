@@ -323,7 +323,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             throw new DoozR_I18n_Service_Exception(
                 sprintf('The locale "%s" is not valid.', $locale)
             );
-            $result = false;
         }
 
         $this->activeLocale = $locale;
@@ -454,7 +453,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         // Check if locale is available on system
         $availableLocales = object_to_array($this->getAvailableLocales());
         if (in_array($locale, $availableLocales) === false) {
-
             throw new DoozR_I18n_Service_Exception(
                 sprintf('The locale "%s" is not available by configuration.', $locale)
             );
@@ -473,6 +471,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             $translator = $this->getTranslator($input['redirect'], $encoding);
 
         } else {
+            sprintf('Translator for: "%s" loaded.' . PHP_EOL, $locale);
             $translator = new DoozR_I18n_Service_Translator($locale, $encoding, self::$config, $input['config']);
         }
 

@@ -441,7 +441,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         $config = array(
             'path'     => $this->configI18n->i18n->path,
             'cache'    => array(
-                'enabled'  => false, //$this->configI18n->cache->enabled,
+                'enabled'  => $this->configI18n->cache->enabled,
                 'lifetime' => $this->configI18n->cache->lifetime
             ),
             'encoding' => $this->encoding,
