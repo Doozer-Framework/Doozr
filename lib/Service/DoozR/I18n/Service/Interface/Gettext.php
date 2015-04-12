@@ -196,15 +196,15 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         $gettextLocale   = $this->normalizeLocale($localeOsSpecific);
 
         putenv('LANG=' . $this->getLanguageByLocale($gettextLocale));
-        putenv('LC_ALL=en');
 
         $fullQualifiedLocale = $gettextLocale;
         if (false === DOOZR_WIN) {
             $fullQualifiedLocale .= $gettextEncoding;
         }
 
-        $result = setlocale(LC_ALL, $fullQualifiedLocale);
+        putenv('LC_ALL=' . $fullQualifiedLocale);
 
+        $result = setlocale(LC_ALL, $fullQualifiedLocale);
         if ($result === null || $result === false) {
             throw new DoozR_I18n_Service_Exception(
                 sprintf('The locale "%s" could not be set. Sure the system (OS) supports it?', $fullQualifiedLocale)
