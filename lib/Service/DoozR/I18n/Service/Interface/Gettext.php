@@ -207,8 +207,8 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
 
         $result = setlocale(LC_ALL, $fullQualifiedLocales);
         $result2 = setlocale(LC_MESSAGES, $fullQualifiedLocales);
-        var_dump($result);
-        var_dump($result2);
+        echo setlocale(LC_MESSAGES, NULL) . PHP_EOL;
+
         echo PHP_EOL;
         if ($result === null || $result === false) {
             throw new DoozR_I18n_Service_Exception(

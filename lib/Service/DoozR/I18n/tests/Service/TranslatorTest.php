@@ -217,7 +217,7 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
     public function testTranslateWithArguments()
     {
         $locale = self::$fixtures['locale']['valid'];
-        self::$service->setActiveLocale('en');
+        self::$service->setActiveLocale('en_US');
 
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
