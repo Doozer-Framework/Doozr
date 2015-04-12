@@ -189,7 +189,6 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     {
         // OS fix
         $localeOsSpecific = $this->prepareLocaleForOs($locale);
-        $localeOsSpecific = 'de';
 
         // Assume success
         $path           .= DIRECTORY_SEPARATOR . $localeOsSpecific . DIRECTORY_SEPARATOR . 'Gettext';
@@ -200,12 +199,9 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         putenv('LC_ALL=en');
 
         $fullQualifiedLocale = $gettextLocale;
-        /*
         if (false === DOOZR_WIN) {
             $fullQualifiedLocale .= $gettextEncoding;
         }
-        */
-        //English_United States.1252
 
         $result = setlocale(LC_ALL, $fullQualifiedLocale);
 
