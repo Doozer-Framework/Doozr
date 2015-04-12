@@ -216,7 +216,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
             );
         };
 
-        bind_textdomain_codeset($namespace, 'UTF-8');
+        bind_textdomain_codeset($namespace, $gettextEncoding);
         echo $path . PHP_EOL;
         bindtextdomain($namespace, $path);
         textdomain($namespace);
