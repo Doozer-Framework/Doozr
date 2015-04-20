@@ -9,8 +9,8 @@ Simply add the following block:
 ;---------------------------------------
 
 [REDIRECT]
-TARGET = "en"
+TARGET = "en-us"
 
 ;---------------------------------------
 
-to redirect the current locale "en-gb" to "en"
+to redirect the current locale "en-gb" to "en-us"

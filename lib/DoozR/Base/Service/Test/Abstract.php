@@ -6,10 +6,10 @@
  *
  * ServiceTest.php - This is the Test-Controller of a Service Test
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -70,7 +70,7 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     /**
      * The Service instance for testing
      *
-     * @var DoozR_Base_Service_Abstract
+     * @var DoozR_Base_Service_Interface
      * @access protected
      */
     protected static $service;
@@ -82,6 +82,13 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
      * @access protected
      */
     protected static $serviceName;
+
+    /**
+     * 'DoozR_Http_Service'
+     *
+     * @var
+     */
+    protected static $serviceClassName;
 
     /**
      * The DoozR Core instance
@@ -101,47 +108,47 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
 
 
     /**
-     * Prepares setup for Tests
+     * Prepares setup for Tests.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setUp()
+    protected function setUp()
     {
-        // init the inner core
-        self::$core = DoozR_Core::getInstance();
+        // Init the DoozR core to execute
+        self::$core = DoozR_Core::run();
 
-        // get registry
+        // Store classname
+        self::$serviceClassName = 'DoozR_' . self::$serviceName . '_Service';
+
+        // Get registry
         self::$registry = DoozR_Registry::getInstance();
 
-        // load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->config);
+        // Load service
+        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
     }
 
     /**
-     * Tests if the service is loadable and the existing instance
-     * matches the required instance.
+     * Test: Generic - if the service is loadable and the existing instance matches the required instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testLoadable()
+    public function testServiceIsLoadable()
     {
-        $this->assertInstanceOf('DoozR_' . self::$serviceName . '_Service', self::$service);
+        $this->assertInstanceOf(self::$serviceClassName, self::$service);
     }
 
     /**
-     * Cleanup after test execution
-     *
-     * This method is intend to clean up after tests was executed.
+     * Cleanup after test execution.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function tearDown()
+    protected function tearDown()
     {
         self::$service = null;
     }

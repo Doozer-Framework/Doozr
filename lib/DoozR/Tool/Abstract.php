@@ -6,10 +6,10 @@
  *
  * Abstract.php - The abstract base for CLI Tools.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -138,10 +138,10 @@ abstract class DoozR_Tool_Abstract extends DoozR_Base_Class
      */
     public function __construct(
         Flags $flags,
-        $name = DOOZR_NAME,
-        $version = DOOZR_VERSION,
+              $name              = DOOZR_NAME,
+              $version           = DOOZR_VERSION,
         array $flagConfiguration = array(),
-        $injectCommand = null
+              $injectCommand     = null
     ) {
         // For tools like PS ...
         cli_set_process_title($name);
@@ -324,12 +324,10 @@ abstract class DoozR_Tool_Abstract extends DoozR_Base_Class
     }
 
     /**
-     * Setter for name.
-     *
-     * @param string $name The name of CLI.
+     * Getter for name.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining.
+     * @return string $name The name of CLI.
      * @access protected
      */
     protected function getName()
@@ -463,7 +461,7 @@ abstract class DoozR_Tool_Abstract extends DoozR_Base_Class
     /**
      * Setter for shorts.
      *
-     * @param array $longs The longs to set.
+     * @param array $shorts The shorts to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -477,7 +475,7 @@ abstract class DoozR_Tool_Abstract extends DoozR_Base_Class
     /**
      * Setter for shorts.
      *
-     * @param array $longs The longs to set.
+     * @param array $shorts The shorts to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining

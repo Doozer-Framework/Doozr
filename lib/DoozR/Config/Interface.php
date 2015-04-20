@@ -6,10 +6,10 @@
  *
  * Interface.php - Config Interface of the DoozR Framework
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -52,6 +52,8 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Reader/Interface.php';
+
 /**
  * DoozR Config Interface
  *
@@ -66,7 +68,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-interface DoozR_Config_Interface
+interface DoozR_Config_Interface extends DoozR_Config_Reader_Interface
 {
     /**
      * Setter for key => value pairs of config.

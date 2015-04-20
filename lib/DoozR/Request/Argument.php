@@ -6,7 +6,7 @@
  *
  * Argument.php - The Argument part of DoozR_Request_Arguments (Parameter => Argument).
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE: DoozR - PHP Framework - Copyright (c) 2009, Benjamin Carl -
  * All rights reserved. Redistribution and use in source and binary forms, with

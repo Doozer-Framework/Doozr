@@ -7,7 +7,7 @@ php:
   - 7.0
   - hhvm
 
-sudo: false
+sudo: true
 
 matrix:
   allow_failures:
@@ -16,6 +16,11 @@ matrix:
   fast_finish: true
 
 before_install:
+  - sudo locale-gen en_US
+  - sudo locale-gen en_US.UTF-8
+  - sudo locale-gen de_DE
+  - sudo locale-gen de_DE.UTF-8
+  - sudo dpkg-reconfigure locales
   - travis_retry composer selfupdate
   - composer --version
 
@@ -30,7 +35,7 @@ before_script:
   - ls -LR
 
 script:
-  - phpunit --configuration tests/phpunit.xml --coverage-clover ./build/logs/clover.xml
+  - phpunit -c tests/phpunit.xml --coverage-clover ./build/logs/clover.xml
 
 after_script:
   - php vendor/bin/coveralls

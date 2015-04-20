@@ -9,10 +9,10 @@
  * configurable) with high secure encryption standard AES256! Also brings session fixation
  * protection with a configurable regenerate cycle, IP-binding, and so on ...
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *

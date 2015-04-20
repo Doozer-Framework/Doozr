@@ -52,14 +52,14 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-// override defaults
+// Override defaults
 $_SERVER['QUERY_STRING'] = (
         !isset($_SERVER['QUERY_STRING']) ||
         $_SERVER['QUERY_STRING'] === '/' ||
         $_SERVER['QUERY_STRING'] === ''
     ) ?
-    '/Index/Read/' :
+    '/index/index' :
     $_SERVER['QUERY_STRING'];
 
-// now call our Route with overridden defailt values
+// Call our default Route with overridden default values
 require_once 'lib/Route.php';

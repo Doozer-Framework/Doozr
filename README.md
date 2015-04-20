@@ -16,21 +16,22 @@ The **lightweight** PHP-Framework for **high-performance** websites
 - [Services](#services)
 - [API](#api)
 - [Versioning](#versioning)
-- [Roadmap](#roadmap) 
+- [Roadmap](#roadmap)
 - [Security-Issues](#security-issues)
-- [Install »](../docs/INSTALL.md) 
-- [Architecture »](../docs/ARCHITECTURE.md)  
-- [License »](LICENSE)  
+- [Install »](https://github.com/clickalicious/DoozR/blob/master/docs/INSTALL.md)
+- [Architecture »](https://github.com/clickalicious/DoozR/blob/master/docs/ARCHITECTURE.md)
+- [Service: I18n »](https://github.com/clickalicious/DoozR/blob/master/lib/Service/DoozR/I18n/README.md)
+- [License »](LICENSE)
 
 
 ## Features
 
  - High performance (developed with profiler)
- - Fast routing, caching and request processing
+ - Ultra fast routing, caching and request processing!
  - Lightweight
- - Intelligent logger subsystem
+ - Integrated logger subsystem
  - Debugging-Tools/Support
- - Stable + High-Quality 
+ - Stable + High-Quality
  - Clean & well documented code
  - No Database-Framework bundled (free choice)
 
@@ -42,13 +43,13 @@ The **lightweight** PHP-Framework for **high-performance** websites
 
 ## Philosophy
 
-The **lightweight** PHP-Framework for **high-performance** websites. `DoozR` comes with the right set of core services. Build, test and deploy **high-scalable** applications with `DoozR`. `DoozR` supports the **CLI**, **CGI** and PHP's **Internal Webserver** (for development) SAPI. A powerful routing mechanism with builtin `I18n` support empowers you to build internationalized applications. But **DoozR** has so much more to offer!
+DoozR is the **lightweight** PHP-Framework for **high-performance** websites. It follows the `convention over configuration`-priciniple. `DoozR` comes with the right set of core services. Build, test and deploy **high-scalable** applications with in very short time. `DoozR` supports the **CLI**, **CGI** and PHP's **Internal Webserver** (for development) SAPI. A powerful routing mechanism with builtin `I18n` support empowers you to build internationalized applications. But **DoozR** has so much more to offer!
 
 
 ## Services
 
 `DoozR` is shipped with the following high quality core services:
- 
+
  - `Acl` (CRUD Secured Objects)
  - `Cache` (Interface to Filesystem + Memcached)
  - `Config` (Configreader mit Caching support for INI, JSON)
@@ -104,4 +105,4 @@ Thanks to our sponsors and supporters:
 | <a href="https://www.jetbrains.com/phpstorm/" title="PHP IDE :: JetBrains PhpStorm" target="_blank"><img src="https://www.jetbrains.com/phpstorm/documentation/docs/logo_phpstorm.png"></img></a> | <a href="http://www.navicat.com/" title="Navicat GUI - DB GUI-Admin-Tool for MySQL, MariaDB, SQL Server, SQLite, Oracle & PostgreSQL" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/en/9/90/PremiumSoft_Navicat_Premium_Logo.png" height="55" /></a>  |
 
 
-[1]: https://packagist "packagist.org - Package registry of composer" 
+[1]: https://packagist "packagist.org - Package registry of composer"

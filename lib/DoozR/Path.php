@@ -7,10 +7,10 @@
  * Path.php - is the Path-Manager of the DoozR-Framework and it is intend for
  * retrieving and setting (maintaining) path's.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -168,7 +168,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      */
     private function _retrievePathToApplication()
     {
-        // if path to app was defined before return this (prio 1)
+        // If path to app was defined before return this (prio 1)
         if (!defined('DOOZR_APP_ROOT')) {
 
             /**
@@ -190,7 +190,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
             define('DOOZR_APP_ROOT', $path);
         }
 
-        // alway use constant
+        // Always use constant
         return DOOZR_APP_ROOT;
     }
 
@@ -419,7 +419,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      */
     public function get($identifier, $add = '', $trailingSlash = false)
     {
-        // prepare which
+        // Prepare which
         $identifier = str_replace('doozr_', '', strtolower($identifier));
 
         // return if exist - return false if not

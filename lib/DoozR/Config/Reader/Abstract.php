@@ -7,10 +7,10 @@
  * Abstract.php - The Abstract class for config reader. This class provides high level
  * access to filesystem and cache. Can be used for all types of readers.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -105,7 +105,7 @@ abstract class DoozR_Config_Reader_Abstract extends DoozR_Base_Class
      * @var bool
      * @access protected
      */
-    protected $cache;
+    protected $cache = false;
 
     /**
      * The uuid of the active configuration
@@ -147,8 +147,8 @@ abstract class DoozR_Config_Reader_Abstract extends DoozR_Base_Class
      */
     public function __construct(
         DoozR_Filesystem_Service $filesystemService,
-        DoozR_Cache_Service $cacheService = null,
-        $enableCache = false
+        DoozR_Cache_Service      $cacheService      = null,
+                                 $enableCache       = false
     ) {
         $this
             ->filesystemService($filesystemService)
@@ -435,12 +435,24 @@ abstract class DoozR_Config_Reader_Abstract extends DoozR_Base_Class
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|bool Cache if set, otherwise NULL
+     * @return bool TRUE if cache is enabled, otherwise FALSE
      * @access protected
      */
     public function getCache()
     {
         return $this->cache;
+    }
+
+    /**
+     * Nice name alias to getCache()
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if cache is enabled, otherwise FALSE
+     * @access protected
+     */
+    protected function cacheEnabled()
+    {
+        return $this->getCache();
     }
 
     /**

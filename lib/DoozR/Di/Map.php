@@ -6,7 +6,7 @@
  *
  * Map.php - Map class of the Di-Framework
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
  * DoozR - Di - The Dependency Injection Framework

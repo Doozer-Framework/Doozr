@@ -6,10 +6,10 @@
  *
  * Measure.php - Measurement formatter
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -71,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Localize/Abstract
 class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Abstract
 {
     /**
-     * available measuring systems
+     * Available measuring systems
      *
      * @var array
      * @access private
@@ -82,7 +82,7 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     );
 
     /**
-     * the format which is displayed to user
+     * Format which is displayed to user
      *
      * @var string
      * @access private
@@ -90,7 +90,7 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     private $_displayLocalize;
 
     /**
-     * default measure-system
+     * Default measuring-system
      *
      * @var string
      * @access private
@@ -98,7 +98,7 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     private $_defaultMeasureSystem = 'si';
 
     /**
-     * system of input
+     * Measuring-system of input
      *
      * @var string
      * @access private
@@ -106,7 +106,7 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     private $_input;
 
     /**
-     * system for output
+     * Measuring-system of output
      *
      * @var string
      * @access private
@@ -114,9 +114,45 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
     private $_output;
 
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * This method is intend to act as constructor.
+     *
+     * @param DoozR_Registry_Interface $registry   The DoozR_Registry instance
+     * @param string                   $locale     The locale this instance is working with
+     * @param string                   $namespace  The active namespace of this format-class
+     * @param \stdClass                $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param \stdClass                $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $translator An instance of a translator (for locale)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     */
+    public function __construct(
+        DoozR_Registry_Interface $registry   = null,
+                                 $locale     = null,
+                                 $namespace  = null,
+                                 $configI18n = null,
+                                 $configL10n = null,
+                                 $translator = null
+    ) {
+        // Set type of format-class
+        $this->type = 'Measure';
+
+        // Setup default in- and output format (measure-system)
+        $this->setInputMeasureSystem($this->_defaultMeasureSystem);
+        $this->setOutputMeasureSystem($this->_defaultMeasureSystem);
+
+        // Call parents constructor
+        parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to set the measure system for input of the current instance. Can be either uscs or si.
@@ -135,7 +171,7 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
         }
 
         // otherwise set default measure-system of I10n
-        return ($this->_input = $this->configL10n->measure->measure_system());
+        return ($this->_input = $this->configL10n->measure->measure_system);
     }
 
     /**
@@ -167,7 +203,7 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
         }
 
         // otherwise set default measure-system of I10n
-        return ($this->_output = $this->configL10n->measure->measure_system());
+        return ($this->_output = $this->configL10n->measure->measure_system);
     }
 
     /**
@@ -403,13 +439,9 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
         return $unit;
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | TOOLS & HELPER
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to convert a cooking value to teaspoon (is)|teaspoon (uscs).
@@ -602,49 +634,4 @@ class DoozR_I18n_Service_Localize_Measure extends DoozR_I18n_Service_Localize_Ab
 
         return (float) $input*$div[$format];
     }
-
-    /*******************************************************************************************************************
-     * \\ END TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
-
-    /**
-     * This method is intend to act as constructor.
-     *
-     * @param DoozR_Registry_Interface $registry  The DoozR_Registry instance
-     * @param string                   $locale     The locale this instance is working with
-     * @param string                   $namespace  The active namespace of this format-class
-     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object                   $translator An instance of a translator (for locale)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
-     * @access public
-     */
-    public function __construct(
-        DoozR_Registry_Interface $registry = null,
-        $locale = null,
-        $namespace = null,
-        $configI18n = null,
-        $configL10n = null,
-        $translator = null
-    ) {
-        // set type of format-class
-        $this->type = 'Measure';
-
-        // setup default in- and output format (measure-system)
-        $this->setInputMeasureSystem($this->_defaultMeasureSystem);
-        $this->setOutputMeasureSystem($this->_defaultMeasureSystem);
-
-        // call parents construtor
-        parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
-    }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

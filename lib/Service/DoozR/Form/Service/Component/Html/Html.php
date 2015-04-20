@@ -8,10 +8,10 @@
  * which provides some simple rendering and templating capabilities.
  * It's a concrete implementation which extends the HTML-skeleton abstract.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *

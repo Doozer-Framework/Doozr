@@ -10,7 +10,7 @@
  * PHP versions
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -104,7 +104,7 @@ if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnviron
 } else {
 
     // UNKNOWN and/or currently not supported!
-    $msg  = 'DoozR - The PHP-Framework - Git-Version: ' . DOOZR_VERSION . ' (on ' . php_uname() . ') - ';
+    $msg  = 'DoozR - The lightweight PHP-Framework for high-performance websites  - Git-Version: ' . DOOZR_VERSION . ' (on ' . php_uname() . ') - ';
     $msg .= 'Running a DoozR-based application in "' . strtoupper($registry->getRequest()->getRuntimeEnvironment()) .
             '"-runtimeEnvironment is not supported!';
 

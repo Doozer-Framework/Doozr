@@ -6,10 +6,10 @@
  *
  * Currency.php - Currency formatter
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -90,7 +90,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
 
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN PUBLIC INTERFACES
+     | PUBLIC API
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -98,13 +98,14 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
      *
      * @param string $value          The value to format as currency
      * @param mixed  $notation       Notation to be shown - can be either (null = no), long, short, symbol
-     * @param string $country        The countrycode of the country of the current processed currency
+     * @param string $country        The country-code of the country of the current processed currency
      * @param string $encoding       The encoding use to display the currency - null, html, ascii, unicode (ansi)
      * @param string $symbolPosition Set to "l" to show symbols on the left, or to "r" to show on right side
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The correct formatted currency
      * @access public
+     * @throws \DoozR_I18n_Service_Exception
      */
     public function format(
         $value,
@@ -119,9 +120,9 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
         // format the given value
         $formatted = number_format(
             $value,
-            $this->configL10n->currency->minor_unit(),
-            $this->configL10n->currency->decimal_point(),
-            $this->configL10n->currency->thousands_seperator()
+            $this->configL10n->currency->minor_unit,
+            $this->configL10n->currency->decimal_point,
+            $this->configL10n->currency->thousands_seperator
         );
 
         // is value = major (1) or minor (0)
@@ -129,7 +130,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
 
         // check for position override
         if (!$symbolPosition) {
-            $symbolPosition = $this->configL10n->currency->symbol_position();
+            $symbolPosition = $this->configL10n->currency->symbol_position;
         }
 
         // if notation set overwrite it with the concrete notation
@@ -145,19 +146,19 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
 
             if ($country === null) {
                 throw new DoozR_I18n_Service_Exception(
-                    'Please pass $country to '.__METHOD__.'.'
+                    sprintf('Please pass $country to "%s".', __METHOD__)
                 );
             }
 
             // get notation
             if ($notation === self::NOTATION_SYMBOL) {
-                $notation = $this->getConfig()->{$country}->major_symbol();
+                $notation = $this->getConfig()->{$country}->major_symbol;
             } else {
-                $notation = $this->getConfig()->{$country}->major_short();
+                $notation = $this->getConfig()->{$country}->major_short;
             }
 
             // spacing between curreny-symbol and value
-            $notationSpace = $this->configL10n->currency->notation_space();
+            $notationSpace = $this->configL10n->currency->notation_space;
 
             // check where to add the symbol ...
             if ($symbolPosition == 'l') {
@@ -182,30 +183,32 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
     public function getCurrencyCode()
     {
         try {
-            return $this->configL10n->currency->code();
+            return $this->configL10n->currency->code;
         } catch (Exception $e) {
-            throw new DoozR_I18n_Service_Exception('Error reading currency code from L10N config.', null, $e);
+            throw new DoozR_I18n_Service_Exception(
+                'Error reading currency code from L10N config.', null, $e
+            );
         }
 
         return null;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface $registry  The DoozR_Registry instance
-     * @param string                   $locale     The locale this instance is working with
-     * @param string                   $namespace  The active namespace of this format-class
-     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object                   $translator An instance of a translator (for locale)
+     * @param DoozR_Registry_Interface      $registry   The DoozR_Registry instance
+     * @param string                        $locale     The locale this instance is working with
+     * @param string                        $namespace  The active namespace of this format-class
+     * @param object                        $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object                        $configL10n An instance of DoozR_Config_Ini holding the I10n-config (locale)
+     * @param DoozR_I18n_Service_Translator $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return DoozR_I18n_Service_Localize_Currency
      * @access public
      */
     public function __construct(
@@ -216,10 +219,10 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
         $configL10n                               = null,
         DoozR_I18n_Service_Translator $translator = null
     ) {
-        // set type of format-class
+        // Set type of format-class
         $this->type = 'Currency';
 
-        // call parents construtor
+        // Call parents constructor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
 }

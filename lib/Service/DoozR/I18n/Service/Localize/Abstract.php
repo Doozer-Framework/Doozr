@@ -6,10 +6,10 @@
  *
  * Abstract.php - Abstract base class for formatter of the I18n module
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -136,7 +136,51 @@ abstract class DoozR_I18n_Service_Localize_Abstract extends DoozR_Base_Class
 
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN TOOLS + HELPER
+    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * This method is intend to act as constructor.
+     *
+     * @param DoozR_Registry_Interface $registry   The registry
+     * @param string                   $locale     The locale this instance is working with
+     * @param string                   $namespace  The active namespace of this format-class
+     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $translator An instance of a translator (for locale)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     */
+    public function __construct(
+        DoozR_Registry_Interface $registry   = null,
+        $locale     = null,
+        $namespace  = null,
+        $configI18n = null,
+        $configL10n = null,
+        $translator = null
+    ) {
+        // store registry
+        $this->registry = $registry;
+
+        // store configuration
+        $this->locale = $locale;
+
+        // store configuration
+        $this->namespace = $namespace;
+
+        // store configuration I18n
+        $this->configI18n = $configI18n;
+
+        // store configuration I10n
+        $this->configL10n = $configL10n;
+
+        // store translator
+        $this->translator = $translator;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+     | PUBLIC API
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -165,51 +209,6 @@ abstract class DoozR_I18n_Service_Localize_Abstract extends DoozR_Base_Class
 
         // return the configuration
         return $this->config;
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     +----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * This method is intend to act as constructor.
-     *
-     * @param DoozR_Registry_Interface $registry   The registry
-     * @param string                   $locale     The locale this instance is working with
-     * @param string                   $namespace  The active namespace of this format-class
-     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object                   $translator An instance of a translator (for locale)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_ Instance of this class
-     * @access public
-     */
-    public function __construct(
-        DoozR_Registry_Interface $registry = null,
-        $locale                            = null,
-        $namespace                         = null,
-        $configI18n                        = null,
-        $configL10n                        = null,
-        $translator                        = null
-    ) {
-        // store registry
-        $this->registry = $registry;
-
-        // store configuration
-        $this->locale = $locale;
-
-        // store configuration
-        $this->namespace = $namespace;
-
-        // store configuration I18n
-        $this->configI18n = $configI18n;
-
-        // store configuration I10n
-        $this->configL10n = $configL10n;
-
-        // store translator
-        $this->translator = $translator;
     }
 
     /**

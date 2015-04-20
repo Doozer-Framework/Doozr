@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - I18n - Test
+ * DoozR - Service - I18n - Test - Detector
  *
  * DetectorTest.php - Tests for Detector of the DoozR I18n Service.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -52,20 +52,13 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-$filename = realpath(dirname(__FILE__) . '../../../../../../DoozR/Bootstrap.php');
-
-if (file_exists($filename)) {
-    require_once $filename;
-} else {
-    require_once realpath(dirname(__FILE__)) . '/../../../../../DoozR/Bootstrap.php';
-}
-
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
+require_once 'resources/fixtures/Fixtures.php';
 
 /**
- * DoozR - Service - I18n - Test
+ * DoozR - Service - I18n - Test - Detector
  *
- * Tests for Abstract interface of the DoozR I18n Service.
+ * Tests for Detector of the DoozR I18n Service.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -77,27 +70,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
  */
 class DetectorTest extends DoozR_Base_Service_Test_Abstract
 {
-    /**
-     * Data required for running this test(s)
-     *
-     * @var array
-     * @access protected
-     */
-    protected static $fixtures = array(
-        'locale' => array(
-            'default' => 'en',
-            'valid'   => 'de',
-            'invalid' => 'de-11111de-de-de',
-        ),
-        'translation' => array(
-            'missing' => 'This is a not translated string.'
-        ),
-        'namespace' => array(
-            'valid' => 'default',
-        ),
-    );
-
-
     /**
      * Prepares setup for Tests of "I18n"
      *
@@ -112,47 +84,89 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
     }
 
     /**
-     * Tests ...
+     * Test: If the service returns a valid detector instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetDetector()
+    public function testRetrieveDetectorInstanceFromService()
     {
+        // Prepare
         $detector = self::$service->getDetector();
 
+        // Assertion(s)
         $this->assertInstanceOf('DoozR_I18n_Service_Detector', $detector);
     }
 
-    public function testiIsValidLocaleCode()
+    /**
+     * Test: If locale validation works as expected
+     * This test ensures that the validation method of the detector is capable
+     * of validating a locale correctly and is able to diff between valid and
+     * invalid locale strings.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testLocaleValidatonAlgorithm()
     {
+        // Prepare
         $detector = self::$service->getDetector();
 
+        // Assertion(s)
+        // Positive
         $this->assertTrue($detector->isValidLocaleCode('de'));
         $this->assertTrue($detector->isValidLocaleCode('en'));
         $this->assertTrue($detector->isValidLocaleCode('en-gb'));
+
+        // Negative
         $this->assertFalse($detector->isValidLocaleCode('fr fr'));
         $this->assertFalse($detector->isValidLocaleCode('f'));
         $this->assertFalse($detector->isValidLocaleCode('foo'));
     }
 
-    public function testDetect()
+    /**
+     * Test: Detection
+     * This test ensures that the detector is capable of detecting the
+     * clients preferred locale.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testDetectingPreferredLocaleOfClient()
     {
+        // Prepare
+        /* @var DoozR_I18n_Service_Detector $detector */
         $detector = self::$service->getDetector();
-        $this->assertTrue($detector->detect());
+        $detected = $detector->detect();
+
+        // Assertion(s)
+        $this->assertInstanceOf('DoozR_I18n_Service_Detector', $detected);
     }
 
-    public function testGetLocalePreferences()
+    /**
+     * Test: Detection
+     * This test ensures that the detector is capable of detecting the
+     * clients preferred locale.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testGettingDetectedLocalePreferences()
     {
-        $detector = self::$service->getDetector();
+        // Prepare
+        $detector    = self::$service->getDetector();
         $preferences = $detector->getLocalePreferences();
 
-        $this->assertArrayHasKey('locale', $preferences);
+        // Assertion(s)
+        $this->assertArrayHasKey('locale',   $preferences);
         $this->assertArrayHasKey('language', $preferences);
-        $this->assertArrayHasKey('country', $preferences);
+        $this->assertArrayHasKey('country',  $preferences);
 
-        $this->assertEquals('en', $preferences['locale']);
+        $this->assertEquals('en-us', $preferences['locale']);
         $this->assertEquals('en', $preferences['language']);
         $this->assertEquals('us', $preferences['country']);
     }

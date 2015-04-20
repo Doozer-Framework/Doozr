@@ -4,16 +4,18 @@
 /**
  * DoozR - Config
  *
- * Config.php - Config container for a Json reader (based on filesystem reader) to read Json configurations and
- * make use of three possible layers of caching [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG] -> [CACHE:FILESYSTEM] ->
- * read from filesystem/network.
- * So lookup is (look in runtime cache) then (look in config stored in memory) then (look in memory for file) then
- * access filesystem/network the 1st time. Speedup!!!
+ * Config.php - Config container for a Json reader (based on filesystem reader)
+ * to read Json configurations and make use of three possible layers of caching
+ * [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG] -> [CACHE:FILESYSTEM] -> read
+ * from filesystem/network. So lookup is (look in runtime cache) then (look in
+ * config stored in memory) then (look in memory for file) then access
+ * filesystem/network the 1st time. Speedup!!!
  *
- * PHP versions 5
+ *
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -123,7 +125,7 @@ class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_In
     /**
      * A config reader instance. In this case (DoozR uses JSON):
      *
-     * @var DoozR_Config_Reader_Json
+     * @var DoozR_Config_Reader_Interface
      * @access protected
      */
     protected $configReader;
@@ -139,7 +141,7 @@ class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_In
     /**
      * The configuration required for returning content
      *
-     * @var DoozR_Config_Reader_Json[]
+     * @var DoozR_Config_Reader_Interface[]
      * @access protected
      */
     protected $configurations;
@@ -148,18 +150,18 @@ class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_In
     /**
      * Constructor.
      *
-     * @param DoozR_Config_Reader_Json $configReader A container e.g. Json or Ini
-     * @param DoozR_Cache_Service      $cacheService DoozR_Cache_Service Instance
-     * @param bool                     $cache        TRUE to enable caching, FALSE to do disable
+     * @param DoozR_Config_Reader_Interface $configReader A container e.g. Json or Ini
+     * @param DoozR_Cache_Service           $cacheService DoozR_Cache_Service Instance
+     * @param bool                          $cache        TRUE to enable caching, FALSE to do disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Config
      * @access protected
      */
     protected function __construct(
-        DoozR_Config_Reader_Json $configReader,
-        DoozR_Cache_Service      $cacheService = null,
-                                 $cache        = true
+        DoozR_Config_Reader_Interface $configReader,
+        DoozR_Cache_Service           $cacheService = null,
+                                      $cache        = true
     ) {
         $this
             ->configReader($configReader)
@@ -170,13 +172,13 @@ class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_In
     }
 
     /**
-     * Reads a configuration by using the injected DoozR_Config_Reader_Json.
+     * Reads a configuration by using the injected DoozR_Config_Reader_Interface.
      * The result of the call will be merged with previously loaded configurations
      * and it will be cached.
      *
      * @param string $filename The filename to parse
      *
-     * @return DoozR_Config_Reader_Json|mixed|null|stdClass
+     * @return DoozR_Config_Reader_Interface|mixed|null|stdClass
      * @throws DoozR_Cache_Service_Exception
      * @throws DoozR_Config_Reader_Exception
      */
@@ -277,7 +279,7 @@ class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_In
     }
 
     /**
-     * Generic getter to provide a DoozR_Config_Reader_Json like interface to master configuration
+     * Generic getter to provide a DoozR_Config_Reader_Interface like interface to master configuration
      * e.g. DoozR_Config->foo->bar;
      *
      * @param string $property The property requested
@@ -458,13 +460,13 @@ class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_In
     /**
      * Setter for configReader.
      *
-     * @param DoozR_Config_Reader_Json $configReader
+     * @param DoozR_Config_Reader_Interface $configReader
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setConfigReader(DoozR_Config_Reader_Json $configReader)
+    protected function setConfigReader(DoozR_Config_Reader_Interface $configReader)
     {
         $this->configReader = $configReader;
     }
@@ -472,13 +474,13 @@ class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_In
     /**
      * Fluent setter for config reader.
      *
-     * @param DoozR_Config_Reader_Json $configReader
+     * @param DoozR_Config_Reader_Interface $configReader
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance of this class for chaining (fluent interface pattern)
      * @access protected
      */
-    protected function configReader(DoozR_Config_Reader_Json $configReader)
+    protected function configReader(DoozR_Config_Reader_Interface $configReader)
     {
         $this->configReader = $configReader;
         return $this;
@@ -488,7 +490,7 @@ class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_In
      * Getter for configReader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Config_Reader_Json Instance of configReader if set, otherwise NULL
+     * @return null|DoozR_Config_Reader_Interface Instance of a config reader if set, otherwise NULL
      * @access protected
      */
     protected function getConfigReader()
@@ -570,7 +572,7 @@ class DoozR_Config extends DoozR_Base_Class_Singleton implements DoozR_Config_In
      * Getter for all parsed/processed configurations.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config_Reader_Json[]
+     * @return DoozR_Config_Reader_Interface[]
      * @access protected
      */
     protected function getConfigurations()

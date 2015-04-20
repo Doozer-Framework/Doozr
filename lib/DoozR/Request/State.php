@@ -6,10 +6,10 @@
  *
  * State.php - Request state class for transportation of request data
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -72,14 +72,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
 class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_Interface
 {
     /**
-     * The runtimeEnvironment DoozR runs ins
-     *
-     * @var string
-     * @access protected
-     */
-    protected $runtimeEnvironment;
-
-    /**
      * The method used for request
      *
      * @var string
@@ -95,6 +87,15 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @access protected
      */
     protected $request;
+
+    /**
+     * The SSL status of the request.
+     * Either TRUE = SSL or FALSE = no ssl
+     *
+     * @var string
+     * @access protected
+     */
+    protected $ssl;
 
     /**
      * The clean URL without arguments
@@ -115,18 +116,10 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * The request arguments
      *
-     * @var array
+     * @var DoozR_Request_Arguments[]
      * @access protected
      */
     protected $arguments = array();
-
-    /**
-     * The protocol
-     *
-     * @var string
-     * @access protected
-     */
-    protected $protocol;
 
     /**
      * The request headers
@@ -200,14 +193,6 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @access protected
      */
     protected $rest = false;
-
-    /**
-     * History to trace changes in flow.
-     *
-     * @var array
-     * @access protected
-     */
-    protected $history = array();
 
     /**
      * Request-Method-Types
@@ -600,48 +585,6 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     }
 
     /**
-     * Setter for runtimeEnvironment.
-     *
-     * @param string $mode The runtimeEnvironment DoozR is running in (WEB, CLI, CLI-SERVER)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setRuntimeEnvironment($mode)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->runtimeEnvironment = $mode;
-    }
-
-    /**
-     * Setter for runtimeEnvironment.
-     *
-     * @param string $runtimeEnvironment The runtimeEnvironment DoozR is running in (WEB, CLI, CLI-SERVER)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
-     * @access public
-     */
-    public function runtimeEnvironment($runtimeEnvironment)
-    {
-        $this->setRuntimeEnvironment($runtimeEnvironment);
-        return $this;
-    }
-
-    /**
-     * Getter for runtimeEnvironment.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The runtimeEnvironment DoozR is running in (WEB, CLI, CLI-SERVER)
-     * @access public
-     */
-    public function getRuntimeEnvironment()
-    {
-        return $this->runtimeEnvironment;
-    }
-
-    /**
      * Setter for url.
      *
      * @param string $url The url
@@ -863,48 +806,6 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     }
 
     /**
-     * Setter for protocol.
-     *
-     * @param string $protocol The protocol used
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setProtocol($protocol)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->protocol = $protocol;
-    }
-
-    /**
-     * Setter for protocol.
-     *
-     * @param string $protocol The protocol used
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
-     * @access public
-     */
-    public function protocol($protocol)
-    {
-        $this->setProtocol($protocol);
-        return $this;
-    }
-
-    /**
-     * Getter for protocol.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The protocol
-     * @access public
-     */
-    public function getProtocol()
-    {
-        return $this->protocol;
-    }
-
-    /**
      * Setter for request body.
      *
      * @param \stdClass $requestBody The request body to set
@@ -935,6 +836,8 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
 
     /**
      * Getter for requestBody.
+     *
+     * @param bool $associative TRUE to return associative array, FALSE to return object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \stdClass|null The request body if set otherwise NULL
@@ -1298,38 +1201,5 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     public function getRest()
     {
         return $this->rest;
-    }
-
-    /**
-     * Adds a history entry to collection.
-     *
-     * @param string $method    The methods name
-     * @param array  $arguments The methods argument
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
-     * @access protected
-     */
-    protected function addHistory($method, $arguments)
-    {
-        if (!isset($this->history[$method])) {
-            $this->history[$method] = array();
-        }
-
-        $this->history[$method][] = $arguments;
-
-        return $this;
-    }
-
-    /**
-     * Returns the history collection.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The collection of history entries
-     * @access public
-     */
-    public function getHistory()
-    {
-        return $this->history;
     }
 }

@@ -8,10 +8,10 @@
  * Useful for example if you only need a skeleton for client side
  * Javascript e.g. AngularJS or some jQuery based projects.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *

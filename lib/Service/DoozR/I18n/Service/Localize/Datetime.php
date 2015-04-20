@@ -6,10 +6,10 @@
  *
  * Datetime.php - Datetime formatter
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -126,10 +126,9 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
         'saturday'
     );
 
-
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to check if a given timecode is valid.
@@ -270,7 +269,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function shortDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configL10n->datetime->short_date());
+        return $this->_formatDate($timestamp, $this->configL10n->datetime->short_date);
     }
 
     /**
@@ -286,7 +285,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function middleDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configL10n->datetime->middle_date());
+        return $this->_formatDate($timestamp, $this->configL10n->datetime->middle_date);
     }
 
     /**
@@ -300,7 +299,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function longDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configL10n->datetime->long_date());
+        return $this->_formatDate($timestamp, $this->configL10n->datetime->long_date);
     }
 
     /**
@@ -314,7 +313,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function shorttime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configL10n->datetime->short_time());
+        return $this->_formatTime($timestamp, $this->configL10n->datetime->short_time);
     }
 
     /**
@@ -328,7 +327,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function middleTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configL10n->datetime->middle_time());
+        return $this->_formatTime($timestamp, $this->configL10n->datetime->middle_time);
     }
 
     /**
@@ -342,7 +341,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function longTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configL10n->datetime->long_time());
+        return $this->_formatTime($timestamp, $this->configL10n->datetime->long_time);
     }
 
     /**
@@ -356,7 +355,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function shortDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->short_datetime());
+        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->short_datetime);
     }
 
     /**
@@ -370,7 +369,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function middleDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->middle_datetime());
+        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->middle_datetime);
     }
 
     /**
@@ -384,7 +383,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function longDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->long_datetime());
+        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->long_datetime);
     }
 
     /**
@@ -418,7 +417,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     {
         $day = (int)date('w', $timestamp);
 
-        return $this->getConfig()->datetime->{$this->_day[$day]}();
+        return $this->getConfig()->datetime->{$this->_day[$day]};
         //return $this->translator->_($this->_day[$day]);
     }
 
@@ -500,13 +499,9 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
         return '@d' . Date('d.m.y', $timestamp);
     }
 
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | TOOLS & HELPER
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as format-dispatcher.
@@ -670,47 +665,40 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
         return $format;
     }
 
-    /*******************************************************************************************************************
-     * \\ BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface $registry   The DoozR_Registry instance
-     * @param string                   $locale     The locale this instance is working with
-     * @param string                   $namespace  The active namespace of this format-class
-     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object                   $translator An instance of a translator (for locale)
+     * @param DoozR_Registry_Interface      $registry   The DoozR_Registry instance
+     * @param string                        $locale     The locale this instance is working with
+     * @param string                        $namespace  The active namespace of this format-class
+     * @param object                        $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object                        $configL10n An instance of DoozR_Config_Ini holding the I10n-config (locale)
+     * @param DoozR_I18n_Service_Translator $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
+     * @return DoozR_I18n_Service_Localize_Datetime Instance of this class
      * @access public
      */
     public function __construct(
         DoozR_Registry_Interface $registry        = null,
         $locale                                   = null,
         $namespace                                = null,
-        $configI18n                               = null, // THIS is the config of DoozR (main .config) including section "I18n"
-        $configL10n                               = null, // THIS is the I18n/L10n configuration of the current active locale
+        $configI18n                               = null, // Config of DoozR (main .config) including section "I18n"
+        $configL10n                               = null, // Config I18n/L10n configuration of the current active locale
         DoozR_I18n_Service_Translator $translator = null
     ) {
-        // set type of format-class
+        // Set type of format-class
         $this->type = 'Datetime';
 
-        // store the default and active timeset
-        $this->_timeset = $configL10n->datetime->default_timeset();
+        // Store the default and active timeset
+        $this->_timeset = $configL10n->datetime->default_timeset;
 
-        // call parents construtor
+
+        // Call parents constructor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
-
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 }

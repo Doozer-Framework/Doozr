@@ -6,10 +6,10 @@
  *
  * Cache.php - Cache tool for internal webserver.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -83,6 +83,7 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
         self::SCOPE_DOOZR_CACHE,            // Default namespace
         self::SCOPE_DOOZR_ROUTES,           // Routing Matrix
         self::SCOPE_DOOZR_CONFIG,           // Configuration(s)
+        self::SCOPE_DOOZR_I18N,             // Translations
     );
 
    /**
@@ -110,11 +111,12 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
      * @access public
      * @const
      */
-    const SCOPE_EVERYTHING    = '*';                        // <= ???
-    const SCOPE_DOOZR         = 'doozr';                    // <= ???
+    const SCOPE_EVERYTHING    = '*';                        // <= Everything/Generic
+    const SCOPE_DOOZR         = 'doozr';                    // <= DoozR root namespace
     const SCOPE_DOOZR_CACHE   = 'doozr.cache';              // <= Default caching namespace of Service Cache
+    const SCOPE_DOOZR_CONFIG  = 'doozr.cache.config';       // <= Configuration of DoozR
     const SCOPE_DOOZR_ROUTES  = 'doozr.cache.routes';       // <= Routes of the DoozR Installation
-    const SCOPE_DOOZR_CONFIG  = 'doozr.cache.config';       // <= ???
+    const SCOPE_DOOZR_I18N    = 'doozr.cache.i18n';         // <= Translations
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -124,7 +126,7 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
     /**
      * Start the command processing.
      *
-     * @param string $injectedCommand An optional injected (and overide) command.
+     * @param string $injectedCommand An optional injected (and override) command.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed A result in any form.
@@ -170,7 +172,9 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
             $this->showHelp();
 
         } else {
-            echo $this->colorize($injectedCommand.' ('.$result.' element'.(($result != 1) ? 's' : '').') successful!'.PHP_EOL, '%g');
+            echo $this->colorize(
+                $injectedCommand.' ('.$result.' element'.(($result != 1) ? 's' : '').') successful!'.PHP_EOL, '%g'
+            );
         }
 
         return $result;

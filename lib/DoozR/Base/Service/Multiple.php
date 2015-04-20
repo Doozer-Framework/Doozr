@@ -6,10 +6,10 @@
  *
  * Multiple.php - Base-Service for building multi-instance services
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -136,6 +136,9 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container implements 
         $this->setRegistry($arguments[0]);
         $arguments = array_slice($arguments, 1);
 
+        // Retrieve name of this service by simple logic
+        $this->setName($this->retrieveName());
+
         // Check for automagically install autoloader
         if ($this->autoloader === true) {
             $this->initAutoloader($this->getName());
@@ -158,17 +161,6 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container implements 
             }
         }
     }
-
-    public function setUuid($uuid)
-    {
-        $this->uuid = $uuid;
-    }
-
-    public function getUuid()
-    {
-        return $this->uuid;
-    }
-
 
     /**
      * Returns true if service is singleton.
@@ -221,6 +213,53 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container implements 
             $autoloaderService
         );
     }
+    /**
+     * Retrieves and returns the name of the service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the service
+     * @access public
+     */
+    protected function retrieveName()
+    {
+        $name  = '';
+        $class = get_called_class();
+
+        if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
+            $name = $matches[1];
+        }
+
+        return $name;
+    }
+
+    /**
+     * Sets the name of the service
+     *
+     * @param string $name The name of this service
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Fluent: Sets the name of the service
+     *
+     * @param string $name The name of this service
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function name($name)
+    {
+        $this->name = $name;
+        return $name;
+    }
 
     /**
      * Returns the name of the service
@@ -234,16 +273,48 @@ class DoozR_Base_Service_Multiple extends DoozR_Base_State_Container implements 
      */
     public function getName()
     {
-        if ($this->name === null) {
-            $class = get_called_class();
-            if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
-                $this->name = $matches[1];
-            } else {
-                $this->name = '';
-            }
-        }
-
         return $this->name;
+    }
+
+    /**
+     * Setter for uuid.
+     *
+     * @param string $uuid The uuid of the instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * Fluent: Setter for uuid.
+     *
+     * @param string $uuid The uuid of the instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function uuid($uuid)
+    {
+        $this->setUuid($uuid);
+        return $this;
+    }
+
+    /**
+     * Getter for uuid.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The uuid of the service.
+     * @access public
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
     }
 
     /**

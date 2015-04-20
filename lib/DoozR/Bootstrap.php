@@ -7,10 +7,10 @@
  * Bootstrap.php - The Bootstrapper of the DoozR-Framework.
  * Delegates important operations at startup of DoozR.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -111,8 +111,16 @@ if (defined('DOOZR_APP_ROOT') === false) {
 
     if (getenv('DOOZR_APP_ROOT') !== false) {
         $appRoot = getenv('DOOZR_APP_ROOT');
+
     } else {
-        $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . '/../app') . DIRECTORY_SEPARATOR;
+        // Priority #1: App-Root by Document-Root
+        $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . $s . '..' . $s . 'app');
+
+        // Priority #2: App-Root by DoozR Document-Root
+        if (false === $defaultAppRoot) {
+            $defaultAppRoot = realpath(DOOZR_DOCUMENT_ROOT . '../app');
+        }
+
         $appRoot = ($defaultAppRoot !== false) ? $defaultAppRoot : '';
     }
 

@@ -6,10 +6,10 @@
  *
  * Service.php - I18n Service for internationalization and localization.
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -130,7 +130,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     const FORMAT_DEFAULT = 'String';
 
     /**
-     * Formatter for Strings (Bad-Word replacement, Highlighting, ...)
+     * Localizer for Strings (Bad-Word replacement, Highlighting, ...)
      *
      * @var string
      * @access public
@@ -139,7 +139,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     const FORMAT_STRING = 'String';
 
     /**
-     * Formatter for Currencies (Thousands-Separator, Decimal-Dot, Currency-Sign + position ...)
+     * Localizer for Currencies (Thousands-Separator, Decimal-Dot, Currency-Sign + position ...)
      *
      * @var string
      * @access public
@@ -148,7 +148,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     const FORMAT_CURRENCY = 'Currency';
 
     /**
-     * Formatter for Datetime values (Year-Month-Day date position, start of week [Sun/Mondays] ...)
+     * Localizer for Datetime values (Year-Month-Day date position, start of week [Sun/Mondays] ...)
      *
      * @var string
      * @access public
@@ -157,7 +157,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     const FORMAT_DATETIME = 'Datetime';
 
     /**
-     * Formatter for Measure values meter, kilometer, miles, inches (...)
+     * Localizer for Measure values meter, kilometer, miles, inches (...)
      *
      * @var string
      * @access public
@@ -166,7 +166,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     const FORMAT_MEASURE = 'Measure';
 
     /**
-     * Formatter for Numbers (...)
+     * Localizer for Numbers (...)
      *
      * @var string
      * @access public
@@ -259,7 +259,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
 
         // If no locale was passed then we try to read the preferred locale from client
         if ($locale === null) {
-            $locale = $this->getClientPreferedLocale();
+            $locale = $this->getClientPreferredLocale();
         }
 
         // store the given locale
@@ -273,7 +273,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-     | PUBLIC INTERFACES
+     | PUBLIC API
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -301,8 +301,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function setAvailableLocales(array $locales)
     {
-        pred('damn');
-        return self::$config->i18n->defaults->available($locales);
+        return self::$config->i18n->defaults->available = $locales;
     }
 
     /**
@@ -319,12 +318,11 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     {
         $result = true;
 
-        // check if locale is valid
+        // Check if locale is valid
         if (!$this->isValidLocale($locale)) {
             throw new DoozR_I18n_Service_Exception(
-                'The locale "' . $locale . '" is not valid.'
+                sprintf('The locale "%s" is not valid.', $locale)
             );
-            $result = false;
         }
 
         $this->activeLocale = $locale;
@@ -353,7 +351,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * @return string The active locale
      * @access public
      */
-    public function getClientPreferedLocale()
+    public function getClientPreferredLocale()
     {
         if ($this->activeLocale !== null) {
             $locale = $this->activeLocale;
@@ -401,19 +399,19 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      */
     public function getLocalizer($type = self::FORMAT_DEFAULT, $locale = null)
     {
-        // if no locale was passed use the active one
+        // If no locale was passed use the active one
         if ($locale === null) {
             $locale = $this->activeLocale;
         }
 
-        // retrieve valid input
+        // Retrieve valid input
         $input = $this->validateInput($locale);
 
-        // convert type to required format
+        // Convert type to required format
         $type = ucfirst(strtolower($type));
 
-        // check for redirect -> !
-        if ($input['redirect']) {
+        // Check for redirect -> !
+        if (true === isset($input['redirect']) && null !== $input['redirect']) {
             return $this->getLocalizer($type, $input['redirect']);
 
         } else {
@@ -456,7 +454,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         $availableLocales = object_to_array($this->getAvailableLocales());
         if (in_array($locale, $availableLocales) === false) {
             throw new DoozR_I18n_Service_Exception(
-                'The locale "' . $locale . '" is not available by configuration.'
+                sprintf('The locale "%s" is not available by configuration.', $locale)
             );
         }
 
@@ -473,6 +471,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             $translator = $this->getTranslator($input['redirect'], $encoding);
 
         } else {
+            sprintf('Translator for: "%s" loaded.' . PHP_EOL, $locale);
             $translator = new DoozR_I18n_Service_Translator($locale, $encoding, self::$config, $input['config']);
         }
 
@@ -491,7 +490,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
 
         if (extension_loaded('gettext')) {
             throw new DoozR_I18n_Service_Exception(
-                'Installation stopped! Please deinstall gettext extension if you want to use I18n service with '.
+                'Installation stopped! Please disable gettext extension if you want to use I18n service with '.
                 'shortcut functionality _() | __() | ___()'
             );
 
@@ -539,11 +538,8 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     }
 
     /**
-     * PHPTAL will inform translation service what encoding page uses.
-     * Output of translate() must be in this encoding.
-     */
-    /**
-     * PHPTAL will inform translation service what encoding page uses.
+     * PHPTAL:
+     * Will inform translation service what encoding page uses.
      * Output of translate() must be in this encoding.
      *
      * @param string $encoding The encoding as string e.g. ...
@@ -583,11 +579,11 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * @param string $domain The domain to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The domain as array capsulated
+     * @return string The domain as array capsuled
      * @access public
      * @see PHPTAL_TranslationService::useDomain()
      */
-    public function useDomain($domain, $dummy = null)
+    public function useDomain($domain)
     {
         $this->initTemplateTranslator();
 
@@ -612,8 +608,9 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     public function setVar($key, $value_escaped)
     {
         $this->initTemplateTranslator();
-        //htmlentities($value_escaped)
+
         $this->setVariable($key, $value_escaped);
+
         return true;
     }
 
@@ -675,7 +672,8 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
      * Translate a gettext key and interpolate variables.
      *
      * @param string  $key        Translation key, e.g. "hello ${username}!" or a simple one "hello_message_user"
-     * @param bool $htmlescape TRUE then HTML-escape translated string. You should never HTML-escape interpolated variables.
+     * @param bool    $htmlescape TRUE then HTML-escape translated string. You should never HTML-escape interpolated
+     *                            variables.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The translation for passed key on success, otherwise passed key
@@ -706,12 +704,6 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
         return (strlen($value) && $value !== $key) ? $value : $key;
     }
 
-
-    protected function splitTranslation($translation)
-    {
-        pred($translation);
-    }
-
     /*------------------------------------------------------------------------------------------------------------------
      | TOOLS + HELPER
      +----------------------------------------------------------------------------------------------------------------*/
@@ -731,20 +723,25 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
     {
         // check for valid locale
         if ($locale && !$this->isValidLocale($locale)) {
-            throw new DoozR_I18n_Service_Exception('Invalid locale: '.$locale);
+            throw new DoozR_I18n_Service_Exception(
+                sprintf('Invalid locale: %s', $locale)
+            );
         }
 
         // get concrete locale
-        $locale = ($locale !== null) ? $locale : $this->getClientPreferedLocale();
+        $locale = ($locale !== null) ? $locale : $this->getClientPreferredLocale();
 
         $config = $this->getL10nConfigurationByLocale($locale);
 
         // check for redirect of current locale (e.g. from "en-gb" -> "en")
         try {
-            $redirectLocale = $config->redirect->target();
+            $redirectLocale     = $config->redirect->target;
             $this->activeLocale = $redirectLocale;
 
-        } catch (DoozR_Config_Service_Exception $e) {
+        } catch (Whoops\Exception\ErrorException $e) {
+            $redirectLocale = null;
+
+        } catch (Exception $e) {
             $redirectLocale = null;
 
         }
@@ -772,7 +769,7 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             self::$templateTranslator = $this->getTranslator();
 
             self::$templateTranslator->setNamespace(
-                self::$config->i18n->defaults->namespace()
+                self::$config->i18n->defaults->namespace
             );
         }
     }
@@ -825,17 +822,56 @@ class DoozR_I18n_Service extends DoozR_Base_Service_Singleton
             $config = self::$configurationByLocale[$locale];
 
         } else {
-            $config = DoozR_Loader_Serviceloader::load('Config', 'Ini');
-            $path   = self::getRegistry()->path;
-            $file   = $path->get(
+            $filename = self::getRegistry()->getPath()->get(
                 'app',
                 'Data/Private/I18n/' . $locale . '/' . self::FILE_NAME_L10N . '.' . self::FILE_EXTENSION_L10N
             );
 
-            $config->read($file);
+            // Read
+            $config = $this->getConfigurationReader();
+            $config->read($filename);
 
             self::$configurationByLocale[$locale] = $config;
         }
+
+        return $config;
+    }
+
+    /**
+     * Returns an instance of DoozR's internal Config-Reader for reading INI-Configurations.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_Config_Reader_Ini
+     * @access protected
+     * @throws \DoozR_Di_Exception
+     */
+    protected function getConfigurationReader()
+    {
+        // Add required dependencies
+        self::$registry->getMap()->wire(
+            DoozR_Di_Container::MODE_STATIC,
+            array(
+                'DoozR_Filesystem_Service' => DoozR_Loader_Serviceloader::load('filesystem'),
+                'DoozR_Cache_Service'      => DoozR_Loader_Serviceloader::load(
+                    'cache',
+                    DOOZR_CACHE_CONTAINER,
+                    DOOZR_NAMESPACE_FLAT . '.cache.i18n',
+                    array(),
+                    DOOZR_UNIX
+                )
+            )
+        );
+
+        // Store map with fresh instances
+        self::$registry->getContainer()->setMap(self::$registry->getMap());
+
+        /* @var DoozR_Config_Reader_Ini $config */
+        $config = self::$registry->getContainer()->build(
+            'DoozR_Config_Reader_Ini',
+            array(
+                true
+            )
+        );
 
         return $config;
     }

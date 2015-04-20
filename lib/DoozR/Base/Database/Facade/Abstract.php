@@ -6,10 +6,10 @@
  *
  * Abstract.php - Abstract base class for building a Database Abstraction Layer for the DoozR Framework
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *

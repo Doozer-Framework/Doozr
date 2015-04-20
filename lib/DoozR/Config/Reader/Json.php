@@ -9,10 +9,10 @@
  * JSON+ to it. This class also provides caching of contents through a cache
  * service instance (this can be either memcache, filesystem ...).
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -56,6 +56,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Reader/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
 
 /**
  * DoozR - Config - Reader - Json
@@ -74,7 +75,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Reader/Abstract.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract
+class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements DoozR_Config_Interface
 {
     /**
      * The decoded content.
@@ -127,9 +128,9 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract
             throw new DoozR_Config_Reader_Exception(
                 $this->getErrorByCode(json_last_error())
             );
-        } else {
-            $this->setDecodedContent($configuration);
         }
+
+        $this->setDecodedContent($configuration);
 
         // Cache!
         if ($this->getCache() === true) {
@@ -160,6 +161,32 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract
         }
 
         return $result;
+    }
+
+    public function set($node, $value = null)
+    {
+        if ($node !== null) {
+            $nodes = explode(':', $node);
+            $configuration = $this->getDecodedContent();
+
+            foreach ($nodes as $node) {
+                try {
+                    $configuration &= $configuration->{$node};
+
+                } catch (DoozR_Error_Exception $e) {
+                    throw new DoozR_Config_Reader_Exception(
+                        'Configuration does not have a property: "' . $node . '" in configuration.'
+                    );
+                }
+            }
+
+            $configuration = $value;
+            $this->setDecodedContent($configuration);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -216,12 +243,12 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract
      * @param string $input The input to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool|string TRUE if valid, otherwise string with error
+     * @return bool|string FALSE on error, STRING with result on success
      * @access protected
      */
     protected function validate($input)
     {
-        if (is_string($input)) {
+        if (true === is_string($input)) {
             $input = @json_decode($input);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 $input = false;

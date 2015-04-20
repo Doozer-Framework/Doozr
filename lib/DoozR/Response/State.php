@@ -6,10 +6,10 @@
  *
  * State.php - Response state class for transportation of response data
  *
- * PHP versions 5
+ * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * DoozR - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -86,6 +86,14 @@ class DoozR_Response_State extends DoozR_Base_State implements DoozR_Base_State_
      * @access protected
      */
     protected $history = array();
+
+    /**
+     * The response arguments
+     *
+     * @var DoozR_Response_Arguments[]
+     * @access protected
+     */
+    protected $arguments = array();
 
 
     /**
@@ -898,43 +906,6 @@ class DoozR_Response_State extends DoozR_Base_State implements DoozR_Base_State_
     {
         return $this->rest;
     }
-
-    /**
-     * Adds a history entry to collection.
-     *
-     * @param string $method    The methods name
-     * @param array  $arguments The methods argument
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Response_State Instance for chaining
-     * @access protected
-     */
-    protected function addHistory($method, $arguments)
-    {
-        if (!isset($this->history[$method])) {
-            $this->history[$method] = array();
-        }
-
-        $this->history[$method][] = $arguments;
-
-        return $this;
-    }
-
-    /**
-     * Returns the history collection.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The collection of history entries
-     * @access public
-     */
-    public function getHistory()
-    {
-        return $this->history;
-    }
-
-
-
-
 
     /**
      * Sends "text/html" to client
