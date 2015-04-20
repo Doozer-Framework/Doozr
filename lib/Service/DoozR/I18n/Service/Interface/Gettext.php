@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Interface.php';
 
 /**
  * DoozR - I18n - Service - Interface - Gettext
@@ -69,32 +70,47 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Abstrac
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_Abstract
+    implements
+    DoozR_I18n_Service_Interface_Interface
 {
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * Path to locale files (filesystem)
+     * Constructor.
      *
-     * @var string
+     * @param array $config The config for this type of interface
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_I18n_Service_Interface_Gettext Instance of this class
      * @access protected
      */
-    protected $path;
+    protected function __construct(array $config)
+    {
+        // Override simple by setter
+        $this->setCacheEnabled(false);
 
+        // Call parents constructor
+        parent::__construct($config);
+    }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | BEGIN PUBLIC INTERFACES
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to look-up the translation of the given combination of values.
      *
      * @param string $string    The string to translate
-     * @param string $key       The key (hash) identifier for translation-table
+     * @param string $uuid      The uuid of the translation-table
      * @param mixed  $arguments The arguments for inserting values into translation (vsprintf) or null
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The translation of the input or the input string on failure
      * @access public
      */
-    public function lookup($string, $key = null, $arguments = null)
+    public function lookup($string, $uuid = null, $arguments = null)
     {
         if (is_array($string) === true) {
             $translate = 'FAIL';
@@ -129,44 +145,18 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      */
     protected function buildTranslationtable($locale, array $namespaces)
     {
-        // get real path
-        $path = realpath($this->path);
+        // It simply does not make sense in gettext™ to iterate different namespaces! We use the first one
+        $namespace = $namespaces[0];
 
-        /* @todo: Does not make sense in gettext™ to iterate different namespaces?! */
-        // iterate over given namespace(s) and configure environment for them
-        foreach ($namespaces as $namespace) {
-            $result[$locale] = $this->initI18n($locale, $this->encoding, $namespace, $path);
-        }
-
-        return $result;
-    }
-
-
-    /**
-     * Just some debugging converter for damn windows locales ...
-     * @param $locale
-     *
-     * @return string
-     */
-    protected function prepareLocaleForOs($locale)
-    {
-        if (true === DOOZR_WIN) {
-            switch ($locale) {
-                case 'de':
-                    $locale = 'deu_deu';
-                    break;
-
-                case 'en':
-                    $locale = 'us_us';
-                    break;
-
-                case 'en-us':
-                    $locale = 'us_us';
-                    break;
-            }
-        }
-
-        return $locale;
+        // Wrap result into array by locale indexed
+        return array(
+            $locale => $this->initI18n(
+                $locale,
+                $this->getEncoding(),
+                $namespace,
+                $this->getPath()
+            )
+        );
     }
 
     /**
@@ -187,37 +177,35 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      */
     protected function initI18n($locale, $encoding, $namespace, $path)
     {
-        // OS fix
-        #$localeOsSpecific = $this->prepareLocaleForOs($locale);
+        // Make it possible to build a valid locale like: en_US.utf8
+        $path            .= $locale . DIRECTORY_SEPARATOR . 'Gettext';
+        $gettextLocale    = $this->normalizeLocale($locale);                                     // e.g. en-us => en_US
+        $gettextLanguage  = $this->getLanguageByLocale($gettextLocale);                          // e.g. en_US => en
+        $gettextEncoding  = $this->normalizeEncoding($encoding);                                 // e.g. UTF-8 => utf8
 
-        // Assume success
-        $path           .= DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR . 'Gettext';
-        $gettextEncoding = $this->normalizeEncoding($encoding);
-        $gettextLocale   = $this->normalizeLocale($locale);
-
-        putenv('LANG=' . $this->getLanguageByLocale($gettextLocale));
-        putenv('LC_ALL=' . $gettextLocale);
+        // Setup environment variables mainly required by gettext™
+        putenv('LANG='        . $gettextLanguage);
+        putenv('LC_ALL='      . $gettextLocale);
         putenv('LC_MESSAGES=' . $gettextLocale);
 
+        // We provide the system/OS a prioritized variety of dialects to choose from - for the locale built above
         $fullQualifiedLocales = array(
-            #$gettextLocale . $gettextEncoding,
-            #$gettextLocale . '.' . $encoding,
+            $gettextLocale . $gettextEncoding,
+            $gettextLocale . '.' . $encoding,
             $gettextLocale,
         );
 
         $result = setlocale(LC_ALL, $fullQualifiedLocales);
-        setlocale(LC_MESSAGES, $fullQualifiedLocales);
         if ($result === null || $result === false) {
+            $locale = var_export($fullQualifiedLocales, true);
             throw new DoozR_I18n_Service_Exception(
-                sprintf('The locale could not be set. Sure the system (OS) supports it?')
+                sprintf('The locale "%s" could not be set. Sure the system (OS) supports it?', $locale)
             );
         };
 
-        bind_textdomain_codeset($namespace, $gettextEncoding);
+        bind_textdomain_codeset($namespace, $encoding);
         bindtextdomain($namespace, $path);
         textdomain($namespace);
-
-        return $result;
     }
 
     /**
@@ -284,9 +272,8 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
     }
 
     /**
-     * Checks the requirements of this translator interface
-     *
-     * This method is intend to check if all requirements are fulfilled.
+     * Checks the requirements of this translator interface.
+     * For example it checks if a required extension is loaded or not and so on.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -296,38 +283,13 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      */
     protected static function checkRequirements()
     {
-        // test if gettext extension is installed with php
-        if (extension_loaded('gettext') !== true) {
+        // Test if gettext™ extension is installed with php
+        if (true !== extension_loaded('gettext')) {
             throw new DoozR_I18n_Service_Exception(
                 'Error while checking requirements: gettext™ extension not loaded.'
             );
         }
 
         return true;
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Constructor.
-     *
-     * @param array $config The config for this type of interface
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_I18n_Service_Interface_Gettext Instance of this class
-     * @access protected
-     */
-    protected function __construct(array $config)
-    {
-        // store the path to
-        $this->path = $config['path'];
-
-        // check if requirements fulfilled
-        self::checkRequirements();
-
-        // call parents constructor
-        parent::__construct($config);
     }
 }

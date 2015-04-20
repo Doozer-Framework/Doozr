@@ -127,7 +127,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     );
 
     /*------------------------------------------------------------------------------------------------------------------
-    | BEGIN PUBLIC API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -269,7 +269,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function shortDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configL10n->datetime->short_date());
+        return $this->_formatDate($timestamp, $this->configL10n->datetime->short_date);
     }
 
     /**
@@ -285,7 +285,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function middleDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configL10n->datetime->middle_date());
+        return $this->_formatDate($timestamp, $this->configL10n->datetime->middle_date);
     }
 
     /**
@@ -299,7 +299,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function longDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configL10n->datetime->long_date());
+        return $this->_formatDate($timestamp, $this->configL10n->datetime->long_date);
     }
 
     /**
@@ -313,7 +313,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function shorttime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configL10n->datetime->short_time());
+        return $this->_formatTime($timestamp, $this->configL10n->datetime->short_time);
     }
 
     /**
@@ -327,7 +327,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function middleTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configL10n->datetime->middle_time());
+        return $this->_formatTime($timestamp, $this->configL10n->datetime->middle_time);
     }
 
     /**
@@ -341,7 +341,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function longTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configL10n->datetime->long_time());
+        return $this->_formatTime($timestamp, $this->configL10n->datetime->long_time);
     }
 
     /**
@@ -355,7 +355,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function shortDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->short_datetime());
+        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->short_datetime);
     }
 
     /**
@@ -369,7 +369,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function middleDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->middle_datetime());
+        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->middle_datetime);
     }
 
     /**
@@ -383,7 +383,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
      */
     public function longDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->long_datetime());
+        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->long_datetime);
     }
 
     /**
@@ -417,7 +417,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     {
         $day = (int)date('w', $timestamp);
 
-        return $this->getConfig()->datetime->{$this->_day[$day]}();
+        return $this->getConfig()->datetime->{$this->_day[$day]};
         //return $this->translator->_($this->_day[$day]);
     }
 
@@ -500,7 +500,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | BEGIN TOOLS + HELPER
+    | TOOLS & HELPER
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -666,7 +666,7 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

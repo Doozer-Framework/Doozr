@@ -18,7 +18,6 @@ matrix:
 before_install:
   - sudo locale-gen en_US
   - sudo locale-gen en_US.UTF-8
-  - locale -a
   - sudo locale-gen de_DE
   - sudo locale-gen de_DE.UTF-8
   - sudo dpkg-reconfigure locales

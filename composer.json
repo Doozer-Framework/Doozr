@@ -31,7 +31,7 @@
       "nikic/fast-route": "0.4.*",
       "nesbot/carbon": "1.17.*",
       "mrclay/minify": "2.2.*",
-      "hassankhan/config": "0.8.*"
+      "sepia/po-parser": "4.2.*"
   },
   "require-dev": {
     "raulfraile/ladybug": "1.0.*",

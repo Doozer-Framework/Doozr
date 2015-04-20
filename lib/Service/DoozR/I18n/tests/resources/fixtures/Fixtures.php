@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - I18n - Test
+ * DoozR - I18n - Service - Test - Fixtures
  *
- * ServiceTest.php - This is the Test-Controller of a Service Test
+ * Fixtures.php - Fixtures for tests of DoozR I18n Service.
  *
  * PHP versions 5.4
  *
@@ -53,9 +53,9 @@
  */
 
 /**
- * DoozR - Service - I18n - Test
+ * DoozR - Service - I18n - Test - Fixtures
  *
- * This is the Test-Controller of a Service Test
+ * Fixtures for tests of DoozR I18n Service.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -63,93 +63,50 @@
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCase
+class Fixtures
 {
     /**
-     * The Service instance for testing
+     * Available locales
      *
-     * @var DoozR_Base_Service_Interface
-     * @access protected
+     * @var array
+     * @access public
+     * @static
      */
-    protected static $service;
+    public static $localesAvailable = array(
+        'de-de',
+        'en-gb',
+        'en-us',
+    );
 
     /**
-     * The name of the service
+     * Available localizer
+     *
+     * @var array
+     * @access public
+     * @static
+     */
+    public static $localizerAvailable = array(
+        'Currency',
+        'Datetime',
+        'Measure',
+        'Number',
+        'String',
+    );
+
+    /**
+     * Test locales which need to be installed on target OS for testing.
      *
      * @var string
-     * @access protected
-     */
-    protected static $serviceName;
-
-    /**
-     * 'DoozR_Http_Service'
-     *
-     * @var
-     */
-    protected static $serviceClassName;
-
-    /**
-     * The DoozR Core instance
-     *
-     * @var DoozR_Core
-     * @access protected
-     */
-    protected static $core;
-
-    /**
-     * The DoozR Registry
-     *
-     * @var DoozR_Registry
-     * @access protected
-     */
-    protected static $registry;
-
-
-    /**
-     * Prepares setup for Tests.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setUp()
-    {
-        // Init the DoozR core to execute
-        self::$core = DoozR_Core::run();
-
-        // Store classname
-        self::$serviceClassName = 'DoozR_' . self::$serviceName . '_Service';
-
-        // Get registry
-        self::$registry = DoozR_Registry::getInstance();
-
-        // Load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
-    }
-
-    /**
-     * Test: Generic - if the service is loadable and the existing instance matches the required instance.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
      * @access public
+     * @const
      */
-    public function testServiceIsLoadable()
-    {
-        $this->assertInstanceOf(self::$serviceClassName, self::$service);
-    }
+    const LOCALE_DEFAULT = 'en-us';
+    const LOCALE_VALID   = 'de-de';
+    const LOCALE_INVALID = 'de-11111de-de-de';
 
-    /**
-     * Cleanup after test execution.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function tearDown()
-    {
-        self::$service = null;
-    }
+    const KEY_EXIST   = 'no_records_found';
+    const KEY_MISSING = 'This is a not translated string.';
 }

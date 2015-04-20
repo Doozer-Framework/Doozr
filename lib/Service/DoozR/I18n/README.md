@@ -20,7 +20,7 @@ The **I18n** Service provides different interfaces to handle translations. Curre
 ### Caching
 Translating from memory instead from files on disk is much faster so the **I18n** Service makes intensive use of caching to increase the performance of an application. This also helps to scale better. The DoozR I18n Service provides access to different caching backends like memcached, Redis, and some more (see **Supported caching backends**).
 
-**Important!** Caching is not available in *gettext™* runtimeEnvironment. If the runtimeEnvironment is *gettext™* the **I18n** Service does not provide any caching (beside runtime caching) instead it relies on gettext's very own caching built in. Double caching would just increase calculation time. To get an overview of the cache enabled interfaces (modes) see the following table ...
+**Important!** Caching is not available in *gettext™* runtimeEnvironment. If the runtimeEnvironment is *gettext™* the **I18n** Service does not provide any caching (beside runtime caching) instead it relies on gettext's very own caching built in. Double caching would just increase calculation time. To get an overview of the cache enabled interfaces see the following table ...
 
 ##### Cache enabled interfaces
 
@@ -34,7 +34,6 @@ The **I18n** Service relies on the **Cache** Service and so the following cachin
 
  - **Filesystem** (cache on HDD)
  - **Memcached** (cache in Memory)
- - **Redis** (cache in Memory - not yet public available)
 
 #### Setup 
 The **I18n** Service requires you to setup a directory structure usable by the interface of your choice. The structure looks very similar at the end of the day but there are some slightly differences between *Gettext* and *Text* runtimeEnvironment which we will cover next.
@@ -97,7 +96,7 @@ Get all available locales (defined in config):
 
 Set available locales (override config):
 
-    $i18n->setAvailableLocales(array('de', 'en'));
+    $i18n->setAvailableLocales(array('de-de', 'en-us'));
 
 Get active locale:
 
@@ -105,7 +104,7 @@ Get active locale:
 
 Set active locale:
 
-    $i18n->setActiveLocale('en');
+    $i18n->setActiveLocale('en-us');
 
 Get encoding (e.g. UTF-8):
 
@@ -121,7 +120,7 @@ Get Translator for active locale:
 
 Get Translator for a conncrete locale:
 
-    $i18n->getTranslator('en');
+    $i18n->getTranslator('en-us');
 
 
 ## Install
@@ -133,16 +132,18 @@ How to get the service running.
 
 
 #### Installing locales on Linux
-This was tested on Ubuntu 12.04.x LTS.
- 
-Check locales supported by server:	 
+We do need `en_US.utf8` and `de_DE.utf8` as locales at least for the demos and the unit-tests!
+
+The following guide was tested on Ubuntu 14.04.1 LTS (64 Bit). First we check locales supported by server: 
 
     > less /usr/share/i18n/SUPPORTED
+
+You should be able to locate `en_US.utf8` and `de_DE.utf8`. If not ...to install the required locales.., otherwise continue with the following commands to generate the required locales: 
 	
-You choose *ru_RU* as new locale for example and execute the following commands: 
-	
-	> sudo locale-gen ru_RU
-	> sudo locale-gen ru_RU.UTF8
+	> sudo locale-gen en_US
+	> sudo locale-gen en_US.UTF-8
+	> sudo locale-gen de_DE
+	> sudo locale-gen de_DE.UTF-8
 	> sudo dpkg-reconfigure locales
 
 Don't forget to restart Webserver after adding new locale(s) cause gettext uses caching also for checking available locales!

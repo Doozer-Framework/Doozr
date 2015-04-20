@@ -90,7 +90,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
 
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN PUBLIC INTERFACES
+     | PUBLIC API
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -120,9 +120,9 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
         // format the given value
         $formatted = number_format(
             $value,
-            $this->configL10n->currency->minor_unit(),
-            $this->configL10n->currency->decimal_point(),
-            $this->configL10n->currency->thousands_seperator()
+            $this->configL10n->currency->minor_unit,
+            $this->configL10n->currency->decimal_point,
+            $this->configL10n->currency->thousands_seperator
         );
 
         // is value = major (1) or minor (0)
@@ -130,7 +130,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
 
         // check for position override
         if (!$symbolPosition) {
-            $symbolPosition = $this->configL10n->currency->symbol_position();
+            $symbolPosition = $this->configL10n->currency->symbol_position;
         }
 
         // if notation set overwrite it with the concrete notation
@@ -152,13 +152,13 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
 
             // get notation
             if ($notation === self::NOTATION_SYMBOL) {
-                $notation = $this->getConfig()->{$country}->major_symbol();
+                $notation = $this->getConfig()->{$country}->major_symbol;
             } else {
-                $notation = $this->getConfig()->{$country}->major_short();
+                $notation = $this->getConfig()->{$country}->major_short;
             }
 
             // spacing between curreny-symbol and value
-            $notationSpace = $this->configL10n->currency->notation_space();
+            $notationSpace = $this->configL10n->currency->notation_space;
 
             // check where to add the symbol ...
             if ($symbolPosition == 'l') {
@@ -183,7 +183,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
     public function getCurrencyCode()
     {
         try {
-            return $this->configL10n->currency->code();
+            return $this->configL10n->currency->code;
         } catch (Exception $e) {
             throw new DoozR_I18n_Service_Exception(
                 'Error reading currency code from L10N config.', null, $e
@@ -194,7 +194,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**

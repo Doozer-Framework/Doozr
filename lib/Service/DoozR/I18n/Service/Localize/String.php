@@ -112,7 +112,7 @@ class DoozR_I18n_Service_Localize_String extends DoozR_I18n_Service_Localize_Abs
 
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN PUBLIC INTERFACES
+     | PUBLIC API
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -177,7 +177,7 @@ class DoozR_I18n_Service_Localize_String extends DoozR_I18n_Service_Localize_Abs
 
         // get replace character
         try {
-            $replacecharacter = $this->getConfig()->words->replacecharacter();
+            $replacecharacter = $this->getConfig()->words->replacecharacter;
         } catch (DoozR_Config_Service_Exception $e) {
             $replacecharacter = '*';
         }
@@ -209,7 +209,7 @@ class DoozR_I18n_Service_Localize_String extends DoozR_I18n_Service_Localize_Abs
 
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN TOOLS + HELPER
+     | TOOLS & HELPER
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -230,7 +230,7 @@ class DoozR_I18n_Service_Localize_String extends DoozR_I18n_Service_Localize_Abs
         // iterate over predefined parts
         foreach ($this->_tags as $tag) {
             // create table
-            $this->_specialWordTable[$tag] = $this->config->{$tag}();
+            $this->_specialWordTable[$tag] = $this->config->{$tag};
         }
     }
 
@@ -250,7 +250,7 @@ class DoozR_I18n_Service_Localize_String extends DoozR_I18n_Service_Localize_Abs
         $this->_badWordTable = array();
 
         // split list of bad words into array ...
-        $badWords = explode(',', $config->words->badwords());
+        $badWords = explode(',', $config->words->badwords);
 
         // ... and process
         foreach ($badWords as $badWord) {
@@ -260,21 +260,20 @@ class DoozR_I18n_Service_Localize_String extends DoozR_I18n_Service_Localize_Abs
 
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface $registry  The DoozR_Registry instance
-     * @param string                   $locale     The locale this instance is working with
-     * @param string                   $namespace  The active namespace of this format-class
-     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     * @param object                   $translator An instance of a translator (for locale)
+     * @param DoozR_Registry_Interface $registry The DoozR_Registry instance
+     * @param string $locale The locale this instance is working with
+     * @param string $namespace The active namespace of this format-class
+     * @param object $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param object $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of this class
      * @access public
      */
     public function __construct(
@@ -285,10 +284,10 @@ class DoozR_I18n_Service_Localize_String extends DoozR_I18n_Service_Localize_Abs
         $configL10n                        = null,
         $translator                        = null
     ) {
-        // set type of format-class
+        // Set type of format-class
         $this->type = 'String';
 
-        // call parents construtor
+        // Call parents constructor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }
 }

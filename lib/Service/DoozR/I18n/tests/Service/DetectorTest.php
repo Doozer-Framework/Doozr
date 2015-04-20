@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - I18n - Test
+ * DoozR - Service - I18n - Test - Detector
  *
  * DetectorTest.php - Tests for Detector of the DoozR I18n Service.
  *
@@ -53,11 +53,12 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
+require_once 'resources/fixtures/Fixtures.php';
 
 /**
- * DoozR - Service - I18n - Test
+ * DoozR - Service - I18n - Test - Detector
  *
- * Tests for Abstract interface of the DoozR I18n Service.
+ * Tests for Detector of the DoozR I18n Service.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,27 +71,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
 class DetectorTest extends DoozR_Base_Service_Test_Abstract
 {
     /**
-     * Data required for running this test(s)
-     *
-     * @var array
-     * @access protected
-     */
-    protected static $fixtures = array(
-        'locale' => array(
-            'default' => 'en-us',
-            'valid'   => 'en-us',
-            'invalid' => 'de-11111de-de-de',
-        ),
-        'translation' => array(
-            'missing' => 'This is a not translated string.',
-        ),
-        'namespace' => array(
-            'valid' => 'default',
-        ),
-    );
-
-
-    /**
      * Prepares setup for Tests of "I18n"
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -101,27 +81,26 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
     {
         self::$serviceName = 'I18n';
         parent::setUp();
-
-        // Load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
     }
 
     /**
-     * Tests ...
+     * Test: If the service returns a valid detector instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetDetector()
+    public function testRetrieveDetectorInstanceFromService()
     {
+        // Prepare
         $detector = self::$service->getDetector();
 
+        // Assertion(s)
         $this->assertInstanceOf('DoozR_I18n_Service_Detector', $detector);
     }
 
     /**
-     * Test: is valid locale code
+     * Test: If locale validation works as expected
      * This test ensures that the validation method of the detector is capable
      * of validating a locale correctly and is able to diff between valid and
      * invalid locale strings.
@@ -130,10 +109,12 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testIsValidLocaleCode()
+    public function testLocaleValidatonAlgorithm()
     {
+        // Prepare
         $detector = self::$service->getDetector();
 
+        // Assertion(s)
         // Positive
         $this->assertTrue($detector->isValidLocaleCode('de'));
         $this->assertTrue($detector->isValidLocaleCode('en'));
@@ -154,10 +135,14 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testDetect()
+    public function testDetectingPreferredLocaleOfClient()
     {
+        // Prepare
+        /* @var DoozR_I18n_Service_Detector $detector */
         $detector = self::$service->getDetector();
         $detected = $detector->detect();
+
+        // Assertion(s)
         $this->assertInstanceOf('DoozR_I18n_Service_Detector', $detected);
     }
 
@@ -170,11 +155,13 @@ class DetectorTest extends DoozR_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testGetLocalePreferences()
+    public function testGettingDetectedLocalePreferences()
     {
+        // Prepare
         $detector    = self::$service->getDetector();
         $preferences = $detector->getLocalePreferences();
 
+        // Assertion(s)
         $this->assertArrayHasKey('locale',   $preferences);
         $this->assertArrayHasKey('language', $preferences);
         $this->assertArrayHasKey('country',  $preferences);

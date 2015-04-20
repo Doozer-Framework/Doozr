@@ -90,6 +90,16 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
     protected $name;
 
     /**
+     * An universal unique identifier.
+     * If no identifier is passed when creating an instance - an unique identifier is created
+     * and stored. We need to be able to always fingerprint an instance.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $uuid;
+
+    /**
      * The type of this service.
      *
      * @var string
@@ -113,17 +123,6 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
      */
     const TYPE_MULTIPLE = 'multiple';
 
-    protected $uuid;
-
-    public function setUuid($uuid)
-    {
-        $this->uuid = $uuid;
-    }
-
-    public function getUuid()
-    {
-        return $this->uuid;
-    }
 
     /**
      * Constructor.
@@ -139,11 +138,22 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
         self::setRegistry($arguments[0]);
         $arguments = array_slice($arguments, 1);
 
+        // Retrieve name of this service by simple logic
+        $this->setName($this->retrieveName());
+
+        // Check for automagically install autoloader
+        if ($this->autoloader === true) {
+            $this->initAutoloader($this->getName());
+        }
+
         // dispatch remaining stuff
         if ($this->hasMethod('__tearup')) {
             if ((func_num_args() - 1) > 0) {
                 call_user_func_array(
-                    array($this, '__tearup'),
+                    array(
+                        $this,
+                        '__tearup'
+                    ),
                     $arguments
                 );
             } else {
@@ -207,6 +217,54 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
     }
 
     /**
+     * Retrieves and returns the name of the service.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The name of the service
+     * @access public
+     */
+    protected function retrieveName()
+    {
+        $name  = '';
+        $class = get_called_class();
+
+        if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
+            $name = $matches[1];
+        }
+
+        return $name;
+    }
+
+    /**
+     * Sets the name of the service
+     *
+     * @param string $name The name of this service
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Fluent: Sets the name of the service
+     *
+     * @param string $name The name of this service
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function name($name)
+    {
+        $this->name = $name;
+        return $name;
+    }
+
+    /**
      * Returns the name of the service
      *
      * This method is intend to return the name of the current
@@ -218,16 +276,48 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
      */
     public function getName()
     {
-        if ($this->name === null) {
-            $class = get_called_class();
-            if (preg_match('/_+(.+)_+/', $class, $matches) > 0) {
-                $this->name = $matches[1];
-            } else {
-                $this->name = '';
-            }
-        }
-
         return $this->name;
+    }
+
+    /**
+     * Setter for uuid.
+     *
+     * @param string $uuid The uuid of the instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * Fluent: Setter for uuid.
+     *
+     * @param string $uuid The uuid of the instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function uuid($uuid)
+    {
+        $this->setUuid($uuid);
+        return $this;
+    }
+
+    /**
+     * Getter for uuid.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The uuid of the service.
+     * @access public
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
     }
 
     /**
@@ -237,7 +327,7 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
      * @return object instance of this class
      * @access protected
      */
-    protected function __desctruct()
+    protected function __destruct()
     {
         if ($this->hasMethod('__teardown')) {
             $this->__teardown();

@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
+require_once 'resources/fixtures/Fixtures.php';
 
 /**
  * DoozR - Service - I18n - Test
@@ -71,85 +72,50 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
 class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
 {
     /**
-     * Data required for running this test(s)
-     *
-     * @var array
-     * @access protected
-     */
-    protected static $fixtures = array(
-        'locale' => array(
-            'default'   => 'en-us',
-            'valid'     => 'en-us',
-            'invalid'   => 'de-11111de-de-de',
-            'available' => array(
-                'ar',
-                'de',
-                'de-at',
-                'en',
-                'en-gb',
-                'en-us',
-                'es',
-                'fr',
-                'it',
-                'ru',
-            ),
-        ),
-        'formatter' => array(
-            'Currency',
-            'Datetime',
-            'Measure',
-            'Number',
-            'String',
-        ),
-    );
-
-    /**
      * Prepares setup for Tests of "I18n"
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access protected
+     * @access public
      */
-    protected function setUp()
+    public function setUp()
     {
         self::$serviceName = 'I18n';
         parent::setUp();
-
-        // Load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
     }
 
     /**
-     * Tests if the default locale is returned correctly if no
-     * locale was passed to I18n service instance
+     * Test: If the default locale is returned correctly if no locale was passed to I18n service instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testDefaultLocale()
+    public function testRetrievingDefaultLocaleAsExpected()
     {
-        $this->assertEquals(self::$fixtures['locale']['default'], self::$service->getActiveLocale());
+        // Assertion(s)
+        $this->assertEquals(Fixtures::LOCALE_DEFAULT, self::$service->getActiveLocale());
     }
 
     /**
-     * Tests if it is possible to set a locale
+     * Test: If it is possible to set a locale
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testSetLocale()
+    public function testSetACustomLocale()
     {
-        $locale = self::$fixtures['locale']['valid'];
-
+        // Prepare
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
+
+        // Assertion(s)
         $this->assertEquals($locale, self::$service->getActiveLocale());
     }
 
     /**
-     * Tests if the service throws an exception if someone tries to set
-     * an invalid locale
+     * Test: If the service throws an exception if someone tries to set an invalid locale
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -157,49 +123,54 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
      *
      * @expectedException DoozR_I18n_Service_Exception
      */
-    public function testSetInvalidLocale()
+    public function testTryToSetAnInvalidCustomLocale()
     {
-        $locale = self::$fixtures['locale']['invalid'];
+        // Prepare
+        $locale = Fixtures::LOCALE_INVALID;
 
+        // Assertion(s)
         self::$service->setActiveLocale($locale);
     }
 
     /**
-     * Tests if the service returns an valid detector instance
+     * Test: If the service returns an valid detector instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testDetector()
+    public function testGettingDetectorInstanceFromService()
     {
+        // Assertion(s)
         $this->assertInstanceOf('DoozR_I18n_Service_Detector', self::$service->getDetector());
     }
 
     /**
-     * Tests if the service returns the correct detected locale
+     * Test: If the service returns the correct detected locale
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetClientPreferredLocale()
+    public function testRetrieveClientsPreferredLocale()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        // Prepare
+        $locale = Fixtures::LOCALE_VALID;
 
+        // Assertion(s)
         $this->assertEquals($locale, self::$service->getClientPreferredLocale());
     }
 
     /**
-     * Tests if the service returns the correct currency formatter
+     * Test: If the service returns the correct currency localizer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetCurrencyLocalizer()
+    public function testGettingCurrencyLocalizerFromService()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var DoozR_I18n_Service_Localize_Currency $currency */
@@ -214,15 +185,15 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
     }
 
     /**
-     * Tests if the service returns the correct datetime formatter
+     * Test: If the service returns the correct datetime localizer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetDatetimeLocalizer()
+    public function testGettingDatetimeLocalizerFromService()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var DoozR_I18n_Service_Localize_Datetime $datetime */
@@ -237,15 +208,15 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
     }
 
     /**
-     * Tests if the service returns the correct measure formatter
+     * Test: If the service returns the correct measure localizer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetMeasureLocalizer()
+    public function testGettingMeasureLocalizerFromService()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var DoozR_I18n_Service_Localize_Measure $measure */
@@ -260,15 +231,15 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
     }
 
     /**
-     * Tests if the service returns the correct number formatter
+     * Test: If the service returns the correct number localizer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetNumberLocalizer()
+    public function testGettingNumberLocalizerFromService()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var DoozR_I18n_Service_Localize_Number $number */
@@ -283,15 +254,15 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
     }
 
     /**
-     * Tests if the service returns the correct string formatter
+     * Test: If the service returns the correct string localizer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetStringLocalizer()
+    public function testGettingStringLocalizerFromService()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var DoozR_I18n_Service_Localize_String $string */
@@ -305,35 +276,56 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
         $this->assertEquals($locale, $string->getLocale());
     }
 
-
-    public function testGetLocalizerWithRedirectLocale()
+    /**
+     * Test: If the service returns the correct string localizer for redirect locale.
+     * @example If the locale detected is "en-gb" which is redirected to "en-us" then all localizer will be redirected
+     *          too! This test ensures that it works as expected.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testGettingLocalizerForARedirectLocale()
     {
-        #$locale = 'en-gb';
-        #self::$service->setActiveLocale($locale);
+        $locale = 'en-gb';
+        self::$service->setActiveLocale($locale);
 
         /* @var DoozR_I18n_Service_Localize_String $string */
-        #$string = self::$service->getLocalizer('String');
+        $string = self::$service->getLocalizer('String');
 
-        #$this->assertInstanceOf(
-        #    'DoozR_I18n_Service_Localize_String',
-        #    $string
-        #);
+        $this->assertInstanceOf(
+            'DoozR_I18n_Service_Localize_String',
+            $string
+        );
 
-        #$this->assertEquals('en', $string->getLocale());
+        $this->assertEquals('en-us', $string->getLocale());
     }
 
-
-    public function testGetAvailableLocales()
+    /**
+     * Test: If the service returns the correct string localizer for redirect locale.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testGettingAvailableLocales()
     {
         $this->assertEquals(
             object_to_array(self::$service->getAvailableLocales()),
-            self::$fixtures['locale']['available']
+            Fixtures::$localesAvailable
         );
     }
 
+    /**
+     * Test: Add an locale to collection of available locales
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
     public function testSetAvailableLocales()
     {
-        $locales = self::$fixtures['locale']['available'];
+        $locales = Fixtures::$localesAvailable;
         $locales[] = 'nl';
 
         $this->assertEquals(
@@ -346,46 +338,96 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
         );
     }
 
-    public function testSetAndGetEncoding()
+    /**
+     * Test: Set an encoding and retrieve it back.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testSetAndGetAnCustomEncoding()
     {
-        $encoding = 'ISO-8859-1';
+        $encoding = DoozR_I18n_Service::ENCODING_ISO_8859_1;
+        $this->assertTrue(self::$service->setEncoding($encoding));
+        $this->assertEquals($encoding, self::$service->getEncoding());
 
+        $encoding = DoozR_I18n_Service::ENCODING_UTF_8;
         $this->assertTrue(self::$service->setEncoding($encoding));
         $this->assertEquals($encoding, self::$service->getEncoding());
     }
 
-    public function testUseDomain()
+    /**
+     * Test: Set a domain.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testUseDomainFromPhptalInterfaceFulfillment()
     {
+        // Prepare
         $domain = 'foo';
 
+        // Assertion(s)
         $this->assertEquals(array($domain), self::$service->useDomain($domain));
     }
 
-    public function testSetVar()
+    /**
+     * Test: If setting a key value pair works.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testSetVarFromPhptalInterfaceFulfillment()
     {
+        // Prepare
         $key   = 'Foo';
         $value = 'Bar';
 
+        // Assertion(s)
         $this->assertTrue(self::$service->setVar($key, $value));
     }
 
-    public function testTranslate()
+    /**
+     * Test: If translation works as expected. One time with html encoding one time without.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testTranslateAnKeyToDefaultLocaleEnUs()
     {
+        // Prepare
         $key = 'Foo <p>Bar</p>';
+
+        // Assertion(s)
         $this->assertEquals($key, self::$service->translate($key, false));
-        $this->assertEquals('Foo <p>Bar</p>', self::$service->translate($key, true));
+        $this->assertEquals(htmlentities($key), self::$service->translate($key, true));
     }
 
-    public function testSetLanguage()
+    /**
+     * Test: If setting language works.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function testSetLanguageFromPhptalInterfaceFulfillment()
     {
-        $language = self::$fixtures['locale']['valid'];
+        $language = Fixtures::LOCALE_VALID;
         $this->assertTrue(self::$service->setLanguage($language));
     }
 
     /**
+     * Test: If the install routine is functional.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      * @covers DoozR_I18n_Service::install()
      */
-    public function testInstall()
+    public function testInstallRoutineForTranslationShortcuts()
     {
         try {
             $result = self::$service->install();

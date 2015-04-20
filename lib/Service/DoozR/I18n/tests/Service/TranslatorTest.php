@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - I18n - Test
+ * DoozR - Service - I18n - Test - Translator
  *
  * TranslatorTest.php - Tests for Translator of the DoozR I18n Service.
  *
@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
+require_once 'resources/fixtures/Fixtures.php';
 
 /**
  * DoozR - Service - I18n - Test
@@ -70,43 +71,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
 class TranslatorTest extends DoozR_Base_Service_Test_Abstract
 {
     /**
-     * Data required for running this test(s)
-     *
-     * @var array
-     * @access protected
-     */
-    protected static $fixtures = array(
-        'locale' => array(
-            'default'   => 'en-us',
-            'valid'     => 'en-us',
-            'invalid'   => 'de-11111de-de-de',
-            'available' => array(
-                'ar',
-                'de',
-                'de-at',
-                'en',
-                'en-gb',
-                'en-us',
-                'es',
-                'fr',
-                'it',
-                'ru',
-            ),
-        ),
-        'formatter' => array(
-            'Currency',
-            'Datetime',
-            'Measure',
-            'Number',
-            'String',
-        ),
-        'translation' => array(
-            'missing' => 'This is a not translated string.',
-        ),
-    );
-
-
-    /**
      * Prepares setup for Tests of "I18n"
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -117,21 +81,19 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
     {
         self::$serviceName = 'I18n';
         parent::setUp();
-
-        // Load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
     }
 
     /**
-     * Tests if the service returns the correct translator
+     * Test: If the service returns the correct translator
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetTranslator()
+    public function testGettingTranslatorInstanceFromService()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        // Prepare
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         $translator = self::$service->getTranslator();
@@ -141,19 +103,20 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
             $translator
         );
 
+        // Assertion(s)
         $this->assertEquals($locale, $translator->getLocale());
     }
 
     /**
-     * Tests if the service returns the correct translator
-     * if a locale with redirect was passed.
+     * Test: If the service returns the correct translator if a locale with redirect was passed.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function testGetTranslatorForRedirectLocale()
+    public function testGettingTranslatorForRedirectLocale()
     {
+        // Prepare
         $translator = self::$service->getTranslator('en-gb');
 
         $this->assertInstanceOf(
@@ -161,69 +124,89 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
             $translator
         );
 
-        $this->assertEquals('en', $translator->getLocale());
+        // Assertion(s)
+        $this->assertEquals('en-us', $translator->getLocale());
     }
 
     /**
-     * Tests that a passed string isn't altered by translator
-     * if the string isn't translated yet
+     * Test: That a passed string isn't altered by translator if the string isn't translated yet.
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
     public function testTranslatorDoesNotAlterMissingTranslation()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        // Prepare
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
-        $input = self::$fixtures['translation']['missing'];
+        $input = Fixtures::KEY_MISSING;
 
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
 
+        // Assertion(s)
         $this->assertEquals($input, $translator->_($input));
     }
 
     /**
-     * Tests if the try to translate a string without setting
-     * a namespace first will throw an exception as warning for
+     * Test: If the try to translate a string without setting a namespace first will throw an exception as warning for
      * the developer
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      * @expectedException DoozR_I18n_Service_Exception
      */
     public function testTranslationWithoutNamespaceThrowsException()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        // Prepare
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
         $translator = self::$service->getTranslator();
         $translator->_('hour');
     }
 
     /**
-     * Tests if simple translation will be successful
+     * Test: If simple translation will be successful
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    public function testTranslate()
+    public function testTranslateTheKeyYes()
     {
-        $locale = self::$fixtures['locale']['valid'];
+        // Prepare
+        $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
 
-        $this->assertEquals('Yes', $translator->_('Yes'));
+        // Assertion(s)
+        $this->assertEquals('Ja', $translator->_('Yes'));
     }
 
     /**
-     * Tests if a more complex translation will be successful
+     * Test: If a more complex translation will be successful
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    public function testTranslateWithArguments()
+    public function testTranslateAKeyWithValuesInserted()
     {
-        #$locale = self::$fixtures['locale']['valid'];
-        #self::$service->setActiveLocale('en_US');
+        // Prepare
+        $locale = Fixtures::LOCALE_VALID;
+        self::$service->setActiveLocale($locale);
 
+        /* @var DoozR_I18n_Service_Translator $translator*/
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
-
         $translation = $translator->_('x_books_in_my_y_shelves', array(5, 23));
 
+        // Assertion(s)
         $this->assertContains('5', $translation);
         $this->assertContains('23', $translation);
         $this->assertNotContains('666', $translation);

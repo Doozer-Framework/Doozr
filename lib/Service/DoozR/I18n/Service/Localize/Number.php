@@ -4,7 +4,7 @@
 /**
  * DoozR - I18n - Service - Localize - Number
  *
- * Number.php - Number formatter
+ * Number.php - This localizer is responsible to localize (L10N) values of type number.
  *
  * PHP versions 5.4
  *
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Localize/Abstract
 /**
  * DoozR - I18n - Service - Localize - Number
  *
- * Localize-Number-Class
+ * This localizer is responsible to localize (L10N) values of type number.
  *
  * @category   DoozR
  * @package    DoozR_Service
@@ -70,15 +70,15 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Localize/Abstract
  */
 class DoozR_I18n_Service_Localize_Number extends DoozR_I18n_Service_Localize_Abstract
 {
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC INTERFACES
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to format a given value as percentage value.
      *
      * @param string  $value      The value to format as percentage value
-     * @param bool $showSymbol TRUE to show %-symbol, FALSE to hide
+     * @param bool    $showSymbol TRUE to show %-symbol, FALSE to hide
      * @param string  $spacer     The spacer placed between value and symbol
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -90,9 +90,9 @@ class DoozR_I18n_Service_Localize_Number extends DoozR_I18n_Service_Localize_Abs
         // format the given value
         $formatted = number_format(
             $value,
-            $this->config->currency->minor_unit(),
-            $this->config->currency->decimal_point(),
-            $this->config->currency->thousands_seperator()
+            $this->config->currency->minor_unit,
+            $this->config->currency->decimal_point,
+            $this->config->currency->thousands_seperator
         );
 
         if ($showSymbol) {
@@ -103,12 +103,11 @@ class DoozR_I18n_Service_Localize_Number extends DoozR_I18n_Service_Localize_Abs
         return $formatted;
     }
 
-
     /**
      * This method is intend to format a given value as percentage value.
      *
-     * @param string  $value                 The value to format as percentage value
-     * @param bool $floatingPointNotation Controls if the number should be formatted by floating point notation
+     * @param string $value                 The value to format as percentage value
+     * @param bool   $floatingPointNotation Controls if the number should be formatted by floating point notation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The formatted percentage value
@@ -116,16 +115,12 @@ class DoozR_I18n_Service_Localize_Number extends DoozR_I18n_Service_Localize_Abs
      */
     public function number($value, $floatingPointNotation = false)
     {
-        // format the given value
+        // Format the given value
         return number_format(
             $value,
-            ($floatingPointNotation) ? $this->config->currency->minor_unit() : 0,
-            $this->config->currency->decimal_point(),
-            $this->config->currency->thousands_seperator()
+            ($floatingPointNotation) ? $this->config->currency->minor_unit : 0,
+            $this->config->currency->decimal_point,
+            $this->config->currency->thousands_seperator
         );
     }
-
-    /*******************************************************************************************************************
-     * \\ END PUBLIC INTERFACES
-     ******************************************************************************************************************/
 }

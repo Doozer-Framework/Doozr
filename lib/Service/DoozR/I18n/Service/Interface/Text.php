@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Interface.php';
 
 /**
  * DoozR - I18n - Service - Interface - Text
@@ -69,58 +70,74 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Abstrac
  * @link       http://clickalicious.github.com/DoozR/
  */
 class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abstract
+    implements
+    DoozR_I18n_Service_Interface_Interface
 {
     /**
-     * Path to translation files (filesystem)
-     *
-     * @var string
-     * @access protected
-     */
-    protected $path;
-
-    /**
-     * Name of the folder where LC_MESSAGES exists
+     * Name of the directory containing the LC_MESSAGES directory.
+     * @example If the path to LC_MESSAGES is /var/foo/locales/en_US/Text/LC_MESSAGES then the value of
+     *          TRANSLATION_FILES_DIRECTORY must be "Text" without the quotation marks.
      *
      * @var string
      * @access public
      * @const
      */
-    const FOLDERNAME = 'Text';
+    const TRANSLATION_FILES_DIRECTORY = 'Text';
 
     /**
-     * Extension of the translation files
+     * Extension of translation files of this interface.
      *
      * @var string
      * @access public
      * @const
      */
-    const EXTENSION = 'ini';
+    const TRANSLATION_FILES_EXTENSION = 'ini';
 
 
     /*------------------------------------------------------------------------------------------------------------------
-    | PUBLIC INTERFACES
+    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructor.
+     *
+     * @param array $config The config for this type of interface
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access protected
+     */
+    protected function __construct(array $config)
+    {
+        /* @todo Remove constructor! */
+        // Override simple by setter
+        $this->setCacheEnabled(true);
+
+        // Call parents constructor
+        parent::__construct($config);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Looks for the passed looks up the translation of the given combination of values
      *
-     * This method is intend to look-up the translation of the given combination of values.
-     *
      * @param string $string    The string to translate
-     * @param string $key       The key (hash) identifier for translation-table
+     * @param string $uuid      The uuid of the translation-table
      * @param mixed  $arguments The arguments for inserting values into translation (vsprintf) or null
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The translation of the input or the input string on failure
      * @access public
      */
-    public function lookup($string, $key = null, $arguments = null)
+    public function lookup($string, $uuid = null, $arguments = null)
     {
-        // cause of german umlauts and special chars in identifier we need to use crc as index
+        // Cause of german umlauts and special chars in identifier we need to use crc as index
         $id = md5($string);
 
-        // get translation by "string" and the corresponding "key"
-        $string = (isset(self::$translationTables[$key][$id])) ? self::$translationTables[$key][$id] : $string;
+        // Get translation by "string" and the corresponding "key"
+        $string = (isset(self::$translationTables[$uuid][$id])) ? self::$translationTables[$uuid][$id] : $string;
 
         if ($arguments !== null) {
             $string = vsprintf($string, $arguments);
@@ -148,10 +165,10 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
      */
     protected function buildTranslationtable($locale, array $namespaces)
     {
-        // the resulting array
+        // The resulting array
         $result = array();
 
-        // assume init was done already
+        // Assume init was done already
         $fresh = false;
 
         // check if locale was prepared before
@@ -160,16 +177,16 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
             $fresh = true;
         }
 
-        // iterate over given namespace(s) and parse them
+        // Iterate namespaces and parse ...
         foreach ($namespaces as $namespace) {
             // was this namespace in the current locale loaded before
             if (!$fresh && isset(self::$translations[$locale][$namespace])) {
-                // we can reuse the exisiting
+                // we can reuse the existing
                 $result = array_merge($result, self::$translations[$locale][$namespace]);
             } else {
                 // load fresh from file
-                $translationFile = $this->path . $locale . DIRECTORY_SEPARATOR . self::FOLDERNAME .
-                    DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . $namespace . '.' . self::EXTENSION;
+                $translationFile = $this->path . $locale . DIRECTORY_SEPARATOR . self::TRANSLATION_FILES_DIRECTORY .
+                    DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . $namespace . '.' . self::TRANSLATION_FILES_EXTENSION;
                 $result = array_merge($result, $this->_parseTranslationfile($translationFile));
             }
         }
@@ -193,7 +210,6 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
     private function _parseTranslationfile($filename)
     {
         if (!file_exists($filename) || !is_readable($filename)) {
-            include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Exception.php';
             throw new DoozR_I18n_Service_Exception(
                 sprintf('Translationfile: "%s" does not exist or isn\'t readable.', $filename)
             );
@@ -221,26 +237,5 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
 
         // return parsed array
         return $result;
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Constructor.
-     *
-     * @param array $config The config for this type of interface
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access protected
-     */
-    protected function __construct(array $config)
-    {
-        // store the path to
-        $this->path = $config['path'];
-
-        // call parents constructor
-        parent::__construct($config);
     }
 }

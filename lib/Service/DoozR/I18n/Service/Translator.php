@@ -4,7 +4,12 @@
 /**
  * DoozR - Service - I18n
  *
- * Translator.php - Translator is responsible for translation within module I18n
+ * Translator.php - Translator is responsible for translation within module I18n.
+ * The translator has the following responsebilities:
+ *
+ *  - A
+ *  - B
+ *  - C
  *
  * PHP versions 5.4
  *
@@ -71,7 +76,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
 class DoozR_I18n_Service_Translator extends DoozR_Base_Class
 {
     /**
-     * Real locale of the translator
+     * Active locale
      *
      * @var string
      * @access protected
@@ -79,7 +84,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     protected $locale;
 
     /**
-     * The encoding for this locale
+     * Active encoding
      *
      * @var string
      * @access protected
@@ -87,12 +92,56 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     protected $encoding;
 
     /**
-     * Locale we use for translation if redirect runtimeEnvironment enabled
+     * Locale we use for translation if redirect is used
      *
      * @var string
      * @access protected
      */
     protected $redirectLocale;
+
+    /**
+     * Cache state.
+     * Either TRUE = enabled || FALSE = disabled
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $cacheEnabled;
+
+    /**
+     * Lifetime of cached elements.
+     *
+     * @var int
+     * @access protected
+     */
+    protected $cacheLifetime;
+
+    /**
+     * Path to translation files.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $pathToTranslations;
+
+    /**
+     * The NAME of the translator interface:
+     * Gettext, Text, ...
+     *
+     * @var string
+     * @access protected
+     */
+    protected $translatorInterface;
+
+    /**
+     * Translator-interface instances.
+     * Can be either: Gettext, Text, ...
+     *
+     * @var DoozR_I18n_Service_Interface_Interface[]
+     * @access protected
+     * @static
+     */
+    protected static $translatorInterfaces = array();
 
     /**
      * I18n-configuration of the I18n-Service
@@ -117,15 +166,6 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @access protected
      */
     protected $namespaces = array();
-
-    /**
-     * Translator-interface can be either "Text" or "Gettext" or "MySQL"
-     *
-     * @var DoozR_I18n_Service_Interface_Abstract[]
-     * @access protected
-     * @static
-     */
-    protected static $translatorInterface = array();
 
     /**
      * Key identifier for translation-table
@@ -164,8 +204,164 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
 
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN PUBLIC INTERFACES
+     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      +----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructor
+     *
+     * This method is intend to act as constructor.
+     *
+     * @param string                 $locale     The locale this instance is working with
+     * @param string                 $encoding   The encoding for this instance
+     * @param DoozR_Config_Interface $configI18n An instance of DoozR_Config_Ini holding the I18n-config
+     * @param DoozR_Config_Interface $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \DoozR_I18n_Service_Translator Instance of this class
+     * @access public
+     */
+    public function __construct(
+        $locale,
+        $encoding,
+        DoozR_Config_Interface $configI18n,
+        DoozR_Config_Interface $configL10n
+    ) {
+        $this
+            ->locale($locale)
+            ->redirectLocale(
+                (true === isset($configL10n->redirect) && true === isset($configL10n->redirect->target)) ?
+                    $configL10n->redirect->target :
+                    null
+            )
+            ->encoding($encoding)
+            ->cacheEnabled($configI18n->cache->enabled)
+            ->cacheLifetime($configI18n->cache->lifetime)
+            ->pathToTranslations($configI18n->i18n->path)
+            ->translatorInterface(
+                ucfirst(strtolower($configI18n->i18n->translator->interface))
+            )
+            ->configI18n($configI18n)
+            ->configL10n($configL10n);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+     | PUBLIC API
+     +----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for translationTableUid.
+     *
+     * @param string $translationTableUid The uuid to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setTranslationTableUid($translationTableUid)
+    {
+        $this->translationTableUid = $translationTableUid;
+    }
+
+    /**
+     * Setter for translationTableUid.
+     *
+     * @param string $translationTableUid The uuid to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function translationTableUid($translationTableUid)
+    {
+        $this->setTranslationTableUid($translationTableUid);
+        return $this;
+    }
+
+    /**
+     * Getter for translationTableUid.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The uuid if set, otherwise NULL
+     * @access public
+     */
+    public function getTranslationTableUid()
+    {
+        return $this->translationTableUid;
+    }
+
+    /**
+     * Setter for $translatorInterface.
+     *
+     * @param string $translatorInterface The translatorInterface to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setTranslatorInterface($translatorInterface)
+    {
+        $this->translatorInterface = $translatorInterface;
+    }
+
+    /**
+     * Fluent setter for $translatorInterface.
+     *
+     * @param string $translatorInterface The translatorInterface to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function translatorInterface($translatorInterface)
+    {
+        $this->setTranslatorInterface($translatorInterface);
+        return $this;
+    }
+
+    /**
+     * Returns the active translatorInterface of the translator instance
+     *
+     * This method is intend to return the active translatorInterface of
+     * the translator instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The active translatorInterface if set, otherwise NULL
+     * @access public
+     */
+    public function getTranslatorInterface()
+    {
+        return $this->translatorInterface;
+    }
+
+    /**
+     * Setter for $locale.
+     *
+     * @param string $locale The locale to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+    }
+
+    /**
+     * Fluent setter for $locale.
+     *
+     * @param string $locale The locale to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function locale($locale)
+    {
+        $this->setLocale($locale);
+        return $this;
+    }
 
     /**
      * Returns the active locale of the translator instance
@@ -180,6 +376,314 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * Setter for $redirectLocale.
+     *
+     * @param string $redirectLocale The redirectLocale to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setRedirectLocale($redirectLocale)
+    {
+        $this->redirectLocale = $redirectLocale;
+    }
+
+    /**
+     * Fluent setter for $redirectLocale.
+     *
+     * @param string $redirectLocale The redirectLocale to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function redirectLocale($redirectLocale)
+    {
+        $this->setRedirectLocale($redirectLocale);
+        return $this;
+    }
+
+    /**
+     * Returns the active redirectLocale of the translator instance
+     *
+     * This method is intend to return the active redirectLocale of
+     * the translator instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The active redirectLocale if set, otherwise NULL
+     * @access public
+     */
+    public function getRedirectLocale()
+    {
+        return $this->redirectLocale;
+    }
+
+    /**
+     * Setter for $encoding.
+     *
+     * @param string $encoding The encoding to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setEncoding($encoding)
+    {
+        $this->encoding = $encoding;
+    }
+
+    /**
+     * Fluent setter for $encoding.
+     *
+     * @param string $encoding The encoding to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function encoding($encoding)
+    {
+        $this->setEncoding($encoding);
+        return $this;
+    }
+
+    /**
+     * Returns the active encoding of the translator instance
+     *
+     * This method is intend to return the active encoding of
+     * the translator instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The active encoding if set, otherwise NULL
+     * @access public
+     */
+    public function getEncoding()
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * Setter for $configI18n.
+     *
+     * @param string $configI18n The configI18n to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setConfigI18n($configI18n)
+    {
+        $this->configI18n = $configI18n;
+    }
+
+    /**
+     * Fluent setter for $configI18n.
+     *
+     * @param string $configI18n The configI18n to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function configI18n($configI18n)
+    {
+        $this->setConfigI18n($configI18n);
+        return $this;
+    }
+
+    /**
+     * Returns the active configI18n of the translator instance
+     *
+     * This method is intend to return the active configI18n of
+     * the translator instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The active configI18n if set, otherwise NULL
+     * @access public
+     */
+    public function getConfigI18n()
+    {
+        return $this->configI18n;
+    }
+
+    /**
+     * Setter for $configL10n.
+     *
+     * @param string $configL10n The configL10n to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setConfigL10n($configL10n)
+    {
+        $this->configL10n = $configL10n;
+    }
+
+    /**
+     * Fluent setter for $configL10n.
+     *
+     * @param string $configL10n The configL10n to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function configL10n($configL10n)
+    {
+        $this->setConfigL10n($configL10n);
+        return $this;
+    }
+
+    /**
+     * Returns the active configL10n of the translator instance
+     *
+     * This method is intend to return the active configL10n of
+     * the translator instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The active configL10n if set, otherwise NULL
+     * @access public
+     */
+    public function getConfigL10n()
+    {
+        return $this->configL10n;
+    }
+
+    /**
+     * Setter for $cacheEnabled.
+     *
+     * @param string $cacheEnabled The cacheEnabled to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setCacheEnabled($cacheEnabled)
+    {
+        $this->cacheEnabled = $cacheEnabled;
+    }
+
+    /**
+     * Fluent setter for $cacheEnabled.
+     *
+     * @param string $cacheEnabled The cacheEnabled to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function cacheEnabled($cacheEnabled)
+    {
+        $this->setCacheEnabled($cacheEnabled);
+        return $this;
+    }
+
+    /**
+     * Returns the active cacheEnabled of the translator instance
+     *
+     * This method is intend to return the active cacheEnabled of
+     * the translator instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The active cacheEnabled if set, otherwise NULL
+     * @access public
+     */
+    public function getCacheEnabled()
+    {
+        return $this->cacheEnabled;
+    }
+
+    /**
+     * Setter for $cacheLifetime.
+     *
+     * @param string $cacheLifetime The cacheLifetime to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setCacheLifetime($cacheLifetime)
+    {
+        $this->cacheLifetime = $cacheLifetime;
+    }
+
+    /**
+     * Fluent setter for $cacheLifetime.
+     *
+     * @param string $cacheLifetime The cacheLifetime to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function cacheLifetime($cacheLifetime)
+    {
+        $this->setCacheLifetime($cacheLifetime);
+        return $this;
+    }
+
+    /**
+     * Returns the active cacheLifetime of the translator instance
+     *
+     * This method is intend to return the active cacheLifetime of
+     * the translator instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The active cacheLifetime if set, otherwise NULL
+     * @access public
+     */
+    public function getCacheLifetime()
+    {
+        return $this->cacheLifetime;
+    }
+
+    /**
+     * Setter for $pathToTranslations.
+     *
+     * @param string $pathToTranslations The pathToTranslations to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setPathToTranslations($pathToTranslations)
+    {
+        $this->pathToTranslations = $pathToTranslations;
+    }
+
+    /**
+     * Fluent setter for $pathToTranslations.
+     *
+     * @param string $pathToTranslations The pathToTranslations to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function pathToTranslations($pathToTranslations)
+    {
+        $this->setPathToTranslations($pathToTranslations);
+        return $this;
+    }
+
+    /**
+     * Returns the active pathToTranslations of the translator instance
+     *
+     * This method is intend to return the active pathToTranslations of
+     * the translator instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The active pathToTranslations if set, otherwise NULL
+     * @access public
+     */
+    public function getPathToTranslations()
+    {
+        return $this->pathToTranslations;
     }
 
     /**
@@ -210,19 +714,18 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      */
     public function setNamespace($namespace)
     {
-        // check if is array
+        // Check if is array
         if (is_string($namespace)) {
             // and make namespace an array if not
             $namespace = array($namespace);
         }
 
-        // store
-        $this->namespaces = $namespace;
+        // Store
+        $this->setNamespaces($namespace);
 
         // and trigger namespace changed
         $this->namespaceChanged();
 
-        // return result
         return true;
     }
 
@@ -239,11 +742,11 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      */
     public function addNamespace($namespace)
     {
-        // assume no operation
-        $result = in_array($namespace, $this->namespaces);
+        // Assume no operation
+        $result = in_array($namespace, $this->getNamespaces());
 
-        // check if not already set
-        if (!$result) {
+        // Check if not already set
+        if (false !== $result) {
 
             // make array for iteration
             if (is_string($namespace)) {
@@ -252,19 +755,31 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
 
             // iterate over namespaces and
             foreach ($namespace as $singleNamespace) {
-                // store namespace and return result
+                // store namespace
                 $this->namespaces[] = $singleNamespace;
             }
 
-            // namespace changed
+            // Namespace add = namespace changed event
             $this->namespaceChanged();
 
-            // success
             $result = true;
         }
 
-        // return the result
         return $result;
+    }
+
+    /**
+     * Setter for namespaces
+     *
+     * @param array $namespaces The namespaces to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setNamespaces(array $namespaces)
+    {
+        $this->namespaces = $namespaces;
     }
 
     /**
@@ -276,7 +791,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @return array List of active namespaces
      * @access public
      */
-    public function getNamespace()
+    public function getNamespaces()
     {
         return $this->namespaces;
     }
@@ -394,7 +909,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN TOOLS + HELPER
+     | TOOLS & HELPER
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -406,20 +921,25 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      */
     protected function namespaceChanged()
     {
-        // init interface for translation
-        #if (!self::$translatorInterface) {
-            self::$translatorInterface[$this->encoding] = $this->getTranslatorInterface();
-        #}
+        // Get locale we target (performance)
+        $encoding       = $this->getEncoding();
+        $redirectLocale = $this->getRedirectLocale();
 
-        $locale = ($this->redirectLocale) ? $this->redirectLocale : $this->locale;
+        // Init interface for translation
+        if ((!self::$translatorInterfaces) || (false === isset(self::$translatorInterfaces[$encoding]))) {
+            self::$translatorInterfaces[$encoding] = $this->translatorInterfaceFactory();
+        }
 
-        // set the new namespace and retrieve key to translationtable
-        $this->translationTableUid = self::$translatorInterface[$this->encoding]->initLocaleNamespace(
-            $locale,
-            $this->namespaces
+        $locale = ($redirectLocale !== null) ? $redirectLocale : $this->getLocale();
+
+        // Set the new namespace and retrieve key to translationtable
+        $this->setTranslationTableUid(
+            self::$translatorInterfaces[$encoding]->initLocaleNamespace(
+                $locale,
+                $this->getNamespaces()
+            )
         );
 
-        // success
         return true;
     }
 
@@ -432,28 +952,26 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @return DoozR_I18n_Service_Interface_Gettext|DoozR_I18n_Service_Interface_Text An instance of Gettext or Text I
      * @access protected
      */
-    protected function getTranslatorInterface()
+    protected function translatorInterfaceFactory()
     {
-        // Get type of translator interface from general module configuration
-        $interfaceType = $this->configI18n->i18n->translator->mode;
-
-        // combine some parts to a config for the interface
+        // Combine some parts to a config for the interface
         $config = array(
-            'path'     => $this->configI18n->i18n->path,
-            'cache'    => array(
-                'enabled'  => $this->configI18n->cache->enabled,
-                'lifetime' => $this->configI18n->cache->lifetime
+            'path' => $this->getPathToTranslations(),
+            'cache' => array(
+                'enabled'  => $this->getCacheEnabled(),
+                'lifetime' => $this->getCacheLifetime()
             ),
-            'encoding' => $this->encoding,
+            'encoding' => $this->getEncoding(),
         );
 
-        // include required file -> NO autoloading -> performance!
-        include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/'.$interfaceType.'.php';
+        // Include required file -> NO autoloading -> cause of performance!
+        include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/' .
+            $this->getTranslatorInterface() . '.php';
 
-        // combine classname
-        $interfaceClass = 'DoozR_I18n_Service_Interface_'.$interfaceType;
+        // Combine classname
+        $interfaceClass = 'DoozR_I18n_Service_Interface_' . $this->getTranslatorInterface();
 
-        // instanciate and return instance
+        // Instanciate and return instance
         return $interfaceClass::getInstance($config);
     }
 
@@ -473,6 +991,8 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      */
     protected function translate($key, $arguments = null, $mode = self::MODE_TRANSLATE)
     {
+        $encoding = $this->getEncoding();
+
         if ($this->hasNamespace() === false) {
             throw new DoozR_I18n_Service_Exception(
                 'Translation without namespace is not possible. Please set a namespace via setNamespace(...) ' .
@@ -480,21 +1000,22 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
             );
         }
 
+        /*
         // Check if translator is already initialized
-        if (!self::$translatorInterface[$this->encoding]) {
-            self::$translatorInterface[$this->encoding] = $this->getTranslatorInterface();
+        if (!self::$translatorInterfaces[$encoding]) {
+            self::$translatorInterfaces[$encoding] = $this->translatorInterfaceFactory();
         }
+        */
 
         // Translate
-        $translation = self::$translatorInterface[$this->encoding]->lookup(
+        $translation = self::$translatorInterfaces[$encoding]->lookup(
             $key,
-            $this->translationTableUid,
+            $this->getTranslationTableUid(),
             $arguments
         );
 
         // encode result? => check runtimeEnvironment
-        /*
-        switch ($runtimeEnvironment) {
+        switch ($mode) {
         case self::MODE_TRANSLATE_ENCODE:
             $translation = htmlspecialchars($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5 , 'UTF-8');
             break;
@@ -503,43 +1024,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
             $translation = htmlentities($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5 , 'UTF-8', false);
             break;
         }
-        */
 
-        // return the result
         return $translation;
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-     | BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     +----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Constructor
-     *
-     * This method is intend to act as constructor.
-     *
-     * @param string                 $locale     The locale this instance is working with
-     * @param string                 $encoding   The encoding for this instance
-     * @param DoozR_Config_Interface $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param DoozR_Config_Interface $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_I18n_Service_Translator Instance of this class
-     * @access public
-     */
-    public function __construct(
-        $locale,
-        $encoding,
-        DoozR_Config_Interface $configI18n,
-        DoozR_Config_Interface $configL10n
-    ) {
-        // store the locale of this instance assume no redirect -> work on given locale
-        $this->locale         = $locale;
-        $this->encoding       = $encoding;
-        $this->redirectLocale = (isset($configL10n->redirect)) ? $configL10n->redirect->target() : null;
-
-        // store configurations
-        $this->configI18n = $configI18n;
-        $this->configL10n = $configL10n;
     }
 }
