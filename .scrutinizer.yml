@@ -16,3 +16,7 @@ tools:
     php_cpd:
         enabled: true
         excluded_dirs: [docs, tests, bin]
+checks:
+    php:
+        code_rating: true
+        duplication: true
