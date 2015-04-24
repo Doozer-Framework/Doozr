@@ -202,7 +202,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         // check if rerun is given (e.g. to support unit-testing on each run with fresh bootstrap!)
         // @see: http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
         if ($rerun === true) {
-            // Start init-stack orgy ...
+            // Start init-stack ...
             if (!
                 (
                     self::initRegistry() &&
@@ -219,6 +219,11 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
                     self::initDebug() &&
                     self::initSecurity() &&
                     self::initRequest() &&
+                    (
+                        self::$registry->getLogger()->debug(
+                            'Runtime environment: ' . self::$registry->getRequest()->getRuntimeEnvironment()
+                        )
+                    ) &&
                     self::initResponse() &&
                     self::initFrontController() &&
                     self::initBackController() &&
