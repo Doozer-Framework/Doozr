@@ -3,7 +3,7 @@
 ![Logo of Doozr](docs/logo-large.png)  
 The **lightweight** PHP-Framework for **high-performance** websites  
 
-| [![Build Status](https://travis-ci.org/clickalicious/DoozR.svg?branch=master)](https://travis-ci.org/clickalicious/DoozR) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/DoozR.svg)](https://scrutinizer-ci.com/g/clickalicious/DoozR/) 	| [![clickalicious premium](https://img.shields.io/badge/clickalicious-premium-green.svg?style=flat)](https://www.clickalicious.de/) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/DoozR.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause) 	|
+| [![Build Status](https://img.shields.io/travis/clickalicious/DoozR.svg)](https://travis-ci.org/clickalicious/DoozR) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/DoozR.svg)](https://scrutinizer-ci.com/g/clickalicious/DoozR/) 	| [![clickalicious premium](https://img.shields.io/badge/clickalicious-premium-green.svg?style=flat)](https://www.clickalicious.de/) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/DoozR.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause) 	|
 |---	|---	|---	|---	|
 | [![GitHub issues](https://img.shields.io/github/issues/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/DoozR/issues) 	| [![Coverage Status](https://coveralls.io/repos/clickalicious/DoozR/badge.svg)](https://coveralls.io/r/clickalicious/DoozR)  	| [![GitHub release](https://img.shields.io/github/release/clickalicious/DoozR.svg?style=flat)](https://github.com/clickalicious/DoozR/releases) 	| [![GitHub stars](https://img.shields.io/github/stars/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/DoozR/stargazers)  	|
 
