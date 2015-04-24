@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_BaseModel
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_BaseModel
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -60,8 +60,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
  * Base/master-abstract-class for building a Model
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_BaseModel
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_BaseModel
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

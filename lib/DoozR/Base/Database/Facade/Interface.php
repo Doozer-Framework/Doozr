@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Base_Database
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Base_Database
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -60,8 +60,8 @@
  * Base/master interface for building a Database-Abstraction-Layer
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Base_Database
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Base_Database
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @author     $LastChangedBy$ <doozr@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl

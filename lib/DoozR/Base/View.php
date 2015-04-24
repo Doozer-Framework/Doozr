@@ -192,7 +192,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      * @param DoozR_Base_State_Interface $requestState Whole request as state
      * @param array                      $request      The whole request as processed by "Route"
      * @param DoozR_Cache_Service        $cache        An instance of DoozR_Cache_Service
-     * @param DoozR_Config               $config       An instance of DoozR_Config with Core-Configuration
+     * @param DoozR_Config               $config       An instance of DoozR_Config with Kernel-Configuration
      * @param DoozR_Controller_Front     $front        An instance of DoozR_Front
      * @param array                      $translation  The translation required to read the request
      *

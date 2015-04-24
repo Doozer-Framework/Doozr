@@ -315,14 +315,14 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
     }
 
     /**
-     * retrieves the configuration for ORM/DBA via DoozR_Core::config()
+     * retrieves the configuration for ORM/DBA via DoozR_Kernel::config()
      *
-     * This method is intend to retrieve the configuration for ORM/DBA via DoozR_Core::config().
+     * This method is intend to retrieve the configuration for ORM/DBA via DoozR_Kernel::config().
      *
      * @param string $orm The name of the ORM to retrieve config for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Config retrieved by DoozR_Core::config()
+     * @return array Config retrieved by DoozR_Kernel::config()
      * @access protected
      * @throws DoozR_Exception
      */

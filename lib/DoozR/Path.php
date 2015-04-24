@@ -44,8 +44,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Path
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Path
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -63,8 +63,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Path/Interface.php';
  * retrieving and setting (maintaining) path's.
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Path
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Path
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

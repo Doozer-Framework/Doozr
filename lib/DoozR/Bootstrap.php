@@ -44,8 +44,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Bootstrap
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Bootstrap
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -238,7 +238,7 @@ set_exception_handler(
 | LOAD DoozR's CORE-CLASS
 +---------------------------------------------------------------------------------------------------------------------*/
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Kernel.php';
 
 
 /**

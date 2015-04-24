@@ -146,7 +146,7 @@ class DoozR_Request_Securitylayer
         // init Config_Manager for Config.ini.php
         //$this->_coreConfig = DoozR_Config_Ini::getInstance($doozrCoreConfigFile);
 
-        $this->_coreConfig = DoozR_Core::config();
+        $this->_coreConfig = DoozR_Kernel::config();
 
         //pred($this->_coreConfig->get('FRONTCONTROLLER.SANITIZE'));
 
