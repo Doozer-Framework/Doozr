@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Registry
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Registry
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -64,8 +64,8 @@ use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
  * Registry of the DoozR framework.
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Registry
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Registry
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

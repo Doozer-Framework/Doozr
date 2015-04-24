@@ -49,8 +49,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Config
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Config
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -71,8 +71,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
  * access filesystem/network the 1st time. Speedup!!!
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Config
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Config
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

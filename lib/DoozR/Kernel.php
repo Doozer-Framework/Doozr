@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Core
+ * DoozR - Kernel
  *
- * Core.php - Core class of the DoozR Framework
+ * Kernel.php - Kernel class of the DoozR Framework
  *
  * PHP versions 5.4
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Class
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Core/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Kernel/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger.php';
@@ -71,13 +71,13 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Arguments.php';
 use DebugBar\StandardDebugBar;
 
 /**
- * DoozR - Core
+ * DoozR - Kernel
  *
- * Core class of the DoozR Framework
+ * Kernel class of the DoozR Framework
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Class
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -85,9 +85,9 @@ use DebugBar\StandardDebugBar;
  * @link       http://clickalicious.github.com/DoozR/
  * @final
  */
-final class DoozR_Core extends DoozR_Base_Class_Singleton
+final class DoozR_Kernel extends DoozR_Base_Class_Singleton
     implements
-    DoozR_Interface
+    DoozR_Kernel_Interface
 {
     /**
      * Contains the starttime (core instantiated) for measurements
@@ -117,7 +117,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
     protected static $dateTime;
 
     /**
-     * Contains the default configuration container used by DoozR (Core especially)
+     * Contains the default configuration container used by DoozR (Kernel especially)
      *
      * @var string
      * @access const
@@ -135,7 +135,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @param bool $virtual TRUE to signalize DoozR that it is running virtual, default = FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Core
+     * @return \DoozR_Kernel
      * @access protected
      */
     protected function __construct($virtual = false)
@@ -156,12 +156,12 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @param bool $virtual TRUE to signalize DoozR that it is running virtual, default = FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Core The core instance
+     * @return DoozR_Kernel The core instance
      * @access public
      */
     public static function run($virtual = false)
     {
-        return DoozR_Core::getInstance($virtual);
+        return DoozR_Kernel::getInstance($virtual);
     }
 
     /**
@@ -804,7 +804,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         self::$coreExecutionTime = self::_getDateTime()->getMicrotimeDiff(self::$starttime);
 
         // log core execution time
-        self::$registry->logger->debug('Core execution-time: ' . self::$coreExecutionTime . ' seconds');
+        self::$registry->logger->debug('Kernel execution-time: ' . self::$coreExecutionTime . ' seconds');
     }
 
     /**
@@ -818,7 +818,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @return boolean False always
      * @access protected
      * @static
-     * @throws DoozR_Core_Exception
+     * @throws DoozR_Kernel_Exception
      */
     protected static function coreError($error, $fatal = true)
     {
@@ -830,7 +830,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         }
 
         // throw the core error as exception
-        throw new DoozR_Core_Exception(
+        throw new DoozR_Kernel_Exception(
             $error,
             $type
         );
@@ -867,7 +867,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @return float Microtime
      * @access public
      */
-    public static function getCoreStarttime()
+    public static function getKernelStarttime()
     {
         return self::$starttime;
     }
@@ -879,7 +879,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
      * @return float Microtime
      * @access public
      */
-    public static function getCoreExecutiontime()
+    public static function getKernelExecutiontime()
     {
         return self::$coreExecutionTime;
     }
