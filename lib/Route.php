@@ -44,8 +44,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Router
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Router
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -57,7 +57,7 @@ require_once 'DoozR/Bootstrap.php';
 require_once 'DoozR/Route.php';
 
 // Run the DoozR core to prepare base and extend PHP
-DoozR_Core::run();
+DoozR_Kernel::run();
 
 // Get registry and configuration as well
 /* @var $registry DoozR_Registry */

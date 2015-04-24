@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Core - Exception
+ * DoozR - Kernel - Exception
  *
- * Exception.php - Exception of DoozR Core
+ * Exception.php - Exception of DoozR Kernel
  *
  * PHP versions 5.4
  *
@@ -44,7 +44,7 @@
  *
  * @category   DoozR
  * @package    DoozR_Base_Exception
- * @subpackage DoozR_Base_Exception_Core
+ * @subpackage DoozR_Base_Exception_Kernel
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -61,7 +61,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
  *
  * @category   DoozR
  * @package    DoozR_Base_Exception
- * @subpackage DoozR_Base_Exception_Core
+ * @subpackage DoozR_Base_Exception_Kernel
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @author     $LastChangedBy$ <develop@doozr.de>
  * @copyright  2005 - 2015 Benjamin Carl
@@ -69,11 +69,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/DoozR/
  */
-class DoozR_Core_Exception extends DoozR_Base_Exception_Generic
+class DoozR_Kernel_Exception extends DoozR_Base_Exception_Generic
 {
     /**
      * overrides parents constructor to add context to each exception of type:
-     * DoozR_Core_Exception
+     * DoozR_Kernel_Exception
      *
      * This method is intend to override parents constructor to add context to each exception.
      *
@@ -82,7 +82,7 @@ class DoozR_Core_Exception extends DoozR_Base_Exception_Generic
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Core_Exception instance of this class
+     * @return \DoozR_Kernel_Exception instance of this class
      * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)

@@ -91,9 +91,9 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     protected static $serviceClassName;
 
     /**
-     * The DoozR Core instance
+     * The DoozR Kernel instance
      *
-     * @var DoozR_Core
+     * @var DoozR_Kernel
      * @access protected
      */
     protected static $core;
@@ -117,7 +117,7 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         // Init the DoozR core to execute
-        self::$core = DoozR_Core::run();
+        self::$core = DoozR_Kernel::run();
 
         // Store classname
         self::$serviceClassName = 'DoozR_' . self::$serviceName . '_Service';

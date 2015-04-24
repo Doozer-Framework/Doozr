@@ -130,7 +130,7 @@ class DoozR_Response_Cli extends DoozR_Base_Response
         // check encoding
         if (!$encoding) {
             // get it from config
-            $encoding = DoozR_Core::config()->get('ENCODING.CHARSET');
+            $encoding = DoozR_Kernel::config()->get('ENCODING.CHARSET');
         } else {
             // to upper for switch
             $encoding = strtoupper($encoding);
@@ -169,7 +169,7 @@ class DoozR_Response_Cli extends DoozR_Base_Response
     {
         // get module encoding
         /*
-        $encoding = DoozR_Core::module('encoding');
+        $encoding = DoozR_Kernel::module('encoding');
 
         // check for given target charset and convert
         switch ($charset) {

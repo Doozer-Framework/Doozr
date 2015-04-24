@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Core - Test
+ * DoozR - Kernel - Interface
  *
- * CoreTest.php - Tests for DoozR's core & core functionality (bootstrapping & init).
+ * Interface.php - Interface for forcing the US to keep important methods
+ * and marking them as "deprecated" instead of silently removing them!
  *
  * PHP versions 5.4
  *
@@ -43,41 +44,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Test
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
- * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ * @link       http://clickalicious.github.com/DoozR/
  */
 
 /**
- * DoozR - Core - Test
+ * DoozR - Kernel - Interface
  *
- * Tests for DoozR's core & core functionality (bootstrapping & init).
+ * Interface for forcing the US to keep important methods and marking them as
+ * "deprecated" instead of silently removing them!
  *
  * @category   DoozR
- * @package    DoozR_Core
- * @subpackage DoozR_Core_Test
+ * @package    DoozR_Kernel
+ * @subpackage DoozR_Kernel_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @author     $LastChangedBy$
  * @copyright  2005 - 2015 Benjamin Carl
- * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ * @link       http://clickalicious.github.com/DoozR/
  */
-class CoreTest extends PHPUnit_Framework_TestCase
+interface DoozR_Kernel_Interface
 {
-    /**
-     * Test: Bootstrap DoozR.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    public function testInit()
-    {
-        $doozrInstance = DoozR_Core::run();
-        $this->assertInstanceOf('DoozR_Core', $doozrInstance);
-    }
+    // TODO: remove interface?
 }

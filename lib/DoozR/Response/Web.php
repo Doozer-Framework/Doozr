@@ -1100,7 +1100,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
     {
         // get module encoding
         /*
-        $encoding = DoozR_Core::module('encoding');
+        $encoding = DoozR_Kernel::module('encoding');
 
         // check for given target charset and convert
         switch ($charset) {
