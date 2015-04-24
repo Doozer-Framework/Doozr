@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Rest - Service
+ * Doozr - Rest - Service
  *
  * Rest.php - Contains some nice REST helper methods and prepares the request
  * in a way which makes it easier processable in the further process.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,45 +43,45 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Rest
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Rest
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Api.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Api.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Rest - Service
+ * Doozr - Rest - Service
  *
  * Contains some nice REST helper methods and prepares the request
  * in a way which makes it easier processable in the further process.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Rest
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Rest
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
- * @throws     DoozR_Rest_Service_Exception
+ * @link       http://clickalicious.github.com/Doozr/
+ * @throws     Doozr_Rest_Service_Exception
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="__construct",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Rest_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
+class Doozr_Rest_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
 {
     /**
      * Constructor.
@@ -95,7 +95,7 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @return   void
      * @access   public
      */
-    public function __tearup(DoozR_Base_State_Interface $requestState, array $route = array(), $countRootNodes = 2)
+    public function __tearup(Doozr_Base_State_Interface $requestState, array $route = array(), $countRootNodes = 2)
     {
         // If no custom request data/config is passed ...
         if (empty($route)) {
@@ -108,7 +108,7 @@ class DoozR_Rest_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
             );
         }
 
-        /* @var $requestState DoozR_Request_State */
+        /* @var $requestState Doozr_Request_State */
         $this->setStateObject($requestState);
     }
 }

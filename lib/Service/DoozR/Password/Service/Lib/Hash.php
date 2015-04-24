@@ -24,7 +24,7 @@
 # Obviously, since this code is in the public domain, the above are not
 # requirements (there can be none), but merely suggestions.
 #
-class DoozR_Password_Service_Hash {
+class Doozr_Password_Service_Hash {
     var $itoa64;
     var $iteration_count_log2;
     var $portable_hashes;

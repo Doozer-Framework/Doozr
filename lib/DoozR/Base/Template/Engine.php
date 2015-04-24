@@ -2,17 +2,17 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Template Engine
+ * Doozr Base Template Engine
  *
  * Engine.php - The Base Class for Template-Engines. This class is intend
  * as base for template engines. This class is deeply integrated into the
- * core of DoozR. So this class can interact near to all core
- * functionality and interoperates with module "DoozR_Template".
+ * core of Doozr. So this class can interact near to all core
+ * functionality and interoperates with module "Doozr_Template".
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,36 +45,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Template
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Template
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Facade/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Facade/Singleton.php';
 
 /**
- * DoozR Base Template Engine
+ * Doozr Base Template Engine
  *
  * The Base Class for Template-Engines. This class is intend
  * as base for template engines. This class is deeply integrated into the
- * core of DoozR. So this class can interact near to all core
- * functionality and interoperates with module "DoozR_Template".
+ * core of Doozr. So this class can interact near to all core
+ * functionality and interoperates with module "Doozr_Template".
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Template
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Template
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Template_Engine extends DoozR_Base_Facade_Singleton
+class Doozr_Base_Template_Engine extends Doozr_Base_Facade_Singleton
 {
     /**
      * Contains the current instance of template engine
@@ -146,7 +146,7 @@ class DoozR_Base_Template_Engine extends DoozR_Base_Facade_Singleton
      *
      * @access protected
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Template_Engine
+     * @return Doozr_Base_Template_Engine
      */
     protected function __construct($resource, $library)
     {
@@ -160,7 +160,7 @@ class DoozR_Base_Template_Engine extends DoozR_Base_Facade_Singleton
 
     /**
      * Initializes the template engine
-     * This method is intend to load the configured template-engine via DoozR::module().
+     * This method is intend to load the configured template-engine via Doozr::module().
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -172,7 +172,7 @@ class DoozR_Base_Template_Engine extends DoozR_Base_Facade_Singleton
         // decorated object
 
         // initialize and store the instance of template engine for further access
-        self::$instance = DoozR_Loader_Serviceloader::load($this->library, $this->resource);
+        self::$instance = Doozr_Loader_Serviceloader::load($this->library, $this->resource);
 
         // set this instance as decorated object of our generic Facade and
         // so we can access all the base methods of any lib easily!

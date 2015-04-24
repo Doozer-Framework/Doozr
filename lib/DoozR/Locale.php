@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Locale
+ * Doozr - Locale
  *
- * Locale.php - Locale bootstrap of the DoozR Framework
+ * Locale.php - Locale bootstrap of the Doozr Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,38 +42,38 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Locale
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Locale
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
 /**
- * DoozR - Locale
+ * Doozr - Locale
  *
- * Locale bootstrap of the DoozR Framework
+ * Locale bootstrap of the Doozr Framework
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Locale
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Locale
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Locale extends DoozR_Base_Class_Singleton
+class Doozr_Locale extends Doozr_Base_Class_Singleton
 {
     /**
      * Instance of config
      *
-     * @var DoozR_Config
+     * @var Doozr_Config
      * @access protected
      */
     protected $config;
@@ -81,7 +81,7 @@ class DoozR_Locale extends DoozR_Base_Class_Singleton
     /**
      * Instance of logger
      *
-     * @var DoozR_Logger
+     * @var Doozr_Logger
      * @access protected
      */
     protected $logger;
@@ -90,14 +90,14 @@ class DoozR_Locale extends DoozR_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param DoozR_Config $config The config instance
-     * @param DoozR_Logger $logger The logger instance
+     * @param Doozr_Config $config The config instance
+     * @param Doozr_Logger $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Locale
+     * @return \Doozr_Locale
      * @access protected
      */
-    protected function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    protected function __construct(Doozr_Config $config, Doozr_Logger $logger)
     {
         $this->config = $config;
         $this->logger = $logger;

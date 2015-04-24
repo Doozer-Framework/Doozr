@@ -3,7 +3,7 @@
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
     backupGlobals="true"
     backupStaticAttributes="false"
-    bootstrap="../../../../DoozR/Bootstrap.php"
+    bootstrap="../../../../Doozr/Bootstrap.php"
     cacheTokens="false"
     colors="true"
     stopOnError="true"
@@ -16,7 +16,7 @@
     >
 
     <testsuites>
-        <testsuite name="DoozR_Form_Service">
+        <testsuite name="Doozr_Form_Service">
             <directory>.</directory>
         </testsuite>
     </testsuites>

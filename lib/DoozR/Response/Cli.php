@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Response - Cli
+ * Doozr - Response - Cli
  *
  * Cli.php - Response Cli - Response-Handler to pass responses to CLI
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Response
- * @subpackage DoozR_Response_Cli
+ * @category   Doozr
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response_Cli
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Response.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Response.php';
 
 /**
- * DoozR - Response - Cli
+ * Doozr - Response - Cli
  *
  * Response Cli - Response-Handler to pass responses to CLI
  *
- * @category   DoozR
- * @package    DoozR_Response
- * @subpackage DoozR_Response_Cli
+ * @category   Doozr
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response_Cli
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Response_Cli extends DoozR_Base_Response
+class Doozr_Response_Cli extends Doozr_Base_Response
 {
     /**
      * type of this response
@@ -84,14 +84,14 @@ class DoozR_Response_Cli extends DoozR_Base_Response
     /**
      * Constructor
      *
-     * @param DoozR_Config $config The config of DoozR
-     * @param DoozR_Logger $logger The logger instance
+     * @param Doozr_Config $config The config of Doozr
+     * @param Doozr_Logger $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Response_Cli
+     * @return \Doozr_Response_Cli
      * @access public
      */
-    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    public function __construct(Doozr_Config $config, Doozr_Logger $logger)
     {
         // map type
         self::$type = self::TYPE;
@@ -130,7 +130,7 @@ class DoozR_Response_Cli extends DoozR_Base_Response
         // check encoding
         if (!$encoding) {
             // get it from config
-            $encoding = DoozR_Kernel::config()->get('ENCODING.CHARSET');
+            $encoding = Doozr_Kernel::config()->get('ENCODING.CHARSET');
         } else {
             // to upper for switch
             $encoding = strtoupper($encoding);
@@ -169,7 +169,7 @@ class DoozR_Response_Cli extends DoozR_Base_Response
     {
         // get module encoding
         /*
-        $encoding = DoozR_Kernel::module('encoding');
+        $encoding = Doozr_Kernel::module('encoding');
 
         // check for given target charset and convert
         switch ($charset) {

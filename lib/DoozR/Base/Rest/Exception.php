@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Rest - Exception
+ * Doozr - Base - Rest - Exception
  *
  * Exception.php - Exception for REST in general as base for M,V,P ...
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Rest
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Rest
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
 
 /**
- * DoozR - Base - Rest - Exception
+ * Doozr - Base - Rest - Exception
  *
  * Exception for REST in general as base for M,V,P ...
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Rest
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Rest
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
+class Doozr_Base_Rest_Exception extends Doozr_Base_Exception
 {
     /**
      * The token of the request to manage exchange for failed API calls.
@@ -98,7 +98,7 @@ class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
      * @param array          $error    An array containing detailed errors for each submitted field with validation set!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Rest_Exception
+     * @return \Doozr_Base_Rest_Exception
      * @access public
      */
     public function __construct(
@@ -204,9 +204,9 @@ class DoozR_Base_Rest_Exception extends DoozR_Base_Exception
      */
     public function toJson()
     {
-        $response = new DoozR_Base_Response_Rest();
+        $response = new Doozr_Base_Response_Rest();
         $response
-            ->status(DoozR_Base_Response_Rest::STATUS_ERROR)
+            ->status(Doozr_Base_Response_Rest::STATUS_ERROR)
             ->message($this->getMessage())
             ->data(array('error' => $this->getError()));
 

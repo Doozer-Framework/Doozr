@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Service.php - Service for generating valid and 100% x-browser compatible
  * HTML-Forms.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,44 +43,44 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Constant.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Validate/Constant.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Singleton/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Validate/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Service for generating valid and 100% x-browser compatible HTML-Forms
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements DoozR_Base_Service_Interface
+class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements Doozr_Base_Service_Interface
 {
     /**
      * Name of token field.
@@ -117,7 +117,7 @@ class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements 
     /**
      * Session service instance.
      *
-     * @var DoozR_Session_Service
+     * @var Doozr_Session_Service
      * @access protected
      */
     protected $session;
@@ -130,10 +130,10 @@ class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements 
      * @return void
      * @access public
      */
-    public function __tearup(DoozR_Session_Service $session = null)
+    public function __tearup(Doozr_Session_Service $session = null)
     {
         if ($session === null) {
-            $session = DoozR_Loader_Serviceloader::load('session');
+            $session = Doozr_Loader_Serviceloader::load('session');
         }
 
         // Store session
@@ -141,16 +141,16 @@ class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements 
 
         $this
             ->fieldnameToken(
-                DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_TOKEN
+                Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN
             )
             ->fieldnameSubmitted(
-                DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED
+                Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED
             )
             ->fieldnameStep(
-                DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP
+                Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP
             )
             ->fieldnameSteps(
-                DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS
+                Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS
             );
 
         return true;
@@ -159,13 +159,13 @@ class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements 
     /**
      * Setter for session.
      *
-     * @param DoozR_Session_Service $session The session service instance
+     * @param Doozr_Session_Service $session The session service instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setSession(DoozR_Session_Service $session)
+    protected function setSession(Doozr_Session_Service $session)
     {
         $this->session = $session;
     }
@@ -173,13 +173,13 @@ class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements 
     /**
      * Setter for session.
      *
-     * @param DoozR_Session_Service $session The session service instance
+     * @param Doozr_Session_Service $session The session service instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function session(DoozR_Session_Service $session)
+    protected function session(Doozr_Session_Service $session)
     {
         $this->setSession($session);
         return $this;
@@ -189,7 +189,7 @@ class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements 
      * Getter for session.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Session_Service|null The instance if set, otherwise NULL
+     * @return Doozr_Session_Service|null The instance if set, otherwise NULL
      * @access protected
      */
     protected function getSession()
@@ -362,18 +362,18 @@ class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements 
     }
 
     /**
-     * Returns name of form handable if current request is handable by DoozR_Form_Service, otherwise FALSE.
+     * Returns name of form handable if current request is handable by Doozr_Form_Service, otherwise FALSE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|bool The name of the form which is handable by DoozR_Form_Service if exist, otherwise FALSE
+     * @return string|bool The name of the form which is handable by Doozr_Form_Service if exist, otherwise FALSE
      * @access public
      */
     public function isHandable()
     {
-        // Assume that request is not! handable by DoozR_Form_Service -> The API does only share some parts with MVP def
+        // Assume that request is not! handable by Doozr_Form_Service -> The API does only share some parts with MVP def
         $handable = false;
 
-        /* @var $requestState DoozR_Request_State */
+        /* @var $requestState Doozr_Request_State */
         $requestState = $this->getRegistry()->request;
 
         // Get required input to search in ...
@@ -394,27 +394,27 @@ class DoozR_Form_Service extends DoozR_Base_Service_Singleton_Facade implements 
      * Returns Form-Manager instance (yep i know damn name) to manage the form(s).
      *
      * @author Benjamin Carl <benjamin.carl@clickalicious.de>
-     * @return DoozR_Form_Service_FormManager
+     * @return Doozr_Form_Service_FormManager
      * @access public
      */
     public function getFormManager($namespace, $arguments = null, $requestMethod = null, $angular = false)
     {
         // Create a new form-container which combines the control-layer and the HTML parts
-        return new DoozR_Form_Service_FormManager(
+        return new Doozr_Form_Service_FormManager(
             $namespace,                                                // The namespace (used for session, I18n, ...)
             null,                                                      // Could ne I18n
-            new DoozR_Form_Service_Component_Input(                    // Input element <- for cloning [DI]
-                new DoozR_Form_Service_Renderer_Html(),
-                new DoozR_Form_Service_Validator_Generic()
+            new Doozr_Form_Service_Component_Input(                    // Input element <- for cloning [DI]
+                new Doozr_Form_Service_Renderer_Html(),
+                new Doozr_Form_Service_Validator_Generic()
             ),
-            new DoozR_Form_Service_Component_Form(                     // The form element we operate on [DI]
-                new DoozR_Form_Service_Renderer_Html(),
-                new DoozR_Form_Service_Validator_Generic()
+            new Doozr_Form_Service_Component_Form(                     // The form element we operate on [DI]
+                new Doozr_Form_Service_Renderer_Html(),
+                new Doozr_Form_Service_Validator_Generic()
             ),
-            new DoozR_Form_Service_Store_Session($this->getSession()), // The session store [DI]
-            new DoozR_Form_Service_Renderer_Html(),                    // A Renderer -> Native = HTML [DI]
-            new DoozR_Form_Service_Validate_Validator(),               // A Validator to validate the elements [DI]
-            new DoozR_Form_Service_Validate_Error(),                   // A Error object <- for cloning [DI]
+            new Doozr_Form_Service_Store_Session($this->getSession()), // The session store [DI]
+            new Doozr_Form_Service_Renderer_Html(),                    // A Renderer -> Native = HTML [DI]
+            new Doozr_Form_Service_Validate_Validator(),               // A Validator to validate the elements [DI]
+            new Doozr_Form_Service_Validate_Error(),                   // A Error object <- for cloning [DI]
             $arguments,                                                // The currents requests arguments
             $requestMethod,
             $angular                                                   // Bind to AngularJS directive (inject ng-model!)

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Virtualfilesystem - Service
+ * Doozr - Virtualfilesystem - Service
  *
- * Service.php - DoozR Service for all virtual filesystem operations.
+ * Service.php - Doozr Service for all virtual filesystem operations.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,45 +42,45 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Virtualfilesystem
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Virtualfilesystem
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Virtualfilesystem/Service/Lib/vfsStream.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Virtualfilesystem - Service
+ * Doozr - Virtualfilesystem - Service
  *
- * DoozR Service for all virtual filesystem operations.
+ * Doozr Service for all virtual filesystem operations.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Virtualfilesystem
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Virtualfilesystem
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
- * @inject     DoozR_Registry:DoozR_Registry identifier:__construct type:constructor position:1
+ * @link       http://clickalicious.github.com/Doozr/
+ * @inject     Doozr_Registry:Doozr_Registry identifier:__construct type:constructor position:1
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="__construct",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
+class Doozr_Virtualfilesystem_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
 {
     /**
      * Constructor of this class
@@ -93,7 +93,7 @@ class DoozR_Virtualfilesystem_Service extends DoozR_Base_Service_Multiple_Facade
     {
         // dispatch incoming $realClass to facade.
         // it can be either an configuration array or an instance
-        include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Virtualfilesystem/Service/Lib/vfsStream.php';
+        include_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Virtualfilesystem/Service/Lib/vfsStream.php';
 
         self::setRealObject(
             new vfsStream()

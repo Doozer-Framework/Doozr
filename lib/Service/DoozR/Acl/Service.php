@@ -3,14 +3,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Acl - Service
+ * Doozr - Acl - Service
  *
  * Service.php - Service for ACL
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,42 +43,42 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Acl
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Acl
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Acl - Service
+ * Doozr - Acl - Service
  *
  * Service for ACL
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Acl
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Acl
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="__construct",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
+class Doozr_Acl_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
 {
     /**
      * The actions supported by this ACL
@@ -217,7 +217,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Bas
      * @param array $actions The supported/possible/available actions to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Acl_Service The current instance for chaining
+     * @return Doozr_Acl_Service The current instance for chaining
      * @access public
      */
     public function actions(array $actions = array())
@@ -258,7 +258,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Bas
      * @param int $type The type of the ACL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Acl_Service The current instance for chaining
+     * @return Doozr_Acl_Service The current instance for chaining
      * @access public
      */
     public function type($type = self::TYPE_PROVIDER)
@@ -299,7 +299,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Bas
      * @param int $permissions The permissions to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Acl_Service The current instance for chaining
+     * @return Doozr_Acl_Service The current instance for chaining
      * @access public
      */
     public function permissions($permissions = 0)
@@ -323,21 +323,21 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Bas
     /**
      * Checks whether the provider can be accessed by this consumer.
      *
-     * @param DoozR_Acl_Service $acl    The provider ACL
+     * @param Doozr_Acl_Service $acl    The provider ACL
      * @param string            $action The action to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if is allowed, otherwise FALSE
      * @access public
-     * @throws DoozR_Exception_Service
+     * @throws Doozr_Exception_Service
      */
-    public function isAllowed(DoozR_Acl_Service $acl, $action)
+    public function isAllowed(Doozr_Acl_Service $acl, $action)
     {
         if ($this->getType() === self::TYPE_CONSUMER && $acl->getType() === self::TYPE_PROVIDER) {
             return ($acl->hasPermission($action) && $acl->grant($this->getPermissions(), $action));
 
         } else {
-            throw new DoozR_Exception_Service(
+            throw new Doozr_Exception_Service(
                 'Type mismatch! Only Consumer ca be allowed to access Provider.'
             );
         }
@@ -365,7 +365,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Bas
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if allowed (has permission), otherwise FALSE
      * @access public
-     * @throws DoozR_Exception_Service
+     * @throws Doozr_Exception_Service
      */
     public function hasPermission($action)
     {
@@ -373,7 +373,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Bas
             $result = $this->grant($this->getPermissions(), $action);
 
         } else {
-            throw new DoozR_Exception_Service('Action "' . $action . '" does not exist!');
+            throw new Doozr_Exception_Service('Action "' . $action . '" does not exist!');
             $result = false;
         }
 
@@ -386,7 +386,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Bas
      * @param string $action The action that should be allowed.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Acl_Service The current instance for chaining
+     * @return Doozr_Acl_Service The current instance for chaining
      * @access public
      */
     public function addPermission($action)
@@ -409,7 +409,7 @@ class DoozR_Acl_Service extends DoozR_Base_Service_Multiple implements DoozR_Bas
      * @param string $action The action that should not be allowed.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Acl_Service The current instance for chaining
+     * @return Doozr_Acl_Service The current instance for chaining
      * @access public
      */
     public function removePermission($action)

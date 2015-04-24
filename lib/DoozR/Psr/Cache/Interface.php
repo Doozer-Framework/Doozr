@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR PSR CacheObject Interface
+ * Doozr PSR CacheObject Interface
  *
  * Interface.php - Contract for CachingObject following the PSR-Standard:
  * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,32 +43,32 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Psr
- * @subpackage DoozR_Psr_Cache
+ * @category   Doozr
+ * @package    Doozr_Psr
+ * @subpackage Doozr_Psr_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR PSR CacheObject Interface
+ * Doozr PSR CacheObject Interface
  *
  * Contract for CachingObject following the PSR-Standard:
  * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
  *
- * @category   DoozR
- * @package    DoozR_Psr
- * @subpackage DoozR_Psr_Cache
+ * @category   Doozr
+ * @package    Doozr_Psr
+ * @subpackage Doozr_Psr_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Psr_Cache_Interface
+interface Doozr_Psr_Cache_Interface
 {
     // nuttin
 }

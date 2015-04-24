@@ -2,15 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Class
+ * Doozr - Base - Class
  *
- * Class.php - Base-Class for all classes of the DoozR Framework except
+ * Class.php - Base-Class for all classes of the Doozr Framework except
  * the classes following the singleton pattern.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,40 +43,40 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Class
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Tools.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Tools.php';
 
 /**
- * DoozR - Base - Class
+ * Doozr - Base - Class
  *
- * Base-Class for all classes of the DoozR Framework except the classes following
+ * Base-Class for all classes of the Doozr Framework except the classes following
  * the singleton pattern.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Class
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Class extends DoozR_Base_Tools
+class Doozr_Base_Class extends Doozr_Base_Tools
 {
     /**
      * The registry instance injected in all core classes
-     * based on DoozR_Base_Class.
+     * based on Doozr_Base_Class.
      *
-     * @var DoozR_Registry
+     * @var Doozr_Registry
      * @access protected
      */
     protected $registry;
@@ -85,13 +85,13 @@ class DoozR_Base_Class extends DoozR_Base_Tools
     /**
      * Setter for registry
      *
-     * @param DoozR_Registry $registry The registry instance
+     * @param Doozr_Registry $registry The registry instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setRegistry(DoozR_Registry &$registry)
+    protected function setRegistry(Doozr_Registry &$registry)
     {
         $this->registry = $registry;
     }
@@ -99,13 +99,13 @@ class DoozR_Base_Class extends DoozR_Base_Tools
     /**
      * Setter for registry with fluent API support for chaining calls.
      *
-     * @param DoozR_Registry $registry The registry instance
+     * @param Doozr_Registry $registry The registry instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function registry(DoozR_Registry $registry)
+    protected function registry(Doozr_Registry $registry)
     {
         $this->setRegistry($registry);
         return $this;
@@ -115,7 +115,7 @@ class DoozR_Base_Class extends DoozR_Base_Tools
      * Getter for registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Registry The registry of DoozR
+     * @return Doozr_Registry The registry of Doozr
      * @access protected
      */
     protected function getRegistry()

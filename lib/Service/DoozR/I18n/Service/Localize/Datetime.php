@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Localize - Datetime
+ * Doozr - I18n - Service - Localize - Datetime
  *
  * Datetime.php - Datetime formatter
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Localize/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * DoozR - I18n - Service - Localize - Datetime
+ * Doozr - I18n - Service - Localize - Datetime
  *
  * Datetime formatter
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_Abstract
+class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_Abstract
 {
     /**
      * holds the active timeformat
@@ -672,24 +672,24 @@ class DoozR_I18n_Service_Localize_Datetime extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface      $registry   The DoozR_Registry instance
+     * @param Doozr_Registry_Interface      $registry   The Doozr_Registry instance
      * @param string                        $locale     The locale this instance is working with
      * @param string                        $namespace  The active namespace of this format-class
-     * @param object                        $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                        $configL10n An instance of DoozR_Config_Ini holding the I10n-config (locale)
-     * @param DoozR_I18n_Service_Translator $translator An instance of a translator (for locale)
+     * @param object                        $configI18n An instance of Doozr_Config_Ini holding the I18n-config
+     * @param object                        $configL10n An instance of Doozr_Config_Ini holding the I10n-config (locale)
+     * @param Doozr_I18n_Service_Translator $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_I18n_Service_Localize_Datetime Instance of this class
+     * @return Doozr_I18n_Service_Localize_Datetime Instance of this class
      * @access public
      */
     public function __construct(
-        DoozR_Registry_Interface $registry        = null,
+        Doozr_Registry_Interface $registry        = null,
         $locale                                   = null,
         $namespace                                = null,
-        $configI18n                               = null, // Config of DoozR (main .config) including section "I18n"
+        $configI18n                               = null, // Config of Doozr (main .config) including section "I18n"
         $configL10n                               = null, // Config I18n/L10n configuration of the current active locale
-        DoozR_I18n_Service_Translator $translator = null
+        Doozr_I18n_Service_Translator $translator = null
     ) {
         // Set type of format-class
         $this->type = 'Datetime';

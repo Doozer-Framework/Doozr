@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Generic.php - Generic renderable HTML component like <p>...</p> or
  * <span>...</span> ...
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,35 +43,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html/Html.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Html/Html.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Generic renderable HTML component like <p>...</p> or
  * <span>...</span> ...
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
-class DoozR_Form_Service_Component_Generic extends DoozR_Form_Service_Component_Html
+class Doozr_Form_Service_Component_Generic extends Doozr_Form_Service_Component_Html
 {
     /**
      * Currently only used as contract for typehinting

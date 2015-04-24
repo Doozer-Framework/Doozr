@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Optgroup.php - Optgroup part of select field. Extra element cause it
  * has a similar interface like standard html elements. so recycle.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,36 +43,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Option.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Option.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Option part of select field. Extra element cause it
  * has a similar interface like standard html elements. so recycle.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component_Formcomponent implements
-    DoozR_Form_Service_Component_Interface_Option
+class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component_Formcomponent implements
+    Doozr_Form_Service_Component_Interface_Option
 {
     /**
      * The tag for this type of element
@@ -80,7 +80,7 @@ class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OPTGROUP;
+    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_OPTGROUP;
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -89,13 +89,13 @@ class DoozR_Form_Service_Component_Optgroup extends DoozR_Form_Service_Component
     /**
      * Proxy to addChild() to filter input components
      *
-     * @param DoozR_Form_Service_Component_Interface_Option $option The component to add
+     * @param Doozr_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The index of the added option
      * @access public
      */
-    public function addOption(DoozR_Form_Service_Component_Interface_Option $option)
+    public function addOption(Doozr_Form_Service_Component_Interface_Option $option)
     {
         return $this->addChild($option);
     }

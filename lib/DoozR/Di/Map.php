@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Map
+ * Doozr - Di - Map
  *
  * Map.php - Map class of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -42,9 +42,9 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map
+ * @category   Doozr
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,19 +55,19 @@
 require_once DI_PATH_LIB_DI . 'Exception.php';
 
 /**
- * DoozR - Di - Map
+ * Doozr - Di - Map
  *
  * Map class of the Di-Framework
  *
- * @category   DoozR
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map
+ * @category   Doozr
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Map
+class Doozr_Di_Map
 {
     /**
      * The name/identifier of this map
@@ -80,15 +80,15 @@ class DoozR_Di_Map
     /**
      * Contains all dependencies as collection (array)
      *
-     * @var DoozR_Di_Collection
+     * @var Doozr_Di_Collection
      * @access protected
      */
     protected $collection;
 
     /**
-     * A DoozR_Di_Dependency instance to clone objects from
+     * A Doozr_Di_Dependency instance to clone objects from
      *
-     * @var DoozR_Di_Dependency
+     * @var Doozr_Di_Dependency
      * @access protected
      */
     protected $dependency;
@@ -96,7 +96,7 @@ class DoozR_Di_Map
     /**
      * A * parser instance
      *
-     * @var DoozR_Di_Parser_*
+     * @var Doozr_Di_Parser_*
      * @access protected
      */
     protected $parser;
@@ -127,16 +127,16 @@ class DoozR_Di_Map
     /**
      * Sets the collection of the map instance
      *
-     * This method is intend to set the collection (DoozR_Di_Collection) of
+     * This method is intend to set the collection (Doozr_Di_Collection) of
      * this map instance.
      *
-     * @param DoozR_Di_Collection $collection The collection to set
+     * @param Doozr_Di_Collection $collection The collection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setCollection(DoozR_Di_Collection $collection)
+    public function setCollection(Doozr_Di_Collection $collection)
     {
         $this->collection = $collection;
     }
@@ -144,11 +144,11 @@ class DoozR_Di_Map
     /**
      * Returns the collection of the map instance
      *
-     * This method is intend to return the collection (DoozR_Di_Collection) of
+     * This method is intend to return the collection (Doozr_Di_Collection) of
      * this map instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Collection if set otherwise NULL
+     * @return Doozr_Di_Collection if set otherwise NULL
      * @access public
      */
     public function getCollection()
@@ -189,15 +189,15 @@ class DoozR_Di_Map
     /**
      * Imports a collection of dependencies
      *
-     * This method is intend to import a collection of dependencies (DoozR_Di_Collection)
+     * This method is intend to import a collection of dependencies (Doozr_Di_Collection)
      *
-     * @param DoozR_Di_Collection $collection An instance of
+     * @param Doozr_Di_Collection $collection An instance of
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function import(DoozR_Di_Collection $collection)
+    public function import(Doozr_Di_Collection $collection)
     {
         $this->collection = $collection;
     }
@@ -205,10 +205,10 @@ class DoozR_Di_Map
     /**
      * Exports a collection of dependencies
      *
-     * This method is intend to export a collection of dependencies (DoozR_Di_Collection)
+     * This method is intend to export a collection of dependencies (Doozr_Di_Collection)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Collection A collection of dependencies
+     * @return Doozr_Di_Collection A collection of dependencies
      * @access public
      */
     public function export()
@@ -229,7 +229,7 @@ class DoozR_Di_Map
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = array())
     {
@@ -238,7 +238,7 @@ class DoozR_Di_Map
         }
 
         if (empty($matrix)) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Error while wiring instances! Mode manual requires an array containing key => value pairs.'
             );
         }
@@ -282,7 +282,7 @@ class DoozR_Di_Map
      */
     protected function addRawDependenciesToCollection($classname, array $rawDependencies)
     {
-        // iterate raw dependencies, convert to DoozR_Di_Dependency and add it to DoozR_Di_Collection
+        // iterate raw dependencies, convert to Doozr_Di_Dependency and add it to Doozr_Di_Collection
         foreach ($rawDependencies as $identifier => $dependencies) {
             foreach ($dependencies as $setup) {
 
@@ -319,16 +319,16 @@ class DoozR_Di_Map
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access private
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      * (non-PHPdoc)
-     * @see DoozR_Di_Importer_Interface::wire()
+     * @see Doozr_Di_Importer_Interface::wire()
      */
     private function _wireClassWithDependencies(array $matrix)
     {
-        /* @var $this->collection DoozR_Di_Collection */
+        /* @var $this->collection Doozr_Di_Collection */
         foreach ($this->collection as $dependencies) {
 
-            /* @var $dependency DoozR_Di_Dependency */
+            /* @var $dependency Doozr_Di_Dependency */
             foreach ($dependencies as $dependency) {
 
                 // if dependency is set to NULL set dependency retrieved from given matrix

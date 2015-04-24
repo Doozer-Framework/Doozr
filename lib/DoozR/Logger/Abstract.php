@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Logger - Abstract
+ * Doozr - Logger - Abstract
  *
- * Abstract.php - Abstract-Logger base for logger of the DoozR framework
+ * Abstract.php - Abstract-Logger base for logger of the Doozr framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Abstract
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  *             http://tools.ietf.org/html/rfc5424
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 /**
- * DoozR - Logger - Abstract
+ * Doozr - Logger - Abstract
  *
- * Abstract-Logger base for logger of the DoozR framework
+ * Abstract-Logger base for logger of the Doozr framework
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Abstract
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  *             http://tools.ietf.org/html/rfc5424
  */
-abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
+abstract class Doozr_Logger_Abstract extends Doozr_Base_Class
     implements
     Countable
 {
@@ -130,7 +130,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
     /**
      * The instance of the datetime module required for time/date calculations
      *
-     * @var DoozR_Datetime_Service
+     * @var Doozr_Datetime_Service
      * @access protected
      */
     protected $dateTime;
@@ -222,15 +222,15 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
     /**
      * This method is the constructor and responsible for building the instance.
      *
-     * @param DoozR_Datetime_Service $datetime    Instance of date/time service
+     * @param Doozr_Datetime_Service $datetime    Instance of date/time service
      * @param int                    $level       The log-level of the logger extending this class
      * @param string                 $fingerprint The fingerprint of the client
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Logger_Abstract
+     * @return \Doozr_Logger_Abstract
      * @access public
      */
-    public function __construct(DoozR_Datetime_Service $datetime, $level = null, $fingerprint = null)
+    public function __construct(Doozr_Datetime_Service $datetime, $level = null, $fingerprint = null)
     {
         // store config
         $this->dateTime = $datetime;
@@ -275,7 +275,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @throws DoozR_Logger_InvalidArgumentException
+     * @throws Doozr_Logger_InvalidArgumentException
      */
     public function log(
               $type,
@@ -287,7 +287,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
     ) {
         // prevent misuse
         if (!array_key_exists($type, $this->availableLogtypes)) {
-            throw new DoozR_Logger_InvalidArgumentException(
+            throw new Doozr_Logger_InvalidArgumentException(
                 'Invalid log type: ' . $type . ' passed to ' . __METHOD__
             );
         }
@@ -861,7 +861,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     public function emergency($message, array $context = array())
     {
-        return $this->log(DoozR_Logger_Constant::EMERGENCY, $message, $context);
+        return $this->log(Doozr_Logger_Constant::EMERGENCY, $message, $context);
     }
 
     /**
@@ -878,7 +878,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     public function alert($message, array $context = array())
     {
-        return $this->log(DoozR_Logger_Constant::ALERT, $message, $context);
+        return $this->log(Doozr_Logger_Constant::ALERT, $message, $context);
     }
 
     /**
@@ -894,7 +894,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     public function critical($message, array $context = array())
     {
-        return $this->log(DoozR_Logger_Constant::CRITICAL, $message, $context);
+        return $this->log(Doozr_Logger_Constant::CRITICAL, $message, $context);
     }
 
     /**
@@ -910,7 +910,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     public function error($message, array $context = array())
     {
-        return $this->log(DoozR_Logger_Constant::ERROR, $message, $context);
+        return $this->log(Doozr_Logger_Constant::ERROR, $message, $context);
     }
 
     /**
@@ -927,7 +927,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     public function warning($message, array $context = array())
     {
-        return $this->log(DoozR_Logger_Constant::WARNING, $message, $context);
+        return $this->log(Doozr_Logger_Constant::WARNING, $message, $context);
     }
 
     /**
@@ -942,7 +942,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     public function notice($message, array $context = array())
     {
-        return $this->log(DoozR_Logger_Constant::NOTICE, $message, $context);
+        return $this->log(Doozr_Logger_Constant::NOTICE, $message, $context);
     }
 
     /**
@@ -958,7 +958,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     public function info($message, array $context = array())
     {
-        return $this->log(DoozR_Logger_Constant::INFO, $message, $context);
+        return $this->log(Doozr_Logger_Constant::INFO, $message, $context);
     }
 
     /**
@@ -973,7 +973,7 @@ abstract class DoozR_Logger_Abstract extends DoozR_Base_Class
      */
     public function debug($message, array $context = array())
     {
-        return $this->log(DoozR_Logger_Constant::DEBUG, $message, $context);
+        return $this->log(Doozr_Logger_Constant::DEBUG, $message, $context);
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+

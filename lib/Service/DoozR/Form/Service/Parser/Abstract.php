@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Abstract.php - Abstract base for parser.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Abstract base for parser.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_Form_Service_Parser_Abstract
+abstract class Doozr_Form_Service_Parser_Abstract
 {
     /**
      * The input which get parsed by parser.
@@ -87,7 +87,7 @@ abstract class DoozR_Form_Service_Parser_Abstract
     /**
      * Configuration object.
      *
-     * @var DoozR_Form_Service_Configuration
+     * @var Doozr_Form_Service_Configuration
      * @access protected
      */
     protected $configuration;
@@ -99,14 +99,14 @@ abstract class DoozR_Form_Service_Parser_Abstract
     /**
      * Constructor.
      *
-     * @param DoozR_Form_Service_Configuration $configuration The configuration object which is used to store and return
+     * @param Doozr_Form_Service_Configuration $configuration The configuration object which is used to store and return
      *                                                        parsed configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Parser_Abstract
+     * @return \Doozr_Form_Service_Parser_Abstract
      * @access protected
      */
-    public function __construct(DoozR_Form_Service_Configuration $configuration)
+    public function __construct(Doozr_Form_Service_Configuration $configuration)
     {
         $this->setConfiguration($configuration);
     }
@@ -114,13 +114,13 @@ abstract class DoozR_Form_Service_Parser_Abstract
     /**
      * Setter for configuration.
      *
-     * @param DoozR_Form_Service_Configuration $configuration The configuration to set
+     * @param Doozr_Form_Service_Configuration $configuration The configuration to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setConfiguration(DoozR_Form_Service_Configuration $configuration)
+    public function setConfiguration(Doozr_Form_Service_Configuration $configuration)
     {
         $this->configuration = $configuration;
     }
@@ -129,7 +129,7 @@ abstract class DoozR_Form_Service_Parser_Abstract
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Configuration|null Configuration if set, otherwise NULL
+     * @return Doozr_Form_Service_Configuration|null Configuration if set, otherwise NULL
      * @access public
      */
     public function getConfiguration()

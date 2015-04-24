@@ -3,7 +3,7 @@
 /**
  * Demo Model
  */
-final class Model_Index extends DoozR_Base_Model
+final class Model_Index extends Doozr_Base_Model
 {
     /**
      * Magic & generic data delivery.
@@ -25,7 +25,7 @@ final class Model_Index extends DoozR_Base_Model
 
         // Data used as key => value pairs for template engine
         $data = array(
-            'title'  => 'DoozR\'s bootstrap environment',
+            'title'  => 'Doozr\'s bootstrap environment',
             'year'   => date('Y'),
             'people' => $people,
         );

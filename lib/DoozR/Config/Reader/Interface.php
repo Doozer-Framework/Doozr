@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Config - Reader - Interface
+ * Doozr - Config - Reader - Interface
  *
- * Interface.php - Base contract for DoozR's config reader.
+ * Interface.php - Base contract for Doozr's config reader.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Config
- * @subpackage DoozR_Config_Reader
+ * @category   Doozr
+ * @package    Doozr_Config
+ * @subpackage Doozr_Config_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Config - Reader - Interface
+ * Doozr - Config - Reader - Interface
  *
- * Base contract for DoozR's config reader.
+ * Base contract for Doozr's config reader.
  *
- * @category   DoozR
- * @package    DoozR_Config
- * @subpackage DoozR_Config_Reader
+ * @category   Doozr
+ * @package    Doozr_Config
+ * @subpackage Doozr_Config_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Config_Reader_Interface
+interface Doozr_Config_Reader_Interface
 {
     // Intentionally left in this state: For Namespace and typehint
 }

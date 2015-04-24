@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Response - Rest
+ * Doozr - Base - Response - Rest
  *
  * Rest.php - Response Model for default REST responses. This implements the
  * JSend API pattern and supports the complete signing of responses using JWT.
@@ -13,7 +13,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -46,34 +46,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Response
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 /**
- * DoozR - Base - Response - Rest
+ * Doozr - Base - Response - Rest
  *
  * Response Model for default REST responses. This implements the
  * JSend API pattern and supports the complete signing of responses using JWT.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Response
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Response_Rest extends DoozR_Base_Class
+class Doozr_Base_Response_Rest extends Doozr_Base_Class
 {
     /**
      * The status of this response.
@@ -137,9 +137,9 @@ class DoozR_Base_Response_Rest extends DoozR_Base_Class
      * @param int $status The HTTP Status of current operation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Model_Rest Instance for chaining
+     * @return Doozr_Base_Model_Rest Instance for chaining
      * @access public
-     * @throws DoozR_Base_Response_Rest_Exception
+     * @throws Doozr_Base_Response_Rest_Exception
      */
     public function setStatus($status)
     {
@@ -153,7 +153,7 @@ class DoozR_Base_Response_Rest extends DoozR_Base_Class
                 )
             )
         ) {
-            throw new DoozR_Base_Response_Rest_Exception(
+            throw new Doozr_Base_Response_Rest_Exception(
 
             );
         }

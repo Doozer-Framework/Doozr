@@ -2,17 +2,17 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Logger - Composite
+ * Doozr - Logger - Composite
  *
  * Logger.php - This logger is the composite for accessing the logging-
- * subsystem of the DoozR-Framework. This logger is the main entry point
+ * subsystem of the Doozr-Framework. This logger is the main entry point
  * for all log-content. This logger takes any log and dispatch this to
  * the attached loggers.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,41 +45,41 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Composite
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_Composite
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
 
 /**
- * DoozR - Logger - Composite
+ * Doozr - Logger - Composite
  *
  * This logger is the composite for accessing the logging-
- * subsystem of the DoozR-Framework. This logger is the main entry point
+ * subsystem of the Doozr-Framework. This logger is the main entry point
  * for all log-content. This logger takes any log and dispatch this to
  * the attached loggers.
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Composite
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_Composite
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
-final class DoozR_Logger extends DoozR_Logger_Abstract
+final class Doozr_Logger extends Doozr_Logger_Abstract
     implements
-    DoozR_Logger_Interface,
+    Doozr_Logger_Interface,
     SplSubject,
     ArrayAccess,
     Iterator,
@@ -130,16 +130,16 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
     /**
      * Constructor.
      *
-     * @param DoozR_Datetime_Service $datetime    Instance of Datetime-Service for date-operations
+     * @param Doozr_Datetime_Service $datetime    Instance of Datetime-Service for date-operations
      * @param int|null           $level       The logger level | if not passed the max is set
      * @param string|null            $fingerprint The fingerprint of the current client|will be
      *                                            generated if not passed
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Logger
+     * @return \Doozr_Logger
      * @access public
      */
-    public function __construct(DoozR_Datetime_Service $datetime = null, $level = null, $fingerprint = null)
+    public function __construct(Doozr_Datetime_Service $datetime = null, $level = null, $fingerprint = null)
     {
         // instanciate the SplObjectStorage
         $this->observer = new SplObjectStorage();
@@ -232,7 +232,7 @@ final class DoozR_Logger extends DoozR_Logger_Abstract
      * @param string $name The name of the logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Logger_Interface|null The logger if exist, otherwise NULL
+     * @return Doozr_Logger_Interface|null The logger if exist, otherwise NULL
      * @access public
      */
     public function getLogger($name)

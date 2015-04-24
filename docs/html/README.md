@@ -1,2 +1,2 @@
 
-please use ../DoozR.doxygen to generate project documentation
+please use ../Doozr.doxygen to generate project documentation

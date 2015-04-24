@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Factory Multiple
+ * Doozr Factory Multiple
  *
- * Multiple.php - DoozR's factory for creating instances of multi-instance-classes
+ * Multiple.php - Doozr's factory for creating instances of multi-instance-classes
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Factory
- * @subpackage DoozR_Factory_Multiple
+ * @category   Doozr
+ * @package    Doozr_Factory
+ * @subpackage Doozr_Factory_Multiple
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR Factory Multiple
+ * Doozr Factory Multiple
  *
- * DoozR's factory for creating instances of multi-instance-classes
+ * Doozr's factory for creating instances of multi-instance-classes
  *
- * @category   DoozR
- * @package    DoozR_Factory
- * @subpackage DoozR_Factory_Multiple
+ * @category   Doozr
+ * @package    Doozr_Factory
+ * @subpackage Doozr_Factory_Multiple
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Factory_Multiple implements DoozR_Factory_Interface
+class Doozr_Factory_Multiple implements Doozr_Factory_Interface
 {
     /**
      * This method is intend to create instances of multi-instance-classes. You can

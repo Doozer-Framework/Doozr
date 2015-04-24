@@ -2,16 +2,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Template - Service
+ * Doozr - Template - Service
  *
  * Service.php - Service: Gate for accessing any kind of template library.
  * This module is build upon the deep core integration of
- * DoozR_Base_Template_Engine.
+ * Doozr_Base_Template_Engine.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -44,45 +44,45 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Template
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Template
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Facade/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Facade/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Template - Service
+ * Doozr - Template - Service
  *
  * Service: Gate for accessing any kind of template library.
  * This module is build upon the deep core integration of
- * DoozR_Base_Template_Engine.
+ * Doozr_Base_Template_Engine.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Template
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Template
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="__construct",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements DoozR_Base_Service_Interface
+class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Doozr_Base_Service_Interface
 {
     /**
      * The resource to process
@@ -122,7 +122,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements Dooz
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Data from template if $return was set to TRUE, otherwise NULL
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function fetch($return = false)
     {
@@ -138,7 +138,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements Dooz
                 }
             } catch (Exception $e) {
                 // repack
-                throw new DoozR_Exception($e);
+                throw new Doozr_Exception($e);
             }
             break;
         }
@@ -169,17 +169,17 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements Dooz
      *
      * This method is the constructor of this class.
      *
-     * @param DoozR_Registry &$registry The instance of DoozR_Registry
+     * @param Doozr_Registry &$registry The instance of Doozr_Registry
      * @param string $resource The resource to load
      * @param array $config The resource to set as input (optional)
      *                                  defaults come from config
      *
-     * @throws DoozR_Template_Service_Exception
+     * @throws Doozr_Template_Service_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Template_Service
+     * @return \Doozr_Template_Service
      * @access public
      */
-    public function __construct(DoozR_Registry &$registry, $resource = null, array $config = null)
+    public function __construct(Doozr_Registry &$registry, $resource = null, array $config = null)
     {
         // Detect and store settings
         if ($config) {
@@ -259,7 +259,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements Dooz
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @throws DoozR_Template_Service_Exception
+     * @throws Doozr_Template_Service_Exception
      */
     protected function initEngine($engine)
     {
@@ -270,7 +270,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements Dooz
             $this->setDecoratedObject(new PHPTAL($this->resource));
             break;
         default:
-        throw new DoozR_Template_Service_Exception(
+        throw new Doozr_Template_Service_Exception(
             'Configured engine "'.$this->library.'" is currently not supported!'
         );
         }
@@ -291,7 +291,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements Dooz
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if successful, otherwise FALSE
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function assignVariable($variable = null, $value = null)
     {

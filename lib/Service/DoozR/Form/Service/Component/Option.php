@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Option.php - Option part of select field. Extra element cause it
  * has a similar interface like standard html elements. so recycle.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,36 +43,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Option.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Option.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Option part of select field. Extra element cause it
  * has a similar interface like standard html elements. so recycle.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_Formcomponent implements
-    DoozR_Form_Service_Component_Interface_Option
+class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_Formcomponent implements
+    Doozr_Form_Service_Component_Interface_Option
 {
     /**
      * The tag for this type of element
@@ -80,7 +80,7 @@ class DoozR_Form_Service_Component_Option extends DoozR_Form_Service_Component_F
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_OPTION;
+    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_OPTION;
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API

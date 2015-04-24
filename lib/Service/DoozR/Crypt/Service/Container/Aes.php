@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service Crypt Container AES
+ * Doozr Service Crypt Container AES
  *
  * Aes.php - AES-Encryption-Container of the Crypt Service.
  * Supports AES-128, AES-192 and AES-256 cause the length is
@@ -11,7 +11,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -44,21 +44,21 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Crypt
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Crypt
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Crypt/Service/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Crypt/Service/Container/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Crypt/Service/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Crypt/Service/Container/Interface.php';
 
 /**
- * DoozR Service Crypt Container AES
+ * Doozr Service Crypt Container AES
  *
  * AES-Encryption-Container of the Crypt Service.
  *
@@ -79,18 +79,18 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Crypt/Service/Container/Interf
  *  This code can be modified for personal use only.
  *  Comments, Questions? Contact the author at cody [at] wshost [dot] net
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Crypt
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Crypt
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @service    Multiple
  */
-class DoozR_Crypt_Service_Container_Aes
-extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_Interface
+class Doozr_Crypt_Service_Container_Aes
+extends Doozr_Crypt_Service_Container implements Doozr_Crypt_Service_Container_Interface
 {
     /**
      * The number of 32-bit words comprising the plaintext and
@@ -321,7 +321,7 @@ extends DoozR_Crypt_Service_Container implements DoozR_Crypt_Service_Container_I
      * @see   setKey()
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Crypt_Service_Container_Aes
+     * @return Doozr_Crypt_Service_Container_Aes
      * @access public
      */
     public function __construct($key = null)

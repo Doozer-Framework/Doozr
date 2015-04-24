@@ -2,16 +2,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Model
+ * Doozr - Model
  *
- * Model.php - Model of the DoozR Framework. This Model-class provides access
+ * Model.php - Model of the Doozr Framework. This Model-class provides access
  * to Database libs in Model/Lib/... - by acting as a configurable (.config)
  * proxy.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -44,35 +44,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Model
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Decorator/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Decorator/Singleton.php';
 
 /**
- * DoozR - Model
+ * Doozr - Model
  *
- * Model of the DoozR Framework. This Model-class provides access
+ * Model of the Doozr Framework. This Model-class provides access
  * to Database libs in Model/Lib/... - by acting as a configurable (.config)
  * proxy.
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Model
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Model extends DoozR_Base_Decorator_Singleton
+class Doozr_Model extends Doozr_Base_Decorator_Singleton
 {
     /**
      * The decorator configuration
@@ -83,25 +83,25 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     protected $decoratorConfiguration;
 
     /**
-     * DoozR_Path instance for path management
+     * Doozr_Path instance for path management
      *
-     * @var DoozR_Path
+     * @var Doozr_Path
      * @access protected
      */
     protected $path;
 
     /**
-     * DoozR_Config instance for access to configuration
+     * Doozr_Config instance for access to configuration
      *
-     * @var DoozR_Config
+     * @var Doozr_Config
      * @access protected
      */
     protected $config;
 
     /**
-     * DoozR_Logger instance for logging
+     * Doozr_Logger instance for logging
      *
-     * @var DoozR_Logger
+     * @var Doozr_Logger
      * @access protected
      */
     protected $logger;
@@ -111,19 +111,19 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
      * This method is the constructor of the core class.
      *
      * @param array        $databaseConfiguration Configuration for the Generic Decorator Class
-     * @param DoozR_Path   $path                  Instance of DoozR_Path
-     * @param DoozR_Config $config                Instance of DoozR_Config
-     * @param DoozR_Logger $logger                Instance of DoozR_Logger
+     * @param Doozr_Path   $path                  Instance of Doozr_Path
+     * @param Doozr_Config $config                Instance of Doozr_Config
+     * @param Doozr_Logger $logger                Instance of Doozr_Logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Model
+     * @return Doozr_Model
      * @access protected
      */
     protected function __construct(
         array        $databaseConfiguration,
-        DoozR_Path   $path,
-        DoozR_Config $config,
-        DoozR_Logger $logger
+        Doozr_Path   $path,
+        Doozr_Config $config,
+        Doozr_Logger $logger
     ) {
         // what is to decorate?
         $this->setPath($path);
@@ -159,7 +159,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
      * @param bool $enabled TRUE is database (model) is enabled. FALSE to set disabled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Model Instance for chaining
+     * @return Doozr_Model Instance for chaining
      * @access protected
      */
     protected function enabled($enabled)
@@ -183,13 +183,13 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     /**
      * Setter for path.
      *
-     * @param DoozR_Path $path The DoozR_Path instance
+     * @param Doozr_Path $path The Doozr_Path instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setPath(DoozR_Path $path)
+    protected function setPath(Doozr_Path $path)
     {
         $this->path = $path;
     }
@@ -197,13 +197,13 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     /**
      * Setter for path.
      *
-     * @param DoozR_Path $path The DoozR_Path instance
+     * @param Doozr_Path $path The Doozr_Path instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Model Instance for chaining
+     * @return Doozr_Model Instance for chaining
      * @access protected
      */
-    protected function path(DoozR_Path $path)
+    protected function path(Doozr_Path $path)
     {
         $this->setPath($path);
         return $this;
@@ -213,7 +213,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
      * Getter for path.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Path The DoozR_Path instance
+     * @return Doozr_Path The Doozr_Path instance
      * @access protected
      */
     protected function getPath()
@@ -224,13 +224,13 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     /**
      * Setter for logger.
      *
-     * @param DoozR_Logger $logger DoozR logger
+     * @param Doozr_Logger $logger Doozr logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setLogger(DoozR_Logger $logger)
+    protected function setLogger(Doozr_Logger $logger)
     {
         $this->logger = $logger;
     }
@@ -238,13 +238,13 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     /**
      * Setter for logger.
      *
-     * @param DoozR_Logger $logger DoozR logger
+     * @param Doozr_Logger $logger Doozr logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Model Instance for chaining
+     * @return Doozr_Model Instance for chaining
      * @access protected
      */
-    protected function logger(DoozR_Logger $logger)
+    protected function logger(Doozr_Logger $logger)
     {
         $this->setLogger($logger);
         return $this;
@@ -254,7 +254,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
      * Getter for logger.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Logger Instance of DoozR logger
+     * @return Doozr_Logger Instance of Doozr logger
      * @access protected
      */
     protected function getLogger()
@@ -265,13 +265,13 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     /**
      * Setter for config.
      *
-     * @param DoozR_Config $config DoozR config
+     * @param Doozr_Config $config Doozr config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setConfig(DoozR_Config $config)
+    protected function setConfig(Doozr_Config $config)
     {
         $this->config = $config;
     }
@@ -279,13 +279,13 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
     /**
      * Setter for config.
      *
-     * @param DoozR_Config $config DoozR config
+     * @param Doozr_Config $config Doozr config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Model Instance for chaining
+     * @return Doozr_Model Instance for chaining
      * @access protected
      */
-    protected function config(DoozR_Config $config)
+    protected function config(Doozr_Config $config)
     {
         $this->setConfig($config);
         return $this;
@@ -295,7 +295,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
      * Getter for config.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config The instance
+     * @return Doozr_Config The instance
      * @access protected
      */
     protected function getConfig()
@@ -323,7 +323,7 @@ class DoozR_Model extends DoozR_Base_Decorator_Singleton
      * @param array $decoratorConfiguration The configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Model Instance for chaining
+     * @return Doozr_Model Instance for chaining
      * @access protected
      */
     protected function decoratorConfiguration(array $decoratorConfiguration)

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Cache - Service - Container
+ * Doozr - Cache - Service - Container
  *
  * Container.php - Base class of all cache storage container.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,38 +42,38 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Container/Interface.php';
 
 use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 
 /**
- * DoozR - Cache - Service - Container
+ * Doozr - Cache - Service - Container
  *
  * Base class of all cache storage container.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_Cache_Service_Container
+abstract class Doozr_Cache_Service_Container
     implements
-    DoozR_Cache_Service_Container_Interface
+    Doozr_Cache_Service_Container_Interface
 {
     /**
      * Whether the OS is unixoid.
@@ -188,7 +188,7 @@ abstract class DoozR_Cache_Service_Container
      * @param array $options The options passed to this instance at runtime
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Cache_Service_Container Instance of this class
+     * @return Doozr_Cache_Service_Container Instance of this class
      * @access public
      */
     public function __construct(array $options = array())
@@ -505,7 +505,7 @@ abstract class DoozR_Cache_Service_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed|null The value for passed key if exist, otherwise NULL
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function getFromRuntimeCache($key, $namespace)
     {
@@ -539,7 +539,7 @@ abstract class DoozR_Cache_Service_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if runtime cache was purged, otherwise FALSE
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function purgeRuntimeCache($key = null, $namespace = null)
     {

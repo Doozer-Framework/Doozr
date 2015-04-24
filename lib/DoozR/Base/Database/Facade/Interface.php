@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Database - Interface
+ * Doozr - Base - Database - Interface
  *
- * DoozRBaseDatabaseInterface.class.php - Base/master interface for building a Database-Abstraction-Layer
+ * DoozrBaseDatabaseInterface.class.php - Base/master interface for building a Database-Abstraction-Layer
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Base_Database
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Base_Database
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  *
  * @since      -
  */
 
 /**
- * DoozR - Base - Database - Interface
+ * Doozr - Base - Database - Interface
  *
  * Base/master interface for building a Database-Abstraction-Layer
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Base_Database
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Base_Database
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @author     $LastChangedBy$ <doozr@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
-interface DoozR_Base_Database_Interface
+interface Doozr_Base_Database_Interface
 {
     /**
      * dispatch configuration to ORM/DBA

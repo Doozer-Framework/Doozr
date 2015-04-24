@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Crypt - Service
+ * Doozr - Crypt - Service
  *
- * Service.php - En- / Decryption Service for DoozR Framework.
+ * Service.php - En- / Decryption Service for Doozr Framework.
  * This module works with container so different ciphers are supported:
  *
  *     AES:
@@ -15,7 +15,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -48,45 +48,45 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Crypt
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Crypt
  * @author     Marcin F. Wisniowski <marcin.wisniowski@mfw.pl>
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Crypt - Service
+ * Doozr - Crypt - Service
  *
  * AES Cipher Library - Based on Federal Information Processing Standards Publication
  * 197 - 26th November 2001 - Text cipher class - This class is using AES crypt algoritm
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Crypt
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Crypt
  * @author     Marcin F. Wisniowski <marcin.wisniowski@mfw.pl>
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="__construct",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
+class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
 {
     /**
      * holds the AES-cipher object
@@ -272,7 +272,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade implements 
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of the container
      * @access protected
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     protected function containerFactory($container, array $containerOptions = array())
     {
@@ -282,7 +282,7 @@ class DoozR_Crypt_Service extends DoozR_Base_Service_Multiple_Facade implements 
 
         // check if file exists
         if (!file_exists($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Container-File: '.$file.' does not exist!'
             );
         }

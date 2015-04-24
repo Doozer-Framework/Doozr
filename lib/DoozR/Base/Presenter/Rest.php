@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Presenter - Rest
+ * Doozr - Base - Presenter - Rest
  *
  * Rest.php - Base class for presenter-layers from MVP with REST support
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,38 +42,38 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Presenter.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Presenter.php';
 
 /**
- * DoozR - Base Presenter
+ * Doozr - Base Presenter
  *
- * Base Presenter of the DoozR Framework.
+ * Base Presenter of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
+class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
 {
     /**
      * The rest service
      *
-     * @var DoozR_Rest_Service
+     * @var Doozr_Rest_Service
      * @access protected
      */
     protected $rest;
@@ -146,26 +146,26 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * Constructor.
      *
-     * @param DoozR_Registry             $registry      Instance of DoozR_Registry containing all core components
-     * @param DoozR_Base_State_Interface $requestState  The whole request as processed by "Route"
+     * @param Doozr_Registry             $registry      Instance of Doozr_Registry containing all core components
+     * @param Doozr_Base_State_Interface $requestState  The whole request as processed by "Route"
      * @param array                      $request       The request
      * @param array                      $translation   The translation required to read the request
-     * @param DoozR_Config_Interface     $configuration The DoozR main config instance
-     * @param DoozR_Base_Model           $model         The model to communicate with backend (db)
-     * @param DoozR_Base_View            $view          The view to display results
+     * @param Doozr_Config_Interface     $configuration The Doozr main config instance
+     * @param Doozr_Base_Model           $model         The model to communicate with backend (db)
+     * @param Doozr_Base_View            $view          The view to display results
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Presenter_Rest
+     * @return \Doozr_Base_Presenter_Rest
      * @access public
      */
     public function __construct(
-        DoozR_Registry             $registry,
-        DoozR_Base_State_Interface $requestState,
+        Doozr_Registry             $registry,
+        Doozr_Base_State_Interface $requestState,
         array                      $request,
         array                      $translation,
-        DoozR_Config_Interface     $configuration = null,
-        DoozR_Base_Model           $model         = null,
-        DoozR_Base_View            $view          = null
+        Doozr_Config_Interface     $configuration = null,
+        Doozr_Base_Model           $model         = null,
+        Doozr_Base_View            $view          = null
     ) {
         // We need to hook in here - to make use of this proxy for installing JsonResponseHandler ;)
         /*
@@ -198,7 +198,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
-     * @throws DoozR_Base_Presenter_Rest_Exception
+     * @throws Doozr_Base_Presenter_Rest_Exception
      */
     public function Main()
     {
@@ -220,7 +220,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
             $this->run();
 
         } else {
-            throw new DoozR_Base_Presenter_Rest_Exception(
+            throw new Doozr_Base_Presenter_Rest_Exception(
                 'The resource "' . $resource . '" is unknown to me. I never heard about it before.',
                 404
             );
@@ -230,13 +230,13 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * Setter for REST
      *
-     * @param DoozR_Rest_Service $rest A rest service instance to set
+     * @param Doozr_Rest_Service $rest A rest service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setRest(DoozR_Rest_Service $rest)
+    public function setRest(Doozr_Rest_Service $rest)
     {
         $this->rest = $rest;
     }
@@ -245,7 +245,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      * Getter for REST
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Rest_Service The rest service instance
+     * @return Doozr_Rest_Service The rest service instance
      * @access public
      */
     public function getRest()
@@ -256,13 +256,13 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
     /**
      * Registers a new route
      *
-     * @param DoozR_Base_Presenter_Rest_Config $config The config
+     * @param Doozr_Base_Presenter_Rest_Config $config The config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function registerRoute(DoozR_Base_Presenter_Rest_Config $config)
+    protected function registerRoute(Doozr_Base_Presenter_Rest_Config $config)
     {
         $this->routes[$config->getRoute()] = $config;
     }
@@ -343,10 +343,10 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      * @param string $url The URL to return route for.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config|false The config if route could be revsolved,
+     * @return Doozr_Base_Presenter_Rest_Config|false The config if route could be revsolved,
      *                                                false if route could not be resolved
      * @access protected
-     * @throws DoozR_Base_Presenter_Rest_Exception
+     * @throws Doozr_Base_Presenter_Rest_Exception
      */
     protected function getRouteByUrl($url)
     {
@@ -377,7 +377,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
                 $routeTree = $routeTree[$nodes[$i]];
 
             } else {
-                throw new DoozR_Base_Presenter_Rest_Exception(
+                throw new Doozr_Base_Presenter_Rest_Exception(
                     'Route for URL "' . $url . '" seems wrong. It could not be resolved.',
                     400
                 );
@@ -388,7 +388,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
             if ($i === ($countNodes - 1)) {
                 if (is_object($routeTree) === true) {
                     // Inject Ids for reverse lookup
-                    /* @var $routeTree DoozR_Base_Presenter_Rest_Config */
+                    /* @var $routeTree Doozr_Base_Presenter_Rest_Config */
                     $routeTree
                         ->id($uid)
                         ->ids($ids)
@@ -398,7 +398,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
 
                 } else {
                     // In this case we ended up before we got config!
-                    throw new DoozR_Base_Presenter_Rest_Exception(
+                    throw new Doozr_Base_Presenter_Rest_Exception(
                         'Route for URL "' . $url . '" seems incomplete.',
                         406
                     );
@@ -438,7 +438,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      * Getter for state object.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State
+     * @return Doozr_Request_State
      * @access protected
      */
     protected function getStateObject()
@@ -451,7 +451,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @throws DoozR_Base_Presenter_Rest_Exception
+     * @throws Doozr_Base_Presenter_Rest_Exception
      * @access protected
      */
     protected function run()
@@ -478,7 +478,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
 
         // Request method should not be processed.
         if ($routeConfig->isAllowed($requestMethod) === false) {
-            throw new DoozR_Base_Presenter_Rest_Exception(
+            throw new Doozr_Base_Presenter_Rest_Exception(
                 'Method "' . $this->getStateObject()->getMethod() .'" not allowed.',
                 405
             );
@@ -498,7 +498,7 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
                 }
             }
 
-            throw new DoozR_Base_Presenter_Rest_Exception(
+            throw new Doozr_Base_Presenter_Rest_Exception(
                 'Missing required argument' . ((count($missingArguments) > 1) ? 's' : '') . ': ' .
                 implode(',', $missingArguments),
                 406
@@ -520,13 +520,13 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      * Checks if all required fields where passed with request.
      *
      * @param array                   $argumentsRequired The arguments required
-     * @param DoozR_Request_Arguments $argumentsSent     The arguments send with request
+     * @param Doozr_Request_Arguments $argumentsSent     The arguments send with request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if all required fields where sent, otherwise FALSE
      * @access protected
      */
-    protected function validateInputArguments(array $argumentsRequired, DoozR_Request_Arguments $argumentsSent)
+    protected function validateInputArguments(array $argumentsRequired, Doozr_Request_Arguments $argumentsSent)
     {
         $valid       = true;
         $requestBody = $this->getStateObject()->getRequestBody();
@@ -546,16 +546,16 @@ class DoozR_Base_Presenter_Rest extends DoozR_Base_Presenter
      * Returns the response object for sending header(s).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Response_Cli|DoozR_Response_Httpd|DoozR_Response_Web
+     * @return Doozr_Response_Cli|Doozr_Response_Httpd|Doozr_Response_Web
      * @access protected
      */
     protected function getResponse()
     {
         // get registry
-        $registry = DoozR_Registry::getInstance();
+        $registry = Doozr_Registry::getInstance();
 
         // get response
-        /* @var $response DoozR_Response_Web */
+        /* @var $response Doozr_Response_Web */
         return $registry->front->getResponse();
     }
 }

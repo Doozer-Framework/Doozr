@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Config - Service
+ * Doozr - Config - Service
  *
  * Service.php - Config Service
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,46 +42,46 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Config
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Config
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Config/Service/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Config/Service/Exception.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Config - Service
+ * Doozr - Config - Service
  *
  * Config Service
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Config
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Config
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="__construct",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
-    DoozR_Base_Service_Interface,
-    DoozR_Config_Interface
+class Doozr_Config_Service extends Doozr_Base_Service_Multiple implements
+    Doozr_Base_Service_Interface,
+    Doozr_Config_Interface
 {
     /**
      * contains an instance of the class/object decorated
@@ -102,17 +102,17 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
     private static $_staticDecoratedObject;
 
     /**
-     * Contains instance of DoozR_Path
+     * Contains instance of Doozr_Path
      *
-     * @var DoozR_Path_Interface
+     * @var Doozr_Path_Interface
      * @access private
      */
     private $path;
 
     /**
-     * Contains instance of DoozR_Logger
+     * Contains instance of Doozr_Logger
      *
-     * @var DoozR_Logger_Interface
+     * @var Doozr_Logger_Interface
      * @access private
      */
     private $logger;
@@ -157,7 +157,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
         // Create instance through factory and set as object to decorate!
         $this->setDecoratedObject(
             $this->factory(
-                'DoozR_Config_Service_Container_'.ucfirst(strtolower($type)),
+                'Doozr_Config_Service_Container_'.ucfirst(strtolower($type)),
                 DOOZR_DOCUMENT_ROOT,
                 array(
                     $this->path,
@@ -264,7 +264,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
      *
      * @param string $property The property to return
      *
-     * @throws DoozR_Config_Service_Exception
+     * @throws Doozr_Config_Service_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The data from property
      * @access public
@@ -274,7 +274,7 @@ class DoozR_Config_Service extends DoozR_Base_Service_Multiple implements
         if ($property != 'decoratedObject') {
 
             if (isset($this->decoratedObject->{$property}) === false) {
-                throw new DoozR_Config_Service_Exception('Error reading property!');
+                throw new Doozr_Config_Service_Exception('Error reading property!');
             }
 
             return $this->decoratedObject->{$property};

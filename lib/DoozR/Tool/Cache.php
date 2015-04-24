@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Tool - Cache
+ * Doozr - Tool - Cache
  *
  * Cache.php - Cache tool for internal webserver.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Tool
- * @subpackage DoozR_Tool_Cache
+ * @category   Doozr
+ * @package    Doozr_Tool
+ * @subpackage Doozr_Tool_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once 'DoozR/Tool/Abstract.php';
+require_once 'Doozr/Tool/Abstract.php';
 
 use \donatj\Flags;
 
 /**
- * DoozR - Tool - Cache
+ * Doozr - Tool - Cache
  *
  * Cache tool for internal webserver.
  *
- * @category   DoozR
- * @package    DoozR_Tool
- * @subpackage DoozR_Tool_Cache
+ * @category   Doozr
+ * @package    Doozr_Tool
+ * @subpackage Doozr_Tool_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Tool_Cache extends DoozR_Tool_Abstract
+class Doozr_Tool_Cache extends Doozr_Tool_Abstract
 {
     /**
      * Valid scopes for cache operations
@@ -112,10 +112,10 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
      * @const
      */
     const SCOPE_EVERYTHING    = '*';                        // <= Everything/Generic
-    const SCOPE_DOOZR         = 'doozr';                    // <= DoozR root namespace
+    const SCOPE_DOOZR         = 'doozr';                    // <= Doozr root namespace
     const SCOPE_DOOZR_CACHE   = 'doozr.cache';              // <= Default caching namespace of Service Cache
-    const SCOPE_DOOZR_CONFIG  = 'doozr.cache.config';       // <= Configuration of DoozR
-    const SCOPE_DOOZR_ROUTES  = 'doozr.cache.routes';       // <= Routes of the DoozR Installation
+    const SCOPE_DOOZR_CONFIG  = 'doozr.cache.config';       // <= Configuration of Doozr
+    const SCOPE_DOOZR_ROUTES  = 'doozr.cache.routes';       // <= Routes of the Doozr Installation
     const SCOPE_DOOZR_I18N    = 'doozr.cache.i18n';         // <= Translations
 
 
@@ -131,7 +131,7 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed A result in any form.
      * @access protected
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     protected function execute($injectedCommand = null)
     {
@@ -162,7 +162,7 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
             $result = $this->dispatchCommand($injectedCommand, $argumentBag);
 
         } else {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Not implemented!'
             );
         }
@@ -237,29 +237,29 @@ class DoozR_Tool_Cache extends DoozR_Tool_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed|boolean A result in any form or FALSE on error.
      * @access protected
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     protected function purge(
               $namespace   = self::SCOPE_EVERYTHING,
         array $argumentBag = array()
     ) {
-        // We need to detect the cache container of DoozR or fallback to default
+        // We need to detect the cache container of Doozr or fallback to default
         if (false === $container = getenv('DOOZR_CACHE_CONTAINER')) {
             if (defined('DOOZR_CACHE_CONTAINER') === false) {
-                define('DOOZR_CACHE_CONTAINER', DoozR_Cache_Service::CONTAINER_FILESYSTEM);
+                define('DOOZR_CACHE_CONTAINER', Doozr_Cache_Service::CONTAINER_FILESYSTEM);
             }
             $container = DOOZR_CACHE_CONTAINER;
         }
 
         // Build namespace for cache
         if (in_array($namespace, $this->validScopes) === false) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 sprintf('Scope %s not allowed!', $namespace)
             );
         }
 
-        /* @var DoozR_Cache_Service $cache */
-        $cache = DoozR_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX);
+        /* @var Doozr_Cache_Service $cache */
+        $cache = Doozr_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX);
 
         // We can purge simply everything from passed namespace!
         try {

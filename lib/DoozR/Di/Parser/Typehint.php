@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Typehint Parser
+ * Doozr - Di - Typehint Parser
  *
  * Typehint.php - Typehint Parser of the Di-Framework
  *
@@ -42,8 +42,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Typehint
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Typehint
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -54,7 +54,7 @@
 require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
 require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
 require_once DI_PATH_LIB_DI . 'Dependency.php';
-require_once DI_PATH_LIB_DI . '* DoozR - Di - tion.php';
+require_once DI_PATH_LIB_DI . '* Doozr - Di - tion.php';
 
 /**
  * Di Typehint Parser
@@ -62,20 +62,20 @@ require_once DI_PATH_LIB_DI . '* DoozR - Di - tion.php';
  * Typehint Parser of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Typehint
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Typehint
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Parser_Typehint extends DoozR_Di_Parser_Abstract implements DoozR_Di_Parser_Interface
+class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract implements Doozr_Di_Parser_Interface
 {
-    /* @var DoozR_Di_Parser_Constructor $_parser */
+    /* @var Doozr_Di_Parser_Constructor $_parser */
     private $_parser;
 
 
-    public function __construct(DoozR_Di_Parser_Constructor $parser)
+    public function __construct(Doozr_Di_Parser_Constructor $parser)
     {
         $this->_parser = $parser;
     }
@@ -92,13 +92,13 @@ class DoozR_Di_Parser_Typehint extends DoozR_Di_Parser_Abstract implements DoozR
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the dependencies build from typehints
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     public function parse()
     {
         // check if all requirements are fulfilled
         if (!$this->requirementsFulfilled()) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Error parsing constructor. Requirements not fulfilled. Please set input to parse constructor from.'
             );
         }
@@ -108,7 +108,7 @@ class DoozR_Di_Parser_Typehint extends DoozR_Di_Parser_Abstract implements DoozR
 
         // if called from outside we maybe need a new instance of reflection
         if (!class_exists($this->input['class']) && !$this->input['reflection']) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Could not parse constructor! Please define at least a "file" which contains the class '.
                 'or an existing ReflectionClass instance'
             );
@@ -142,7 +142,7 @@ class DoozR_Di_Parser_Typehint extends DoozR_Di_Parser_Abstract implements DoozR
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the dependencies build from typehints
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     private function _parseTypehints(ReflectionClass $reflectionClass, $sourcecode)
     {
@@ -186,8 +186,8 @@ class DoozR_Di_Parser_Typehint extends DoozR_Di_Parser_Abstract implements DoozR
                     $tmp['class']      = $argument[0];
                     $tmp['identifier'] = str_replace('$', '', $argument[1]);
                     $tmp['type']       = ($constructor == $method) ?
-                        DoozR_Di_Dependency::TYPE_CONSTRUCTOR :
-                        DoozR_Di_Dependency::TYPE_METHOD;
+                        Doozr_Di_Dependency::TYPE_CONSTRUCTOR :
+                        Doozr_Di_Dependency::TYPE_METHOD;
                     $tmp['position']   = $position;
                     $tmp['value']      = $method;
 

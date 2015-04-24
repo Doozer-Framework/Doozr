@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Message.php - The message element control layer which adds validation,
  * and so on to an HTML element.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,34 +43,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Div.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Div.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * The message element control layer which adds validation,
  * and so on to an HTML element.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Component_Message extends DoozR_Form_Service_Component_Div
+class Doozr_Form_Service_Component_Message extends Doozr_Form_Service_Component_Div
 {
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -79,15 +79,15 @@ class DoozR_Form_Service_Component_Message extends DoozR_Form_Service_Component_
     /**
      * Constructor.
      *
-     * @param DoozR_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
+     * @param Doozr_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
      * @param string|null                           $message  The mesage to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Message
+     * @return \Doozr_Form_Service_Component_Message
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface $renderer = null,
+        Doozr_Form_Service_Renderer_Interface $renderer = null,
         $message = null
     ) {
         if ($message !== null) {

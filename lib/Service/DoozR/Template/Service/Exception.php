@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service Template
+ * Doozr Service Template
  *
- * Exception - Exception of DoozR Service Template
+ * Exception - Exception of Doozr Service Template
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,37 +42,37 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Template
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Template
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 
 /**
- * DoozR Service Template
+ * Doozr Service Template
  *
- * Exception of DoozR Service Template
+ * Exception of Doozr Service Template
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Template
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Template
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Template_Service_Exception extends DoozR_Exception
+class Doozr_Template_Service_Exception extends Doozr_Exception
 {
     /**
      * Overrides parents constructor to add context to each exception of type:
-     * Service_DoozR_Template_Exception
+     * Service_Doozr_Template_Exception
      *
      * This method is intend to override parents constructor to add context to each exception.
      *
@@ -80,7 +80,7 @@ class DoozR_Template_Service_Exception extends DoozR_Exception
      * @param int $code     The code of the exception
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
-     * @return \DoozR_Template_Service_Exception instance of this class
+     * @return \Doozr_Template_Service_Exception instance of this class
      * @author  Benjamin Carl <opensource@clickalicious.de>
      * @access  public
      */
@@ -92,7 +92,7 @@ class DoozR_Template_Service_Exception extends DoozR_Exception
         }
 
         // add context to message!
-        $message = 'Service-Exception => DoozR_Template: '.$message;
+        $message = 'Service-Exception => Doozr_Template: '.$message;
 
         // call parents constructor
         parent::__construct($message, $code, $previous);

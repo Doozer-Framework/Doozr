@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Configuration.php - Configuration class for sharing configurations.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Form - Service - Shared Constant(s)
+ * Doozr - Form - Service - Shared Constant(s)
  *
  * Configuration class for sharing configurations.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Configuration
+class Doozr_Form_Service_Configuration
 {
     /**
      * The id.
@@ -109,7 +109,7 @@ class DoozR_Form_Service_Configuration
     protected $dirty = false;
 
     /**
-     * The prefix which identifies DoozR's commands in configurations.
+     * The prefix which identifies Doozr's commands in configurations.
      *
      * @var string
      * @access public
@@ -202,7 +202,7 @@ class DoozR_Form_Service_Configuration
      * @param array $configuration The configuration to parse
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Configuration Current instance for chaining
+     * @return Doozr_Form_Service_Configuration Current instance for chaining
      * @access public
      */
     public function parseFromArray(array $configuration)
@@ -338,7 +338,7 @@ class DoozR_Form_Service_Configuration
     }
 
     /**
-     * Returns the method name of a DoozR function by passed key.
+     * Returns the method name of a Doozr function by passed key.
      *
      * @param string $key The key to return method name for
      *
@@ -368,7 +368,7 @@ class DoozR_Form_Service_Configuration
     {
         $result = array();
 
-        // Extract commands of DoozR from configuration
+        // Extract commands of Doozr from configuration
         foreach($configuration as $root => $childs) {
 
             foreach ($childs as $key => $values) {

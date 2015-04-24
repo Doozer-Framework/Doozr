@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Password - Service
+ * Doozr - Password - Service
  *
- * Service.php - Password Service of the DoozR Framework.
+ * Service.php - Password Service of the Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,42 +42,42 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Password
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Password
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Password - Service
+ * Doozr - Password - Service
  *
- * Service.php - Password Service of the DoozR Framework.
+ * Service.php - Password Service of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Password
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Password
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Release: @package_version@
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="__construct",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implements DoozR_Base_Service_Interface
+class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
 {
     /**
      * type of userfriendly (speakable) passwords like
@@ -150,7 +150,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implemen
 
     /**
      * holds the return type for password - Passwordhash
-     * Passwordhash is DoozR's and some other major software's
+     * Passwordhash is Doozr's and some other major software's
      * hashing framework. More:
      *
      * @var int
@@ -268,16 +268,16 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implemen
     /**
      * holds a reference to module passwordhash
      *
-     * @var DoozR_Password_Service_Hash
+     * @var Doozr_Password_Service_Hash
      * @access private
      * @static
      */
     private static $_passwordhash;
 
     /**
-     * An instance of DoozR_Config
+     * An instance of Doozr_Config
      *
-     * @var DoozR_Config
+     * @var Doozr_Config
      * @access private
      */
     private $_config;
@@ -294,7 +294,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implemen
      */
     public function __tearup()
     {
-        // get current active DoozR config from registry
+        // get current active Doozr config from registry
         $this->_config = $this->registry->config;
 
         // construct password matrices
@@ -397,7 +397,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implemen
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The new (random) generated password
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function generate(
         $type = self::PASSWORD_ALPHANUM_SPECIAL,
@@ -458,7 +458,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implemen
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The password
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      * @access private
      */
     private function _createUserFriendlyPassword($base, $length)
@@ -468,7 +468,7 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implemen
 
         // length for userfriendly must be multiple of two
         if ($length % 2 > 0) {
-            throw new DoozR_Exception('Length of userfriendly-password must be a multiple of two!');
+            throw new Doozr_Exception('Length of userfriendly-password must be a multiple of two!');
         }
 
         // build password
@@ -552,15 +552,15 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implemen
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return double The score
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function scoreDifference($passwordOne = null, $passwordTwo = null)
     {
         // check input
         if (!$passwordOne) {
-            throw new DoozR_Exception('Missing input parameter one: $passwordOne for calculating score!');
+            throw new Doozr_Exception('Missing input parameter one: $passwordOne for calculating score!');
         } elseif (!$passwordOne) {
-            throw new DoozR_Exception('Missing input parameter two: $passwordTwo for calculating score!');
+            throw new Doozr_Exception('Missing input parameter two: $passwordTwo for calculating score!');
         }
 
         /**
@@ -814,9 +814,9 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implemen
     {
         // already loaded phpass?
         if (self::$_passwordhash === null) {
-            include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Password/Service/Lib/Hash.php';
-            /* @var self::$_passwordhash DoozR_Password_Service_Hash */
-            self::$_passwordhash = new DoozR_Password_Service_Hash(8, false);
+            include_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Password/Service/Lib/Hash.php';
+            /* @var self::$_passwordhash Doozr_Password_Service_Hash */
+            self::$_passwordhash = new Doozr_Password_Service_Hash(8, false);
         }
 
         // return validation status
@@ -836,8 +836,8 @@ class DoozR_Password_Service extends DoozR_Base_Service_Multiple_Facade implemen
     {
         // already loaded phpass?
         if (self::$_passwordhash === null) {
-            include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Password/Service/Lib/Hash.php';
-            self::$_passwordhash = new DoozR_Password_Service_Hash(8, false);
+            include_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Password/Service/Lib/Hash.php';
+            self::$_passwordhash = new Doozr_Password_Service_Hash(8, false);
         }
 
         // return the calculated hash

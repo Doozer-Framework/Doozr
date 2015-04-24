@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Response
+ * Doozr - Base - Response
  *
- * Response.php - Base response class of the DoozR Framework.
+ * Response.php - Base response class of the Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Response
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Base - Response
+ * Doozr - Base - Response
  *
- * Base response class of the DoozR Framework.
+ * Base response class of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Response
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Response
+class Doozr_Base_Response
 {
     /**
      * holds the TYPE of the Response (can be WEB or CLI)
@@ -79,7 +79,7 @@ class DoozR_Base_Response
     /**
      * The registry
      *
-     * @var DoozR_Registry
+     * @var Doozr_Registry
      * @access protected
      */
     protected $registry;
@@ -103,14 +103,14 @@ class DoozR_Base_Response
     /**
      * Constructor.
      *
-     * @param DoozR_Config|object $config An instance of config
-     * @param DoozR_Logger|object $logger An instance of config
+     * @param Doozr_Config|object $config An instance of config
+     * @param Doozr_Logger|object $logger An instance of config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Response
+     * @return \Doozr_Base_Response
      * @access public
      */
-    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    public function __construct(Doozr_Config $config, Doozr_Logger $logger)
     {
         // get a handle on logger
         $this->config = $config;

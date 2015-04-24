@@ -1,20 +1,20 @@
 {
     "map": [
         {
-            "DoozR_Encoding": {
+            "Doozr_Encoding": {
                 "constructor": "getInstance",
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Config",
-                        "classname": "DoozR_Config",
+                        "identifier": "Doozr_Config",
+                        "classname": "Doozr_Config",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Logger",
-                        "classname": "DoozR_Logger",
+                        "identifier": "Doozr_Logger",
+                        "classname": "Doozr_Logger",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -22,12 +22,12 @@
                     }
                 ]
             },
-            "DoozR_Debug": {
+            "Doozr_Debug": {
                 "constructor": "getInstance",
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Logger",
-                        "classname": "DoozR_Logger",
+                        "identifier": "Doozr_Logger",
+                        "classname": "Doozr_Logger",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -35,20 +35,20 @@
                     }
                 ]
             },
-            "DoozR_Locale": {
+            "Doozr_Locale": {
                 "constructor": "getInstance",
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Config",
-                        "classname": "DoozR_Config",
+                        "identifier": "Doozr_Config",
+                        "classname": "Doozr_Config",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Logger",
-                        "classname": "DoozR_Logger",
+                        "identifier": "Doozr_Logger",
+                        "classname": "Doozr_Logger",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -56,20 +56,20 @@
                     }
                 ]
             },
-            "DoozR_Security": {
+            "Doozr_Security": {
                 "constructor": "getInstance",
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Config",
-                        "classname": "DoozR_Config",
+                        "identifier": "Doozr_Config",
+                        "classname": "Doozr_Config",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Logger",
-                        "classname": "DoozR_Logger",
+                        "identifier": "Doozr_Logger",
+                        "classname": "Doozr_Logger",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -77,28 +77,28 @@
                     }
                 ]
             },
-            "DoozR_Controller_Back": {
+            "Doozr_Controller_Back": {
                 "constructor": "getInstance",
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Registry",
-                        "classname": "DoozR_Registry",
+                        "identifier": "Doozr_Registry",
+                        "classname": "Doozr_Registry",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Config",
-                        "classname": "DoozR_Config",
+                        "identifier": "Doozr_Config",
+                        "classname": "Doozr_Config",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Logger",
-                        "classname": "DoozR_Logger",
+                        "identifier": "Doozr_Logger",
+                        "classname": "Doozr_Logger",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -106,20 +106,20 @@
                     }
                 ]
             },
-            "DoozR_Config": {
+            "Doozr_Config": {
                 "constructor": "getInstance",
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Config_Reader_Json",
-                        "classname": "DoozR_Config_Reader_Json",
+                        "identifier": "Doozr_Config_Reader_Json",
+                        "classname": "Doozr_Config_Reader_Json",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Cache_Service",
-                        "classname": "DoozR_Cache_Service",
+                        "identifier": "Doozr_Cache_Service",
+                        "classname": "Doozr_Cache_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -127,11 +127,11 @@
                     }
                 ]
             },
-            "DoozR_Cache_Service": {
+            "Doozr_Cache_Service": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Registry",
-                        "classname": "DoozR_Registry",
+                        "identifier": "Doozr_Registry",
+                        "classname": "Doozr_Registry",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -139,19 +139,19 @@
                     }
                 ]
             },
-            "DoozR_Config_Reader_Ini": {
+            "Doozr_Config_Reader_Ini": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Filesystem_Service",
-                        "classname": "DoozR_Filesystem_Service",
+                        "identifier": "Doozr_Filesystem_Service",
+                        "classname": "Doozr_Filesystem_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Cache_Service",
-                        "classname": "DoozR_Cache_Service",
+                        "identifier": "Doozr_Cache_Service",
+                        "classname": "Doozr_Cache_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -159,11 +159,11 @@
                     }
                 ]
             },
-            "DoozR_Logger": {
+            "Doozr_Logger": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Datetime_Service",
-                        "classname": "DoozR_Datetime_Service",
+                        "identifier": "Doozr_Datetime_Service",
+                        "classname": "Doozr_Datetime_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -171,11 +171,11 @@
                     }
                 ]
             },
-            "DoozR_Logger_System": {
+            "Doozr_Logger_System": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Datetime_Service",
-                        "classname": "DoozR_Datetime_Service",
+                        "identifier": "Doozr_Datetime_Service",
+                        "classname": "Doozr_Datetime_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -183,11 +183,11 @@
                     }
                 ]
             },
-            "DoozR_Logger_Collecting": {
+            "Doozr_Logger_Collecting": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Datetime_Service",
-                        "classname": "DoozR_Datetime_Service",
+                        "identifier": "Doozr_Datetime_Service",
+                        "classname": "Doozr_Datetime_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -195,11 +195,11 @@
                     }
                 ]
             },
-            "DoozR_Logger_Client": {
+            "Doozr_Logger_Client": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Datetime_Service",
-                        "classname": "DoozR_Datetime_Service",
+                        "identifier": "Doozr_Datetime_Service",
+                        "classname": "Doozr_Datetime_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -207,11 +207,11 @@
                     }
                 ]
             },
-            "DoozR_Logger_File": {
+            "Doozr_Logger_File": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Datetime_Service",
-                        "classname": "DoozR_Datetime_Service",
+                        "identifier": "Doozr_Datetime_Service",
+                        "classname": "Doozr_Datetime_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -219,11 +219,11 @@
                     }
                 ]
             },
-            "DoozR_Logger_Debugbar": {
+            "Doozr_Logger_Debugbar": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Datetime_Service",
-                        "classname": "DoozR_Datetime_Service",
+                        "identifier": "Doozr_Datetime_Service",
+                        "classname": "Doozr_Datetime_Service",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -231,16 +231,16 @@
                     }
                 ]
             },
-            "DoozR_Registry": {
+            "Doozr_Registry": {
                 "constructor": "getInstance",
                 "dependencies": []
             },
-            "DoozR_Model": {
+            "Doozr_Model": {
                 "constructor": "getInstance",
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Path",
-                        "classname": "DoozR_Path",
+                        "identifier": "Doozr_Path",
+                        "classname": "Doozr_Path",
                         "instance": null,
                         "config": {
                             "type": "constructor",
@@ -248,8 +248,8 @@
                         }
                     },
                     {
-                        "identifier": "DoozR_Config",
-                        "classname": "DoozR_Config",
+                        "identifier": "Doozr_Config",
+                        "classname": "Doozr_Config",
                         "instance": null,
                         "config": {
                             "type": "constructor",
@@ -257,8 +257,8 @@
                         }
                     },
                     {
-                        "identifier": "DoozR_Logger",
-                        "classname": "DoozR_Logger",
+                        "identifier": "Doozr_Logger",
+                        "classname": "Doozr_Logger",
                         "instance": null,
                         "config": {
                             "type": "constructor",
@@ -267,19 +267,19 @@
                     }
                 ]
             },
-            "DoozR_Request": {
+            "Doozr_Request": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Registry",
-                        "classname": "DoozR_Registry",
+                        "identifier": "Doozr_Registry",
+                        "classname": "Doozr_Registry",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Request_State",
-                        "classname": "DoozR_Request_State",
+                        "identifier": "Doozr_Request_State",
+                        "classname": "Doozr_Request_State",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -287,19 +287,19 @@
                     }
                 ]
             },
-            "DoozR_Response": {
+            "Doozr_Response": {
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Registry",
-                        "classname": "DoozR_Registry",
+                        "identifier": "Doozr_Registry",
+                        "classname": "Doozr_Registry",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Response_State",
-                        "classname": "DoozR_Response_State",
+                        "identifier": "Doozr_Response_State",
+                        "classname": "Doozr_Response_State",
                         "instance": null,
                         "config": {
                             "type": "constructor"
@@ -307,28 +307,28 @@
                     }
                 ]
             },
-            "DoozR_Controller_Front": {
+            "Doozr_Controller_Front": {
                 "constructor": "getInstance",
                 "dependencies": [
                     {
-                        "identifier": "DoozR_Registry",
-                        "classname": "DoozR_Registry",
+                        "identifier": "Doozr_Registry",
+                        "classname": "Doozr_Registry",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Request_State",
-                        "classname": "DoozR_Request_State",
+                        "identifier": "Doozr_Request_State",
+                        "classname": "Doozr_Request_State",
                         "instance": null,
                         "config": {
                             "type": "constructor"
                         }
                     },
                     {
-                        "identifier": "DoozR_Response_State",
-                        "classname": "DoozR_Response_State",
+                        "identifier": "Doozr_Response_State",
+                        "classname": "Doozr_Response_State",
                         "instance": null,
                         "config": {
                             "type": "constructor"

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Logger - File
+ * Doozr - Logger - File
  *
  * File.php - This logger logs all passed content to a logfile.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,39 +42,39 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_File
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_File
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/PsrInterface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/PsrInterface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
 
 /**
- * DoozR - Logger - File
+ * Doozr - Logger - File
  *
  * File.php - This logger logs all passed content to a logfile.
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_File
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_File
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @see        Abstract.php, Interface.php
  */
-class DoozR_Logger_File extends DoozR_Logger_Abstract implements
-    DoozR_Logger_Interface,
-    DoozR_Logger_PsrInterface,
+class Doozr_Logger_File extends Doozr_Logger_Abstract implements
+    Doozr_Logger_Interface,
+    Doozr_Logger_PsrInterface,
     SplObserver
 {
     /**
@@ -144,22 +144,22 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
     /**
      * Constructor.
      *
-     * @param DoozR_Datetime_Service $datetime
+     * @param Doozr_Datetime_Service $datetime
      * @param int $level The loglevel of the logger extending this class
      * @param string $fingerprint The fingerprint of the client
-     * @internal param DoozR_Config $config The configuration instance
+     * @internal param Doozr_Config $config The configuration instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Logger_File
+     * @return \Doozr_Logger_File
      * @access public
      */
-    public function __construct(DoozR_Datetime_Service $datetime, $level = null, $fingerprint = null)
+    public function __construct(Doozr_Datetime_Service $datetime, $level = null, $fingerprint = null)
     {
         // call parents constructor
         parent::__construct($datetime, $level, $fingerprint);
 
         // get registry
-        $registry = DoozR_Registry::getInstance();
+        $registry = Doozr_Registry::getInstance();
 
         // store path-manager
         $this->setPath($registry->path);
@@ -169,7 +169,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
 
         // set filesystem service
         $this->setFilesystem(
-            DoozR_Loader_Serviceloader::load('filesystem')
+            Doozr_Loader_Serviceloader::load('filesystem')
         );
     }
 
@@ -180,13 +180,13 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
     /**
      * Setter for path.
      *
-     * @param DoozR_Path_Interface $path The path manager
+     * @param Doozr_Path_Interface $path The path manager
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setPath(DoozR_Path_Interface $path)
+    public function setPath(Doozr_Path_Interface $path)
     {
         $this->path = $path;
     }
@@ -195,7 +195,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      * Getter for path.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Path|null The path manager instance if set, otherwise NULL
+     * @return Doozr_Path|null The path manager instance if set, otherwise NULL
      * @access public
      */
     public function getPathToClass($resolveSymlinks = false)
@@ -232,13 +232,13 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
     /**
      * Setter for filesystem.
      *
-     * @param DoozR_Filesystem_Service $filesystem The filesystem instance
+     * @param Doozr_Filesystem_Service $filesystem The filesystem instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setFilesystem(DoozR_Filesystem_Service $filesystem)
+    public function setFilesystem(Doozr_Filesystem_Service $filesystem)
     {
         $this->filesystem = $filesystem;
     }
@@ -247,7 +247,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
      * Getter for filesystem.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Filesystem_Service|null The DoozR_Filesystem_Service instance if set, otherwise NULL
+     * @return Doozr_Filesystem_Service|null The Doozr_Filesystem_Service instance if set, otherwise NULL
      * @access public
      */
     public function getFilesystem()
@@ -343,7 +343,7 @@ class DoozR_Logger_File extends DoozR_Logger_Abstract implements
     {
         switch ($event) {
             case 'log':
-                /* @var DoozR_Logger $subject */
+                /* @var Doozr_Logger $subject */
                 $logs = $subject->getCollectionRaw();
 
                 foreach ($logs as $log) {

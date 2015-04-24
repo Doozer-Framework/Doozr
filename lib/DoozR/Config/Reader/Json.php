@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Config - Reader - Json
+ * Doozr - Config - Reader - Json
  *
  * Json.php - Configuration reader for reading JSON configurations and represent
  * them in an object oriented way. The JSON format is extended and we say
@@ -12,7 +12,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,37 +45,37 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Config
- * @subpackage DoozR_Config_Reader
+ * @category   Doozr
+ * @package    Doozr_Config
+ * @subpackage Doozr_Config_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Reader/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Reader/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Interface.php';
 
 /**
- * DoozR - Config - Reader - Json
+ * Doozr - Config - Reader - Json
  *
  * Configuration reader for reading JSON configurations and represent
  * them in an object oriented way. The JSON format is extended and we say
  * JSON+ to it. This class also provides caching of contents through a cache
  * service instance (this can be either memcache, filesystem ...).
  *
- * @category   DoozR
- * @package    DoozR_Config
- * @subpackage DoozR_Config_Reader
+ * @category   Doozr
+ * @package    Doozr_Config
+ * @subpackage Doozr_Config_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements DoozR_Config_Interface
+class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract implements Doozr_Config_Interface
 {
     /**
      * The decoded content.
@@ -96,7 +96,7 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \stdClass The configuration as object representation
      * @access public
-     * @throws DoozR_Config_Reader_Exception
+     * @throws Doozr_Config_Reader_Exception
      */
     public function read($filename)
     {
@@ -109,7 +109,7 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
         if (true === $this->getCache()) {
             try {
                 $configuration = $this->getCacheService()->read($this->getUuid());
-            } catch (DoozR_Cache_Service_Exception $exception) {
+            } catch (Doozr_Cache_Service_Exception $exception) {
                 // Intentionally left blank
             }
         }
@@ -125,7 +125,7 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
 
         // Error handling
         if ($configuration === false) {
-            throw new DoozR_Config_Reader_Exception(
+            throw new Doozr_Config_Reader_Exception(
                 $this->getErrorByCode(json_last_error())
             );
         }
@@ -146,12 +146,12 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array|null The configuration as array if set, otherwise NULL
      * @access public
-     * @throws DoozR_Config_Reader_Exception
+     * @throws Doozr_Config_Reader_Exception
      */
     public function getAsArray()
     {
         if ($result = $this->getDecodedContent() === null) {
-            throw new DoozR_Config_Reader_Exception(
+            throw new Doozr_Config_Reader_Exception(
                 'Please read() a configuration file before you try to access it as array.'
             );
         }
@@ -173,8 +173,8 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
                 try {
                     $configuration &= $configuration->{$node};
 
-                } catch (DoozR_Error_Exception $e) {
-                    throw new DoozR_Config_Reader_Exception(
+                } catch (Doozr_Error_Exception $e) {
+                    throw new Doozr_Config_Reader_Exception(
                         'Configuration does not have a property: "' . $node . '" in configuration.'
                     );
                 }
@@ -197,7 +197,7 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The result of the request
      * @access public
-     * @throws DoozR_Config_Reader_Exception
+     * @throws Doozr_Config_Reader_Exception
      */
     public function get($node = null)
     {
@@ -209,8 +209,8 @@ class DoozR_Config_Reader_Json extends DoozR_Config_Reader_Abstract implements D
                 try {
                     $configuration = $configuration->{$node};
 
-                } catch (DoozR_Error_Exception $e) {
-                    throw new DoozR_Config_Reader_Exception(
+                } catch (Doozr_Error_Exception $e) {
+                    throw new Doozr_Config_Reader_Exception(
                         'Configuration does not have a property: "' . $node . '" in configuration.'
                     );
                 }

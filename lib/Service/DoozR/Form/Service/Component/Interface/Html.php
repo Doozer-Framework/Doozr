@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Html.php - Contract for all HTML/DOM components. This contract garantues
  * that a class using this interface is renderable through render() can take
@@ -12,7 +12,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,46 +45,46 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Contract for all HTML/DOM components. This contract garantues
  * that a class using this interface is renderable through render() can take
  * child components (also if it doesn't make sense for some components!) and
  * that a call on render() will return the HTML for the whole component.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Form_Service_Component_Interface_Html
+interface Doozr_Form_Service_Component_Interface_Html
 {
     /**
      * Adds a child to the component.
      *
-     * @param DoozR_Form_Service_Component_Interface_Html $child A child component to add to component
+     * @param Doozr_Form_Service_Component_Interface_Html $child A child component to add to component
      * @param string                                      $id    An id to used as index
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The index of
      * @access public
      */
-    public function addChild(DoozR_Form_Service_Component_Interface_Html $child, $id = null);
+    public function addChild(Doozr_Form_Service_Component_Interface_Html $child, $id = null);
 
     /**
      * Removes a child from the component.
@@ -144,13 +144,13 @@ interface DoozR_Form_Service_Component_Interface_Html
     /**
      * Sets a renderer instance.
      *
-     * @param DoozR_Form_Service_Renderer_Interface $renderer A renderer instance
+     * @param Doozr_Form_Service_Renderer_Interface $renderer A renderer instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setRenderer(DoozR_Form_Service_Renderer_Interface $renderer);
+    public function setRenderer(Doozr_Form_Service_Renderer_Interface $renderer);
 
     /**
      * Getter for renderer instance.
@@ -307,7 +307,7 @@ interface DoozR_Form_Service_Component_Interface_Html
     /**
      * Setter for arguments.
      *
-     * @param array|DoozR_Request_Arguments $arguments The arguments
+     * @param array|Doozr_Request_Arguments $arguments The arguments
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -319,7 +319,7 @@ interface DoozR_Form_Service_Component_Interface_Html
      * Getter for arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|DoozR_Request_Arguments $arguments The arguments
+     * @return array|Doozr_Request_Arguments $arguments The arguments
      * @access public
      */
     public function getArguments();

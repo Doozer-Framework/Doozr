@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * FormManager.php - This class is the outer container which collects
  * a form and all its childs and adds the control layer to it and so
@@ -11,7 +11,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -44,33 +44,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * This class is the outer container which collects
  * a form and all its childs and adds the control layer to it and so
  * on!
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_FormManager
+class Doozr_Form_Service_FormManager
 {
     /**
      * The namespace of this instance. This must
@@ -79,13 +79,13 @@ class DoozR_Form_Service_FormManager
      * @var string
      * @access protected
      */
-    protected $namespace = DoozR_Form_Service_Constant::DEFAULT_NAMESPACE;
+    protected $namespace = Doozr_Form_Service_Constant::DEFAULT_NAMESPACE;
 
     /**
      * Contains the Form instance and all of its
      * childs and so on ...
      *
-     * @var DoozR_Form_Service_Component_Form
+     * @var Doozr_Form_Service_Component_Form
      * @access protected
      */
     public $form;
@@ -93,7 +93,7 @@ class DoozR_Form_Service_FormManager
     /**
      * The translator used for translating all types of text within this service.
      *
-     * @var DoozR_I18n_Service_Translator
+     * @var Doozr_I18n_Service_Translator
      * @access protected
      */
     protected $i18n;
@@ -127,7 +127,7 @@ class DoozR_Form_Service_FormManager
      * The store where our data resides while moving from one page request to the next.
      * Some sort of temporary persistence.
      *
-     * @var DoozR_Form_Service_Store_Interface
+     * @var Doozr_Form_Service_Store_Interface
      * @access protected
      */
     protected $store;
@@ -136,7 +136,7 @@ class DoozR_Form_Service_FormManager
      * The renderer which finally takes the components
      * and render them to something really useful.
      *
-     * @var DoozR_Form_Service_Renderer_Interface
+     * @var Doozr_Form_Service_Renderer_Interface
      * @access protected
      */
     protected $renderer;
@@ -180,7 +180,7 @@ class DoozR_Form_Service_FormManager
      * @var int
      * @access protected
      */
-    protected $step = DoozR_Form_Service_Constant::STEP_DEFAULT_FIRST;
+    protected $step = Doozr_Form_Service_Constant::STEP_DEFAULT_FIRST;
 
     /**
      * The last (final) step
@@ -188,7 +188,7 @@ class DoozR_Form_Service_FormManager
      * @var int
      * @access protected
      */
-    protected $steps = DoozR_Form_Service_Constant::STEP_DEFAULT_LAST;
+    protected $steps = Doozr_Form_Service_Constant::STEP_DEFAULT_LAST;
 
     /**
      * The behavior when an invalid token arrives
@@ -201,7 +201,7 @@ class DoozR_Form_Service_FormManager
     /**
      * The argument passed with current request
      *
-     * @var \stdClass|DoozR_Request_Arguments|object|null
+     * @var \stdClass|Doozr_Request_Arguments|object|null
      * @access protected
      */
     protected $arguments;
@@ -237,7 +237,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Validator instance for validation.
      *
-     * @var DoozR_Form_Service_Validate_Validator
+     * @var Doozr_Form_Service_Validate_Validator
      * @access protected
      */
     protected $validator;
@@ -245,7 +245,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Input instance for cloning.
      *
-     * @var DoozR_Form_Service_Component_Input
+     * @var Doozr_Form_Service_Component_Input
      * @access protected
      */
     protected $inputInstance;
@@ -253,7 +253,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Error instance for cloning.
      *
-     * @var DoozR_Form_Service_Validate_Error
+     * @var Doozr_Form_Service_Validate_Error
      * @access protected
      */
     protected $errorInstance;
@@ -263,30 +263,30 @@ class DoozR_Form_Service_FormManager
      * Constructor.
      *
      * @param string                                      $namespace         The namespace to operate on (name of form)
-     * @param DoozR_I18n_Service_Interface                $i18n              The I18n Translator instance if required
-     * @param DoozR_Form_Service_Component_Input          $inputInstance     The input instance for cloning meta fields
-     * @param DoozR_Form_Service_Component_Interface_Form $form              The Form instance (the main object)
-     * @param DoozR_Form_Service_Store_Interface          $store             The Store instance
-     * @param DoozR_Form_Service_Renderer_Interface       $renderer          The Renderer instance for e.g. HTML-output
-     * @param DoozR_Form_Service_Validate_Validator       $validator         The validator instance
-     * @param DoozR_Form_Service_Validate_Error           $errorInstance     The  instance for cloning error messages
-     * @param \stdClass|DoozR_Request_Arguments           $arguments         The Arguments passed with this request
+     * @param Doozr_I18n_Service_Interface                $i18n              The I18n Translator instance if required
+     * @param Doozr_Form_Service_Component_Input          $inputInstance     The input instance for cloning meta fields
+     * @param Doozr_Form_Service_Component_Interface_Form $form              The Form instance (the main object)
+     * @param Doozr_Form_Service_Store_Interface          $store             The Store instance
+     * @param Doozr_Form_Service_Renderer_Interface       $renderer          The Renderer instance for e.g. HTML-output
+     * @param Doozr_Form_Service_Validate_Validator       $validator         The validator instance
+     * @param Doozr_Form_Service_Validate_Error           $errorInstance     The  instance for cloning error messages
+     * @param \stdClass|Doozr_Request_Arguments           $arguments         The Arguments passed with this request
      * @param string                                      $requestMethod     The request method
      * @param bool                                     $angularDirectives Controls angular directives to hidden elems
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_FormManager Instance
+     * @return Doozr_Form_Service_FormManager Instance
      * @access public
      */
     public function __construct(
-        $namespace                                                     = DoozR_Form_Service_Constant::DEFAULT_NAMESPACE,
-        DoozR_I18n_Service_Interface                $i18n              = null,
-        DoozR_Form_Service_Component_Input          $inputInstance     = null,
-        DoozR_Form_Service_Component_Interface_Form $form              = null,
-        DoozR_Form_Service_Store_Interface          $store             = null,
-        DoozR_Form_Service_Renderer_Interface       $renderer          = null,
-        DoozR_Form_Service_Validate_Validator       $validator         = null,
-        DoozR_Form_Service_Validate_Error           $errorInstance     = null,
+        $namespace                                                     = Doozr_Form_Service_Constant::DEFAULT_NAMESPACE,
+        Doozr_I18n_Service_Interface                $i18n              = null,
+        Doozr_Form_Service_Component_Input          $inputInstance     = null,
+        Doozr_Form_Service_Component_Interface_Form $form              = null,
+        Doozr_Form_Service_Store_Interface          $store             = null,
+        Doozr_Form_Service_Renderer_Interface       $renderer          = null,
+        Doozr_Form_Service_Validate_Validator       $validator         = null,
+        Doozr_Form_Service_Validate_Error           $errorInstance     = null,
                                                     $arguments         = null,
                                                     $requestMethod     = null,
                                                     $angularDirectives = false
@@ -355,19 +355,19 @@ class DoozR_Form_Service_FormManager
                 // get current request
                 $arguments = $this->getArguments();
 
-                $fieldnameStep = DoozR_Form_Service_Constant::PREFIX . 'Step';
+                $fieldnameStep = Doozr_Form_Service_Constant::PREFIX . 'Step';
 
                 // try to get from last submit -> fallback to default of service
                 $step = (isset($arguments->{$fieldnameStep})) ?
                     $arguments->{$fieldnameStep} :
-                    DoozR_Form_Service_Constant::STEP_DEFAULT_FIRST;
+                    Doozr_Form_Service_Constant::STEP_DEFAULT_FIRST;
 
                 // increment by 1 if form was submitted! valid! and not complete yet!
                 $step += ($this->isValid($step)) ? 1 : 0;
 
             } else {
                 // if form wasn't submitted > its default state is step 1
-                $step = DoozR_Form_Service_Constant::STEP_DEFAULT_FIRST;
+                $step = Doozr_Form_Service_Constant::STEP_DEFAULT_FIRST;
             }
         }
 
@@ -409,8 +409,8 @@ class DoozR_Form_Service_FormManager
         );
 
         // build fieldname by pattern
-        $fieldnameStep = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP;
-        $fieldnameJump = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_JUMP;
+        $fieldnameStep = Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP;
+        $fieldnameJump = Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_JUMP;
 
         // and now check if submission identifier exists in current request
         if (
@@ -445,7 +445,7 @@ class DoozR_Form_Service_FormManager
      * @return void
      * @access public
      */
-    public function setSteps($steps = DoozR_Form_Service_Constant::STEP_DEFAULT_LAST)
+    public function setSteps($steps = Doozr_Form_Service_Constant::STEP_DEFAULT_LAST)
     {
         $this->steps = $steps;
     }
@@ -459,7 +459,7 @@ class DoozR_Form_Service_FormManager
      * @return $this Instance for chaining
      * @access public
      */
-    public function steps($steps = DoozR_Form_Service_Constant::STEP_DEFAULT_LAST)
+    public function steps($steps = Doozr_Form_Service_Constant::STEP_DEFAULT_LAST)
     {
         $this->setSteps($steps);
         return $this;
@@ -576,7 +576,7 @@ class DoozR_Form_Service_FormManager
             // get method used for submit
             $arguments = $this->getArguments();
 
-            $fieldnameJump = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_JUMP;
+            $fieldnameJump = Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_JUMP;
 
             // and now check if submission identifier exists in current request
             if (isset($arguments->{$fieldnameJump})) {
@@ -624,14 +624,14 @@ class DoozR_Form_Service_FormManager
      *
      * @param array  $arguments
      *
-     * @throws DoozR_Form_Service_Exception
+     * @throws Doozr_Form_Service_Exception
      * @return mixed The
      */
     public function translate($string, array $arguments = array())
     {
         if ($this->getI18n() === null) {
-            throw new DoozR_Form_Service_Exception(
-                'Please set an instance of DoozR_I18n_Service (or compatible) first before calling translate()'
+            throw new Doozr_Form_Service_Exception(
+                'Please set an instance of Doozr_I18n_Service (or compatible) first before calling translate()'
             );
         }
 
@@ -641,18 +641,18 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for I18n Translator service.
      *
-     * @param DoozR_I18n_Service_Interface $i18n The I18n instance
+     * @param Doozr_I18n_Service_Interface $i18n The I18n instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setI18n(DoozR_I18n_Service_Interface $i18n = null)
+    public function setI18n(Doozr_I18n_Service_Interface $i18n = null)
     {
         if ($i18n !== null) {
             $this->i18n = $i18n->getTranslator();
             $this->i18n->setNamespace(
-                DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
+                Doozr_Form_Service_Constant::PREFIX . $this->getNamespace()
             );
         }
     }
@@ -661,7 +661,7 @@ class DoozR_Form_Service_FormManager
      * Getter for I18n Translator service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_I18n_Service An I18n Translator service instance, or NULL if not set
+     * @return null|Doozr_I18n_Service An I18n Translator service instance, or NULL if not set
      * @access public
      */
     public function getI18n()
@@ -672,13 +672,13 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for inputInstance.
      *
-     * @param DoozR_Form_Service_Component_Input $inputInstance The input component instance
+     * @param Doozr_Form_Service_Component_Input $inputInstance The input component instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setInputInstance(DoozR_Form_Service_Component_Input $inputInstance)
+    public function setInputInstance(Doozr_Form_Service_Component_Input $inputInstance)
     {
         $this->inputInstance = $inputInstance;
     }
@@ -687,7 +687,7 @@ class DoozR_Form_Service_FormManager
      * Getter for InputInstance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Form_Service_Component_Input An DoozR_Form_Service_Component_Input instance, or NULL if not set
+     * @return null|Doozr_Form_Service_Component_Input An Doozr_Form_Service_Component_Input instance, or NULL if not set
      * @access public
      */
     public function getInputInstance()
@@ -698,13 +698,13 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for form.
      *
-     * @param DoozR_Form_Service_Component_Interface_Form $form The form instance to set
+     * @param Doozr_Form_Service_Component_Interface_Form $form The form instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setForm(DoozR_Form_Service_Component_Interface_Form $form)
+    public function setForm(Doozr_Form_Service_Component_Interface_Form $form)
     {
         // Check for namespace inject requirement
         if ($this->getNamespace() !== null && $form->getName() === null) {
@@ -717,7 +717,7 @@ class DoozR_Form_Service_FormManager
      * Getter for form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Form_Service_Component_Form The form instance if set, otherwise NULL
+     * @return null|Doozr_Form_Service_Component_Form The form instance if set, otherwise NULL
      * @access public
      */
     public function getForm()
@@ -755,13 +755,13 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for store.
      *
-     * @param DoozR_Form_Service_Store_Interface $store The store to set
+     * @param Doozr_Form_Service_Store_Interface $store The store to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setStore(DoozR_Form_Service_Store_Interface $store)
+    public function setStore(Doozr_Form_Service_Store_Interface $store)
     {
         $this->store = $store;
     }
@@ -770,7 +770,7 @@ class DoozR_Form_Service_FormManager
      * Getter for store.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Store_Interface|null Instance or NULL if not set
+     * @return Doozr_Form_Service_Store_Interface|null Instance or NULL if not set
      * @access public
      */
     public function getStore()
@@ -781,13 +781,13 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for renderer.
      *
-     * @param DoozR_Form_Service_Renderer_Interface $renderer The renderer used for rendering the whole form
+     * @param Doozr_Form_Service_Renderer_Interface $renderer The renderer used for rendering the whole form
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setRenderer(DoozR_Form_Service_Renderer_Interface $renderer)
+    public function setRenderer(Doozr_Form_Service_Renderer_Interface $renderer)
     {
         $this->renderer = $renderer;
     }
@@ -796,7 +796,7 @@ class DoozR_Form_Service_FormManager
      * Getter for renderer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Renderer_Interface|null Instance or NULL if not set
+     * @return Doozr_Form_Service_Renderer_Interface|null Instance or NULL if not set
      * @access public
      */
     public function getRenderer()
@@ -807,13 +807,13 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for validator.
      *
-     * @param DoozR_Form_Service_Validate_Validator $validator The validator instance
+     * @param Doozr_Form_Service_Validate_Validator $validator The validator instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setValidator(DoozR_Form_Service_Validate_Validator $validator)
+    public function setValidator(Doozr_Form_Service_Validate_Validator $validator)
     {
         $this->validator = $validator;
     }
@@ -822,7 +822,7 @@ class DoozR_Form_Service_FormManager
      * Getter for validator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Form_Service_Validate_Validator The validator instance if set, otherwise NULL
+     * @return null|Doozr_Form_Service_Validate_Validator The validator instance if set, otherwise NULL
      * @access public
      */
     public function getValidator()
@@ -833,13 +833,13 @@ class DoozR_Form_Service_FormManager
     /**
      * Setter for Error-Instance.
      *
-     * @param DoozR_Form_Service_Validate_Error $errorInstance The error instance
+     * @param Doozr_Form_Service_Validate_Error $errorInstance The error instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setErrorInstance(DoozR_Form_Service_Validate_Error $errorInstance)
+    public function setErrorInstance(Doozr_Form_Service_Validate_Error $errorInstance)
     {
         $this->errorInstance = $errorInstance;
     }
@@ -848,7 +848,7 @@ class DoozR_Form_Service_FormManager
      * Getter for Error-Instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Form_Service_Validate_Error The errorInstance if set, otherwise NULL
+     * @return null|Doozr_Form_Service_Validate_Error The errorInstance if set, otherwise NULL
      * @access public
      */
     public function getErrorInstance()
@@ -874,7 +874,7 @@ class DoozR_Form_Service_FormManager
      * Getter for arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|\stdClass The DoozR_Request_Arguments as object if set, otherwise NULL
+     * @return null|\stdClass The Doozr_Request_Arguments as object if set, otherwise NULL
      * @access public
      */
     public function getArguments()
@@ -1031,7 +1031,7 @@ class DoozR_Form_Service_FormManager
      * @param        $key
      * @param string $component The name of the component
      *
-     * @throws DoozR_Form_Service_Exception
+     * @throws Doozr_Form_Service_Exception
      * @internal param mixed $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1045,7 +1045,7 @@ class DoozR_Form_Service_FormManager
         );
 
         if (!isset($registry[$key])) {
-            throw new DoozR_Form_Service_Exception(
+            throw new Doozr_Form_Service_Exception(
                 'Could not remove unexisting key: "' . $key . '" from registry.'
             );
         }
@@ -1078,7 +1078,7 @@ class DoozR_Form_Service_FormManager
     public function setRegistry($registry)
     {
         return $this->getStore()->create(
-            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace(),
+            Doozr_Form_Service_Constant::PREFIX . $this->getNamespace(),
             $registry
         );
     }
@@ -1098,9 +1098,9 @@ class DoozR_Form_Service_FormManager
 
         try {
             $registry = $this->getStore()->read(
-                DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
+                Doozr_Form_Service_Constant::PREFIX . $this->getNamespace()
             );
-        } catch ( DoozR_Session_Service_Exception $e) {
+        } catch ( Doozr_Session_Service_Exception $e) {
             // Nothing
         }
 
@@ -1144,8 +1144,8 @@ class DoozR_Form_Service_FormManager
             $submittedData = $this->getArguments();
 
             // build fieldname by pattern
-            $fieldnameSubmissionStatus = DoozR_Form_Service_Constant::PREFIX .
-                DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
+            $fieldnameSubmissionStatus = Doozr_Form_Service_Constant::PREFIX .
+                Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
 
             // and now check if submission identifier exists in current request
             if (
@@ -1240,8 +1240,8 @@ class DoozR_Form_Service_FormManager
                 } else {
                     $submittedData = $this->getArguments();
 
-                    $fieldnameStep  = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP;
-                    $fieldnameSteps = DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
+                    $fieldnameStep  = Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP;
+                    $fieldnameSteps = Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
 
                     $step = (isset($submittedData->{$fieldnameStep})) ?
                         $submittedData->{$fieldnameStep} :
@@ -1336,8 +1336,8 @@ class DoozR_Form_Service_FormManager
         // check if store i still valid - session can be timed out ...
         if (!$this->validateRegistry()) {
             $this->setError(
-                DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
-                DoozR_Form_Service_Validate_Constant::ERROR_STORE_INVALID,
+                Doozr_Form_Service_Validate_Constant::ERROR_PREFIX .
+                Doozr_Form_Service_Validate_Constant::ERROR_STORE_INVALID,
                 'form'
             );
 
@@ -1355,8 +1355,8 @@ class DoozR_Form_Service_FormManager
             $this->setError(
             // use array here -> I18n arguments as seoond key
                 array(
-                    'error'   => DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
-                        DoozR_Form_Service_Validate_Constant::ERROR_REQUESTTYPE_INVALID,
+                    'error'   => Doozr_Form_Service_Validate_Constant::ERROR_PREFIX .
+                        Doozr_Form_Service_Validate_Constant::ERROR_REQUESTTYPE_INVALID,
 
                     'context' => array(
                         'method' => ucfirst(
@@ -1374,14 +1374,14 @@ class DoozR_Form_Service_FormManager
         if ($this->validateToken() !== true) {
             $this->handleInvalidToken($registry);
             $this->setError(
-                DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
-                DoozR_Form_Service_Validate_Constant::ERROR_TOKEN_INVALID
+                Doozr_Form_Service_Validate_Constant::ERROR_PREFIX .
+                Doozr_Form_Service_Validate_Constant::ERROR_TOKEN_INVALID
             );
             return false;
         }
 
         // Get stored components
-        $stored = $this->getStore()->read(DoozR_Form_Service_Constant::PREFIX . $this->getNamespace());
+        $stored = $this->getStore()->read(Doozr_Form_Service_Constant::PREFIX . $this->getNamespace());
 
         // 4th step - iterate fields and check for individual error(s) if one found
         // either MISSING, BAD, INCORRECT DATA => FORM INVALID! and error = fields error message
@@ -1394,8 +1394,8 @@ class DoozR_Form_Service_FormManager
             ) !== true
         ) {
             $this->setError(
-                DoozR_Form_Service_Validate_Constant::ERROR_PREFIX .
-                DoozR_Form_Service_Validate_Constant::ERROR_ELEMENTS_INVALID
+                Doozr_Form_Service_Validate_Constant::ERROR_PREFIX .
+                Doozr_Form_Service_Validate_Constant::ERROR_ELEMENTS_INVALID
             );
             return false;
         }
@@ -1411,8 +1411,8 @@ class DoozR_Form_Service_FormManager
      *
      * @param array                                     $components The components to validate from request
      * @param int                                   $step       The step currently active
-     * @param \stdClass|DoozR_Request_Arguments|null    $arguments  The arguments
-     * @param array|\DoozR_Form_Service_Store_Interface $store      The store
+     * @param \stdClass|Doozr_Request_Arguments|null    $arguments  The arguments
+     * @param array|\Doozr_Form_Service_Store_Interface $store      The store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if valid, otherwise FALSE if invalid
@@ -1435,7 +1435,7 @@ class DoozR_Form_Service_FormManager
                         $isFile             = true;
                         $emulatedFileUpload = false;
 
-                        $registry = DoozR_Registry::getInstance();
+                        $registry = Doozr_Registry::getInstance();
                         $registry->front->getRequest()->FILES();
                         $value = $_FILES[$component];
 
@@ -1654,7 +1654,7 @@ class DoozR_Form_Service_FormManager
      * @param string         $name       The name of the fileupload field
      * @param array          $value      The value to check
      * @param array          $validation The validations for the file upload
-     * @param DoozR_Registry $registry   The registry of DoozR
+     * @param Doozr_Registry $registry   The registry of Doozr
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if file upload is valid, otherwise FALSE
@@ -1678,7 +1678,7 @@ class DoozR_Form_Service_FormManager
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array|string
      * @access protected
-     * @throws DoozR_Form_Service_Exception
+     * @throws Doozr_Form_Service_Exception
      */
     protected function handleFileUpload($file)
     {
@@ -1695,7 +1695,7 @@ class DoozR_Form_Service_FormManager
 
         // move
         if (move_uploaded_file($temporaryLocation, $finalLocation) !== true) {
-            throw new DoozR_Form_Service_Exception(
+            throw new Doozr_Form_Service_Exception(
                 'The uploaded file could not be moved from "' . $temporaryLocation . '" to "' . $finalLocation . '"'
             );
         }
@@ -1755,21 +1755,21 @@ class DoozR_Form_Service_FormManager
         }
 
         $this->getStore()->update(
-            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace(),
+            Doozr_Form_Service_Constant::PREFIX . $this->getNamespace(),
             $data
         );
 
         // check for configured behavior
         switch ($invalidTokenBehavior) {
-            case DoozR_Form_Service_Constant::TOKEN_BEHAVIOR_IGNORE:
+            case Doozr_Form_Service_Constant::TOKEN_BEHAVIOR_IGNORE:
                 $status = true;
                 break;
 
-            case DoozR_Form_Service_Constant::TOKEN_BEHAVIOR_INVALIDATE:
+            case Doozr_Form_Service_Constant::TOKEN_BEHAVIOR_INVALIDATE:
                 $status = false;
                 break;
 
-            case DoozR_Form_Service_Constant::TOKEN_BEHAVIOR_DENY:
+            case Doozr_Form_Service_Constant::TOKEN_BEHAVIOR_DENY:
             default:
                 $status = false;
 
@@ -1801,7 +1801,7 @@ class DoozR_Form_Service_FormManager
     {
         // 1st get valid token from store
         $data = $this->getStore()->read(
-            DoozR_Form_Service_Constant::PREFIX . $this->getNamespace()
+            Doozr_Form_Service_Constant::PREFIX . $this->getNamespace()
         );
 
         $validToken = (isset($data['token']) === true) ? $data['token'] : null;
@@ -1817,7 +1817,7 @@ class DoozR_Form_Service_FormManager
      * This method is intend to return the (sumitted) value of a requested request-variable.
      *
      * @param string $variable  The variable-name to get value from
-     * @param mixed  $usePrefix True to use the DoozR_Form_Service_Constant::PREFIX for $variable
+     * @param mixed  $usePrefix True to use the Doozr_Form_Service_Constant::PREFIX for $variable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The value of the requested argument if set, otherwise NULL
@@ -1828,9 +1828,9 @@ class DoozR_Form_Service_FormManager
         // assume result is NULL
         $result = null;
 
-        // add DoozR prefix?
+        // add Doozr prefix?
         if ($usePrefix) {
-            $variable = DoozR_Form_Service_Constant::PREFIX . $variable;
+            $variable = Doozr_Form_Service_Constant::PREFIX . $variable;
         }
 
         $arguments = $this->getArguments();
@@ -1912,7 +1912,7 @@ class DoozR_Form_Service_FormManager
     /**
      * Returns the childs (components) from passed component.
      *
-     * @param DoozR_Form_Service_Component_Interface_Form $component The component to return childs for
+     * @param Doozr_Form_Service_Component_Interface_Form $component The component to return childs for
      * @param array                                       $result    The result used for recursion
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1935,7 +1935,7 @@ class DoozR_Form_Service_FormManager
          */
         if (
             $component->hasChilds() === true &&
-            $component->getType() !== DoozR_Form_Service_Constant::COMPONENT_CONTAINER
+            $component->getType() !== Doozr_Form_Service_Constant::COMPONENT_CONTAINER
         ) {
 
             foreach ($component as $child) {
@@ -2041,7 +2041,7 @@ class DoozR_Form_Service_FormManager
     protected function addStepField()
     {
         $input = clone $this->inputInstance;
-        $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP);
+        $input->setName(Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP);
         $input->setType('hidden');
         $input->setValue($this->getStep());
 
@@ -2049,7 +2049,7 @@ class DoozR_Form_Service_FormManager
         if ($this->getAngularDirectives() === true) {
             $input->setAttribute(
                 'ng-model',
-                DoozR_Form_Service_Constant::SCOPE . DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEP
+                Doozr_Form_Service_Constant::SCOPE . Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP
             );
 
             $input->setAttribute(
@@ -2070,7 +2070,7 @@ class DoozR_Form_Service_FormManager
     protected function addStepsField()
     {
         $input = clone $this->inputInstance;
-        $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS);
+        $input->setName(Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS);
         $input->setType('hidden');
         $input->setValue($this->getSteps());
 
@@ -2078,7 +2078,7 @@ class DoozR_Form_Service_FormManager
         if ($this->getAngularDirectives() === true) {
             $input->setAttribute(
                 'ng-model',
-                DoozR_Form_Service_Constant::SCOPE . DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_STEPS
+                Doozr_Form_Service_Constant::SCOPE . Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS
             );
 
             $input->setAttribute(
@@ -2099,7 +2099,7 @@ class DoozR_Form_Service_FormManager
     protected function addTokenField()
     {
         $input = clone $this->inputInstance;
-        $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_TOKEN);
+        $input->setName(Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN);
         $input->setType('hidden');
         $input->setValue($this->getToken());
 
@@ -2107,7 +2107,7 @@ class DoozR_Form_Service_FormManager
         if ($this->getAngularDirectives() === true) {
             $input->setAttribute(
                 'ng-model',
-                DoozR_Form_Service_Constant::SCOPE . DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_TOKEN
+                Doozr_Form_Service_Constant::SCOPE . Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN
             );
 
             $input->setAttribute(
@@ -2128,7 +2128,7 @@ class DoozR_Form_Service_FormManager
     protected function addSubmittedField()
     {
         $input = clone $this->inputInstance;
-        $input->setName(DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED);
+        $input->setName(Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED);
         $input->setType('hidden');
         $input->setValue($this->getNamespace());
 
@@ -2136,7 +2136,7 @@ class DoozR_Form_Service_FormManager
         if ($this->getAngularDirectives() === true) {
             $input->setAttribute(
                 'ng-model',
-                DoozR_Form_Service_Constant::SCOPE . DoozR_Form_Service_Constant::PREFIX . DoozR_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED
+                Doozr_Form_Service_Constant::SCOPE . Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED
             );
 
             $input->setAttribute(

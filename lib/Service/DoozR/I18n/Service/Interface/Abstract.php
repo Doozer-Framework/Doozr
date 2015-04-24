@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Interface - Abstract
+ * Doozr - I18n - Service - Interface - Abstract
  *
  * Abstract.php - I18n Translation Abstract Interface
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
 /**
- * DoozR - I18n - Service - Interface - Abstract
+ * Doozr - I18n - Service - Interface - Abstract
  *
  * I18n Translation Abstract Interface
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Singleton
+abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Singleton
 {
     /**
      * Translation table collection (for all locale!)
@@ -92,7 +92,7 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
     /**
      * Cache service instance for caching
      *
-     * @var DoozR_Cache_Service
+     * @var Doozr_Cache_Service
      * @access protected
      * @static
      */
@@ -100,7 +100,7 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
 
     /**
      * State of caching. Can be either enabled = TRUE or disabled = FALSE
-     * This is required to control cache behavior as override also if a DoozR_Cache_Service is available.
+     * This is required to control cache behavior as override also if a Doozr_Cache_Service is available.
      * If set to false then no matter if an instance exists -> this Interface will never cache!!!
      * Defaults to TRUE cause caching is a good thing. But for example disabled when using gettext™
      * interface - gettext using its very own caching mechanism.
@@ -145,7 +145,7 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
      * @param array $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_I18n_Service_Interface_Abstract Instance of this class
+     * @return \Doozr_I18n_Service_Interface_Abstract Instance of this class
      * @access protected
      */
     protected function __construct($config)
@@ -166,7 +166,7 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
             if (isset($config['cache']['container']) === false) {
                 if ($container = getenv('DOOZR_CACHE_CONTAINER') === false) {
                     if (defined('DOOZR_CACHE_CONTAINER') === false) {
-                        define('DOOZR_CACHE_CONTAINER', DoozR_Cache_Service::CONTAINER_FILESYSTEM);
+                        define('DOOZR_CACHE_CONTAINER', Doozr_Cache_Service::CONTAINER_FILESYSTEM);
                     }
 
                     $container = DOOZR_CACHE_CONTAINER;
@@ -180,7 +180,7 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
             }
 
             // Get module cache
-            self::$cache = DoozR_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX);
+            self::$cache = Doozr_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX);
         }
     }
 
@@ -218,7 +218,7 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
                 if (true === $this->getCacheEnabled()) {
                     try {
                         $translationTable = self::$cache->read($crc);
-                    } catch (DoozR_Cache_Service_Exception $e) {
+                    } catch (Doozr_Cache_Service_Exception $e) {
                         // Intentionally left empty
                     }
                 }
@@ -407,13 +407,13 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
     /**
      * Setter for $cache.
      *
-     * @param DoozR_Cache_Service $cache The cache to set
+     * @param Doozr_Cache_Service $cache The cache to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setCache(DoozR_Cache_Service $cache)
+    protected function setCache(Doozr_Cache_Service $cache)
     {
         self::$cache = $cache;
     }
@@ -421,13 +421,13 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
     /**
      * Fluent setter for $cache.
      *
-     * @param DoozR_Cache_Service $cache The cache to set
+     * @param Doozr_Cache_Service $cache The cache to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function cache(DoozR_Cache_Service $cache)
+    protected function cache(Doozr_Cache_Service $cache)
     {
         $this->setCache($cache);
         return $this;
@@ -437,7 +437,7 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
      * Returns the active cache of the translator instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Cache_Service The active cache if set, otherwise NULL
+     * @return null|Doozr_Cache_Service The active cache if set, otherwise NULL
      * @access protected
      */
     protected function getCache()
@@ -613,14 +613,14 @@ abstract class DoozR_I18n_Service_Interface_Abstract extends DoozR_Base_Class_Si
     /**
      * Returns either the interface has a translation table support or not.
      *
-     * @param DoozR_I18n_Service_Interface_Interface $instance An instance of a class implementing
-     *                                                         DoozR_I18n_Service_Interface_Interface to check
+     * @param Doozr_I18n_Service_Interface_Interface $instance An instance of a class implementing
+     *                                                         Doozr_I18n_Service_Interface_Interface to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if translation table support exists, otherwise FALSE
      * @access protected
      */
-    protected function hasTranslationTableSupport(DoozR_I18n_Service_Interface_Interface $instance)
+    protected function hasTranslationTableSupport(Doozr_I18n_Service_Interface_Interface $instance)
     {
         $method = 'buildTranslationtable';
         return (method_exists($instance, $method) && is_callable(array($instance, $method)));

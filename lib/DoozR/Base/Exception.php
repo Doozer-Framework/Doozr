@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Exception
+ * Doozr - Base - Exception
  *
- * Exception.php - Simple basic exception class of the DoozR Framework.
+ * Exception.php - Simple basic exception class of the Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Exception
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Generic.php';
 
 /**
- * DoozR - Base - Exception
+ * Doozr - Base - Exception
  *
- * Simple basic exception class of the DoozR Framework.
+ * Simple basic exception class of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Exception
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
+class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
 {
     /**
      * The type of the exception (is in 99% the classname)
@@ -135,7 +135,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * @param Exception $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Exception
+     * @return \Doozr_Base_Exception
      * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)
@@ -226,7 +226,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * @param string $type The type to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Exception
+     * @return Doozr_Base_Exception
      * @access public
      */
     public function type($type)
@@ -267,7 +267,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * @param string $message The message to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Exception
+     * @return Doozr_Base_Exception
      * @access public
      */
     public function message($message)
@@ -296,7 +296,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * @param string $file The filename to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Exception
+     * @return Doozr_Base_Exception
      * @access public
      */
     public function file($file)
@@ -325,7 +325,7 @@ class DoozR_Base_Exception extends DoozR_Base_Exception_Generic
      * @param int|string $line The line to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Exception
+     * @return Doozr_Base_Exception
      * @access public
      */
     public function line($line)

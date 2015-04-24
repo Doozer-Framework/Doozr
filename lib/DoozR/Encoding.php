@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Encoding
+ * Doozr - Encoding
  *
- * Encoding.php - Encoding bootstrap of the DoozR Framework
+ * Encoding.php - Encoding bootstrap of the Doozr Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Encoding
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Encoding
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
 /**
- * DoozR - Encoding
+ * Doozr - Encoding
  *
- * Encoding bootstrap of the DoozR Framework
+ * Encoding bootstrap of the Doozr Framework
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Encoding
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Encoding
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Encoding extends DoozR_Base_Class_Singleton
+class Doozr_Encoding extends Doozr_Base_Class_Singleton
 {
     /**
      * holds instance of config
@@ -93,7 +93,7 @@ class DoozR_Encoding extends DoozR_Base_Class_Singleton
      * @param object $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Encoding
+     * @return \Doozr_Encoding
      * @access protected
      */
     protected function __construct($config, $logger)

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Importer Json
+ * Doozr - Di - Importer Json
  *
  * Json.php - Importer (JSON-Localize) of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Importer_Json
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Importer_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -59,19 +59,19 @@ require_once DI_PATH_LIB_DI . 'Dependency.php';
 require_once DI_PATH_LIB_DI . 'Collection.php';
 
 /**
- * DoozR - Di - Importer Json
+ * Doozr - Di - Importer Json
  *
  * Importer (JSON-Localize) of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Importer_Json
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Importer_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Importer_Json extends DoozR_Di_Importer_Abstract implements DoozR_Di_Importer_Interface
+class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract implements Doozr_Di_Importer_Interface
 {
     /*******************************************************************************************************************
      * PUBLIC API
@@ -86,21 +86,21 @@ class DoozR_Di_Importer_Json extends DoozR_Di_Importer_Abstract implements DoozR
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
      * (non-PHPdoc)
-     * @see DoozR_Di_Importer_Interface::import()
-     * @throws DoozR_Di_Exception
+     * @see Doozr_Di_Importer_Interface::import()
+     * @throws Doozr_Di_Exception
      */
     public function import()
     {
         // check for collection
         if (!$this->collection) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Could not import map. No collection set. Please set a collection first.'
             );
         }
 
         // check for input
         if (!$this->input) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Could not import map. No input set. Please set input first.'
             );
         }
@@ -133,7 +133,7 @@ class DoozR_Di_Importer_Json extends DoozR_Di_Importer_Abstract implements DoozR
                 foreach ($dependencies as $setup) {
 
                     // create new Dependency Object
-                    $dependency = new DoozR_Di_Dependency($setup->classname);
+                    $dependency = new Doozr_Di_Dependency($setup->classname);
                     $dependency->setConfiguration((array) $setup->config);
                     $dependency->setIdentifier($setup->identifier);
 
@@ -163,15 +163,15 @@ class DoozR_Di_Importer_Json extends DoozR_Di_Importer_Abstract implements DoozR
     }
 
     /**
-     * Exports content as array containing DoozR_Di_Dependency-Instances
+     * Exports content as array containing Doozr_Di_Dependency-Instances
      *
-     * This method is intend to export content as array containing DoozR_Di_Dependency-Instances.
+     * This method is intend to export content as array containing Doozr_Di_Dependency-Instances.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array An array containing instances of DoozR_Di_Dependency for each dependency
+     * @return array An array containing instances of Doozr_Di_Dependency for each dependency
      * @access public
      * (non-PHPdoc)
-     * @see DoozR_Di_Importer_Interface::export()
+     * @see Doozr_Di_Importer_Interface::export()
      */
     public function export()
     {
@@ -192,7 +192,7 @@ class DoozR_Di_Importer_Json extends DoozR_Di_Importer_Abstract implements DoozR
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     private function _getObjectFromJsonFile($file)
     {
@@ -203,7 +203,7 @@ class DoozR_Di_Importer_Json extends DoozR_Di_Importer_Abstract implements DoozR
         $content = @json_decode($content);
 
         if (!$content) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Error while importing dependencies. Given file does not contain valid JSON. '.
                 'Please ensure that the content of the file is valid JSON.'
             );

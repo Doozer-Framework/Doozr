@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Map Typehint
+ * Doozr - Di - Map Typehint
  *
  * Typehint.php - Typehint based map class of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map_Typehint
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map_Typehint
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,19 +55,19 @@
 require_once DI_PATH_LIB_DI . 'Map.php';
 
 /**
- * DoozR - Di - Map Typehint
+ * Doozr - Di - Map Typehint
  *
  * Typehint based map class of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map_Typehint
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map_Typehint
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Map_Typehint extends DoozR_Di_Map
+class Doozr_Di_Map_Typehint extends Doozr_Di_Map
 {
     /*******************************************************************************************************************
      * PHP CONSTRUCT
@@ -76,15 +76,15 @@ class DoozR_Di_Map_Typehint extends DoozR_Di_Map
     /**
      * Constructor.
      *
-     * @param DoozR_Di_Collection      $collection An instance of DoozR_Di_Collection to collect dependencies in
-     * @param DoozR_Di_Parser_Typehint $parser     An instance of DoozR_Di_Parser_Typehint to parse dependencies with
-     * @param DoozR_Di_Dependency      $dependency An instance of DoozR_Di_Dependency base object for cloning dependencies from
+     * @param Doozr_Di_Collection      $collection An instance of Doozr_Di_Collection to collect dependencies in
+     * @param Doozr_Di_Parser_Typehint $parser     An instance of Doozr_Di_Parser_Typehint to parse dependencies with
+     * @param Doozr_Di_Dependency      $dependency An instance of Doozr_Di_Dependency base object for cloning dependencies from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Di_Map_Typehint
+     * @return \Doozr_Di_Map_Typehint
      * @access public
      */
-    public function __construct(DoozR_Di_Collection $collection, DoozR_Di_Parser_Typehint $parser, DoozR_Di_Dependency $dependency)
+    public function __construct(Doozr_Di_Collection $collection, Doozr_Di_Parser_Typehint $parser, Doozr_Di_Dependency $dependency)
     {
         // store given instances
         $this->collection  = $collection;
@@ -104,7 +104,7 @@ class DoozR_Di_Map_Typehint extends DoozR_Di_Map
      * @param string $classname The name of the class to parse dependencies for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Collection The build collection
+     * @return Doozr_Di_Collection The build collection
      * @access public
      */
     public function generate($classname)
@@ -115,7 +115,7 @@ class DoozR_Di_Map_Typehint extends DoozR_Di_Map
         );
 
         // get raw dependencies
-        /* @var $this->parser DoozR_Di_Parser_Typehint */
+        /* @var $this->parser Doozr_Di_Parser_Typehint */
         $rawDependencies = $this->parser->parse();
 
         // add these dependencies to collection

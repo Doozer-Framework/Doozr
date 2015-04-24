@@ -2,17 +2,17 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Route
+ * Doozr - Route
  *
  * Route.php - This class is responsible for matching routes (collected from
- * both -> .routes configuration in DoozR's main configuration as well as the
+ * both -> .routes configuration in Doozr's main configuration as well as the
  * applications configuration and annotations from applications presenters)
  * against the current request-URI.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,40 +45,40 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Route
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Route
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
 
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
- * DoozR - Route
+ * Doozr - Route
  *
  * This class is responsible for matching routes (collected from
- * both -> .routes configuration in DoozR's main configuration as well as the
+ * both -> .routes configuration in Doozr's main configuration as well as the
  * applications configuration and annotations from applications presenters)
  * against the current request-URI.
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Route
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Route
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
-final class DoozR_Route extends DoozR_Base_State_Container
+final class Doozr_Route extends Doozr_Base_State_Container
 {
     /**
      * The UUID of the active route (request url)
@@ -92,7 +92,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
     /**
      * Instance of cache service
      *
-     * @var DoozR_Cache_Service
+     * @var Doozr_Cache_Service
      * @access protected
      * @static
      */
@@ -119,7 +119,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
     /**
      * The object our truth is stored in
      *
-     * @var DoozR_Request_State
+     * @var Doozr_Request_State
      * @access protected
      */
     protected static $requestState;
@@ -161,10 +161,10 @@ final class DoozR_Route extends DoozR_Base_State_Container
     protected static $request;
 
     /**
-     * The registry of the DoozR Framework for accessing
+     * The registry of the Doozr Framework for accessing
      * base objects.
      *
-     * @var DoozR_Registry
+     * @var Doozr_Registry
      * @access protected
      * @static
      */
@@ -212,9 +212,9 @@ final class DoozR_Route extends DoozR_Base_State_Container
     /**
      * This method initializes the routing process and detects the route for running this request-URI on.
      *
-     * @param DoozR_Registry_Interface   $registry     The registry of DoozR.
-     * @param DoozR_Base_State_Interface $requestState The request state instance for retrieving all request data
-     * @param DoozR_Cache_Service        $cacheService Instance of cache service to improve performance with caching
+     * @param Doozr_Registry_Interface   $registry     The registry of Doozr.
+     * @param Doozr_Base_State_Interface $requestState The request state instance for retrieving all request data
+     * @param Doozr_Cache_Service        $cacheService Instance of cache service to improve performance with caching
      * @param bool                       $cache        TRUE to enable caching, FALSE to disable
      * @param bool                       $autorun      TRUE to automatic run/execute the route
      *
@@ -224,9 +224,9 @@ final class DoozR_Route extends DoozR_Base_State_Container
      * @static
      */
     public static function init(
-        DoozR_Registry_Interface   $registry,
-        DoozR_Base_State_Interface $requestState,
-        DoozR_Cache_Service        $cacheService  = null,
+        Doozr_Registry_Interface   $registry,
+        Doozr_Base_State_Interface $requestState,
+        Doozr_Cache_Service        $cacheService  = null,
                                    $cache         = false,
                                    $autorun       = true
     ) {
@@ -251,7 +251,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
      * This method runs or executes the preset configuration. This runner
      * was separated from init() to enable the user/application to manually
      * or automatically intercept the execution between the route detection
-     * of DoozR and the execution of it.
+     * of Doozr and the execution of it.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
@@ -269,7 +269,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
             try {
                 self::$routes = self::$cacheService->read(self::$uuid, self::$namespace);
 
-            } catch (DoozR_Cache_Service_Exception $e) {
+            } catch (Doozr_Cache_Service_Exception $e) {
                 // Intentionally left blank
             }
         }
@@ -288,7 +288,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
                 if (isset($config->methods) && $config->methods !== null) {
                     $methods = explode(',', $config->methods);
                 } else {
-                    $methods = array(DoozR_Http::REQUEST_METHOD_GET);
+                    $methods = array(Doozr_Http::REQUEST_METHOD_GET);
                 }
 
                 foreach ($methods as $method) {
@@ -350,7 +350,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
         }
 
         /**
-         * Check for automatic call DoozR's MVP-structure
+         * Check for automatic call Doozr's MVP-structure
          * If automatic dispatch isn't enabled then the dev need to call run() on Back-Controller manually.
          * The validation of the request state content (405?, 404?, is part of the run() method:
          *   is part of back-controllers domain !!!
@@ -433,7 +433,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
         if (count($routesByFile) > 0) {
             foreach ($routesByFile as $file => $routesByAction) {
                 foreach ($routesByAction as $action => $routes) {
-                    /* @var \DoozR\Route\Annotation\Route $route */
+                    /* @var \Doozr\Route\Annotation\Route $route */
                     foreach ($routes as $route) {
                         $methods = $route->getMethods();
 

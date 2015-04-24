@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Parser Interface
+ * Doozr - Di - Parser Interface
  *
  * Interface.php - Parser interface for all Parser of the Di-Framework
  *
@@ -42,13 +42,13 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Interface
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/click* DoozR - Di - ous/Di
+ * @link       https://github.com/click* Doozr - Di - ous/Di
  */
 
 /**
@@ -57,14 +57,14 @@
  * Parser interface for all Parser of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Interface
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-interface DoozR_Di_Parser_Interface
+interface Doozr_Di_Parser_Interface
 {
     /**
      * Contract for Parser

@@ -2,15 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Loader - Serviceloader
+ * Doozr - Loader - Serviceloader
  *
- * Serviceloader.php - The Serviceloader loads services within the DoozR
+ * Serviceloader.php - The Serviceloader loads services within the Doozr
  * world. No matter which namespace and no matter if singleton or multiple.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,41 +43,41 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Serviceloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Serviceloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Factory/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Factory/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Factory/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Factory/Multiple.php';
 
 /**
- * DoozR - Loader - Serviceloader
+ * Doozr - Loader - Serviceloader
  *
- * The Serviceloader loads services within the DoozR world. No matter which
+ * The Serviceloader loads services within the Doozr world. No matter which
  * namespace and no matter if singleton or multiple.
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Serviceloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Serviceloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
+class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
 {
     /**
-     * The DoozR registry containing important references.
+     * The Doozr registry containing important references.
      *
-     * @var DoozR_Registry
+     * @var Doozr_Registry
      * @access protected
      * @static
      */
@@ -95,7 +95,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     /**
      * The dependency map
      *
-     * @var DoozR_Di_Map_Annotation
+     * @var Doozr_Di_Map_Annotation
      * @access protected
      * @static
      */
@@ -104,7 +104,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     /**
      * The dependency-injection container
      *
-     * @var DoozR_Di_Container
+     * @var Doozr_Di_Container
      * @access protected
      * @static
      */
@@ -117,7 +117,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      * @access public
      * @const
      */
-    const DEFAULT_NAMESPACE = 'DoozR';
+    const DEFAULT_NAMESPACE = 'Doozr';
 
     /**
      * The default alias for skeleton.
@@ -153,11 +153,11 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      * This method is intend to load services. Its possible to pass a string with just a name of a service
      * to this method or you pass an array with namespace like this -> array('namespace', 'service').
      *
-     * @param string|array $service Just the name of the service if a DoozR default service or
+     * @param string|array $service Just the name of the service if a Doozr default service or
      *                              as an array with additional namespace like: array('namespace', 'service')
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_/(.*)/_Service|object An/the instance of the requested service
+     * @return Doozr_/(.*)/_Service|object An/the instance of the requested service
      * @access public
      * @static
      */
@@ -180,9 +180,9 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
 
         // We support only mapping of registry - this is sad :(
         self::$map->wire(
-            DoozR_Di_Container::MODE_STATIC,
+            Doozr_Di_Container::MODE_STATIC,
             array(
-                'DoozR_Registry' => self::$registry
+                'Doozr_Registry' => self::$registry
             )
         );
 
@@ -190,7 +190,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
         self::$container->setMap(self::$map);
 
         // Create instance with arguments ...
-        /* @var DoozR_Base_Service_Interface $instance */
+        /* @var Doozr_Base_Service_Interface $instance */
         if ($arguments !== null) {
             $instance = self::$container->build($classname, $arguments);
         } else {
@@ -211,16 +211,16 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     }
 
     /**
-     * Registers a service in DoozR's registry.
+     * Registers a service in Doozr's registry.
      *
      * @param string                       $name    The name of the service.
-     * @param DoozR_Base_Service_Interface $service The service instance.
+     * @param Doozr_Base_Service_Interface $service The service instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected static function registerService($name, DoozR_Base_Service_Interface $service)
+    protected static function registerService($name, Doozr_Base_Service_Interface $service)
     {
         // Check how to store service in registry
         $uuid = ($service->isSingleton() === true) ?
@@ -242,7 +242,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     {
         // create instance like we would by calling getInstance()
         self::getInstance();
-        self::$registry = DoozR_Registry::getInstance();
+        self::$registry = Doozr_Registry::getInstance();
         self::initDependencyInjection();
     }
 
@@ -257,34 +257,34 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
     protected static function initDependencyInjection()
     {
         // Bootstrap if required (CLI!)
-        require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Di/Bootstrap.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Bootstrap.php';
 
         // get required dependency container for annotations!
         require_once DI_PATH_LIB_DI . 'Map/Annotation.php';
         require_once DI_PATH_LIB_DI . 'Parser/Annotation.php';
         require_once DI_PATH_LIB_DI . 'Dependency.php';
 
-        $collection      = new DoozR_Di_Collection();
-        $parser          = new DoozR_Di_Parser_Annotation();
-        $dependency      = new DoozR_Di_Dependency();
+        $collection      = new Doozr_Di_Collection();
+        $parser          = new Doozr_Di_Parser_Annotation();
+        $dependency      = new Doozr_Di_Dependency();
 
-        self::$map       = new DoozR_Di_Map_Annotation($collection, $parser, $dependency);
-        self::$container = DoozR_Di_Container::getInstance(__CLASS__);
-        self::$container->setFactory(new DoozR_Di_Factory());
+        self::$map       = new Doozr_Di_Map_Annotation($collection, $parser, $dependency);
+        self::$container = Doozr_Di_Container::getInstance(__CLASS__);
+        self::$container->setFactory(new Doozr_Di_Factory());
     }
 
     /**
-     * Completes DoozR's default services with namespace (DoozR).
+     * Completes Doozr's default services with namespace (Doozr).
      *
      * This method is intend to format a passed service configuration to a named index array.
-     * It will automatic inject "DoozR" as namespace for default services.
+     * It will automatic inject "Doozr" as namespace for default services.
      *
-     * @param array|string $service The service as full qualified entry array otherwise string name (DoozR default ns)
+     * @param array|string $service The service as full qualified entry array otherwise string name (Doozr default ns)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Full qualified and namespaced service
      * @access protected
-     * @throws DoozR_Loader_Serviceloader_Exception
+     * @throws Doozr_Loader_Serviceloader_Exception
      * @static
      */
     protected static function getFullQualifiedService($service)
@@ -297,7 +297,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
 
             // If an array is found we need at least namespace and service
             if (isset($service['name']) === false) {
-                throw new DoozR_Loader_Serviceloader_Exception(
+                throw new Doozr_Loader_Serviceloader_Exception(
                     'Serviceloader requires at least a "service" name when passing an array()!'
                 );
             }
@@ -365,7 +365,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      * This method is intend ...
      *
      * @param string $service   The name of the service to return the path for
-     * @param string $namespace The (optional) namespace to use. Default is namespace "DoozR"
+     * @param string $namespace The (optional) namespace to use. Default is namespace "Doozr"
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The full path to the service library file.
@@ -383,7 +383,7 @@ class DoozR_Loader_Serviceloader extends DoozR_Base_Class_Singleton
      * This method is intend to return the path to a passed service and (optional) namespace.
      *
      * @param string $service   Name of the service to return path for
-     * @param string $namespace The (optional) namespace (default "DoozR")
+     * @param string $namespace The (optional) namespace (default "Doozr")
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The full path to the service library file.

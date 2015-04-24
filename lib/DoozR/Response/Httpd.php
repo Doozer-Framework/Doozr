@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Response - Httpd
+ * Doozr - Response - Httpd
  *
  * Httpd.php - Response Httpd - Response-Handler to pass responses to CLI
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,34 +42,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Response
- * @subpackage DoozR_Response_Httpd
+ * @category   Doozr
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response_Httpd
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Response.php';
-//require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Response/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Response.php';
+//require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Response/Interface.php';
 
 /**
- * DoozR - Response - Httpd
+ * Doozr - Response - Httpd
  *
  * Response Httpd - Response-Handler to pass responses to CLI
  *
- * @category   DoozR
- * @package    DoozR_Response
- * @subpackage DoozR_Response_Httpd
+ * @category   Doozr
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response_Httpd
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Response_Httpd extends DoozR_Base_Response
+class Doozr_Response_Httpd extends Doozr_Base_Response
 {
     /**
      * Type of this response
@@ -89,7 +89,7 @@ class DoozR_Response_Httpd extends DoozR_Base_Response
      * @return void
      * @access public
      */
-    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    public function __construct(Doozr_Config $config, Doozr_Logger $logger)
     {
         // map type
         self::$type = self::TYPE;

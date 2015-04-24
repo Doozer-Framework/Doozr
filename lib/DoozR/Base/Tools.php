@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Tools
+ * Doozr - Base - Tools
  *
  * Tools.php - Toolset collection useful for developer.
  *
  * PHP version 5
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Tools
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Tools
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Base - Tools
+ * Doozr - Base - Tools
  *
  * Toolset collection useful for developer.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Tools
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Tools
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Tools
+class Doozr_Base_Tools
 {
     /**
      * The backtrace information so we don't need to call this expensive

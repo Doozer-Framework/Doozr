@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Fieldset.php - The Fieldset component is a container component which
  * combines components to a set.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,33 +43,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * The Fieldset component is a container component which combines components to a set.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component_Formcomponent
+class Doozr_Form_Service_Component_Fieldset extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
      * This is the tag-name for HTML output.
@@ -78,7 +78,7 @@ class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_FIELDSET;
+    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_FIELDSET;
 
     /**
      * The id of the legend
@@ -95,16 +95,16 @@ class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component
     /**
      * Constructor.
      *
-     * @param DoozR_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
-     * @param DoozR_Form_Service_Component_Legend   $legend   The legend to add
+     * @param Doozr_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
+     * @param Doozr_Form_Service_Component_Legend   $legend   The legend to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Fieldset
+     * @return \Doozr_Form_Service_Component_Fieldset
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface $renderer = null,
-        DoozR_Form_Service_Component_Legend $legend = null
+        Doozr_Form_Service_Renderer_Interface $renderer = null,
+        Doozr_Form_Service_Component_Legend $legend = null
     ) {
         if ($legend !== null) {
             $this->setLegend($legend);
@@ -169,13 +169,13 @@ class DoozR_Form_Service_Component_Fieldset extends DoozR_Form_Service_Component
     /**
      * Setter for legend.
      *
-     * @param DoozR_Form_Service_Component_Legend $legend
+     * @param Doozr_Form_Service_Component_Legend $legend
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setLegend(DoozR_Form_Service_Component_Legend $legend)
+    public function setLegend(Doozr_Form_Service_Component_Legend $legend)
     {
         $this->legendId = $this->addChild($legend);
     }

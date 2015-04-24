@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - The PHP-Framework
+ * Doozr - The PHP-Framework
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -80,7 +80,7 @@ uprofiler_enable();
 putenv('DOOZR_APP_ENVIRONMENT=development');
 
 /**
- * Get composer as well as DoozR's router the rest is magic ...
+ * Get composer as well as Doozr's router the rest is magic ...
  */
 require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 require_once 'Route.php';

@@ -2,20 +2,20 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Logger - Debugbar
+ * Doozr - Logger - Debugbar
  *
  * Debugbar.php - This logger is a bridge to PHP Debug Bar's logging system (
  *   http://phpdebugbar.com/docs/base-collectors.html#messages
  * ) we decided to use this logger - which can be combined with all the other
  * loggers - to bring the logging functionality of PHP Debug Bar to the devs.
- * So when developing DoozR you can simply call $logger->log('Foo', LEVEL);
+ * So when developing Doozr you can simply call $logger->log('Foo', LEVEL);
  * and be sure if logging level config is OK the log entry will also appear in
  * debug bar.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -48,44 +48,44 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Debugbar
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_Debugbar
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/PsrInterface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/PsrInterface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
 
 /**
- * DoozR - Logger - Debugbar
+ * Doozr - Logger - Debugbar
  *
  * This logger is a bridge to PHP Debug Bar's logging system (
  *   http://phpdebugbar.com/docs/base-collectors.html#messages
  * ) we decided to use this logger - which can be combined with all the other
  * loggers - to bring the logging functionality of PHP Debug Bar to the devs.
- * So when developing DoozR you can simply call $logger->log('Foo', LEVEL);
+ * So when developing Doozr you can simply call $logger->log('Foo', LEVEL);
  * and be sure if logging level config is OK the log entry will also appear in
  * debug bar.
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Debugbar
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_Debugbar
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Logger_Debugbar extends DoozR_Logger_Abstract implements
-    DoozR_Logger_Interface,
-    DoozR_Logger_PsrInterface,
+class Doozr_Logger_Debugbar extends Doozr_Logger_Abstract implements
+    Doozr_Logger_Interface,
+    Doozr_Logger_PsrInterface,
     SplObserver
 {
     /**
@@ -116,16 +116,16 @@ class DoozR_Logger_Debugbar extends DoozR_Logger_Abstract implements
     /**
      * Constructor.
      *
-     * @param DoozR_Datetime_Service $datetime
+     * @param Doozr_Datetime_Service $datetime
      * @param int $level The loglevel of the logger extending this class
      * @param string $fingerprint The fingerprint of the client
-     * @internal param DoozR_Config $config The configuration instance
+     * @internal param Doozr_Config $config The configuration instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Logger_Debugbar
+     * @return \Doozr_Logger_Debugbar
      * @access public
      */
-    public function __construct(DoozR_Datetime_Service $datetime, $level = null, $fingerprint = null)
+    public function __construct(Doozr_Datetime_Service $datetime, $level = null, $fingerprint = null)
     {
         // call parents constructor
         parent::__construct($datetime, $level, $fingerprint);
@@ -167,7 +167,7 @@ class DoozR_Logger_Debugbar extends DoozR_Logger_Abstract implements
     {
         switch ($event) {
             case 'log':
-                /* @var DoozR_Logger $subject */
+                /* @var Doozr_Logger $subject */
                 $logs = $subject->getCollectionRaw();
 
                 foreach ($logs as $log) {

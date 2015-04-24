@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Group.php - The group element control layer which adds validation,
  * and so on to an HTML element.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,34 +43,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Html.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * The group element control layer which adds validation,
  * and so on to an HTML element.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Html
+class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Html
 {
     /**
      * The tag of this component
@@ -78,7 +78,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_DIV;
+    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_DIV;
 
     /**
      * The template is required for output. Each HTML-Component inherits
@@ -152,19 +152,19 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     /**
      * Constructor.
      *
-     * @param DoozR_Form_Service_Renderer_Interface                                                     $renderer
-     * @param DoozR_Form_Service_Validator_Interface                                                    $validator
-     * @param DoozR_Form_Service_Component_Interface_Html|DoozR_Form_Service_Component_Interface_Html[] $label     0 to n Label
-     * @param DoozR_Form_Service_Component_Interface_Html|DoozR_Form_Service_Component_Interface_Html[] $component 0 to n Components
-     * @param DoozR_Form_Service_Component_Message|DoozR_Form_Service_Component_Message[]               $message   0 to n Message components
+     * @param Doozr_Form_Service_Renderer_Interface                                                     $renderer
+     * @param Doozr_Form_Service_Validator_Interface                                                    $validator
+     * @param Doozr_Form_Service_Component_Interface_Html|Doozr_Form_Service_Component_Interface_Html[] $label     0 to n Label
+     * @param Doozr_Form_Service_Component_Interface_Html|Doozr_Form_Service_Component_Interface_Html[] $component 0 to n Components
+     * @param Doozr_Form_Service_Component_Message|Doozr_Form_Service_Component_Message[]               $message   0 to n Message components
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Group $this
+     * @return Doozr_Form_Service_Component_Group $this
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface  $renderer  = null,
-        DoozR_Form_Service_Validator_Interface $validator = null,
+        Doozr_Form_Service_Renderer_Interface  $renderer  = null,
+        Doozr_Form_Service_Validator_Interface $validator = null,
                                                $label     = null,
                                                $component = null,
                                                $message   = null
@@ -189,7 +189,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
             }
         }
 
-        if ($message instanceof DoozR_Form_Service_Component_Message) {
+        if ($message instanceof Doozr_Form_Service_Component_Message) {
             if (is_array($message)) {
                 foreach ($message as $singleMessage) {
                     $this->addMessage($singleMessage);
@@ -212,13 +212,13 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     /**
      * Adds a label to the group.
      *
-     * @param DoozR_Form_Service_Component_Interface_Html $label The label instance to add
+     * @param Doozr_Form_Service_Component_Interface_Html $label The label instance to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The index of the added label
      * @access public
      */
-    public function addLabel(DoozR_Form_Service_Component_Interface_Html $label)
+    public function addLabel(Doozr_Form_Service_Component_Interface_Html $label)
     {
         $index               = $this->addChild($label);
         $this->index[$index] = self::LABEL;
@@ -232,13 +232,13 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     /**
      * Adds an element to the group.
      *
-     * @param DoozR_Form_Service_Component_Interface_Html $element Instance of element to add
+     * @param Doozr_Form_Service_Component_Interface_Html $element Instance of element to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The index of the added component
      * @access public
      */
-    public function addComponent(DoozR_Form_Service_Component_Interface_Html $element)
+    public function addComponent(Doozr_Form_Service_Component_Interface_Html $element)
     {
         $index               = $this->addChild($element);
         $this->index[$index] = self::COMPONENT;
@@ -252,13 +252,13 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     /**
      * Adds a message to the group.
      *
-     * @param DoozR_Form_Service_Component_Message $message Instance of message to add
+     * @param Doozr_Form_Service_Component_Message $message Instance of message to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The index of the added message
      * @access public
      */
-    public function addMessage(DoozR_Form_Service_Component_Message $message)
+    public function addMessage(Doozr_Form_Service_Component_Message $message)
     {
         $index               = $this->addChild($message);
         $this->index[$index] = self::MESSAGE;
@@ -272,13 +272,13 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     /**
      * Sets the label of this group.
      *
-     * @param DoozR_Form_Service_Component_Label $label
+     * @param Doozr_Form_Service_Component_Label $label
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The index of the added label
      * @access public
      */
-    public function setLabel(DoozR_Form_Service_Component_Label $label)
+    public function setLabel(Doozr_Form_Service_Component_Label $label)
     {
         return $this->addLabel($label);
     }
@@ -287,7 +287,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
      * Returns the label of this group.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Label|null The Instance of label if set, otherwise NULL
+     * @return Doozr_Form_Service_Component_Label|null The Instance of label if set, otherwise NULL
      * @access public
      */
     public function getLabels()
@@ -306,13 +306,13 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     /**
      * Sets the element of this group.
      *
-     * @param DoozR_Form_Service_Component_Interface_Html $component The component to set
+     * @param Doozr_Form_Service_Component_Interface_Html $component The component to set
      *
      * @author   Benjamin Carl <opensource@clickalicious.de>
      * @return   integer The index of the added component
      * @access   public
      */
-    public function setComponent(DoozR_Form_Service_Component_Interface_Html $component)
+    public function setComponent(Doozr_Form_Service_Component_Interface_Html $component)
     {
         return $this->addComponent($component);
     }
@@ -321,7 +321,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
      * Returns the Component of this group.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Input[]|null The Instance of element if set, otherwise NULL
+     * @return Doozr_Form_Service_Component_Input[]|null The Instance of element if set, otherwise NULL
      * @access public
      */
     public function getComponents()
@@ -338,13 +338,13 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
     /**
      * Sets the message of this group.
      *
-     * @param DoozR_Form_Service_Component_Message $message
+     * @param Doozr_Form_Service_Component_Message $message
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setMessage(DoozR_Form_Service_Component_Message $message)
+    public function setMessage(Doozr_Form_Service_Component_Message $message)
     {
         $this->addChild($message, 'message');
     }
@@ -353,7 +353,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
      * Returns the message of this group.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Component_Message|null The Instance of Message if set, otherwise NULL
+     * @return Doozr_Form_Service_Component_Message|null The Instance of Message if set, otherwise NULL
      * @access public
      */
     public function getMessage()
@@ -377,7 +377,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Form_Service_Exception
+     * @throws Doozr_Form_Service_Exception
      */
     public function setOrder(array $order)
     {
@@ -387,7 +387,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
             in_array(self::COMPONENT, $order) === false ||
             in_array(self::MESSAGE,   $order) === false
         ) {
-            throw new DoozR_Form_Service_Exception(
+            throw new Doozr_Form_Service_Exception(
                 'Alda'
             );
         }
@@ -403,7 +403,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
-     * @throws DoozR_Form_Service_Exception
+     * @throws Doozr_Form_Service_Exception
      */
     public function order(array $order)
     {
@@ -497,7 +497,7 @@ class DoozR_Form_Service_Component_Group extends DoozR_Form_Service_Component_Ht
         $labels     = (isset($this->indexReverse[self::LABEL])) ? $this->indexReverse[self::LABEL] : null;
         $components = (isset($this->indexReverse[self::COMPONENT])) ? $this->indexReverse[self::COMPONENT] : null;
 
-        /* @var DoozR_Form_Service_Component_Formcomponent $child */
+        /* @var Doozr_Form_Service_Component_Formcomponent $child */
         for ($i = 0; $i < count($labels); ++$i) {
             if (isset($components[$i])) {
                 $label = $this->getChild($labels[$i]);

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Session - Service
+ * Doozr - Session - Service
  *
  * Service.php - Session Facade to PHP's session implementation. Brings a lot of required
  * stuff like support for en-/decrypting sessions (for both variables and content - both
@@ -12,7 +12,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,63 +45,63 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Session
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Session
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Session/Service/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Crud/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Session/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Session - Service
+ * Doozr - Session - Service
  *
  * Session Facade to PHP's session implementation. Brings a lot of required
  * stuff like support for en-/decrypting sessions (for both variables and content - both
  * configurable) with high secure encryption standard AES256! Also brings session fixation
  * protection with a configurable regenerate cycle, IP-binding, and so on ...
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Session
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Session
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
-    DoozR_Base_Crud_Interface,
-    DoozR_Session_Service_Interface,
-    DoozR_Base_Service_Interface
+class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
+    Doozr_Base_Crud_Interface,
+    Doozr_Session_Service_Interface,
+    Doozr_Base_Service_Interface
 {
     /**
-     * Instance of DoozR_Crypt
+     * Instance of Doozr_Crypt
      *
-     * @var DoozR_Crypt
+     * @var Doozr_Crypt
      * @access protected
      */
     protected $crypt;
 
     /**
-     * Instance of DoozR_Logger
+     * Instance of Doozr_Logger
      *
-     * @var DoozR_Logger
+     * @var Doozr_Logger
      * @access protected
      */
     protected $logger;
@@ -271,7 +271,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * @var string
      * @access const
      */
-    const DEFAULT_IDENTIFIER = 'DoozR';
+    const DEFAULT_IDENTIFIER = 'Doozr';
 
     /**
      * The default lifetime (of session)
@@ -666,7 +666,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
         try {
             $ipFromSession = $this->get(self::DEFAULT_BIND_IP_IDENTIFIER);
 
-        } catch (DoozR_Session_Service_Exception $e) {
+        } catch (Doozr_Session_Service_Exception $e) {
             $ipFromSession = null;
         }
 
@@ -750,13 +750,13 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     public function enableEncryption($cipher = self::DEFAULT_ENCRYPT_CIPHER, $encoding = self::DEFAULT_ENCRYPT_ENCODING)
     {
         // Get security
-        include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Security.php';
+        include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Security.php';
 
         // Get module crypt
-        $this->crypt = DoozR_Loader_Serviceloader::load('crypt', $cipher, $encoding);
+        $this->crypt = Doozr_Loader_Serviceloader::load('crypt', $cipher, $encoding);
 
         // Store private key for en-/decryption
-        $this->privateKey = DoozR_Security::getPrivateKey();
+        $this->privateKey = Doozr_Security::getPrivateKey();
 
         // Set key to crypt-module
         $this->crypt->setKey($this->privateKey);
@@ -801,7 +801,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Session_Service_Exception
+     * @throws Doozr_Session_Service_Exception
      */
     public function start()
     {
@@ -837,7 +837,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
 
         // for the uncommon case, that the session could not be initialized
         if (!$this->wasStarted()) {
-            throw new DoozR_Session_Service_Exception(
+            throw new Doozr_Session_Service_Exception(
                 'Session could not be started! Please check your configuration (php.ini).'
             );
         } else {
@@ -881,13 +881,13 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Session_Service_Exception
+     * @throws Doozr_Session_Service_Exception
      */
     public function handleRegenerate()
     {
         // check for invalid call
         if (!$this->wasStarted()) {
-            throw new DoozR_Session_Service_Exception(
+            throw new Doozr_Session_Service_Exception(
                 'Error while handling Session regeneration! handleRegenerate() must be called after session start().'
             );
         }
@@ -1206,7 +1206,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Value of the requested session variable if set, otherwise NULL
      * @access public
-     * @throws DoozR_Session_Service_Exception
+     * @throws Doozr_Session_Service_Exception
      */
     public function get($variable, $value = null)
     {
@@ -1225,7 +1225,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
             }
 
         } else {
-            throw new DoozR_Session_Service_Exception(
+            throw new Doozr_Session_Service_Exception(
                 'Session variable "' . $variable . '" could not be retrieved from session. Ensure that it is set first.'
             );
         }
@@ -1317,13 +1317,13 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Session_Service_Exception
+     * @throws Doozr_Session_Service_Exception
      */
     public function setIdentifier($identifier)
     {
         // check for already started session first
         if ($this->wasStarted()) {
-            throw new DoozR_Session_Service_Exception(
+            throw new Doozr_Session_Service_Exception(
                 'Identifier cannot be changed! The identifier (session-name) must be set BEFORE start() is called.'
             );
         }
@@ -1570,7 +1570,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
         try {
             $currentCycle = $this->get(self::DEFAULT_REGENERATE_CYCLES_IDENTIFIER);
 
-        } catch (DoozR_Session_Service_Exception $e) {
+        } catch (Doozr_Session_Service_Exception $e) {
             $currentCycle = 0;
         }
 
@@ -1708,7 +1708,7 @@ class DoozR_Session_Service extends DoozR_Base_Service_Singleton implements
     protected function log($message)
     {
         if ($this->logger !== null) {
-            $this->logger->log(DoozR_Logger_Constant::DEBUG, $message);
+            $this->logger->log(Doozr_Logger_Constant::DEBUG, $message);
         }
     }
 

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Cache - Service
+ * Doozr - Cache - Service
  *
  * Cache.php - Caching Service for caching operations with support for
  * different container like "Filesystem", "Memcache" ...
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,48 +43,48 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Psr/Cache/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Crud/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Crud/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Cache - Service
+ * Doozr - Cache - Service
  *
  * Caching Service for caching operations with support for
  * different container like "Filesystem", "Memcache" ...
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
- * @throws     DoozR_Cache_Service_Exception
+ * @link       http://clickalicious.github.com/Doozr/
+ * @throws     Doozr_Cache_Service_Exception
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="__construct",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
+class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     implements
-    DoozR_Psr_Cache_Interface,
-    DoozR_Base_Crud_Interface
+    Doozr_Psr_Cache_Interface,
+    Doozr_Base_Crud_Interface
 {
     /**
      * Active namespace
@@ -97,7 +97,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
     /**
      * Active container
      *
-     * @var DoozR_Cache_Service_Container_Interface
+     * @var Doozr_Cache_Service_Container_Interface
      * @access protected
      */
     protected $container;
@@ -218,7 +218,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if dataset could be written, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function create(
         $key,
@@ -238,7 +238,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
 
         // Try to create entry
         if ($this->createExtended($key, $value, $lifetime, $namespace) === false) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf('Error while creating entry with key: "%s" in namespace: "%s"!', $key, $namespace)
             );
         }
@@ -257,7 +257,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed|null Data from cache, otherwise NULL
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function read(
         $key,
@@ -273,7 +273,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
 
         // Check if content exists
         if ($this->exists($key, $namespace) !== true) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf(
                     'Requested entry with key: "%s" in namespace: "%s" could not be found in cache!', $key, $namespace
                 )
@@ -301,7 +301,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if dataset could be written, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function update(
         $key,
@@ -370,7 +370,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if entry is expired, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function expired($key, $namespace = null, $lifetime = null)
     {
@@ -585,7 +585,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function setContainer(
               $container,
@@ -593,7 +593,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
     ) {
         // check if container-type exists
         if ($this->containerExists($container) === false) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf('Error! Container: "%s" does not exist! Please choose an existing container.', $container)
             );
         }
@@ -619,7 +619,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function container(
               $container,
@@ -633,7 +633,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * Getter for container.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Cache_Service_Container_Interface $container The container
+     * @return null|Doozr_Cache_Service_Container_Interface $container The container
      * @access protected
      */
     protected function getContainer()
@@ -741,7 +741,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if dataset could be written, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function createExtended(
         $key,
@@ -760,7 +760,7 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
             );
 
         } catch (Exception $e) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf('Error creating cache entry for with key: "%s".', $key)
             );
         }
@@ -775,9 +775,9 @@ class DoozR_Cache_Service extends DoozR_Base_Service_Multiple
      * @param array  $containerOptions The configuration/options for the container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Cache_Service_Container_Interface Instance of the container
+     * @return Doozr_Cache_Service_Container_Interface Instance of the container
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function containerFactory($container, array $containerOptions = array())
     {

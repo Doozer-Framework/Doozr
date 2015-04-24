@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Controller - Front
+ * Doozr - Controller - Front
  *
- * Front.php - The Front-Controller of the DoozR-Framework.
+ * Front.php - The Front-Controller of the Doozr-Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Controller
- * @subpackage DoozR_Controller_Front
+ * @category   Doozr
+ * @package    Doozr_Controller
+ * @subpackage Doozr_Controller_Front
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
 /**
- * DoozR - Controller - Front
+ * Doozr - Controller - Front
  *
- * The Front-Controller of the DoozR-Framework.
+ * The Front-Controller of the Doozr-Framework.
  *
- * @category   DoozR
- * @package    DoozR_Controller
- * @subpackage DoozR_Controller_Front
+ * @category   Doozr
+ * @package    Doozr_Controller
+ * @subpackage Doozr_Controller_Front
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
+class Doozr_Controller_Front extends Doozr_Base_Class_Singleton
 {
     /**
      * Detected runtime environment (web|cli|httpd)
@@ -81,7 +81,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * The request state of active request
      *
-     * @var DoozR_Request_State
+     * @var Doozr_Request_State
      * @access protected
      */
     protected $requestState;
@@ -89,7 +89,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * The response state.
      *
-     * @var DoozR_Response_State
+     * @var Doozr_Response_State
      * @access protected
      */
     protected $responseState;
@@ -128,18 +128,18 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param DoozR_Registry       $registry      Central registry of the application
-     * @param DoozR_Request_State  $requestState  Request state
-     * @param DoozR_Response_State $responseState Response state
+     * @param Doozr_Registry       $registry      Central registry of the application
+     * @param Doozr_Request_State  $requestState  Request state
+     * @param Doozr_Response_State $responseState Response state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Controller_Front instance of this class
+     * @return \Doozr_Controller_Front instance of this class
      * @access protected
      */
     protected function __construct(
-        DoozR_Registry       $registry,
-        DoozR_Request_State  $requestState,
-        DoozR_Response_State $responseState
+        Doozr_Registry       $registry,
+        Doozr_Request_State  $requestState,
+        Doozr_Response_State $responseState
     ) {
         self::setRegistry($registry);
 
@@ -152,13 +152,13 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * Setter for request state.
      *
-     * @param DoozR_Request_State $requestState The request state.
+     * @param Doozr_Request_State $requestState The request state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setRequestState(DoozR_Request_State $requestState)
+    protected function setRequestState(Doozr_Request_State $requestState)
     {
         $this->requestState = $requestState;
     }
@@ -166,13 +166,13 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * Setter for request state.
      *
-     * @param DoozR_Request_State $requestState The request state.
+     * @param Doozr_Request_State $requestState The request state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function requestState(DoozR_Request_State $requestState)
+    protected function requestState(Doozr_Request_State $requestState)
     {
         $this->setRequestState($requestState);
         return $this;
@@ -182,7 +182,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * Getter for request state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State|null The stored instance if set, otherwise NULL
+     * @return Doozr_Request_State|null The stored instance if set, otherwise NULL
      * @access protected
      */
     protected function getRequestState()
@@ -193,13 +193,13 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * Setter for response state.
      *
-     * @param DoozR_Response_State $responseState The response state.
+     * @param Doozr_Response_State $responseState The response state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setResponseState(DoozR_Response_State $responseState)
+    protected function setResponseState(Doozr_Response_State $responseState)
     {
         $this->responseState = $responseState;
     }
@@ -207,13 +207,13 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
     /**
      * Setter for response state.
      *
-     * @param DoozR_Response_State $responseState The response state.
+     * @param Doozr_Response_State $responseState The response state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function responseState(DoozR_Response_State $responseState)
+    protected function responseState(Doozr_Response_State $responseState)
     {
         $this->setResponseState($responseState);
         return $this;
@@ -223,7 +223,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * Getter for response state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Response_State|null The stored instance if set, otherwise NULL
+     * @return Doozr_Response_State|null The stored instance if set, otherwise NULL
      * @access protected
      */
     protected function getResponseState()
@@ -276,7 +276,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * Returns the request state for userland (developer) as "request".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State The request state
+     * @return Doozr_Request_State The request state
      * @access public
      */
     public function getRequest()
@@ -288,7 +288,7 @@ class DoozR_Controller_Front extends DoozR_Base_Class_Singleton
      * Returns the response state for userland (developer) as "response".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Response_State The response state
+     * @return Doozr_Response_State The response state
      * @access public
      */
     public function getResponse()

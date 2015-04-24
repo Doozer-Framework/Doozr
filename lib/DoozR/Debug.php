@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Debug
+ * Doozr - Debug
  *
  * Debug.php - Configures PHP dynamic in debug-runtimeEnvironment and setup hooks
  * on important parts.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,37 +43,37 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Debug
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Debug
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton/Strict.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 
 /**
- * DoozR - Debug
+ * Doozr - Debug
  *
  * Configures PHP dynamic in debug-runtimeEnvironment and setup hooks
  * on important parts.
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Debug
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Debug
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
+class Doozr_Debug extends Doozr_Base_Class_Singleton_Strict
 {
     /**
      * The debug-mode state (true = enabled / false = disabled)
@@ -86,7 +86,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     /**
      * Instance of logger
      *
-     * @var DoozR_Logger
+     * @var Doozr_Logger
      * @access protected
      */
     protected $logger;
@@ -95,14 +95,14 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
     /**
      * Constructor.
      *
-     * @param DoozR_Logger_Interface $logger  An instance of DoozR_Logger
+     * @param Doozr_Logger_Interface $logger  An instance of Doozr_Logger
      * @param bool                   $enabled Defines it debug mode is enabled or not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Debug
+     * @return \Doozr_Debug
      * @access protected
      */
-    protected function __construct(DoozR_Logger_Interface $logger, $enabled = false)
+    protected function __construct(Doozr_Logger_Interface $logger, $enabled = false)
     {
         // store instances
         $this->logger = $logger;
@@ -128,7 +128,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Debug_Exception
+     * @throws Doozr_Debug_Exception
      */
     public function enable()
     {
@@ -140,7 +140,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         } else {
             $this->enabled = false;
 
-            throw new DoozR_Debug_Exception(
+            throw new Doozr_Debug_Exception(
                 'Debug-Mode could not be enabled! Your system isn\'t configurable at runtime.'
             );
         }
@@ -154,7 +154,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Debug_Exception
+     * @throws Doozr_Debug_Exception
      */
     public function disable()
     {
@@ -166,7 +166,7 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         } else {
             $this->enabled = true;
 
-            throw new DoozR_Debug_Exception(
+            throw new Doozr_Debug_Exception(
                 'Debug-Mode could not be disabled!'
             );
         }
@@ -186,9 +186,9 @@ class DoozR_Debug extends DoozR_Base_Class_Singleton_Strict
         // Configure the PrettyPageHandler
         $exceptionHandler = new PrettyPageHandler();
 
-        // Add some DoozR specific ingredients
-        $exceptionHandler->setPageTitle('DoozR');
-        $exceptionHandler->addDataTable("DoozR runtime environment", array(
+        // Add some Doozr specific ingredients
+        $exceptionHandler->setPageTitle('Doozr');
+        $exceptionHandler->addDataTable("Doozr runtime environment", array(
                 "DOOZR_OS"            => (string)DOOZR_OS,
                 "DOOZR_SAPI"          => (string)DOOZR_SAPI,
                 "DOOZR_PHP_VERSION"   => (string)DOOZR_PHP_VERSION,

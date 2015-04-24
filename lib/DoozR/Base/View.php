@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - View
+ * Doozr - Base - View
  *
  * View.php - Base class for view-layers from MVP
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_View
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_View
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/View/Observer.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/View/Observer.php';
 
 /**
- * DoozR - Base - View
+ * Doozr - Base - View
  *
  * Base master-class for building a view
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_View
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_View
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_View_Interface
+class Doozr_Base_View extends Doozr_Base_View_Observer implements Doozr_Base_View_Interface
 {
     /**
      * The data to show
@@ -113,7 +113,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Translator instance used to pass to template service/system
      *
-     * @var DoozR_I18n_Service
+     * @var Doozr_I18n_Service
      * @access protected
      */
     protected $translator;
@@ -121,7 +121,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Request state object
      *
-     * @var DoozR_Base_State_Interface
+     * @var Doozr_Base_State_Interface
      * @access protected
      */
     protected $requestState;
@@ -135,17 +135,17 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     protected $arguments;
 
     /**
-     * The instance of DoozR_Controller_Front
+     * The instance of Doozr_Controller_Front
      *
-     * @var DoozR_Controller_Front
+     * @var Doozr_Controller_Front
      * @access protected
      */
     protected $front;
 
     /**
-     * Contains the DoozR main configuration object
+     * Contains the Doozr main configuration object
      *
-     * @var DoozR_Config
+     * @var Doozr_Config
      * @access protected
      */
     protected $configuration;
@@ -159,9 +159,9 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     protected $translation;
 
     /**
-     * Contains an instance of the module DoozR_Cache_Service
+     * Contains an instance of the module Doozr_Cache_Service
      *
-     * @var DoozR_Cache_Service
+     * @var Doozr_Cache_Service
      * @access protected
      */
     protected $cache;
@@ -188,26 +188,26 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Constructor.
      *
-     * @param DoozR_Registry             $registry     DoozR_Registry containing all core components
-     * @param DoozR_Base_State_Interface $requestState Whole request as state
+     * @param Doozr_Registry             $registry     Doozr_Registry containing all core components
+     * @param Doozr_Base_State_Interface $requestState Whole request as state
      * @param array                      $request      The whole request as processed by "Route"
-     * @param DoozR_Cache_Service        $cache        An instance of DoozR_Cache_Service
-     * @param DoozR_Config               $config       An instance of DoozR_Config with Kernel-Configuration
-     * @param DoozR_Controller_Front     $front        An instance of DoozR_Front
+     * @param Doozr_Cache_Service        $cache        An instance of Doozr_Cache_Service
+     * @param Doozr_Config               $config       An instance of Doozr_Config with Kernel-Configuration
+     * @param Doozr_Controller_Front     $front        An instance of Doozr_Front
      * @param array                      $translation  The translation required to read the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_View
+     * @return \Doozr_Base_View
      * @access public
-     * @throws DoozR_Base_View_Exception
+     * @throws Doozr_Base_View_Exception
      */
     public function __construct(
-        DoozR_Registry             $registry,
-        DoozR_Base_State_Interface $requestState,
+        Doozr_Registry             $registry,
+        Doozr_Base_State_Interface $requestState,
         array                      $request,
-        DoozR_Cache_Service        $cache,
-        DoozR_Config               $config,
-        DoozR_Controller_Front     $front,
+        Doozr_Cache_Service        $cache,
+        Doozr_Config               $config,
+        Doozr_Controller_Front     $front,
         array                      $translation   = null
     ) {
         // Store all instances for further use ...
@@ -222,12 +222,12 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
             ->requestState($requestState)
             ->translation($translation);
 
-        // Check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
             $result = $this->__tearup($request, $translation);
 
             if ($result !== true) {
-                throw new DoozR_Base_View_Exception(
+                throw new Doozr_Base_View_Exception(
                     '__tearup() must (if set) return TRUE. __tearup() executed and it returned: ' .
                     var_export($result, true)
                 );
@@ -361,13 +361,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for cache.
      *
-     * @param DoozR_Cache_Service $cache The cache service instance to set
+     * @param Doozr_Cache_Service $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setCache(DoozR_Cache_Service $cache)
+    protected function setCache(Doozr_Cache_Service $cache)
     {
         $this->cache = $cache;
     }
@@ -375,13 +375,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for cache.
      *
-     * @param DoozR_Cache_Service $cache The cache service instance to set
+     * @param Doozr_Cache_Service $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function cache(DoozR_Cache_Service $cache)
+    protected function cache(Doozr_Cache_Service $cache)
     {
         $this->setCache($cache);
         return $this;
@@ -391,7 +391,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Cache_Service|null The cache service instance stored, otherwise NULL
+     * @return Doozr_Cache_Service|null The cache service instance stored, otherwise NULL
      * @access protected
      */
     protected function getCache()
@@ -402,13 +402,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for configuration.
      *
-     * @param DoozR_Config_Interface $configuration The configuation object
+     * @param Doozr_Config_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setConfiguration(DoozR_Config_Interface $configuration)
+    protected function setConfiguration(Doozr_Config_Interface $configuration)
     {
         $this->configuration = $configuration;
     }
@@ -416,13 +416,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for configuration with fluent API support for chaining calls to this class.
      *
-     * @param DoozR_Config_Interface $configuration The
+     * @param Doozr_Config_Interface $configuration The
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function configuration(DoozR_Config_Interface $configuration)
+    protected function configuration(Doozr_Config_Interface $configuration)
     {
         $this->setConfiguration($configuration);
         return $this;
@@ -432,7 +432,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config_Interface The configuration stored
+     * @return Doozr_Config_Interface The configuration stored
      * @access protected
      */
     protected function getConfiguration()
@@ -443,13 +443,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for front.
      *
-     * @param DoozR_Controller_Front $front Instance of DoozR_Controller_Front
+     * @param Doozr_Controller_Front $front Instance of Doozr_Controller_Front
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setFront(DoozR_Controller_Front $front)
+    protected function setFront(Doozr_Controller_Front $front)
     {
         $this->front = $front;
     }
@@ -457,13 +457,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for front.
      *
-     * @param DoozR_Controller_Front $front Instance of DoozR_Controller_Front
+     * @param Doozr_Controller_Front $front Instance of Doozr_Controller_Front
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function front(DoozR_Controller_Front $front)
+    protected function front(Doozr_Controller_Front $front)
     {
         $this->setFront($front);
         return $this;
@@ -473,7 +473,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      * Getter for front.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Controller_Front Instance of front controller
+     * @return Doozr_Controller_Front Instance of front controller
      * @access protected
      */
     protected function getFront()
@@ -525,7 +525,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for request state.
      *
-     * @param DoozR_Base_State_Interface $requestState
+     * @param Doozr_Base_State_Interface $requestState
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -539,7 +539,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for request state.
      *
-     * @param DoozR_Base_State_Interface $requestState
+     * @param Doozr_Base_State_Interface $requestState
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -566,13 +566,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for translator.
      *
-     * @param DoozR_I18n_Service $translator Instance of translator service
+     * @param Doozr_I18n_Service $translator Instance of translator service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setTranslator(DoozR_I18n_Service $translator)
+    protected function setTranslator(Doozr_I18n_Service $translator)
     {
         $this->translator = $translator;
     }
@@ -580,13 +580,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
     /**
      * Setter for translator.
      *
-     * @param DoozR_I18n_Service $translator Instance of translator service
+     * @param Doozr_I18n_Service $translator Instance of translator service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translator(DoozR_I18n_Service $translator)
+    protected function translator(Doozr_I18n_Service $translator)
     {
         $this->setTranslator($translator);
         return $this;
@@ -596,7 +596,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      * Getter for translator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_I18n_Service The I18n service instance
+     * @return Doozr_I18n_Service The I18n service instance
      * @access protected
      */
     protected function getTranslator()
@@ -751,13 +751,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      *                                                       content/path/url
      *                                                     - user specific view/template with user data = use
      *                                                       session-id or user-id!
-     * @param PHPTAL_TranslationService $i18n              An instance of a DoozR I18n service
+     * @param PHPTAL_TranslationService $i18n              An instance of a Doozr I18n service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if successful, otherwise FALSE
      * @access protected
-     * @throws \DoozR_Base_View_Exception
-     * @throws \DoozR_Exception
+     * @throws \Doozr_Base_View_Exception
+     * @throws \Doozr_Exception
      * @throws \PHPTAL_ConfigurationException
      */
     protected function render(array $data = array(), $fingerprint = null, PHPTAL_TranslationService $i18n = null)
@@ -777,7 +777,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
             try {
                 $html = $this->cache->read($this->getFingerprint());
 
-            } catch (DoozR_Cache_Service_Exception $e) {
+            } catch (Doozr_Cache_Service_Exception $e) {
                 $html = null;
             }
         }
@@ -790,13 +790,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
                             $this->translateToTemplatefile() . '.' . self::TEMPLATE_EXTENSION;
 
             if (file_exists($templateFile) === false) {
-                throw new DoozR_Base_View_Exception(
+                throw new Doozr_Base_View_Exception(
                     'The template file "' . $templateFile . '" is required for rendering but it does not exist.'
                 );
             }
 
             /* @var $template PHPTAL */
-            $template = DoozR_Loader_Serviceloader::load('template', $templateFile);
+            $template = Doozr_Loader_Serviceloader::load('template', $templateFile);
 
             // Set output runtimeEnvironment ...
             $template->setOutputMode($this->getOutputMode());
@@ -835,13 +835,13 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
             try {
                 $this->cache->create($html, $this->getFingerprint());
 
-            } catch (DoozR_Cache_Service_Exception $e) {
+            } catch (Doozr_Cache_Service_Exception $e) {
                 pred($e);
 
             }
         }
 
-        /* @var $response DoozR_Response_Web */
+        /* @var $response Doozr_Response_Web */
         $response = $this->getFront()->getResponse();
 
         // Try to get default header for responses from configuration and add them here ...
@@ -989,7 +989,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      */
     public function __destruct()
     {
-        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        // check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
             $this->__teardown();
         }

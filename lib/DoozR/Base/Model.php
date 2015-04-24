@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Model
+ * Doozr - Base - Model
  *
  * Model.php - Base class for model-layers from MVP
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,34 +42,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Model
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model/Observer.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model/Observer.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model/Interface.php';
 
 /**
- * DoozR Base Model
+ * Doozr Base Model
  *
  * Base class for model-layers from MVP
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Model
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_Model_Interface
+class Doozr_Base_Model extends Doozr_Base_Model_Observer implements Doozr_Base_Model_Interface
 {
     /**
      * Data for CRUD operation(s)
@@ -104,9 +104,9 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     protected $originalRequest;
 
     /**
-     * The request state object of DoozR
+     * The request state object of Doozr
      *
-     * @var DoozR_Request_State
+     * @var Doozr_Request_State
      * @access protected
      */
     protected $requestState;
@@ -120,9 +120,9 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     protected $translation;
 
     /**
-     * Instance of the DoozR_Cache_Service
+     * Instance of the Doozr_Cache_Service
      *
-     * @var DoozR_Cache_Service
+     * @var Doozr_Cache_Service
      * @access protected
      */
     protected $cache;
@@ -130,7 +130,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * The main configuration for use in model environment.
      *
-     * @var DoozR_Config
+     * @var Doozr_Config
      * @access protected
      */
     protected $configuration;
@@ -139,24 +139,24 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * Constructor.
      *
-     * @param DoozR_Registry             $registry      DoozR_Registry containing all core components
-     * @param DoozR_Base_State_Interface $requestState  Whole request as state
+     * @param Doozr_Registry             $registry      Doozr_Registry containing all core components
+     * @param Doozr_Base_State_Interface $requestState  Whole request as state
      * @param array                      $request       Whole request as processed by "Route"
-     * @param DoozR_Cache_Service        $cache         Instance of DoozR_Cache_Service
-     * @param DoozR_Config               $configuration Main configuration
+     * @param Doozr_Cache_Service        $cache         Instance of Doozr_Cache_Service
+     * @param Doozr_Config               $configuration Main configuration
      * @param array                      $translation   Translation required to read the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Model
+     * @return \Doozr_Base_Model
      * @access public
-     * @throws DoozR_Base_Model_Exception
+     * @throws Doozr_Base_Model_Exception
      */
     public function __construct(
-        DoozR_Registry             $registry,
-        DoozR_Base_State_Interface $requestState,
+        Doozr_Registry             $registry,
+        Doozr_Base_State_Interface $requestState,
         array                      $request,
-        DoozR_Cache_Service        $cache,
-        DoozR_Config               $configuration,
+        Doozr_Cache_Service        $cache,
+        Doozr_Config               $configuration,
         array                      $translation     = null
     ) {
         // Store all passed instances
@@ -169,12 +169,12 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
             ->configuration($configuration)
             ->translation($translation);
 
-        // Check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
             $result = $this->__tearup($request, $translation);
 
             if ($result !== true) {
-                throw new DoozR_Base_Model_Exception(
+                throw new Doozr_Base_Model_Exception(
                     sprintf(
                         '__tearup() (if set) MUST return TRUE. __tearup() is set but it returned: "%s"',
                         var_export($result, true)
@@ -310,7 +310,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * Setter for requestState.
      *
-     * @param DoozR_Request_State $requestState The request state to set
+     * @param Doozr_Request_State $requestState The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -324,7 +324,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * Setter for requestState.
      *
-     * @param DoozR_Request_State $requestState The request state to set
+     * @param Doozr_Request_State $requestState The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -340,7 +340,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
      * Getter for requestState.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State|null The requestState stored, otherwise NULL
+     * @return Doozr_Request_State|null The requestState stored, otherwise NULL
      * @access protected
      */
     protected function getRequestState()
@@ -351,13 +351,13 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * Setter for cache.
      *
-     * @param DoozR_Cache_Service $cache The cache service instance to set
+     * @param Doozr_Cache_Service $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setCache(DoozR_Cache_Service $cache)
+    protected function setCache(Doozr_Cache_Service $cache)
     {
         $this->cache = $cache;
     }
@@ -365,13 +365,13 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * Setter for cache.
      *
-     * @param DoozR_Cache_Service $cache The cache service instance to set
+     * @param Doozr_Cache_Service $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function cache(DoozR_Cache_Service $cache)
+    protected function cache(Doozr_Cache_Service $cache)
     {
         $this->setCache($cache);
         return $this;
@@ -381,7 +381,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Cache_Service|null The cache service instance stored, otherwise NULL
+     * @return Doozr_Cache_Service|null The cache service instance stored, otherwise NULL
      * @access protected
      */
     protected function getCache()
@@ -409,7 +409,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
      * @param mixed $data The data to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Model $this Instance for chaining
+     * @return Doozr_Base_Model $this Instance for chaining
      * @access public
      */
     public function data($data)
@@ -507,13 +507,13 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * Setter for configuration.
      *
-     * @param DoozR_Config_Interface $configuration The configuation object
+     * @param Doozr_Config_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    protected function setConfiguration(DoozR_Config_Interface $configuration)
+    protected function setConfiguration(Doozr_Config_Interface $configuration)
     {
         $this->configuration = $configuration;
     }
@@ -521,13 +521,13 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     /**
      * Setter for configuration with fluent API support for chaining calls to this class.
      *
-     * @param DoozR_Config_Interface $configuration The
+     * @param Doozr_Config_Interface $configuration The
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    protected function configuration(DoozR_Config_Interface $configuration)
+    protected function configuration(Doozr_Config_Interface $configuration)
     {
         $this->setConfiguration($configuration);
         return $this;
@@ -537,7 +537,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config_Interface The configuration stored
+     * @return Doozr_Config_Interface The configuration stored
      * @access public
      */
     protected function getConfiguration()
@@ -675,7 +675,7 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
      */
     public function __destruct()
     {
-        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        // check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
             $this->__teardown();
         }

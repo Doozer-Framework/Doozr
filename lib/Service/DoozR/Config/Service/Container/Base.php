@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class DoozR_Config_Service_Container_Base
+ * Class Doozr_Config_Service_Container_Base
  */
-abstract class DoozR_Config_Service_Container_Base
+abstract class Doozr_Config_Service_Container_Base
 {
     protected $path;
 
@@ -13,11 +13,11 @@ abstract class DoozR_Config_Service_Container_Base
 
 
     /**
-     * @param DoozR_Path_Interface $path
-     * @param DoozR_Logger_Interface $logger
+     * @param Doozr_Path_Interface $path
+     * @param Doozr_Logger_Interface $logger
      * @param $cache
      */
-    public function __construct(DoozR_Path_Interface $path, DoozR_Logger_Interface $logger, $cache)
+    public function __construct(Doozr_Path_Interface $path, Doozr_Logger_Interface $logger, $cache)
     {
         $this->path   = $path;
         $this->logger = $logger;

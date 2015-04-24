@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Dependency
+ * Doozr - Di - Dependency
  *
  * Dependency.php - Dependency class of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Dependency
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Dependency
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,19 +53,19 @@
  */
 
 /**
- * DoozR - Di - Dependency
+ * Doozr - Di - Dependency
  *
  * Dependency class of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Dependency
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Dependency
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Dependency implements ArrayAccess
+class Doozr_Di_Dependency implements ArrayAccess
 {
     /**
      * The name of the class of a single dependency

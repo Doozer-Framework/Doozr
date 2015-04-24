@@ -1,17 +1,17 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace DoozR\Route\Annotation;
+namespace Doozr\Route\Annotation;
 
 /**
- * DoozR - Route - Annotation - Route
+ * Doozr - Route - Annotation - Route
  *
- * Route.php - Route Annotation for DI of DoozR.
+ * Route.php - Route Annotation for DI of Doozr.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -44,36 +44,36 @@ namespace DoozR\Route\Annotation;
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Route
- * @subpackage DoozR_Route_Annotation
+ * @category   Doozr
+ * @package    Doozr_Route
+ * @subpackage Doozr_Route_Annotation
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Loader - Serviceloader - Annotation - Route
+ * Doozr - Loader - Serviceloader - Annotation - Route
  *
- * Route Annotation for DI of DoozR.
+ * Route Annotation for DI of Doozr.
  *
- * class           string      "DoozR_Registry" ASCII
+ * class           string      "Doozr_Registry" ASCII
  * identifier      string      "__construct"    ASCII
  * instance        null
  * type            string      "constructor"    ASCII
  * value           null
  * position        string      "1"
  *
- * @category   DoozR
- * @package    DoozR_Route
- * @subpackage DoozR_Route_Annotation
+ * @category   Doozr
+ * @package    Doozr_Route
+ * @subpackage Doozr_Route_Annotation
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Annotation
  */
 class Route

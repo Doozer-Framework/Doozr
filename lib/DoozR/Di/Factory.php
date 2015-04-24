@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Factory
+ * Doozr - Di - Factory
  *
  * Factory.php - Factory of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Factory
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Factory
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -56,19 +56,19 @@ require_once DI_PATH_LIB_DI . 'Exception.php';
 require_once DI_PATH_LIB_DI . 'Dependency.php';
 
 /**
- * DoozR - Di - Factory
+ * Doozr - Di - Factory
  *
  * Factory of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Factory
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Factory
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Factory
+class Doozr_Di_Factory
 {
     /**
      * Contains an reflection-class-instance of the
@@ -152,7 +152,7 @@ class DoozR_Di_Factory
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object Instance of given class(name)
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     public function construct($classname, array $arguments = array())
     {
@@ -172,7 +172,7 @@ class DoozR_Di_Factory
         case 6:
             return new $classname($arguments[0],$arguments[1],$arguments[2],$arguments[3],$arguments[4],$arguments[5]);
         default:
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Too much arguments passed to '.__METHOD__.'. This method can handle not more than 6 arguments'.
                 'Your class seems to have a architectural problem. Please reduce count of arguments passed to'.
                 'constructor'
@@ -211,7 +211,7 @@ class DoozR_Di_Factory
         $injections = $this->_initEmptyInjectionContainer();
 
         // iterate over config
-        /* @var $dependency DoozR_Di_Dependency */
+        /* @var $dependency Doozr_Di_Dependency */
         foreach ($dependencies as $target => $dependency) {
 
             // check if an instance already exists
@@ -292,7 +292,7 @@ class DoozR_Di_Factory
         // process only if $injections exists
         if (count($injections)) {
             // get injections for constructor
-            $constructorInjections = $this->_parseInjections(DoozR_Di_Dependency::TYPE_CONSTRUCTOR, $injections);
+            $constructorInjections = $this->_parseInjections(Doozr_Di_Dependency::TYPE_CONSTRUCTOR, $injections);
 
             // process injections for constructor
             if ($constructorInjections) {
@@ -318,7 +318,7 @@ class DoozR_Di_Factory
         // process only if $injections exists
         if (count($injections)) {
             // get injections for setter
-            $setterInjections = $this->_parseInjections(DoozR_Di_Dependency::TYPE_METHOD, $injections);
+            $setterInjections = $this->_parseInjections(Doozr_Di_Dependency::TYPE_METHOD, $injections);
 
             // process injections for constructor
             if ($setterInjections) {
@@ -327,7 +327,7 @@ class DoozR_Di_Factory
             }
 
             // get injections for property
-            $propertyInjections = $this->_parseInjections(DoozR_Di_Dependency::TYPE_PROPERTY, $injections);
+            $propertyInjections = $this->_parseInjections(Doozr_Di_Dependency::TYPE_PROPERTY, $injections);
 
             // process injections for constructor
             if ($propertyInjections) {
@@ -427,8 +427,8 @@ class DoozR_Di_Factory
             $result = array();
 
             switch ($type) {
-            case DoozR_Di_Dependency::TYPE_PROPERTY:
-            case DoozR_Di_Dependency::TYPE_METHOD:
+            case Doozr_Di_Dependency::TYPE_PROPERTY:
+            case Doozr_Di_Dependency::TYPE_METHOD:
                 foreach ($injections[$type] as $key => $value) {
                     $result[] = array(
                         'signature' => $value['value'],
@@ -438,7 +438,7 @@ class DoozR_Di_Factory
                 break;
             default:
                 // break intentionally omitted
-            case DoozR_Di_Dependency::TYPE_CONSTRUCTOR:
+            case Doozr_Di_Dependency::TYPE_CONSTRUCTOR:
                 return $injections[$type];
                 break;
             }

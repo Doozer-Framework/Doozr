@@ -18,7 +18,7 @@ The **I18n** Service provides different interfaces to handle translations. Curre
  - **Gettext** (*gettext™*)
 
 ### Caching
-Translating from memory instead from files on disk is much faster so the **I18n** Service makes intensive use of caching to increase the performance of an application. This also helps to scale better. The DoozR I18n Service provides access to different caching backends like memcached, Redis, and some more (see **Supported caching backends**).
+Translating from memory instead from files on disk is much faster so the **I18n** Service makes intensive use of caching to increase the performance of an application. This also helps to scale better. The Doozr I18n Service provides access to different caching backends like memcached, Redis, and some more (see **Supported caching backends**).
 
 **Important!** Caching is not available in *gettext™* runtimeEnvironment. If the runtimeEnvironment is *gettext™* the **I18n** Service does not provide any caching (beside runtime caching) instead it relies on gettext's very own caching built in. Double caching would just increase calculation time. To get an overview of the cache enabled interfaces see the following table ...
 
@@ -75,15 +75,15 @@ You can edit these files with any text-editor you like. Just place one `key = va
 - **Name**
 `i18n`
 - **Load**
-`$i18n = DoozR_Loader_Serviceloader::load('i18n');`
+`$i18n = Doozr_Loader_Serviceloader::load('i18n');`
 
 ### Components / Classes
- - **Service** `DoozR_I18n_Service`
- - **Detector** `DoozR_I18n_Service_Detector`
- - **Installer** `DoozR_I18n_Service_Install` 
- - **Translator** `DoozR_I18n_Service_Translator`
-   - **Interface gettext** `DoozR_I18n_Service_Interface_Gettext`
-   - **Interface text** `DoozR_I18n_Service_Interface_Text`
+ - **Service** `Doozr_I18n_Service`
+ - **Detector** `Doozr_I18n_Service_Detector`
+ - **Installer** `Doozr_I18n_Service_Install` 
+ - **Translator** `Doozr_I18n_Service_Translator`
+   - **Interface gettext** `Doozr_I18n_Service_Interface_Gettext`
+   - **Interface text** `Doozr_I18n_Service_Interface_Text`
 
 ### Examples (code)
 Detect clients prefered locale:

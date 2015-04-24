@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Database - Abstract
+ * Doozr - Base - Database - Abstract
  *
- * Abstract.php - Abstract base class for building a Database Abstraction Layer for the DoozR Framework
+ * Abstract.php - Abstract base class for building a Database Abstraction Layer for the Doozr Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,32 +42,32 @@
  *
  * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Database
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Database
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Base - Database - Abstract
+ * Doozr - Base - Database - Abstract
  *
  * Base/master-abstract-class for building a Database
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Database
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Database
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
-abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
+abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
 {
     /**
      * reference to DBA/ORM
@@ -118,17 +118,17 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
     protected $path;
 
     /**
-     * Instance of DoozR_Config
+     * Instance of Doozr_Config
      *
-     * @var DoozR_Config
+     * @var Doozr_Config
      * @access protected
      */
     protected $config;
 
     /**
-     * Instance of DoozR_Logger
+     * Instance of Doozr_Logger
      *
-     * @var DoozR_Logger
+     * @var Doozr_Logger
      * @access protected
      */
     protected $logger;
@@ -139,15 +139,15 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      *
      * constructor builds the class
      *
-     * @param DoozR_Path   $path   Instance of DoozR_Path manager for path'
-     * @param DoozR_Config $config Instance of DoozR_Config holding DoozR's config
-     * @param DoozR_Logger $logger Instance of DoozR_Logger
+     * @param Doozr_Path   $path   Instance of Doozr_Path manager for path'
+     * @param Doozr_Config $config Instance of Doozr_Config holding Doozr's config
+     * @param Doozr_Logger $logger Instance of Doozr_Logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __construct(DoozR_Path $path, DoozR_Config $config, DoozR_Logger $logger)
+    public function __construct(Doozr_Path $path, Doozr_Config $config, Doozr_Logger $logger)
     {
         // store instances
         $this->path   = $path;
@@ -199,11 +199,11 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Object if cached ORM/DBA object exists, otherwise true
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function dispatch(&$referenceWrapper = null)
     {
-        throw new DoozR_Exception(
+        throw new Doozr_Exception(
             'No dispatch method found in the called Wrapper! Need the dispatch Method to configure the called ORM/DBA!',
             E_USER_CORE_FATAL_EXCEPTION
         );
@@ -219,20 +219,20 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean True if file exists AND readable AND include succeeded
      * @access protected
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     protected function loadFile($filename)
     {
         // check if file exists
         if (!file_exists($filename)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Error file: "'.$filename.'" not found! ORM could not be initialized.'
             );
         }
 
         // check if file is readable
         if (!is_readable($filename)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Error file: "'.$filename.'" found but it isn\'t readable! ORM could not be initialized.'
             );
         }
@@ -277,7 +277,7 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
     protected function getOrmName()
     {
         // ORM-name dynamic by class-name operation
-        return str_replace('DoozR_Model_', '', str_replace('_Facade', '', get_class($this)));
+        return str_replace('Doozr_Model_', '', str_replace('_Facade', '', get_class($this)));
     }
 
     /**
@@ -315,16 +315,16 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
     }
 
     /**
-     * retrieves the configuration for ORM/DBA via DoozR_Kernel::config()
+     * retrieves the configuration for ORM/DBA via Doozr_Kernel::config()
      *
-     * This method is intend to retrieve the configuration for ORM/DBA via DoozR_Kernel::config().
+     * This method is intend to retrieve the configuration for ORM/DBA via Doozr_Kernel::config().
      *
      * @param string $orm The name of the ORM to retrieve config for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Config retrieved by DoozR_Kernel::config()
+     * @return array Config retrieved by Doozr_Kernel::config()
      * @access protected
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     protected function retrieveOrmConfig($orm)
     {
@@ -333,9 +333,9 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
             // retrieve config for ORM/DBA
             self::$ormConfig = $this->config->database->{$orm};
 
-        } catch(DoozR_Config_Ini_Exception $e) {
+        } catch(Doozr_Config_Ini_Exception $e) {
 
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Configuration for ORM: "'.$orm.'" could not be retrieved! Please check your configuration',
                 null,
                 $e
@@ -355,7 +355,7 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
      * @return array $ormConfig The config for the ORM/DBA
      * @access public
      * @static
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     protected function getConfig($instanceIdentifier = null)
     {
@@ -364,7 +364,7 @@ abstract class DoozR_Base_Database_Facade_Abstract extends DoozR_Base_Class
 
         // check if identifier exist
         if (!isset(self::$ormConfig[$instanceIdentifier])) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Invalid identifier: "'.$instanceIdentifier.'"! Config could not be retrieved.'
             );
         }

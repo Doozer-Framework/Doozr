@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Cache - Service - Container - Filesystem
+ * Doozr - Cache - Service - Container - Filesystem
  *
  * Filesystem.php - Container Filesystem: Serves I/O access to the filesystem.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Container.php';
 
 /**
- * DoozR - Cache - Service - Container - Filesystem
+ * Doozr - Cache - Service - Container - Filesystem
  *
  * Container Filesystem: Serves I/O access to the filesystem.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Container
+class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Container
 {
     /**
      * File locking
@@ -159,9 +159,9 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      *
      * @param array $options Custom configuration options
      *
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Cache_Service_Container_Filesystem
+     * @return Doozr_Cache_Service_Container_Filesystem
      * @access public
      */
     public function __construct(array $options = array())
@@ -190,7 +190,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function create($key, $value, $lifetime, $namespace, $userdata = null)
     {
@@ -307,7 +307,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The path to write cache files for given namespace to
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function getDirectoryByNamespace($namespace, $create = true)
     {
@@ -328,7 +328,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
 
                 // Check if base folder is writable
                 if (is_writeable($this->getDirectory()) === false) {
-                    throw new DoozR_Cache_Service_Exception(
+                    throw new Doozr_Cache_Service_Exception(
                         sprintf('Directory: "%s". isn\'t writable. Check permissions and path.', $this->getDirectory())
                     );
                 }
@@ -338,7 +338,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
                 foreach ($structure as $node) {
                     if (file_exists($directory . $node) === false) {
                         if (!mkdir($directory . $node, 0755)) {
-                            throw new DoozR_Cache_Service_Exception(
+                            throw new Doozr_Cache_Service_Exception(
                                 sprintf('Can\'t make directory "%s". Check permissions and path.', $directory)
                             );
                         }
@@ -399,7 +399,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if file exist, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function exists($key, $namespace)
     {
@@ -420,7 +420,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if element is expired, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function expired($key, $namespace)
     {
@@ -451,7 +451,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function prepareFilesystemAccess()
     {
@@ -469,7 +469,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
 
         if (!file_exists($directory) && !is_dir($directory)) {
             if (mkdir($directory, 0755)) {
-                throw new DoozR_Cache_Service_Exception(
+                throw new Doozr_Cache_Service_Exception(
                     sprintf('Directory "%s" for caching could not be created!', $directory)
                 );
             }
@@ -520,7 +520,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function doGarbageCollection($directory, $lifetime)
     {
@@ -530,7 +530,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
             || !is_readable($directory)
             || !($directoryHandle = opendir($directory))
         ) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf('Can\'t write to directory "%s". Check permissions and path.', $directory)
             );
         }
@@ -556,7 +556,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
             // Checking last access is so much faster then reading from file so we try to exclude file read here!
             if ((time() - $lastAccess) > $lifetime) {
                 if (unlink($filename) === false) {
-                    throw new DoozR_Cache_Service_Exception(
+                    throw new Doozr_Cache_Service_Exception(
                         sprintf('Can\'t unlink cache file "%s", skipping. Check permissions and path.', $filename)
                     );
                     continue;
@@ -567,7 +567,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
                 $fileHandle = @fopen($filename, 'rb');
 
                 if (!$fileHandle) {
-                    throw new DoozR_Cache_Service_Exception(
+                    throw new Doozr_Cache_Service_Exception(
                         sprintf('Can\'t unlink cache file "%s", skipping. Check permissions and path.', $filename)
                     );
                     continue;
@@ -582,7 +582,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
                 // Remove if expired
                 if ($expire <= time()) {
                     if (unlink($filename) === false) {
-                        throw new DoozR_Cache_Service_Exception(
+                        throw new Doozr_Cache_Service_Exception(
                             sprintf('Can\'t unlink cache file "%s", skipping. Check permissions and path.', $filename)
                         );
                         continue;
@@ -621,7 +621,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
                     $this->setTotalSize($this->getTotalSize() - $entry['size']);
 
                 } else {
-                    throw new DoozR_Cache_Service_Exception(
+                    throw new Doozr_Cache_Service_Exception(
                         sprintf('Can\'t unlink cache file "%s". Check permissions and path.', $entry['file'])
                     );
                 }
@@ -643,7 +643,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The filename
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function getFilenameByKeyAndNamespace($key, $namespace)
     {
@@ -836,7 +836,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if file could be written successful, otherwise FALSE
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function writeFile($filename, array $dataset)
     {
@@ -847,7 +847,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
         $fileHandle = @fopen($filename, 'wb');
 
         if (!$fileHandle) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf('Can\'t access "%s" to store cache data. Check access rights and path', $filename)
             );
         }
@@ -879,12 +879,12 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The data of the data-set prepared in a clean array structure
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function readFile($filename, $locking = true)
     {
         if (!($fileHandle = @fopen($filename, 'rb'))) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf('Can\'t access cache file "%s". Check access rights and path.', $filename)
             );
         }
@@ -934,7 +934,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of removed entries on success, otherwise FALSE
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function removeEntries($directory)
     {
@@ -944,7 +944,7 @@ class DoozR_Cache_Service_Container_Filesystem extends DoozR_Cache_Service_Conta
             !is_dir($directory) ||
             !($directoryHandle = opendir($directory))
         ) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf('Can\'t remove directory "%s". Check permissions and path.', $directory)
             );
         }

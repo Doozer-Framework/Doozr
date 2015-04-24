@@ -1,15 +1,15 @@
 <?php
 
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
 
 /**
- * Class DoozR_Request_Filter_State
+ * Class Doozr_Request_Filter_State
  *
- * More specific filter version of DoozR_Base_State
+ * More specific filter version of Doozr_Base_State
  */
-class DoozR_Request_Filter_State extends DoozR_Base_State implements DoozR_Base_State_Interface
+class Doozr_Request_Filter_State extends Doozr_Base_State implements Doozr_Base_State_Interface
 {
     protected $fields;
 

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Exception
+ * Doozr Base Exception
  *
- * Generic.php - Generic Base-Exception of the DoozR Framework.
+ * Generic.php - Generic Base-Exception of the Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,36 +42,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Exception_Generic
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Exception_Generic
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Interface.php';
 
 /**
- * DoozR Base Exception
+ * Doozr Base Exception
  *
- * Generic Base-Exception of the DoozR Framework.
+ * Generic Base-Exception of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Exception_Generic
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Exception_Generic
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @author     $LastChangedBy$
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Exception_Generic extends DoozR_Base_Exception_Generic_Abstract
-    implements DoozR_Base_Exception_Generic_Interface
+class Doozr_Base_Exception_Generic extends Doozr_Base_Exception_Generic_Abstract
+    implements Doozr_Base_Exception_Generic_Interface
 {
     // Intentionally left blank - Just used for namespacing
 }

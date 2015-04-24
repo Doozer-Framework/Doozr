@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Model - Rest
+ * Doozr - Base - Model - Rest
  *
  * Rest.php - Base class for model-layers from MVP with REST support
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,34 +42,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Model
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model.php';
 
 /**
- * DoozR - Base Presenter
+ * Doozr - Base Presenter
  *
- * Base Presenter of the DoozR Framework.
+ * Base Presenter of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Model
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Model_Rest extends DoozR_Base_Model
+class Doozr_Base_Model_Rest extends Doozr_Base_Model
 {
     /**
      * Permission level for: Everyone is allowed to access no matter of level, id, role, ...
@@ -87,7 +87,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @var int
      * @access protected
      */
-    protected $status = DoozR_Http::STATUS_OK;
+    protected $status = Doozr_Http::STATUS_OK;
 
     /**
      * The result of the current operation
@@ -251,20 +251,20 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if authorized, otherwise FALSE
      * @access protected
-     * @throws DoozR_Base_Model_Rest_Exception
+     * @throws Doozr_Base_Model_Rest_Exception
      */
-    protected function authorize(DoozR_Acl_Service $aclConsumer, DoozR_Acl_Service $aclProvider)
+    protected function authorize(Doozr_Acl_Service $aclConsumer, Doozr_Acl_Service $aclProvider)
     {
         // Check if login is required and if - if user is logged in ...
         if ($aclProvider->isLoginRequired() === true && $aclConsumer->isLoggedIn() === false) {
-            throw new DoozR_Base_Model_Rest_Exception(
+            throw new Doozr_Base_Model_Rest_Exception(
                 'Authorization required.',
                 403
             );
 
-        } elseif ($aclConsumer->isAllowed($aclProvider, DoozR_Acl_Service::ACTION_CREATE) === false) {
+        } elseif ($aclConsumer->isAllowed($aclProvider, Doozr_Acl_Service::ACTION_CREATE) === false) {
             // Not enough rights ...
-            throw new DoozR_Base_Model_Rest_Exception(
+            throw new Doozr_Base_Model_Rest_Exception(
                 'Authorization required.',
                 401
             );
@@ -289,27 +289,27 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     {
         switch (strtoupper($verb))
         {
-            case DoozR_Http::REQUEST_METHOD_POST:
+            case Doozr_Http::REQUEST_METHOD_POST:
                 $operation = 'create';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_GET:
+            case Doozr_Http::REQUEST_METHOD_GET:
                 $operation = 'read';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_PUT:
+            case Doozr_Http::REQUEST_METHOD_PUT:
                 $operation = 'update';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_DELETE:
+            case Doozr_Http::REQUEST_METHOD_DELETE:
                 $operation = 'delete';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_OPTIONS:
+            case Doozr_Http::REQUEST_METHOD_OPTIONS:
                 $operation = 'options';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_HEAD:
+            case Doozr_Http::REQUEST_METHOD_HEAD:
                 $operation = 'meta';
                 break;
 
@@ -326,7 +326,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
      * retrieved normally with request.
      *
      * @param array                   $routeArguments   The arguments from route
-     * @param DoozR_Request_Arguments $requestArguments The argument from request
+     * @param Doozr_Request_Arguments $requestArguments The argument from request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The resulting merged arguments array
@@ -372,25 +372,25 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
     /**
      * __data() is the generic __data proxy and is called on each access via getData()
      *
-     * @param DoozR_Base_State_Interface       $state         The request state object
-     * @param DoozR_Base_Presenter_Rest_Config $configuration The configuration
+     * @param Doozr_Base_State_Interface       $state         The request state object
+     * @param Doozr_Base_Presenter_Rest_Config $configuration The configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @throws DoozR_Base_Model_Rest_Exception
-     * @throws DoozR_Exception
+     * @throws Doozr_Base_Model_Rest_Exception
+     * @throws Doozr_Exception
      */
-    protected function __data(DoozR_Base_State_Interface $state, DoozR_Base_Presenter_Rest_Config $configuration)
+    protected function __data(Doozr_Base_State_Interface $state, Doozr_Base_Presenter_Rest_Config $configuration)
     {
         // Store state of this model
-        /* @var $state DoozR_Request_State */
+        /* @var $state Doozr_Request_State */
         $this->setStateObject($state);
 
         // Extract additional arguments from route
         $model = $this;
 
-        /* @var $model DoozR_Base_Model */
+        /* @var $model Doozr_Base_Model */
         $resource = $this->getStateObject()
             ->get($configuration->getRootNode() . $configuration->getRoute(), function() use ($model) {
                 $result = array();
@@ -438,7 +438,7 @@ class DoozR_Base_Model_Rest extends DoozR_Base_Model
         } else {
             // Inform developer about a not resolvable route endpoint and show him/her the methods available as hint!
             $methodsDefined = get_class_methods(__CLASS__);
-            throw new DoozR_Base_Model_Rest_Exception(
+            throw new Doozr_Base_Model_Rest_Exception(
                 'Could not call "' . $method . '" operation method in model "' . __CLASS__ .
                 '". Currently defined methods of the model [unordered] are: ' . var_export($methodsDefined, true)
             );

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Request - Cli
+ * Doozr - Request - Cli
  *
  * Cli.php - Request-Handler for requests passed through CLI to Front-Controller.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Cli
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Cli
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Request.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Request.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
 
 /**
- * DoozR Request Cli
+ * Doozr Request Cli
  *
  * Cli.php - Request Cli - Request-Handler for requests passed through CLI to
  * Front-Controller.
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Cli
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Cli
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Interface
+class Doozr_Request_Cli extends Doozr_Base_Request implements Doozr_Request_Interface
 {
     /**
      * holds the type of os-runtimeEnvironment for commands
@@ -121,13 +121,13 @@ class DoozR_Request_Cli extends DoozR_Base_Request implements DoozR_Request_Inte
     /**
      * Constructor of this class
      *
-     * @param DoozR_Registry $app The main DoozR registry
+     * @param Doozr_Registry $app The main Doozr registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Request_Cli
+     * @return \Doozr_Request_Cli
      * @access public
      */
-    public function __construct(DoozR_Registry $app)
+    public function __construct(Doozr_Registry $app)
     {
         // store instance(s)
         $this->setApp($app);

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - I18n - Test
+ * Doozr - Service - I18n - Test
  *
  * ServiceTest.php - This is the Test-Controller of a Service Test
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Service - I18n - Test
+ * Doozr - Service - I18n - Test
  *
  * This is the Test-Controller of a Service Test
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCase
+abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCase
 {
     /**
      * The Service instance for testing
      *
-     * @var DoozR_Base_Service_Interface
+     * @var Doozr_Base_Service_Interface
      * @access protected
      */
     protected static $service;
@@ -84,24 +84,24 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     protected static $serviceName;
 
     /**
-     * 'DoozR_Http_Service'
+     * 'Doozr_Http_Service'
      *
      * @var
      */
     protected static $serviceClassName;
 
     /**
-     * The DoozR Kernel instance
+     * The Doozr Kernel instance
      *
-     * @var DoozR_Kernel
+     * @var Doozr_Kernel
      * @access protected
      */
     protected static $core;
 
     /**
-     * The DoozR Registry
+     * The Doozr Registry
      *
-     * @var DoozR_Registry
+     * @var Doozr_Registry
      * @access protected
      */
     protected static $registry;
@@ -116,17 +116,17 @@ abstract class DoozR_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
      */
     protected function setUp()
     {
-        // Init the DoozR core to execute
-        self::$core = DoozR_Kernel::run();
+        // Init the Doozr core to execute
+        self::$core = Doozr_Kernel::run();
 
         // Store classname
-        self::$serviceClassName = 'DoozR_' . self::$serviceName . '_Service';
+        self::$serviceClassName = 'Doozr_' . self::$serviceName . '_Service';
 
         // Get registry
-        self::$registry = DoozR_Registry::getInstance();
+        self::$registry = Doozr_Registry::getInstance();
 
         // Load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
+        self::$service = Doozr_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
     }
 
     /**

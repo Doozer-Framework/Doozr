@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Controller - Back
+ * Doozr - Controller - Back
  *
- * Back.php - The Back-Controller of the DoozR-Framework.
+ * Back.php - The Back-Controller of the Doozr-Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,37 +42,37 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Controller
- * @subpackage DoozR_Controller_Back
+ * @category   Doozr
+ * @package    Doozr_Controller
+ * @subpackage Doozr_Controller_Back
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Connector/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/View/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Connector/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/View/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 
 /**
- * DoozR - Controller - Back
+ * Doozr - Controller - Back
  *
- * The Back-Controller of the DoozR-Framework.
+ * The Back-Controller of the Doozr-Framework.
  *
- * @category   DoozR
- * @package    DoozR_Controller
- * @subpackage DoozR_Controller_Back
+ * @category   Doozr
+ * @package    Doozr_Controller
+ * @subpackage Doozr_Controller_Back
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
+class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
 {
     /**
      * The object of active route.
@@ -148,7 +148,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * contains instance of config
      *
-     * @var DoozR_Config_Interface
+     * @var Doozr_Config_Interface
      * @access protected
      */
     protected $config;
@@ -156,7 +156,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Logger instance
      *
-     * @var DoozR_Logger_Interface
+     * @var Doozr_Logger_Interface
      * @access protected
      */
     protected $logger;
@@ -164,15 +164,15 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Instance of filesystem service.
      *
-     * @var DoozR_Filesystem_Service
+     * @var Doozr_Filesystem_Service
      * @access protected
      */
     protected $filesystem;
 
     /**
-     * DoozR caching service instance.
+     * Doozr caching service instance.
      *
-     * @var DoozR_Cache_Service
+     * @var Doozr_Cache_Service
      * @access protected
      */
     protected $cache;
@@ -184,22 +184,22 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param DoozR_Registry           $registry   Instance of DoozR_Registry containing all core components
-     * @param DoozR_Config_Interface   $config     Instance of the DoozR core config
-     * @param DoozR_Logger_Interface   $logger     Instance of the DoozR logging facade (subsystem)
-     * @param DoozR_Filesystem_Service $filesystem Instance of filesystem service
-     * @param DoozR_Cache_Service      $cache      Instance of cache service
+     * @param Doozr_Registry           $registry   Instance of Doozr_Registry containing all core components
+     * @param Doozr_Config_Interface   $config     Instance of the Doozr core config
+     * @param Doozr_Logger_Interface   $logger     Instance of the Doozr logging facade (subsystem)
+     * @param Doozr_Filesystem_Service $filesystem Instance of filesystem service
+     * @param Doozr_Cache_Service      $cache      Instance of cache service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Controller_Back
+     * @return \Doozr_Controller_Back
      * @access public
      */
     public function __construct(
-        DoozR_Registry           $registry,
-        DoozR_Config_Interface   $config,
-        DoozR_Logger_Interface   $logger,
-        DoozR_Filesystem_Service $filesystem,
-        DoozR_Cache_Service      $cache
+        Doozr_Registry           $registry,
+        Doozr_Config_Interface   $config,
+        Doozr_Logger_Interface   $logger,
+        Doozr_Filesystem_Service $filesystem,
+        Doozr_Cache_Service      $cache
     ) {
         $this
             ->registry($registry)
@@ -213,15 +213,15 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * Runs the request passed as argument by dispatching it to the backend layers.
      * This can be "Model" "View" "Presenter" in MVP runtimeEnvironment
      *
-     * @param DoozR_Base_State_Interface $requestState The request state
+     * @param Doozr_Base_State_Interface $requestState The request state
      * @param array|null                 $error        An optional error array containing error from routing
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @throws DoozR_Route_Exception
+     * @throws Doozr_Route_Exception
      */
-    public function run(DoozR_Base_State_Interface $requestState, array $error = null)
+    public function run(Doozr_Base_State_Interface $requestState, array $error = null)
     {
         if (null !== $error) {
             $context = '';
@@ -236,7 +236,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             }
             $error['message'] = sprintf($error['message'], $context);
 
-            throw new DoozR_Route_Exception(
+            throw new Doozr_Route_Exception(
                 $error['message'],
                 $error['number']
             );
@@ -273,7 +273,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
                         $this->getRoute(),
                         $this->getCache(),
                         $this->getConfiguration(),
-                        DoozR_Controller_Front::getInstance(DoozR_Registry::getInstance()),
+                        Doozr_Controller_Front::getInstance(Doozr_Registry::getInstance()),
                         $this->getTranslation(),
                     )
                 )
@@ -318,7 +318,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      *
      * @return $this Instance for chaining
      * @access protected
-     * @throws DoozR_Connector_Exception
+     * @throws Doozr_Connector_Exception
      */
     protected function dispatch($connector, $model, $view, $object, $action)
     {
@@ -343,13 +343,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
                     break;
             }
 
-            throw new DoozR_Connector_Exception(
+            throw new Doozr_Connector_Exception(
                 $message,
                 $status
             );
 
         } else {
-            if ($view !== null && $view instanceof DoozR_Base_View) {
+            if ($view !== null && $view instanceof Doozr_Base_View) {
                 $this->connector->attach($this->view);
             }
 
@@ -357,7 +357,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             try {
                 $this->connector->{$method}();
 
-            } catch (DoozR_Base_Presenter_Rest_Exception $exception) {
+            } catch (Doozr_Base_Presenter_Rest_Exception $exception) {
                 // Send JSON response on REST requests
                 //$this->sendHttpResponse($exception->getCode(), $exception->getMessage(), true);
 
@@ -369,7 +369,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
                  */
                 $this->sendJsonResponse($this->repackExceptionData($exception));
 
-            } catch (DoozR_Base_Presenter_Exception $exception) {
+            } catch (Doozr_Base_Presenter_Exception $exception) {
                 // Send "normal" (default) response on default requests
                 $this->sendHttpResponse($exception->getCode(), $exception->getMessage());
 
@@ -428,10 +428,10 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      */
     protected function sendHttpResponse($code, $message, $json = false)
     {
-        /* @var $front DoozR_Controller_Front */
-        $front = DoozR_Controller_Front::getInstance();
+        /* @var $front Doozr_Controller_Front */
+        $front = Doozr_Controller_Front::getInstance();
 
-        /* @var $response DoozR_Response_Web */
+        /* @var $response Doozr_Response_Web */
         $response = $front->getResponse();
 
         if ($json === true) {
@@ -461,10 +461,10 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
 
     protected function sendJsonResponse($e)
     {
-        /* @var $front DoozR_Controller_Front */
-        $front = DoozR_Controller_Front::getInstance();
+        /* @var $front Doozr_Controller_Front */
+        $front = Doozr_Controller_Front::getInstance();
 
-        /* @var $response DoozR_Response_Web */
+        /* @var $response Doozr_Response_Web */
         $response = $front->getResponse();
 
         $response->sendJson(
@@ -674,7 +674,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for configuration.
      *
-     * @param DoozR_Config_Interface $configuration Instance
+     * @param Doozr_Config_Interface $configuration Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -688,7 +688,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for configuration.
      *
-     * @param DoozR_Config_Interface $configuration Instance
+     * @param Doozr_Config_Interface $configuration Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -704,7 +704,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config_Interface|null DoozR_Config_Interface if set, otherwise NULL
+     * @return Doozr_Config_Interface|null Doozr_Config_Interface if set, otherwise NULL
      * @access protected
      */
     protected function getConfiguration()
@@ -715,13 +715,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for logger.
      *
-     * @param DoozR_Logger_Interface $logger Instance of logger
+     * @param Doozr_Logger_Interface $logger Instance of logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setLogger(DoozR_Logger_Interface $logger)
+    protected function setLogger(Doozr_Logger_Interface $logger)
     {
         $this->logger = $logger;
     }
@@ -729,13 +729,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for logger.
      *
-     * @param DoozR_Logger_Interface $logger Instance of logger
+     * @param Doozr_Logger_Interface $logger Instance of logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function logger(DoozR_Logger_Interface $logger)
+    protected function logger(Doozr_Logger_Interface $logger)
     {
         $this->setLogger($logger);
         return $this;
@@ -745,7 +745,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * Getter for logger.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Logger_Interface|null DoozR_Logger_Interface if set, otherwise NULL
+     * @return Doozr_Logger_Interface|null Doozr_Logger_Interface if set, otherwise NULL
      * @access protected
      */
     protected function getLogger()
@@ -756,13 +756,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for filesystem.
      *
-     * @param DoozR_Filesystem_Service $filesystem The filesystem service instance
+     * @param Doozr_Filesystem_Service $filesystem The filesystem service instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setFilesystem(DoozR_Filesystem_Service $filesystem)
+    protected function setFilesystem(Doozr_Filesystem_Service $filesystem)
     {
         $this->filesystem = $filesystem;
     }
@@ -770,13 +770,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for filesystem.
      *
-     * @param DoozR_Filesystem_Service $filesystem The filesystem service instance
+     * @param Doozr_Filesystem_Service $filesystem The filesystem service instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function filesystem(DoozR_Filesystem_Service $filesystem)
+    protected function filesystem(Doozr_Filesystem_Service $filesystem)
     {
         $this->setFilesystem($filesystem);
         return $this;
@@ -786,7 +786,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * Getter for filesystem.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Filesystem_Service|null DoozR_Filesystem_Service if set, otherwise NULL
+     * @return Doozr_Filesystem_Service|null Doozr_Filesystem_Service if set, otherwise NULL
      * @access protected
      */
     protected function getFilesystem()
@@ -797,13 +797,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for cache.
      *
-     * @param DoozR_Cache_Service $cache Instance of DoozR cache service
+     * @param Doozr_Cache_Service $cache Instance of Doozr cache service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setCache(DoozR_Cache_Service $cache)
+    protected function setCache(Doozr_Cache_Service $cache)
     {
         $this->cache = $cache;
     }
@@ -811,13 +811,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for cache.
      *
-     * @param DoozR_Cache_Service $cache Instance of DoozR cache service
+     * @param Doozr_Cache_Service $cache Instance of Doozr cache service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function cache(DoozR_Cache_Service $cache)
+    protected function cache(Doozr_Cache_Service $cache)
     {
         $this->setCache($cache);
         return $this;
@@ -827,7 +827,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Cache_Service|null DoozR_Cache_Service if set, otherwise NULL
+     * @return Doozr_Cache_Service|null Doozr_Cache_Service if set, otherwise NULL
      * @access protected
      */
     protected function getCache()
@@ -838,13 +838,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for connector.
      *
-     * @param DoozR_Base_Connector_Interface $connector The connector instance
+     * @param Doozr_Base_Connector_Interface $connector The connector instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setConnector(DoozR_Base_Connector_Interface $connector = null)
+    protected function setConnector(Doozr_Base_Connector_Interface $connector = null)
     {
         $this->connector = $connector;
     }
@@ -852,13 +852,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for connector.
      *
-     * @param DoozR_Base_Connector_Interface $connector The connector instance
+     * @param Doozr_Base_Connector_Interface $connector The connector instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function connector(DoozR_Base_Connector_Interface $connector)
+    protected function connector(Doozr_Base_Connector_Interface $connector)
     {
         $this->setConnector($connector);
         return $this;
@@ -868,7 +868,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * Getter for connector.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Connector_Interface|null DoozR_Base_Connector_Interface if set, otherwise NULL
+     * @return Doozr_Base_Connector_Interface|null Doozr_Base_Connector_Interface if set, otherwise NULL
      * @access protected
      */
     protected function getConnector()
@@ -879,13 +879,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for model.
      *
-     * @param DoozR_Base_Model_Interface $model The model
+     * @param Doozr_Base_Model_Interface $model The model
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setModel(DoozR_Base_Model_Interface $model = null)
+    protected function setModel(Doozr_Base_Model_Interface $model = null)
     {
         $this->model = $model;
     }
@@ -893,7 +893,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for model.
      *
-     * @param DoozR_Base_Model_Interface $model The model
+     * @param Doozr_Base_Model_Interface $model The model
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -909,7 +909,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * Getter for model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Model_Interface|null DoozR_Base_Model_Interface if set, otherwise NULL
+     * @return Doozr_Base_Model_Interface|null Doozr_Base_Model_Interface if set, otherwise NULL
      * @access protected
      */
     protected function getModel()
@@ -920,13 +920,13 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for view.
      *
-     * @param DoozR_Base_View_Interface $view The view
+     * @param Doozr_Base_View_Interface $view The view
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setView(DoozR_Base_View_Interface $view = null)
+    protected function setView(Doozr_Base_View_Interface $view = null)
     {
         $this->view = $view;
     }
@@ -934,20 +934,20 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Setter for view.
      *
-     * @param DoozR_Base_View_Interface $view The view
+     * @param Doozr_Base_View_Interface $view The view
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function view(DoozR_Base_View_Interface $view)
+    protected function view(Doozr_Base_View_Interface $view)
     {
         $this->setView($view);
         return $this;
     }
 
     /**
-     * @return DoozR_Base_View_Interface
+     * @return Doozr_Base_View_Interface
      */
     protected function getView()
     {
@@ -961,7 +961,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @param null|array $arguments The optional arguments to pass to model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Model
+     * @return Doozr_Base_Model
      * @access protected
      */
     protected function initModel($model, $arguments = null)
@@ -976,7 +976,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @param null|array $arguments The optional arguments to pass to view.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_View
+     * @return Doozr_Base_View
      * @access protected
      */
     protected function initView($view, $arguments = null)
@@ -992,7 +992,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @param null|array $arguments The optional arguments to pass to connector.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Connector_Interface
+     * @return Doozr_Base_Connector_Interface
      * @access protected
      */
     protected function initConnector($connector, $type, $arguments = null)
@@ -1011,7 +1011,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
      * @param array  $arguments An array of Parameters to append at instantiation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Connector_Interface|DoozR_Base_Model|DoozR_Base_View
+     * @return Doozr_Base_Connector_Interface|Doozr_Base_Model|Doozr_Base_View
      * @access protected
      */
     protected function initLayer($request, $layer = 'Model', $arguments = null)

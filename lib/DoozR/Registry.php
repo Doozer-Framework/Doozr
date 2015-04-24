@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Registry
+ * Doozr - Registry
  *
- * Registry.php - Registry of the DoozR framework.
+ * Registry.php - Registry of the Doozr framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,38 +42,38 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Registry
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Registry
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Registry/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry/Interface.php';
 
 use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 
 /**
- * DoozR - Registry
+ * Doozr - Registry
  *
- * Registry of the DoozR framework.
+ * Registry of the Doozr framework.
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Registry
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Registry
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Registry extends DoozR_Base_Class_Singleton implements
-    DoozR_Registry_Interface,
+class Doozr_Registry extends Doozr_Base_Class_Singleton implements
+    Doozr_Registry_Interface,
     ArrayAccess,
     Iterator,
     Countable
@@ -260,24 +260,24 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      */
 
     /**
-     * Setter for DoozR DI Container.
+     * Setter for Doozr DI Container.
      *
-     * @param DoozR_Di_Container $container The DI container to store
+     * @param Doozr_Di_Container $container The DI container to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setContainer(DoozR_Di_Container $container)
+    public function setContainer(Doozr_Di_Container $container)
     {
         $this->set($container, 'container');
     }
 
     /**
-     * Getter for DoozR DI Container.
+     * Getter for Doozr DI Container.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Container Container instance
+     * @return Doozr_Di_Container Container instance
      * @access public
      */
     public function getContainer()
@@ -288,13 +288,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for request (state).
      *
-     * @param DoozR_Request_State $request The request state to set
+     * @param Doozr_Request_State $request The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setRequest(DoozR_Request_State $request)
+    public function setRequest(Doozr_Request_State $request)
     {
         $this->set($request, 'request');
     }
@@ -303,7 +303,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for request (state).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State The request state
+     * @return Doozr_Request_State The request state
      * @access public
      */
     public function getRequest()
@@ -314,13 +314,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for response (state).
      *
-     * @param DoozR_Response_State $response The response state
+     * @param Doozr_Response_State $response The response state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setResponse(DoozR_Response_State $response)
+    public function setResponse(Doozr_Response_State $response)
     {
         $this->set($response, 'response');
     }
@@ -329,7 +329,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for response (state).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Response_State The response state
+     * @return Doozr_Response_State The response state
      * @access public
      */
     public function getResponse()
@@ -340,13 +340,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for map.
      *
-     * @param DoozR_Di_Map The map to store
+     * @param Doozr_Di_Map The map to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setMap(DoozR_Di_Map $map)
+    public function setMap(Doozr_Di_Map $map)
     {
         $this->set($map, 'map');
     }
@@ -355,7 +355,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for map.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map The Di Map instance
+     * @return Doozr_Di_Map The Di Map instance
      * @access public
      */
     public function getMap()
@@ -366,13 +366,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for front.
      *
-     * @param DoozR_Controller_Front $front Front controller instance
+     * @param Doozr_Controller_Front $front Front controller instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setFront(DoozR_Controller_Front $front)
+    public function setFront(Doozr_Controller_Front $front)
     {
         $this->set($front, 'front');
     }
@@ -381,7 +381,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for front controller.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Controller_Front Front controller instance
+     * @return Doozr_Controller_Front Front controller instance
      * @access public
      */
     public function getFront()
@@ -392,13 +392,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for back.
      *
-     * @param DoozR_Controller_Back $back The back controller.
+     * @param Doozr_Controller_Back $back The back controller.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setBack(DoozR_Controller_Back $back)
+    public function setBack(Doozr_Controller_Back $back)
     {
         $this->set($back, 'back');
     }
@@ -407,7 +407,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for back.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Controller_Back The back controller
+     * @return Doozr_Controller_Back The back controller
      * @access public
      */
     public function getBack()
@@ -418,13 +418,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for logger.
      *
-     * @param DoozR_Logger_Interface $logger The logger to store
+     * @param Doozr_Logger_Interface $logger The logger to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setLogger(DoozR_Logger_Interface $logger)
+    public function setLogger(Doozr_Logger_Interface $logger)
     {
         $this->set($logger, 'logger');
     }
@@ -433,7 +433,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for logger.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Logger The logger instance
+     * @return Doozr_Logger The logger instance
      * @access public
      */
     public function getLogger()
@@ -444,13 +444,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for filesystem.
      *
-     * @param DoozR_Filesystem_Service $filesystem The filesystem instance to store
+     * @param Doozr_Filesystem_Service $filesystem The filesystem instance to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setFilesystem(DoozR_Filesystem_Service $filesystem)
+    public function setFilesystem(Doozr_Filesystem_Service $filesystem)
     {
         $this->set($filesystem, 'filesystem');
     }
@@ -459,7 +459,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for filesystem.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Filesystem_Service The filesystem instance
+     * @return Doozr_Filesystem_Service The filesystem instance
      * @access public
      */
     public function getFilesystem()
@@ -470,13 +470,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for config.
      *
-     * @param DoozR_Config $config Instance of config
+     * @param Doozr_Config $config Instance of config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setConfig(DoozR_Config $config)
+    public function setConfig(Doozr_Config $config)
     {
         $this->set($config, 'config');
     }
@@ -485,7 +485,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for config.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config The config instance
+     * @return Doozr_Config The config instance
      * @access public
      */
     public function getConfig()
@@ -496,13 +496,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for cache.
      *
-     * @param DoozR_Psr_Cache_Interface $cache Instance of cache
+     * @param Doozr_Psr_Cache_Interface $cache Instance of cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setCache(DoozR_Psr_Cache_Interface $cache)
+    public function setCache(Doozr_Psr_Cache_Interface $cache)
     {
         $this->set($cache, 'cache');
     }
@@ -511,7 +511,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Psr_Cache_Interface The cache instance
+     * @return Doozr_Psr_Cache_Interface The cache instance
      * @access public
      */
     public function getCache()
@@ -522,13 +522,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for path.
      *
-     * @param DoozR_Path $path Instance of path
+     * @param Doozr_Path $path Instance of path
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setPath(DoozR_Path $path)
+    public function setPath(Doozr_Path $path)
     {
         $this->set($path, 'path');
     }
@@ -537,7 +537,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for path.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Path The path instance
+     * @return Doozr_Path The path instance
      * @access public
      */
     public function getPath()
@@ -548,13 +548,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for encoding.
      *
-     * @param DoozR_Encoding $encoding Instance of encoding
+     * @param Doozr_Encoding $encoding Instance of encoding
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setEncoding(DoozR_Encoding $encoding)
+    public function setEncoding(Doozr_Encoding $encoding)
     {
         $this->set($encoding, 'encoding');
     }
@@ -563,7 +563,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for encoding.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Encoding The instance of encoding
+     * @return Doozr_Encoding The instance of encoding
      * @access public
      */
     public function getEncoding()
@@ -574,13 +574,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for locale.
      *
-     * @param DoozR_Locale $locale Instance of locale
+     * @param Doozr_Locale $locale Instance of locale
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setLocale(DoozR_Locale $locale)
+    public function setLocale(Doozr_Locale $locale)
     {
         $this->set($locale, 'locale');
     }
@@ -589,7 +589,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Locale Instance of locale
+     * @return Doozr_Locale Instance of locale
      * @access public
      */
     public function getLocale()
@@ -600,13 +600,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for debug.
      *
-     * @param DoozR_Debug $debug Instance of debug
+     * @param Doozr_Debug $debug Instance of debug
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setDebug(DoozR_Debug $debug)
+    public function setDebug(Doozr_Debug $debug)
     {
         $this->set($debug, 'debug');
     }
@@ -615,7 +615,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for debug.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Debug Instance of debug
+     * @return Doozr_Debug Instance of debug
      * @access public
      */
     public function getDebug()
@@ -626,13 +626,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for security.
      *
-     * @param DoozR_Security $security Instance of security
+     * @param Doozr_Security $security Instance of security
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setSecurity(DoozR_Security $security)
+    public function setSecurity(Doozr_Security $security)
     {
         $this->set($security, 'security');
     }
@@ -641,7 +641,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for security.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Security Instance of security
+     * @return Doozr_Security Instance of security
      * @access public
      */
     public function getSecurity()
@@ -652,13 +652,13 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
     /**
      * Setter for model.
      *
-     * @param DoozR_Model $model Instance of model
+     * @param Doozr_Model $model Instance of model
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setModel(DoozR_Model $model)
+    public function setModel(Doozr_Model $model)
     {
         $this->set($model, 'model');
     }
@@ -667,7 +667,7 @@ class DoozR_Registry extends DoozR_Base_Class_Singleton implements
      * Getter for model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Model Instance of model
+     * @return Doozr_Model Instance of model
      * @access public
      */
     public function getModel()

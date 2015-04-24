@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Debug - Exception
+ * Doozr - Debug - Exception
  *
- * Exception.php - Debug exception of DoozR Framework.
+ * Exception.php - Debug exception of Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Debug
- * @subpackage DoozR_Debug_Exception
+ * @category   Doozr
+ * @package    Doozr_Debug
+ * @subpackage Doozr_Debug_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
 
 /**
- * DoozR - Exception
+ * Doozr - Exception
  *
- * Debug exception of DoozR Framework.
+ * Debug exception of Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Debug
- * @subpackage DoozR_Debug_Exception
+ * @category   Doozr
+ * @package    Doozr_Debug
+ * @subpackage Doozr_Debug_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Debug_Exception extends DoozR_Base_Exception
+class Doozr_Debug_Exception extends Doozr_Base_Exception
 {
     // Intentionally left blank - Just for namespacing!
 }

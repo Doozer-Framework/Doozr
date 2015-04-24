@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service
+ * Doozr - I18n - Service
  *
  * Detector.php - Locale detection part of the I18n service.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
 /**
- * DoozR - I18n - Service
+ * Doozr - I18n - Service
  *
  * Locale detection part of the I18n service.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
+class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
 {
     /**
      * Array containing the "defaults" for fallback solutions
@@ -200,7 +200,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     /**
      * Instance of Doozr_Registry
      *
-     * @var DoozR_Registry_Interface
+     * @var Doozr_Registry_Interface
      * @access protected
      */
     protected static $registry;
@@ -218,14 +218,14 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Config_Interface   $config   Instance of DoozR_Config_Ini containing the I18n-config
-     * @param DoozR_Registry_Interface $registry Instance of DoozR_Registry
+     * @param Doozr_Config_Interface   $config   Instance of Doozr_Config_Ini containing the I18n-config
+     * @param Doozr_Registry_Interface $registry Instance of Doozr_Registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_I18n_Service_Detector Instance of this class
+     * @return \Doozr_I18n_Service_Detector Instance of this class
      * @access protected
      */
-    protected function __construct(DoozR_Config_Interface $config, DoozR_Registry_Interface $registry)
+    protected function __construct(Doozr_Config_Interface $config, Doozr_Registry_Interface $registry)
     {
         // Store registry
         self::$registry           = $registry;
@@ -416,7 +416,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * @param bool $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_I18n_Service_Detector Instance for chaining
+     * @return Doozr_I18n_Service_Detector Instance for chaining
      * @access public
      */
     public function detect($lookupAlternative = true)
@@ -435,7 +435,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * @param array $preferences The preferences to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_I18n_Service_Detector Instance for chaining
+     * @return Doozr_I18n_Service_Detector Instance for chaining
      * @access public
      */
     public function override(array $preferences)
@@ -544,7 +544,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // assume result true
         $result = true;
 
-        if (self::$runtimeEnvironment !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (self::$runtimeEnvironment !== Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$stores as $store) {
@@ -574,7 +574,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         $detectedPreferences = false;
 
         // prevent access to HEADER and IP in CLI does not make sense
-        if (self::$runtimeEnvironment !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (self::$runtimeEnvironment !== Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI) {
 
             // try to detect locale by user-agents header
             $detectedPreferences = $this->detectByRequestHeader();
@@ -602,7 +602,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         // assume empty user-preferences
         $storedPreferences = null;
 
-        if (self::$runtimeEnvironment !== DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (self::$runtimeEnvironment !== Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$stores as $store) {
@@ -627,13 +627,13 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
      * Returns an instance of the Session-Service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Session_Service Instance of service Session
+     * @return Doozr_Session_Service Instance of service Session
      * @access protected
      */
     protected function getSession()
     {
         if (!self::$session) {
-            self::$session = DoozR_Loader_Serviceloader::load('session');
+            self::$session = Doozr_Loader_Serviceloader::load('session');
         }
 
         return self::$session;
@@ -871,7 +871,7 @@ class DoozR_I18n_Service_Detector extends DoozR_Base_Class_Singleton
         try {
             $storedSettings = $this->getSession()->get(self::$identifier);
 
-        } catch (DoozR_Session_Service_Exception $e) {
+        } catch (Doozr_Session_Service_Exception $e) {
             $storedSettings = null;
         }
 

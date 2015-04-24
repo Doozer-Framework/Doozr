@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service Cache
+ * Doozr Service Cache
  *
  * Exception.php - Base exception of module Cache
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 
 /**
- * DoozR Cache Service Cache Exception
+ * Doozr Cache Service Cache Exception
  *
- * Base Exception of Service DoozR-Cache
+ * Base Exception of Service Doozr-Cache
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Cache_Service_Exception extends DoozR_Exception
+class Doozr_Cache_Service_Exception extends Doozr_Exception
 {
     /**
      * Constructor.
@@ -78,13 +78,13 @@ class DoozR_Cache_Service_Exception extends DoozR_Exception
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
      *
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Cache_Service_Exception instance of this exception
+     * @return \Doozr_Cache_Service_Exception instance of this exception
      * @access  public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {
         // add prefix to message
-        $message = 'DoozR_Cache_Service: '.$message;
+        $message = 'Doozr_Cache_Service: '.$message;
 
         // check default code = 0
         $code = (!$code) ? 0 : $code;

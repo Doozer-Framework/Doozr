@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Parser Abstract
+ * Doozr - Di - Parser Abstract
  *
  * Abstract.php - Abstract base class for all Parser of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Abstract
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,19 +55,19 @@
 require_once DI_PATH_LIB_DI . 'Exception.php';
 
 /**
- * DoozR - Di - Parser Abstract
+ * Doozr - Di - Parser Abstract
  *
  * Abstract base class for all Parser of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Abstract
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-abstract class DoozR_Di_Parser_Abstract
+abstract class Doozr_Di_Parser_Abstract
 {
     /**
      * Contains the input to parse content from
@@ -105,7 +105,7 @@ abstract class DoozR_Di_Parser_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     protected function prepareInput()
     {
@@ -121,7 +121,7 @@ abstract class DoozR_Di_Parser_Abstract
             extract($this->input);
 
             if (!isset($class)) {
-                throw new DoozR_Di_Exception(
+                throw new Doozr_Di_Exception(
                     'Error preparing input. No class to parse defined!'
                 );
             }
@@ -151,12 +151,12 @@ abstract class DoozR_Di_Parser_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     protected function loadFile($file)
     {
         if (!is_file($file)) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Error loading file! File "'.$file.'" is not a valid file.'
             );
         }

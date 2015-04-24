@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Config Interface
+ * Doozr Config Interface
  *
- * Interface.php - Config Interface of the DoozR Framework
+ * Interface.php - Config Interface of the Doozr Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Config
- * @subpackage DoozR_Config_Interface
+ * @category   Doozr
+ * @package    Doozr_Config
+ * @subpackage Doozr_Config_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Reader/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Reader/Interface.php';
 
 /**
- * DoozR Config Interface
+ * Doozr Config Interface
  *
- * Config Interface of the DoozR Framework
+ * Config Interface of the Doozr Framework
  *
- * @category   DoozR
- * @package    DoozR_Config
- * @subpackage DoozR_Config_Interface
+ * @category   Doozr
+ * @package    Doozr_Config
+ * @subpackage Doozr_Config_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Config_Interface extends DoozR_Config_Reader_Interface
+interface Doozr_Config_Interface extends Doozr_Config_Reader_Interface
 {
     /**
      * Setter for key => value pairs of config.

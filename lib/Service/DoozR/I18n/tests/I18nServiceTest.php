@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - I18n - Test
+ * Doozr - Service - I18n - Test
  *
- * I18nServiceTest.php - Tests for Service instance of DoozR I18n Service.
+ * I18nServiceTest.php - Tests for Service instance of Doozr I18n Service.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,34 +42,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/tests/resources/fixtures/Fixtures.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/resources/fixtures/Fixtures.php';
 
 /**
- * DoozR - Service - I18n - Test
+ * Doozr - Service - I18n - Test
  *
- * Tests for Service instance of DoozR I18n Service.
+ * Tests for Service instance of Doozr I18n Service.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
+class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
      * Prepares setup for Tests of "I18n"
@@ -121,7 +121,7 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
      * @return void
      * @access public
      *
-     * @expectedException DoozR_I18n_Service_Exception
+     * @expectedException Doozr_I18n_Service_Exception
      */
     public function testTryToSetAnInvalidCustomLocale()
     {
@@ -142,7 +142,7 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
     public function testGettingDetectorInstanceFromService()
     {
         // Assertion(s)
-        $this->assertInstanceOf('DoozR_I18n_Service_Detector', self::$service->getDetector());
+        $this->assertInstanceOf('Doozr_I18n_Service_Detector', self::$service->getDetector());
     }
 
     /**
@@ -173,11 +173,11 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
         $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
-        /* @var DoozR_I18n_Service_Localize_Currency $currency */
+        /* @var Doozr_I18n_Service_Localize_Currency $currency */
         $currency = self::$service->getLocalizer('Currency');
 
         $this->assertInstanceOf(
-            'DoozR_I18n_Service_Localize_Currency',
+            'Doozr_I18n_Service_Localize_Currency',
             $currency
         );
 
@@ -196,11 +196,11 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
         $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
-        /* @var DoozR_I18n_Service_Localize_Datetime $datetime */
+        /* @var Doozr_I18n_Service_Localize_Datetime $datetime */
         $datetime = self::$service->getLocalizer('Datetime');
 
         $this->assertInstanceOf(
-            'DoozR_I18n_Service_Localize_Datetime',
+            'Doozr_I18n_Service_Localize_Datetime',
             $datetime
         );
 
@@ -219,11 +219,11 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
         $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
-        /* @var DoozR_I18n_Service_Localize_Measure $measure */
+        /* @var Doozr_I18n_Service_Localize_Measure $measure */
         $measure = self::$service->getLocalizer('Measure');
 
         $this->assertInstanceOf(
-            'DoozR_I18n_Service_Localize_Measure',
+            'Doozr_I18n_Service_Localize_Measure',
             $measure
         );
 
@@ -242,11 +242,11 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
         $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
-        /* @var DoozR_I18n_Service_Localize_Number $number */
+        /* @var Doozr_I18n_Service_Localize_Number $number */
         $number = self::$service->getLocalizer('Number');
 
         $this->assertInstanceOf(
-            'DoozR_I18n_Service_Localize_Number',
+            'Doozr_I18n_Service_Localize_Number',
             $number
         );
 
@@ -265,11 +265,11 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
         $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
-        /* @var DoozR_I18n_Service_Localize_String $string */
+        /* @var Doozr_I18n_Service_Localize_String $string */
         $string = self::$service->getLocalizer('String');
 
         $this->assertInstanceOf(
-            'DoozR_I18n_Service_Localize_String',
+            'Doozr_I18n_Service_Localize_String',
             $string
         );
 
@@ -290,11 +290,11 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
         $locale = 'en-gb';
         self::$service->setActiveLocale($locale);
 
-        /* @var DoozR_I18n_Service_Localize_String $string */
+        /* @var Doozr_I18n_Service_Localize_String $string */
         $string = self::$service->getLocalizer('String');
 
         $this->assertInstanceOf(
-            'DoozR_I18n_Service_Localize_String',
+            'Doozr_I18n_Service_Localize_String',
             $string
         );
 
@@ -347,11 +347,11 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
      */
     public function testSetAndGetAnCustomEncoding()
     {
-        $encoding = DoozR_I18n_Service::ENCODING_ISO_8859_1;
+        $encoding = Doozr_I18n_Service::ENCODING_ISO_8859_1;
         $this->assertTrue(self::$service->setEncoding($encoding));
         $this->assertEquals($encoding, self::$service->getEncoding());
 
-        $encoding = DoozR_I18n_Service::ENCODING_UTF_8;
+        $encoding = Doozr_I18n_Service::ENCODING_UTF_8;
         $this->assertTrue(self::$service->setEncoding($encoding));
         $this->assertEquals($encoding, self::$service->getEncoding());
     }
@@ -425,7 +425,7 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @covers DoozR_I18n_Service::install()
+     * @covers Doozr_I18n_Service::install()
      */
     public function testInstallRoutineForTranslationShortcuts()
     {
@@ -434,7 +434,7 @@ class I18nServiceTest extends DoozR_Base_Service_Test_Abstract
             $this->assertTrue($result);
 
         } catch (Exception $e) {
-            $this->assertInstanceOf('DoozR_I18n_Service_Exception', $e);
+            $this->assertInstanceOf('Doozr_I18n_Service_Exception', $e);
 
         }
     }

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Html.php - Form component to build forms. This component builds
  * the <form></form> part and provide some more specialized access
@@ -11,7 +11,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -44,35 +44,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Form component to build forms. This component builds
  * the <form></form> part and provide some more specialized access
  * like getters and setters for action, method, ...
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_Formcomponent
+class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
      * This is the tag-name for HTML output.
@@ -81,7 +81,7 @@ class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_For
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_FORM;
+    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_FORM;
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -90,17 +90,17 @@ class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_For
     /**
      * Constructor.
      *
-     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
-     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
+     * @param Doozr_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param Doozr_Form_Service_Validator_Interface $validator Validator instance for validating this component
      * @param null                                   $name      The name of the form
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Form
+     * @return \Doozr_Form_Service_Component_Form
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface $renderer = null,
-        DoozR_Form_Service_Validator_Interface $validator = null,
+        Doozr_Form_Service_Renderer_Interface $renderer = null,
+        Doozr_Form_Service_Validator_Interface $validator = null,
         $name = null
     ) {
         if ($name !== null) {
@@ -328,7 +328,7 @@ class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_For
      */
     public function enableUpload()
     {
-        $this->setEncodingType(DoozR_Form_Service_Constant::ENCODING_TYPE_FILEUPLOAD);
+        $this->setEncodingType(Doozr_Form_Service_Constant::ENCODING_TYPE_FILEUPLOAD);
     }
 
     /**
@@ -340,7 +340,7 @@ class DoozR_Form_Service_Component_Form extends DoozR_Form_Service_Component_For
      * @return void
      * @access public
      */
-    public function setEncodingType($encodingType = DoozR_Form_Service_Constant::ENCODING_TYPE_DEFAULT)
+    public function setEncodingType($encodingType = Doozr_Form_Service_Constant::ENCODING_TYPE_DEFAULT)
     {
         $this->setAttribute('enctype', $encodingType);
     }

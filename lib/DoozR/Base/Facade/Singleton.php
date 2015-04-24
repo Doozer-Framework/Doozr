@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Facade - Singleton
+ * Doozr - Base - Facade - Singleton
  *
  * Singleton.php - Base-Facade-Singleton for all ...
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Facade
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Facade
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
 /**
- * DoozR - Base - Facade - Singleton
+ * Doozr - Base - Facade - Singleton
  *
  * Base-Facade-Singleton for all ...
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Facade
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Facade
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Facade_Singleton extends DoozR_Base_Class_Singleton
+class Doozr_Base_Facade_Singleton extends Doozr_Base_Class_Singleton
 {
     /**
      * contains an instance of the class/object decorated

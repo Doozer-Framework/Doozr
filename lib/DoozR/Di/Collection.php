@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Collection
+ * Doozr - Di - Collection
  *
  * Collection.php - Collection class of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Collection
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Collection
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,19 +55,19 @@
 require_once 'Exception.php';
 
 /**
- * DoozR - Di - Collection
+ * Doozr - Di - Collection
  *
  * Collection class of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Collection implements ArrayAccess, Iterator
+class Doozr_Di_Collection implements ArrayAccess, Iterator
 {
     /**
      * The position of Iterator
@@ -131,13 +131,13 @@ class DoozR_Di_Collection implements ArrayAccess, Iterator
      * dependencies.
      *
      * @param string        $classname  The name of the class which depends on the $dependency
-     * @param DoozR_Di_Dependency $dependency The dependency setup as DoozR_Di_Dependency object
+     * @param Doozr_Di_Dependency $dependency The dependency setup as Doozr_Di_Dependency object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
      */
-    public function addDependency($classname, DoozR_Di_Dependency $dependency)
+    public function addDependency($classname, Doozr_Di_Dependency $dependency)
     {
         // init (lazy stuff)
         $this->_initIndexByTarget($classname);
@@ -164,12 +164,12 @@ class DoozR_Di_Collection implements ArrayAccess, Iterator
      * dependencies.
      *
      * @param string $classname    The name of the class which depends on the $dependency
-     * @param array  $dependencies The dependency setup as DoozR_Di_Dependency object
+     * @param array  $dependencies The dependency setup as Doozr_Di_Dependency object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     public function addDependencies($classname, array $dependencies)
     {
@@ -179,7 +179,7 @@ class DoozR_Di_Collection implements ArrayAccess, Iterator
             $result = $result && $this->addDependency($classname, $dependency);
 
             if (!$result) {
-                throw new DoozR_Di_Exception(
+                throw new Doozr_Di_Exception(
                     'Dependencies could not be added! The dependency with identifier: "'.
                     $dependency->getIdentifier().'" produced an error. No Dependencies added.'
                 );
@@ -295,7 +295,7 @@ class DoozR_Di_Collection implements ArrayAccess, Iterator
      * @param string $classname The name of the class to lookup dependencies for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed DoozR_Di_Dependency if dependency is set, otherwise NULL
+     * @return mixed Doozr_Di_Dependency if dependency is set, otherwise NULL
      * @access public
      */
     public function getDependencies($classname)

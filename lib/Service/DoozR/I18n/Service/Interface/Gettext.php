@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Interface - Gettext
+ * Doozr - I18n - Service - Interface - Gettext
  *
  * Gettext.php - Translation interface to => gettext™
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,36 +42,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/Interface.php';
 
 /**
- * DoozR - I18n - Service - Interface - Gettext
+ * Doozr - I18n - Service - Interface - Gettext
  *
  * Gettext.php - Translation interface to => gettext™
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_Abstract
+class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_Abstract
     implements
-    DoozR_I18n_Service_Interface_Interface
+    Doozr_I18n_Service_Interface_Interface
 {
     /*------------------------------------------------------------------------------------------------------------------
     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
@@ -83,7 +83,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * @param array $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_I18n_Service_Interface_Gettext Instance of this class
+     * @return \Doozr_I18n_Service_Interface_Gettext Instance of this class
      * @access protected
      */
     protected function __construct(array $config)
@@ -173,7 +173,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean|array An array with files/namespaces found for current locale, otherwise FALSE on failure
      * @access protected
-     * @throws DoozR_I18n_Service_Exception
+     * @throws Doozr_I18n_Service_Exception
      */
     protected function initI18n($locale, $encoding, $namespace, $path)
     {
@@ -198,7 +198,7 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
         $result = setlocale(LC_ALL, $fullQualifiedLocales);
         if ($result === null || $result === false) {
             $locale = var_export($fullQualifiedLocales, true);
-            throw new DoozR_I18n_Service_Exception(
+            throw new Doozr_I18n_Service_Exception(
                 sprintf('The locale "%s" could not be set. Sure the system (OS) supports it?', $locale)
             );
         };
@@ -279,13 +279,13 @@ class DoozR_I18n_Service_Interface_Gettext extends DoozR_I18n_Service_Interface_
      * @return boolean TRUE on success, otherwise FALSE
      * @access protected
      * @static
-     * @throws DoozR_I18n_Service_Exception
+     * @throws Doozr_I18n_Service_Exception
      */
     protected static function checkRequirements()
     {
         // Test if gettext™ extension is installed with php
         if (true !== extension_loaded('gettext')) {
-            throw new DoozR_I18n_Service_Exception(
+            throw new Doozr_I18n_Service_Exception(
                 'Error while checking requirements: gettext™ extension not loaded.'
             );
         }

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Service Singleton Strict
+ * Doozr Base Service Singleton Strict
  *
  * Strict.php - Base-Service for building strict single-instance services
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,34 +42,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Service
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Service
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton/Strict.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Serviceloader/Annotation/Inject.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Serviceloader/Annotation/Inject.php';
 
 /**
- * DoozR Base Service Singleton
+ * Doozr Base Service Singleton
  *
  * Base-Service for building single-instance services
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Service
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Service
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Strict
+class Doozr_Base_Service_Singleton_Strict extends Doozr_Base_Class_Singleton_Strict
 {
     /**
      * Autoloader auto install control flag
@@ -128,7 +128,7 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Service_Singleton_Strict
+     * @return \Doozr_Base_Service_Singleton_Strict
      * @access protected
      */
     protected function __construct()
@@ -202,16 +202,16 @@ class DoozR_Base_Service_Singleton_Strict extends DoozR_Base_Class_Singleton_Str
     protected function initAutoloader($service)
     {
         // Register services custom autoloader
-        $autoloaderService = new DoozR_Loader_Autoloader_Spl_Config();
+        $autoloaderService = new Doozr_Loader_Autoloader_Spl_Config();
         $autoloaderService
-            ->setNamespace('DoozR_' . $service)
+            ->setNamespace('Doozr_' . $service)
             ->setNamespaceSeparator('_')
             ->addExtension('php')
             ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
-            ->setDescription('DoozR\'s ' . $service . ' service autoloader. Timestamp: ' . time());
+            ->setDescription('Doozr\'s ' . $service . ' service autoloader. Timestamp: ' . time());
 
         // Add to SPL through facade
-        $this->autoloader = DoozR_Loader_Autoloader_Spl_Facade::attach(
+        $this->autoloader = Doozr_Loader_Autoloader_Spl_Facade::attach(
             $autoloaderService
         );
     }

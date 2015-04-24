@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service Crypt Container Interface
+ * Doozr Service Crypt Container Interface
  *
  * Interface.php - Interface for Container of the Caching Service.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Crypt
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Crypt
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR Service Crypt Container Interface
+ * Doozr Service Crypt Container Interface
  *
  * Interface for Container of the Caching Service.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Crypt
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Crypt
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Crypt_Service_Container_Interface
+interface Doozr_Crypt_Service_Container_Interface
 {
     /**
      * Sets the key used for en-/decryption

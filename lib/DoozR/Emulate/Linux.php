@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Extend - Emulate - Linux
+ * Doozr - Extend - Emulate - Linux
  *
  * Linux.php - This include extends PHP's functionality by emulating
  *             missing native functions available only on Linux/Unix
@@ -12,7 +12,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,14 +45,14 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Extend
- * @subpackage DoozR_Extend_Emulate_Linux
+ * @category   Doozr
+ * @package    Doozr_Extend
+ * @subpackage Doozr_Extend_Emulate_Linux
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /*----------------------------------------------------------------------------------------------------------------------

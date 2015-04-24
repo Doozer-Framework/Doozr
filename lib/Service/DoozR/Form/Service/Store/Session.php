@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Session.php - Session based storage.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,40 +42,40 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Store/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Store/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Store/Interface.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Session based storage.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Store_Session extends DoozR_Form_Service_Store_Abstract implements
-    DoozR_Form_Service_Store_Interface
+class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract implements
+    Doozr_Form_Service_Store_Interface
 {
     /**
      * The object we operate on
      *
-     * @var DoozR_Session_Service
+     * @var Doozr_Session_Service
      * @access protected
      */
     protected $subject;
@@ -84,13 +84,13 @@ class DoozR_Form_Service_Store_Session extends DoozR_Form_Service_Store_Abstract
     /**
      * Constructor.
      *
-     * @param DoozR_Session_Service $session The session to set
+     * @param Doozr_Session_Service $session The session to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Store_Session $this
+     * @return Doozr_Form_Service_Store_Session $this
      * @access public
      */
-    public function __construct(DoozR_Session_Service $session)
+    public function __construct(Doozr_Session_Service $session)
     {
         $this->subject = $session;
     }

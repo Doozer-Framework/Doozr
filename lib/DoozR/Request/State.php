@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Request - State
+ * Doozr - Request - State
  *
  * State.php - Request state class for transportation of request data
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_State
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_State
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
 
 /**
- * DoozR - Request - State
+ * Doozr - Request - State
  *
  * Request state class for transportation of request data
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_State
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_State
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_Interface
+class Doozr_Request_State extends Doozr_Base_State implements Doozr_Base_State_Interface
 {
     /**
      * The method used for request
@@ -81,7 +81,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     protected $method;
 
     /**
-     * The request in DoozR format (array)
+     * The request in Doozr format (array)
      * for internal use.
      *
      * @var array
@@ -117,7 +117,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * The request arguments
      *
-     * @var DoozR_Request_Arguments[]
+     * @var Doozr_Request_Arguments[]
      * @access protected
      */
     protected $arguments = array();
@@ -250,7 +250,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isGet()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_GET);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_GET);
     }
 
     /**
@@ -262,7 +262,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isHead()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_HEAD);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_HEAD);
     }
 
     /**
@@ -274,7 +274,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isPut()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_PUT);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_PUT);
     }
 
     /**
@@ -286,7 +286,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isPost()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_POST);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_POST);
     }
 
     /**
@@ -298,7 +298,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isDelete()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_DELETE);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_DELETE);
     }
 
     /**
@@ -310,7 +310,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isOptions()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_OPTIONS);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_OPTIONS);
     }
 
     /**
@@ -322,7 +322,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isTrace()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_TRACE);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_TRACE);
     }
 
     /**
@@ -334,7 +334,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isConnect()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_CONNECT);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_CONNECT);
     }
 
     /**
@@ -370,13 +370,13 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function get($pattern, $callback = null)
     {
         // Check for required url
         if ($this->getUrl() === null) {
-            throw new DoozR_Exception('Set URL ($this->setUrl(...)) first.');
+            throw new Doozr_Exception('Set URL ($this->setUrl(...)) first.');
         }
 
         $count   = 0;
@@ -446,13 +446,13 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for request arguments.
      *
-     * @param DoozR_Request_Arguments $arguments
+     * @param Doozr_Request_Arguments $arguments
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Arguments The arguments
+     * @return Doozr_Request_Arguments The arguments
      * @access public
      */
-    public function setArguments(DoozR_Request_Arguments $arguments)
+    public function setArguments(Doozr_Request_Arguments $arguments)
     {
         $this->addHistory(__METHOD__, func_get_args());
         $this->arguments = $arguments;
@@ -461,13 +461,13 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for request arguments.
      *
-     * @param DoozR_Request_Arguments $arguments
+     * @param Doozr_Request_Arguments $arguments
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    public function arguments(DoozR_Request_Arguments $arguments)
+    public function arguments(Doozr_Request_Arguments $arguments)
     {
         $this->setArguments($arguments);
         return $this;
@@ -477,7 +477,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * Getter for arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Arguments The arguments
+     * @return Doozr_Request_Arguments The arguments
      * @access public
      */
     public function getArguments()
@@ -505,7 +505,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $verb The HTTP-Verb
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function verb($verb)
@@ -518,7 +518,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * Getter for HTTP-Verb
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The HTTP-Verb for Method used for requesting data from DoozR
+     * @return string The HTTP-Verb for Method used for requesting data from Doozr
      * @access public
      */
     public function getVerb()
@@ -529,7 +529,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for HTTP-Method
      *
-     * @param string $method The method used for requesting data from DoozR
+     * @param string $method The method used for requesting data from Doozr
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -544,10 +544,10 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for HTTP-Method
      *
-     * @param string $method The method used for requesting data from DoozR
+     * @param string $method The method used for requesting data from Doozr
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function method($method)
@@ -560,7 +560,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * Getter for HTTP-Method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The HTTP-Verb for Method used for requesting data from DoozR
+     * @return string The HTTP-Verb for Method used for requesting data from Doozr
      * @access public
      */
     public function getMethod()
@@ -589,7 +589,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $url The url
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function url($url)
@@ -631,7 +631,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $requestUri The request URI used for request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function requestUri($requestUri)
@@ -655,7 +655,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for sapi.
      *
-     * @param string $sapi The sapi DoozR running on
+     * @param string $sapi The sapi Doozr running on
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -670,10 +670,10 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for sapi.
      *
-     * @param string $sapi The sapi DoozR running on
+     * @param string $sapi The sapi Doozr running on
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function sapi($sapi)
@@ -686,7 +686,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * Getter for sapi.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The sapi DoozR running on
+     * @return string The sapi Doozr running on
      * @access public
      */
     public function getSapi()
@@ -715,7 +715,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param bool $ssl SSL state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function ssl($ssl)
@@ -757,7 +757,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array $headers The headers to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function headers(array $headers)
@@ -859,7 +859,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param stdClass $routes The routes object (often retrieved from config)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function routes(\stdClass $routes)
@@ -901,7 +901,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param stdClass $routeConfig The routes object (often retrieved from config)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function routeConfig(\stdClass $routeConfig)
@@ -931,7 +931,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function setActiveRoute(array $activeRoute, array $routeArguments = null)
     {
@@ -940,7 +940,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
 
         if (null !== $routeArguments) {
             if (false === is_array($routeArguments)) {
-                throw new DoozR_Exception(
+                throw new Doozr_Exception(
                     sprintf('Route arguments must be passed as key => value array!')
                 );
             } else {
@@ -956,7 +956,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array $activeRoute The active and dispatched/processed route!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function activeRoute(array $activeRoute)
@@ -983,7 +983,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array $activeRouteArguments The active and dispatched/processed route arguments!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function setActiveRouteArguments(array $activeRouteArguments)
@@ -998,7 +998,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array $activeRouteArguments The active and dispatched/processed route arguments!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function activeRouteArguments(array $activeRouteArguments)
@@ -1022,7 +1022,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for request.
      *
-     * @param array $request The request in DoozR format
+     * @param array $request The request in Doozr format
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -1037,10 +1037,10 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     /**
      * Setter for request.
      *
-     * @param array $request The request in DoozR format
+     * @param array $request The request in Doozr format
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function request(array $request)
@@ -1082,7 +1082,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param array $translationMatrix The translation matrix
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function translationMatrix(array $translationMatrix)
@@ -1124,7 +1124,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param string $pattern The pattern (MVP) ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function pattern($pattern)
@@ -1166,7 +1166,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      * @param bool TRUE to mark state REST, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function rest($rest)

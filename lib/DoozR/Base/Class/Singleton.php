@@ -2,17 +2,17 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Class - Singleton
+ * Doozr - Base - Class - Singleton
  *
- * Singleton.php - Loose Base-Singleton-Class of the DoozR Framework
+ * Singleton.php - Loose Base-Singleton-Class of the Doozr Framework
  * Loose stands for the difference to the strict Version of this class
- * (DoozRBaseSingletonStrict.php) which also use the given parameter at
+ * (DoozrBaseSingletonStrict.php) which also use the given parameter at
  * instanciation to check for singleton instance
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,36 +45,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Class_Singleton
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Class_Singleton
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Generic.php';
 
 /**
- * DoozR - Base - Class - Singleton
+ * Doozr - Base - Class - Singleton
  *
- * Loose Base-Singleton-Class of the DoozR Framework
+ * Loose Base-Singleton-Class of the Doozr Framework
  * Loose stands for the difference to the strict Version of this class
- * (DoozRBaseSingletonStrict.php) which also use the given parameter at
+ * (DoozrBaseSingletonStrict.php) which also use the given parameter at
  * instanciation to check for singleton instance
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Class_Singleton
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Class_Singleton
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Class_Singleton extends DoozR_Base_Class_Singleton_Generic
+class Doozr_Base_Class_Singleton extends Doozr_Base_Class_Singleton_Generic
 {
     /**
      * The current single instance

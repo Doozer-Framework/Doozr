@@ -2,13 +2,13 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Request Argument
+ * Doozr Request Argument
  *
- * Argument.php - The Argument part of DoozR_Request_Arguments (Parameter => Argument).
+ * Argument.php - The Argument part of Doozr_Request_Arguments (Parameter => Argument).
  *
  * PHP versions 5.4
  *
- * LICENSE: DoozR - PHP Framework - Copyright (c) 2009, Benjamin Carl -
+ * LICENSE: Doozr - PHP Framework - Copyright (c) 2009, Benjamin Carl -
  * All rights reserved. Redistribution and use in source and binary forms, with
  * or without modification, are permitted provided that the following conditions
  * are met: Redistributions of source code must retain the above copyright notice,
@@ -35,31 +35,31 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Argument
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Argument
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR Request Argument
+ * Doozr Request Argument
  *
- * The Argument part of DoozR_Request_Arguments (Parameter => Argument).
+ * The Argument part of Doozr_Request_Arguments (Parameter => Argument).
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Argument
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Argument
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Request_Argument
+class Doozr_Request_Argument
 {
     /**
      * The sanitized/cleaned value
@@ -92,7 +92,7 @@ class DoozR_Request_Argument
      * @param mixed $value The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Request_Argument An instance of this class
+     * @return \Doozr_Request_Argument An instance of this class
      * @access public
      */
     public function __construct($value)

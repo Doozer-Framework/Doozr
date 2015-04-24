@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Datalist.php - Extends Html Base component to build a valid select
  * component.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,34 +43,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Select.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Option.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Select.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Option.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Extends Html Base component to build a valid select component.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Component_Datalist extends DoozR_Form_Service_Component_Select
+class Doozr_Form_Service_Component_Datalist extends Doozr_Form_Service_Component_Select
 {
     /**
      * This is the tag-name for HTML output.
@@ -79,7 +79,7 @@ class DoozR_Form_Service_Component_Datalist extends DoozR_Form_Service_Component
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_DATALIST;
+    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_DATALIST;
 
     /**
      * Mark this component as parent
@@ -87,7 +87,7 @@ class DoozR_Form_Service_Component_Datalist extends DoozR_Form_Service_Component
      * @var string
      * @access protected
      */
-    protected $type = DoozR_Form_Service_Constant::COMPONENT_CONTAINER;
+    protected $type = Doozr_Form_Service_Constant::COMPONENT_CONTAINER;
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -96,16 +96,16 @@ class DoozR_Form_Service_Component_Datalist extends DoozR_Form_Service_Component
     /**
      * Constructor.
      *
-     * @param DoozR_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
-     * @param DoozR_Form_Service_Validator_Interface $validator Validator instance for validating this component
+     * @param Doozr_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
+     * @param Doozr_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Datalist
+     * @return \Doozr_Form_Service_Component_Datalist
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface $renderer = null,
-        DoozR_Form_Service_Validator_Interface $validator = null
+        Doozr_Form_Service_Renderer_Interface $renderer = null,
+        Doozr_Form_Service_Validator_Interface $validator = null
     ) {
         // Important call so observer storage ... can be initiated
         parent::__construct($renderer, $validator);
@@ -115,16 +115,16 @@ class DoozR_Form_Service_Component_Datalist extends DoozR_Form_Service_Component
      * Proxy to parents addOption -> cause we need to modify the input and we want to
      * do this inline.
      *
-     * @param DoozR_Form_Service_Component_Interface_Option $option The component to add
+     * @param Doozr_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function addOption(DoozR_Form_Service_Component_Interface_Option $option)
+    public function addOption(Doozr_Form_Service_Component_Interface_Option $option)
     {
         // Beim addOption() von Datalist modifiy template so das <option></option> zu <option dkjdkjdkd/> wird!
-        $option->setTemplate(DoozR_Form_Service_Constant::TEMPLATE_DEFAULT_NONCLOSING);
+        $option->setTemplate(Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_NONCLOSING);
 
         return parent::addOption($option);
     }

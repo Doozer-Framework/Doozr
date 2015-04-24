@@ -2,15 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Path
+ * Doozr - Path
  *
- * Path.php - is the Path-Manager of the DoozR-Framework and it is intend for
+ * Path.php - is the Path-Manager of the Doozr-Framework and it is intend for
  * retrieving and setting (maintaining) path's.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,35 +43,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Path
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Path
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Path/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path/Interface.php';
 
 /**
- * DoozR Path
+ * Doozr Path
  *
- * This is the Path-Manager of the DoozR-Framework and it is intend for
+ * This is the Path-Manager of the Doozr-Framework and it is intend for
  * retrieving and setting (maintaining) path's.
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Path
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Path
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interface
+class Doozr_Path extends Doozr_Base_Class_Singleton implements Doozr_Path_Interface
 {
     /**
      * singelton-instance-holder
@@ -97,11 +97,11 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     /**
      * Constructor.
      *
-     * @param string $pathToRoot        The path to DoozR (DOOZR_DOCUMENT_ROOT)
+     * @param string $pathToRoot        The path to Doozr (DOOZR_DOCUMENT_ROOT)
      * @param string $pathToApplication The path to applications root directory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Path
+     * @return \Doozr_Path
      * @access protected
      */
     protected function __construct($pathToRoot = null, $pathToApplication = null)
@@ -113,10 +113,10 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     /**
      * initializes all required operations
      *
-     * This method is intend to begin retrieving the current document root of DoozR. Afterwards
+     * This method is intend to begin retrieving the current document root of Doozr. Afterwards
      * it retrieves the path to the application and setup all required default and include paths.
      *
-     * @param string $pathToRoot        The path to DoozR (DOOZR_DOCUMENT_ROOT)
+     * @param string $pathToRoot        The path to Doozr (DOOZR_DOCUMENT_ROOT)
      * @param string $pathToApplication The path to applications root directory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -225,11 +225,11 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
     }
 
     /**
-     * setup the default paths of DoozR and Application
+     * setup the default paths of Doozr and Application
      *
-     * setup the default paths of DoozR
+     * setup the default paths of Doozr
      *
-     * @param string $pathToRoot        The path to DoozR (DOOZR_DOCUMENT_ROOT)
+     * @param string $pathToRoot        The path to Doozr (DOOZR_DOCUMENT_ROOT)
      * @param string $pathToApplication The path to applications root directory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -248,7 +248,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         self::$path['document_root'] = $root;
 
         // path to core
-        self::$path['core'] = $this->_combine($root, array('lib', 'DoozR'));
+        self::$path['core'] = $this->_combine($root, array('lib', 'Doozr'));
 
         // path to framework
         self::$path['framework'] = $this->_combine($root, array('lib'));
@@ -263,7 +263,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         self::$path['service'] = $this->_combine($root, array('lib', 'Service'));
 
         // path to controller
-        self::$path['controller'] = $this->_combine($root, array('lib', 'DoozR', 'Controller'));
+        self::$path['controller'] = $this->_combine($root, array('lib', 'Doozr', 'Controller'));
 
         // path to data
         self::$path['data'] = $this->_combine($root, array('lib', 'Data'));
@@ -337,11 +337,11 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
         $iniIncludePaths = explode(PATH_SEPARATOR, ini_get('include_path'));
 
         // default entry
-        $includePathsDoozR = '.';
+        $includePathsDoozr = '.';
 
-        // build DoozR include paths
+        // build Doozr include paths
         foreach (self::$path as $path) {
-            $includePathsDoozR .= self::_buildPath($path);
+            $includePathsDoozr .= self::_buildPath($path);
         }
 
         if (!empty($iniIncludePaths)) {
@@ -351,12 +351,12 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
                     continue;
                 }
 
-                $includePathsDoozR .= self::_buildPath($iniIncludePath);
+                $includePathsDoozr .= self::_buildPath($iniIncludePath);
             }
         }
 
         // now try to set the ini value include_path
-        ini_set('include_path', $includePathsDoozR);
+        ini_set('include_path', $includePathsDoozr);
     }
 
     /**
@@ -446,13 +446,13 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @return boolean True if successful otherwise false
      * @access private
      * @static
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function set($identifier, $path, $force = false)
     {
         // check if already exist and prevent overwrite if not force
         if (isset(self::$path[$identifier]) && !is_null(self::$path[$identifier]) && !$force) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Path with identifier "'.$identifier.'" is already defined! Set $force to TRUE to overwrite it.'
             );
         }
@@ -588,7 +588,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @static
      * @deprecated
      */
-    public static function serviceToPath($serviceName, $namespace = 'DoozR')
+    public static function serviceToPath($serviceName, $namespace = 'Doozr')
     {
         $service = ucfirst(str_replace('_', self::$_separator, $serviceName));
         return self::_correctPath(
@@ -605,7 +605,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Result depending on operation
      * @access public
-     * @throws DoozR_Path_Exception
+     * @throws Doozr_Path_Exception
      */
     public function __call($method, $arguments)
     {
@@ -615,7 +615,7 @@ class DoozR_Path extends DoozR_Base_Class_Singleton implements DoozR_Path_Interf
             $identifier = strtolower($method[1]);
 
             if (isset(self::$path[$identifier]) === false) {
-                throw new DoozR_Path_Exception(
+                throw new Doozr_Path_Exception(
                     'Path "' . $identifier . '" does not exist!'
                 );
             } else {

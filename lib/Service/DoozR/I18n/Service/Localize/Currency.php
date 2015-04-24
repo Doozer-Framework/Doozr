@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Localize - Currency
+ * Doozr - I18n - Service - Localize - Currency
  *
  * Currency.php - Currency formatter
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Localize/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * DoozR - I18n - Service - Localize - Currency
+ * Doozr - I18n - Service - Localize - Currency
  *
  * Currency.php - Currency formatter
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_Abstract
+class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_Abstract
 {
     /**
      * Notation for display currency with symbol like $, €
@@ -105,7 +105,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The correct formatted currency
      * @access public
-     * @throws \DoozR_I18n_Service_Exception
+     * @throws \Doozr_I18n_Service_Exception
      */
     public function format(
         $value,
@@ -145,7 +145,7 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
             $country = ($country !== null) ? $country : $this->locale;
 
             if ($country === null) {
-                throw new DoozR_I18n_Service_Exception(
+                throw new Doozr_I18n_Service_Exception(
                     sprintf('Please pass $country to "%s".', __METHOD__)
                 );
             }
@@ -178,14 +178,14 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The currency-code
      * @access public
-     * @throws DoozR_I18n_Service_Exception
+     * @throws Doozr_I18n_Service_Exception
      */
     public function getCurrencyCode()
     {
         try {
             return $this->configL10n->currency->code;
         } catch (Exception $e) {
-            throw new DoozR_I18n_Service_Exception(
+            throw new Doozr_I18n_Service_Exception(
                 'Error reading currency code from L10N config.', null, $e
             );
         }
@@ -200,24 +200,24 @@ class DoozR_I18n_Service_Localize_Currency extends DoozR_I18n_Service_Localize_A
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface      $registry   The DoozR_Registry instance
+     * @param Doozr_Registry_Interface      $registry   The Doozr_Registry instance
      * @param string                        $locale     The locale this instance is working with
      * @param string                        $namespace  The active namespace of this format-class
-     * @param object                        $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                        $configL10n An instance of DoozR_Config_Ini holding the I10n-config (locale)
-     * @param DoozR_I18n_Service_Translator $translator An instance of a translator (for locale)
+     * @param object                        $configI18n An instance of Doozr_Config_Ini holding the I18n-config
+     * @param object                        $configL10n An instance of Doozr_Config_Ini holding the I10n-config (locale)
+     * @param Doozr_I18n_Service_Translator $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_I18n_Service_Localize_Currency
+     * @return Doozr_I18n_Service_Localize_Currency
      * @access public
      */
     public function __construct(
-        DoozR_Registry_Interface $registry        = null,
+        Doozr_Registry_Interface $registry        = null,
         $locale                                   = null,
         $namespace                                = null,
         $configI18n                               = null,
         $configL10n                               = null,
-        DoozR_I18n_Service_Translator $translator = null
+        Doozr_I18n_Service_Translator $translator = null
     ) {
         // Set type of format-class
         $this->type = 'Currency';

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Presenter - Rest - Config
+ * Doozr - Base - Presenter - Rest - Config
  *
  * Config.php - Config class for Rest API
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Web.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Web.php';
 
 /**
- * DoozR - Base - Presenter - Rest - Config
+ * Doozr - Base - Presenter - Rest - Config
  *
  * Config class for Rest API
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Presenter_Rest_Config
+class Doozr_Base_Presenter_Rest_Config
 {
     /**
      * The Id (unique id) of a recordset/dataset
@@ -83,7 +83,7 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * Instance of ACL service to manage the ACL for this resource
      *
-     * @var DoozR_Acl_Service
+     * @var Doozr_Acl_Service
      * @access protected
      */
     protected $acl;
@@ -103,7 +103,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @var array
      * @access protected
      */
-    protected $allow = array(DoozR_Http::REQUEST_METHOD_GET);
+    protected $allow = array(Doozr_Http::REQUEST_METHOD_GET);
 
     /**
      * The required input arguments for this route
@@ -164,7 +164,7 @@ class DoozR_Base_Presenter_Rest_Config
     protected $override = true;
 
 
-    public function __construct(DoozR_Acl_Service $acl)
+    public function __construct(Doozr_Acl_Service $acl)
     {
         $this->setAcl($acl);
     }
@@ -225,7 +225,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @param string $id The id to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
     public function id($id)
@@ -266,7 +266,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @param int $nodes The count of nodes for this config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
     public function nodes($nodes)
@@ -325,27 +325,27 @@ class DoozR_Base_Presenter_Rest_Config
     {
         switch (strtoupper($verb))
         {
-            case DoozR_Http::REQUEST_METHOD_POST:
+            case Doozr_Http::REQUEST_METHOD_POST:
                 $operation = 'create';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_GET:
+            case Doozr_Http::REQUEST_METHOD_GET:
                 $operation = 'read';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_PUT:
+            case Doozr_Http::REQUEST_METHOD_PUT:
                 $operation = 'update';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_DELETE:
+            case Doozr_Http::REQUEST_METHOD_DELETE:
                 $operation = 'delete';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_OPTIONS:
+            case Doozr_Http::REQUEST_METHOD_OPTIONS:
                 $operation = 'options';
                 break;
 
-            case DoozR_Http::REQUEST_METHOD_HEAD:
+            case Doozr_Http::REQUEST_METHOD_HEAD:
                 $operation = 'meta';
                 break;
 
@@ -363,7 +363,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @param string|array $allow A single HTTP verb or a collection of multiple entries
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
     public function allow($allow)
@@ -418,7 +418,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @param array $required The required values
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
     public function required($required)
@@ -459,7 +459,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @param string $url The URL of this config object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
     public function url($url)
@@ -500,7 +500,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @param array $ids A collection of extracted Ids for matching
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
     public function ids($ids)
@@ -555,7 +555,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @param string $route The route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
     public function route($route)
@@ -596,7 +596,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @param array $realRoute The real route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
     public function realRoute($realRoute)
@@ -639,7 +639,7 @@ class DoozR_Base_Presenter_Rest_Config
      * @param string $rootNode The rootNode
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
     public function rootNode($rootNode)
@@ -663,13 +663,13 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * Setter for acl
      *
-     * @param DoozR_Acl_Service $acl The acl instance
+     * @param Doozr_Acl_Service $acl The acl instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setAcl(DoozR_Acl_Service $acl)
+    public function setAcl(Doozr_Acl_Service $acl)
     {
         $this->acl = $acl;
     }
@@ -677,13 +677,13 @@ class DoozR_Base_Presenter_Rest_Config
     /**
      * Chaining setter for acl
      *
-     * @param DoozR_Acl_Service $acl The acl instance
+     * @param Doozr_Acl_Service $acl The acl instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Rest_Config This instance for chaining calls
+     * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
      * @access public
      */
-    public function acl(DoozR_Acl_Service $acl)
+    public function acl(Doozr_Acl_Service $acl)
     {
         $this->setAcl($acl);
         return $this;
@@ -693,7 +693,7 @@ class DoozR_Base_Presenter_Rest_Config
      * Getter for acl
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Acl_Service Acl service instance
+     * @return Doozr_Acl_Service Acl service instance
      * @access public
      */
     public function getAcl()

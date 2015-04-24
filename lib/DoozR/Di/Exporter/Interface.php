@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Exporter Interface
+ * Doozr - Di - Exporter Interface
  *
  * Interface.php - Interface class for all Exporter of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Exporter_Interface
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Exporter_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,47 +53,47 @@
  */
 
 /**
- * DoozR - Di - Exporter Interface
+ * Doozr - Di - Exporter Interface
  *
  * Interface class for all Exporter of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Exporter_Interface
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Exporter_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-interface DoozR_Di_Exporter_Interface
+interface Doozr_Di_Exporter_Interface
 {
     /**
      * Contract for import
      *
      * @return boolean TRUE on success, otherwise FALSE
      */
-    public function import(DoozR_Di_Collection $collection);
+    public function import(Doozr_Di_Collection $collection);
 
     /**
      * Contract for export
      *
-     * @return array An array containing a collection of DoozR_Di_Dependency instances
+     * @return array An array containing a collection of Doozr_Di_Dependency instances
      */
     public function export($exportInstances = true);
 
     /**
      * Contract for setCollection
      *
-     * @param DoozR_Di_Collection $collection The collection to set as an DoozR_Di_Collection object
+     * @param Doozr_Di_Collection $collection The collection to set as an Doozr_Di_Collection object
      *
      * @return void
      */
-    public function setCollection(DoozR_Di_Collection $collection);
+    public function setCollection(Doozr_Di_Collection $collection);
 
     /**
      * Contract for getCollection
      *
-     * @return DoozR_Di_Collection The collection of dependencies in an DoozR_Di_Collection object
+     * @return Doozr_Di_Collection The collection of dependencies in an Doozr_Di_Collection object
      */
     public function getCollection();
 

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
 * Html.php - Generic renderable HTML component like <p>...</p> or
  * <span>...</span> ...
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,35 +43,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html/Html.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Html/Html.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Generic renderable HTML component like <p>...</p> or
  * <span>...</span> ...
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
-abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Component_Html_Html implements
+abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Component_Html_Html implements
     Iterator
 {
     /**
@@ -81,7 +81,7 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_NONE;
+    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_NONE;
 
     /**
      * Child components added to this component
@@ -111,7 +111,7 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
     /**
      * The attached renderer to render the component
      *
-     * @var DoozR_Form_Service_Renderer_Interface
+     * @var Doozr_Form_Service_Renderer_Interface
      * @access protected
      */
     protected $renderer;
@@ -126,16 +126,16 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
      *
      * @param string                                 $tag      The tag name of the component
      * @param string                                 $template The template used for rendering component
-     * @param DoozR_Form_Service_Renderer_Interface  $renderer A renderer instance
+     * @param Doozr_Form_Service_Renderer_Interface  $renderer A renderer instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Html
+     * @return \Doozr_Form_Service_Component_Html
      * @access public
      */
     public function __construct(
         $tag      = null,
         $template = null,
-        DoozR_Form_Service_Renderer_Interface $renderer = null
+        Doozr_Form_Service_Renderer_Interface $renderer = null
     ) {
         if ($tag !== null) {
             $this->tag = $tag;
@@ -187,13 +187,13 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
     /**
      * Sets a renderer instance.
      *
-     * @param DoozR_Form_Service_Renderer_Interface $renderer A renderer instance
+     * @param Doozr_Form_Service_Renderer_Interface $renderer A renderer instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setRenderer(DoozR_Form_Service_Renderer_Interface $renderer)
+    public function setRenderer(Doozr_Form_Service_Renderer_Interface $renderer)
     {
         $this->renderer = $renderer;
     }
@@ -202,7 +202,7 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
      * Getter for renderer instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Renderer_Interface A renderer instance
+     * @return Doozr_Form_Service_Renderer_Interface A renderer instance
      * @access public
      */
     public function getRenderer()
@@ -244,14 +244,14 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
     /**
      * Adds a child to the component.
      *
-     * @param DoozR_Form_Service_Component_Interface_Html $child A child component to add to component
+     * @param Doozr_Form_Service_Component_Interface_Html $child A child component to add to component
      * @param string                                      $id    An id to used as index
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The index of the child component
      * @access public
      */
-    public function addChild(DoozR_Form_Service_Component_Interface_Html $child, $id = null)
+    public function addChild(Doozr_Form_Service_Component_Interface_Html $child, $id = null)
     {
         $id = ($id === null) ? count($this->childs) : $id;
 
@@ -441,7 +441,7 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
     /**
      * Setter for arguments.
      *
-     * @param array|DoozR_Request_Arguments $arguments The arguments
+     * @param array|Doozr_Request_Arguments $arguments The arguments
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -456,7 +456,7 @@ abstract class DoozR_Form_Service_Component_Html extends DoozR_Form_Service_Comp
      * Getter for arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|DoozR_Request_Arguments $arguments The arguments
+     * @return array|Doozr_Request_Arguments $arguments The arguments
      * @access public
      */
     public function getArguments()

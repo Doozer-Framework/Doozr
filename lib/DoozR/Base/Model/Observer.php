@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Model Observer
+ * Doozr Base Model Observer
  *
  * Observer.php - Base observer-template for "Models" build (MVP pattern)
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Model
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
 
 /**
- * DoozR Base Model Observer
+ * Doozr Base Model Observer
  *
  * Base observer-template for "models" build (MVP pattern)
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Model
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Model
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Model_Observer extends DoozR_Base_State_Container implements SplObserver
+class Doozr_Base_Model_Observer extends Doozr_Base_State_Container implements SplObserver
 {
     /**
      * Update (for notifications from subject)

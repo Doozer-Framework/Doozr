@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Loader - Autoloader - Spl - Facade
+ * Doozr - Loader - Autoloader - Spl - Facade
  *
  * Facade.php - Facade to the SPL-Autoload-Subsystem
  * A simple and OOP-based Interface for the procedural SPL-functionality.
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,34 +43,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Config/Interface.php';
 
 /**
- * DoozR - Loader - Autoloader - Spl - Facade
+ * Doozr - Loader - Autoloader - Spl - Facade
  *
  * Facade to the SPL-Autoload-Subsystem. A simple and OOP-based Interface for
  * the procedural SPL-functionality.
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Loader_Autoloader_Spl_Facade
+class Doozr_Loader_Autoloader_Spl_Facade
 {
     /**
      * holds the autoloaders processed by the SPL-Facade
@@ -121,16 +121,16 @@ class DoozR_Loader_Autoloader_Spl_Facade
 
     /**
      * Registers an autoloader by passed configuration. Registers a new autoloader to SPL-Subsystem
-     * based on the Information (setup) of given config (DoozR_Loader_Autoloader_Spl_Config-Instance).
+     * based on the Information (setup) of given config (Doozr_Loader_Autoloader_Spl_Config-Instance).
      *
-     * @param DoozR_Loader_Autoloader_Spl_Config[]|DoozR_Loader_Autoloader_Spl_Config $configuration An instance of the
-     *                                                                                        DoozR_Loader_Autoloader_Spl_Config
+     * @param Doozr_Loader_Autoloader_Spl_Config[]|Doozr_Loader_Autoloader_Spl_Config $configuration An instance of the
+     *                                                                                        Doozr_Loader_Autoloader_Spl_Config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if autoloader was registered successfully, otherwise FALSE
      * @access public
      * @static
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public static function attach($configuration)
     {
@@ -145,18 +145,18 @@ class DoozR_Loader_Autoloader_Spl_Facade
 
         // check input
         if (is_array($configuration)) {
-            /* @var DoozR_Loader_Autoloader_Spl_Config $singleConfig */
+            /* @var Doozr_Loader_Autoloader_Spl_Config $singleConfig */
             foreach ($configuration as $singleConfig) {
-                if (!$singleConfig instanceof DoozR_Loader_Autoloader_Spl_Config) {
-                    throw new DoozR_Exception(
-                        'Passed config must be of type: "DoozR_Loader_Autoloader_Spl_Config_Interface"'
+                if (!$singleConfig instanceof Doozr_Loader_Autoloader_Spl_Config) {
+                    throw new Doozr_Exception(
+                        'Passed config must be of type: "Doozr_Loader_Autoloader_Spl_Config_Interface"'
                     );
                 }
             }
         } else {
-            if (!$configuration instanceof DoozR_Loader_Autoloader_Spl_Config) {
-                throw new DoozR_Exception(
-                    'Passed config must be of type: "DoozR_Loader_Autoloader_Spl_Config_Interface"'
+            if (!$configuration instanceof Doozr_Loader_Autoloader_Spl_Config) {
+                throw new Doozr_Exception(
+                    'Passed config must be of type: "Doozr_Loader_Autoloader_Spl_Config_Interface"'
                 );
             }
 
@@ -274,7 +274,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * This method is intend to return the config of the last registered AL (checks current spl-stack).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed DoozR_Loader_Autoloader_Spl_Config of last AL if exist, otherwise boolean FALSE
+     * @return mixed Doozr_Loader_Autoloader_Spl_Config of last AL if exist, otherwise boolean FALSE
      * @access public
      * @static
      */
@@ -302,7 +302,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * This method is intend to return the config of the first registered AL (checks current spl-stack).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed DoozR_Loader_Autoloader_Spl_Config of first AL if exist, otherwise boolean FALSE
+     * @return mixed Doozr_Loader_Autoloader_Spl_Config of first AL if exist, otherwise boolean FALSE
      * @access public
      * @static
      */
@@ -332,7 +332,7 @@ class DoozR_Loader_Autoloader_Spl_Facade
      * @param string $uId An unique-Id of an Autoloader to retrieve a single config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed a single DoozR_Loader_Autoloader_Spl_Config or a list of (array) DoozR_Loader_Autoloader_Spl_Config's
+     * @return mixed a single Doozr_Loader_Autoloader_Spl_Config or a list of (array) Doozr_Loader_Autoloader_Spl_Config's
      * @access public
      * @static
      */
@@ -596,15 +596,15 @@ class DoozR_Loader_Autoloader_Spl_Facade
     }
 
     /**
-     * Returns a config (DoozR_Loader_Autoloader_Spl_Config) of a registered AL by it's AL-function/method
+     * Returns a config (Doozr_Loader_Autoloader_Spl_Config) of a registered AL by it's AL-function/method
      *
-     * This method is intend to return return a config (DoozR_Loader_Autoloader_Spl_Config) of a registered AL by
+     * This method is intend to return return a config (Doozr_Loader_Autoloader_Spl_Config) of a registered AL by
      * it's AL-function/method.
      *
      * @param mixed $function STRING The name of the function, or ARRAY containing Class, Method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed DoozR_Loader_Autoloader_Spl_Config of found AL, otherwise boolean FALSE if not found
+     * @return mixed Doozr_Loader_Autoloader_Spl_Config of found AL, otherwise boolean FALSE if not found
      * @access private
      * @static
      */

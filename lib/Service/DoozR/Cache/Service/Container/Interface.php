@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service Cache
+ * Doozr Service Cache
  *
  * Interface.php - Interface for caching-container
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR Service Cache
+ * Doozr Service Cache
  *
  * Interface for caching-container
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Cache_Service_Container_Interface
+interface Doozr_Cache_Service_Container_Interface
 {
     /**
      * Creates an entry.
@@ -160,7 +160,7 @@ interface DoozR_Cache_Service_Container_Interface
     /**
      * Whether the cache entry for key is expired.
      *
-     * Throws DoozR_Cache_Service_Exception when checking a not existing
+     * Throws Doozr_Cache_Service_Exception when checking a not existing
      * key or namespace! Check via exists first!
      * @see exists()
      *
@@ -170,7 +170,7 @@ interface DoozR_Cache_Service_Container_Interface
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if entry expired, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function expired($key, $namespace);
 }

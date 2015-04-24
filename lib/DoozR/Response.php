@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Response
+ * Doozr - Response
  *
  * Response.php - Response state container.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Response
- * @subpackage DoozR_Response
+ * @category   Doozr
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Registry.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
 
 /**
- * DoozR - Response
+ * Doozr - Response
  *
  * Response state container.
  *
- * @category   DoozR
- * @package    DoozR_Response
- * @subpackage DoozR_Response
+ * @category   Doozr
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Response extends DoozR_Base_State_Container
+class Doozr_Response extends Doozr_Base_State_Container
 {
     /**
      * The type native for PHP request sources
@@ -100,17 +100,17 @@ class DoozR_Response extends DoozR_Base_State_Container
      * Custom constructor which is required to set app.
      * And then it calls the parent constructor which does the bootstrapping.
      *
-     * @param DoozR_Registry             $registry    The registry containing all important instances
-     * @param DoozR_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
+     * @param Doozr_Registry             $registry    The registry containing all important instances
+     * @param Doozr_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
      * @param string                     $sapi        The SAPI runtimeEnvironment of active PHP Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Response
+     * @return \Doozr_Response
      * @access public
      */
     public function __construct(
-        DoozR_Registry             $registry,
-        DoozR_Base_State_Interface $stateObject,
+        Doozr_Registry             $registry,
+        Doozr_Base_State_Interface $stateObject,
                                    $sapi         = PHP_SAPI
     ) {
         $this->setRegistry($registry);

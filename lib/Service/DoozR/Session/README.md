@@ -1,6 +1,6 @@
 # Service: Session
-## (DoozR\_Session\_Service)
-This is the information for the DoozR default service "Session". *Session* provides access to PHP sessions mechanisms in a more comfortable way than PHP does. Some features of *Session* like
+## (Doozr\_Session\_Service)
+This is the information for the Doozr default service "Session". *Session* provides access to PHP sessions mechanisms in a more comfortable way than PHP does. Some features of *Session* like
 
 - automatic session regenerating
 - custom client specific session identifier to prevent session hijacking

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Extend
+ * Doozr - Extend
  *
  * Extend.php - This include extends PHP's built-in functionality with plain PHP
  * functions. This functions are for Array-operations (like array_remove_value
@@ -14,7 +14,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -47,14 +47,14 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Extend
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Extend
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ define('DOOZR_UNIX',          (DIRECTORY_SEPARATOR === '/' && !DOOZR_WIN));
 define('DOOZR_SECURE_HASH',   (DOOZR_PHP_VERSION > 5.11));
 define('DOOZR_SAPI',          php_sapi_name());
 define('DOOZR_VERSION',       '$Id$');
-define('DOOZR_NAME',          'DoozR');
+define('DOOZR_NAME',          'Doozr');
 
 /*----------------------------------------------------------------------------------------------------------------------
 | EXTENDING PHP SUPERGLOBALS
@@ -958,4 +958,4 @@ function pred($data = 'EMPTY_PRED_CALL', $return = false, $color = '#7CFC00', $c
 | LINUX EMULATION IF WE RUN ON WINDOWS OS'
 +---------------------------------------------------------------------------------------------------------------------*/
 
-include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Emulate/Linux.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Emulate/Linux.php';

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Kernel - Exception
+ * Doozr - Kernel - Exception
  *
- * Exception.php - Exception of DoozR Kernel
+ * Exception.php - Exception of Doozr Kernel
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,38 +42,38 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base_Exception
- * @subpackage DoozR_Base_Exception_Kernel
+ * @category   Doozr
+ * @package    Doozr_Base_Exception
+ * @subpackage Doozr_Base_Exception_Kernel
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Generic.php';
 
 /**
- * DoozR - Service - Template - Exception
+ * Doozr - Service - Template - Exception
  *
- * Exception of DoozR Service Template
+ * Exception of Doozr Service Template
  *
- * @category   DoozR
- * @package    DoozR_Base_Exception
- * @subpackage DoozR_Base_Exception_Kernel
+ * @category   Doozr
+ * @package    Doozr_Base_Exception
+ * @subpackage Doozr_Base_Exception_Kernel
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @author     $LastChangedBy$ <develop@doozr.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Kernel_Exception extends DoozR_Base_Exception_Generic
+class Doozr_Kernel_Exception extends Doozr_Base_Exception_Generic
 {
     /**
      * overrides parents constructor to add context to each exception of type:
-     * DoozR_Kernel_Exception
+     * Doozr_Kernel_Exception
      *
      * This method is intend to override parents constructor to add context to each exception.
      *
@@ -82,7 +82,7 @@ class DoozR_Kernel_Exception extends DoozR_Base_Exception_Generic
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Kernel_Exception instance of this class
+     * @return \Doozr_Kernel_Exception instance of this class
      * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)

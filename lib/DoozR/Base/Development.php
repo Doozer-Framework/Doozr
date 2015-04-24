@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Development.php - DoozR Base-Tools
+ * Development.php - Doozr Base-Tools
  * A toolset which is useful while developing classes which give you features like
  * ...
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,32 +42,32 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Development
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Development
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR Base-Tools
+ * Doozr Base-Tools
  * A toolset which is useful while developing classes which give you features like
  * ...
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Development
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Development
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @author     $LastChangedBy$
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Development
+class Doozr_Base_Development
 {
     /**
      * Details about the last profiled method

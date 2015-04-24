@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Request Interface
+ * Doozr Request Interface
  *
- * Interface.php - Interface for Request-Based classes of the DoozR Framework.
+ * Interface.php - Interface for Request-Based classes of the Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Interface
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR Request Interface
+ * Doozr Request Interface
  *
- * Interface for Request-Based classes of the DoozR Framework.
+ * Interface for Request-Based classes of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Interface
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Request_Interface
+interface Doozr_Request_Interface
 {
     /**
      * signature for getType()

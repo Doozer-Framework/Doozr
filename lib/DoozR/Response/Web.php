@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Response - Web
+ * Doozr - Response - Web
  *
  * Web.php - Response Web - Response-Handler to pass responses to WEB
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Response
- * @subpackage DoozR_Response_Web
+ * @category   Doozr
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response_Web
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Response.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Response.php';
 
 use DebugBar\StandardDebugBar;
 
 /**
- * DoozR - Response - Web
+ * Doozr - Response - Web
  *
  * Response Web - Response-Handler to pass responses to WEB
  *
- * @category   DoozR
- * @package    DoozR_Response
- * @subpackage DoozR_Response_Web
+ * @category   Doozr
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response_Web
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Response_Web extends DoozR_Base_Response
+class Doozr_Response_Web extends Doozr_Base_Response
 {
     /**
      * The GZIP compression status of the current connection
@@ -141,14 +141,14 @@ class DoozR_Response_Web extends DoozR_Base_Response
      *
      * This method is the constructor of this class.
      *
-     * @param DoozR_Config $config An instance of config
-     * @param DoozR_Logger $logger An instance of logger
+     * @param Doozr_Config $config An instance of config
+     * @param Doozr_Logger $logger An instance of logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Response_Web
+     * @return \Doozr_Response_Web
      * @access public
      */
-    public function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    public function __construct(Doozr_Config $config, Doozr_Logger $logger)
     {
         // map type
         self::$type = self::TYPE;
@@ -168,7 +168,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param string  $httpVersion HTTP version used for transfer
      * @param bool $echo        TRUE to echo out the
      *
-     * @return DoozR_Response_Web The current instance ($this) for chaining
+     * @return Doozr_Response_Web The current instance ($this) for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -427,7 +427,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param string  $filename      The filename for data to download
      * @param bool $forceDownload Close connection after output?
      *
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -455,7 +455,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param string  $filename      The filename for data to download
      * @param bool $forceDownload Close connection after output?
      *
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -483,7 +483,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param string  $filename      The filename for data to download
      * @param bool $forceDownload Close connection after output?
      *
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -533,7 +533,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param bool $forceDownload Close connection after output?
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      */
     public function sendBinary($buffer, $exit = false, $filename = null, $forceDownload = true)
@@ -607,7 +607,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param bool $filename The name of the vard file
      * @param bool $exit     Close connection after output?
      *
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -649,7 +649,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param bool $addHeader          sending data with JSON header? (SWFUpload does not allow JSON-Data + Header!)
      * @param int     $status             The HTTP status code as integer
      *
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -753,7 +753,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param bool $exit    Close connection after output?
      * @param string  $charset The charset/encoding to use for sending (header-value)
      *
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -823,7 +823,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param string  $charset The charset for xml output
      * @param bool $exit    Close connection after sending output?
      *
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -863,7 +863,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
      * @param string  $buffer The binary-data to send
      * @param bool $exit   Close connection after output?
      *
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -888,10 +888,10 @@ class DoozR_Response_Web extends DoozR_Base_Response
      *
      * @param mixed $header STRING a single header or ARRAY of headers
      *
-     * @return DoozR_Response_Web The current instance for chaining
+     * @return Doozr_Response_Web The current instance for chaining
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function sendHeader($header = null)
     {
@@ -919,7 +919,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
             $message = __CLASS__ . ': Sending HTTP-Header [' . self::HTTP_VERSION . '] "' .
                 var_export($header, true) . ' failed. Headers already sent in file: ' . $file . ' on line: ' . $line;
 
-            throw new DoozR_Exception($message);
+            throw new Doozr_Exception($message);
         }
 
         // Return this for chaining
@@ -1023,7 +1023,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
     {
         /*
         if (DOOZR_DEBUG === true) {
-            $this->sendHeader('X-DoozR-Debug: 1');
+            $this->sendHeader('X-Doozr-Debug: 1');
         }
         */
     }
@@ -1100,7 +1100,7 @@ class DoozR_Response_Web extends DoozR_Base_Response
     {
         // get module encoding
         /*
-        $encoding = DoozR_Kernel::module('encoding');
+        $encoding = Doozr_Kernel::module('encoding');
 
         // check for given target charset and convert
         switch ($charset) {

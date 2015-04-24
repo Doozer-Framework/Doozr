@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Request
+ * Doozr - Request
  *
  * Request.php - Request state container.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,36 +42,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Core
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Core
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Registry.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/State.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
 
 /**
- * DoozR - Request
+ * Doozr - Request
  *
  * Request state container.
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Core
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Core
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Request extends DoozR_Base_State_Container
+class Doozr_Request extends Doozr_Base_State_Container
 {
     /**
      * The type native for PHP request sources
@@ -103,23 +103,23 @@ class DoozR_Request extends DoozR_Base_State_Container
      * @var string
      *
      */
-    protected $requestType = DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI;
+    protected $requestType = Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI;
 
     /**
      * Constructor.
      *
-     * @param DoozR_Registry             $registry    The registry containing all important instances
-     * @param DoozR_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
+     * @param Doozr_Registry             $registry    The registry containing all important instances
+     * @param Doozr_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
      * @param string                     $requestUri  The request URI for overriding detection of real
      * @param string                     $sapi        The SAPI runtimeEnvironment of active PHP Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Request
+     * @return \Doozr_Request
      * @access public
      */
     public function __construct(
-        DoozR_Registry             $registry,
-        DoozR_Base_State_Interface $stateObject,
+        Doozr_Registry             $registry,
+        Doozr_Base_State_Interface $stateObject,
                                    $requestUri  = null,
                                    $sapi        = PHP_SAPI
     ) {
@@ -220,7 +220,7 @@ class DoozR_Request extends DoozR_Base_State_Container
      * to an object with an array interface.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      * @return void
      * @access protected
      */
@@ -232,7 +232,7 @@ class DoozR_Request extends DoozR_Base_State_Container
         // iterate over given sources
         foreach ($requestSources as $requestSource) {
             if (!in_array($requestSource, $this->_requestSources)) {
-                throw new DoozR_Exception(
+                throw new Doozr_Exception(
                     'Invalid request-source "$_'.$requestSource.'" passed to '.__METHOD__
                 );
             }
@@ -276,9 +276,9 @@ class DoozR_Request extends DoozR_Base_State_Container
 
         if (
             (isset($GLOBALS[$globalVariable]) === true) &&
-            (($GLOBALS[$globalVariable] instanceof DoozR_Request_Arguments) === false)
+            (($GLOBALS[$globalVariable] instanceof Doozr_Request_Arguments) === false)
         ) {
-            $arguments = new DoozR_Request_Arguments($globalVariable);
+            $arguments = new Doozr_Request_Arguments($globalVariable);
 
             // Replace passed superglobal with object-interface
             if ($injectInRootScope === true) {
@@ -314,7 +314,7 @@ class DoozR_Request extends DoozR_Base_State_Container
         if (
             ($this->requestSources[$method] === self::EMULATED) ||
             (
-                $method === DoozR_Http::REQUEST_METHOD_POST &&
+                $method === Doozr_Http::REQUEST_METHOD_POST &&
                 (
                     (isset($headers['CONTENT_TYPE']) === false) ||
                     (stristr(strtolower($headers['CONTENT_TYPE']), 'application/x-www-form-urlencoded') === false)
@@ -322,7 +322,7 @@ class DoozR_Request extends DoozR_Base_State_Container
             )
         ) {
             //$GLOBALS['_' . $method]['DOOZR_REQUEST_BODY'] = file_get_contents("php://input");
-            // So we @ DoozR decided that we equalize the accessibility of arguments passed to a PHP process.
+            // So we @ Doozr decided that we equalize the accessibility of arguments passed to a PHP process.
             // To do so we extract the data from request body as single arguments instead of taking them as something
             // completely different. So we also inject the values into global $_REQUEST.
             $requestBody = file_get_contents("php://input");
@@ -412,7 +412,7 @@ class DoozR_Request extends DoozR_Base_State_Container
         );
 
         switch ($mode) {
-            case DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI:
+            case Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI:
                 $requestSources = array_merge(
                     $requestSources,
                     array(
@@ -421,8 +421,8 @@ class DoozR_Request extends DoozR_Base_State_Container
                 );
                 break;
 
-            case DoozR_Request_State::RUNTIME_ENVIRONMENT_WEB:
-            case DoozR_Request_State::RUNTIME_ENVIRONMENT_HTTPD:
+            case Doozr_Request_State::RUNTIME_ENVIRONMENT_WEB:
+            case Doozr_Request_State::RUNTIME_ENVIRONMENT_HTTPD:
             default:
                 $requestSources = array_merge(
                     $requestSources,
@@ -490,7 +490,7 @@ class DoozR_Request extends DoozR_Base_State_Container
      * Proxy to teach IDE the correct return type ;)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State The state object
+     * @return Doozr_Request_State The state object
      * @access protected
      */
     protected function getStateObject()
@@ -513,15 +513,15 @@ class DoozR_Request extends DoozR_Base_State_Container
     protected function getModeBySapi($sapi)
     {
         // Assume default running runtimeEnvironment
-        $mode = DoozR_Request_State::RUNTIME_ENVIRONMENT_WEB;
+        $mode = Doozr_Request_State::RUNTIME_ENVIRONMENT_WEB;
 
         // Detect running runtimeEnvironment through php functionality
         switch ($sapi) {
             case 'cli':
-                $mode = DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI;
+                $mode = Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI;
                 break;
             case 'cli-server':
-                $mode = DoozR_Request_State::RUNTIME_ENVIRONMENT_HTTPD;
+                $mode = Doozr_Request_State::RUNTIME_ENVIRONMENT_HTTPD;
                 break;
         }
 

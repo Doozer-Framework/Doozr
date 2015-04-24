@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base View Observer
+ * Doozr Base View Observer
  *
- * Observer.php - Base View Observer of the DoozR Framework
+ * Observer.php - Base View Observer of the Doozr Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_View
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_View
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 /**
- * DoozR - Base View Observer
+ * Doozr - Base View Observer
  *
- * Base View Observer of the DoozR Framework
+ * Base View Observer of the Doozr Framework
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_View
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_View
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_Base_View_Observer extends DoozR_Base_Class implements SplObserver
+abstract class Doozr_Base_View_Observer extends Doozr_Base_Class implements SplObserver
 {
     /**
      * update dispatcher for this instance of a observer

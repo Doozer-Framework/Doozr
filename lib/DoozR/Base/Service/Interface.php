@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Service Interface
+ * Doozr Service Interface
  *
- * Interface.php - Contract for DoozR compatible services Base Classes.
+ * Interface.php - Contract for Doozr compatible services Base Classes.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Service
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Service
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR Service Interface
+ * Doozr Service Interface
  *
- * Contract for DoozR compatible services Base Classes.
+ * Contract for Doozr compatible services Base Classes.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Service
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Service
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Base_Service_Interface
+interface Doozr_Base_Service_Interface
 {
     /**
      * Returns TRUE if the service is a singleton.

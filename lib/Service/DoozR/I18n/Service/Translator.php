@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - I18n
+ * Doozr - Service - I18n
  *
  * Translator.php - Translator is responsible for translation within module I18n.
  * The translator has the following responsebilities:
@@ -14,7 +14,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -47,33 +47,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 /**
- * DoozR - Service - I18n
+ * Doozr - Service - I18n
  *
  * Translator is responsible for translation within the module I18n
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_I18n_Service_Translator extends DoozR_Base_Class
+class Doozr_I18n_Service_Translator extends Doozr_Base_Class
 {
     /**
      * Active locale
@@ -137,7 +137,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * Translator-interface instances.
      * Can be either: Gettext, Text, ...
      *
-     * @var DoozR_I18n_Service_Interface_Interface[]
+     * @var Doozr_I18n_Service_Interface_Interface[]
      * @access protected
      * @static
      */
@@ -214,18 +214,18 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      *
      * @param string                 $locale     The locale this instance is working with
      * @param string                 $encoding   The encoding for this instance
-     * @param DoozR_Config_Interface $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param DoozR_Config_Interface $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param Doozr_Config_Interface $configI18n An instance of Doozr_Config_Ini holding the I18n-config
+     * @param Doozr_Config_Interface $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_I18n_Service_Translator Instance of this class
+     * @return \Doozr_I18n_Service_Translator Instance of this class
      * @access public
      */
     public function __construct(
         $locale,
         $encoding,
-        DoozR_Config_Interface $configI18n,
-        DoozR_Config_Interface $configL10n
+        Doozr_Config_Interface $configI18n,
+        Doozr_Config_Interface $configL10n
     ) {
         $this
             ->locale($locale)
@@ -949,7 +949,7 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * This method is intend to initialize the translator (interface to translations [file, gettext, db]).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_I18n_Service_Interface_Gettext|DoozR_I18n_Service_Interface_Text An instance of Gettext or Text I
+     * @return Doozr_I18n_Service_Interface_Gettext|Doozr_I18n_Service_Interface_Text An instance of Gettext or Text I
      * @access protected
      */
     protected function translatorInterfaceFactory()
@@ -965,11 +965,11 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
         );
 
         // Include required file -> NO autoloading -> cause of performance!
-        include_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/' .
+        include_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/' .
             $this->getTranslatorInterface() . '.php';
 
         // Combine classname
-        $interfaceClass = 'DoozR_I18n_Service_Interface_' . $this->getTranslatorInterface();
+        $interfaceClass = 'Doozr_I18n_Service_Interface_' . $this->getTranslatorInterface();
 
         // Instanciate and return instance
         return $interfaceClass::getInstance($config);
@@ -987,14 +987,14 @@ class DoozR_I18n_Service_Translator extends DoozR_Base_Class
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed STRING translation on success, otherwise FALSE
      * @access protected
-     * @throws DoozR_I18n_Service_Exception
+     * @throws Doozr_I18n_Service_Exception
      */
     protected function translate($key, $arguments = null, $mode = self::MODE_TRANSLATE)
     {
         $encoding = $this->getEncoding();
 
         if ($this->hasNamespace() === false) {
-            throw new DoozR_I18n_Service_Exception(
+            throw new Doozr_I18n_Service_Exception(
                 'Translation without namespace is not possible. Please set a namespace via setNamespace(...) ' .
                 'or addNamespace(...) first.'
             );

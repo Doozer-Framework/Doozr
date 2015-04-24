@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Factory Interface
+ * Doozr Factory Interface
  *
- * Interface.php - Contract for DoozR Factories
+ * Interface.php - Contract for Doozr Factories
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Factory
- * @subpackage DoozR_Factory_Interface
+ * @category   Doozr
+ * @package    Doozr_Factory
+ * @subpackage Doozr_Factory_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR Factory Interface
+ * Doozr Factory Interface
  *
- * Contract for DoozR Factories
+ * Contract for Doozr Factories
  *
- * @category   DoozR
- * @package    DoozR_Factory
- * @subpackage DoozR_Factory_Interface
+ * @category   Doozr
+ * @package    Doozr_Factory
+ * @subpackage Doozr_Factory_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Factory_Interface
+interface Doozr_Factory_Interface
 {
     public static function create($classname, $arguments = null, $constructor = null, $reflection = null);
 }

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service - Error
+ * Doozr - Form - Service - Error
  *
  * Error.php - Form Error class
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,31 +42,31 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Service - Form - Error
+ * Doozr - Service - Form - Error
  *
  * Error.php - ...
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Validate_Error
+class Doozr_Form_Service_Validate_Error
 {
     /**
      * The error
@@ -156,7 +156,7 @@ class DoozR_Form_Service_Validate_Error
      * @param array|null  $info  Additional information to error (e.g. the count of given chars on error minlength)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Validate_Error Instance of this class
+     * @return Doozr_Form_Service_Validate_Error Instance of this class
      * @access public
      */
     public function __construct($error = null, $value = null, $info = null)
@@ -278,8 +278,8 @@ class DoozR_Form_Service_Validate_Error
     {
         // build the local matrix just once
         if (empty($this->errorCodeMatrix)) {
-            // get type and order from DoozR_Form_Service_Validate so we don't need to define it manually again
-            $typeMatrix = DoozR_Form_Service_Validate_Validator::getValidationTypeMatrix();
+            // get type and order from Doozr_Form_Service_Validate so we don't need to define it manually again
+            $typeMatrix = Doozr_Form_Service_Validate_Validator::getValidationTypeMatrix();
 
             // iterate over types and construct error-code-matrix of it
             foreach ($typeMatrix as $type => $order) {

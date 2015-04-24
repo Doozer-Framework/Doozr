@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Interface - Text
+ * Doozr - I18n - Service - Interface - Text
  *
  * Text.php - Translation-Interface to text
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,36 +42,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/Service/Interface/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/Interface.php';
 
 /**
- * DoozR - I18n - Service - Interface - Text
+ * Doozr - I18n - Service - Interface - Text
  *
  * Translation-Interface to text
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abstract
+class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abstract
     implements
-    DoozR_I18n_Service_Interface_Interface
+    Doozr_I18n_Service_Interface_Interface
 {
     /**
      * Name of the directory containing the LC_MESSAGES directory.
@@ -205,12 +205,12 @@ class DoozR_I18n_Service_Interface_Text extends DoozR_I18n_Service_Interface_Abs
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The content of the given file
      * @access private
-     * @throws DoozR_I18n_Service_Exception
+     * @throws Doozr_I18n_Service_Exception
      */
     private function _parseTranslationfile($filename)
     {
         if (!file_exists($filename) || !is_readable($filename)) {
-            throw new DoozR_I18n_Service_Exception(
+            throw new Doozr_I18n_Service_Exception(
                 sprintf('Translationfile: "%s" does not exist or isn\'t readable.', $filename)
             );
         }

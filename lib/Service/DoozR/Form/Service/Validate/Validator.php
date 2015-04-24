@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Form - Validator
+ * Doozr - Service - Form - Validator
  *
  * Validator.php - Validation base class for validating basic types and
  * as a base for applications internal validation
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,32 +43,32 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Validate/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Validate/Constant.php';
 
 /**
- * DoozR - Service - Form - Validator
+ * Doozr - Service - Form - Validator
  *
  * Validator-Class for validating different types of data
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Validate_Validator
+class Doozr_Form_Service_Validate_Validator
 {
     /**
      * The preferred order for validations to increase perfomance / speed up validating
@@ -79,34 +79,34 @@ class DoozR_Form_Service_Validate_Validator
      * @static
      */
     protected static $typeOrderMatrix = array(
-        DoozR_Form_Service_Validate_Constant::VALIDATE_IMPACT            =>  0,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_REQUIRED          =>  1,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_NOTEMPTY          =>  2,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_EMPTY             =>  3,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_VALUE             =>  4,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_ALPHABETIC        =>  5,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_MINLENGTH         =>  6,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH         =>  7,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_EMAIL             =>  8,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_EMAILAUTH         =>  9,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_NUMERIC           => 10,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_NOTNULL           => 11,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_IP                => 12,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_LOWERCASE         => 13,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_UPPERCASE         => 14,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_POSTCODE          => 15,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_USTID             => 16,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_BOOLEAN           => 17,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_DOUBLE            => 18,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_INTEGER           => 19,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_STRING            => 20,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_LINK              => 21,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_INVALID           => 22,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_REGULAREXPRESSION => 23,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_FILETYPE          => 24,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_FILESIZEMIN       => 25,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_FILESIZEMAX       => 26,
-        DoozR_Form_Service_Validate_Constant::VALIDATE_FILEEXTENSION     => 27,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_IMPACT            =>  0,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_REQUIRED          =>  1,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_NOTEMPTY          =>  2,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_EMPTY             =>  3,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_VALUE             =>  4,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_ALPHABETIC        =>  5,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_MINLENGTH         =>  6,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH         =>  7,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_EMAIL             =>  8,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_EMAILAUTH         =>  9,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_NUMERIC           => 10,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_NOTNULL           => 11,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_IP                => 12,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_LOWERCASE         => 13,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_UPPERCASE         => 14,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_POSTCODE          => 15,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_USTID             => 16,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_BOOLEAN           => 17,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_DOUBLE            => 18,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_INTEGER           => 19,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_STRING            => 20,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_LINK              => 21,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_INVALID           => 22,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_REGULAREXPRESSION => 23,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_FILETYPE          => 24,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_FILESIZEMIN       => 25,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_FILESIZEMAX       => 26,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_FILEEXTENSION     => 27,
     );
 
     /**
@@ -155,7 +155,7 @@ class DoozR_Form_Service_Validate_Validator
      * @return boolean TRUE if given information is valid, otherwise FALSE if invalid
      * @access public
      */
-    public function validate($value, $validationTypes = DoozR_Form_Service_Validate_Constant::VALIDATE_REQUIRED)
+    public function validate($value, $validationTypes = Doozr_Form_Service_Validate_Constant::VALIDATE_REQUIRED)
     {
         // we assume a valid result
         $valid = true;
@@ -601,7 +601,7 @@ class DoozR_Form_Service_Validate_Validator
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if fulfilled requirements, otherwise FALSE
      * @access public
-     * @throws DoozR_Form_Service_Exception
+     * @throws Doozr_Form_Service_Exception
      */
     public function validateUstid($value, $additionalParameter)
     {
@@ -620,7 +620,7 @@ class DoozR_Form_Service_Validate_Validator
         );
 
         if (!isset($pattern[$countrycode])) {
-            throw new DoozR_Form_Service_Exception(
+            throw new Doozr_Form_Service_Exception(
                 'Unknown country-code "' . $countrycode . '" for USTID-validation!'
             );
         }
@@ -638,7 +638,7 @@ class DoozR_Form_Service_Validate_Validator
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if fulfilled requirements, otherwise FALSE
      * @access public
-     * @throws DoozR_Form_Service_Exception
+     * @throws Doozr_Form_Service_Exception
      */
     public function validatePostcode($value, $additionalParameter)
     {
@@ -667,7 +667,7 @@ class DoozR_Form_Service_Validate_Validator
         );
 
         if (!isset($pattern[$countrycode])) {
-            throw new DoozR_Form_Service_Exception(
+            throw new Doozr_Form_Service_Exception(
                 'Unknown country-code "' . $countrycode . '" for postcode-validation!'
             );
         }
@@ -987,7 +987,7 @@ class DoozR_Form_Service_Validate_Validator
      * @return boolean TRUE if given information is valid, otherwise FALSE if invalid
      * @access private
      * @static
-     * @throws DoozR_Form_Service_Exception
+     * @throws Doozr_Form_Service_Exception
      */
     private static function _compareValidationtypes($a, $b)
     {
@@ -998,11 +998,11 @@ class DoozR_Form_Service_Validate_Validator
 
         // check for nonexistent index
         if (!isset(self::$typeOrderMatrix[$a])) {
-            throw new DoozR_Form_Service_Exception(
+            throw new Doozr_Form_Service_Exception(
                 __METHOD__ . ': nonexistent index for self::$_typeOrderMatrix found: ' . $a
             );
         } elseif (!isset(self::$typeOrderMatrix[$b])) {
-            throw new DoozR_Form_Service_Exception(
+            throw new Doozr_Form_Service_Exception(
                 __METHOD__ . ': nonexistent index for self::$_typeOrderMatrix found: ' . $b
             );
         }
@@ -1030,11 +1030,11 @@ class DoozR_Form_Service_Validate_Validator
 
         // types to be removed before ordering
         $removeTypes = array(
-            DoozR_Form_Service_Validate_Constant::VALIDATE_VALUE,
-            DoozR_Form_Service_Validate_Constant::VALIDATE_MINLENGTH,
-            DoozR_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH,
-            DoozR_Form_Service_Validate_Constant::VALIDATE_POSTCODE,
-            DoozR_Form_Service_Validate_Constant::VALIDATE_USTID
+            Doozr_Form_Service_Validate_Constant::VALIDATE_VALUE,
+            Doozr_Form_Service_Validate_Constant::VALIDATE_MINLENGTH,
+            Doozr_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH,
+            Doozr_Form_Service_Validate_Constant::VALIDATE_POSTCODE,
+            Doozr_Form_Service_Validate_Constant::VALIDATE_USTID
         );
 
         // iterate over non-sortable validation-types and split

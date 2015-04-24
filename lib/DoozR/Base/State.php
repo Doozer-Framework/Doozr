@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
-* DoozR - Base - State
+* Doozr - Base - State
 *
 * State.php - Base state class for inheritance.
 *
 * PHP versions 5.4
 *
 * LICENSE:
-* DoozR - The lightweight PHP-Framework for high-performance websites
+* Doozr - The lightweight PHP-Framework for high-performance websites
 *
 * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
 *
@@ -42,36 +42,36 @@
 *
 * Please feel free to contact us via e-mail: opensource@clickalicious.de
 *
-* @category   DoozR
-* @package    DoozR_Base
-* @subpackage DoozR_Base_State
+* @category   Doozr
+* @package    Doozr_Base
+* @subpackage Doozr_Base_State
 * @author     Benjamin Carl <opensource@clickalicious.de>
 * @copyright  2005 - 2015 Benjamin Carl
 * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
 * @version    Git: $Id$
-* @link       http://clickalicious.github.com/DoozR/
+* @link       http://clickalicious.github.com/Doozr/
 */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 /**
- * DoozR - Base - State
+ * Doozr - Base - State
  *
  * Base state class for inheritance.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_State
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_State
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_Base_State extends DoozR_Base_Class
+abstract class Doozr_Base_State extends Doozr_Base_Class
 {
     /**
-     * The runtimeEnvironment DoozR runs ins
+     * The runtimeEnvironment Doozr runs ins
      *
      * @var string
      * @access protected
@@ -124,7 +124,7 @@ abstract class DoozR_Base_State extends DoozR_Base_Class
      * @param string $protocol The protocol used
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function protocol($protocol)
@@ -148,7 +148,7 @@ abstract class DoozR_Base_State extends DoozR_Base_Class
     /**
      * Setter for runtimeEnvironment.
      *
-     * @param string $runtimeEnvironment The runtimeEnvironment DoozR is running in (WEB, CLI, CLI-SERVER)
+     * @param string $runtimeEnvironment The runtimeEnvironment Doozr is running in (WEB, CLI, CLI-SERVER)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -163,10 +163,10 @@ abstract class DoozR_Base_State extends DoozR_Base_Class
     /**
      * Setter for runtimeEnvironment.
      *
-     * @param string $runtimeEnvironment The runtimeEnvironment DoozR is running in (WEB, CLI, CLI-SERVER)
+     * @param string $runtimeEnvironment The runtimeEnvironment Doozr is running in (WEB, CLI, CLI-SERVER)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access public
      */
     public function runtimeEnvironment($runtimeEnvironment)
@@ -179,7 +179,7 @@ abstract class DoozR_Base_State extends DoozR_Base_Class
      * Getter for runtimeEnvironment.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The runtimeEnvironment DoozR is running in (WEB, CLI, CLI-SERVER)
+     * @return string The runtimeEnvironment Doozr is running in (WEB, CLI, CLI-SERVER)
      * @access public
      */
     public function getRuntimeEnvironment()
@@ -194,7 +194,7 @@ abstract class DoozR_Base_State extends DoozR_Base_Class
      * @param array  $arguments The methods argument
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_State Instance for chaining
+     * @return Doozr_Request_State Instance for chaining
      * @access protected
      */
     protected function addHistory($method, $arguments)

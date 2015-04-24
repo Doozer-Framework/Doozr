@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Map Annotation
+ * Doozr - Di - Map Annotation
  *
  * Annotation.php - Annotation based map class of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map_Annotation
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map_Annotation
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,19 +55,19 @@
 require_once DI_PATH_LIB_DI . 'Map.php';
 
 /**
- * DoozR - Di - Map Annotation
+ * Doozr - Di - Map Annotation
  *
  * Annotation based map class of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map_Annotation
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map_Annotation
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Map_Annotation extends DoozR_Di_Map
+class Doozr_Di_Map_Annotation extends Doozr_Di_Map
 {
     /*******************************************************************************************************************
      * PHP CONSTRUCT
@@ -78,18 +78,18 @@ class DoozR_Di_Map_Annotation extends DoozR_Di_Map
      *
      * Constructor of this class
      *
-     * @param DoozR_Di_Collection        $collection An instance of DoozR_Di_Collection to collect dependencies in
-     * @param DoozR_Di_Parser_Annotation $parser     An instance of DoozR_Di_Parser_Annotation to parse dependencies with
-     * @param DoozR_Di_Dependency        $dependency An instance of DoozR_Di_Dependency base object for cloning dependencies from
+     * @param Doozr_Di_Collection        $collection An instance of Doozr_Di_Collection to collect dependencies in
+     * @param Doozr_Di_Parser_Annotation $parser     An instance of Doozr_Di_Parser_Annotation to parse dependencies with
+     * @param Doozr_Di_Dependency        $dependency An instance of Doozr_Di_Dependency base object for cloning dependencies from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Di_Map_Annotation
+     * @return \Doozr_Di_Map_Annotation
      * @access public
      */
     public function __construct(
-        DoozR_Di_Collection        $collection,
-        DoozR_Di_Parser_Annotation $parser,
-        DoozR_Di_Dependency        $dependency
+        Doozr_Di_Collection        $collection,
+        Doozr_Di_Parser_Annotation $parser,
+        Doozr_Di_Dependency        $dependency
     ) {
         // store given instances
         $this->collection = $collection;
@@ -109,7 +109,7 @@ class DoozR_Di_Map_Annotation extends DoozR_Di_Map
      * @param string $classname The name of the class to parse dependencies for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Collection The build collection
+     * @return Doozr_Di_Collection The build collection
      * @access public
      */
     public function generate($classname)

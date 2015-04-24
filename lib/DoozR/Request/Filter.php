@@ -2,11 +2,11 @@
 
 
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
 
 
-class DoozR_Request_Filter extends DoozR_Base_State_Container
+class Doozr_Request_Filter extends Doozr_Base_State_Container
 {
     protected $url;
 
@@ -39,7 +39,7 @@ class DoozR_Request_Filter extends DoozR_Base_State_Container
 
 
 
-    public function __construct(DoozR_Base_State_Interface $stateObject, $url = null)
+    public function __construct(Doozr_Base_State_Interface $stateObject, $url = null)
     {
         $this->setStateObject($stateObject);
 
@@ -57,7 +57,7 @@ class DoozR_Request_Filter extends DoozR_Base_State_Container
 
     public function parse($url)
     {
-        /* @var $stateObject DoozR_Request_Filter_State */
+        /* @var $stateObject Doozr_Request_Filter_State */
         $stateObject = $this->getStateObject();
 
         // Check if URL contains any filterable elements

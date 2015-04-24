@@ -2,17 +2,17 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Formcomponent.php - This abstract base class is used for extending the default
- * HTML component DoozR_Form_Service_Html and provides generic form field/component
+ * HTML component Doozr_Form_Service_Html and provides generic form field/component
  * functionality. So extend this class for building form components and get
  * functionality like getName(), setName() ... on top!
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,35 +45,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * This abstract base class is used for extending the default
- * HTML component DoozR_Form_Service_Html and provides generic form field/component
+ * HTML component Doozr_Form_Service_Html and provides generic form field/component
  * functionality. So extend this class for building form components and get
  * functionality like getName(), setName() ... on top!
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Service_Component_Html implements
-    DoozR_Form_Service_Component_Interface_Form
+abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Service_Component_Html implements
+    Doozr_Form_Service_Component_Interface_Form
 {
     /**
      * The validations of this component
@@ -122,12 +122,12 @@ abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Ser
      * @var string
      * @access protected
      */
-    protected $type = DoozR_Form_Service_Constant::COMPONENT_GENERIC;
+    protected $type = Doozr_Form_Service_Constant::COMPONENT_GENERIC;
 
     /**
      * A validator instance used to validate this component
      *
-     * @var DoozR_Form_Service_Validator_Interface
+     * @var Doozr_Form_Service_Validator_Interface
      * @access protected
      */
     protected $validator;
@@ -135,16 +135,16 @@ abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Ser
     /**
      * Constructor.
      *
-     * @param DoozR_Form_Service_Renderer_Interface  $renderer  The renderer instance which renders this component
-     * @param DoozR_Form_Service_Validator_Interface $validator The validator instance which validates this component
+     * @param Doozr_Form_Service_Renderer_Interface  $renderer  The renderer instance which renders this component
+     * @param Doozr_Form_Service_Validator_Interface $validator The validator instance which validates this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Formcomponent
+     * @return \Doozr_Form_Service_Component_Formcomponent
      * @access public
      */
     public function __construct(
-        DoozR_Form_Service_Renderer_Interface $renderer = null,
-        DoozR_Form_Service_Validator_Interface $validator = null
+        Doozr_Form_Service_Renderer_Interface $renderer = null,
+        Doozr_Form_Service_Validator_Interface $validator = null
     ) {
         if ($validator !== null) {
             $this->setValidator($validator);
@@ -187,13 +187,13 @@ abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Ser
     /**
      * Setter for validator.
      *
-     * @param DoozR_Form_Service_Validator_Interface $validator The validator instance
+     * @param Doozr_Form_Service_Validator_Interface $validator The validator instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Validator_Interface The validator instance
+     * @return Doozr_Form_Service_Validator_Interface The validator instance
      * @access public
      */
-    public function setValidator(DoozR_Form_Service_Validator_Interface $validator)
+    public function setValidator(Doozr_Form_Service_Validator_Interface $validator)
     {
         $this->validator = $validator;
     }
@@ -202,7 +202,7 @@ abstract class DoozR_Form_Service_Component_Formcomponent extends DoozR_Form_Ser
      * Getter for validator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Validator_Interface The validator instance
+     * @return Doozr_Form_Service_Validator_Interface The validator instance
      * @access public
      */
     public function getValidator()

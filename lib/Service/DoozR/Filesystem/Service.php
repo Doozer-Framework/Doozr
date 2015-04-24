@@ -2,15 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Filesystem - Service
+ * Doozr - Filesystem - Service
  *
- * Service.php - DoozR Service for all filesystem operations with virtual-filesystem
+ * Service.php - Doozr Service for all filesystem operations with virtual-filesystem
  * support (e.g. for unit-testing).
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,44 +43,44 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Filesystem
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Filesystem
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Exception.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Filesystem - Service
+ * Doozr - Filesystem - Service
  *
- * DoozR Service for all filesystem operations with virtual-filesystem support
+ * Doozr Service for all filesystem operations with virtual-filesystem support
  * (e.g. for unit-testing).
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Filesystem
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Filesystem
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
+class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
 {
     /**
      * holds the status of "is-virtual" of this instance
@@ -249,7 +249,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
             $this->isVirtual = true;
 
             // get vfs instance
-            $this->vfs = DoozR_Loader_Serviceloader::load('virtualfilesystem');
+            $this->vfs = Doozr_Loader_Serviceloader::load('virtualfilesystem');
         }
     }
 
@@ -293,7 +293,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function write($file, $data, $append = false, $create = true, $modeBoolean = true)
     {
@@ -302,7 +302,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
 
         // exception for the case that the file|folder isn't writable
         if (!$this->_is_resource_writable($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'The file "'.$file.'" could not be written. Current operation failed. Check permissions.'
             );
         }
@@ -332,7 +332,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function create($resource, $buffer)
     {
@@ -348,7 +348,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function upate($resource, $buffer)
     {
@@ -369,7 +369,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed TRUE/FALSE if runtimeEnvironment = bool, otherwise number of bytes written on success + false on failure
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function pwrite($file, $data, $append = false, $create = true, $modeBoolean = true)
     {
@@ -378,7 +378,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
 
         // exception for the case that the file|folder isn't writable
         if (!$this->_is_resource_writable($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Could not persistent write to file "'.$file.'". Current operation failed. Check permissions.'
             );
         }
@@ -415,7 +415,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function writeBinary($file, $data, $create = true, $append = false, $modeBoolean = true)
     {
@@ -424,7 +424,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
 
         // exception for the case that the file|folder isn't writable
         if (!$this->_is_writable($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Could not write binary data to file. The file "'.$file.'" could not be written. '.
                 'Current operation failed. Check permissions.'
             );
@@ -459,7 +459,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function appendBinary($file, $data, $create = true, $writecheck = true)
     {
@@ -468,7 +468,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
 
         // if write checking is enabled
         if ($writecheck && !$this->_is_writable($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Could not write binary data to file. The file "'.$file.'" could not be written. '.
                 'Current operation failed. Check permissions.'
             );
@@ -491,7 +491,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function append($file, $data, $create = true, $modeBoolean = true)
     {
@@ -499,7 +499,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
         $file = $this->_preProcess($file);
 
         if (!$create && !$this->_resource_exists($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Could not append to file. The file: "'.$file.'" does not exist.'.
                 'Current operation failed. Create file first or set parameter $create to TRUE'
             );
@@ -507,7 +507,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
 
         // exception for the case that the file|folder isn't writable
         if (!$this->_is_writable($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Could not append to file. Could not write given content to file: "'.$file.'" '.
                 'Current operation failed. Check permissions.'
             );
@@ -539,7 +539,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The content of the file
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function read(
         $file,
@@ -553,7 +553,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
 
         // exception for the case that the file to read does not exist
         if (!$this->_resource_exists($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Could not read from file. File: "'.$file.'" does not exist. Current operation failed.'
             );
         }
@@ -575,7 +575,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The content of the file
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function pread($file, $length = null)
     {
@@ -584,7 +584,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
 
         // exception for the case that the file to read does not exist
         if (!$this->_resource_exists($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Could not persistent read from file. The file: "'.$file.'" does not exist. '.
                 'Current operation failed. Check permissions too.'
             );
@@ -630,7 +630,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The content of the file
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function readArray($file = null)
     {
@@ -639,7 +639,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
 
         // exception for the case that the file to read does not exist
         if (!$this->_resource_exists($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Could not read file into array. The file: "'.$file.'" does not exist. '.
                 'Current operation failed. Check permissions too.'
             );
@@ -682,7 +682,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The content of the file
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function parse($file)
     {
@@ -691,7 +691,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
 
         // exception for the case that the file to read does not exist
         if (!$this->_resource_exists($file)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Could not parse file. The file: "'.$file.'" does not exist. '.
                 'Current operation failed. Check permissions too.'
             );
@@ -713,7 +713,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if the resource was removed, FALSE otherwise.
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public function delete($resource, $recursive = false, $context = null)
     {
@@ -721,7 +721,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
         $resource = $this->_preProcess($resource);
 
         if ($this->_is_dir($resource)) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Directory could not be deleted. Deletion of directories currently not supported.'
             );
         } else {
@@ -1189,7 +1189,7 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool True if resource is writable
-     * @throws DoozR_Base_Exception_Generic
+     * @throws Doozr_Base_Exception_Generic
      * @access protected
      */
     protected function _is_resource_writable($resource)
@@ -1218,13 +1218,13 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @throws DoozR_Base_Exception_Generic
+     * @throws Doozr_Base_Exception_Generic
      * @access public
      */
     protected function _nullByteCheck($resource)
     {
         if (strpos($resource, self::$nullBytePattern) !== false) {
-            throw new DoozR_Base_Exception_Generic(__CLASS__.'() -> NULL-Byte injection caught!');
+            throw new Doozr_Base_Exception_Generic(__CLASS__.'() -> NULL-Byte injection caught!');
         }
     }
 
@@ -1541,14 +1541,14 @@ class DoozR_Filesystem_Service extends DoozR_Base_Service_Multiple implements Do
      * @param string $methodSignature The method called
      * @param array $arguments The arguments passed to method call
      *
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
     public function __call($methodSignature, $arguments)
     {
-        throw new DoozR_Exception(
+        throw new Doozr_Exception(
             'Method: '.$methodSignature.' isn\'t implemented yet. '
         );
     }

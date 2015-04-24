@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Loader - Autoloader - Spl - Config
+ * Doozr - Loader - Autoloader - Spl - Config
  *
- * Config.php - Config-Class for DoozR's SPL-Autoloader-Facade
+ * Config.php - Config-Class for Doozr's SPL-Autoloader-Facade
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Config/Interface.php';
 
 /**
- * DoozR - Loader - Autoloader - Spl - Config
+ * Doozr - Loader - Autoloader - Spl - Config
  *
- * Config-Class for DoozR's SPL-Autoloader-Facade
+ * Config-Class for Doozr's SPL-Autoloader-Facade
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_Interface
+class Doozr_Loader_Autoloader_Spl_Config implements Doozr_Autoload_Spl_Config_Interface
 {
     /**
      * The unique-id of the Autoloader
@@ -178,7 +178,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param string $namespace The namespace of the loader
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config
+     * @return Doozr_Loader_Autoloader_Spl_Config
      * @access public
      */
     public function setNamespaceSeparator($namespace)
@@ -209,7 +209,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param string $uId An unique-Id to identify the Autoloader later from outside the SPL-Facade.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
      * @access public
      */
     public function setUid($uId)
@@ -240,7 +240,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param string $namespace A namespace for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
      * @access public
      */
     public function setNamespace($namespace)
@@ -273,7 +273,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param int $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
      * @access public
      */
     public function setPriority($priority)
@@ -304,7 +304,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param string $description A description for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
      * @access public
      */
     public function setDescription($description)
@@ -335,7 +335,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param string $extension A file-extension used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
      * @access public
      */
     public function addExtension($extension)
@@ -402,7 +402,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param string $class A name of a class containing the Autoloader-Method used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
      * @access public
      */
     public function setClass($class)
@@ -454,7 +454,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param string $method A method-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
      * @access public
      */
     public function setMethod($method)
@@ -491,7 +491,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param string $function A function-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
      * @access public
      */
     public function setFunction($function)
@@ -522,7 +522,7 @@ class DoozR_Loader_Autoloader_Spl_Config implements DoozR_Autoload_Spl_Config_In
      * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
      * @access public
      */
     public function setPath($path)

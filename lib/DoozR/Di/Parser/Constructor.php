@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Constructor Parser
+ * Doozr - Di - Constructor Parser
  *
  * Constructor.php - Constructor Parser of the Di-Framework
  *
@@ -42,8 +42,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Constructor
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Constructor
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,7 +53,7 @@
 
 require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
 require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
-require_o* DoozR - Di - I_PATH_LIB_DI . '* DoozR - Di - tion.php';
+require_o* Doozr - Di - I_PATH_LIB_DI . '* Doozr - Di - tion.php';
 
 /**
  * Di Constructor Parser
@@ -61,14 +61,14 @@ require_o* DoozR - Di - I_PATH_LIB_DI . '* DoozR - Di - tion.php';
  * Constructor Parser of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Constructor
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Constructor
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Parser_Constructor extends DoozR_Di_Parser_Abstract implements DoozR_Di_Parser_Interface
+class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract implements Doozr_Di_Parser_Interface
 {
     /*******************************************************************************************************************
      * PUBLIC API
@@ -83,13 +83,13 @@ class DoozR_Di_Parser_Constructor extends DoozR_Di_Parser_Abstract implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The name of the method which act as constructor
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     public function parse()
     {
         // check if all requirements are fulfilled
         if (!$this->requirementsFulfilled()) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Error parsing constructor. Requirements not fulfilled. Please set input to parse constructor from.'
             );
         }
@@ -99,7 +99,7 @@ class DoozR_Di_Parser_Constructor extends DoozR_Di_Parser_Abstract implements Do
 
         // if called from outside we maybe need a new instance of reflection
         if (!class_exists($this->input['class']) && !$this->input['reflection']) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Could not parse constructor! Please define at least a "file" which contains the class '.
                 'or an existing ReflectionClass instance'
             );

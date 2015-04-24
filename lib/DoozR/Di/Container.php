@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Container
+ * Doozr - Di - Container
  *
  * Container.php - Container class of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -42,9 +42,9 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Container
+ * @category   Doozr
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Container
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -58,19 +58,19 @@ require_once DI_PATH_LIB_DI . 'Factory.php';
 require_once DI_PATH_LIB_DI . 'Exception.php';
 
 /**
- * DoozR - Di - Container
+ * Doozr - Di - Container
  *
  * Container class of the Di-Framework
  *
- * @category   DoozR
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Container
+ * @category   Doozr
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Container
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Container
+class Doozr_Di_Container
 {
     /**
      * Contains container instances
@@ -107,9 +107,9 @@ class DoozR_Di_Container
     static private $_dependencyMaps = array();
 
     /**
-     * Instance of DoozR_Di_Factory for creating instances
+     * Instance of Doozr_Di_Factory for creating instances
      *
-     * @var DoozR_Di_Factory
+     * @var Doozr_Di_Factory
      * @access private
      */
     private $_factory;
@@ -140,18 +140,18 @@ class DoozR_Di_Container
      ******************************************************************************************************************/
 
     /**
-     * Adds a DoozR_Di_Map to an existing Map by merging it in
+     * Adds a Doozr_Di_Map to an existing Map by merging it in
      *
-     * This method is intend to merge a new DoozR_Di_Map with an existing one.
+     * This method is intend to merge a new Doozr_Di_Map with an existing one.
      *
-     * @param DoozR_Di_Map  $map      The map to merge in
+     * @param Doozr_Di_Map  $map      The map to merge in
      * @param bool $override TRUE to override the existing map, FALSE to merge the maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setMap(DoozR_Di_Map $map, $override = true)
+    public function setMap(Doozr_Di_Map $map, $override = true)
     {
         if ($override === false) {
             $existingMap = $this->getMap();
@@ -175,7 +175,7 @@ class DoozR_Di_Container
      * container instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map The dependency map instance as DoozR_Di_Map if set, otherwise NULL
+     * @return Doozr_Di_Map The dependency map instance as Doozr_Di_Map if set, otherwise NULL
      * @access public
      */
     public function getMap()
@@ -193,14 +193,14 @@ class DoozR_Di_Container
      * @param string $namespace The namespace to load map from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map The dependency instance from another namespace
+     * @return Doozr_Di_Map The dependency instance from another namespace
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     public function getMapFromOtherNamespace($namespace)
     {
         if (!isset(self::$_dependencyMaps[$namespace])) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Dependency-Map could not be found. Dependency-Map with namespace "'.$namespace.'" does not exist.'
             );
         }
@@ -228,15 +228,15 @@ class DoozR_Di_Container
     /**
      * Setter for Factory
      *
-     * This method is intend to set the instance of DoozR_Di_Factory
+     * This method is intend to set the instance of Doozr_Di_Factory
      *
-     * @param DoozR_Di_Factory $factory The factory instance to set
+     * @param Doozr_Di_Factory $factory The factory instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setFactory(DoozR_Di_Factory $factory)
+    public function setFactory(Doozr_Di_Factory $factory)
     {
         $this->_factory = $factory;
     }
@@ -244,10 +244,10 @@ class DoozR_Di_Container
     /**
      * Getter for Factory
      *
-     * This method is intend to return the instance of DoozR_Di_Factory
+     * This method is intend to return the instance of Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Factory The instance of DoozR_Di_Factory if set, otherwise NULL
+     * @return Doozr_Di_Factory The instance of Doozr_Di_Factory if set, otherwise NULL
      * @access public
      */
     public function getFactory()
@@ -267,13 +267,13 @@ class DoozR_Di_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object|mixed Instance of the given class
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     public function build($classname, $arguments = null)
     {
-        // Check if all required dependencies are set [DoozR_Di_Factory, DoozR_Di_Map, ...]
+        // Check if all required dependencies are set [Doozr_Di_Factory, Doozr_Di_Map, ...]
         if (!$this->requirementsFulfilled()) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Error building an instance. Requirements not fulfilled. Provide all required dependencies.'
             );
         }
@@ -294,7 +294,7 @@ class DoozR_Di_Container
 
         // Check if a setup exists
         if ($setup['dependencies'] === null) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Error building instance. No recipe for class "' . $classname . '" found!'
             );
         }
@@ -333,15 +333,15 @@ class DoozR_Di_Container
      * Singleton Constructor
      *
      * This method is intend to construct and return a singleton instance of
-     * DoozR_Di_Container. Each container singleton is bound to a namespace (eg. 'default').
+     * Doozr_Di_Container. Each container singleton is bound to a namespace (eg. 'default').
      * By passing a namespace through argument $namespace you are able to create
      * more than one instance of container if needed/required by your application.
      *
-     * @param string  $namespace The namespace of the DoozR_Di_Container instance
+     * @param string  $namespace The namespace of the Doozr_Di_Container instance
      * @param int $mode      The runtimeEnvironment used to handle maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Container Instance
+     * @return Doozr_Di_Container Instance
      * @access public
      * @static
      */
@@ -367,14 +367,14 @@ class DoozR_Di_Container
      *
      * This method is intend to merge an already existing map with a new one.s
      *
-     * @param DoozR_Di_Map $target The map in which the $source is merged into
-     * @param DoozR_Di_Map $source The map which is merged into $target
+     * @param Doozr_Di_Map $target The map in which the $source is merged into
+     * @param Doozr_Di_Map $source The map which is merged into $target
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Container The current instance of the Container for chaining/fluent-interface
+     * @return Doozr_Di_Container The current instance of the Container for chaining/fluent-interface
      * @access private
      */
-    private function _mergeMaps(DoozR_Di_Map $target, DoozR_Di_Map $source)
+    private function _mergeMaps(Doozr_Di_Map $target, Doozr_Di_Map $source)
     {
         // import of dependencies is built in functionality of map
         $target->import(
@@ -397,7 +397,7 @@ class DoozR_Di_Container
      * @param int $mode      The runtimeEnvironment used to handle maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Container The current instance of the Container for chaining/fluent-interface
+     * @return Doozr_Di_Container The current instance of the Container for chaining/fluent-interface
      * @access private
      */
     private function __construct($namespace, $mode)

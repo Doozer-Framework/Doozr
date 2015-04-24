@@ -1,17 +1,17 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace DoozR\Loader\Serviceloader\Annotation;
+namespace Doozr\Loader\Serviceloader\Annotation;
 
 /**
- * DoozR - Loader - Serviceloader - Annotation - Inject
+ * Doozr - Loader - Serviceloader - Annotation - Inject
  *
- * Inject.php - Inject Annotation for DI of DoozR.
+ * Inject.php - Inject Annotation for DI of Doozr.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -44,36 +44,36 @@ namespace DoozR\Loader\Serviceloader\Annotation;
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Serviceloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Serviceloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Loader - Serviceloader - Annotation - Inject
+ * Doozr - Loader - Serviceloader - Annotation - Inject
  *
- * Inject Annotation for DI of DoozR.
+ * Inject Annotation for DI of Doozr.
  *
- * class           string      "DoozR_Registry" ASCII
+ * class           string      "Doozr_Registry" ASCII
  * identifier      string      "__construct" ASCII
  * instance        null
  * type            string      "constructor" ASCII
  * value           null
  * position        string      "1"
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Serviceloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Serviceloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Annotation
  */
 class Inject

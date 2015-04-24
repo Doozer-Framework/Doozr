@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Exception
+ * Doozr - Exception
  *
- * Exception.php - Generic Exception (no specific type) of DoozR Framework.
+ * Exception.php - Generic Exception (no specific type) of Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Exception
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
 
 /**
- * DoozR - Exception
+ * Doozr - Exception
  *
- * Generic Exception (no specific type) of DoozR Framework.
+ * Generic Exception (no specific type) of Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Exception
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Exception extends DoozR_Base_Exception
+class Doozr_Exception extends Doozr_Base_Exception
 {
     /**
      * Constructor.
@@ -78,7 +78,7 @@ class DoozR_Exception extends DoozR_Base_Exception
      * @param Exception $previous An previos throw exception which should be repacked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Exception
+     * @return \Doozr_Exception
      * @access public
      */
     public function __construct($message = null, $code = 0, Exception $previous = null)

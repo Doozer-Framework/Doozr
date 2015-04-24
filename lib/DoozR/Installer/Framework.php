@@ -7,16 +7,16 @@ if (php_sapi_name() !== 'cli') {
 }
 
 /**
- * DoozR - Installer - Framework
+ * Doozr - Installer - Framework
  *
  * Framework.php - Installer script for installing web, app, bin ... folder to document root
- * after using composer to install DoozR. It's a convenient way to get DoozR
+ * after using composer to install Doozr. It's a convenient way to get Doozr
  * running.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -49,14 +49,14 @@ if (php_sapi_name() !== 'cli') {
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Installer
- * @subpackage DoozR_Installer_Framework
+ * @category   Doozr
+ * @package    Doozr_Installer
+ * @subpackage Doozr_Installer_Framework
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 use Composer\Script\CommandEvent;
@@ -64,22 +64,22 @@ use Composer\Script\CommandEvent;
 define('DOOZR_INSTALLER_VERSION', '$Id$');
 
 /**
- * DoozR - Installer - Framework
+ * Doozr - Installer - Framework
  *
  * Installer script for installing web + app folder to document root
- * after using composer to install DoozR. It's a convenient way to get DoozR
+ * after using composer to install Doozr. It's a convenient way to get Doozr
  * running.
  *
- * @category   DoozR
- * @package    DoozR_Installer
- * @subpackage DoozR_Installer_Framework
+ * @category   Doozr
+ * @package    Doozr_Installer
+ * @subpackage Doozr_Installer_Framework
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Installer_Framework extends DoozR_Installer_Base
+class Doozr_Installer_Framework extends Doozr_Installer_Base
 {
     /**
      * Default folders we install.
@@ -96,7 +96,7 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
 
 
     /**
-     * Installer process for DoozR's bootstrap project based on post install event hook on composer.
+     * Installer process for Doozr's bootstrap project based on post install event hook on composer.
      *
      * @param CommandEvent $event The event passed in by Composer.
      *
@@ -140,7 +140,7 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
 
         // Construct menus ...
         $menu1 = array(
-            'install' => \cli\Colors::colorize('%N%gInstall DoozR\'s bootstrap project%N'),
+            'install' => \cli\Colors::colorize('%N%gInstall Doozr\'s bootstrap project%N'),
             'quit'    => \cli\Colors::colorize('%N%rQuit %N'),
         );
         $menu2 = \cli\Colors::colorize('%NInstall to %g' . self::getInstallPath() . ' %N');
@@ -254,7 +254,7 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
     {
         \cli\line();
         \cli\line(
-            \cli\Colors::colorize('%N%n%gInstallation of %yDoozR\'s%g bootstrap project was successful.%N%n')
+            \cli\Colors::colorize('%N%n%gInstallation of %yDoozr\'s%g bootstrap project was successful.%N%n')
         );
 
         return true;
@@ -304,7 +304,7 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
     {
         \cli\line();
         \cli\line(
-            \cli\Colors::colorize('%N%n%1Installation of DoozR\'s bootstrap project failed.%N%n')
+            \cli\Colors::colorize('%N%n%1Installation of Doozr\'s bootstrap project failed.%N%n')
         );
     }
 
@@ -319,12 +319,12 @@ class DoozR_Installer_Framework extends DoozR_Installer_Base
     protected static function showOutro($projectRoot = 'n.a.')
     {
         \cli\line();
-        \cli\line(\cli\Colors::colorize('%nEnjoy developing with %yDoozR%n'));
+        \cli\line(\cli\Colors::colorize('%nEnjoy developing with %yDoozr%n'));
         \cli\line('To maintain your app you can now run %k%Uphp app/console%n%N from your project');
         \cli\line('root: %k%U' . $projectRoot . '%n%N');
         \cli\line();
         \cli\line('This will offer you options like:');
-        \cli\line('  --webserver=start To run DoozR on PHP\'s internal webserver - instantly.');
+        \cli\line('  --webserver=start To run Doozr on PHP\'s internal webserver - instantly.');
     }
 
     /**

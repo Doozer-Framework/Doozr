@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Annotation Parser
+ * Doozr - Di - Annotation Parser
  *
  * Annotation.php - Annotation Parser of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Annotation
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Annotation
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -59,19 +59,19 @@ require_once DI_PATH_LIB_DI . 'Exception.php';
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
- * DoozR - Di - Annotation Parser
+ * Doozr - Di - Annotation Parser
  *
  * Annotation Parser of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Parser_Annotation
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Parser_Annotation
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements DoozR_Di_Parser_Interface
+class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract implements Doozr_Di_Parser_Interface
 {
     /**
      * An annotation reader instance.
@@ -148,13 +148,13 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the dependencies build from annotations
      * @access public
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     public function parse($range = self::RANGE_EVERYTHING)
     {
         // check if all requirements are fulfilled
         if (!$this->requirementsFulfilled()) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Error parsing annotations. Requirements not fulfilled. Please set input to parse annotations from.'
             );
         }
@@ -165,7 +165,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
         // check if class is already in scope
         if (!class_exists($input['class'])) {
             if (!isset($input['file'])) {
-                throw new DoozR_Di_Exception(
+                throw new Doozr_Di_Exception(
                     'Error parsing dependencies from class. Class not found in scope and no "file" defined!'
                 );
             }
@@ -240,7 +240,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array An raw array containing the dependencies indexed@access private
      * @access protected
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     protected function parseFromReflectionByRange(ReflectionClass $reflection, $range)
     {
@@ -260,7 +260,7 @@ class DoozR_Di_Parser_Annotation extends DoozR_Di_Parser_Abstract implements Doo
                 break;
 
             case self::RANGE_SINGLE_ELEMENT:
-                throw new DoozR_Di_Exception(
+                throw new Doozr_Di_Exception(
                     'Parsing from single element not implemented yet!'
                 );
                 break;

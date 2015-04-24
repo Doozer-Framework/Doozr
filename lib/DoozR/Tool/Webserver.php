@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Tool - Webserver
+ * Doozr - Tool - Webserver
  *
  * Webserver.php - Management tool for internal webserver.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Tool
- * @subpackage DoozR_Tool_Webserver
+ * @category   Doozr
+ * @package    Doozr_Tool
+ * @subpackage Doozr_Tool_Webserver
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once 'DoozR/Tool/Abstract.php';
+require_once 'Doozr/Tool/Abstract.php';
 
 use \donatj\Flags;
 
 /**
- * DoozR - Tool - Webserver
+ * Doozr - Tool - Webserver
  *
  * Management tool for internal webserver.
  *
- * @category   DoozR
- * @package    DoozR_Tool
- * @subpackage DoozR_Tool_Webserver
+ * @category   Doozr
+ * @package    Doozr_Tool
+ * @subpackage Doozr_Tool_Webserver
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Tool_Webserver extends DoozR_Tool_Abstract
+class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
 {
     /**
      * The pipes used for communicate with internal webserver
@@ -199,7 +199,7 @@ class DoozR_Tool_Webserver extends DoozR_Tool_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed A result in any form.
      * @access protected
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     protected function execute($injectedCommand = null)
     {
@@ -230,7 +230,7 @@ class DoozR_Tool_Webserver extends DoozR_Tool_Abstract
             $result = $this->dispatchCommand($injectedCommand, $argumentBag);
 
         } else {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Not implemented!'
             );
         }

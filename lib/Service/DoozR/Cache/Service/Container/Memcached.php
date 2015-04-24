@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Cache - Service - Container - Memcached
+ * Doozr - Cache - Service - Container - Memcached
  *
  * Memcached.php - Container Memcached: Serves I/O access to memcached.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Cache/Service/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Container.php';
 
 /**
- * DoozR - Cache - Service - Container - Memcached
+ * Doozr - Cache - Service - Container - Memcached
  *
  * Container Memcached: Serves I/O access to memcached.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Cache
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Container
+class Doozr_Cache_Service_Container_Memcached extends Doozr_Cache_Service_Container
 {
     /**
      * The hostname used for connection.
@@ -165,9 +165,9 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @param array $options Custom configuration options
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Cache_Service_Container_Memcached
+     * @return Doozr_Cache_Service_Container_Memcached
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function __construct(array $options = array())
     {
@@ -176,7 +176,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
 
         // Check requirements!
         if (!extension_loaded('memcached')) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 'In order to use memcached container for caching, the "memcached" extension must be loaded.'
             );
         }
@@ -193,7 +193,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
             $server = $this->getHostname() . ':' . $this->getPort();
 
             if (isset($serverStatistics[$server]['limit_maxbytes']) === false) {
-                throw new DoozR_Cache_Service_Exception(
+                throw new Doozr_Cache_Service_Exception(
                     sprintf('Could not retrieve "limit_maxbytes" for server "%s"', $server)
                 );
             }
@@ -219,7 +219,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function create($key, $value, $lifetime, $namespace, $userdata = null)
     {
@@ -245,7 +245,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
                 $this->getExpiresAbsolute($lifetime)
             )
         ) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 'Error while creating dataset!'
             );
         }
@@ -307,7 +307,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @return bool TRUE on success, otherwise FALSE
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function update($key, $value, $namespace, $lifetime = null, $userdata = null)
     {
@@ -330,7 +330,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
                 $this->getExpiresAbsolute($lifetime)
             )
         ) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 'Error while updating dataset!'
             );
         }
@@ -356,7 +356,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function delete($key, $namespace)
     {
@@ -370,7 +370,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
         $result = $this->connection->delete($key);
 
         if ($result === false) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf('Error while deleting key: "%s" of group: "%s"!', $key, $namespace)
             );
         }
@@ -389,7 +389,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE if dataset exist, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function exists($key, $namespace)
     {
@@ -423,7 +423,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if element is expired, otherwise FALSE
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function expired($key, $namespace)
     {
@@ -487,7 +487,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean The result of the operation
      * @access public
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     public function garbageCollection($namespace, $lifetime)
     {
@@ -675,7 +675,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Memcached The created instance of memcache
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function connect($hostname, $port)
     {
@@ -689,7 +689,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
             @$memcache->connect($hostname, $port);
 
         } catch (Exception $e) {
-            throw new DoozR_Cache_Service_Exception(
+            throw new Doozr_Cache_Service_Exception(
                 sprintf('Error while connecting to host: "%s" on Port: "%s". Connection failed.', $hostname, $port)
             );
         }
@@ -704,7 +704,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return null
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function disconnect()
     {
@@ -720,7 +720,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of removed entries on success, otherwise FALSE
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function removeEntries($namespace)
     {
@@ -733,7 +733,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
         // Iterate
         foreach ($entries as $key => $entry) {
             if ($this->getConnection()->delete($key) !== true) {
-                throw new DoozR_Cache_Service_Exception(
+                throw new Doozr_Cache_Service_Exception(
                     sprintf('Can\'t remove key "%s". Check server status, health and permissions.', $key)
                 );
             }
@@ -817,7 +817,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access protected
-     * @throws DoozR_Cache_Service_Exception
+     * @throws Doozr_Cache_Service_Exception
      */
     protected function doGarbageCollection($namespace, $lifetime)
     {
@@ -829,7 +829,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
             // Checking last access is so much faster then reading from file so we try to exclude file read here!
             if ($entry['age'] > $lifetime) {
                 if ($this->getConnection()->delete($key) === false) {
-                    throw new DoozR_Cache_Service_Exception(
+                    throw new Doozr_Cache_Service_Exception(
                         sprintf('Can\'t remove cache entry "%s", skipping. Check permissions.', $key)
                     );
                     continue;
@@ -840,7 +840,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
                 // Remove if expired
                 if ($expire <= time()) {
                     if ($this->getConnection()->delete($key) === false) {
-                        throw new DoozR_Cache_Service_Exception(
+                        throw new Doozr_Cache_Service_Exception(
                             sprintf('Can\'t remove cache entry "%s", skipping. Check permissions.', $key)
                         );
                         continue;
@@ -873,7 +873,7 @@ class DoozR_Cache_Service_Container_Memcached extends DoozR_Cache_Service_Contai
                     $this->setTotalSize($this->getTotalSize() - $entry['size']);
 
                 } else {
-                    throw new DoozR_Cache_Service_Exception(
+                    throw new Doozr_Cache_Service_Exception(
                         sprintf('Can\'t unlink cache file "%s". Check permissions and path.', $entry['file'])
                     );
                 }

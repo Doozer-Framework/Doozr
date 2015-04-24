@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Loader - Autoloader
+ * Doozr - Loader - Autoloader
  *
- * Autoloader.php - Class-Autoloader of the DoozR Framework.
+ * Autoloader.php - Class-Autoloader of the Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Interface.php';
 
 /**
- * DoozR - Loader - Autoloader
+ * Doozr - Loader - Autoloader
  *
- * Autoloader.php - Class-Autoloader of the DoozR Framework.
+ * Autoloader.php - Class-Autoloader of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
+class Doozr_Loader_Autoloader implements Doozr_Loader_Autoloader_Interface
 {
     /**
      * The file-extension for the files to be loaded by autoloader
@@ -158,7 +158,7 @@ class DoozR_Loader_Autoloader implements DoozR_Loader_Autoloader_Interface
      * @param string $includePath The include-path to use as base
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Loader_Autoloader
+     * @return \Doozr_Loader_Autoloader
      * @access public
      */
     public function __construct($namespace = null, $includePath = null)

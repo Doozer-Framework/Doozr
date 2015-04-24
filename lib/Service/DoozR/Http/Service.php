@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Http - Service
+ * Doozr - Http - Service
  *
  * Service.php - Http Service
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,42 +42,42 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Http
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Http
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
 
-use DoozR\Loader\Serviceloader\Annotation\Inject;
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * DoozR - Http - Service
+ * Doozr - Http - Service
  *
  * Http Service
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Http
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Http
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="DoozR_Registry",
+ *     class="Doozr_Registry",
  *     identifier="__construct",
  *     type="constructor",
  *     position=1
  * )
  */
-class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Base_Service_Interface
+class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
 {
     /**
      * The curl sessions/references/handles
@@ -136,9 +136,9 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     protected $multiple = false;
 
     /**
-     * An array of DoozR_Http_Service instances
+     * An array of Doozr_Http_Service instances
      *
-     * @var DoozR_Http_Service[]
+     * @var Doozr_Http_Service[]
      * @access protected
      */
     protected $append = array();
@@ -294,7 +294,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
 
 
     /**
-     * Constructor replacement for services of DoozR Framework
+     * Constructor replacement for services of Doozr Framework
      *
      * @param null|string $host     The name/IP of the host to connect to
      * @param int         $port     The port to connect to
@@ -338,7 +338,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param string $password The password
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service Instance for chaining
+     * @return Doozr_Http_Service Instance for chaining
      * @access public
      */
     public function credentials($user, $password)
@@ -385,7 +385,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param string $protocol The protocol to use for request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service
+     * @return Doozr_Http_Service
      * @access public
      */
     public function protocol($protocol)
@@ -429,7 +429,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param string $host The host to use for request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service Instance for chaining
+     * @return Doozr_Http_Service Instance for chaining
      * @access public
      */
     public function host($host)
@@ -473,7 +473,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param int $port The port to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service Instance for chaining
+     * @return Doozr_Http_Service Instance for chaining
      * @access public
      */
     public function port($port)
@@ -517,7 +517,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param bool $mode TRUE to be silent, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service $this The current instance for chaining
+     * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
     public function silent($mode = true)
@@ -565,7 +565,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param array $header The header to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service
+     * @return Doozr_Http_Service
      * @access public
      */
     public function header($header)
@@ -579,7 +579,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * Returns the header
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service
+     * @return Doozr_Http_Service
      * @access public
      */
     public function getHeader()
@@ -606,7 +606,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param array  $parameter The parameter to pass to request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service $this The current instance for chaining
+     * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
     public function get($url = null, $parameter = array())
@@ -627,7 +627,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param array  $parameter The parameter to pass to request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service $this The current instance for chaining
+     * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
     public function post($url = null, $parameter = array())
@@ -648,7 +648,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param array  $parameter The parameter to pass to request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service $this The current instance for chaining
+     * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
     public function put($url = null, $parameter = array())
@@ -669,7 +669,7 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
      * @param array  $parameter The parameter to pass to request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service $this The current instance for chaining
+     * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
     public function delete($url = null, $parameter = array())
@@ -684,15 +684,15 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     }
 
     /**
-     * Add an instance of DoozR_Http_Service to requests
+     * Add an instance of Doozr_Http_Service to requests
      *
-     * @param DoozR_Http_Service $httpService
+     * @param Doozr_Http_Service $httpService
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Http_Service $this The current instance for chaining
+     * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
-    public function add(DoozR_Http_Service $httpService)
+    public function add(Doozr_Http_Service $httpService)
     {
         $this->append[] = $httpService;
 
@@ -985,10 +985,10 @@ class DoozR_Http_Service extends DoozR_Base_Service_Multiple implements DoozR_Ba
     }
 
     /**
-     * Merges multiple DoozR_Http_Service instances (added via add()) to this instance
+     * Merges multiple Doozr_Http_Service instances (added via add()) to this instance
      *
      * @param array                $base   The base to merge requests with
-     * @param DoozR_Http_Service[] $append The services to add requests from
+     * @param Doozr_Http_Service[] $append The services to add requests from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The resulting array

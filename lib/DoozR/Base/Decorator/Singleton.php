@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Decorator Singleton
+ * Doozr Base Decorator Singleton
  *
  * Singleton.php - Base class for decorators.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,34 +42,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Decorator
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Decorator
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
 
 /**
- * DoozR Base Decorator Singleton
+ * Doozr Base Decorator Singleton
  *
  * Base class for decorators.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Decorator
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Decorator
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
+class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
 {
     /**
      * Configuration for decorator
@@ -129,20 +129,20 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
-    protected function init(array $configuration, DoozR_Path $path)
+    protected function init(array $configuration, Doozr_Path $path)
     {
         // the path to the class to decorate
         if (!isset($configuration['path'])) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Base decorator needs path to class which should be decorated!'
             );
         }
 
         // the name of the class to decorate
         if (!isset($configuration['name'])) {
-            throw new DoozR_Exception(
+            throw new Doozr_Exception(
                 'Base decorator needs name for decoration (route ...)!'
             );
         }
@@ -203,14 +203,14 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
      * @access private
      * @throws Exception
      */
-    private function _initTransformer($docroot, $vendor = 'DoozR')
+    private function _initTransformer($docroot, $vendor = 'Doozr')
     {
         // vendor (can be anything - must match folder containing transformation
         // e.g.
         $vendor = ucfirst($vendor);
 
         // reg
-        $registry = DoozR_Registry::getInstance();
+        $registry = Doozr_Registry::getInstance();
 
         // path
         $path = $registry->path;
@@ -284,7 +284,7 @@ class DoozR_Base_Decorator_Singleton extends DoozR_Base_Class_Singleton
 
             // its not a static call - so we need an instance first
             if (!isset($this->route->matrix[$config['class']])) {
-                throw new DoozR_Exception(
+                throw new Doozr_Exception(
                     'Instance of class: "'.$config['class'].'" required before calling method: "'.$methodSignature.'"!'.
                     'Please call constructor first.'
                 );

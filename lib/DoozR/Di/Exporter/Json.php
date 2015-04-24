@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Exporter Json
+ * Doozr - Di - Exporter Json
  *
  * Json.php - Exporter (JSON-Localize) of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Exporter_Json
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Exporter_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -63,28 +63,28 @@ require_once DI_PATH_LIB_DI . 'Collection.php';
 require_once DI_PATH_LIB.'Object/Freezer.php';
 
 /**
- * DoozR - Di - Exporter Json
+ * Doozr - Di - Exporter Json
  *
  * Exporter (JSON-Localize) of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Exporter_Json
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Exporter_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Exporter_Json extends DoozR_Di_Exporter_Abstract implements DoozR_Di_Exporter_Interface
+class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract implements Doozr_Di_Exporter_Interface
 {
     /*******************************************************************************************************************
      * PUBLIC API
      ******************************************************************************************************************/
 
     /**
-     * Exports current content of DoozR_Di_Collection ($this->collection) to a JSON-File
+     * Exports current content of Doozr_Di_Collection ($this->collection) to a JSON-File
      *
-     * This method is intend to write current content of DoozR_Di_Collection ($this->collection) to a JSON-File.
+     * This method is intend to write current content of Doozr_Di_Collection ($this->collection) to a JSON-File.
      *
      * @param bool $exportInstances TRUE to export instances as well, otherwise FALSE to do not
      *
@@ -92,28 +92,28 @@ class DoozR_Di_Exporter_Json extends DoozR_Di_Exporter_Abstract implements DoozR
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
      * (non-PHPdoc)
-     * @see DoozR_Di_Exporter_Interface::export()
-     * @throws DoozR_Di_Exception
+     * @see Doozr_Di_Exporter_Interface::export()
+     * @throws Doozr_Di_Exception
      */
     public function export($exportInstances = true)
     {
         // check for collection
         if (!$this->collection) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Could not import map. No collection set. Please set a collection first.'
             );
         }
 
         // check for input
         if (!$this->output) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Could not export map. No output file set. Please set output first.'
             );
         }
 
         // check if input directory exists and if it is writable
         if (!is_dir(dirname($this->output)) || (!is_writable(dirname($this->output)))) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Could not export map. Output directory "' . Dirname($this->output).'" does not exist or isn\'t writable.'
             );
         }
@@ -168,7 +168,7 @@ class DoozR_Di_Exporter_Json extends DoozR_Di_Exporter_Abstract implements DoozR
 
             // iterate over existing dependencies, translate to JSON structure and store temporary in $collection[]
             foreach ($dependencies as $count => $dependency) {
-                /* @var $dependency DoozR_Di_Dependency */
+                /* @var $dependency Doozr_Di_Dependency */
 
                 // temp object for storage
                 $tmp = new stdClass();
@@ -225,15 +225,15 @@ class DoozR_Di_Exporter_Json extends DoozR_Di_Exporter_Abstract implements DoozR
      *
      * This method is intend to set the collection used for export.
      *
-     * @param DoozR_Di_Collection $collection The collection instance of DoozR_Di_Collection to set
+     * @param Doozr_Di_Collection $collection The collection instance of Doozr_Di_Collection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
      * (non-PHPdoc)
-     * @see DoozR_Di_Exporter_Interface::import()
+     * @see Doozr_Di_Exporter_Interface::import()
      */
-    public function import(DoozR_Di_Collection $collection)
+    public function import(Doozr_Di_Collection $collection)
     {
         return ($this->collection = $collection);
     }

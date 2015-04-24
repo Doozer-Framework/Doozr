@@ -2,15 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Handler - Error
+ * Doozr - Handler - Error
  *
- * Error.php - Error-Handler of the DoozR-Framework which overrides PHP's
+ * Error.php - Error-Handler of the Doozr-Framework which overrides PHP's
  * default error-handler (handling)
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,34 +43,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Handler
- * @subpackage DoozR_Handler_Error
+ * @category   Doozr
+ * @package    Doozr_Handler
+ * @subpackage Doozr_Handler_Error
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 /**
- * DoozR - Handler - Error
+ * Doozr - Handler - Error
  *
- * Error-Handler of the DoozR-Framework which overrides PHP's default error-handler (handling)
+ * Error-Handler of the Doozr-Framework which overrides PHP's default error-handler (handling)
  *
- * @category   DoozR
- * @package    DoozR_Handler
- * @subpackage DoozR_Handler_Error
+ * @category   Doozr
+ * @package    Doozr_Handler
+ * @subpackage Doozr_Handler_Error
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
-final class DoozR_Handler_Error extends DoozR_Base_Class
+final class Doozr_Handler_Error extends Doozr_Base_Class
 {
     /**
      * holds the status of enabling logging of unclassified error(s)
@@ -86,7 +86,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * Replacement for PHP's default internal error handler.
      * All Errors are dispatched to this method - we decide
      * here what to do with it. We need this hook to stay
-     * informed about DoozR's state and to pipe the Errors
+     * informed about Doozr's state and to pipe the Errors
      * to attached Logger-Subsystem.
      *
      * @param int|string $number  Number of Error (constant)
@@ -95,7 +95,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      * @param int    $line    Line in which the error occured
      * @param array      $context The variables with name and value from error context
      *
-     * @throws DoozR_Error_Exception
+     * @throws Doozr_Error_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE always
      * @access public
@@ -107,7 +107,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         $type = self::getErrorType($number);
 
         // Pack error into an exception so that the error can be forwarded to exception handler
-        $error = new DoozR_Exception($message, $number);
+        $error = new Doozr_Exception($message, $number);
         $error
             ->type($type)
             ->message($message)
@@ -115,7 +115,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
             ->line($line);
 
         // Now dispatch the error processable and from userland catchable as Exception
-        throw new DoozR_Error_Exception($message, $number, $error);
+        throw new Doozr_Error_Exception($message, $number, $error);
 
         // We return FALSE as signal that we handled the error - required by PHP >= 5.2
         return false;
@@ -235,7 +235,7 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
      */
     public static function pre($data, $return = false, $color = '#EF4A4A', $cursor = 'crosshair')
     {
-        // dispatch to pred() from DoozR.extend.php
+        // dispatch to pred() from Doozr.extend.php
         pred($data, $return, $color, $cursor);
     }
 
@@ -316,11 +316,11 @@ final class DoozR_Handler_Error extends DoozR_Base_Class
         break;
         case E_USER_EXCEPTION:                   // 23
         case E_USER_CORE_EXCEPTION:              // 235
-            // DoozR custom Error-Type - Error of type exception.
+            // Doozr custom Error-Type - Error of type exception.
         return 'EXCEPTION';
         break;
         case E_USER_CORE_FATAL_EXCEPTION:        // 23523
-            // DoozR custom Error-Type - Fatal-Error of type exception.
+            // Doozr custom Error-Type - Fatal-Error of type exception.
         return 'EXCEPTION';
         break;
         }

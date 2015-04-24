@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR-Loader-Autoloader-Interface
+ * Doozr-Loader-Autoloader-Interface
  *
- * Interface.php - Interface for DoozR-Compatible Autoloaders.
+ * Interface.php - Interface for Doozr-Compatible Autoloaders.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,32 +42,32 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2011 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR-Loader-Autoloader-Interface
+ * Doozr-Loader-Autoloader-Interface
  *
- * Interface for DoozR-Compatible Autoloaders. This interface is the blueprint for
+ * Interface for Doozr-Compatible Autoloaders. This interface is the blueprint for
  * Autoloader-Classes used by our SPL-Facade.
  *
- * @category   DoozR
- * @package    DoozR_Loader
- * @subpackage DoozR_Loader_Autoloader
+ * @category   Doozr
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Autoloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2011 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface DoozR_Loader_Autoloader_Interface
+interface Doozr_Loader_Autoloader_Interface
 {
     /**
      * registers this class loader on the SPL autoload stack

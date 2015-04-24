@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Factory Singleton
+ * Doozr Factory Singleton
  *
- * Singleton.php - DoozR's singleton factory for creating instances of classes
+ * Singleton.php - Doozr's singleton factory for creating instances of classes
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Factory
- * @subpackage DoozR_Factory_Singleton
+ * @category   Doozr
+ * @package    Doozr_Factory
+ * @subpackage Doozr_Factory_Singleton
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Factory/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Factory/Interface.php';
 
 /**
- * DoozR Factory Singleton
+ * Doozr Factory Singleton
  *
- * DoozR's singleton factory for creating instances of classes
+ * Doozr's singleton factory for creating instances of classes
  *
- * @category   DoozR
- * @package    DoozR_Factory
- * @subpackage DoozR_Factory_Singleton
+ * @category   Doozr
+ * @package    Doozr_Factory
+ * @subpackage Doozr_Factory_Singleton
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Factory_Singleton implements DoozR_Factory_Interface
+class Doozr_Factory_Singleton implements Doozr_Factory_Interface
 {
     /**
      * This method is intend to create instances of singleton-classes. You can

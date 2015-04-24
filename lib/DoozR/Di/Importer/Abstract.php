@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Importer Abstract
+ * Doozr - Di - Importer Abstract
  *
  * Abstract.php - Abstract base class for all Importer of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Importer_Abstract
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Importer_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,24 +55,24 @@
 require_once DI_PATH_LIB_DI . 'Exception.php';
 
 /**
- * DoozR - Di - Importer Abstract
+ * Doozr - Di - Importer Abstract
  *
  * Abstract base class for all Importer of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Importer_Abstract
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Importer_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-abstract class DoozR_Di_Importer_Abstract
+abstract class Doozr_Di_Importer_Abstract
 {
     /**
-     * Contains all dependencies as DoozR_Di_Collection
+     * Contains all dependencies as Doozr_Di_Collection
      *
-     * @var DoozR_Di_Collection
+     * @var Doozr_Di_Collection
      * @access protected
      */
     protected $collection;
@@ -95,13 +95,13 @@ abstract class DoozR_Di_Importer_Abstract
      *
      * This method is intend to set the collection of dependencies of the current instance.
      *
-     * @param DoozR_Di_Collection $collection The collection to set
+     * @param Doozr_Di_Collection $collection The collection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setCollection(DoozR_Di_Collection $collection)
+    public function setCollection(Doozr_Di_Collection $collection)
     {
         $this->collection = $collection;
 
@@ -115,7 +115,7 @@ abstract class DoozR_Di_Importer_Abstract
      * This method is intend to return the collection of dependencies of the current instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Collection The collection of dependencies
+     * @return Doozr_Di_Collection The collection of dependencies
      * @access public
      */
     public function getCollection()
@@ -190,12 +190,12 @@ abstract class DoozR_Di_Importer_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
-     * @throws DoozR_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     protected function readFile($file)
     {
         if (!file_exists($file) || !is_file($file)) {
-            throw new DoozR_Di_Exception(
+            throw new Doozr_Di_Exception(
                 'Error reading file. File "'.$file.'" does not exist or is not a valid file'
             );
         }

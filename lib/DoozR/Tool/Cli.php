@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Tool - Cli
+ * Doozr - Tool - Cli
  *
- * console - A console PHP script for managing the DoozR Framework installation.
+ * console - A console PHP script for managing the Doozr Framework installation.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,34 +42,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Tool
- * @subpackage DoozR_Tool_Cli
+ * @category   Doozr
+ * @package    Doozr_Tool
+ * @subpackage Doozr_Tool_Cli
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once 'DoozR/Tool/Abstract.php';
-include_once 'DoozR/Tool/Webserver.php';
+require_once 'Doozr/Tool/Abstract.php';
+include_once 'Doozr/Tool/Webserver.php';
 
 /**
- * DoozR - Tool - Cli
+ * Doozr - Tool - Cli
  *
- * A console PHP script for managing the DoozR Framework installation.
+ * A console PHP script for managing the Doozr Framework installation.
  *
- * @category   DoozR
- * @package    DoozR_Tool
- * @subpackage DoozR_Tool_Cli
+ * @category   Doozr
+ * @package    Doozr_Tool
+ * @subpackage Doozr_Tool_Cli
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Tool_Cli extends DoozR_Tool_Abstract
+class Doozr_Tool_Cli extends Doozr_Tool_Abstract
 {
     /*------------------------------------------------------------------------------------------------------------------
     | Internal helper
@@ -113,7 +113,7 @@ class DoozR_Tool_Cli extends DoozR_Tool_Abstract
             if ($value !== false && strlen($value) > 0) {
                 switch ($name) {
                     case 'webserver':
-                        new DoozR_Tool_Webserver(
+                        new Doozr_Tool_Webserver(
                             $this->getFlags(),
                             $this->getName(),
                             $this->getVersion(),
@@ -126,7 +126,7 @@ class DoozR_Tool_Cli extends DoozR_Tool_Abstract
                         break;
 
                     case 'cache':
-                        new DoozR_Tool_Cache(
+                        new Doozr_Tool_Cache(
                             $this->getFlags(),
                             $this->getName(),
                             $this->getVersion(),
@@ -144,7 +144,7 @@ class DoozR_Tool_Cli extends DoozR_Tool_Abstract
             }
         }
 
-        // Show the DoozR header
+        // Show the Doozr header
         $this->showDoozrBanner();
 
         // Default here is nothing to do just show help
@@ -154,7 +154,7 @@ class DoozR_Tool_Cli extends DoozR_Tool_Abstract
     }
 
     /**
-     * Show DoozR banner.
+     * Show Doozr banner.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

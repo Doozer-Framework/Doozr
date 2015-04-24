@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Logger - Client
+ * Doozr - Logger - Client
  *
  * Client.php - This logger logs all passed content to the current client:
  * Browser, Cli, ...
@@ -10,7 +10,7 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,40 +43,40 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Client
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_Client
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/PsrInterface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Logger/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/PsrInterface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
 
 /**
- * DoozR - Logger - Client
+ * Doozr - Logger - Client
  *
  * This logger logs all passed content to systems (OS) default
  * log system.
  *
- * @category   DoozR
- * @package    DoozR_Logger
- * @subpackage DoozR_Logger_Client
+ * @category   Doozr
+ * @package    Doozr_Logger
+ * @subpackage Doozr_Logger_Client
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @see        Abstract.php, Interface.php
  */
-class DoozR_Logger_Client extends DoozR_Logger_Abstract implements
-    DoozR_Logger_Interface,
-    DoozR_Logger_PsrInterface,
+class Doozr_Logger_Client extends Doozr_Logger_Abstract implements
+    Doozr_Logger_Interface,
+    Doozr_Logger_PsrInterface,
     SplObserver
 {
     /**
@@ -113,7 +113,7 @@ class DoozR_Logger_Client extends DoozR_Logger_Abstract implements
     {
         switch ($event) {
             case 'log':
-                /* @var DoozR_Logger $subject */
+                /* @var Doozr_Logger $subject */
                 $logs = $subject->getCollectionRaw();
 
                 foreach ($logs as $log) {

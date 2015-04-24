@@ -3,7 +3,7 @@
 /**
  * Demonstration View
  */
-final class View_Index extends DoozR_Base_View
+final class View_Index extends Doozr_Base_View
 {
     /**
      * Index: Renderer for view.
@@ -15,14 +15,14 @@ final class View_Index extends DoozR_Base_View
      * @param array $data The data to render
      *
      * @return bool
-     * @throws \DoozR_Base_View_Exception
+     * @throws \Doozr_Base_View_Exception
      */
     protected function __renderIndex(array $data)
     {
-        /* @var $session DoozR_Session_Service */
-        $session = DoozR_Loader_Serviceloader::load('session');
+        /* @var $session Doozr_Session_Service */
+        $session = Doozr_Loader_Serviceloader::load('session');
 
-        /* Use this as fingerprint only if you also use an unique session identifier for each user (DoozR default) */
+        /* Use this as fingerprint only if you also use an unique session identifier for each user (Doozr default) */
         // A user specific view would pass a user specific value in here // for group pages a group id ...
         $fingerprint = $session->getIdentifier();
 

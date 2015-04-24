@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Map Static
+ * Doozr - Di - Map Static
  *
  * Static.php - Static map class of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map_Static
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map_Static
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,24 +55,24 @@
 require_once DI_PATH_LIB_DI . 'Map.php';
 
 /**
- * DoozR - Di - Map Static
+ * Doozr - Di - Map Static
  *
  * Static map class of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map_Static
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map_Static
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Map_Static extends DoozR_Di_Map
+class Doozr_Di_Map_Static extends Doozr_Di_Map
 {
     /**
-     * An instance of DoozR_Di_Importer_*
+     * An instance of Doozr_Di_Importer_*
      *
-     * @var DoozR_Di_Importer_*
+     * @var Doozr_Di_Importer_*
      * @access protected
      */
     protected $importer;
@@ -87,14 +87,14 @@ class DoozR_Di_Map_Static extends DoozR_Di_Map
      *
      * Constructor of this class
      *
-     * @param DoozR_Di_Collection         $collection An instance of DoozR_Di_Collection to collect dependencies in
-     * @param DoozR_Di_Importer_Interface $importer   An instance of DoozR_Di_Importer_Json to import dependencies with
+     * @param Doozr_Di_Collection         $collection An instance of Doozr_Di_Collection to collect dependencies in
+     * @param Doozr_Di_Importer_Interface $importer   An instance of Doozr_Di_Importer_Json to import dependencies with
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Di_Map_Static
+     * @return \Doozr_Di_Map_Static
      * @access public
      */
-    public function __construct(DoozR_Di_Collection $collection, DoozR_Di_Importer_Interface $importer)
+    public function __construct(Doozr_Di_Collection $collection, Doozr_Di_Importer_Interface $importer)
     {
         // store given instances
         $this->collection = $collection;
@@ -115,7 +115,7 @@ class DoozR_Di_Map_Static extends DoozR_Di_Map
      * @param string $filename The name of the file to parse dependencies from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Collection The build collection
+     * @return Doozr_Di_Collection The build collection
      * @access public
      */
     public function generate($filename)

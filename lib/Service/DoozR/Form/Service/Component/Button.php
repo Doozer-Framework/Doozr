@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Button.php - Extension to default Input-Component <input type="..."
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Input.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Input.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Extension to default Input-Component <input type="..."
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Component_Button extends DoozR_Form_Service_Component_Input
+class Doozr_Form_Service_Component_Button extends Doozr_Form_Service_Component_Input
 {
     /**
      * The tag of this component
@@ -76,7 +76,7 @@ class DoozR_Form_Service_Component_Button extends DoozR_Form_Service_Component_I
      * @var string
      * @access protected
      */
-    protected $tag = DoozR_Form_Service_Constant::HTML_TAG_BUTTON;
+    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_BUTTON;
 
     /**
      * The template is required for output. Each HTML-Component inherits
@@ -87,7 +87,7 @@ class DoozR_Form_Service_Component_Button extends DoozR_Form_Service_Component_I
      * @var string
      * @access protected
      */
-    protected $template = DoozR_Form_Service_Constant::TEMPLATE_DEFAULT_CLOSING;
+    protected $template = Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_CLOSING;
 
 
     /*------------------------------------------------------------------------------------------------------------------

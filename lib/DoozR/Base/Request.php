@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Request
+ * Doozr - Base - Request
  *
- * Request.php - Base Request Class (e.g. as base for Web | Cli) of the DoozR Framework.
+ * Request.php - Base Request Class (e.g. as base for Web | Cli) of the Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,34 +42,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Request
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Request
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
-include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Arguments.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Arguments.php';
 
 /**
- * DoozR - Base - Request
+ * Doozr - Base - Request
  *
- * Base Request Class (e.g. as base for Web | Cli) of the DoozR Framework.
+ * Base Request Class (e.g. as base for Web | Cli) of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Request
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Request
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Request extends DoozR_Base_Class
+class Doozr_Base_Request extends Doozr_Base_Class
 {
     /**
      * The URL under which the current project operates
@@ -106,9 +106,9 @@ class DoozR_Base_Request extends DoozR_Base_Class
     protected $logger;
 
     /**
-     * The configuration of DoozR
+     * The configuration of Doozr
      *
-     * @var DoozR_Config
+     * @var Doozr_Config
      * @access protected
      */
     protected $config;
@@ -158,7 +158,7 @@ class DoozR_Base_Request extends DoozR_Base_Class
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Request
+     * @return \Doozr_Base_Request
      * @access public
      */
     public function __construct()
@@ -206,7 +206,7 @@ class DoozR_Base_Request extends DoozR_Base_Class
      * This method is intend to return the arguments stored
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Request_Arguments The current set of arguments
+     * @return Doozr_Request_Arguments The current set of arguments
      * @access public
      */
     public function getArguments()
@@ -221,7 +221,7 @@ class DoozR_Base_Request extends DoozR_Base_Class
      * to an object with an array interface.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      * @return void
      * @access public
      */
@@ -233,7 +233,7 @@ class DoozR_Base_Request extends DoozR_Base_Class
         // iterate over given sources
         foreach ($requestSources as $requestSource) {
             if (!in_array($requestSource, $this->_requestSources)) {
-                throw new DoozR_Exception(
+                throw new Doozr_Exception(
                     'Invalid request-source "$_'.$requestSource.'" passed to '.__METHOD__
                 );
             }
@@ -264,8 +264,8 @@ class DoozR_Base_Request extends DoozR_Base_Class
         $globalVariable = $this->_addPrefix($globalVariable);
 
         // replace passed superglobal with object-interface
-        if (isset($GLOBALS[$globalVariable]) && !($GLOBALS[$globalVariable] instanceof DoozR_Request_Arguments)) {
-            $GLOBALS[$globalVariable] = new DoozR_Request_Arguments($globalVariable);
+        if (isset($GLOBALS[$globalVariable]) && !($GLOBALS[$globalVariable] instanceof Doozr_Request_Arguments)) {
+            $GLOBALS[$globalVariable] = new Doozr_Request_Arguments($globalVariable);
         }
 
         // this enables us to use a quick preset without the

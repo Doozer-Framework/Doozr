@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Presenter
+ * Doozr - Base - Presenter
  *
  * Presenter.php - Base class for presenter-layers from MVP
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,36 +42,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Presenter/Subject.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Presenter/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Route/Annotation/Route.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Presenter/Subject.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Presenter/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Route/Annotation/Route.php';
 
 /**
- * DoozR - Base Presenter
+ * Doozr - Base Presenter
  *
- * Base Presenter of the DoozR Framework.
+ * Base Presenter of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR_Base_Presenter_Interface
+class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr_Base_Presenter_Interface
 {
     /**
      * Data for CRUD operation(s)
@@ -84,7 +84,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Instance of model for communication
      *
-     * @var DoozR_Base_Model
+     * @var Doozr_Base_Model
      * @access protected
      */
     protected $model;
@@ -92,7 +92,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Instance of view for communication
      *
-     * @var DoozR_Base_View
+     * @var Doozr_Base_View
      * @access protected
      */
     protected $view;
@@ -100,7 +100,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * The main configuration
      *
-     * @var DoozR_Config
+     * @var Doozr_Config
      * @access protected
      */
     protected $configuration;
@@ -124,7 +124,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * The request state.
      *
-     * @var DoozR_Base_State|DoozR_Request_State
+     * @var Doozr_Base_State|Doozr_Request_State
      * @access protected
      */
     protected $requestState;
@@ -199,26 +199,26 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Constructor.
      *
-     * @param DoozR_Registry             $registry      Instance of DoozR_Registry containing all core components
-     * @param DoozR_Base_State_Interface $requestState  The whole request as state
+     * @param Doozr_Registry             $registry      Instance of Doozr_Registry containing all core components
+     * @param Doozr_Base_State_Interface $requestState  The whole request as state
      * @param array                      $request       The request
-     * @param DoozR_Config_Interface     $configuration The DoozR main config instance
-     * @param DoozR_Base_Model           $model         The model to communicate with backend (db)
-     * @param DoozR_Base_View            $view          The view to display results
+     * @param Doozr_Config_Interface     $configuration The Doozr main config instance
+     * @param Doozr_Base_Model           $model         The model to communicate with backend (db)
+     * @param Doozr_Base_View            $view          The view to display results
      * @param array                      $translation   The translation required to read the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Base_Presenter
+     * @return \Doozr_Base_Presenter
      * @access public
-     * @throws DoozR_Base_Presenter_Exception
+     * @throws Doozr_Base_Presenter_Exception
      */
     public function __construct(
-        DoozR_Registry             $registry,
-        DoozR_Base_State_Interface $requestState,
+        Doozr_Registry             $registry,
+        Doozr_Base_State_Interface $requestState,
         array                      $request,
-        DoozR_Config_Interface     $configuration    = null,
-        DoozR_Base_Model           $model            = null,
-        DoozR_Base_View            $view             = null,
+        Doozr_Config_Interface     $configuration    = null,
+        Doozr_Base_Model           $model            = null,
+        Doozr_Base_View            $view             = null,
         array                      $translation      = null
     ) {
         // Store instances for further use ...
@@ -242,12 +242,12 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
         // important! => call parents constructor so SplObjectStorage is created!
         parent::__construct($requestState);
 
-        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        // check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
             $result = $this->__tearup($this->request, $this->translation);
 
             if ($result !== true) {
-                throw new DoozR_Base_Presenter_Exception(
+                throw new Doozr_Base_Presenter_Exception(
                     '__tearup() must (if set) return TRUE. __tearup() executed and it returned: ' .
                     var_export($result, true)
                 );
@@ -309,13 +309,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Setter for requestState.
      *
-     * @param DoozR_Base_State $requestState The requestState
+     * @param Doozr_Base_State $requestState The requestState
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setRequestState(DoozR_Base_State $requestState)
+    protected function setRequestState(Doozr_Base_State $requestState)
     {
         $this->requestState = $requestState;
     }
@@ -323,13 +323,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Setter for requestState.
      *
-     * @param DoozR_Base_State $requestState The requestState
+     * @param Doozr_Base_State $requestState The requestState
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function requestState(DoozR_Base_State $requestState)
+    protected function requestState(Doozr_Base_State $requestState)
     {
         $this->setRequestState($requestState);
         return $this;
@@ -339,7 +339,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * Returns requestState.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_State|DoozR_Request_State The requestState
+     * @return Doozr_Base_State|Doozr_Request_State The requestState
      * @access public
      */
     public function getRequestState()
@@ -432,22 +432,22 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Setter for model.
      *
-     * @param DoozR_Base_Model $model The model to set
+     * @param Doozr_Base_Model $model The model to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setModel(DoozR_Base_Model $model = null)
+    protected function setModel(Doozr_Base_Model $model = null)
     {
         $this->model = $model;
     }
 
     /**
-     * @param DoozR_Base_Model $model
+     * @param Doozr_Base_Model $model
      * @return $this
      */
-    protected function model(DoozR_Base_Model $model = null)
+    protected function model(Doozr_Base_Model $model = null)
     {
         $this->setModel($model);
         return $this;
@@ -457,7 +457,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * Getter for model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Model|null The model if set, otherwise NULL
+     * @return Doozr_Base_Model|null The model if set, otherwise NULL
      * @access protected
      */
     protected function getModel()
@@ -468,13 +468,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Setter for view.
      *
-     * @param DoozR_Base_View $view The view to set
+     * @param Doozr_Base_View $view The view to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setView(DoozR_Base_View $view = null)
+    protected function setView(Doozr_Base_View $view = null)
     {
         $this->view = $view;
     }
@@ -482,13 +482,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Setter for view.
      *
-     * @param DoozR_Base_View $view The view to set
+     * @param Doozr_Base_View $view The view to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function view(DoozR_Base_View $view = null)
+    protected function view(Doozr_Base_View $view = null)
     {
         $this->setView($view);
         return $this;
@@ -498,7 +498,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * Getter for view.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_View|null The view if set, otherwise NULL
+     * @return Doozr_Base_View|null The view if set, otherwise NULL
      * @access protected
      */
     protected function getView()
@@ -556,7 +556,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @param array $ids The ids of the route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter
+     * @return Doozr_Base_Presenter
      * @access protected
      */
     protected function setIds(array $ids)
@@ -570,7 +570,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @param array $ids The ids of the route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter
+     * @return Doozr_Base_Presenter
      * @access protected
      */
     protected function ids(array $ids)
@@ -594,13 +594,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Setter for configuration.
      *
-     * @param DoozR_Config_Interface $configuration The configuation object
+     * @param Doozr_Config_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    protected function setConfiguration(DoozR_Config_Interface $configuration)
+    protected function setConfiguration(Doozr_Config_Interface $configuration)
     {
         $this->configuration = $configuration;
     }
@@ -608,13 +608,13 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     /**
      * Setter for configuration.
      *
-     * @param DoozR_Config_Interface $configuration The configuation object
+     * @param Doozr_Config_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    protected function configuration(DoozR_Config_Interface $configuration)
+    protected function configuration(Doozr_Config_Interface $configuration)
     {
         $this->setConfiguration($configuration);
         return $this;
@@ -624,7 +624,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Config_Interface The configuration stored
+     * @return Doozr_Config_Interface The configuration stored
      * @access public
      */
     protected function getConfiguration()
@@ -678,7 +678,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      *          root.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter
+     * @return Doozr_Base_Presenter
      * @access protected
      */
     protected function nodes($countOfRootNodes)
@@ -712,7 +712,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     protected function registerAutoloader($app)
     {
         // now configure a new autoloader spl config
-        $autoloaderApp = new DoozR_Loader_Autoloader_Spl_Config();
+        $autoloaderApp = new Doozr_Loader_Autoloader_Spl_Config();
         $autoloaderApp
             ->setNamespace($app->namespace)
             ->setNamespaceSeparator('_')
@@ -721,17 +721,17 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
             ->setDescription('Autoloader for App classes with namespace: "' . $app->namespace . '"')
             ->setPriority(0);
 
-        DoozR_Loader_Autoloader_Spl_Facade::attach(array($autoloaderApp));
+        Doozr_Loader_Autoloader_Spl_Facade::attach(array($autoloaderApp));
     }
 
     /**
      *
-     * @return DoozR_Response_Web|DoozR_Response_Cli|DoozR_Response_Httpd
+     * @return Doozr_Response_Web|Doozr_Response_Cli|Doozr_Response_Httpd
      */
     protected function getResponse()
     {
         // get registry
-        $registry = DoozR_Registry::getInstance();
+        $registry = Doozr_Registry::getInstance();
 
         // get front-controller and return it
         return $registry->front->getResponse();
@@ -877,7 +877,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @return   boolean True if everything wents fine, otherwise false
      * @access   protected
      */
-    protected function required($argument, $scope = 'Index', $method = DoozR_Http::REQUEST_METHOD_GET)
+    protected function required($argument, $scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)
     {
         // prepare storage on method/verb level
         if (!isset($this->required[$method])) {
@@ -912,7 +912,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @return boolean TRUE if required, otherwise FALSE
      * @access protected
      */
-    protected function isRequired($argument, $scope = 'Index', $method = DoozR_Http::REQUEST_METHOD_GET)
+    protected function isRequired($argument, $scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)
     {
         // prepare storage on method/verb level
         if (!isset($this->required[$method])) {
@@ -948,7 +948,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @return array List of required fields
      * @access protected
      */
-    protected function getRequired($scope = 'Index', $method = DoozR_Http::REQUEST_METHOD_GET)
+    protected function getRequired($scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)
     {
         // prepare storage on method/verb level
         if (!isset($this->required[$method])) {
@@ -969,7 +969,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @param string The route to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter
+     * @return Doozr_Base_Presenter
      * @access protected
      */
     protected function route($route)
@@ -985,7 +985,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * @param string The URL to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter
+     * @return Doozr_Base_Presenter
      * @access protected
      */
     protected function url($url)
@@ -999,7 +999,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      * child on demand.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter
+     * @return Doozr_Base_Presenter
      * @access protected
      */
     protected function run()
@@ -1017,7 +1017,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
      */
     public function __destruct()
     {
-        // check for __tearup - Method (it's DoozR's __construct-like magic-method)
+        // check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
             $this->__teardown();
         }

@@ -2,15 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Bootstrap
+ * Doozr - Bootstrap
  *
- * Bootstrap.php - The Bootstrapper of the DoozR-Framework.
- * Delegates important operations at startup of DoozR.
+ * Bootstrap.php - The Bootstrapper of the Doozr-Framework.
+ * Delegates important operations at startup of Doozr.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,14 +43,14 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Bootstrap
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Bootstrap
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -95,8 +95,8 @@ if ($documentRoot === false) {
         define('__FILE_LINK__', __FILE__);
     }
 
-    // retrieve absolute path to DoozR - make it our new document root -> by file link
-    $documentRoot = str_replace('DoozR'.$s.'Bootstrap.php', '', __FILE_LINK__);
+    // retrieve absolute path to Doozr - make it our new document root -> by file link
+    $documentRoot = str_replace('Doozr'.$s.'Bootstrap.php', '', __FILE_LINK__);
 }
 
 // store as constant
@@ -116,7 +116,7 @@ if (defined('DOOZR_APP_ROOT') === false) {
         // Priority #1: App-Root by Document-Root
         $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . $s . '..' . $s . 'app');
 
-        // Priority #2: App-Root by DoozR Document-Root
+        // Priority #2: App-Root by Doozr Document-Root
         if (false === $defaultAppRoot) {
             $defaultAppRoot = realpath(DOOZR_DOCUMENT_ROOT . '../app');
         }
@@ -148,36 +148,36 @@ if (composer_running() === false) {
 | EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
 +---------------------------------------------------------------------------------------------------------------------*/
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Extend.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Extend.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
 | AUTOLOADING (SPL)
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // SPL facade files config + facade itself
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Config.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Loader/Autoloader/Spl/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Config.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Facade.php';
 
 // now configure a new autoloader spl config
-$autoloaderDoozR = new DoozR_Loader_Autoloader_Spl_Config();
-$autoloaderDoozR
-    ->setNamespace('DoozR')
+$autoloaderDoozr = new Doozr_Loader_Autoloader_Spl_Config();
+$autoloaderDoozr
+    ->setNamespace('Doozr')
     ->setNamespaceSeparator('_')
     ->addExtension('php')
     ->setPath(substr(DOOZR_DOCUMENT_ROOT, 0, -1))
-    ->setDescription('DoozR\'s main autoloader and responsible for loading core classes')
+    ->setDescription('Doozr\'s main autoloader and responsible for loading core classes')
     ->setPriority(0);
 
 /**
- * Autoloader for DoozR - Services (native)
+ * Autoloader for Doozr - Services (native)
  */
-$autoloaderService = new DoozR_Loader_Autoloader_Spl_Config();
+$autoloaderService = new Doozr_Loader_Autoloader_Spl_Config();
 $autoloaderService
-    ->setNamespace('DoozR')
+    ->setNamespace('Doozr')
     ->setNamespaceSeparator('_')
     ->addExtension('php')
     ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
-    ->setDescription('DoozR\'s autoloader responsible for loading services from DoozR\'s namespace')
+    ->setDescription('Doozr\'s autoloader responsible for loading services from Doozr\'s namespace')
     ->setPriority(1);
 
 /**
@@ -186,9 +186,9 @@ $autoloaderService
  * just call the register() method pass a config and everything
  * is handled magically (:
  */
-DoozR_Loader_Autoloader_Spl_Facade::attach(
+Doozr_Loader_Autoloader_Spl_Facade::attach(
     array(
-        $autoloaderDoozR,
+        $autoloaderDoozr,
         $autoloaderService,
     )
 );
@@ -196,7 +196,7 @@ DoozR_Loader_Autoloader_Spl_Facade::attach(
 /*----------------------------------------------------------------------------------------------------------------------
  | DOOZR
  ---------------------------------------------------------------------------------------------------------------------*/
-define('DOOZR_NAMESPACE', 'DoozR');
+define('DOOZR_NAMESPACE', 'Doozr');
 define('DOOZR_NAMESPACE_FLAT', 'doozr');
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -205,12 +205,12 @@ define('DOOZR_NAMESPACE_FLAT', 'doozr');
 
 // We install the generic handler here! This one is used if not development runtimeEnvironment is enabled
 // ERROR-HANDLER: register error-handler
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Error.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Handler/Error.php';
 
 // Set the own exception_handler
 set_error_handler(
     array(
-        'DoozR_Handler_Error',
+        'Doozr_Handler_Error',
         'handle'
     )
 );
@@ -218,27 +218,27 @@ set_error_handler(
 // Hook for theoretically "unhandable error(s)" like E_PARSE (smart-hack)
 register_shutdown_function(
     array(
-        'DoozR_Handler_Error',
+        'Doozr_Handler_Error',
         'handleUnhandable'
     )
 );
 
 // EXCEPTION-HANDLER: register exception-handler
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Handler/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Handler/Exception.php';
 
 // Set own exception_handler
 set_exception_handler(
     array(
-        'DoozR_Handler_Exception',
+        'Doozr_Handler_Exception',
         'handle'
     )
 );
 
 /*----------------------------------------------------------------------------------------------------------------------
-| LOAD DoozR's CORE-CLASS
+| LOAD Doozr's CORE-CLASS
 +---------------------------------------------------------------------------------------------------------------------*/
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Kernel.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
 
 
 /**

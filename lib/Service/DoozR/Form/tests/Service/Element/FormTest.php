@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Form - Test
+ * Doozr - Service - Form - Test
  *
- * FormTest.php - Tests for Form element instance of DoozR Form Service.
+ * FormTest.php - Tests for Form element instance of Doozr Form Service.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,36 +42,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * DoozR - Service - Form - Test
+ * Doozr - Service - Form - Test
  *
- * Tests for Form element instance of DoozR Form Service.
+ * Tests for Form element instance of Doozr Form Service.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 class FormTest extends PHPUnit_Framework_TestCase
 {
     /**
      * The Form Element Test Subject
      *
-     * @var DoozR_Form_Service_Element_Form
+     * @var Doozr_Form_Service_Element_Form
      * @access protected
      */
     protected static $form;
@@ -81,7 +81,7 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$form = new DoozR_Form_Service_Element_Form();
+        self::$form = new Doozr_Form_Service_Element_Form();
     }
 
     public static function tearDownAfterClass()
@@ -100,10 +100,10 @@ class FormTest extends PHPUnit_Framework_TestCase
     public function testInit()
     {
         // test if loaded service class is correct
-        #$this->assertEquals('DoozR_Form_Service_Element_Form', get_class(self::$form));
+        #$this->assertEquals('Doozr_Form_Service_Element_Form', get_class(self::$form));
 
-        //$mock = $this->getMock('DoozR_Form_Service');
-        //$this->assertTrue($mock instanceof DoozR_Form_Service);
+        //$mock = $this->getMock('Doozr_Form_Service');
+        //$this->assertTrue($mock instanceof Doozr_Form_Service);
     }
     */
 
@@ -129,10 +129,10 @@ class FormTest extends PHPUnit_Framework_TestCase
     {
         $this->assertNull(self::$form->getEncodingType());
         self::$form->setEncodingType(
-            DoozR_Form_Service_Constant::ENCODING_TYPE_DEFAULT
+            Doozr_Form_Service_Constant::ENCODING_TYPE_DEFAULT
         );
         $this->assertEquals(
-            DoozR_Form_Service_Constant::ENCODING_TYPE_DEFAULT,
+            Doozr_Form_Service_Constant::ENCODING_TYPE_DEFAULT,
             self::$form->getEncodingType()
         );
     }
@@ -142,18 +142,18 @@ class FormTest extends PHPUnit_Framework_TestCase
 
     public function testSetAndGetStore()
     {
-        $store = new DoozR_Form_Service_Store_Unit();
+        $store = new Doozr_Form_Service_Store_Unit();
 
-        $this->assertEquals('DoozR_Form_Service_Store_Unit', get_class($store));
+        $this->assertEquals('Doozr_Form_Service_Store_Unit', get_class($store));
         $this->assertNull(self::$form->getStore());
         $this->assertTrue(self::$form->setStore($store));
     }
 
     public function testSetAndGetRenderer()
     {
-        $renderer = new DoozR_Form_Service_Renderer_Unit();
+        $renderer = new Doozr_Form_Service_Renderer_Unit();
 
-        $this->assertEquals('DoozR_Form_Service_Renderer_Unit', get_class($renderer));
+        $this->assertEquals('Doozr_Form_Service_Renderer_Unit', get_class($renderer));
         $this->assertNull(self::$form->getRenderer());
         $this->assertTrue(self::$form->setRenderer($renderer));
     }
@@ -190,19 +190,19 @@ class FormTest extends PHPUnit_Framework_TestCase
     public function testSetAndGetSteps()
     {
         $testSteps = 2;
-        $this->assertEquals(DoozR_Form_Service_Constant::STEP_DEFAULT_LAST, self::$form->getSteps());
+        $this->assertEquals(Doozr_Form_Service_Constant::STEP_DEFAULT_LAST, self::$form->getSteps());
         $this->assertTrue(self::$form->setSteps($testSteps));
         $this->assertEquals($testSteps, self::$form->getSteps());
     }
 
     public function testSetAndGetI18n()
     {
-        $registry = DoozR_Registry::getInstance();
-        $i18n     = DoozR_Loader_Serviceloader::load('i18n', $registry->config, 'de');
+        $registry = Doozr_Registry::getInstance();
+        $i18n     = Doozr_Loader_Serviceloader::load('i18n', $registry->config, 'de');
 
         $this->assertNull(self::$form->getI18n());
         $this->assertTrue(self::$form->setI18n($i18n));
-        $this->assertInstanceOf('DoozR_I18n_Service', self::$form->getI18n());
+        $this->assertInstanceOf('Doozr_I18n_Service', self::$form->getI18n());
         $this->assertSame($i18n, self::$form->getI18n());
     }
 

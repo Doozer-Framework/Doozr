@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Request Securitlayer
+ * Doozr Request Securitlayer
  *
- * Securitylayer.php - Securitylayer for Request(s) of the DoozR-Framework.
+ * Securitylayer.php - Securitylayer for Request(s) of the Doozr-Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,34 +42,34 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Securitylayer
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Securitylayer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 //require_once DOOZR_DOCUMENT_ROOT . 'Core/Controller/Securitylayer/Htmlpurifier/HTMLPurifier.standalone.php';
 //require_once DOOZR_DOCUMENT_ROOT . 'Core/Controller/Securitylayer/IDS/Init.php';
 
 /**
- * DoozR Request Securitlayer
+ * Doozr Request Securitlayer
  *
- * Securitylayer for Request(s) of the DoozR-Framework.
+ * Securitylayer for Request(s) of the Doozr-Framework.
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Securitylayer
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Securitylayer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://www.DoozR.org, http://htmlpurifier.org/, http://php-ids.org/
+ * @link       http://www.Doozr.org, http://htmlpurifier.org/, http://php-ids.org/
  */
-class DoozR_Request_Securitylayer
+class Doozr_Request_Securitylayer
 {
     /**
      * holds the instance of HTML-Purifier
@@ -144,9 +144,9 @@ class DoozR_Request_Securitylayer
         // get path to core-config file
         //$doozrCoreConfigFile = $this->_pathFinder->get('DOOZR_CONFIG').'Config.ini.php';
         // init Config_Manager for Config.ini.php
-        //$this->_coreConfig = DoozR_Config_Ini::getInstance($doozrCoreConfigFile);
+        //$this->_coreConfig = Doozr_Config_Ini::getInstance($doozrCoreConfigFile);
 
-        $this->_coreConfig = DoozR_Kernel::config();
+        $this->_coreConfig = Doozr_Kernel::config();
 
         //pred($this->_coreConfig->get('FRONTCONTROLLER.SANITIZE'));
 
@@ -158,7 +158,7 @@ class DoozR_Request_Securitylayer
             $doozrIdsConfigFile = $this->_pathFinder->get('DOOZR_CONFIG').'Ids/Ids.ini.php';
 
             // init Config_Manager for Ids.ini.php
-            $this->_idsConfig = DoozR_Config_Ini::getInstance($doozrIdsConfigFile);
+            $this->_idsConfig = Doozr_Config_Ini::getInstance($doozrIdsConfigFile);
 
             // and an instance of PHPIDS
             $this->_initPhpIds();
@@ -264,15 +264,15 @@ class DoozR_Request_Securitylayer
 
 		if (!$phpIdsResult->isEmpty()) {
             // log if result wasn't empty
-            $logger = DoozR_Logger::getInstance();
+            $logger = Doozr_Logger::getInstance();
 
-            $logger->debug('DoozR core-protection (IDS) -> detected an impact of: '.$phpIdsResult->getImpact());
+            $logger->debug('Doozr core-protection (IDS) -> detected an impact of: '.$phpIdsResult->getImpact());
 
 			// store result! for setting the impact later ...
 			self::$idsResult = $phpIdsResult;
 		}
 
-        // TODO: connect to DoozR->logger !!!!!!!!! HERE
+        // TODO: connect to Doozr->logger !!!!!!!!! HERE
 
         // check for canceling
         $this->_hardeningCore($phpIdsResult->getImpact());
@@ -304,10 +304,10 @@ class DoozR_Request_Securitylayer
         if ($totalImpact > $this->_coreConfig->get('FRONTCONTROLLER.IDS_MAX_ALLOWED_IMPACT')) {
         	$httpHeader = 'HTTP/1.0 400 Bad Request';
 
-        	$logger = DoozR_Logger::getInstance();
+        	$logger = Doozr_Logger::getInstance();
 
 			$logger->debug(
-                'DoozR core-protection -> '.__CLASS__.' (IDS) detected an overall-impact of: '.$totalImpact.
+                'Doozr core-protection -> '.__CLASS__.' (IDS) detected an overall-impact of: '.$totalImpact.
                 ' and send: '.$httpHeader.' to client: '.$_SERVER['REMOTE_ADDR']
 			);
 			header($httpHeader);

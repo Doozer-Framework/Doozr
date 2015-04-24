@@ -2,17 +2,17 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base-Singleton-Class (Strict)
+ * Doozr Base-Singleton-Class (Strict)
  *
- * Strict.php - Strict Base-Singleton-Class of the DoozR Framework
+ * Strict.php - Strict Base-Singleton-Class of the Doozr Framework
  * Strict stands for the difference to the loose Version of this class
- * (DoozRBaseSingleton.php) which do not use the given parameter at instanciation
+ * (DoozrBaseSingleton.php) which do not use the given parameter at instanciation
  * to check for singleton instance
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -45,33 +45,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Class_Singleton_Strict
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Class_Singleton_Strict
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Generic.php';
 
 /**
- * DoozR Base-Singleton-Class (Strict)
+ * Doozr Base-Singleton-Class (Strict)
  *
- * Strict Base-Singleton-Class of the DoozR Framework
+ * Strict Base-Singleton-Class of the Doozr Framework
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Class_Singleton_Strict
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Class_Singleton_Strict
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Class_Singleton_Strict extends DoozR_Base_Class_Singleton_Generic
+class Doozr_Base_Class_Singleton_Strict extends Doozr_Base_Class_Singleton_Generic
 {
     /**
      * The current single instance

@@ -2,16 +2,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
- * Class DoozR_Form_Service_Component_Html_Html is a basic HTML-Component
+ * Class Doozr_Form_Service_Component_Html_Html is a basic HTML-Component
  * which provides some simple rendering and templating capabilities.
  * It's a concrete implementation which extends the HTML-skeleton abstract.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -44,38 +44,38 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Html/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Component/Interface/Html.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Html/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Html.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
- * Class DoozR_Form_Service_Component_Html_Html is a basic HTML-Component
+ * Class Doozr_Form_Service_Component_Html_Html is a basic HTML-Component
  * which provides some simple rendering and templating capabilities.
  * It's a concrete implementation which extends the HTML-skeleton abstract.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
-abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service_Component_Html_Abstract implements
-    DoozR_Form_Service_Component_Interface_Html,
+abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service_Component_Html_Abstract implements
+    Doozr_Form_Service_Component_Interface_Html,
     SplSubject,
     SplObserver,
     ArrayAccess
@@ -99,7 +99,7 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
      * @var string
      * @access protected
      */
-    protected $template = DoozR_Form_Service_Constant::TEMPLATE_DEFAULT_CLOSING;
+    protected $template = Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_CLOSING;
 
     /**
      * The inner HTML string
@@ -122,7 +122,7 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Form_Service_Component_Html_Html
+     * @return \Doozr_Form_Service_Component_Html_Html
      * @access public
      */
     public function __construct()
@@ -317,7 +317,7 @@ abstract class DoozR_Form_Service_Component_Html_Html extends DoozR_Form_Service
      * @param $arguments The arguments passed while calling $method
      *
      * @return null|void
-     * @throws DoozR_Form_Service_Exception
+     * @throws Doozr_Form_Service_Exception
      */
     public function __call($method, $arguments)
     {

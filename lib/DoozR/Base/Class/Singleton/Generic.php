@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Base - Class - Singleton - Generic
+ * Doozr - Base - Class - Singleton - Generic
  *
- * Generic.php Generic singleton base class of the DoozR Framework
+ * Generic.php Generic singleton base class of the Doozr Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Class
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Tools.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Tools.php';
 
 /**
- * DoozR - Base - Class - Singleton - Generic
+ * Doozr - Base - Class - Singleton - Generic
  *
- * Generic singleton base class of the DoozR Framework
+ * Generic singleton base class of the Doozr Framework
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Class
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
+class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
 {
     /**
      * hThe singleton-instance(s) of this class
@@ -92,9 +92,9 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
 
     /**
      * The registry instance injected in all core classes
-     * based on DoozR_Base_Class.
+     * based on Doozr_Base_Class.
      *
-     * @var DoozR_Registry
+     * @var Doozr_Registry
      * @access protected
      * @static
      */
@@ -289,14 +289,14 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
     /**
      * Setter for registry
      *
-     * @param DoozR_Registry $registry The registry of DoozR
+     * @param Doozr_Registry $registry The registry of Doozr
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      * @static
      */
-    protected static function setRegistry(DoozR_Registry &$registry)
+    protected static function setRegistry(Doozr_Registry &$registry)
     {
         self::$registry = $registry;
     }
@@ -304,13 +304,13 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
     /**
      * Setter for registry
      *
-     * @param DoozR_Registry $registry The registry of DoozR
+     * @param Doozr_Registry $registry The registry of Doozr
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function registry(DoozR_Registry $registry)
+    protected function registry(Doozr_Registry $registry)
     {
         self::setRegistry($registry);
         return $this;
@@ -320,14 +320,14 @@ class DoozR_Base_Class_Singleton_Generic extends DoozR_Base_Tools
      * Getter for registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Registry The registry of DoozR
+     * @return Doozr_Registry The registry of Doozr
      * @access protected
      * @static
      */
     protected static function getRegistry()
     {
         if (self::$registry === null) {
-            self::$registry = DoozR_Registry::getInstance();
+            self::$registry = Doozr_Registry::getInstance();
         }
 
         return self::$registry;

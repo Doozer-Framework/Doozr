@@ -1,6 +1,6 @@
 <?php
 
-class DoozR_Crypt_Service_Container extends DoozR_Base_Class
+class Doozr_Crypt_Service_Container extends Doozr_Base_Class
 {
 
 }

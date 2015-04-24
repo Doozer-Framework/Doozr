@@ -2,15 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Route
+ * Doozr - Route
  *
- * Route.php - Dispatches to DoozR's Routing.
+ * Route.php - Dispatches to Doozr's Routing.
  *
  *
  * PHP versions
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,25 +43,25 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Router
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Router
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once 'DoozR/Bootstrap.php';
-require_once 'DoozR/Route.php';
+require_once 'Doozr/Bootstrap.php';
+require_once 'Doozr/Route.php';
 
-// Run the DoozR core to prepare base and extend PHP
-DoozR_Kernel::run();
+// Run the Doozr core to prepare base and extend PHP
+Doozr_Kernel::run();
 
 // Get registry and configuration as well
-/* @var $registry DoozR_Registry */
-$registry = DoozR_Registry::getInstance();
+/* @var $registry Doozr_Registry */
+$registry = Doozr_Registry::getInstance();
 $config   = $registry->getConfig();
 
 // Iterate filter and prepare URL
@@ -76,16 +76,16 @@ $registry->getRequest()->setRouteConfig($config->redirect);
 
 // Combine supported runtime environments
 $supportedEnvironments = array(
-    DoozR_Request_State::RUNTIME_ENVIRONMENT_WEB,
-    DoozR_Request_State::RUNTIME_ENVIRONMENT_CLI,
-    DoozR_Request_State::RUNTIME_ENVIRONMENT_HTTPD,
+    Doozr_Request_State::RUNTIME_ENVIRONMENT_WEB,
+    Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI,
+    Doozr_Request_State::RUNTIME_ENVIRONMENT_HTTPD,
 );
 
 // Check for supported runtimeEnvironment
 if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnvironments) === true) {
 
     if ($config->cache->enabled === true) {
-        /* @var DoozR_Cache_Service $cacheService */
+        /* @var Doozr_Cache_Service $cacheService */
         $cacheService = $registry->getCache();
 
     } else {
@@ -93,7 +93,7 @@ if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnviron
     }
 
     // Run route init
-    return DoozR_Route::init(
+    return Doozr_Route::init(
         $registry,
         $registry->getRequest(),
         $cacheService,
@@ -105,8 +105,8 @@ if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnviron
 
     // UNKNOWN and/or currently not supported!
     $msg  = sprintf(
-        'DoozR - The lightweight PHP-Framework for high-performance websites  - Git-Version: %s (on %s) - ' .
-        'Running a DoozR application in "%s" runtimeEnvironment is not supported!',
+        'Doozr - The lightweight PHP-Framework for high-performance websites  - Git-Version: %s (on %s) - ' .
+        'Running a Doozr application in "%s" runtimeEnvironment is not supported!',
         DOOZR_VERSION,
         php_uname(),
         strtoupper($registry->getRequest()->getRuntimeEnvironment())

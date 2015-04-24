@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Di - Map Fluent
+ * Doozr - Di - Map Fluent
  *
  * Fluent.php - Fluent map class of the Di-Framework
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - Di - The Dependency Injection Framework
+ * Doozr - Di - The Dependency Injection Framework
  *
  * Copyright (c) 2012, Benjamin Carl - All rights reserved.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map_Fluent
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map_Fluent
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -59,19 +59,19 @@ require_once DI_PATH_LIB_DI . 'Dependency.php';
 require_once DI_PATH_LIB_DI . 'Collection.php';
 
 /**
- * DoozR - Di - Map Fluent
+ * Doozr - Di - Map Fluent
  *
  * Fluent map class of the Di-Framework
  *
  * @category   Di
- * @package    DoozR_Di
- * @subpackage DoozR_Di_Map_Fluent
+ * @package    Doozr_Di
+ * @subpackage Doozr_Di_Map_Fluent
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class DoozR_Di_Map_Fluent extends DoozR_Di_Map
+class Doozr_Di_Map_Fluent extends Doozr_Di_Map
 {
     /**
      * The current active classname to add dependencies for
@@ -92,7 +92,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
     /**
      * The base dependency object
      *
-     * @var DoozR_Di_Dependency
+     * @var Doozr_Di_Dependency
      * @access private
      */
     private $_dependency;
@@ -100,7 +100,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
     /**
      * The current active dependency
      *
-     * @var DoozR_Di_Dependency
+     * @var Doozr_Di_Dependency
      * @access private
      */
     private $_current;
@@ -115,14 +115,14 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      *
      * Constructor of this class
      *
-     * @param DoozR_Di_Collection $collection An instance of DoozR_Di_Collection used to store dependencies in
-     * @param DoozR_Di_Dependency $dependency An instance of DoozR_Di_Dependency used as base object for cloning new dependencies
+     * @param Doozr_Di_Collection $collection An instance of Doozr_Di_Collection used to store dependencies in
+     * @param Doozr_Di_Dependency $dependency An instance of Doozr_Di_Dependency used as base object for cloning new dependencies
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __construct(DoozR_Di_Collection $collection, DoozR_Di_Dependency $dependency)
+    public function __construct(Doozr_Di_Collection $collection, Doozr_Di_Dependency $dependency)
     {
         // store instances
         $this->collection  = $collection;
@@ -134,19 +134,19 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      ******************************************************************************************************************/
 
     /**
-     * Empty container method to keep the interface consistent with other DoozR_Di_Map_* classes
+     * Empty container method to keep the interface consistent with other Doozr_Di_Map_* classes
      *
      * This method is intend as empty container method to keep the interface consistent with
-     * other DoozR_Di_Map_* classes.
+     * other Doozr_Di_Map_* classes.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent The current instance for chaining method calls
+     * @return Doozr_Di_Map_Fluent The current instance for chaining method calls
      * @access public
      */
     public function generate()
     {
         // empty container method to keep the interface consistent with
-        // DoozR_Di_Map_Static and DoozR_Di_Map_Annotation
+        // Doozr_Di_Map_Static and Doozr_Di_Map_Annotation
         return $this;
     }
 
@@ -160,7 +160,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      * @param mixed  $constructor The constructor of the class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
     public function classname($classname, $arguments = null, $constructor = null)
@@ -193,7 +193,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      * @param string $classname The name of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
     public function dependsOn($classname)
@@ -203,7 +203,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
             $this->_flush();
         }
 
-        /* @var $this->_current DoozR_Di_Dependency */
+        /* @var $this->_current Doozr_Di_Dependency */
         $this->_current = clone $this->_dependency;
 
         $this->_current->setClassname($classname);
@@ -220,12 +220,12 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      * @param string $identifier The identifier of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
     public function identifier($identifier)
     {
-        /* @var $this->_current DoozR_Di_Dependency */
+        /* @var $this->_current Doozr_Di_Dependency */
         $this->_current->setIdentifier($identifier);
 
         // fluent interface
@@ -240,7 +240,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      * @param string $identifier The identifier of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
     public function id($identifier)
@@ -256,12 +256,12 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      * @param mixed $instance The instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
     public function instance($instance)
     {
-        /* @var $this->_current DoozR_Di_Dependency */
+        /* @var $this->_current Doozr_Di_Dependency */
         $this->_current->setInstance($instance);
 
         // fluent interface
@@ -276,12 +276,12 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      * @param array $configuration The configuration to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
     public function configuration(array $configuration)
     {
-        /* @var $this->_current DoozR_Di_Dependency */
+        /* @var $this->_current Doozr_Di_Dependency */
         $this->_current->setConfiguration($configuration);
 
         // fluent interface
@@ -296,12 +296,12 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      * @param array $arguments The arguments to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
     public function arguments(array $arguments)
     {
-        /* @var $this->_current DoozR_Di_Dependency */
+        /* @var $this->_current Doozr_Di_Dependency */
         $this->_current->setArguments($arguments);
 
         // fluent interface
@@ -339,15 +339,15 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
     }
 
     /**
-     * Shortcut to DoozR_Di_Map::wire()
+     * Shortcut to Doozr_Di_Map::wire()
      *
-     * This method is a shortcut to DoozR_Di_Map::wire().
+     * This method is a shortcut to Doozr_Di_Map::wire().
      *
      * @param int $mode   The runtimeEnvironment to use for wiring
      * @param array   $matrix The wire matrix containing instances to wire
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
     public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = array())
@@ -369,7 +369,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      * @param bool $returnContainer TRUE to return container instance, FALSE to return map instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Container Instance of the container for active namespace
+     * @return Doozr_Di_Container Instance of the container for active namespace
      * @access public
      */
     public function store($returnContainer = true)
@@ -399,7 +399,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
      * @param bool $wire      TRUE to automatic wire instances, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
     public function build($arguments = null, $classname = null, $wire = true)
@@ -407,7 +407,7 @@ class DoozR_Di_Map_Fluent extends DoozR_Di_Map
         $classname = ($classname) ? $classname : $this->_classname;
 
         if ($wire) {
-            $this->wire(DoozR_Di_Map::WIRE_MODE_AUTOMATIC);
+            $this->wire(Doozr_Di_Map::WIRE_MODE_AUTOMATIC);
         }
 
         return $this->store()->build($classname, $arguments);

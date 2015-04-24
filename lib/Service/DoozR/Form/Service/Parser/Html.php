@@ -2,12 +2,12 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Html.php - Parser for parsing form an configuration out of existing HTML
  * Code. Assume the following scenario ->
  * If forms exist, maybe created/designed by a web-designer and you would like
- * to be able to process these forms with DoozR_Form_Service too (e.g. Token,
+ * to be able to process these forms with Doozr_Form_Service too (e.g. Token,
  * Validation, ...) you will need to extract information for processing out
  * of those existing forms instead of defining it again and keep changes in
  * both directions in sync.
@@ -30,14 +30,14 @@
  *   form.
  *
  * - Use concrete class instead of array for config structure!
- *   Maybe something like: DoozR_Form_Service_Configuration
+ *   Maybe something like: Doozr_Form_Service_Configuration
  *   will result in an configuration-object instance :)
  *   do not forget to TYPEHINT!
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -70,37 +70,37 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Parser/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/Form/Service/Parser/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Parser/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Parser/Interface.php';
 
 /**
- * DoozR - Form - Service
+ * Doozr - Form - Service
  *
  * Parser for parsing HTML files for forms which cab be used in form-manager
  * as preconfigured templates.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Form
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
+class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
     implements
-    DoozR_Form_Service_Parser_Interface
+    Doozr_Form_Service_Parser_Interface
 {
     /**
      * Contains the template representation of input
@@ -192,10 +192,10 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Parses form(s) and DoozR-Form-Service directives to configuration from previously set HTML.
+     * Parses form(s) and Doozr-Form-Service directives to configuration from previously set HTML.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Parser_Interface Instance for chaining
+     * @return Doozr_Form_Service_Parser_Interface Instance for chaining
      * @access public
      * @throws \Exception
      */
@@ -266,13 +266,13 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
     /**
      * Adds a configuration
      *
-     * @param DoozR_Form_Service_Configuration $configuration The configuration to add
+     * @param Doozr_Form_Service_Configuration $configuration The configuration to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function addConfiguration(DoozR_Form_Service_Configuration $configuration)
+    public function addConfiguration(Doozr_Form_Service_Configuration $configuration)
     {
         $this->configurations[$configuration->getId()] = $configuration;
     }
@@ -281,7 +281,7 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
      * Getter for configurations.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Form_Service_Configuration[] The stored configurations
+     * @return Doozr_Form_Service_Configuration[] The stored configurations
      * @access public
      */
     public function getConfigurations()
@@ -293,13 +293,13 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
      * Setter for forms configuration
      *
      * @param string                           $id            The id of the form
-     * @param DoozR_Form_Service_Configuration $configuration The configuration of the form
+     * @param Doozr_Form_Service_Configuration $configuration The configuration of the form
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setForm($id, DoozR_Form_Service_Configuration $configuration)
+    public function setForm($id, Doozr_Form_Service_Configuration $configuration)
     {
         $this->forms[$id] = $configuration;
     }
@@ -310,7 +310,7 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
      * @param string $id The id of the form to return
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|DoozR_Form_Service_Configuration The form configuration if set, otherwise NULL
+     * @return null|Doozr_Form_Service_Configuration The form configuration if set, otherwise NULL
      * @access public
      */
     public function getForm($id)
@@ -463,10 +463,10 @@ class DoozR_Form_Service_Parser_Html extends DoozR_Form_Service_Parser_Abstract
 
             // check fieldname for existence of our own prefix so rip off
             $fieldName = (isset($element['properties']['name'])) ?
-                substr($element['properties']['name'], 0, strlen(DoozR_Form_Service_Constant::PREFIX)) :
+                substr($element['properties']['name'], 0, strlen(Doozr_Form_Service_Constant::PREFIX)) :
                 '';
 
-            if ($fieldName !== DoozR_Form_Service_Constant::PREFIX) {
+            if ($fieldName !== Doozr_Form_Service_Constant::PREFIX) {
                 // get Id
                 $id = $this->getId($element['properties']);
 

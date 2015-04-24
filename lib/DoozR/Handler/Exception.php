@@ -2,15 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Handler - Exception
+ * Doozr - Handler - Exception
  *
- * Exception.php - Exception-Handler of the DoozR-Framework which overrides
+ * Exception.php - Exception-Handler of the Doozr-Framework which overrides
  * the PHP default exception-handler (handling)
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,45 +43,45 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Handler
- * @subpackage DoozR_Handler_Exception
+ * @category   Doozr
+ * @package    Doozr_Handler
+ * @subpackage Doozr_Handler_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
-// DoozR constants for the three main exception-types (codes like PHP error-types)
+// Doozr constants for the three main exception-types (codes like PHP error-types)
 define('E_USER_EXCEPTION', 23);
 define('E_USER_CORE_EXCEPTION', 235);
 define('E_USER_CORE_FATAL_EXCEPTION', 23523);
 
 /**
- * DoozR - Handler - Exception
+ * Doozr - Handler - Exception
  *
- * Exception-Handler of the DoozR-Framework which overrides
+ * Exception-Handler of the Doozr-Framework which overrides
  * the PHP default exception-handler (handling)
  *
- * @category   DoozR
- * @package    DoozR_Handler
- * @subpackage DoozR_Handler_Exception
+ * @category   Doozr
+ * @package    Doozr_Handler
+ * @subpackage Doozr_Handler_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
-final class DoozR_Handler_Exception extends DoozR_Base_Class
+final class Doozr_Handler_Exception extends Doozr_Base_Class
 {
     /**
      * Replacement for PHP's default internal exception handler. All Exceptions are dispatched
      * to this method - we decide here what to do with it. We need this hook to stay informed
-     * about DoozR's state and to pipe the Exceptions to attached Logger-Subsystem.
+     * about Doozr's state and to pipe the Exceptions to attached Logger-Subsystem.
      *
      * @param Exception $exception The thrown and uncaught exception object
      *
@@ -95,10 +95,10 @@ final class DoozR_Handler_Exception extends DoozR_Base_Class
         // Sometimes errors thrown before subsystem is ready - in this case its never told to outside but logged
         $debug = (defined('DOOZR_DEBUG') === true) ? DOOZR_DEBUG : true;
 
-        // In range of 100 - 599 we do send a HTTP response by logic and laws of DoozR
+        // In range of 100 - 599 we do send a HTTP response by logic and laws of Doozr
         if ($exception->getCode() >= 100 && $exception->getCode() <= 599) {
             $code    = $exception->getCode();
-            $message = ($debug === true) ? $exception->getMessage() : constant('DoozR_Http::STATUS_' . $code);
+            $message = ($debug === true) ? $exception->getMessage() : constant('Doozr_Http::STATUS_' . $code);
 
         } else {
             $code    = '500';

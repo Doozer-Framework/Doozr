@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Installer - Base
+ * Doozr - Installer - Base
  *
  * Base.php - Installer base script.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,14 +42,14 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Installer
- * @subpackage DoozR_Installer_Base
+ * @category   Doozr
+ * @package    Doozr_Installer
+ * @subpackage Doozr_Installer_Base
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 use Composer\Script\CommandEvent;
@@ -57,20 +57,20 @@ use Composer\Script\CommandEvent;
 ini_set('html_errors', 0);
 
 /**
- * DoozR - Installer - Base
+ * Doozr - Installer - Base
  *
  * Installer base script.
  *
- * @category   DoozR
- * @package    DoozR_Installer
- * @subpackage DoozR_Installer_Base
+ * @category   Doozr
+ * @package    Doozr_Installer
+ * @subpackage Doozr_Installer_Base
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Installer_Base
+class Doozr_Installer_Base
 {
     /**
      * The arguments from CLI (argv) parsed.
@@ -195,7 +195,7 @@ class DoozR_Installer_Base
     {
         $path = DIRECTORY_SEPARATOR . implode(
                 DIRECTORY_SEPARATOR,
-                array('vendor', 'clickalicious', 'doozr', 'lib', 'DoozR','Installer', 'Base.php')
+                array('vendor', 'clickalicious', 'doozr', 'lib', 'Doozr','Installer', 'Base.php')
             );
 
         return realpath(str_replace($path, '', __FILE__));
@@ -261,14 +261,14 @@ class DoozR_Installer_Base
     {
         $path = DIRECTORY_SEPARATOR . implode(
                 DIRECTORY_SEPARATOR,
-                array('lib', 'DoozR','Installer', 'Base.php')
+                array('lib', 'Doozr','Installer', 'Base.php')
             );
 
         return realpath(str_replace($path, '', __FILE__)) . DIRECTORY_SEPARATOR;
     }
 
     /**
-     * Shows DoozR version banner.
+     * Shows Doozr version banner.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -279,7 +279,7 @@ class DoozR_Installer_Base
     {
         \cli\line();
         \cli\line(\cli\Colors::colorize('%y+----------------------------------------------------------------------+%N'));
-        \cli\line(\cli\Colors::colorize('%y| Welcome to DoozR\'s bootstrap project installer.                      |%N'));
+        \cli\line(\cli\Colors::colorize('%y| Welcome to Doozr\'s bootstrap project installer.                      |%N'));
         \cli\line(\cli\Colors::colorize('%y| Version: ' . DOOZR_INSTALLER_VERSION . '             |%N'));
         \cli\line(\cli\Colors::colorize('%y+----------------------------------------------------------------------+%N'));
     }
@@ -339,7 +339,7 @@ class DoozR_Installer_Base
     }
 
     /**
-     * Show DoozR banner.
+     * Show Doozr banner.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

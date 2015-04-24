@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - I18n - Service - Localize - Abstract
+ * Doozr - I18n - Service - Localize - Abstract
  *
  * Abstract.php - Abstract base class for formatter of the I18n module
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 /**
- * DoozR - I18n - Service - Localize - Abstract
+ * Doozr - I18n - Service - Localize - Abstract
  *
  * Abstract base class for Localizeter of the I18n module
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_I18n_Service_Localize_Abstract extends DoozR_Base_Class
+abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
 {
     /**
      * the type of the Localize-class
@@ -79,9 +79,9 @@ abstract class DoozR_I18n_Service_Localize_Abstract extends DoozR_Base_Class
     protected $type;
 
     /**
-     * The DoozR_Registry instance containing core objects
+     * The Doozr_Registry instance containing core objects
      *
-     * @var DoozR_Registry
+     * @var Doozr_Registry
      * @access protected
      */
     protected $registry;
@@ -142,18 +142,18 @@ abstract class DoozR_I18n_Service_Localize_Abstract extends DoozR_Base_Class
     /**
      * This method is intend to act as constructor.
      *
-     * @param DoozR_Registry_Interface $registry   The registry
+     * @param Doozr_Registry_Interface $registry   The registry
      * @param string                   $locale     The locale this instance is working with
      * @param string                   $namespace  The active namespace of this format-class
-     * @param object                   $configI18n An instance of DoozR_Config_Ini holding the I18n-config
-     * @param object                   $configL10n An instance of DoozR_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $configI18n An instance of Doozr_Config_Ini holding the I18n-config
+     * @param object                   $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
      */
     public function __construct(
-        DoozR_Registry_Interface $registry   = null,
+        Doozr_Registry_Interface $registry   = null,
         $locale     = null,
         $namespace  = null,
         $configI18n = null,
@@ -194,14 +194,14 @@ abstract class DoozR_I18n_Service_Localize_Abstract extends DoozR_Base_Class
     {
         // check if we must load localized config (I10n) was already retrieved
         if (!$this->config) {
-            // get config manager of DoozR-Framework
-            include_once DOOZR_DOCUMENT_ROOT . 'DoozR/Config/Container/Ini.php';
+            // get config manager of Doozr-Framework
+            include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Container/Ini.php';
 
             // configuration-file
             $configurationFile = DOOZR_APP_ROOT . 'Data/Private/I18n/'.$this->locale.'/Localization/'.$this->type.'.ini';
 
             // get configreader
-            $config = DoozR_Loader_Serviceloader::load('Config', 'Ini');
+            $config = Doozr_Loader_Serviceloader::load('Config', 'Ini');
 
             // read config
             $this->config = $config->read($configurationFile);

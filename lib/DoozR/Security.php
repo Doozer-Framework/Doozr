@@ -2,15 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Security
+ * Doozr - Security
  *
  * Security.php - Access to private/public keys for security operations of
- * the DoozR Framework.
+ * the Doozr Framework.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,44 +43,44 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Security
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Security
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
 /**
- * DoozR Security
+ * Doozr Security
  *
- * Access to private/public keys for security operations of the DoozR Framework.
+ * Access to private/public keys for security operations of the Doozr Framework.
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Security
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Security
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Security extends DoozR_Base_Class_Singleton
+class Doozr_Security extends Doozr_Base_Class_Singleton
 {
     /**
-     * Instance of DoozR_Config
+     * Instance of Doozr_Config
      *
-     * @var DoozR_Config
+     * @var Doozr_Config
      * @access protected
      */
     protected static $config;
 
     /**
-     * Contains an instance of DoozR_Logger
+     * Contains an instance of Doozr_Logger
      *
      * @var object
      * @access protected
@@ -91,21 +91,21 @@ class DoozR_Security extends DoozR_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param DoozR_Config $config Instance of DoozR_Config
-     * @param DoozR_Logger $logger Instance of DoozR_Logger
+     * @param Doozr_Config $config Instance of Doozr_Config
+     * @param Doozr_Logger $logger Instance of Doozr_Logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Security
+     * @return Doozr_Security
      * @access protected
      */
-    protected function __construct(DoozR_Config $config, DoozR_Logger $logger)
+    protected function __construct(Doozr_Config $config, Doozr_Logger $logger)
     {
         self::$config = $config;
         self::$logger = $logger;
     }
 
     /**
-     * Returns private key of DoozR
+     * Returns private key of Doozr
      *
      * This method is intend to return the current private key.
      *
@@ -114,13 +114,13 @@ class DoozR_Security extends DoozR_Base_Class_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The current private key
      * @access public
-     * @throws DoozR_Exception
+     * @throws Doozr_Exception
      */
     public static function getPrivateKey($bit = 256)
     {
         // max-len in bit = 1024
         if ($bit > 1024) {
-            throw new DoozR_Exception('The largest size of a private-key is 1024! Please choose a lower bit count.');
+            throw new Doozr_Exception('The largest size of a private-key is 1024! Please choose a lower bit count.');
         }
 
         // calculate bytes from bits

@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR Base Presenter Subject
+ * Doozr Base Presenter Subject
  *
  * Subject.php - Base subject-template for "Presenter" build (MVP pattern)
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
 
 /**
- * DoozR Base Presenter Subject
+ * Doozr Base Presenter Subject
  *
  * Base subject-template for "Presenter" build (MVP pattern)
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Presenter
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_State_Container implements SplSubject
+abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container implements SplSubject
 {
     /**
      * Contains all attached observers
@@ -82,13 +82,13 @@ abstract class DoozR_Base_Presenter_Subject extends DoozR_Base_State_Container i
     /**
      * Constructor override for SplObjectStorage instantiation.
      *
-     * @param DoozR_Base_State_Interface $stateObject The state object
+     * @param Doozr_Base_State_Interface $stateObject The state object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Base_Presenter_Subject Subject
+     * @return Doozr_Base_Presenter_Subject Subject
      * @access public
      */
-    public function __construct(DoozR_Base_State_Interface $state)
+    public function __construct(Doozr_Base_State_Interface $state)
     {
         $this->observer = new SplObjectStorage();
         parent::__construct($state);

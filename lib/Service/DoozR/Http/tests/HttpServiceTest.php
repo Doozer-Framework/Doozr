@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - Http - Test
+ * Doozr - Service - Http - Test
  *
- * HttpServiceTest.php - Tests for Service instance of DoozR Http Service.
+ * HttpServiceTest.php - Tests for Service instance of Doozr Http Service.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
 
 /**
- * DoozR - Service - Http - Test
+ * Doozr - Service - Http - Test
  *
- * Tests for Service instance of DoozR Http Service.
+ * Tests for Service instance of Doozr Http Service.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_Http
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_Http
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class HttpServiceTest extends DoozR_Base_Service_Test_Abstract
+class HttpServiceTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
      * Protocol used
@@ -129,7 +129,7 @@ class HttpServiceTest extends DoozR_Base_Service_Test_Abstract
         parent::setUp();
 
         // Load service
-        self::$service = DoozR_Loader_Serviceloader::load(self::$serviceName);
+        self::$service = Doozr_Loader_Serviceloader::load(self::$serviceName);
     }
 
     /**

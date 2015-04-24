@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Tool - Abstract
+ * Doozr - Tool - Abstract
  *
  * Abstract.php - The abstract base for CLI Tools.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,35 +42,35 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Tool
- * @subpackage DoozR_Tool_Abstract
+ * @category   Doozr
+ * @package    Doozr_Tool
+ * @subpackage Doozr_Tool_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once 'DoozR/Base/Class.php';
+require_once 'Doozr/Base/Class.php';
 
 use \donatj\Flags;
 
 /**
- * DoozR - Tool - Abstract
+ * Doozr - Tool - Abstract
  *
  * The abstract base for CLI Tools.
  *
- * @category   DoozR
- * @package    DoozR_Tool
- * @subpackage DoozR_Tool_Abstract
+ * @category   Doozr
+ * @package    Doozr_Tool
+ * @subpackage Doozr_Tool_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class DoozR_Tool_Abstract extends DoozR_Base_Class
+abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
 {
     /**
      * The name of the software using this CLI interface.
@@ -133,7 +133,7 @@ abstract class DoozR_Tool_Abstract extends DoozR_Base_Class
      * @param null   $injectCommand
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return DoozR_Tool_Abstract
+     * @return Doozr_Tool_Abstract
      * @access public
      */
     public function __construct(

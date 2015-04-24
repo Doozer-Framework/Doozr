@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Request - Httpd
+ * Doozr - Request - Httpd
  *
  * Httpd.php - Request-Handler for requests passed through CLI to Front-Controller.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,36 +42,36 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Httpd
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Httpd
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Request.php';
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Request.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
 
 /**
- * DoozR Request Httpd
+ * Doozr Request Httpd
  *
  * Httpd.php - Request Httpd - Request-Handler for requests passed through CLI to
  * Front-Controller.
  *
- * @category   DoozR
- * @package    DoozR_Request
- * @subpackage DoozR_Request_Httpd
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Httpd
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_Interface
+class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_Interface
 {
     /**
      * holds the type of os-runtimeEnvironment for commands
@@ -123,13 +123,13 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
     /**
      * Constructor.
      *
-     * @param DoozR_Registry $app DoozR's main registry
+     * @param Doozr_Registry $app Doozr's main registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \DoozR_Request_Httpd
+     * @return \Doozr_Request_Httpd
      * @access public
      */
-    public function __construct(DoozR_Registry $app)
+    public function __construct(Doozr_Registry $app)
     {
         // Store instances
         $this->setApp($app);
@@ -180,7 +180,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isGet()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_GET);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_GET);
     }
 
     /**
@@ -193,7 +193,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isHead()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_HEAD);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_HEAD);
     }
 
     /**
@@ -206,7 +206,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isPut()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_PUT);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_PUT);
     }
 
     /**
@@ -219,7 +219,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isPost()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_POST);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_POST);
     }
 
     /**
@@ -232,7 +232,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isDelete()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_DELETE);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_DELETE);
     }
 
     /**
@@ -245,7 +245,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isOptions()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_OPTIONS);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_OPTIONS);
     }
 
     /**
@@ -258,7 +258,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isTrace()
     {
-        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_TRACE);
+        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_TRACE);
     }
 
     /**

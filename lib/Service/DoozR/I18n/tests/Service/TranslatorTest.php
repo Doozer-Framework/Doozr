@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Service - I18n - Test - Translator
+ * Doozr - Service - I18n - Test - Translator
  *
- * TranslatorTest.php - Tests for Translator of the DoozR I18n Service.
+ * TranslatorTest.php - Tests for Translator of the Doozr I18n Service.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,33 +42,33 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Service/Test/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/DoozR/I18n/tests/resources/fixtures/Fixtures.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/resources/fixtures/Fixtures.php';
 
 /**
- * DoozR - Service - I18n - Test
+ * Doozr - Service - I18n - Test
  *
- * Tests for Translator of the DoozR I18n Service.
+ * Tests for Translator of the Doozr I18n Service.
  *
- * @category   DoozR
- * @package    DoozR_Service
- * @subpackage DoozR_Service_I18n
+ * @category   Doozr
+ * @package    Doozr_Service
+ * @subpackage Doozr_Service_I18n
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class TranslatorTest extends DoozR_Base_Service_Test_Abstract
+class TranslatorTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
      * Prepares setup for Tests of "I18n"
@@ -99,7 +99,7 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
         $translator = self::$service->getTranslator();
 
         $this->assertInstanceOf(
-            'DoozR_I18n_Service_Translator',
+            'Doozr_I18n_Service_Translator',
             $translator
         );
 
@@ -120,7 +120,7 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
         $translator = self::$service->getTranslator('en-gb');
 
         $this->assertInstanceOf(
-            'DoozR_I18n_Service_Translator',
+            'Doozr_I18n_Service_Translator',
             $translator
         );
 
@@ -157,7 +157,7 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @expectedException DoozR_I18n_Service_Exception
+     * @expectedException Doozr_I18n_Service_Exception
      */
     public function testTranslationWithoutNamespaceThrowsException()
     {
@@ -201,7 +201,7 @@ class TranslatorTest extends DoozR_Base_Service_Test_Abstract
         $locale = Fixtures::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
-        /* @var DoozR_I18n_Service_Translator $translator*/
+        /* @var Doozr_I18n_Service_Translator $translator*/
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
         $translation = $translator->_('x_books_in_my_y_shelves', array(5, 23));
