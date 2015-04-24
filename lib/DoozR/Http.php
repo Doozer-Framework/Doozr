@@ -71,12 +71,86 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Class.php';
  */
 class DoozR_Http extends DoozR_Base_Class
 {
-    const REQUEST_METHOD_GET     = 'GET';
-    const REQUEST_METHOD_PUT     = 'PUT';
-    const REQUEST_METHOD_POST    = 'POST';
-    const REQUEST_METHOD_HEAD    = 'HEAD';
+    /**
+     * The request method aka verb GET.
+     *
+     * @var string
+     * @access public
+     * @const
+     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     */
+    const REQUEST_METHOD_GET = 'GET';
+
+    /**
+     * The request method aka verb PUT.
+     *
+     * @var string
+     * @access public
+     * @const
+     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     */
+    const REQUEST_METHOD_PUT = 'PUT';
+
+    /**
+     * The request method aka verb POST.
+     *
+     * @var string
+     * @access public
+     * @const
+     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     */
+    const REQUEST_METHOD_POST = 'POST';
+
+    /**
+     * The request method aka verb HEAD.
+     *
+     * @var string
+     * @access public
+     * @const
+     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     */
+    const REQUEST_METHOD_HEAD = 'HEAD';
+
+    /**
+     * The request method aka verb OPTIONS.
+     *
+     * @var string
+     * @access public
+     * @const
+     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     */
     const REQUEST_METHOD_OPTIONS = 'OPTIONS';
-    const REQUEST_METHOD_DELETE  = 'DELETE';
+
+    /**
+     * The request method aka verb DELETE.
+     *
+     * @var string
+     * @access public
+     * @const
+     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     */
+    const REQUEST_METHOD_DELETE = 'DELETE';
+
+    /**
+     * The request method aka verb TRACE.
+     *
+     * @var string
+     * @access public
+     * @const
+     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     */
+    const REQUEST_METHOD_TRACE = 'TRACE';
+
+    /**
+     * The request method aka verb CONNECT.
+     *
+     * @var string
+     * @access public
+     * @const
+     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     */
+    const REQUEST_METHOD_CONNECT = 'CONNECT';
+
 
 
     const STATUS_100 = 'Continue';

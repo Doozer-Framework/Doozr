@@ -86,8 +86,11 @@ class DoozR_Di_Map_Annotation extends DoozR_Di_Map
      * @return \DoozR_Di_Map_Annotation
      * @access public
      */
-    public function __construct(DoozR_Di_Collection $collection, DoozR_Di_Parser_Annotation $parser, DoozR_Di_Dependency $dependency)
-    {
+    public function __construct(
+        DoozR_Di_Collection        $collection,
+        DoozR_Di_Parser_Annotation $parser,
+        DoozR_Di_Dependency        $dependency
+    ) {
         // store given instances
         $this->collection = $collection;
         $this->parser     = $parser;

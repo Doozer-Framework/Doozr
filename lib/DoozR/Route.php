@@ -55,6 +55,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Container.php';
 
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -134,33 +135,6 @@ final class DoozR_Route extends DoozR_Base_State_Container
     protected static $routes;
 
     /**
-     * The default routes to fill up missing parts passed to redirect
-     * mechanism. The user does not need to know the default parts cause
-     * they will be filled automagically so he only needs to put in the
-     * required source and target minimum.
-     *
-     * @var array
-     * @access protected
-     * @static
-     */
-    /*
-    protected static $defaults = array(
-        'model' => array(
-            self::DEFAULT_OBJECT,
-            self::DEFAULT_ACTION
-        ),
-        'view' => array(
-            self::DEFAULT_OBJECT,
-            self::DEFAULT_ACTION
-        ),
-        'presenter' => array(
-            self::DEFAULT_OBJECT,
-            self::DEFAULT_ACTION
-        )
-    );
-    */
-
-    /**
      * The current active route prefilled with defaults.
      * The minimum length of a route is 2 nodes which
      * represents an object and its action. But through
@@ -185,19 +159,6 @@ final class DoozR_Route extends DoozR_Base_State_Container
      * @static
      */
     protected static $request;
-
-    /**
-     * The translation matrix for passed requests. The translation
-     * is done so that you can handle the route in your applications
-     * code by exactly those translations (e.g. /foo/bar/ will become
-     * available in the application through the variables $object and
-     * $action by default pattern).
-     *
-     * @var array
-     * @access protected
-     * @static
-     */
-    #protected static $translationMatrix;
 
     /**
      * The registry of the DoozR Framework for accessing
@@ -327,7 +288,7 @@ final class DoozR_Route extends DoozR_Base_State_Container
                 if (isset($config->methods) && $config->methods !== null) {
                     $methods = explode(',', $config->methods);
                 } else {
-                    $methods = array('GET');
+                    $methods = array(DoozR_Http::REQUEST_METHOD_GET);
                 }
 
                 foreach ($methods as $method) {
@@ -351,7 +312,6 @@ final class DoozR_Route extends DoozR_Base_State_Container
                 self::$cacheService->create(self::$uuid, self::$routes, null, self::$namespace);
             }
         }
-
 
         // Feed dispatcher with routes
         $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
@@ -589,124 +549,6 @@ final class DoozR_Route extends DoozR_Base_State_Container
         // Return routes found ...
         return $routes;
     }
-
-    /**
-     * This method translates the current request to a valid route.
-     *
-     * @param array $request     The current request
-     * @param array $translation The translation of the request
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Translated request
-     * @access protected
-     * @static
-     */
-    /*
-    protected static function translate(array $request, array $translation)
-    {
-        // the translated result
-        $result = array();
-
-        // Get count of parts used in current pattern outside the following loop -> performance
-        $countParts = count($translation);
-
-        // parse the parts
-        for ($i = 0; $i < $countParts; ++$i) {
-            if (isset($request[$i]) && !is_array($request[$i])) {
-                $$translation[$i] = strtolower($request[$i]);
-            } else {
-                $$translation[$i] = self::DEFAULT_ACTION;
-            }
-
-            // a list for dispatch (name => value - pairs)
-            $result[$translation[$i]] = $$translation[$i];
-        }
-
-        // return translated input
-        return $result;
-    }
-    */
-
-    /**
-     * This method fills a passed route with default values
-     * for missing values to fulfill at least our required
-     * two node condition /object/action/
-     *
-     * @param array $route The current route
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The resulting array containing "object" and "action" of target route
-     * @access protected
-     * @static
-     */
-    /*
-    protected static function fillUp(array $route)
-    {
-        // the filled up route
-        $result = array();
-
-        // the count of nodes (e.g. X/Y/Z ..)
-        $countNodes = count($route);
-
-        // case1: at least object + action is set
-        if ($countNodes > 1) {
-            // at least "object" and "action" found -> don't worry be happy
-            $result = $route;
-
-        } elseif ($countNodes === 1) {
-            // case 2: only object set
-            $result[0] = $route[0];
-            $result[1] = self::DEFAULT_ACTION;
-
-        } else {
-            // case 3: nothin was set
-            $result[0] = self::DEFAULT_OBJECT;
-            $result[1] = self::DEFAULT_ACTION;
-        }
-
-        return $result;
-    }
-    */
-
-    /**
-     * This method takes an existing route and redirects as arguments
-     * and checks the passed route for redirects matching the whole
-     * current route or parts of it.
-     *
-     * @param array $route          The current active route
-     * @param array $routeRedirects All possible redirects of the application
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The resulting array containing "object" and "action" of target route
-     * @access protected
-     * @static
-     */
-    /*
-    protected static function redirect(array $route, array $routeRedirects = array())
-    {
-        // check if redirect is required
-        if (count($routeRedirects)) {
-            $route = self::fillUp($route[1]);
-
-            // check for existing route redirects for "object" & "action"
-            if (isset($routeRedirects[$route[0]][$route[1]])) {
-                $node  = $routeRedirects[$route[0]][$route[1]];
-                $route = array_merge($node, array_slice($route, 2));
-
-            } elseif (isset($routeRedirects[$route[0]])) {
-                $node = $routeRedirects[$route[0]];
-
-                // check if a redirect array[x,y,z...] is defined on those level
-                if (isset($node[0])) {
-                    $route = array_merge($node, array_slice($route, 1));
-                }
-            }
-        }
-
-        // return the target route
-        return $route;
-    }
-    */
 
     /**
      * Takes two optional arguments and build a basic routing profile.

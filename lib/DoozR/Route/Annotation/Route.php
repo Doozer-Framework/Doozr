@@ -60,9 +60,9 @@ namespace DoozR\Route\Annotation;
  * Route Annotation for DI of DoozR.
  *
  * class           string      "DoozR_Registry" ASCII
- * identifier      string      "__construct" ASCII
+ * identifier      string      "__construct"    ASCII
  * instance        null
- * type            string      "constructor" ASCII
+ * type            string      "constructor"    ASCII
  * value           null
  * position        string      "1"
  *

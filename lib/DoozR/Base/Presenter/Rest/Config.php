@@ -97,12 +97,13 @@ class DoozR_Base_Presenter_Rest_Config
     protected $nodes = 0;
 
     /**
-     * Request methods allowed
+     * Request methods allowed.
+     * Default: Only GET is allowed.
      *
      * @var array
      * @access protected
      */
-    protected $allow = array(DoozR_Request_Web::METHOD_GET);
+    protected $allow = array(DoozR_Http::REQUEST_METHOD_GET);
 
     /**
      * The required input arguments for this route

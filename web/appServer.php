@@ -50,11 +50,11 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 /**
  * ENVIRONMENT:
  * You can override the default environment by a defined constant:
- * define('DOOZR_APP_ENVIRONMENT', 'development|staging|production');
+ * define('DOOZR_APP_ENVIRONMENT', 'development|testing|staging|production');
  *
  * or by an environment variable which can be set via apache config
  * for example on a per vhost base or like this with PHP:
- * putenv('DOOZR_APP_ENVIRONMENT', 'development|staging|production');
+ * putenv('DOOZR_APP_ENVIRONMENT', 'development|testing|staging|production');
  *
  * PATH TO APP:
  * You can override the default app path by a defined constant:
@@ -62,7 +62,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
  *
  * or by an environment variable which can be set via apache config
  * for example on a per vhost base or like this with PHP:
- * putenv('DOOZR_APP_ROOT', '/path/to/app');
+ * putenv('DOOZR_APP_ROOT = /path/to/app');
  *
  * In the default install you won't need this statements above!
  */
@@ -70,7 +70,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 /**
  * Get composer as well as DoozR's router the rest is magic ...
  */
-require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'../vendor/autoload.php');
+require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 
 /**
  * Check for internal webserver request for real file ...

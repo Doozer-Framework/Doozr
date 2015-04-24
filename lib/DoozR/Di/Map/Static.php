@@ -87,14 +87,14 @@ class DoozR_Di_Map_Static extends DoozR_Di_Map
      *
      * Constructor of this class
      *
-     * @param DoozR_Di_Collection    $collection An instance of DoozR_Di_Collection to collect dependencies in
-     * @param DoozR_Di_Importer_Json $importer   An instance of DoozR_Di_Importer_Json to import dependencies with
+     * @param DoozR_Di_Collection         $collection An instance of DoozR_Di_Collection to collect dependencies in
+     * @param DoozR_Di_Importer_Interface $importer   An instance of DoozR_Di_Importer_Json to import dependencies with
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \DoozR_Di_Map_Static
      * @access public
      */
-    public function __construct(DoozR_Di_Collection $collection, DoozR_Di_Importer_Json $importer)
+    public function __construct(DoozR_Di_Collection $collection, DoozR_Di_Importer_Interface $importer)
     {
         // store given instances
         $this->collection = $collection;

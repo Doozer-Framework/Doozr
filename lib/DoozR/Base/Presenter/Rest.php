@@ -4,7 +4,7 @@
 /**
  * DoozR - Base - Presenter - Rest
  *
- * Rest.php - Base class for presenter-layers from MV(C|P) with REST support
+ * Rest.php - Base class for presenter-layers from MVP with REST support
  *
  * PHP versions 5.4
  *

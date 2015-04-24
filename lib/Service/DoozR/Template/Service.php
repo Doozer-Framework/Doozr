@@ -251,7 +251,7 @@ class DoozR_Template_Service extends DoozR_Base_Facade_Singleton implements Dooz
 
 
     /**
-     * Initializes the engine (e.g. smarty or phptal) and store the instance
+     * Initializes the engine (e.g. phptal) and store the instance
      * as decorated object.
      *
      * @param string $engine The name/identifier of the engine we use (phptal)

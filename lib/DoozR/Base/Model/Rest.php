@@ -4,7 +4,7 @@
 /**
  * DoozR - Base - Model - Rest
  *
- * Rest.php - Base class for model-layers from MV(C|P) with REST support
+ * Rest.php - Base class for model-layers from MVP with REST support
  *
  * PHP versions 5.4
  *

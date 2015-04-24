@@ -21,11 +21,8 @@
         <testsuite name="DoozR_I18n_Service">
             <directory>../lib/Service/DoozR/I18n/tests/</directory>
         </testsuite>
-        <testsuite name="DoozR_Http_Service">
+        <!--testsuite name="DoozR_Http_Service">
             <directory>../lib/Service/DoozR/Http/tests/</directory>
-        </testsuite>
-        <!--testsuite name="DoozR_Form_Service">
-            <directory>../lib/Service/DoozR/Form/tests/</directory>
         </testsuite-->
     </testsuites>
 

@@ -4,7 +4,7 @@
 /**
  * DoozR - Base - Presenter
  *
- * Presenter.php - Base class for presenter-layers from MV(C|P)
+ * Presenter.php - Base class for presenter-layers from MVP
  *
  * PHP versions 5.4
  *
@@ -90,7 +90,7 @@ class DoozR_Base_Presenter extends DoozR_Base_Presenter_Subject implements DoozR
     protected $model;
 
     /**
-     * Instance of view for cummunication
+     * Instance of view for communication
      *
      * @var DoozR_Base_View
      * @access protected

@@ -14,6 +14,8 @@ final class Model_Index extends DoozR_Base_Model
      */
     protected function __data()
     {
+        echo $this->getAction();die;
+
         // Dummy array for iterated output
         $people = array();
         $people[] = 'John Do';

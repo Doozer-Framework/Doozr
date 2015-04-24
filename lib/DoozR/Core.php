@@ -304,7 +304,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
 
         /**
          * Create instances of required classes
-         * Create instance of Di_Map_Annotation and pass required classes as arguments to constructor
+         * Create instance of DoozR_Di_Map_Static and pass required classes as arguments to constructor
          * The Di-Map builder requires two objects Collection + Importer
          */
         $collection = new DoozR_Di_Collection();
@@ -375,9 +375,6 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
         $logger->attach(
             self::$registry->getContainer()->build('DoozR_Logger_Collecting')
         );
-
-        // Log debug message
-        //$logger->debug('Bootstrapping of DoozR (v ' . DOOZR_VERSION . ')');
 
         self::$registry->setLogger($logger);
 
@@ -700,7 +697,7 @@ final class DoozR_Core extends DoozR_Base_Class_Singleton
 
     /**
      * This method is intend to initialize the back-controller. The back-controller
-     * is mainly responsible for managing access to the MVC/MVP part and used as interface
+     * is mainly responsible for managing access to the MVP part and used as interface
      * to model as well.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

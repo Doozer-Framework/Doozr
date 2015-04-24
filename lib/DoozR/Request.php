@@ -314,7 +314,7 @@ class DoozR_Request extends DoozR_Base_State_Container
         if (
             ($this->requestSources[$method] === self::EMULATED) ||
             (
-                $method === DoozR_Request_State::METHOD_POST &&
+                $method === DoozR_Http::REQUEST_METHOD_POST &&
                 (
                     (isset($headers['CONTENT_TYPE']) === false) ||
                     (stristr(strtolower($headers['CONTENT_TYPE']), 'application/x-www-form-urlencoded') === false)
@@ -500,13 +500,14 @@ class DoozR_Request extends DoozR_Base_State_Container
 
     /**
      * Detect and returns SAPI PHP running in/on.
+     *
      * (aolserver, apache, apache2filter, apache2handler, caudium, cgi (until PHP 5.3), cgi-fcgi, cli, continuity,
      * embed, isapi, litespeed, milter, nsapi, phttpd, pi3web, roxen, thttpd, tux und webjames)
      *
      * @param string $sapi The SAPI of PHP
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The runtimeEnvironment [web | cli | cli-server]
+     * @return string The runtimeEnvironment [web|cli|cli-server]
      * @access protected
      */
     protected function getModeBySapi($sapi)

@@ -53,11 +53,11 @@ if (
 /**
  * ENVIRONMENT:
  * You can override the default environment by a defined constant:
- * define('DOOZR_APP_ENVIRONMENT', 'development|staging|production');
+ * define('DOOZR_APP_ENVIRONMENT', 'development|testing|staging|production');
  *
  * or by an environment variable which can be set via apache config
  * for example on a per vhost base or like this with PHP:
- * putenv('DOOZR_APP_ENVIRONMENT', 'development|staging|production');
+ * putenv('DOOZR_APP_ENVIRONMENT', 'development|testing|staging|production');
  *
  * PATH TO APP:
  * You can override the default app path by a defined constant:
@@ -65,7 +65,7 @@ if (
  *
  * or by an environment variable which can be set via apache config
  * for example on a per vhost base or like this with PHP:
- * putenv('DOOZR_APP_ROOT', '/path/to/app');
+ * putenv('DOOZR_APP_ROOT=/path/to/app');
  *
  * In the default install you won't need this statements above!
  */
@@ -73,13 +73,16 @@ if (
 var_dump('We need to modify some parts of routing to get the base working!');
 die;
 
-// start profiling
+// Start profiling
 uprofiler_enable();
+
+// We are in development environment
+putenv('DOOZR_APP_ENVIRONMENT=development');
 
 /**
  * Get composer as well as DoozR's router the rest is magic ...
  */
-require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'../vendor/autoload.php');
+require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 require_once 'Route.php';
 
 /**

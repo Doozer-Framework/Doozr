@@ -104,9 +104,13 @@ if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnviron
 } else {
 
     // UNKNOWN and/or currently not supported!
-    $msg  = 'DoozR - The lightweight PHP-Framework for high-performance websites  - Git-Version: ' . DOOZR_VERSION . ' (on ' . php_uname() . ') - ';
-    $msg .= 'Running a DoozR-based application in "' . strtoupper($registry->getRequest()->getRuntimeEnvironment()) .
-            '"-runtimeEnvironment is not supported!';
+    $msg  = sprintf(
+        'DoozR - The lightweight PHP-Framework for high-performance websites  - Git-Version: %s (on %s) - ' .
+        'Running a DoozR application in "%s" runtimeEnvironment is not supported!',
+        DOOZR_VERSION,
+        php_uname(),
+        strtoupper($registry->getRequest()->getRuntimeEnvironment())
+    );
 
     // show message
     pred($msg);

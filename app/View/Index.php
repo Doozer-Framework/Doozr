@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Demo View
+ * Demonstration View
  */
 final class View_Index extends DoozR_Base_View
 {

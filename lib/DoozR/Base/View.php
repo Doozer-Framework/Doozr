@@ -4,7 +4,7 @@
 /**
  * DoozR - Base - View
  *
- * View.php - Base class for view-layers from MV(C|P)
+ * View.php - Base class for view-layers from MVP
  *
  * PHP versions 5.4
  *
@@ -71,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/View/Observer.php';
 class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_View_Interface
 {
     /**
-     * holds the data to show
+     * The data to show
      *
      * @var mixed
      * @access protected
@@ -174,6 +174,15 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
      * @access protected
      */
     protected $fingerprint;
+
+    /**
+     * Extension of templates.
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const TEMPLATE_EXTENSION = 'html';
 
 
     /**
@@ -624,7 +633,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
                 $result = $this->{$specificViewRenderer}($this->data);
 
             } elseif (method_exists($this, '__render')) {
-                // Always check fallback -> one generic __render for all actions :) maybe used in API's
+                // Always check fallback -> one generic __render for all actions used by Doozr for REST API
                 $result = $this->{'__render'}($this->data);
             }
         }
@@ -726,26 +735,30 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
         return $this->outputMode;
     }
 
+
     /**
      * This method is intend to render the current state of the view as html. For this it makes use of the base
      * template engine, and html5 template files. If you need another output or something like this, you must
      * overwrite this method.
      *
-     * @param array                     $data        The data as override for internal stored data
-     * @param string                    $fingerprint Optional fingerprint used as cache identifier for front- and
-     *                                               backend! Hint: Rendering user specific data an user identifier
-     *                                               MUST be used as salt when generating the fingerprint!!!
-     *                                               Otherwise user specific data can and will be sent to another
-     *                                               user!. So the following rule should be followed:
-     *                                                   - generic view/template no user data = fingerprint by
-     *                                                     content/path/url
-     *                                                   - user specific view/template with user data = use
-     *                                                     session-id or user-id!
-     * @param PHPTAL_TranslationService $i18n        An instance of a DoozR I18n service
+     * @param array                     $data              The data as override for internal stored data
+     * @param string                    $fingerprint       Optional fingerprint used as cache identifier for front- and
+     *                                                     backend! Hint: Rendering user specific data an user identifier
+     *                                                     MUST be used as salt when generating the fingerprint!!!
+     *                                                     Otherwise user specific data can and will be sent to another
+     *                                                     user!. So the following rule should be followed:
+     *                                                     - generic view/template no user data = fingerprint by
+     *                                                       content/path/url
+     *                                                     - user specific view/template with user data = use
+     *                                                       session-id or user-id!
+     * @param PHPTAL_TranslationService $i18n              An instance of a DoozR I18n service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return bool TRUE if successful, otherwise FALSE
      * @access protected
+     * @throws \DoozR_Base_View_Exception
+     * @throws \DoozR_Exception
+     * @throws \PHPTAL_ConfigurationException
      */
     protected function render(array $data = array(), $fingerprint = null, PHPTAL_TranslationService $i18n = null)
     {
@@ -758,8 +771,7 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
 
         $html = null;
 
-        // @todo use $this->getConfiguration()->debug->enabled() instead?!
-        if (DOOZR_DEBUG === false) {
+        if (false === $this->getConfiguration()->debug->enabled) {
 
             // We try to receive data for rendering from cache :) this is much faster
             try {
@@ -774,7 +786,8 @@ class DoozR_Base_View extends DoozR_Base_View_Observer implements DoozR_Base_Vie
         if ($html === null) {
 
             // Get name of template file
-            $templateFile = $this->configuration->base->template->path . $this->translateToTemplatefile() . '.html';
+            $templateFile = $this->configuration->base->template->path .
+                            $this->translateToTemplatefile() . '.' . self::TEMPLATE_EXTENSION;
 
             if (file_exists($templateFile) === false) {
                 throw new DoozR_Base_View_Exception(

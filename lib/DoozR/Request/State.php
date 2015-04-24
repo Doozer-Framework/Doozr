@@ -52,6 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/State/Interface.php';
 
@@ -195,23 +196,6 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
     protected $rest = false;
 
     /**
-     * Request-Method-Types
-     * supported by this controller
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const METHOD_GET     = 'GET';
-    const METHOD_POST    = 'POST';
-    const METHOD_HEAD    = 'HEAD';
-    const METHOD_OPTIONS = 'OPTIONS';
-    const METHOD_PUT     = 'PUT';
-    const METHOD_DELETE  = 'DELETE';
-    const METHOD_TRACE   = 'TRACE';
-    const METHOD_CONNECT = 'CONNECT';
-
-    /**
      * CLI running runtimeEnvironment
      *
      * @var string
@@ -266,7 +250,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isGet()
     {
-        return ($this->getMethod() === self::METHOD_GET);
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_GET);
     }
 
     /**
@@ -278,7 +262,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isHead()
     {
-        return ($this->getMethod() === self::METHOD_HEAD);
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_HEAD);
     }
 
     /**
@@ -290,7 +274,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isPut()
     {
-        return ($this->getMethod() === self::METHOD_PUT);
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_PUT);
     }
 
     /**
@@ -302,7 +286,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isPost()
     {
-        return ($this->getMethod() === self::METHOD_POST);
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_POST);
     }
 
     /**
@@ -314,7 +298,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isDelete()
     {
-        return ($this->getMethod() === self::METHOD_DELETE);
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_DELETE);
     }
 
     /**
@@ -326,7 +310,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isOptions()
     {
-        return ($this->getMethod() === self::METHOD_OPTIONS);
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_OPTIONS);
     }
 
     /**
@@ -338,7 +322,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isTrace()
     {
-        return ($this->getMethod() === self::METHOD_TRACE);
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_TRACE);
     }
 
     /**
@@ -350,7 +334,7 @@ class DoozR_Request_State extends DoozR_Base_State implements DoozR_Base_State_I
      */
     public function isConnect()
     {
-        return ($this->getMethod() === self::METHOD_CONNECT);
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_CONNECT);
     }
 
     /**

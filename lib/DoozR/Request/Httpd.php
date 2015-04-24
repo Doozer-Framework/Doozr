@@ -52,6 +52,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Request.php';
 require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Request/Interface.php';
 
@@ -179,7 +180,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isGet()
     {
-        return ($this->getMethod() === 'GET');
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_GET);
     }
 
     /**
@@ -192,7 +193,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isHead()
     {
-        return ($this->getMethod() === 'HEAD');
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_HEAD);
     }
 
     /**
@@ -205,7 +206,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isPut()
     {
-        return ($this->getMethod() === 'PUT');
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_PUT);
     }
 
     /**
@@ -218,7 +219,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isPost()
     {
-        return ($this->getMethod() === 'POST');
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_POST);
     }
 
     /**
@@ -231,7 +232,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isDelete()
     {
-        return ($this->getMethod() === 'DELETE');
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_DELETE);
     }
 
     /**
@@ -244,7 +245,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isOptions()
     {
-        return ($this->getMethod() === 'OPTIONS');
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_OPTIONS);
     }
 
     /**
@@ -257,7 +258,7 @@ class DoozR_Request_Httpd extends DoozR_Base_Request implements DoozR_Request_In
      */
     public function isTrace()
     {
-        return ($this->getMethod() === 'TRACE');
+        return ($this->getMethod() === DoozR_Http::REQUEST_METHOD_TRACE);
     }
 
     /**

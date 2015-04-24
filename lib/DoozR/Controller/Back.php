@@ -138,8 +138,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     protected $view;
 
     /**
-     * contains an instance of Presentor if MVP-pattern is used,
-     * otherwise an instance of Controller if MVC-pattern is active.
+     * Instance of Presentor if MVP-pattern is used
      *
      * @var object
      * @access protected
@@ -212,8 +211,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
 
     /**
      * Runs the request passed as argument by dispatching it to the backend layers.
-     * This can be "Model" "View" "Presenter" in MVP runtimeEnvironment or "Model" "View" "Controller"
-     * in MVC runtimeEnvironment.
+     * This can be "Model" "View" "Presenter" in MVP runtimeEnvironment
      *
      * @param DoozR_Base_State_Interface $requestState The request state
      * @param array|null                 $error        An optional error array containing error from routing
@@ -231,7 +229,7 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
             if (true === is_array($error['context'])) {
                 // Error from routing run-level (run-level = 0)
                 foreach ($error['context'] as $singleContext) {
-                    $context .= ((strlen($context) > 0) ? ', ' : '').$singleContext;
+                    $context .= ((strlen($context) > 0) ? ', ' : '') . $singleContext;
                 }
             } else {
                 $context = $error['context'];
@@ -1005,12 +1003,12 @@ class DoozR_Controller_Back extends DoozR_Base_Class_Singleton
     /**
      * Creates and returns an instance of a layer
      *
-     * This method is intend to instanciate a new layer
-     * (can be either Model|View|Controller|Presenter).
+     * This method is intend to instantiate a new layer
+     * (can be either Model|View|Presenter).
      *
      * @param string $request   The resource requested
-     * @param string $layer     The part/layer of the MVC/P structure to instanciate and return
-     * @param array  $arguments An array of Parameters to append at instanciation
+     * @param string $layer     The part/layer of the MVP structure to instantiate and return
+     * @param array  $arguments An array of Parameters to append at instantiation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return DoozR_Base_Connector_Interface|DoozR_Base_Model|DoozR_Base_View

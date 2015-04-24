@@ -4,7 +4,7 @@
 /**
  * DoozR - Base - Model
  *
- * Model.php - Base class for model-layers from MV(C|P)
+ * Model.php - Base class for model-layers from MVP
  *
  * PHP versions 5.4
  *
@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'DoozR/Base/Model/Interface.php';
 /**
  * DoozR Base Model
  *
- * Base class for model-layers from MV(C|P)
+ * Base class for model-layers from MVP
  *
  * @category   DoozR
  * @package    DoozR_Base
@@ -78,6 +78,14 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
      * @access protected
      */
     protected $data;
+
+    /**
+     * The last action processed.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $action;
 
     /**
      * The complete request
@@ -167,8 +175,10 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
 
             if ($result !== true) {
                 throw new DoozR_Base_Model_Exception(
-                    '__tearup() must (if set) return TRUE. __tearup() executed and it returned: ' .
-                    var_export($result, true)
+                    sprintf(
+                        '__tearup() (if set) MUST return TRUE. __tearup() is set but it returned: "%s"',
+                        var_export($result, true)
+                    )
                 );
             }
         }
@@ -409,6 +419,47 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
     }
 
     /**
+     * Setter for action.
+     *
+     * @param string $action The action to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setAction($action)
+    {
+        $this->action = $action;
+    }
+
+    /**
+     * Setter for action.
+     *
+     * @param string $action The action to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function action($action)
+    {
+        $this->setAction($action);
+        return $this;
+    }
+
+    /**
+     * Getter for action.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The last action processed, otherwise NULL in clean state
+     * @access protected
+     */
+    protected function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
      * This method (container) is intend to return the data for a requested runtimeEnvironment.
      *
      * @param bool $force TRUE to force retrieval fresh data, otherwise FALSE to use already retrieved [default]
@@ -423,6 +474,8 @@ class DoozR_Base_Model extends DoozR_Base_Model_Observer implements DoozR_Base_M
             $route  = $this->getRequestState()->getActiveRoute();
             $action = $route[0];
             $method = false;
+
+            $this->action($action);
 
             // Check for concrete method call
             if (method_exists($this, '__data' . ucfirst($action))) {
