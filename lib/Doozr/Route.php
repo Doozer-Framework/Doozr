@@ -368,6 +368,26 @@ final class Doozr_Route extends Doozr_Base_State_Container
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
+     * Converts an object instance to any other instance (stdClass = default).
+     *
+     * @param object $instance  An instance to convert
+     * @param string $classname A classname for the new instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object The new instance
+     * @access protected
+     * @static
+     */
+    protected static function objectToObject($instance, $classname = 'stdClass') {
+        return unserialize(sprintf(
+            'O:%d:"%s"%s',
+            strlen($classname),
+            $classname,
+            strstr(strstr(serialize($instance), '"'), ':')
+        ));
+    }
+
+    /**
      * Parses the routes from filename.
      *
      * @param string $filename The filename to parse routes from.
@@ -540,6 +560,10 @@ final class Doozr_Route extends Doozr_Base_State_Container
             foreach ($routesByMethod as $method => $routesForMethod) {
                 if (isset($routes[$method]) === false) {
                     $routes[$method] = array();
+                }
+
+                foreach ($routesForMethod as $route => $object) {
+                    $routesForMethod[$route] = self::objectToObject($object);
                 }
 
                 $routes[$method] = array_merge($routes[$method], $routesForMethod);
