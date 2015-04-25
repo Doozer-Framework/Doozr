@@ -41,12 +41,12 @@ The **lightweight** PHP-Framework for **high-performance** websites
 
 ## Philosophy
 
-DoozR is the **lightweight** PHP-Framework for **high-performance** applications. It follows the `convention over configuration`-principle. `DoozR` comes with the right set of core services. Build, test and deploy **high-scalable** applications with in very short time. `DoozR` supports the **CLI**, **CGI** and PHP's **Internal Webserver** (for development) SAPI. A ultra fast and convenient routing mechanism helps you building large scale applications. `Doozr` is shipped with builtin `I18n` support ... But **Doozr** has so much more to offer!
+Doozr is the **lightweight** PHP-Framework for **high-performance** applications. It follows the `convention over configuration`-principle. `Doozr` comes with the right set of core services. Build, test and deploy **high-scalable** applications with in very short time. `Doozr` supports the **CLI**, **CGI** and PHP's **Internal Webserver** (for development) SAPI. A ultra fast and convenient routing mechanism helps you building large scale applications. `Doozr` is shipped with builtin `I18n` support ... But **Doozr** has so much more to offer!
 
 
 ## Services
 
-`DoozR` is shipped with the following high quality core services:
+`Doozr` is shipped with the following high quality core services:
 
  - `Acl` (CRUD Secured Objects)
  - `Cache` (Interface to Filesystem + Memcached)
@@ -60,12 +60,12 @@ DoozR is the **lightweight** PHP-Framework for **high-performance** applications
  - `Session` (Secure and OO Session interface)
  - `Template` (Interface to PHPTal)
 
-100% `composer` support. For all missing features we can make use of [packagist.org][1]. So just put the required package(s) in your `composer.json` and use them right after installation without need to include `.../vendor/autoload.php` manually. `DoozR` detects the `composer` packages and includes the autoloader of `composer`.
+100% `composer` support. For all missing features we can make use of [packagist.org][1]. So just put the required package(s) in your `composer.json` and use them right after installation without need to include `.../vendor/autoload.php` manually. `Doozr` detects the `composer` packages and includes the autoloader of `composer`.
 
 
 ## API
 
-`DoozR` provides a ready to use `API` right after installation. The structure and routes are generic and built using best practices from community powered PHP-projects.
+`Doozr` provides a ready to use `API` right after installation. The structure and routes are generic and built using best practices from community powered PHP-projects.
 
 
 ## Versioning
@@ -90,7 +90,7 @@ If you encounter a (potential) security issue don't hesitate to get in contact w
 ## Participate & Share
 
 ... yeah. If you're a code monkey too - maybe we can build a force ;) If you would like to participate in either **Code**, **Comments**, **Documentation**, **Wiki**, **Bug-Reports**, **Unit-Tests**, **Bug-Fixes**, **Feedback** and/or **Critic** then please let me know as well!
-<a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=DoozR%20-%20The%20lightweight%20PHP-Framework%20for%20high-performance%20projects%20%40phpfluesterer%20%23DoozR%20%23php%20https%3A%2F%2Fgithub.com%2Fclickalicious%2FDoozR&tw_p=tweetbutton" target="_blank">
+<a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=Doozr%20-%20The%20lightweight%20PHP-Framework%20for%20high-performance%20projects%20%40phpfluesterer%20%23Doozr%20%23php%20https%3A%2F%2Fgithub.com%2Fclickalicious%2FDoozR&tw_p=tweetbutton" target="_blank">
   <img src="http://jpillora.com/github-twitter-button/img/tweet.png"></img>
 </a>
 

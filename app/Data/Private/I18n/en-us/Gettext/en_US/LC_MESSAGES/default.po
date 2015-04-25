@@ -1,9 +1,9 @@
-# DoozR Translation file.
+# Doozr Translation file.
 # Copyright (C) 2005 - 2015 Benjamin Carl <opensource@clickalicious.de>
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: DoozR\n"
+"Project-Id-Version: Doozr\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2015-04-17 09:54+0100\n"
 "Last-Translator: Benjamin Carl <opensource@clickalicious.de>\n"

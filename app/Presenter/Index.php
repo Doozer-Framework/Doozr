@@ -2,21 +2,21 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Demonstration - Presenter
+ * Doozr - Demonstration - Presenter
  *
- * Index.php - Base-Class for all classes of the DoozR Framework except
+ * Index.php - Base-Class for all classes of the Doozr Framework except
  * the classes following the singleton pattern.
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
- * @category   DoozR
- * @package    DoozR_Base
- * @subpackage DoozR_Base_Class
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Class
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -24,7 +24,7 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
-use DoozR\Route\Annotation\Route;
+use Doozr\Route\Annotation\Route;
 
 /**
  * Demonstration Presenter for 'Hello World!'
@@ -57,7 +57,7 @@ use DoozR\Route\Annotation\Route;
  *     action="index"
  * )
  */
-final class Presenter_Index extends DoozR_Base_Presenter
+final class Presenter_Index extends Doozr_Base_Presenter
 {
     /**
      * Index-action.

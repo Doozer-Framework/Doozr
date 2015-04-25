@@ -1,6 +1,6 @@
 {
   "name": "clickalicious/doozr",
-  "description": "DoozR - The lightweight PHP-Framework for high-performance websites.",
+  "description": "Doozr - The lightweight PHP-Framework for high-performance websites.",
   "authors": [
     {
       "name": "Benjamin Carl",
@@ -40,7 +40,7 @@
   },
   "autoload": {
       "psr-0": {
-          "DoozR": "lib/"
+          "Doozr": "lib/"
       }
   },
   "include-path": ["lib/"],
@@ -59,13 +59,13 @@
   ],
   "support": {
     "email": "opensource@clickalicious.de",
-    "issues": "https://github.com/clickalicious/DoozR/issues",
-    "wiki": "https://github.com/clickalicious/DoozR/wiki"
+    "issues": "https://github.com/clickalicious/Doozr/issues",
+    "wiki": "https://github.com/clickalicious/Doozr/wiki"
   },
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/clickalicious/DoozR.git"
+      "url": "https://github.com/clickalicious/Doozr.git"
     }
   ],
   "config" : {

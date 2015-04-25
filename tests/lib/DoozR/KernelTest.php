@@ -2,14 +2,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Kernel - Test
+ * Doozr - Kernel - Test
  *
- * KernelTest.php - Tests for DoozR's kernel & core functionality (bootstrapping & init).
+ * KernelTest.php - Tests for Doozr's kernel & core functionality (bootstrapping & init).
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * DoozR - The lightweight PHP-Framework for high-performance websites
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,9 +42,9 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Test
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Test
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
@@ -53,13 +53,13 @@
  */
 
 /**
- * DoozR - Kernel - Test
+ * Doozr - Kernel - Test
  *
- * Tests for DoozR's core & core functionality (bootstrapping & init).
+ * Tests for Doozr's core & core functionality (bootstrapping & init).
  *
- * @category   DoozR
- * @package    DoozR_Kernel
- * @subpackage DoozR_Kernel_Test
+ * @category   Doozr
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Test
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
@@ -69,7 +69,7 @@
 class KernelTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test: Bootstrap DoozR.
+     * Test: Bootstrap Doozr.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -77,7 +77,7 @@ class KernelTest extends PHPUnit_Framework_TestCase
      */
     public function testInit()
     {
-        $doozrInstance = DoozR_Kernel::run();
-        $this->assertInstanceOf('DoozR_Kernel', $doozrInstance);
+        $doozrInstance = Doozr_Kernel::run();
+        $this->assertInstanceOf('Doozr_Kernel', $doozrInstance);
     }
 }
