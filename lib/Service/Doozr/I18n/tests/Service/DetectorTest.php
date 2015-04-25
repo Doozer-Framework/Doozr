@@ -53,7 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/resources/fixtures/Fixtures.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/Resource/Fixture.php';
 
 /**
  * Doozr - Service - I18n - Test - Detector

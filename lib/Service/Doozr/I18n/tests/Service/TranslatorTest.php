@@ -53,7 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/resources/fixtures/Fixtures.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/Resource/Fixture.php';
 
 /**
  * Doozr - Service - I18n - Test
@@ -93,7 +93,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     public function testGettingTranslatorInstanceFromService()
     {
         // Prepare
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         $translator = self::$service->getTranslator();
@@ -138,10 +138,10 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     public function testTranslatorDoesNotAlterMissingTranslation()
     {
         // Prepare
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
-        $input = Fixtures::KEY_MISSING;
+        $input = Resource_Fixture::KEY_MISSING;
 
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
@@ -162,7 +162,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     public function testTranslationWithoutNamespaceThrowsException()
     {
         // Prepare
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
         $translator = self::$service->getTranslator();
         $translator->_('hour');
@@ -178,7 +178,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     public function testTranslateTheKeyYes()
     {
         // Prepare
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         $translator = self::$service->getTranslator();
@@ -198,7 +198,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     public function testTranslateAKeyWithValuesInserted()
     {
         // Prepare
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var Doozr_I18n_Service_Translator $translator*/

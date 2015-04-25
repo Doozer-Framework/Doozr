@@ -53,7 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/resources/fixtures/Fixtures.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/Resource/Fixture.php';
 
 /**
  * Doozr - Service - I18n - Test
@@ -94,7 +94,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testRetrievingDefaultLocaleAsExpected()
     {
         // Assertion(s)
-        $this->assertEquals(Fixtures::LOCALE_DEFAULT, self::$service->getActiveLocale());
+        $this->assertEquals(Resource_Fixture::LOCALE_DEFAULT, self::$service->getActiveLocale());
     }
 
     /**
@@ -107,7 +107,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testSetACustomLocale()
     {
         // Prepare
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         // Assertion(s)
@@ -126,7 +126,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testTryToSetAnInvalidCustomLocale()
     {
         // Prepare
-        $locale = Fixtures::LOCALE_INVALID;
+        $locale = Resource_Fixture::LOCALE_INVALID;
 
         // Assertion(s)
         self::$service->setActiveLocale($locale);
@@ -155,7 +155,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testRetrieveClientsPreferredLocale()
     {
         // Prepare
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
 
         // Assertion(s)
         $this->assertEquals($locale, self::$service->getClientPreferredLocale());
@@ -170,7 +170,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testGettingCurrencyLocalizerFromService()
     {
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_Currency $currency */
@@ -193,7 +193,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testGettingDatetimeLocalizerFromService()
     {
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_Datetime $datetime */
@@ -216,7 +216,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testGettingMeasureLocalizerFromService()
     {
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_Measure $measure */
@@ -239,7 +239,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testGettingNumberLocalizerFromService()
     {
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_Number $number */
@@ -262,7 +262,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testGettingStringLocalizerFromService()
     {
-        $locale = Fixtures::LOCALE_VALID;
+        $locale = Resource_Fixture::LOCALE_VALID;
         self::$service->setActiveLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_String $string */
@@ -312,7 +312,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     {
         $this->assertEquals(
             object_to_array(self::$service->getAvailableLocales()),
-            Fixtures::$localesAvailable
+            Resource_Fixture::$localesAvailable
         );
     }
 
@@ -325,7 +325,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testSetAvailableLocales()
     {
-        $locales = Fixtures::$localesAvailable;
+        $locales = Resource_Fixture::$localesAvailable;
         $locales[] = 'nl';
 
         $this->assertEquals(
@@ -415,7 +415,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testSetLanguageFromPhptalInterfaceFulfillment()
     {
-        $language = Fixtures::LOCALE_VALID;
+        $language = Resource_Fixture::LOCALE_VALID;
         $this->assertTrue(self::$service->setLanguage($language));
     }
 

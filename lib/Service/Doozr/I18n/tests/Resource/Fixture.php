@@ -55,7 +55,7 @@
 /**
  * Doozr - Service - I18n - Test - Fixtures
  *
- * Fixtures for tests of Doozr I18n Service.
+ * Fixture for tests of Doozr I18n Service.
  *
  * @category   Doozr
  * @package    Doozr_Service
@@ -66,7 +66,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Fixtures
+class Resource_Fixture
 {
     /**
      * Available locales
