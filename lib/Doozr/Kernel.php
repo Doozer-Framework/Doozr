@@ -124,6 +124,33 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     const DEFAULT_CONFIG_CONTAINER = 'Json';
 
+    /**
+     * CLI running runtimeEnvironment
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const RUNTIME_ENVIRONMENT_CLI = 'Cli';
+
+    /**
+     * WEB running runtimeEnvironment
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const RUNTIME_ENVIRONMENT_WEB = 'Web';
+
+    /**
+     * HTTPD running runtimeEnvironment
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const RUNTIME_ENVIRONMENT_HTTPD = 'Httpd';
+
 
     /*------------------------------------------------------------------------------------------------------------------
     | PRIVATE/PROTECTED METHODS
@@ -776,11 +803,11 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initServices()
     {
-        // Get runtimeEnvironment app currently runs in
-        $runtimeEnvironment = self::$registry->getRequest()->getRuntimeEnvironment();
-
         // Get default services for runtimeEnvironment
-        $services = self::$registry->getConfig()->base->services->{strtolower($runtimeEnvironment)};
+        $services = self::$registry->getConfig()
+            ->kernel
+            ->services
+            ->{strtolower(self::$registry->getRequest()->getRuntimeEnvironment())};
 
         foreach ($services as $service) {
             self::$registry->{$service} = Doozr_Loader_Serviceloader::load($service);

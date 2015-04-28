@@ -101,9 +101,10 @@ class Doozr_Request extends Doozr_Base_State_Container
      * The request type!
      *
      * @var string
-     *
+     * @access protected
      */
-    protected $requestType = Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI;
+    protected $requestType = Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI;
+
 
     /**
      * Constructor.
@@ -412,7 +413,7 @@ class Doozr_Request extends Doozr_Base_State_Container
         );
 
         switch ($mode) {
-            case Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI:
+            case Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI:
                 $requestSources = array_merge(
                     $requestSources,
                     array(
@@ -421,8 +422,8 @@ class Doozr_Request extends Doozr_Base_State_Container
                 );
                 break;
 
-            case Doozr_Request_State::RUNTIME_ENVIRONMENT_WEB:
-            case Doozr_Request_State::RUNTIME_ENVIRONMENT_HTTPD:
+            case Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB:
+            case Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD:
             default:
                 $requestSources = array_merge(
                     $requestSources,
@@ -513,15 +514,15 @@ class Doozr_Request extends Doozr_Base_State_Container
     protected function getModeBySapi($sapi)
     {
         // Assume default running runtimeEnvironment
-        $mode = Doozr_Request_State::RUNTIME_ENVIRONMENT_WEB;
+        $mode = Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB;
 
         // Detect running runtimeEnvironment through php functionality
         switch ($sapi) {
             case 'cli':
-                $mode = Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI;
+                $mode = Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI;
                 break;
             case 'cli-server':
-                $mode = Doozr_Request_State::RUNTIME_ENVIRONMENT_HTTPD;
+                $mode = Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD;
                 break;
         }
 

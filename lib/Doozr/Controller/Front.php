@@ -94,36 +94,6 @@ class Doozr_Controller_Front extends Doozr_Base_Class_Singleton
      */
     protected $responseState;
 
-    /**
-     * constant RUNTIME_ENVIRONMENT_CLI
-     *
-     * holds the key for "cli" running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     */
-    const RUNTIME_ENVIRONMENT_CLI = 'cli';
-
-    /**
-     * constant RUNTIME_ENVIRONMENT_WEB
-     *
-     * holds the key for "web" running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     */
-    const RUNTIME_ENVIRONMENT_WEB = 'web';
-
-    /**
-     * constant RUNTIME_ENVIRONMENT_HTTPD
-     *
-     * holds the key for "httpd" running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     */
-    const RUNTIME_ENVIRONMENT_HTTPD = 'httpd';
-
 
     /**
      * Constructor.

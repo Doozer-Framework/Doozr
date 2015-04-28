@@ -76,9 +76,9 @@ $registry->getRequest()->setRouteConfig($config->redirect);
 
 // Combine supported runtime environments
 $supportedEnvironments = array(
-    Doozr_Request_State::RUNTIME_ENVIRONMENT_WEB,
-    Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI,
-    Doozr_Request_State::RUNTIME_ENVIRONMENT_HTTPD,
+    Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB,
+    Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI,
+    Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD,
 );
 
 // Check for supported runtimeEnvironment
@@ -93,12 +93,11 @@ if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnviron
     }
 
     // Run route init
-    return Doozr_Route::init(
+    Doozr_Route::init(
         $registry,
         $registry->getRequest(),
         $cacheService,
-        $config->cache->enabled,
-        $config->base->pattern->autorun
+        $config->cache->enabled
     );
 
 } else {

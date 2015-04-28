@@ -230,8 +230,8 @@ final class Doozr_Route extends Doozr_Base_State_Container
                                    $cache         = false,
                                    $autorun       = true
     ) {
-        // Assume we do not run so the result cant be true -> so its false
-        $result = false;
+        // Assume we do not run so the result is neither TRUE nor FALSE
+        $result = null;
 
         self::$registryInstance = $registry;
         self::$requestState     = $requestState;
@@ -349,18 +349,11 @@ final class Doozr_Route extends Doozr_Base_State_Container
                 break;
         }
 
-        /**
-         * Check for automatic call Doozr's MVP-structure
-         * If automatic dispatch isn't enabled then the dev need to call run() on Back-Controller manually.
-         * The validation of the request state content (405?, 404?, is part of the run() method:
-         *   is part of back-controllers domain !!!
-         */
-        if (self::$registryInstance->getConfig()->base->pattern->enabled) {
-            self::$registryInstance->getBack()->run(
-                self::$requestState,
-                $error
-            );
-        }
+        // Dispatch the request to back controller
+        self::$registryInstance->getBack()->run(
+            self::$requestState,
+            $error
+        );
     }
 
     /*------------------------------------------------------------------------------------------------------------------

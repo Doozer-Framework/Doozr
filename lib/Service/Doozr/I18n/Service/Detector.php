@@ -206,11 +206,12 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected static $registry;
 
     /**
-     * Runtime environment (CLI || WEB || HTTPD)
-     * To know if cookie and session is accessible
+     * Runtime environment (Cli || Web || Httpd)
+     * To know if cookie and session is accessible.
      *
      * @var string
      * @access protected
+     * @static
      */
     protected static $runtimeEnvironment;
 
@@ -544,7 +545,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         // assume result true
         $result = true;
 
-        if (self::$runtimeEnvironment !== Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI !== self::$runtimeEnvironment) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$stores as $store) {
@@ -574,7 +575,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         $detectedPreferences = false;
 
         // prevent access to HEADER and IP in CLI does not make sense
-        if (self::$runtimeEnvironment !== Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI !== self::$runtimeEnvironment) {
 
             // try to detect locale by user-agents header
             $detectedPreferences = $this->detectByRequestHeader();
@@ -602,7 +603,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         // assume empty user-preferences
         $storedPreferences = null;
 
-        if (self::$runtimeEnvironment !== Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI !== self::$runtimeEnvironment) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$stores as $store) {

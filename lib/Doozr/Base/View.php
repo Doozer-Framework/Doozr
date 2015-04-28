@@ -786,8 +786,13 @@ class Doozr_Base_View extends Doozr_Base_View_Observer implements Doozr_Base_Vie
         if ($html === null) {
 
             // Get name of template file
-            $templateFile = $this->configuration->base->template->path .
-                            $this->translateToTemplatefile() . '.' . self::TEMPLATE_EXTENSION;
+            $templateFile = $this
+                                ->configuration
+                                ->kernel
+                                ->view
+                                ->template
+                                ->path .
+                                $this->translateToTemplatefile() . '.' . self::TEMPLATE_EXTENSION;
 
             if (file_exists($templateFile) === false) {
                 throw new Doozr_Base_View_Exception(

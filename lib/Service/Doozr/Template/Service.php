@@ -186,73 +186,147 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
             $path    = $config['path'];
             $library = $config['library'];
         } else {
-            $path    = $registry->config->base->template->path;
-            $library = $registry->config->base->template->engine->library;
+            $path    = $registry->config->kernel->view->template->path;
+            $library = $registry->config->kernel->view->template->engine->library;
         }
 
+        // Store registry instance
         self::setRegistry($registry);
-        $this->setResource($resource);
-        $this->setPath($path);
-        $this->setLibrary($library);
 
-        // Start the engine ...
-        $this->initEngine($this->library, $this->path);
+        // Init
+        $this
+            ->resource($resource)
+            ->path($path)
+            ->library($library)
+            ->initEngine($library, $path);
     }
 
-
+    /**
+     * Setter for path.
+     *
+     * @param string $path The path to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setPath($path)
     {
         $this->path = $path;
     }
 
+    /**
+     * Setter for path.
+     *
+     * @param string $path The path to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function path($path)
     {
         $this->setPath($path);
         return $this;
     }
 
+    /**
+     * Getter for path.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The path if set, otherwise NULL
+     * @access protected
+     */
     protected function getPath()
     {
         return $this->path;
     }
 
+    /**
+     * Setter for library.
+     *
+     * @param string $library The library to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setLibrary($library)
     {
         $this->library = $library;
     }
 
+    /**
+     * Setter for library.
+     *
+     * @param string $library The library to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function library($library)
     {
         $this->setLibrary($library);
         return $this;
     }
 
+    /**
+     * Getter for library.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The library if set, otherwise NULL
+     * @access protected
+     */
     protected function getLibrary()
     {
         return $this->library;
     }
 
+    /**
+     * Setter for resource.
+     *
+     * @param string $resource The resource to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setResource($resource)
     {
         $this->resource = $resource;
     }
 
+    /**
+     * Setter for resource.
+     *
+     * @param string $resource The resource to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function resource($resource)
     {
         $this->setResource($resource);
         return $this;
     }
 
+
+    /**
+     * Getter for resource.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The resource if set, otherwise NULL
+     * @access protected
+     */
     protected function getResource()
     {
         return $this->resource;
     }
 
-
-
     /**
-     * Initializes the engine (e.g. phptal) and store the instance
-     * as decorated object.
+     * Initializes the engine (e.g. PHPTAL) and store the instance as decorated object.
      *
      * @param string $engine The name/identifier of the engine we use (phptal)
      *
@@ -265,8 +339,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
     {
         switch ($engine) {
         case 'phptal':
-            //
-            #include_once $this->getPathToClass().'Service/Lib/PHPTAL/PHPTAL.php';
+            // We do not need to include PHPTAL cause Composer's job ;)
             $this->setDecoratedObject(new PHPTAL($this->resource));
             break;
         default:

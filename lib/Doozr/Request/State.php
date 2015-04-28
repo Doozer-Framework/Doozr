@@ -196,33 +196,6 @@ class Doozr_Request_State extends Doozr_Base_State implements Doozr_Base_State_I
     protected $rest = false;
 
     /**
-     * CLI running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const RUNTIME_ENVIRONMENT_CLI = 'Cli';
-
-    /**
-     * WEB running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const RUNTIME_ENVIRONMENT_WEB = 'Web';
-
-    /**
-     * HTTPD running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const RUNTIME_ENVIRONMENT_HTTPD = 'Httpd';
-
-    /**
      * Argument entry in URL
      *
      * @var string
