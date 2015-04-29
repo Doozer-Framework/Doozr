@@ -611,13 +611,13 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
             self::$registry->getContainer()->build(
                 'Doozr_Debug',
                 array(
-                    self::$registry->getConfig()->debug->enabled
+                    self::$registry->getConfig()->kernel->debug->enabled
                 )
             )
         );
 
         // This information is really important so make this at least global available without hassle to use
-        define('DOOZR_DEBUG', self::$registry->getConfig()->debug->enabled);
+        define('DOOZR_DEBUG', self::$registry->getConfig()->kernel->debug->enabled);
 
         if (DOOZR_DEBUG === true) {
             $debugbar = new StandardDebugBar();

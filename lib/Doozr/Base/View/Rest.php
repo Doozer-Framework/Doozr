@@ -169,7 +169,7 @@ class Doozr_Base_View_Rest extends Doozr_Base_View
         // Custom default header configured?
         try {
             $headers = object_to_array(
-                $this->configuration->transmission->header->api->rest
+                $this->configuration->kernel->transmission->response->header->api->rest
             );
 
         } catch (Exception $e) {

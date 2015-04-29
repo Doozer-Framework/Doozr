@@ -198,7 +198,8 @@ abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
             include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Container/Ini.php';
 
             // configuration-file
-            $configurationFile = DOOZR_APP_ROOT . 'Data/Private/I18n/'.$this->locale.'/Localization/'.$this->type.'.ini';
+            $configurationFile = DOOZR_APP_ROOT . 'Data/Private/I18n/' . $this->locale . '/Localization/' .
+                                 $this->type . '.ini';
 
             // get configreader
             $config = Doozr_Loader_Serviceloader::load('Config', 'Ini');

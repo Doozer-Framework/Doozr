@@ -771,7 +771,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer implements Doozr_Base_Vie
 
         $html = null;
 
-        if (false === $this->getConfiguration()->debug->enabled) {
+        if (false === $this->getConfiguration()->kernel->debug->enabled) {
 
             // We try to receive data for rendering from cache :) this is much faster
             try {
@@ -825,7 +825,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer implements Doozr_Base_Vie
 
             // set the encoding of output
             $template->setEncoding(
-                $this->configuration->locale->encoding
+                $this->configuration->kernel->localization->encoding
             );
 
             // Output XHTML or HTML5 ... ?
@@ -851,7 +851,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer implements Doozr_Base_Vie
 
         // Try to get default header for responses from configuration and add them here ...
         try {
-            $headers = $this->configuration->transmission->header;
+            $headers = $this->configuration->kernel->transmission->response->header;
         } catch (Exception $e) {
             $headers = array();
         }

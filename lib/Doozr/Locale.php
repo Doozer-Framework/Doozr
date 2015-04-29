@@ -103,7 +103,7 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
         $this->logger = $logger;
 
         // retrieve timezone from config
-        $timezone = $this->config->locale->timezone;
+        $timezone = $this->config->kernel->localization->timezone;
 
         // setup
         $this->setTimezone($timezone);
@@ -138,10 +138,10 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
     public function getActiveSetup()
     {
         return array(
-            'charset'  => $this->config->locale->charset,
-            'encoding' => $this->config->locale->encoding,
-            'language' => $this->config->locale->language,
-            'locale'   => $this->config->locale->locale,
+            'charset'  => $this->config->kernel->localization->charset,
+            'encoding' => $this->config->kernel->localization->encoding,
+            'language' => $this->config->kernel->localization->language,
+            'locale'   => $this->config->kernel->localization->locale,
         );
     }
 }

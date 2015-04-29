@@ -278,7 +278,7 @@ final class Doozr_Route extends Doozr_Base_State_Container
         if (self::$routes === null) {
             // If we reach here we must parse the routes first ...
             $routesFromPresenter = self::getRoutesFromPresenters();
-            $routesFromConfig    = self::$registryInstance->getConfig()->routes;
+            $routesFromConfig    = self::$registryInstance->getConfig()->kernel->transmission->routing->routes;
             $routes              = array();
 
             // Convert routes to same context as from presenter

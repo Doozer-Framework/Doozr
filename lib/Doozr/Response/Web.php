@@ -1060,7 +1060,7 @@ class Doozr_Response_Web extends Doozr_Base_Response
         // check encoding
         if (!$encoding) {
             // get it from config
-            $encoding = $this->config->locale->encoding;
+            $encoding = $this->config->kernel->localization->encoding;
 
         } else {
             // to upper for switch
@@ -1128,7 +1128,7 @@ class Doozr_Response_Web extends Doozr_Base_Response
         // Check first if not already activated
         if (self::$initialized['gzip'] === false) {
             // Is "gzip" enabled in configuration
-            $this->gzipEnabled = $this->config->transmission->gzip->enabled();
+            $this->gzipEnabled = $this->config->kernel->transmission->response->gzip->enabled;
 
             // if yes then try to start handler now:
             if ($this->gzipEnabled === true) {

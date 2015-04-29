@@ -262,15 +262,15 @@ class Doozr_Request_Securitylayer
         // execute ids
         $phpIdsResult = $idsMonitor->run();
 
-		if (!$phpIdsResult->isEmpty()) {
+        if (!$phpIdsResult->isEmpty()) {
             // log if result wasn't empty
             $logger = Doozr_Logger::getInstance();
 
-            $logger->debug('Doozr core-protection (IDS) -> detected an impact of: '.$phpIdsResult->getImpact());
+            $logger->debug('Doozr core-protection (IDS) -> detected an impact of: ' . $phpIdsResult->getImpact());
 
-			// store result! for setting the impact later ...
-			self::$idsResult = $phpIdsResult;
-		}
+            // store result! for setting the impact later ...
+            self::$idsResult = $phpIdsResult;
+        }
 
         // TODO: connect to Doozr->logger !!!!!!!!! HERE
 

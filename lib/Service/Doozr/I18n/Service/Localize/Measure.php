@@ -431,8 +431,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
 
         } else {
             $unit = '<abbr title="'.
-                $this->translator->_($this->_displayFormat.'_long').'" xml:lang="'.$this->locale.'">'.
-                $this->translator->_($this->_displayFormat . '_short').'</abbr>';
+                $this->translator->_($this->_displayFormat.'_long') . '" xml:lang="' . $this->locale . '">'.
+                $this->translator->_($this->_displayFormat . '_short') . '</abbr>';
         }
 
         // return complete constructed unit-string

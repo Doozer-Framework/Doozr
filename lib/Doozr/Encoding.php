@@ -102,8 +102,8 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
         $this->_logger = $logger;
 
         // get encoding
-        $encoding = $config->locale->encoding;
-        $mimetype = $config->locale->mimetype;
+        $encoding = $config->kernel->localization->encoding;
+        $mimetype = $config->kernel->localization->mimetype;
 
         // begin configuration
         $this->_setInternalEncoding($encoding);
