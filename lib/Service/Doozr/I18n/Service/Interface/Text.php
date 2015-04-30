@@ -186,7 +186,9 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
             } else {
                 // load fresh from file
                 $translationFile = $this->path . $locale . DIRECTORY_SEPARATOR . self::TRANSLATION_FILES_DIRECTORY .
-                    DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . $namespace . '.' . self::TRANSLATION_FILES_EXTENSION;
+                                   DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . $namespace . '.' .
+                                   self::TRANSLATION_FILES_EXTENSION;
+
                 $result = array_merge($result, $this->_parseTranslationfile($translationFile));
             }
         }

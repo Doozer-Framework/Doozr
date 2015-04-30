@@ -235,8 +235,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
                     null
             )
             ->encoding($encoding)
-            ->cacheEnabled($configI18n->cache->enabled)
-            ->cacheLifetime($configI18n->cache->lifetime)
+            ->cacheEnabled($configI18n->kernel->cache->enabled)
+            ->cacheLifetime($configI18n->kernel->cache->lifetime)
             ->pathToTranslations($configI18n->i18n->path)
             ->translatorInterface(
                 ucfirst(strtolower($configI18n->i18n->translator->interface))

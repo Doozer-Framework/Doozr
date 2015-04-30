@@ -148,7 +148,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @return \Doozr_I18n_Service_Interface_Abstract Instance of this class
      * @access protected
      */
-    protected function __construct($config)
+    protected function __construct(array $config)
     {
         // Check if requirements fulfilled
         self::checkRequirements();

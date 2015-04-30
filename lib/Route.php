@@ -84,7 +84,7 @@ $supportedEnvironments = array(
 // Check for supported runtimeEnvironment
 if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnvironments) === true) {
 
-    if ($config->cache->enabled === true) {
+    if (true === $config->kernel->cache->enabled) {
         /* @var Doozr_Cache_Service $cacheService */
         $cacheService = $registry->getCache();
 
@@ -97,7 +97,7 @@ if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnviron
         $registry,
         $registry->getRequest(),
         $cacheService,
-        $config->cache->enabled
+        $config->kernel->cache->enabled
     );
 
 } else {
