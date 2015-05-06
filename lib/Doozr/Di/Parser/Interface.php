@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Parser Interface
  *
- * Interface.php - Parser interface for all Parser of the Di-Framework
+ * Interface.php - Parser interface for all Parser of the Di-Library
  *
  * PHP versions 5.4
  *
@@ -41,7 +41,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -54,9 +54,9 @@
 /**
  * Di Parser Interface
  *
- * Parser interface for all Parser of the Di-Framework
+ * Parser interface for all Parser of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>

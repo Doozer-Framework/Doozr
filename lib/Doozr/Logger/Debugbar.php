@@ -83,7 +83,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Logger_Debugbar extends Doozr_Logger_Abstract implements
+class Doozr_Logger_Debugbar extends Doozr_Logger_Abstract
+    implements
     Doozr_Logger_Interface,
     Doozr_Logger_PsrInterface,
     SplObserver

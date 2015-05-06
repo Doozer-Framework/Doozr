@@ -68,7 +68,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container implements SplSubject
+abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
+    implements
+    SplSubject
 {
     /**
      * Contains all attached observers

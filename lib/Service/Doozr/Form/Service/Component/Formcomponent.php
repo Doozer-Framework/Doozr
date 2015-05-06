@@ -72,7 +72,8 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Service_Component_Html implements
+abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Service_Component_Html
+    implements
     Doozr_Form_Service_Component_Interface_Form
 {
     /**

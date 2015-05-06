@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Exporter Interface
  *
- * Interface.php - Interface class for all Exporter of the Di-Framework
+ * Interface.php - Interface class for all Exporter of the Di-Library
  *
  * PHP versions 5.4
  *
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Exporter_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -55,9 +55,9 @@
 /**
  * Doozr - Di - Exporter Interface
  *
- * Interface class for all Exporter of the Di-Framework
+ * Interface class for all Exporter of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Exporter_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>

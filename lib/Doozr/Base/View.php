@@ -68,7 +68,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/View/Observer.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_View extends Doozr_Base_View_Observer implements Doozr_Base_View_Interface
+class Doozr_Base_View extends Doozr_Base_View_Observer
+    implements
+    Doozr_Base_View_Interface
 {
     /**
      * The data to show
@@ -820,7 +822,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer implements Doozr_Base_Vie
 
             // setup template compile output dir
             $template->setPhpCodeDestination(
-                $this->configuration->phptal->directories->compiled
+                $this->configuration->kernel->view->directories->compiled
             );
 
             // set the encoding of output
@@ -830,7 +832,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer implements Doozr_Base_Vie
 
             // Output XHTML or HTML5 ... ?
             $template->setOutputMode(
-                $this->configuration->phptal->settings->outputmode
+                $this->configuration->kernel->view->settings->outputmode
             );
 
             // execute = get result

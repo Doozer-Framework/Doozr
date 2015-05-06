@@ -81,7 +81,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     position=1
  * )
  */
-class Doozr_Rest_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
+class Doozr_Rest_Service extends Doozr_Base_Service_Multiple
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * Constructor.

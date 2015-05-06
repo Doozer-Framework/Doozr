@@ -261,11 +261,18 @@ abstract class Doozr_Config_Reader_Abstract extends Doozr_Base_Class
             }
         }
 
+        /**
+         *
+         * @todo RETRIEVE DOOZR CONSTANTS SO EXPENSIVE?
+         *
+         */
+
         // After executing directive like function calls
         $variables = array(
-            'DOOZR_APP_ROOT'      => str_replace('\\', '\\\\', DOOZR_APP_ROOT),
-            'DOOZR_DOCUMENT_ROOT' => str_replace('\\', '\\\\', DOOZR_DOCUMENT_ROOT),
-            'DOOZR_SYSTEM_TEMP'   => str_replace('\\', '\\\\', DOOZR_SYSTEM_TEMP),
+            'DOOZR_APP_ROOT'       => str_replace('\\', '\\\\', DOOZR_APP_ROOT),
+            'DOOZR_DOCUMENT_ROOT'  => str_replace('\\', '\\\\', DOOZR_DOCUMENT_ROOT),
+            'DOOZR_SYSTEM_TEMP'    => str_replace('\\', '\\\\', DOOZR_SYSTEM_TEMP),
+            'DOOZR_NAMESPACE_FLAT' => DOOZR_NAMESPACE_FLAT,
         );
 
         // Do default replacements

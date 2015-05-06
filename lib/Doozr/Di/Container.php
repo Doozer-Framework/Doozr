@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Container
  *
- * Container.php - Container class of the Di-Framework
+ * Container.php - Container class of the Di-Library
  *
  * PHP versions 5.4
  *
@@ -60,7 +60,7 @@ require_once DI_PATH_LIB_DI . 'Exception.php';
 /**
  * Doozr - Di - Container
  *
- * Container class of the Di-Framework
+ * Container class of the Di-Library
  *
  * @category   Doozr
  * @package    Doozr_Di
@@ -201,7 +201,10 @@ class Doozr_Di_Container
     {
         if (!isset(self::$_dependencyMaps[$namespace])) {
             throw new Doozr_Di_Exception(
-                'Dependency-Map could not be found. Dependency-Map with namespace "'.$namespace.'" does not exist.'
+                sprintf(
+                    'Dependency-Map could not be found. Dependency-Map with namespace "%s" does not exist.',
+                    $namespace
+                )
             );
         }
 

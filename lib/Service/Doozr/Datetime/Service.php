@@ -77,7 +77,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     position=1
  * )
  */
-class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
+class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * Holds the DateTime-Instance of this instance

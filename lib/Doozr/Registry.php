@@ -72,7 +72,8 @@ use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Registry extends Doozr_Base_Class_Singleton implements
+class Doozr_Registry extends Doozr_Base_Class_Singleton
+    implements
     Doozr_Registry_Interface,
     ArrayAccess,
     Iterator,

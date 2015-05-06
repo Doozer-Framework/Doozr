@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Factory
  *
- * Factory.php - Factory of the Di-Framework
+ * Factory.php - Factory of the Di-Library
  *
  * PHP versions 5.4
  *
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Factory
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -58,9 +58,9 @@ require_once DI_PATH_LIB_DI . 'Dependency.php';
 /**
  * Doozr - Di - Factory
  *
- * Factory of the Di-Framework
+ * Factory of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Factory
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -173,9 +173,11 @@ class Doozr_Di_Factory
             return new $classname($arguments[0],$arguments[1],$arguments[2],$arguments[3],$arguments[4],$arguments[5]);
         default:
             throw new Doozr_Di_Exception(
-                'Too much arguments passed to '.__METHOD__.'. This method can handle not more than 6 arguments'.
-                'Your class seems to have a architectural problem. Please reduce count of arguments passed to'.
-                'constructor'
+                sprintf(
+                    'Too much arguments passed to "%s". This method can handle up to 6 arguments. '.
+                    'Please reduce arguments passed to constructor.',
+                    __METHOD__
+                )
             );
         }
     }

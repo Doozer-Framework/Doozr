@@ -4,14 +4,14 @@
 /**
  * Doozr - Di - Bootstrapper
  *
- * Bootstrap.php - Bootstrapper of the Di-Framework
+ * Bootstrap.php - Bootstrapping of the Di-Library
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Bootstrap
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -53,7 +53,7 @@
  */
 
 // get absolute path to lib/di
-define('DI_PATH_LIB_DI', rtrim(dirname(__FILE__)).DIRECTORY_SEPARATOR);
+define('DI_PATH_LIB_DI', rtrim(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 
 // get absolute path to lib/di
 define(
@@ -66,4 +66,4 @@ define(
 );
 
 // update include path'
-set_include_path(get_include_path() . PATH_SEPARATOR.DI_PATH_LIB);
+set_include_path(get_include_path() . PATH_SEPARATOR . DI_PATH_LIB);

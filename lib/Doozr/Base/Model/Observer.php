@@ -68,7 +68,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Model_Observer extends Doozr_Base_State_Container implements SplObserver
+class Doozr_Base_Model_Observer extends Doozr_Base_State_Container
+    implements
+    SplObserver
 {
     /**
      * Update (for notifications from subject)

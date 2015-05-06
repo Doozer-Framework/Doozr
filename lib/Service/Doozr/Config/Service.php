@@ -79,7 +79,8 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     position=1
  * )
  */
-class Doozr_Config_Service extends Doozr_Base_Service_Multiple implements
+class Doozr_Config_Service extends Doozr_Base_Service_Multiple
+    implements
     Doozr_Base_Service_Interface,
     Doozr_Config_Interface
 {

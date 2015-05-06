@@ -78,7 +78,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     position=1
  * )
  */
-class Doozr_Oauth2_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
+class Doozr_Oauth2_Service extends Doozr_Base_Service_Multiple_Facade
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * Mode CLIENT

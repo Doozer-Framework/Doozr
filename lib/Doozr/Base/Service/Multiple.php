@@ -70,7 +70,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Serviceloader/Annotation/Inject
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container implements Doozr_Base_Service_Interface
+class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * Autoloader auto install control flag.

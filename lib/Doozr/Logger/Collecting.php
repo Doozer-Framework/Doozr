@@ -75,10 +75,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
  * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
-final class Doozr_Logger_Collecting extends Doozr_Logger_Abstract implements
-     Doozr_Logger_Interface,
-     Doozr_Logger_PsrInterface,
-     SplObserver
+final class Doozr_Logger_Collecting extends Doozr_Logger_Abstract
+    implements
+    Doozr_Logger_Interface,
+    Doozr_Logger_PsrInterface,
+    SplObserver
 {
     /**
      * Name of this logger

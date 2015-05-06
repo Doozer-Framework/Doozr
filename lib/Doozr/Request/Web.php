@@ -70,7 +70,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Request_Web extends Doozr_Base_Request implements Doozr_Request_Interface
+class Doozr_Request_Web extends Doozr_Base_Request
+    implements
+    Doozr_Request_Interface
 {
     /**
      * need to identify HTML Redirect Type

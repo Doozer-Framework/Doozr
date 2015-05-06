@@ -89,8 +89,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Crypt/Service/Container/Interf
  * @link       http://clickalicious.github.com/Doozr/
  * @service    Multiple
  */
-class Doozr_Crypt_Service_Container_Aes
-extends Doozr_Crypt_Service_Container implements Doozr_Crypt_Service_Container_Interface
+class Doozr_Crypt_Service_Container_Aes extends Doozr_Crypt_Service_Container
+    implements
+    Doozr_Crypt_Service_Container_Interface
 {
     /**
      * The number of 32-bit words comprising the plaintext and

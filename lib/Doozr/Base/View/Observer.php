@@ -68,7 +68,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Base_View_Observer extends Doozr_Base_Class implements SplObserver
+abstract class Doozr_Base_View_Observer extends Doozr_Base_Class
+    implements
+    SplObserver
 {
     /**
      * update dispatcher for this instance of a observer

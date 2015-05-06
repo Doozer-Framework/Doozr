@@ -71,7 +71,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Route/Annotation/Route.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr_Base_Presenter_Interface
+class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
+    implements
+    Doozr_Base_Presenter_Interface
 {
     /**
      * Data for CRUD operation(s)

@@ -68,7 +68,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Config/Interface
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Loader_Autoloader_Spl_Config implements Doozr_Autoload_Spl_Config_Interface
+class Doozr_Loader_Autoloader_Spl_Config
+    implements
+    Doozr_Autoload_Spl_Config_Interface
 {
     /**
      * The unique-id of the Autoloader

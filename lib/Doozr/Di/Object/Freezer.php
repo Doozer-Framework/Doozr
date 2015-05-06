@@ -340,7 +340,8 @@ class Object_Freezer
             if (!class_exists($object['className'], $this->useAutoload)) {
                 throw new RuntimeException(
                   sprintf(
-                    'Class "%s" could not be found.', $object['className']
+                      'Class "%s" could not be found.',
+                      $object['className']
                   )
                 );
             }

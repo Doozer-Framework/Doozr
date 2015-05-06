@@ -80,13 +80,13 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
     /**
      * Constructor.
      *
-     * @param array $config The config for this type of interface
+     * @param \stdClass $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_I18n_Service_Interface_Gettext Instance of this class
      * @access protected
      */
-    protected function __construct(array $config)
+    protected function __construct(\stdClass $config)
     {
         // Override simple by setter
         $this->setCacheEnabled(false);

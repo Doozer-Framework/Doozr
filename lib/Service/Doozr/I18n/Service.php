@@ -471,7 +471,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
             $translator = $this->getTranslator($input['redirect'], $encoding);
 
         } else {
-            sprintf('Translator for: "%s" loaded.' . PHP_EOL, $locale);
+            //sprintf('Translator for: "%s" loaded.' . PHP_EOL, $locale);
             $translator = new Doozr_I18n_Service_Translator($locale, $encoding, self::$config, $input['config']);
         }
 

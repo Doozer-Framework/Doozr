@@ -130,7 +130,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
         $this->setConfig($config);
         $this->setLogger($logger);
         $this->setDecoratorConfiguration($databaseConfiguration);
-        $this->setEnabled($this->getConfig()->database->enabled);
+        $this->setEnabled($this->getConfig()->kernel->model->enabled);
 
         // If database is enabled -> start decorating
         if ($this->getEnabled() === true) {

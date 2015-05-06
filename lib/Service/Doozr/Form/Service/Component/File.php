@@ -71,7 +71,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interfa
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Input implements
+class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Input
+    implements
     Doozr_Form_Service_Component_Interface_File
 {
     /**

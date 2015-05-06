@@ -77,7 +77,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     position=1
  * )
  */
-class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
+class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * type of userfriendly (speakable) passwords like
@@ -536,7 +538,7 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
     {
         list($usec, $sec) = explode(' ', microtime());
         $a = (float)$sec + ((float)$usec * 100000);
-        return (float)$a + $this->_config->crypt->keys->private;
+        return (float)$a + $this->_config->kernel->security->encryption->keys->private;
     }
 
     /**

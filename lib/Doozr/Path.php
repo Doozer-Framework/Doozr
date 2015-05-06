@@ -71,7 +71,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Path extends Doozr_Base_Class_Singleton implements Doozr_Path_Interface
+class Doozr_Path extends Doozr_Base_Class_Singleton
+    implements
+    Doozr_Path_Interface
 {
     /**
      * singelton-instance-holder

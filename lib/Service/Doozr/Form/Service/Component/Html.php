@@ -71,7 +71,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Html/Ht
  * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
-abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Component_Html_Html implements
+abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Component_Html_Html
+    implements
     Iterator
 {
     /**

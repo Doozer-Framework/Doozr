@@ -4,14 +4,14 @@
 /**
  * Doozr - Di - Map
  *
- * Map.php - Map class of the Di-Framework
+ * Map.php - Map class of the Di-Library
  *
  * PHP versions 5.4
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -49,7 +49,7 @@
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Di
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 require_once DI_PATH_LIB_DI . 'Exception.php';
@@ -57,7 +57,7 @@ require_once DI_PATH_LIB_DI . 'Exception.php';
 /**
  * Doozr - Di - Map
  *
- * Map class of the Di-Framework
+ * Map class of the Di-Library
  *
  * @category   Doozr
  * @package    Doozr_Di
@@ -94,22 +94,30 @@ class Doozr_Di_Map
     protected $dependency;
 
     /**
-     * A * parser instance
+     * A (*) parser instance
      *
-     * @var Doozr_Di_Parser_*
+     * @var Doozr_Di_Parser_Interface
      * @access protected
      */
     protected $parser;
 
     /**
-     * Available wire modes
-     * WIRE_MODE_MANUAL    = Wiring is done manually by you
+     * WIRE_MODE_MANUAL
+     * Wiring is done manually by you
+     *
+     * @var int
+     * @access public
+     * @const
+     */
+    const WIRE_MODE_MANUAL = 1;
+
+    /**
      * WIRE_MODE_AUTOMATIC = Wiring is done automatically
      *
      * @var int
      * @access public
+     * @const
      */
-    const WIRE_MODE_MANUAL    = 1;
     const WIRE_MODE_AUTOMATIC = 2;
 
     /**
@@ -117,12 +125,14 @@ class Doozr_Di_Map
      *
      * @var string
      * @access public
+     * @const
      */
-    const DEFAULT_NAMESPACE   = 'Di';
+    const DEFAULT_NAMESPACE = 'Di';
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Sets the collection of the map instance
@@ -234,7 +244,7 @@ class Doozr_Di_Map
     public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = array())
     {
         if ($mode === self::WIRE_MODE_AUTOMATIC) {
-            $matrix = $this->_retrieveGlobals();
+            $matrix = $this->retrieveGlobals();
         }
 
         if (empty($matrix)) {
@@ -244,7 +254,7 @@ class Doozr_Di_Map
         }
 
         // now we connect our map-setup with existing (real) instances
-        $this->_wireClassWithDependencies($matrix);
+        $this->wireClassWithDependencies($matrix);
 
         // success
         return true;
@@ -264,9 +274,9 @@ class Doozr_Di_Map
         $this->collection = null;
     }
 
-    /*******************************************************************************************************************
-     * PROTECTED
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PROTECTED
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Adds the given raw dependencies (array) to the collection for given classname
@@ -304,10 +314,6 @@ class Doozr_Di_Map
         }
     }
 
-    /*******************************************************************************************************************
-     * PRIVATE
-     ******************************************************************************************************************/
-
     /**
      * Wires the map with given (existing) instances
      *
@@ -318,12 +324,12 @@ class Doozr_Di_Map
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @throws Doozr_Di_Exception
      * (non-PHPdoc)
      * @see Doozr_Di_Importer_Interface::wire()
      */
-    private function _wireClassWithDependencies(array $matrix)
+    protected function wireClassWithDependencies(array $matrix)
     {
         /* @var $this->collection Doozr_Di_Collection */
         foreach ($this->collection as $dependencies) {
@@ -355,9 +361,9 @@ class Doozr_Di_Map
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The defined variables from global scope
-     * @access private
+     * @access protected
      */
-    private function _retrieveGlobals()
+    protected function retrieveGlobals()
     {
         // retrieve globals and return them
         global $GLOBALS;

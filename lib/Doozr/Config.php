@@ -79,7 +79,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Config extends Doozr_Base_Class_Singleton implements Doozr_Config_Interface
+class Doozr_Config extends Doozr_Base_Class_Singleton
+    implements
+    Doozr_Config_Interface
 {
     /**
      * The UUID of the active configuration

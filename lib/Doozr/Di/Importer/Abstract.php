@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Importer Abstract
  *
- * Abstract.php - Abstract base class for all Importer of the Di-Framework
+ * Abstract.php - Abstract base class for all Importer of the Di-Library
  *
  * PHP versions 5.4
  *
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Importer_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -57,9 +57,9 @@ require_once DI_PATH_LIB_DI . 'Exception.php';
 /**
  * Doozr - Di - Importer Abstract
  *
- * Abstract base class for all Importer of the Di-Framework
+ * Abstract base class for all Importer of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Importer_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -196,7 +196,10 @@ abstract class Doozr_Di_Importer_Abstract
     {
         if (!file_exists($file) || !is_file($file)) {
             throw new Doozr_Di_Exception(
-                'Error reading file. File "'.$file.'" does not exist or is not a valid file'
+                sprintf(
+                    'Error reading file. File "%s" does not exist or is not a valid file',
+                    $file
+                )
             );
         }
 

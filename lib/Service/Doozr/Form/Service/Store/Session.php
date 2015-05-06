@@ -69,7 +69,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Store/Interface.p
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract implements
+class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract
+    implements
     Doozr_Form_Service_Store_Interface
 {
     /**

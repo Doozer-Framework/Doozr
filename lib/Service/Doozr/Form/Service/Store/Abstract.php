@@ -70,7 +70,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Crud/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Form_Service_Store_Abstract implements Doozr_Base_Crud_Interface
+abstract class Doozr_Form_Service_Store_Abstract
+    implements
+    Doozr_Base_Crud_Interface
 {
     /**
      * Currently only used as contract for typehinting

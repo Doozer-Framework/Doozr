@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Map Fluent
  *
- * Fluent.php - Fluent map class of the Di-Framework
+ * Fluent.php - Fluent map class of the Di-Library
  *
  * PHP versions 5.4
  *
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Map_Fluent
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -61,9 +61,9 @@ require_once DI_PATH_LIB_DI . 'Collection.php';
 /**
  * Doozr - Di - Map Fluent
  *
- * Fluent map class of the Di-Framework
+ * Fluent map class of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Map_Fluent
  * @author     Benjamin Carl <opensource@clickalicious.de>

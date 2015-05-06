@@ -70,7 +70,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Request_State extends Doozr_Base_State implements Doozr_Base_State_Interface
+class Doozr_Request_State extends Doozr_Base_State
+    implements
+    Doozr_Base_State_Interface
 {
     /**
      * The method used for request

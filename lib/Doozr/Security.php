@@ -127,7 +127,7 @@ class Doozr_Security extends Doozr_Base_Class_Singleton
         $bytes = round($bit / 8);
 
         // get whole key
-        $key = self::$config->crypt->keys->private;
+        $key = self::$config->kernel->security->encryption->keys->private;
 
         // return extracted key
         return substr($key, (strlen($key) - $bytes), $bytes);

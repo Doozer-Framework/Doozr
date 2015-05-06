@@ -328,15 +328,15 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      */
     protected function retrieveOrmConfig($orm)
     {
-        // try to load configuration of orm
+        // Try to retrieve config for ORM/DBA
         try {
-            // retrieve config for ORM/DBA
-            self::$ormConfig = $this->config->database->{$orm};
+            self::$ormConfig = $this->config->kernel->model->{$orm};
 
         } catch(Doozr_Config_Ini_Exception $e) {
-
             throw new Doozr_Exception(
-                'Configuration for ORM: "'.$orm.'" could not be retrieved! Please check your configuration',
+                sprintf(
+                    'Configuration for ORM "%s" could not be retrieved! Please check your configuration', $orm
+                ),
                 null,
                 $e
             );

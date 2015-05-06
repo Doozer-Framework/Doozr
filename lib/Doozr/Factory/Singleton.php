@@ -68,7 +68,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Factory/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Factory_Singleton implements Doozr_Factory_Interface
+class Doozr_Factory_Singleton
+    implements
+    Doozr_Factory_Interface
 {
     /**
      * This method is intend to create instances of singleton-classes. You can

@@ -170,7 +170,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         // Start stopwatch
         self::startTimer();
 
-        // Run internal bootstrapper process
+        // Run internal bootstrap process
         self::bootstrap(true, $virtual);
 
         // Stop timer and store execution-time
@@ -475,6 +475,25 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
             self::$registry->getPath()->get('config') . '.config'
         );
 
+
+        /**
+         * READ CONFIG OF SERVICES
+         */
+        $path      = self::$registry->getPath()->get('service');
+        $directory = new \RecursiveDirectoryIterator($path);
+        $iterator  = new \RecursiveIteratorIterator($directory);
+
+        foreach ($iterator as $info) {
+            if ($info->getFilename() === '.config') {
+                $config->read($info->getPathname());
+            }
+        }
+
+        /**
+         * END CONFIG OF SERVICES
+         */
+
+
         // Read config of application
         $userlandConfigurationFile = self::$registry->getPath()->get('app', 'Data\Private\Config\.config');
 
@@ -510,13 +529,9 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$registry->getLogger()->detachAll(true);
 
         // Check if logging enabled ...
-        if (self::$registry->getConfig()->logging->enabled) {
-
-            // Get logger from config
-            $loggers = self::$registry->getConfig()->logging->logger;
-
-            // iterate and attach to subsystem
-            foreach ($loggers as $logger) {
+        if (self::$registry->getConfig()->kernel->logging->enabled) {
+            // Iterate and attach to subsystem
+            foreach (self::$registry->getConfig()->kernel->logging->logger as $logger) {
                 $loggerInstance = self::$registry->getContainer()->build(
                     'Doozr_Logger_' . ucfirst(strtolower($logger->name)),
                     array((isset($logger->level)) ? $logger->level : self::$registry->getLogger()->getDefaultLoglevel())
@@ -734,7 +749,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success
-     * @access private
+     * @access protected
      * @static
      */
     protected static function initBackController()
@@ -758,34 +773,37 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success
-     * @access private
+     * @access protected
      * @static
      */
     protected static function initModel()
     {
+        // Retrieve configuration
+        $config = self::$registry->getConfig();
+        $path   = self::$registry->getPath();
+
         // Build decorator config ...
         $databaseConfiguration = array(
-            'name'      => self::$registry->getConfig()->database->proxy,
-            'translate' => self::$registry->getConfig()->database->oxm,
-            'path'      => self::$registry->getPath()->get(
-                'model', 'Lib\\' . self::$registry->getConfig()->database->oxm . '\\'
+            'name'      => $config->kernel->model->proxy,
+            'translate' => $config->kernel->model->oxm,
+            'path'      => $path->get(
+                'model', 'Lib\\' . $config->kernel->model->oxm . '\\'
             ),
-            'bootstrap' => self::$registry->getConfig()->database->bootstrap,
-            'route'     => self::$registry->getConfig()->database->route,
-            'docroot'   => self::$registry->getConfig()->database->docroot
+            'bootstrap' => $config->kernel->model->bootstrap,
+            'route'     => $config->kernel->model->route,
+            'docroot'   => $config->kernel->model->docroot
         );
 
-        // define dependencies by it's identifier
+        // Define dependencies by it's identifier
         self::$registry->getMap()->wire(
             Doozr_Di_Container::MODE_STATIC,
             array(
-                'Doozr_Path' => self::$registry->getPath()
+                'Doozr_Path' => $path
             )
         );
 
-        // update existing map with newly added dependencies
+        // Update existing map with newly added dependencies
         self::$registry->getContainer()->setMap(self::$registry->getMap());
-
         self::$registry->setModel(self::$registry->getContainer()->build('Doozr_Model', array($databaseConfiguration)));
 
         // Important for bootstrap result
@@ -822,13 +840,13 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
     protected static function stopTimer()
     {
         // calculate and store core execution time
-        self::$coreExecutionTime = self::_getDateTime()->getMicrotimeDiff(self::$starttime);
+        self::$coreExecutionTime = self::getDateTime()->getMicrotimeDiff(self::$starttime);
 
         // log core execution time
         self::$registry->logger->debug('Kernel execution-time: ' . self::$coreExecutionTime . ' seconds');
@@ -871,10 +889,10 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Datetime_Service An instance of module Datetime
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _getDateTime()
+    protected static function getDateTime()
     {
         if (!self::$dateTime) {
             self::$dateTime = Doozr_Loader_Serviceloader::load('datetime');
@@ -927,7 +945,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         // Log request serving time -> but only if logger available!
         if (self::$registry->getLogger()) {
             self::$registry->getLogger()->debug(
-                'Request cycle completed in: ' . self::_getDateTime()->getMicrotimeDiff(self::$starttime) . ' seconds'
+                'Request cycle completed in: ' . self::getDateTime()->getMicrotimeDiff(self::$starttime) . ' seconds'
             );
 
             // Log memory usage

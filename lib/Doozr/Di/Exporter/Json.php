@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Exporter Json
  *
- * Json.php - Exporter (JSON-Localize) of the Di-Framework
+ * Json.php - Exporter (JSON-Localize) of the Di-Library
  *
  * PHP versions 5.4
  *
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Exporter_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -56,18 +56,14 @@ require_once DI_PATH_LIB_DI . 'Exporter/Abstract.php';
 require_once DI_PATH_LIB_DI . 'Exporter/Interface.php';
 require_once DI_PATH_LIB_DI . 'Dependency.php';
 require_once DI_PATH_LIB_DI . 'Collection.php';
-
-/**
- * external library Object-Freezer by Sebastian Bergmann
- */
-require_once DI_PATH_LIB.'Object/Freezer.php';
+require_once DI_PATH_LIB    . 'Object/Freezer.php';
 
 /**
  * Doozr - Di - Exporter Json
  *
- * Exporter (JSON-Localize) of the Di-Framework
+ * Exporter (JSON-Localize) of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Exporter_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -75,7 +71,9 @@ require_once DI_PATH_LIB.'Object/Freezer.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract implements Doozr_Di_Exporter_Interface
+class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
+    implements
+    Doozr_Di_Exporter_Interface
 {
     /*******************************************************************************************************************
      * PUBLIC API
@@ -114,7 +112,10 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract implements Doozr
         // check if input directory exists and if it is writable
         if (!is_dir(dirname($this->output)) || (!is_writable(dirname($this->output)))) {
             throw new Doozr_Di_Exception(
-                'Could not export map. Output directory "' . Dirname($this->output).'" does not exist or isn\'t writable.'
+                sprintf(
+                    'Could not export map. Output directory "%s" does not exist or isn\'t writable.',
+                    Dirname($this->output)
+                )
             );
         }
 

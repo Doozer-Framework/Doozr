@@ -75,7 +75,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract implements Doozr_Config_Interface
+class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract
+    implements
+    Doozr_Config_Interface
 {
     /**
      * The decoded content.

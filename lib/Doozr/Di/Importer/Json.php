@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Importer Json
  *
- * Json.php - Importer (JSON-Localize) of the Di-Framework
+ * Json.php - Importer (JSON-Localize) of the Di-Library
  *
  * PHP versions 5.4
  *
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Importer_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -61,9 +61,9 @@ require_once DI_PATH_LIB_DI . 'Collection.php';
 /**
  * Doozr - Di - Importer Json
  *
- * Importer (JSON-Localize) of the Di-Framework
+ * Importer (JSON-Localize) of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Importer_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -71,7 +71,9 @@ require_once DI_PATH_LIB_DI . 'Collection.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract implements Doozr_Di_Importer_Interface
+class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
+    implements
+    Doozr_Di_Importer_Interface
 {
     /*******************************************************************************************************************
      * PUBLIC API

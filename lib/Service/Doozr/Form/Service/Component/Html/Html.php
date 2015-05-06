@@ -74,7 +74,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interfa
  * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
-abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service_Component_Html_Abstract implements
+abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service_Component_Html_Abstract
+    implements
     Doozr_Form_Service_Component_Interface_Html,
     SplSubject,
     SplObserver,

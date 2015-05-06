@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Constructor Parser
  *
- * Constructor.php - Constructor Parser of the Di-Framework
+ * Constructor.php - Constructor Parser of the Di-Library
  *
  * PHP version 5
  *
@@ -41,7 +41,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Constructor
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -53,14 +53,14 @@
 
 require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
 require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
-require_o* Doozr - Di - I_PATH_LIB_DI . '* Doozr - Di - tion.php';
+require_once DI_PATH_LIB_DI . 'Collection.php';
 
 /**
  * Di Constructor Parser
  *
- * Constructor Parser of the Di-Framework
+ * Constructor Parser of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Constructor
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -68,7 +68,9 @@ require_o* Doozr - Di - I_PATH_LIB_DI . '* Doozr - Di - tion.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract implements Doozr_Di_Parser_Interface
+class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
+    implements
+    Doozr_Di_Parser_Interface
 {
     /*******************************************************************************************************************
      * PUBLIC API

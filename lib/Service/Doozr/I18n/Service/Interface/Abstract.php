@@ -142,28 +142,28 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
     /**
      * Constructor.
      *
-     * @param array $config The config for this type of interface
+     * @param \stdClass $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_I18n_Service_Interface_Abstract Instance of this class
      * @access protected
      */
-    protected function __construct(array $config)
+    protected function __construct(\stdClass $config)
     {
         // Check if requirements fulfilled
         self::checkRequirements();
 
         // Store the path to translation files
         $this
-            ->path($config['path'])
-            ->cacheEnabled($this->getCacheEnabled() && $config['cache']['enabled'])
-            ->cacheLifetime($config['cache']['lifetime'])
-            ->encoding($config['encoding']);
+            ->path($config->path)
+            ->cacheEnabled($this->getCacheEnabled() && $config->cache->enabled)
+            ->cacheLifetime($config->cache->lifetime)
+            ->encoding($config->encoding);
 
         // If cache enabled - get module cache and setup
         if (!self::$cache && true === $this->getCacheEnabled()) {
 
-            if (isset($config['cache']['container']) === false) {
+            if (false === isset($config->cache->container)) {
                 if ($container = getenv('DOOZR_CACHE_CONTAINER') === false) {
                     if (defined('DOOZR_CACHE_CONTAINER') === false) {
                         define('DOOZR_CACHE_CONTAINER', Doozr_Cache_Service::CONTAINER_FILESYSTEM);
@@ -172,10 +172,10 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
                     $container = DOOZR_CACHE_CONTAINER;
                 }
             } else {
-                $container = $config['cache']['container'];
+                $container = $config->cache->container;
             }
 
-            if (isset($config['cache']['namespace']) === false) {
+            if (false === isset($config->cache->namespace)) {
                 $namespace = 'doozr.cache.i18n';
             }
 

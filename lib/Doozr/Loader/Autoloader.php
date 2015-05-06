@@ -68,7 +68,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Loader_Autoloader implements Doozr_Loader_Autoloader_Interface
+class Doozr_Loader_Autoloader
+    implements
+    Doozr_Loader_Autoloader_Interface
 {
     /**
      * The file-extension for the files to be loaded by autoloader

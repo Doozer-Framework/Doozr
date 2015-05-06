@@ -69,7 +69,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Model extends Doozr_Base_Model_Observer implements Doozr_Base_Model_Interface
+class Doozr_Base_Model extends Doozr_Base_Model_Observer
+    implements
+    Doozr_Base_Model_Interface
 {
     /**
      * Data for CRUD operation(s)

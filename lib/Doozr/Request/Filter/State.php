@@ -9,7 +9,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
  *
  * More specific filter version of Doozr_Base_State
  */
-class Doozr_Request_Filter_State extends Doozr_Base_State implements Doozr_Base_State_Interface
+class Doozr_Request_Filter_State extends Doozr_Base_State
+    implements
+    Doozr_Base_State_Interface
 {
     protected $fields;
 

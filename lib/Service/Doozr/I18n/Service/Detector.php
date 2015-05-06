@@ -109,7 +109,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     /**
      * Instance of session service
      *
-     * @var object
+     * @var Doozr_Session_Service
      * @access protected
      * @static
      */
@@ -549,7 +549,6 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$stores as $store) {
-
                 // construct method-name for current store
                 $method = 'write'.ucfirst($store);
 

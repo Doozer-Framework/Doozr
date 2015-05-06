@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Typehint Parser
  *
- * Typehint.php - Typehint Parser of the Di-Framework
+ * Typehint.php - Typehint Parser of the Di-Library
  *
  * PHP versions 5.4
  *
@@ -41,7 +41,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Typehint
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -54,14 +54,14 @@
 require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
 require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
 require_once DI_PATH_LIB_DI . 'Dependency.php';
-require_once DI_PATH_LIB_DI . '* Doozr - Di - tion.php';
+require_once DI_PATH_LIB_DI . 'Collection.php';
 
 /**
  * Di Typehint Parser
  *
- * Typehint Parser of the Di-Framework
+ * Typehint Parser of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Typehint
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -69,7 +69,9 @@ require_once DI_PATH_LIB_DI . '* Doozr - Di - tion.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract implements Doozr_Di_Parser_Interface
+class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
+    implements
+    Doozr_Di_Parser_Interface
 {
     /* @var Doozr_Di_Parser_Constructor $_parser */
     private $_parser;

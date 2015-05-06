@@ -4,7 +4,8 @@
 /**
  * Doozr - Di - Dependency
  *
- * Dependency.php - Dependency class of the Di-Framework
+ * Dependency.php - Dependency representation. Instances of this class representing
+ * a dependency with a configuration.
  *
  * PHP versions 5.4
  *
@@ -42,7 +43,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Dependency
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -55,9 +56,10 @@
 /**
  * Doozr - Di - Dependency
  *
- * Dependency class of the Di-Framework
+ * Dependency representation. Instances of this class representing
+ * a dependency with a configuration.
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Dependency
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -65,7 +67,9 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class Doozr_Di_Dependency implements ArrayAccess
+class Doozr_Di_Dependency
+    implements
+    ArrayAccess
 {
     /**
      * The name of the class of a single dependency
@@ -129,19 +133,14 @@ class Doozr_Di_Dependency implements ArrayAccess
     const TYPE_PROPERTY    = 'property';
 
 
-    /*******************************************************************************************************************
-     * PHP CONSTRUCT
-     ******************************************************************************************************************/
-
     /**
      * Constructor
      *
      * This method is the constructor.
      *
-     * @param string $classname The name of the class (the dependency)
+     * @param string|null $classname The name of the class (the dependency)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
      * @access public
      */
     public function __construct($classname = null)
@@ -149,9 +148,10 @@ class Doozr_Di_Dependency implements ArrayAccess
         $this->_classname = $classname;
     }
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Sets the name of the class
@@ -401,9 +401,9 @@ class Doozr_Di_Dependency implements ArrayAccess
         return sha1(serialize($this).microtime());
     }
 
-    /*******************************************************************************************************************
-     * MAGIC
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAGIC
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * magic __toString
@@ -419,9 +419,9 @@ class Doozr_Di_Dependency implements ArrayAccess
         return $this->_classname;
     }
 
-    /*******************************************************************************************************************
-     * ARRAY ACCESS
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | ARRAY ACCESS
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Implements offsetExists
