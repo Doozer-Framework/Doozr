@@ -256,13 +256,10 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      */
     protected static function initDependencyInjection()
     {
-        // Bootstrap if required (CLI!)
-        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Bootstrap.php';
-
         // get required dependency container for annotations!
-        require_once DI_PATH_LIB_DI . 'Map/Annotation.php';
-        require_once DI_PATH_LIB_DI . 'Parser/Annotation.php';
-        require_once DI_PATH_LIB_DI . 'Dependency.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map/Annotation.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Annotation.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
 
         $collection      = new Doozr_Di_Collection();
         $parser          = new Doozr_Di_Parser_Annotation();

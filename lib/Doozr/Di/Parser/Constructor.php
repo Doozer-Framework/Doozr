@@ -51,9 +51,9 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
-require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
-require_once DI_PATH_LIB_DI . 'Collection.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
  * Di Constructor Parser
@@ -72,9 +72,9 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
     implements
     Doozr_Di_Parser_Interface
 {
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Parse out the constructor of a class (eg. for singleton classes)

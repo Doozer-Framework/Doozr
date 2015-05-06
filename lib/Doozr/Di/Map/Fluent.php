@@ -9,9 +9,9 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -52,11 +52,11 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Map.php';
-require_once DI_PATH_LIB_DI . 'Factory.php';
-require_once DI_PATH_LIB_DI . 'Container.php';
-require_once DI_PATH_LIB_DI . 'Dependency.php';
-require_once DI_PATH_LIB_DI . 'Collection.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
  * Doozr - Di - Map Fluent
@@ -106,10 +106,6 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     private $_current;
 
 
-    /*******************************************************************************************************************
-     * PHP CONSTRUCT
-     ******************************************************************************************************************/
-
     /**
      * Constructor
      *
@@ -119,7 +115,6 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * @param Doozr_Di_Dependency $dependency An instance of Doozr_Di_Dependency used as base object for cloning new dependencies
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
      * @access public
      */
     public function __construct(Doozr_Di_Collection $collection, Doozr_Di_Dependency $dependency)
@@ -129,9 +124,9 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
         $this->_dependency = $dependency;
     }
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Empty container method to keep the interface consistent with other Doozr_Di_Map_* classes
@@ -413,10 +408,9 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
         return $this->store()->build($classname, $arguments);
     }
 
-
-    /*******************************************************************************************************************
-     * PRIVATE
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PROTECTED
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Resets the state of this instance to default
@@ -425,9 +419,9 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _reset()
+    protected function _reset()
     {
         $this->_classname = null;
         $this->_dependency = null;
@@ -440,9 +434,9 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _flush()
+    protected function _flush()
     {
         $this->_lastClassname = $this->_classname;
 

@@ -9,9 +9,9 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -52,7 +52,7 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Map.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
 
 /**
  * Doozr - Di - Map Annotation
@@ -69,10 +69,6 @@ require_once DI_PATH_LIB_DI . 'Map.php';
  */
 class Doozr_Di_Map_Annotation extends Doozr_Di_Map
 {
-    /*******************************************************************************************************************
-     * PHP CONSTRUCT
-     ******************************************************************************************************************/
-
     /**
      * Constructor.
      *
@@ -97,9 +93,9 @@ class Doozr_Di_Map_Annotation extends Doozr_Di_Map
         $this->dependency = $dependency;
     }
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Builds the collection from dependency parser result for given class

@@ -41,7 +41,7 @@
  * @since      File available since Release 1.0.0
  */
 
-require_once 'Object/Freezer/IdGenerator.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/IdGenerator.php';
 
 /**
  * Implementation of Object_Freezer_IdGenerator that uses UUIDs as object IDs.

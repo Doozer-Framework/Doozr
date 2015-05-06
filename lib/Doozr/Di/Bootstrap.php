@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Bootstrapper
+ * Doozr - Di - Bootstrap
  *
  * Bootstrap.php - Bootstrapping of the Di-Library
  *
@@ -52,6 +52,7 @@
  * @link       https://github.com/clickalicious/Di
  */
 
+/*
 // get absolute path to lib/di
 define('DI_PATH_LIB_DI', rtrim(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 
@@ -67,3 +68,4 @@ define(
 
 // update include path'
 set_include_path(get_include_path() . PATH_SEPARATOR . DI_PATH_LIB);
+*/

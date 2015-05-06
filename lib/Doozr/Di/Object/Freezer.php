@@ -41,9 +41,9 @@
  * @since      File available since Release 1.0.0
  */
 
-require_once 'Object/Freezer/HashGenerator/NonRecursiveSHA1.php';
-require_once 'Object/Freezer/IdGenerator/UUID.php';
-require_once 'Object/Freezer/Util.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/HashGenerator/NonRecursiveSHA1.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/IdGenerator/UUID.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/Util.php';
 
 /**
  * This class provides the low-level functionality required to store ("freeze")

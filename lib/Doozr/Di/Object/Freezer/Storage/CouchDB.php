@@ -41,7 +41,7 @@
  * @since      File available since Release 1.0.0
  */
 
-require_once 'Object/Freezer/Storage.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/Storage.php';
 
 /**
  * Object storage that uses Apache CouchDB as its backend.

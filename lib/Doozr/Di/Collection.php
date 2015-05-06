@@ -129,7 +129,7 @@ class Doozr_Di_Collection
 
     /**
      * Adds a dependency to collection
-     *     *
+     *
      * @param string              $classname  The name of the class which depends on the $dependency
      * @param Doozr_Di_Dependency $dependency The dependency setup as Doozr_Di_Dependency object
      *
@@ -362,9 +362,9 @@ class Doozr_Di_Collection
         return isset($this->numericalIndex[$this->position]);
     }
 
-    /*******************************************************************************************************************
-     * ARRAY ACCESS
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | ARRAY ACCESS
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Implements offsetExists

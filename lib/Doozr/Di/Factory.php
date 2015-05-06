@@ -9,9 +9,9 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -52,8 +52,8 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Exception.php';
-require_once DI_PATH_LIB_DI . 'Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
 
 /**
  * Doozr - Di - Factory
@@ -98,9 +98,9 @@ class Doozr_Di_Factory
     private $_constructor;
 
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Instantiates a class without further dependencies
@@ -132,10 +132,10 @@ class Doozr_Di_Factory
             }
 
             // create instance with dependencies
-            return $this->_instanciateWithDependencies($classname, $dependencies);
+            return $this->instanciateWithDependencies($classname, $dependencies);
         } else {
             // create instance without dependencies
-            return $this->_instanciateWithoutDependencies($classname);
+            return $this->instanciateWithoutDependencies($classname);
         }
     }
 
@@ -182,9 +182,9 @@ class Doozr_Di_Factory
         }
     }
 
-    /*******************************************************************************************************************
-     * PRIVATE + PROTECTED
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PROTECTED
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Instantiates a class including it dependencies
@@ -199,9 +199,9 @@ class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The new created instance
-     * @access private
+     * @access protected
      */
-    private function _instanciateWithDependencies($classname, $setup)
+    protected function instanciateWithDependencies($classname, $setup)
     {
         // get dependencies
         $dependencies = $setup['dependencies'];
@@ -210,7 +210,7 @@ class Doozr_Di_Factory
         $arguments = (isset($setup['arguments'])) ? $setup['arguments'] : array();
 
         // hold the 3 possible methods of injection (constructor, method, property)
-        $injections = $this->_initEmptyInjectionContainer();
+        $injections = $this->initEmptyInjectionContainer();
 
         // iterate over config
         /* @var $dependency Doozr_Di_Dependency */
@@ -250,7 +250,7 @@ class Doozr_Di_Factory
         }
 
         // process injections, create instance and return it
-        return $this->_createInstance($classname, $arguments, $injections);
+        return $this->createInstance($classname, $arguments, $injections);
     }
 
     /**
@@ -266,11 +266,11 @@ class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The new created instance
-     * @access private
+     * @access protected
      */
-    private function _instanciateWithoutDependencies($classname, array $arguments = array())
+    protected function instanciateWithoutDependencies($classname, array $arguments = array())
     {
-        return $this->_createInstance($classname, $arguments);
+        return $this->createInstance($classname, $arguments);
     }
 
     /**
@@ -287,19 +287,19 @@ class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The new created instance
-     * @access private
+     * @access protected
      */
-    private function _createInstance($classname, array $arguments = array(), array $injections = array())
+    protected function createInstance($classname, array $arguments = array(), array $injections = array())
     {
         // process only if $injections exists
         if (count($injections)) {
             // get injections for constructor
-            $constructorInjections = $this->_parseInjections(Doozr_Di_Dependency::TYPE_CONSTRUCTOR, $injections);
+            $constructorInjections = $this->parseInjections(Doozr_Di_Dependency::TYPE_CONSTRUCTOR, $injections);
 
             // process injections for constructor
             if ($constructorInjections) {
 
-                $arguments = $this->_mergeArguments($constructorInjections, $arguments);
+                $arguments = $this->mergeArguments($constructorInjections, $arguments);
 
                 /*
                 // @todo: what is or was this for?
@@ -315,26 +315,26 @@ class Doozr_Di_Factory
         }
 
         // get instance - for no dependency calls too
-        $instance = $this->_constructorInjection($classname, $arguments);
+        $instance = $this->constructorInjection($classname, $arguments);
 
         // process only if $injections exists
         if (count($injections)) {
             // get injections for setter
-            $setterInjections = $this->_parseInjections(Doozr_Di_Dependency::TYPE_METHOD, $injections);
+            $setterInjections = $this->parseInjections(Doozr_Di_Dependency::TYPE_METHOD, $injections);
 
             // process injections for constructor
             if ($setterInjections) {
                 // work the other injection types like "setter"
-                $this->_setterInjection($instance, $setterInjections);
+                $this->setterInjection($instance, $setterInjections);
             }
 
             // get injections for property
-            $propertyInjections = $this->_parseInjections(Doozr_Di_Dependency::TYPE_PROPERTY, $injections);
+            $propertyInjections = $this->parseInjections(Doozr_Di_Dependency::TYPE_PROPERTY, $injections);
 
             // process injections for constructor
             if ($propertyInjections) {
                 // work the other injection types like "property"
-                $this->_propertyInjection($instance, $propertyInjections);
+                $this->propertyInjection($instance, $propertyInjections);
             }
         }
 
@@ -353,9 +353,9 @@ class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The new created instance
-     * @access private
+     * @access protected
      */
-    private function _constructorInjection($classname, array $arguments)
+    protected function constructorInjection($classname, array $arguments)
     {
         // is the target instanciable (= no singleton stuff ~ new foo())
         if ($this->_instanciable) {
@@ -380,9 +380,9 @@ class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _setterInjection(&$instance, array $injections)
+    protected function setterInjection(&$instance, array $injections)
     {
         foreach ($injections as $injection) {
             $instance->{$injection['signature']}($injection['argument']);
@@ -399,9 +399,9 @@ class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _propertyInjection(&$instance, array $injections)
+    protected function propertyInjection(&$instance, array $injections)
     {
         foreach ($injections as $injection) {
             $instance->{$injection['signature']} = $injection['argument'];
@@ -418,9 +418,9 @@ class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed NULL if no dependencies found, otherwise ARRAY containing the dependencies
-     * @access private
+     * @access protected
      */
-    private function _parseInjections($type, array $injections)
+    protected function parseInjections($type, array $injections)
     {
         // assume no result
         $result = null;
@@ -460,9 +460,9 @@ class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The merged result ready to pass to targets constructor
-     * @access private
+     * @access protected
      */
-    private function _mergeArguments(array $injections, array $arguments)
+    protected function mergeArguments(array $injections, array $arguments)
     {
         // get total count of arguments
         $sum = count($injections) + count($arguments);
@@ -503,14 +503,14 @@ class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array For the three types of injections
-     * @access private
+     * @access protected
      */
-    private function _initEmptyInjectionContainer()
+    protected function initEmptyInjectionContainer()
     {
         return array(
             'constructor' => array(),
             'setter'      => array(),
-            'property'    => array()
+            'property'    => array(),
         );
     }
 }

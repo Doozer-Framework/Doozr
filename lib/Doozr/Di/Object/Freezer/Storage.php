@@ -41,9 +41,9 @@
  * @since      File available since Release 1.0.0
  */
 
-require_once 'Object/Freezer.php';
-require_once 'Object/Freezer/Cache.php';
-require_once 'Object/Freezer/LazyProxy.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/Cache.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/LazyProxy.php';
 
 /**
  * Abstract base class for object storage implementations.

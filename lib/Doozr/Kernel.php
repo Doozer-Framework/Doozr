@@ -54,7 +54,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Bootstrap.php';
+#require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Bootstrap.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config.php';
@@ -324,15 +324,12 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initDependencyInjection()
     {
-        // Simple absolute path bootstrapping for better performance
-        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Bootstrap.php';
-
         // Required classes (files) for static demonstration #3
-        require_once DI_PATH_LIB_DI . 'Collection.php';
-        require_once DI_PATH_LIB_DI . 'Importer/Json.php';
-        require_once DI_PATH_LIB_DI . 'Map/Static.php';
-        require_once DI_PATH_LIB_DI . 'Factory.php';
-        require_once DI_PATH_LIB_DI . 'Container.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Json.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map/Static.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Container.php';
 
         /**
          * Create instances of required classes

@@ -9,9 +9,9 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -52,7 +52,7 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 
 /**
  * Doozr - Di - Parser Abstract
@@ -93,9 +93,10 @@ abstract class Doozr_Di_Parser_Abstract
      */
     protected $data = array();
 
-    /*******************************************************************************************************************
-     * PROTECTED API
-     ******************************************************************************************************************/
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PROTECTED API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Prepares input for later use (e.g. in parse())
@@ -204,9 +205,9 @@ abstract class Doozr_Di_Parser_Abstract
         return $GLOBALS;
     }
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Setter for input to parse from

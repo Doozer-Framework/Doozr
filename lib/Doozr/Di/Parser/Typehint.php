@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Typehint Parser
+ * Doozr - Di - Parser - Typehint
  *
  * Typehint.php - Typehint Parser of the Di-Library
  *
@@ -51,13 +51,13 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
-require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
-require_once DI_PATH_LIB_DI . 'Dependency.php';
-require_once DI_PATH_LIB_DI . 'Collection.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
- * Di Typehint Parser
+ * Doozr - Di - Parser - Typehint
  *
  * Typehint Parser of the Di-Library
  *
@@ -73,18 +73,28 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
     implements
     Doozr_Di_Parser_Interface
 {
-    /* @var Doozr_Di_Parser_Constructor $_parser */
-    private $_parser;
+    /**
+     * Parser
+     *
+     * @var Doozr_Di_Parser_Constructor $parser
+     * @access private
+     */
+    private $parser;
 
 
+    /**
+     * Constructor.
+     *
+     * @param \Doozr_Di_Parser_Constructor $parser
+     */
     public function __construct(Doozr_Di_Parser_Constructor $parser)
     {
-        $this->_parser = $parser;
+        $this->parser = $parser;
     }
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Parses the typehints out of input and return the dependencies based on it as array
@@ -155,7 +165,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
         $result = array();
 
         // set parser input for constructor parser
-        $this->_parser->setInput(
+        $this->parser->setInput(
             array(
                 'class'      => $reflectionClass->getName(),
                 'reflection' => $reflectionClass
@@ -163,7 +173,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
         );
 
         // get constructor of class for check!
-        $constructor = $this->_parser->parse();
+        $constructor = $this->parser->parse();
 
         // iterate over all found candidates and check for Typehints
         foreach ($reflectionMethods as $reflectionMethod) {
@@ -173,7 +183,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
             $signature = trim($sourcecode[$reflectionMethod->getStartLine()-1]);
 
             // extract arguments from signature
-            $signature = $this->_signatureToArray($reflectionMethod->getName(), $signature);
+            $signature = $this->signatureToArray($reflectionMethod->getName(), $signature);
 
             // now check the result for typehints
             foreach ($signature as $method => $arguments) {
@@ -220,9 +230,9 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
         return ($this->input !== null);
     }
 
-    /*******************************************************************************************************************
-     * PRIVATE + PROTECTED
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PROTECTED
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Parses a given signature of a method for arguments and returns result as array
@@ -235,9 +245,9 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the parsed arguments and method name
-     * @access private
+     * @access protected
      */
-    private function _signatureToArray($method, $signature, $cleanup = true)
+    protected function signatureToArray($method, $signature, $cleanup = true)
     {
         // get begin and end of arguments
         $begin = strpos($signature,  '(')+1;

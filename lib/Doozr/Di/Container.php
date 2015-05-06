@@ -9,9 +9,9 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -52,10 +52,10 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Map.php';
-require_once DI_PATH_LIB_DI . 'Dependency.php';
-require_once DI_PATH_LIB_DI . 'Factory.php';
-require_once DI_PATH_LIB_DI . 'Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 
 /**
  * Doozr - Di - Container
@@ -135,9 +135,9 @@ class Doozr_Di_Container
     const MODE_DYNAMIC = 2;
 
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Adds a Doozr_Di_Map to an existing Map by merging it in
@@ -157,7 +157,7 @@ class Doozr_Di_Container
             $existingMap = $this->getMap();
 
             if ($existingMap) {
-                $map = $this->_mergeMaps($existingMap, $map);
+                $map = $this->mergeMaps($existingMap, $map);
             }
         }
 
@@ -361,23 +361,17 @@ class Doozr_Di_Container
         return self::$_instances[$namespace];
     }
 
-    /*******************************************************************************************************************
-     * PRIVATE
-     ******************************************************************************************************************/
-
     /**
-     * merges a new map with existing one
-     *
-     * This method is intend to merge an already existing map with a new one.s
+     * Merges a new map with existing one.
      *
      * @param Doozr_Di_Map $target The map in which the $source is merged into
      * @param Doozr_Di_Map $source The map which is merged into $target
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Di_Container The current instance of the Container for chaining/fluent-interface
-     * @access private
+     * @access protected
      */
-    private function _mergeMaps(Doozr_Di_Map $target, Doozr_Di_Map $source)
+    protected function mergeMaps(Doozr_Di_Map $target, Doozr_Di_Map $source)
     {
         // import of dependencies is built in functionality of map
         $target->import(

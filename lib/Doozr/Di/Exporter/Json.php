@@ -9,9 +9,9 @@
  * PHP versions 5.4
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -52,11 +52,11 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Exporter/Abstract.php';
-require_once DI_PATH_LIB_DI . 'Exporter/Interface.php';
-require_once DI_PATH_LIB_DI . 'Dependency.php';
-require_once DI_PATH_LIB_DI . 'Collection.php';
-require_once DI_PATH_LIB    . 'Object/Freezer.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exporter/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exporter/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer.php';
 
 /**
  * Doozr - Di - Exporter Json
@@ -75,9 +75,9 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
     implements
     Doozr_Di_Exporter_Interface
 {
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Exports current content of Doozr_Di_Collection ($this->collection) to a JSON-File
