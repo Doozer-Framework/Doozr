@@ -109,10 +109,11 @@ class Doozr_Request extends Doozr_Base_State_Container
     /**
      * Constructor.
      *
-     * @param Doozr_Registry             $registry    The registry containing all important instances
-     * @param Doozr_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
-     * @param string                     $requestUri  The request URI for overriding detection of real
-     * @param string                     $sapi        The SAPI runtimeEnvironment of active PHP Instance
+     * @param Doozr_Registry             $registry           The registry containing all important instances
+     * @param Doozr_Base_State_Interface $stateObject        The state object instance to use for saving state (DI)
+     * @param string                     $runtimeEnvironment The runtime environment
+     * @param string                     $requestUri         The request URI for overriding detection of real
+     * @param string                     $sapi               The SAPI runtimeEnvironment of active PHP Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Request
@@ -121,8 +122,9 @@ class Doozr_Request extends Doozr_Base_State_Container
     public function __construct(
         Doozr_Registry             $registry,
         Doozr_Base_State_Interface $stateObject,
-                                   $requestUri  = null,
-                                   $sapi        = PHP_SAPI
+                                   $runtimeEnvironment = DOOZR_RUNTIME_ENVIRONMENT,
+                                   $requestUri         = null,
+                                   $sapi               = PHP_SAPI
     ) {
         $this->setRegistry($registry);
 
@@ -134,21 +136,25 @@ class Doozr_Request extends Doozr_Base_State_Container
         }
 
         // Start the job
-        $this->determineState($requestUri, $sapi);
+        $this->determineState($requestUri, $sapi, $runtimeEnvironment);
     }
 
     /**
      * Detects important parts of request and brings them in a more ore better usable order.
      *
-     * @param string $requestUri The request URI of current request
-     * @param string $sapi       The SAPI used
+     * @param string $requestUri         The request URI of current request
+     * @param string $sapi               The SAPI used
+     * @param string $runtimeEnvironment The runtime environment the Kernel is running in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function determineState($requestUri, $sapi = PHP_SAPI)
-    {
+    public function determineState(
+        $requestUri,
+        $sapi               = PHP_SAPI,
+        $runtimeEnvironment = Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB
+    ) {
         // Store request URI
         $this->getStateObject()->setRequestUri($requestUri);
 
@@ -158,16 +164,10 @@ class Doozr_Request extends Doozr_Base_State_Container
         // Store SAPI (CLI, HTTPD, APACHE ....)
         $this->getStateObject()->setSapi($sapi);
 
-        // Store runtimeEnvironment the framework runs in. Something like Web, Cli or Httpd
-        $mode = $this->getModeBySapi($sapi);
-
         // Set valid request sources
         $this->setRequestSources(
-            $this->emitValidRequestSources($mode)
+            $this->emitValidRequestSources($runtimeEnvironment)
         );
-
-        // Store the runtimeEnvironment
-        $this->getStateObject()->setRuntimeEnvironment($mode);
 
         // Store method
         $this->getStateObject()->setMethod(
@@ -497,35 +497,5 @@ class Doozr_Request extends Doozr_Base_State_Container
     protected function getStateObject()
     {
         return parent::getStateObject();
-    }
-
-    /**
-     * Detect and returns SAPI PHP running in/on.
-     *
-     * (aolserver, apache, apache2filter, apache2handler, caudium, cgi (until PHP 5.3), cgi-fcgi, cli, continuity,
-     * embed, isapi, litespeed, milter, nsapi, phttpd, pi3web, roxen, thttpd, tux und webjames)
-     *
-     * @param string $sapi The SAPI of PHP
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The runtimeEnvironment [web|cli|cli-server]
-     * @access protected
-     */
-    protected function getModeBySapi($sapi)
-    {
-        // Assume default running runtimeEnvironment
-        $mode = Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB;
-
-        // Detect running runtimeEnvironment through php functionality
-        switch ($sapi) {
-            case 'cli':
-                $mode = Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI;
-                break;
-            case 'cli-server':
-                $mode = Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD;
-                break;
-        }
-
-        return $mode;
     }
 }

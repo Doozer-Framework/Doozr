@@ -136,6 +136,31 @@ if (defined('DOOZR_APP_ROOT') === false) {
 define('DOOZR_SYSTEM_TEMP', sys_get_temp_dir() . DIRECTORY_SEPARATOR);
 
 /*----------------------------------------------------------------------------------------------------------------------
+| LOAD KERNEL
++---------------------------------------------------------------------------------------------------------------------*/
+
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
+
+/*----------------------------------------------------------------------------------------------------------------------
+| ACTIVE RUNTIME ENVIRONMENT
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for configured correct DOOZR_RUNTIME_ENVIRONMENT
+if (false === defined('DOOZR_RUNTIME_ENVIRONMENT')) {
+
+    if (false !== getenv('DOOZR_RUNTIME_ENVIRONMENT')) {
+        $runtimeEnvironment = getenv('DOOZR_RUNTIME_ENVIRONMENT');
+
+    } else {
+        // Retrieve by detection through active SAPI
+        $runtimeEnvironment = detectRuntimeEnvironment();
+
+    }
+
+    define('DOOZR_RUNTIME_ENVIRONMENT', $runtimeEnvironment);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
 | COMPOSER INTEGRATION
 +---------------------------------------------------------------------------------------------------------------------*/
 
@@ -235,10 +260,8 @@ set_exception_handler(
 );
 
 /*----------------------------------------------------------------------------------------------------------------------
-| LOAD Doozr's CORE-CLASS
+| HELPER
 +---------------------------------------------------------------------------------------------------------------------*/
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
 
 /**
  * Detects composer in global scope
@@ -260,4 +283,37 @@ function composer_running()
     }
 
     return $result;
+}
+
+/**
+ * Returns the runtime environment by PHP SAPI.
+ *
+ * PHP has a lot of known SAPIs and we need just to distinguish between Cli, Web and Httpd (Running on PHP's
+ * internal webserver). Some of PHP's known SAPIs:
+ * aolserver, apache, apache2filter, apache2handler, caudium, cgi (until PHP 5.3), cgi-fcgi, cli, continuity,
+ * embed, isapi, litespeed, milter, nsapi, phttpd, pi3web, roxen, thttpd, tux und webjames ...
+ *
+ * @param string $sapi The SAPI of PHP
+ *
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return string The runtime environment the Kernel is running in
+ * @access public
+ */
+function detectRuntimeEnvironment($sapi = PHP_SAPI)
+{
+    // Assume default running runtimeEnvironment
+    $environment = Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB;
+
+    // Detect running runtimeEnvironment through php functionality
+    switch ($sapi) {
+        case 'cli':
+            $environment = Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI;
+            break;
+
+        case 'cli-server':
+            $environment = Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD;
+            break;
+    }
+
+    return $environment;
 }

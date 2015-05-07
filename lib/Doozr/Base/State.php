@@ -71,14 +71,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 abstract class Doozr_Base_State extends Doozr_Base_Class
 {
     /**
-     * The runtimeEnvironment Doozr runs ins
-     *
-     * @var string
-     * @access protected
-     */
-    protected $runtimeEnvironment;
-
-    /**
      * History to trace changes in flow.
      *
      * @var array
@@ -143,48 +135,6 @@ abstract class Doozr_Base_State extends Doozr_Base_Class
     public function getProtocol()
     {
         return $this->protocol;
-    }
-
-    /**
-     * Setter for runtimeEnvironment.
-     *
-     * @param string $runtimeEnvironment The runtimeEnvironment Doozr is running in (WEB, CLI, CLI-SERVER)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setRuntimeEnvironment($runtimeEnvironment)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->runtimeEnvironment = $runtimeEnvironment;
-    }
-
-    /**
-     * Setter for runtimeEnvironment.
-     *
-     * @param string $runtimeEnvironment The runtimeEnvironment Doozr is running in (WEB, CLI, CLI-SERVER)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function runtimeEnvironment($runtimeEnvironment)
-    {
-        $this->setRuntimeEnvironment($runtimeEnvironment);
-        return $this;
-    }
-
-    /**
-     * Getter for runtimeEnvironment.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The runtimeEnvironment Doozr is running in (WEB, CLI, CLI-SERVER)
-     * @access public
-     */
-    public function getRuntimeEnvironment()
-    {
-        return $this->runtimeEnvironment;
     }
 
     /**

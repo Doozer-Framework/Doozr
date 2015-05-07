@@ -230,7 +230,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     {
         // Store registry
         self::$registry           = $registry;
-        self::$runtimeEnvironment = self::$registry->getRequest()->getRuntimeEnvironment();
+        self::$runtimeEnvironment = DOOZR_RUNTIME_ENVIRONMENT;
 
         // locale defaults
         self::$defaults = array(

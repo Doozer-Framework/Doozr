@@ -159,19 +159,19 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     /**
      * This method is the constructor of the core class.
      *
-     * @param bool $virtual TRUE to signalize Doozr that it is running virtual, default = FALSE
+     * @param bool $virtualized TRUE to run the Kernel virtualized, otherwise FALSE to run in real mode
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Kernel
      * @access protected
      */
-    protected function __construct($virtual = false)
+    protected function __construct($virtualized = false)
     {
         // Start stopwatch
         self::startTimer();
 
         // Run internal bootstrap process
-        self::bootstrap(true, $virtual);
+        self::bootstrap(true, $virtualized);
 
         // Stop timer and store execution-time
         self::stopTimer();
@@ -180,15 +180,15 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     /**
      * Proxy to getInstance to reduce confusion e.g. when bootstrapping the application.
      *
-     * @param bool $virtual TRUE to signalize Doozr that it is running virtual, default = FALSE
+     * @param bool $virtualized TRUE to signalize Doozr that it is running virtual, default = FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Kernel The core instance
      * @access public
      */
-    public static function run($virtual = false)
+    public static function run($virtualized = false)
     {
-        return Doozr_Kernel::getInstance($virtual);
+        return Doozr_Kernel::getInstance($virtualized);
     }
 
     /**
@@ -216,7 +216,8 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * bootstrapping process from outside by implementing this method as public. So you are able
      * to unit-test your application with a fresh bootstrapped core on each run.
      *
-     * @param bool $rerun TRUE to rerun the bootstrap process, otherwise FALSE to keep state
+     * @param bool $rerun       TRUE to rerun the bootstrap process, otherwise FALSE to keep state
+     * @param bool $virtualized TRUE to run Kernel virtualized, otherwise FALSE
      *
      * @throws Doozr_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -224,9 +225,9 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @access public
      * @static
      */
-    public static function bootstrap($rerun = true, $virtual = false)
+    public static function bootstrap($rerun = true, $virtualized = false)
     {
-        // check if rerun is given (e.g. to support unit-testing on each run with fresh bootstrap!)
+        // Check if rerun is given (e.g. to support unit-testing on each run with fresh bootstrap!)
         // @see: http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
         if ($rerun === true) {
             // Start init-stack ...
@@ -234,7 +235,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
                 (
                     self::initRegistry() &&
                     self::initDependencyInjection() &&
-                    self::initFilesystem() &&
+                    self::initFilesystem($virtualized) &&
                     self::initCache() &&
                     self::initLogger() &&
                     self::initPath() &&
@@ -248,7 +249,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
                     self::initRequest() &&
                     (
                         self::$registry->getLogger()->debug(
-                            'Runtime environment: ' . self::$registry->getRequest()->getRuntimeEnvironment()
+                            'Runtime environment: ' . DOOZR_RUNTIME_ENVIRONMENT
                         )
                     ) &&
                     self::initResponse() &&
@@ -268,16 +269,18 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     /**
      * Initializes the filesystem access.
      *
+     * @param bool $virtualized TRUE to run filesystem virtualized, otherwise FALSE to run real
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success
      * @access protected
      * @static
      */
-    protected static function initFilesystem()
+    protected static function initFilesystem($virtualized = false)
     {
         // Store filesystem ...
         self::$registry->setFilesystem(
-            Doozr_Loader_Serviceloader::load('filesystem')
+            Doozr_Loader_Serviceloader::load('filesystem', $virtualized)
         );
 
         // Important for bootstrap result
@@ -674,7 +677,10 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     {
         // Get instance of request
         self::$registry->setRequest(
-            self::$registry->getContainer()->build('Doozr_Request')->export()
+            self::$registry->getContainer()->build(
+                'Doozr_Request',
+                array(DOOZR_RUNTIME_ENVIRONMENT)
+            )->export()
         );
 
         // Important for bootstrap result
@@ -822,7 +828,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $services = self::$registry->getConfig()
             ->kernel
             ->services
-            ->{strtolower(self::$registry->getRequest()->getRuntimeEnvironment())};
+            ->{strtolower(DOOZR_RUNTIME_ENVIRONMENT)};
 
         foreach ($services as $service) {
             self::$registry->{$service} = Doozr_Loader_Serviceloader::load($service);

@@ -6,8 +6,7 @@
  *
  * Route.php - Dispatches to Doozr's Routing.
  *
- *
- * PHP versions
+ * PHP versions 5.4
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -74,43 +73,19 @@ foreach ($config->request->filter as $filter) {
 // Inject route from config to request state
 $registry->getRequest()->setRouteConfig($config->redirect);
 
-// Combine supported runtime environments
-$supportedEnvironments = array(
-    Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB,
-    Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI,
-    Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD,
-);
-
-// Check for supported runtimeEnvironment
-if (in_array($registry->getRequest()->getRuntimeEnvironment(), $supportedEnvironments) === true) {
-
-    if (true === $config->kernel->cache->enabled) {
-        /* @var Doozr_Cache_Service $cacheService */
-        $cacheService = $registry->getCache();
-
-    } else {
-        $cacheService = null;
-    }
-
-    // Run route init
-    Doozr_Route::init(
-        $registry,
-        $registry->getRequest(),
-        $cacheService,
-        $config->kernel->cache->enabled
-    );
+// Check for caching
+if (true === $config->kernel->cache->enabled) {
+    /* @var Doozr_Cache_Service $cacheService */
+    $cacheService = $registry->getCache();
 
 } else {
-
-    // UNKNOWN and/or currently not supported!
-    $msg  = sprintf(
-        'Doozr - The lightweight PHP-Framework for high-performance websites  - Git-Version: %s (on %s) - ' .
-        'Running a Doozr application in "%s" runtimeEnvironment is not supported!',
-        DOOZR_VERSION,
-        php_uname(),
-        strtoupper($registry->getRequest()->getRuntimeEnvironment())
-    );
-
-    // show message
-    pred($msg);
+    $cacheService = null;
 }
+
+// Run route init
+Doozr_Route::init(
+    $registry,
+    $registry->getRequest(),
+    $cacheService,
+    $config->kernel->cache->enabled
+);

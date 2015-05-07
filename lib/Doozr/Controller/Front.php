@@ -71,14 +71,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 class Doozr_Controller_Front extends Doozr_Base_Class_Singleton
 {
     /**
-     * Detected runtime environment (web|cli|httpd)
-     *
-     * @var string
-     * @access protected
-     */
-    protected $runtimeEnvironment = 'web';
-
-    /**
      * The request state of active request
      *
      * @var Doozr_Request_State
@@ -199,47 +191,6 @@ class Doozr_Controller_Front extends Doozr_Base_Class_Singleton
     protected function getResponseState()
     {
         return $this->responseState;
-    }
-
-    /**
-     * Setter for runtime environment.
-     *
-     * @param string $runtimeEnvironment The runtime environment.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setRuntimeEnvironment($runtimeEnvironment)
-    {
-        $this->runtimeEnvironment = $runtimeEnvironment;
-    }
-
-    /**
-     * Setter for runtime environment.
-     *
-     * @param string $runtimeEnvironment The runtime environment.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access protected
-     */
-    protected function runtimeEnvironment($runtimeEnvironment)
-    {
-        $this->setRuntimeEnvironment($runtimeEnvironment);
-        return $this;
-    }
-
-    /**
-     * Getter for runtime environment.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The current runtime environment
-     * @access public
-     */
-    public function getRuntimeEnvironment()
-    {
-        return $this->runtimeEnvironment;
     }
 
     /**
