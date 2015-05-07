@@ -3,14 +3,14 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * DoozR - Console
+ * Doozr - Console
  *
- * console - A console PHP script for managing the DoozR Framework installation.
+ * console - A console PHP script for managing the Doozr Framework installation.
  *
  * PHP versions 5
  *
  * LICENSE:
- * DoozR - The PHP-Framework
+ * Doozr - The PHP-Framework
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -43,9 +43,9 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   DoozR
- * @package    DoozR_Console
- * @subpackage DoozR_Console
+ * @category   Doozr
+ * @package    Doozr_Console
+ * @subpackage Doozr_Console
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -56,8 +56,8 @@
 // We do need access to Composer libs
 require_once realpath( __DIR__ . '/../' ) . '/vendor/autoload.php';
 
-// Do the Bootstrap of DoozR
-require_once 'DoozR/Bootstrap.php';
+// Do the Bootstrap of Doozr
+require_once 'Doozr/Bootstrap.php';
 
 /**
  * Configuration of available commands/flags supported in this generic entry
@@ -90,7 +90,7 @@ $configuration = array(
     ),
     'router'   => array(
         'type'  => 'string',
-        'value' => 'appServer.php',
+        'value' => 'app_httpd.php',
         'info'  => 'The router (replacement for mod_rewrite).',
     ),
     'version'   => array(
@@ -116,7 +116,7 @@ $configuration = array(
 // Additional security check - just to be sure ;)
 if (php_sapi_name() !== 'cli') {
     // We don't want to give more information about internals as required so we respond as this resource does not exist
-    throw new DoozR_Exception(
+    throw new Doozr_Exception(
         'Not Found',
         404
     );
@@ -124,7 +124,7 @@ if (php_sapi_name() !== 'cli') {
 
 } else {
     // Init console and dispatch all further stuff internally
-    $console = new DoozR_Tool_Cli(
+    $console = new Doozr_Tool_Cli(
         new donatj\Flags(),
         DOOZR_NAME,
         DOOZR_VERSION,

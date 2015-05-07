@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Annotation Parser
+ * Doozr - Di - Parser - Annotation
  *
  * Annotation.php - Annotation Parser of the Di-Library
  *
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
- * Doozr - Di - Annotation Parser
+ * Doozr - Di - Parser - Annotation
  *
  * Annotation Parser of the Di-Library
  *

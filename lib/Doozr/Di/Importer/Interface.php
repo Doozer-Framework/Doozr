@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Importer Interface
+ * Doozr - Di - Importer - Interface
  *
  * Interface.php - Interface class for all Importer of the Di-Library
  *
@@ -53,7 +53,7 @@
  */
 
 /**
- * Doozr - Di - Importer Interface
+ * Doozr - Di - Importer - Interface
  *
  * Interface class for all Importer of the Di-Library
  *

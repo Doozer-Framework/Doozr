@@ -2,15 +2,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Constructor Parser
+ * Doozr - Di - Parser - Constructor
  *
  * Constructor.php - Constructor Parser of the Di-Library
  *
- * PHP version 5
+ * PHP versions 5.4
  *
- * Di - The Dependency Injection Framework
+ * LICENSE:
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -56,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
- * Di Constructor Parser
+ * Doozr - Di - Parser - Constructor
  *
  * Constructor Parser of the Di-Library
  *

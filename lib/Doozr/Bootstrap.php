@@ -66,7 +66,7 @@ $_SERVER['REQUEST_TIME'] = microtime();
 // systems directory separator
 $s = DIRECTORY_SEPARATOR;
 
-// try to get from env => priorized
+// try to get from env => prioritized
 $documentRoot = getenv('DOOZR_DOCUMENT_ROOT');
 
 // if document root not passed via env:
@@ -96,7 +96,7 @@ if ($documentRoot === false) {
     }
 
     // retrieve absolute path to Doozr - make it our new document root -> by file link
-    $documentRoot = str_replace('Doozr'.$s.'Bootstrap.php', '', __FILE_LINK__);
+    $documentRoot = str_replace('Doozr' . $s . 'Bootstrap.php', '', __FILE_LINK__);
 }
 
 // store as constant
@@ -239,7 +239,6 @@ set_exception_handler(
 +---------------------------------------------------------------------------------------------------------------------*/
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
-
 
 /**
  * Detects composer in global scope

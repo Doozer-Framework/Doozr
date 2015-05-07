@@ -323,11 +323,8 @@ class Doozr_Di_Map
      * @param array $matrix The matrix containing the instances for wiring (id => instance)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean TRUE on success
      * @access protected
-     * @throws Doozr_Di_Exception
-     * (non-PHPdoc)
-     * @see Doozr_Di_Importer_Interface::wire()
      */
     protected function wireClassWithDependencies(array $matrix)
     {
@@ -339,8 +336,6 @@ class Doozr_Di_Map
 
                 // if dependency is set to NULL set dependency retrieved from given matrix
                 if ($dependency->getInstance() === null) {
-                    // switched condition to positive checking for resources so we
-                    // are free to put optional elements in or not
                     if (isset($matrix[$dependency->getIdentifier()])) {
                         $dependency->setInstance(
                             $matrix[$dependency->getIdentifier()]
@@ -350,7 +345,7 @@ class Doozr_Di_Map
             }
         }
 
-        // success
+        // Success
         return true;
     }
 
@@ -365,7 +360,7 @@ class Doozr_Di_Map
      */
     protected function retrieveGlobals()
     {
-        // retrieve globals and return them
+        // Retrieve globals and return them
         global $GLOBALS;
         return $GLOBALS;
     }

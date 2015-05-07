@@ -20,7 +20,7 @@ The **lightweight** PHP-Framework for **high-performance** websites
 - [Security-Issues](#security-issues)
 - [Install »](https://github.com/clickalicious/DoozR/blob/master/docs/INSTALL.md)
 - [Architecture »](https://github.com/clickalicious/DoozR/blob/master/docs/ARCHITECTURE.md)
-- [Service: I18n »](https://github.com/clickalicious/DoozR/blob/master/lib/Service/DoozR/I18n/README.md)
+- [Service: I18n »](https://github.com/clickalicious/DoozR/blob/master/lib/Service/Doozr/I18n/README.md)
 - [License »](LICENSE)
 
 

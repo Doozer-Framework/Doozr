@@ -8,9 +8,10 @@
  *
  * PHP versions 5.4
  *
- * Di - The Dependency Injection Framework
+ * LICENSE:
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -77,15 +78,18 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
      * Parser
      *
      * @var Doozr_Di_Parser_Constructor $parser
-     * @access private
+     * @access protected
      */
-    private $parser;
+    protected $parser;
 
 
     /**
      * Constructor.
      *
      * @param \Doozr_Di_Parser_Constructor $parser
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
      */
     public function __construct(Doozr_Di_Parser_Constructor $parser)
     {
@@ -97,9 +101,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Parses the typehints out of input and return the dependencies based on it as array
-     *
-     * This method is intend to ...
+     * Parses the typehints out of input and return the dependencies based on it as array.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the dependencies build from typehints
@@ -140,7 +142,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
         $sourcecode = file($this->input['file']);
 
         // return the result
-        return $this->_parseTypehints($reflectionClass, $sourcecode);
+        return $this->parseTypehints($reflectionClass, $sourcecode);
     }
 
     /**
@@ -153,10 +155,10 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Containing the dependencies build from typehints
-     * @access public
+     * @access protected
      * @throws Doozr_Di_Exception
      */
-    private function _parseTypehints(ReflectionClass $reflectionClass, $sourcecode)
+    protected function parseTypehints(ReflectionClass $reflectionClass, $sourcecode)
     {
         // lets find all possible public reachable methods
         $reflectionMethods = $reflectionClass->getMethods(ReflectionMethod::IS_STATIC|ReflectionMethod::IS_PUBLIC);

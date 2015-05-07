@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Map Static
+ * Doozr - Di - Map - Static
  *
  * Static.php - Static map class of the Di-Library
  *
@@ -55,7 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
 
 /**
- * Doozr - Di - Map Static
+ * Doozr - Di - Map - Static
  *
  * Static map class of the Di-Library
  *
@@ -70,9 +70,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
 class Doozr_Di_Map_Static extends Doozr_Di_Map
 {
     /**
-     * An instance of Doozr_Di_Importer_*
+     * Instance of Doozr_Di_Importer_*
      *
-     * @var Doozr_Di_Importer_*
+     * @var Doozr_Di_Importer_Interface
      * @access protected
      */
     protected $importer;

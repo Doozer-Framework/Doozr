@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Exporter Abstract
+ * Doozr - Di - Exporter - Abstract
  *
  * Abstract.php - Abstract base class for all Exporter of the Di-Library
  *
@@ -55,7 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 
 /**
- * Doozr - Di - Exporter Abstract
+ * Doozr - Di - Exporter - Abstract
  *
  * Abstract base class for all Exporter of the Di-Library
  *
@@ -188,20 +188,12 @@ abstract class Doozr_Di_Exporter_Abstract
      * @param string $file The file to read from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return int Bytes written, FALSE on failure
      * @access protected
      * @throws Doozr_Di_Exception
      */
     protected function writeFile($file, $data)
     {
-        /*
-        if (file_exists($file)) {
-            throw new Doozr_Di_Exception(
-                'Error writing file. File "' . $file . '" already exist! Could not overwrite - not allowed!'
-            );
-        }
-        */
-
         return file_put_contents(
             $file,
             $data

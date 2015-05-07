@@ -75,27 +75,27 @@ class Doozr_Di_Factory
      * currently processed class
      *
      * @var ReflectionClass
-     * @access private
+     * @access protected
      */
-    private $_reflector;
+    protected $reflector;
 
     /**
-     * Contains the is-instanciable status of the
+     * Contains the is-instantiable status of the
      * currently process class
      *
      * @var bool
-     * @access private
+     * @access protected
      */
-    private $_instanciable;
+    protected $instantiable;
 
     /**
      * Contains the name of the constructor-method of
      * the currently process class
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_constructor;
+    protected $constructor;
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -105,11 +105,11 @@ class Doozr_Di_Factory
     /**
      * Instantiates a class without further dependencies
      *
-     * This method is intend to instanciate a class. The classname is the name of the class to instanciate
+     * This method is intend to instantiate a class. The classname is the name of the class to instantiate
      * and arguments is an (optional) array of arguments which are passed to the class as additional arguments
-     * when instanciating.
+     * when instantiating.
      *
-     * @param string $classname    The name of the class to instanciate
+     * @param string $classname    The name of the class to instantiate
      * @param array  $dependencies The complete setup of dependencies
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -119,23 +119,23 @@ class Doozr_Di_Factory
     public function build($classname, $dependencies = null)
     {
         // get reflection
-        $this->_reflector = new ReflectionClass($classname);
+        $this->reflector = new ReflectionClass($classname);
 
-        // check if is instanciable (simple runtimeEnvironment)
-        $this->_instanciable = $this->_reflector->isInstantiable();
+        // check if is instantiable (simple runtimeEnvironment)
+        $this->instantiable = $this->reflector->isInstantiable();
 
         // default
         if ($dependencies !== null) {
             // store constructor
             if (isset($dependencies['constructor'])) {
-                $this->_constructor = $dependencies['constructor'];
+                $this->constructor = $dependencies['constructor'];
             }
 
             // create instance with dependencies
-            return $this->instanciateWithDependencies($classname, $dependencies);
+            return $this->instantiateWithDependencies($classname, $dependencies);
         } else {
             // create instance without dependencies
-            return $this->instanciateWithoutDependencies($classname);
+            return $this->instantiateWithoutDependencies($classname);
         }
     }
 
@@ -146,7 +146,7 @@ class Doozr_Di_Factory
      * to the constructor. This method looks really ugly and i know this of course. But this way is a tradeoff
      * between functionality and speed optimization.
      *
-     * @param string $classname The name of the class to instanciate
+     * @param string $classname The name of the class to instantiate
      * @param array  $arguments The arguments to pass to constructor
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -189,19 +189,19 @@ class Doozr_Di_Factory
     /**
      * Instantiates a class including it dependencies
      *
-     * This method is intend to instanciate a class and pass the required dependencies to it.
-     * The depencies are preconfigured and passed to this method as $setup. The classname is
-     * the name of the class to instanciate and arguments is an (optional) array of arguments
-     * which are passed to the class as additional arguments when instanciating.
+     * This method is intend to instantiate a class and pass the required dependencies to it.
+     * The dependencies are pre-configured and passed to this method as $setup. The classname is
+     * the name of the class to instantiate and arguments is an (optional) array of arguments
+     * which are passed to the class as additional arguments when instantiating.
      *
-     * @param string $classname The name of the class to instanciate
-     * @param array  $setup     The setup for instanciating (contains array of depencies, arguments, ...)
+     * @param string $classname The name of the class to instantiate
+     * @param array  $setup     The setup for instantiating (contains array of depencies, arguments, ...)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The new created instance
      * @access protected
      */
-    protected function instanciateWithDependencies($classname, $setup)
+    protected function instantiateWithDependencies($classname, $setup)
     {
         // get dependencies
         $dependencies = $setup['dependencies'];
@@ -256,11 +256,11 @@ class Doozr_Di_Factory
     /**
      * Instantiates a class without further dependencies
      *
-     * This method is intend to instanciate a class. The classname is the name of the class to instanciate
+     * This method is intend to instantiate a class. The classname is the name of the class to instantiate
      * and arguments is an (optional) array of arguments which are passed to the class as additional arguments
-     * when instanciating.
+     * when instantiating.
      *
-     * @param string $classname The name of the class to instanciate
+     * @param string $classname The name of the class to instantiate
      * @param mixed  $arguments Can be either a list of additional arguments passed to constructor when instance get
      *                          created or NULL if no arguments needed (default = null)
      *
@@ -268,7 +268,7 @@ class Doozr_Di_Factory
      * @return object The new created instance
      * @access protected
      */
-    protected function instanciateWithoutDependencies($classname, array $arguments = array())
+    protected function instantiateWithoutDependencies($classname, array $arguments = array())
     {
         return $this->createInstance($classname, $arguments);
     }
@@ -276,12 +276,12 @@ class Doozr_Di_Factory
     /**
      * Instantiates a class and process the optional arguments and injections
      *
-     * This method is intend to instanciate a class and pass the required dependencies to it.
+     * This method is intend to instantiate a class and pass the required dependencies to it.
      * The depencies are preconfigured and passed to this method as $setup. The classname is
-     * the name of the class to instanciate and arguments is an (optional) array of arguments
-     * which are passed to the class as additional arguments when instanciating.
+     * the name of the class to instantiate and arguments is an (optional) array of arguments
+     * which are passed to the class as additional arguments when instantiating.
      *
-     * @param string $classname  The name of the class to instanciate
+     * @param string $classname  The name of the class to instantiate
      * @param array  $arguments  The arguments to pass to constructo
      * @param array  $injections The injections to process
      *
@@ -346,9 +346,9 @@ class Doozr_Di_Factory
      * Returns an instance with injected dependencies
      *
      * This method is intend to return an instance of the given class. It injects
-     * the required dependencies into constructor on instanciation.
+     * the required dependencies into constructor on instantiation.
      *
-     * @param string $classname The name of the class to instanciate
+     * @param string $classname The name of the class to instantiate
      * @param array  $arguments The arguments to pass to constructor
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -357,15 +357,15 @@ class Doozr_Di_Factory
      */
     protected function constructorInjection($classname, array $arguments)
     {
-        // is the target instanciable (= no singleton stuff ~ new foo())
-        if ($this->_instanciable) {
+        // is the target instantiable (= no singleton stuff ~ new foo())
+        if ($this->instantiable) {
             return $this->construct($classname, $arguments);
         } else {
-            if (is_array($this->_constructor)) {
-                return call_user_func_array($this->_constructor, $arguments);
+            if (is_array($this->constructor)) {
+                return call_user_func_array($this->constructor, $arguments);
             } else {
-                // TODO: _constructor == null = suchen?
-                return call_user_func_array(array($classname, $this->_constructor), $arguments);
+                // TODO: constructor == null = search/lookup?
+                return call_user_func_array(array($classname, $this->constructor), $arguments);
             }
         }
     }
@@ -476,12 +476,12 @@ class Doozr_Di_Factory
         // fill in array with given position
         foreach ($injections as $injection) {
             if ($injection['position']) {
-                $position = $injection['position']-1;
+                $position = $injection['position'] - 1;
             } else {
                 $position = $injectionPosition;
             }
 
-            $result[$injection['position']-1] = $injection['instance'];
+            $result[$injection['position'] - 1] = $injection['instance'];
 
             $injectionPosition++;
         }

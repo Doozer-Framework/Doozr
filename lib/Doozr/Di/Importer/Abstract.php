@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Importer Abstract
+ * Doozr - Di - Importer - Abstract
  *
  * Abstract.php - Abstract base class for all Importer of the Di-Library
  *
@@ -55,7 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 
 /**
- * Doozr - Di - Importer Abstract
+ * Doozr - Di - Importer - Abstract
  *
  * Abstract base class for all Importer of the Di-Library
  *

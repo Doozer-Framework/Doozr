@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Map Fluent
+ * Doozr - Di - Map - Annotation
  *
  * Fluent.php - Fluent map class of the Di-Library
  *
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
- * Doozr - Di - Map Fluent
+ * Doozr - Di - Map - Annotation
  *
  * Fluent map class of the Di-Library
  *
@@ -77,33 +77,33 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * The current active classname to add dependencies for
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_classname;
+    protected $_classname;
 
     /**
      * The last active classname
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_lastClassname;
+    protected $_lastClassname;
 
     /**
      * The base dependency object
      *
      * @var Doozr_Di_Dependency
-     * @access private
+     * @access protected
      */
-    private $_dependency;
+    protected $_dependency;
 
     /**
      * The current active dependency
      *
      * @var Doozr_Di_Dependency
-     * @access private
+     * @access protected
      */
-    private $_current;
+    protected $_current;
 
 
     /**

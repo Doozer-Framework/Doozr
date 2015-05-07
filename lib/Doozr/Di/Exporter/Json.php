@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Exporter Json
+ * Doozr - Di - Exporter - Json
  *
  * Json.php - Exporter (JSON-Localize) of the Di-Library
  *
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer.php';
 
 /**
- * Doozr - Di - Exporter Json
+ * Doozr - Di - Exporter - Json
  *
  * Exporter (JSON-Localize) of the Di-Library
  *
@@ -89,8 +89,6 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * (non-PHPdoc)
-     * @see Doozr_Di_Exporter_Interface::export()
      * @throws Doozr_Di_Exception
      */
     public function export($exportInstances = true)
@@ -229,13 +227,11 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
      * @param Doozr_Di_Collection $collection The collection instance of Doozr_Di_Collection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return void
      * @access public
-     * (non-PHPdoc)
-     * @see Doozr_Di_Exporter_Interface::import()
      */
     public function import(Doozr_Di_Collection $collection)
     {
-        return ($this->collection = $collection);
+        $this->collection = $collection;
     }
 }

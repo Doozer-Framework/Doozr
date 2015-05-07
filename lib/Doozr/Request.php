@@ -98,7 +98,7 @@ class Doozr_Request extends Doozr_Base_State_Container
     protected $requestSources;
 
     /**
-     * The request type!
+     * The active runtime environment.
      *
      * @var string
      * @access protected
@@ -158,7 +158,7 @@ class Doozr_Request extends Doozr_Base_State_Container
         // Store SAPI (CLI, HTTPD, APACHE ....)
         $this->getStateObject()->setSapi($sapi);
 
-        // Store runtimeEnvironment the framework runs in. Something like CLI or CLI-SERVER (PHP's internal webserver) or ...
+        // Store runtimeEnvironment the framework runs in. Something like Web, Cli or Httpd
         $mode = $this->getModeBySapi($sapi);
 
         // Set valid request sources

@@ -69,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
  */
 class Doozr_Di_Exception extends Doozr_Exception
 {
-    // simple extending of PHP's base exception
-    // for Unit-Testing -> cause using PHP's default Exception "Exception"
-    // will lead to an Failure
+    /**
+     * Just used for namespacing issues
+     */
 }

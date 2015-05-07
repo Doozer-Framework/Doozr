@@ -73,29 +73,20 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 class Doozr_Di_Container
 {
     /**
-     * Contains container instances
-     *
-     * @var object
-     * @access protected
-     * @static
-     */
-    private static $_instances = array();
-
-    /**
      * The namespace of this container instance
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_namespace;
+    protected $namespace;
 
     /**
      * The runtimeEnvironment the instance operates in
      *
      * @var int
-     * @access private
+     * @access protected
      */
-    private $_mode;
+    protected $mode;
 
     /**
      * Contains the dependency maps of all containers
@@ -104,15 +95,24 @@ class Doozr_Di_Container
      * @access private
      * @static
      */
-    static private $_dependencyMaps = array();
+    private static $dependencyMaps = array();
+
+    /**
+     * Contains container instances
+     *
+     * @var object
+     * @access protected
+     * @static
+     */
+    private static $instances = array();
 
     /**
      * Instance of Doozr_Di_Factory for creating instances
      *
      * @var Doozr_Di_Factory
-     * @access private
+     * @access protected
      */
-    private $_factory;
+    protected $factory;
 
     /**
      * Default namespace
@@ -124,14 +124,22 @@ class Doozr_Di_Container
 
     /**
      * The runtimeEnvironment used to handle maps
-     * This can be either
-     * STATIC  = Used for static
+     * STATIC = Used for static
+     *
+     * @var int
+     * @access public
+     * @const
+     */
+    const MODE_STATIC = 1;
+
+    /**
+     * The runtimeEnvironment used to handle maps
      * DYNAMIC = Used for dynamic creation of instances
      *
      * @var int
      * @access public
+     * @const
      */
-    const MODE_STATIC  = 1;
     const MODE_DYNAMIC = 2;
 
 
@@ -162,7 +170,7 @@ class Doozr_Di_Container
         }
 
         // store
-        self::$_dependencyMaps[$this->_namespace] = $map;
+        self::$dependencyMaps[$this->namespace] = $map;
 
         // success
         return true;
@@ -180,8 +188,8 @@ class Doozr_Di_Container
      */
     public function getMap()
     {
-        return (isset(self::$_dependencyMaps[$this->_namespace]))
-            ? self::$_dependencyMaps[$this->_namespace]
+        return (isset(self::$dependencyMaps[$this->namespace]))
+            ? self::$dependencyMaps[$this->namespace]
             : null;
     }
 
@@ -199,7 +207,7 @@ class Doozr_Di_Container
      */
     public function getMapFromOtherNamespace($namespace)
     {
-        if (!isset(self::$_dependencyMaps[$namespace])) {
+        if (!isset(self::$dependencyMaps[$namespace])) {
             throw new Doozr_Di_Exception(
                 sprintf(
                     'Dependency-Map could not be found. Dependency-Map with namespace "%s" does not exist.',
@@ -209,7 +217,7 @@ class Doozr_Di_Container
         }
 
         // return requested map
-        return self::$_dependencyMaps[$namespace];
+        return self::$dependencyMaps[$namespace];
     }
 
     /**
@@ -225,7 +233,7 @@ class Doozr_Di_Container
      */
     public function importMapFromOtherNamespace($namespace)
     {
-        self::$_dependencyMaps[$this->_namespace] = $this->getMapFromOtherNamespace($namespace);
+        self::$dependencyMaps[$this->namespace] = $this->getMapFromOtherNamespace($namespace);
     }
 
     /**
@@ -241,7 +249,7 @@ class Doozr_Di_Container
      */
     public function setFactory(Doozr_Di_Factory $factory)
     {
-        $this->_factory = $factory;
+        $this->factory = $factory;
     }
 
     /**
@@ -255,7 +263,7 @@ class Doozr_Di_Container
      */
     public function getFactory()
     {
-        return $this->_factory;
+        return $this->factory;
     }
 
     /**
@@ -282,7 +290,7 @@ class Doozr_Di_Container
         }
 
         // Get setup for static || dynamic
-        if ($this->_mode === self::MODE_DYNAMIC) {
+        if ($this->mode === self::MODE_DYNAMIC) {
             $setup = $this->getMap()->getCollection()->getSetup($classname);
 
         } else {
@@ -350,15 +358,15 @@ class Doozr_Di_Container
      */
     public static function getInstance($namespace = self::DEFAULT_NAMESPACE, $mode = self::MODE_STATIC)
     {
-        if (!isset(self::$_instances[$namespace])) {
-            self::$_instances[$namespace] = new self(
+        if (!isset(self::$instances[$namespace])) {
+            self::$instances[$namespace] = new self(
                 $namespace,
                 $mode
             );
         }
 
         // return instance
-        return self::$_instances[$namespace];
+        return self::$instances[$namespace];
     }
 
     /**
@@ -399,7 +407,7 @@ class Doozr_Di_Container
      */
     private function __construct($namespace, $mode)
     {
-        $this->_namespace = $namespace;
-        $this->_mode      = $mode;
+        $this->namespace = $namespace;
+        $this->mode      = $mode;
     }
 }

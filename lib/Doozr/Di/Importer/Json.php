@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Importer Json
+ * Doozr - Di - Importer - Json
  *
  * Json.php - Importer (JSON-Localize) of the Di-Library
  *
@@ -59,7 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
- * Doozr - Di - Importer Json
+ * Doozr - Di - Importer - Json
  *
  * Importer (JSON-Localize) of the Di-Library
  *
@@ -87,8 +87,6 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * (non-PHPdoc)
-     * @see Doozr_Di_Importer_Interface::import()
      * @throws Doozr_Di_Exception
      */
     public function import()
@@ -172,8 +170,6 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array An array containing instances of Doozr_Di_Dependency for each dependency
      * @access public
-     * (non-PHPdoc)
-     * @see Doozr_Di_Importer_Interface::export()
      */
     public function export()
     {
@@ -211,7 +207,7 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
             );
         }
 
-        // return json decoded object
+        // Return json decoded object
         return $content;
     }
 }

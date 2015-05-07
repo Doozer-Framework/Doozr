@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Map Typehint
+ * Doozr - Di - Map - Typehint
  *
  * Typehint.php - Typehint based map class of the Di-Library
  *
@@ -55,7 +55,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/ap.php';
 
 /**
- * Doozr - Di - Map Typehint
+ * Doozr - Di - Map - Typehint
  *
  * Typehint based map class of the Di-Library
  *
