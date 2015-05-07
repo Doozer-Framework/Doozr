@@ -34,7 +34,8 @@
       "sepia/po-parser": "4.2.*",
       "psr/http-message": "0.11.*",
       "lusitanian/oauth": "0.3.*",
-      "nesbot/carbon": "1.18.*"
+      "nesbot/carbon": "1.18.*",
+      "enygma/expose": "2.3.*"
   },
   "require-dev": {
     "raulfraile/ladybug": "1.0.*",
