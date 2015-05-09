@@ -82,7 +82,7 @@ class Doozr_Kernel_Exception extends Doozr_Base_Exception_Generic
      * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Kernel_Exception instance of this class
+     * @return Doozr_Kernel_Exception instance of this class
      * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)

@@ -54,7 +54,6 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
-#require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Bootstrap.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config.php';
@@ -162,7 +161,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @param bool $virtualized TRUE to run the Kernel virtualized, otherwise FALSE to run in real mode
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Kernel
+     * @return Doozr_Kernel
      * @access protected
      */
     protected function __construct($virtualized = false)
@@ -186,13 +185,13 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @return Doozr_Kernel The core instance
      * @access public
      */
-    public static function run($virtualized = false)
+    public static function init($virtualized = false)
     {
         return Doozr_Kernel::getInstance($virtualized);
     }
 
     /**
-     * This method is intend to start the timer for measurement.
+     * Starts the timer for measurement.
      *
      * @param bool $includeWalltime TRUE to start timer including time from routing (absolute request time)
      *
@@ -212,7 +211,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to start the bootstrapping process. It enables you to rerun the whole
+     * Starts the bootstrapping process. It enables you to rerun the whole
      * bootstrapping process from outside by implementing this method as public. So you are able
      * to unit-test your application with a fresh bootstrapped core on each run.
      *
@@ -359,7 +358,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to initialize the registry of the Doozr Framework. The registry itself
+     * Initializes the registry of the Doozr Framework. The registry itself
      * is intend to store the instances mainly used by core classes like Doozr_Path, Doozr_Config,
      * Doozr_Logger and this instances are always accessible by its name after the underscore (_ - written lowercase)
      * e.g. Doozr_Logger will be available like this $registry->logger, Doozr_Config like $registry->config
@@ -379,7 +378,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to initialize the logger-manager of the Doozr Framework. The first initialized logger
+     * Initializes the logger-manager of the Doozr Framework. The first initialized logger
      * is of type collecting. So it collects all entries as long as the config isn't parsed and the real
      * configured loggers are attached.
      *
@@ -416,7 +415,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to initialize the path-manager of the Doozr Framework. The path-manager returns
+     * Initializes the path-manager of the Doozr Framework. The path-manager returns
      * always the correct path to predefined parts of the framework and it is also cappable of combining paths
      * in correct slashed writing.
      *
@@ -434,7 +433,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to initialize and prepare the config used for running the framework and the app.
+     * Initialize and prepare the config used for running the framework and the app.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success
@@ -481,8 +480,8 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
          * READ CONFIG OF SERVICES
          */
         $path      = self::$registry->getPath()->get('service');
-        $directory = new \RecursiveDirectoryIterator($path);
-        $iterator  = new \RecursiveIteratorIterator($directory);
+        $directory = new RecursiveDirectoryIterator($path);
+        $iterator  = new RecursiveIteratorIterator($directory);
 
         foreach ($iterator as $info) {
             if ($info->getFilename() === '.config') {
@@ -510,7 +509,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend configure the logging. It attaches the real configured loggers from config and removes
+     * Configures logging. It attaches the real configured loggers from config and removes
      * the collecting logger. This method also injects the collected entries into the new attached loggers.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -562,13 +561,33 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         return true;
     }
 
+    /**
+     * Initializes the system settings of/for PHP.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE on success, FALSE on failure
+     * @access protected
+     * @static
+     * @throws Doozr_Kernel_Exception
+     */
     protected static function initSystem()
     {
-        return true;
+        $result      = true;
+        $phpSettings = self::getRegistry()->getConfig()->kernel->system->php;
+
+        foreach ($phpSettings as $iniKey => $value) {
+            if (false === ($result && ini_set($iniKey, $value))) {
+                throw new Doozr_Kernel_Exception(
+                    sprintf('Error setting up system. Error while trying to set "%s" (value: "%s")', $iniKey, $value)
+                );
+            }
+        }
+
+        return $result;
     }
 
     /**
-     * This method is intend to initialize the encoding used internal and external (e.g. output)
+     * Initializes the encoding used internal and external (e.g. output)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success
@@ -598,7 +617,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to initialize the locale.
+     * Initializes the locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success.
@@ -615,7 +634,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to configure the debug-behavior of PHP. I tries to runtime patch php.ini-settings
+     * Configures the debug-behavior of PHP. I tries to runtime patch php.ini-settings
      * (ini_set) for error_reporting, display_errors, log_errors. If debug is enabled, the highest possible reporting
      * level (inlcuding E_STRICT) is set. It also logs a warning-level message - if safe-runtimeEnvironment is detected and setup
      * can't be done.
@@ -654,7 +673,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to manage security related setting and instanciate Doozr_Security which
+     * Manages security related setting and instanciate Doozr_Security which
      * protects the framework and handles security related operations like en- / decryption ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -720,7 +739,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to initialize the front-controller. The front-controller
+     * Initializes the front-controller. The front-controller
      * is mainly responsible for retrieving data from and sending data to the client.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -752,7 +771,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to initialize the back-controller. The back-controller
+     * Initializes the back-controller. The back-controller
      * is mainly responsible for managing access to the MVP part and used as interface
      * to model as well.
      *
@@ -777,7 +796,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to initialize the model layer. It provides access to a database through a
+     * Initializes the model layer. It provides access to a database through a
      * ORM (Object-Relational-Mapper) like Doctrine, ... or a ODM (like PHPillow)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -820,7 +839,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to initialize the default services for current running-runtimeEnvironment.
+     * Initializes the default services for current running-runtimeEnvironment.
      * Running runtimeEnvironment depends on used interface. It can be either CLI (Console) or WEB (Browser).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -845,7 +864,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to stop the timer for measurements and log the core-execution time.
+     * Stops the timer for measurements and log the core-execution time.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -915,7 +934,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to return the starttime of core execution.
+     * Returns the starttime of core execution.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return float Microtime
@@ -927,7 +946,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to return the total-time of core execution.
+     * Returns the total-time of core execution.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return float Microtime

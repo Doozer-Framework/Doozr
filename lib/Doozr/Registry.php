@@ -132,8 +132,19 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
 
 
     /**
-     * This method stores an element in the registry under the
-     * passed key.
+     * Constructor.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Registry The registry
+     * @access public
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
+    }
+
+    /**
+     * This method stores an element in the registry under the passed key.
      *
      * @param string $variable   The variable (class, object) to store
      * @param string $identifier The identifier for the stored object, class ...
@@ -200,31 +211,24 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     public function add(&$variable, $identifier = null)
     {
         if ($identifier === null) {
-            $identifier = $this->getUuid();
+            $identifier = $this->calculateUuid();
         }
 
         return $this->set($variable, $identifier);
     }
 
     /**
-     * Returns an random UUID.
-     *
-     * @param string $salt Salt used for generating UUID
+     * Calculates a random UUID.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string An random UUID
-     * @access public
+     * @return string The UUID
+     * @access protected
      */
-    protected function getUuid($salt = null)
+    protected function calculateUuid()
     {
         // Generate a version 4 (random) UUID object
         $uuid4 = Uuid::uuid4();
-
-        if ($salt === null) {
-            $salt = microtime(true);
-        }
-
-        return sha1($uuid4->toString() . $salt);
+        return $uuid4->toString();
     }
 
     /**
@@ -255,10 +259,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     {
         return $this->get($identifier);
     }
-
-    /**
-     * ==========================================================
-     */
 
     /**
      * Setter for Doozr DI Container.
@@ -341,7 +341,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for map.
      *
-     * @param Doozr_Di_Map The map to store
+     * @param Doozr_Di_Map $map The map to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

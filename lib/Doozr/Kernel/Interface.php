@@ -71,5 +71,5 @@
  */
 interface Doozr_Kernel_Interface
 {
-    // TODO: remove interface?
+    // Used for namespace
 }

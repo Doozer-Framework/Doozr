@@ -77,7 +77,7 @@ class KernelTest extends PHPUnit_Framework_TestCase
      */
     public function testInit()
     {
-        $doozrInstance = Doozr_Kernel::run();
+        $doozrInstance = Doozr_Kernel::init();
         $this->assertInstanceOf('Doozr_Kernel', $doozrInstance);
     }
 }

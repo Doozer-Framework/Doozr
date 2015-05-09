@@ -55,25 +55,23 @@
 require_once 'Doozr/Bootstrap.php';
 require_once 'Doozr/Route.php';
 
-// Run the Doozr core to prepare base and extend PHP
-Doozr_Kernel::run();
+// Initialize Doozr Kernel
+Doozr_Kernel::init();
 
 // Get registry and configuration as well
-/* @var $registry Doozr_Registry */
 $registry = Doozr_Registry::getInstance();
-$config   = $registry->getConfig();
 
 // Iterate filter and prepare URL
-foreach ($config->kernel->transmission->request->filter as $filter) {
+foreach ($registry->getConfig()->kernel->transmission->request->filter as $filter) {
     $registry->getRequest()->setUrl(
         preg_replace($filter->search, $filter->replace, $registry->getRequest()->getUrl())
     );
 }
 
 // Inject route from config to request state
-$registry->getRequest()->setRouteConfig($config->kernel->transmission->request->redirect);
+$registry->getRequest()->setRouteConfig($registry->getConfig()->kernel->transmission->request->redirect);
 
-// Run route init
+// Route the request (packed in registry)
 $router = new Doozr_Route(
     $registry
 );

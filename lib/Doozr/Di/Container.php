@@ -81,7 +81,7 @@ class Doozr_Di_Container
     protected $namespace;
 
     /**
-     * The runtimeEnvironment the instance operates in
+     * The mode the instance operates in
      *
      * @var int
      * @access protected
@@ -120,7 +120,7 @@ class Doozr_Di_Container
      * @var string
      * @access public
      */
-    const DEFAULT_NAMESPACE   = 'Di';
+    const DEFAULT_NAMESPACE = 'Di';
 
     /**
      * The runtimeEnvironment used to handle maps
@@ -156,7 +156,7 @@ class Doozr_Di_Container
      * @param bool $override TRUE to override the existing map, FALSE to merge the maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean TRUE on success, otherwise FALSE
      * @access public
      */
     public function setMap(Doozr_Di_Map $map, $override = true)
@@ -348,8 +348,8 @@ class Doozr_Di_Container
      * By passing a namespace through argument $namespace you are able to create
      * more than one instance of container if needed/required by your application.
      *
-     * @param string  $namespace The namespace of the Doozr_Di_Container instance
-     * @param int $mode      The runtimeEnvironment used to handle maps
+     * @param string $namespace The namespace of the Doozr_Di_Container instance
+     * @param int    $mode      The mode used to handle maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Di_Container Instance

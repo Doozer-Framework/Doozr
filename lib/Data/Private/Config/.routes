@@ -4,7 +4,7 @@
         "presenter": "index",
         "action": "index"
     },
-    "/index/index/popel/123/234/test/super/duper": {
+    "/index/index": {
         "methods": "GET",
         "presenter": "index",
         "action": "index"
