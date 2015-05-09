@@ -242,6 +242,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
                     self::initConfiguration() &&
                     self::configureLogging() &&
                     (self::$registry->getLogger()->debug('Bootstrapping of Doozr (v ' . DOOZR_VERSION . ')')) &&
+                    self::initSystem() &&
                     self::initEncoding() &&
                     self::initLocale() &&
                     self::initDebug() &&
@@ -558,6 +559,11 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         }
 
         // Important for bootstrap result
+        return true;
+    }
+
+    protected static function initSystem()
+    {
         return true;
     }
 

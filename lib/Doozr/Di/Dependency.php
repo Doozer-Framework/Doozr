@@ -373,7 +373,7 @@ class Doozr_Di_Dependency
      * @param string $constructor The signature of the constructor
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return $this Instance for chaining
      * @access public
      */
     public function constructor($constructor)

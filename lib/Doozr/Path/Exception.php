@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Route
+ * Doozr - Path - Exception
  *
- * Route.php - Dispatches to Doozr's Routing.
+ * Exception.php - Path Exception of Doozr Framework.
  *
  * PHP versions 5.4
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Router
+ * @package    Doozr_Path
+ * @subpackage Doozr_Path_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,28 +52,23 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once 'Doozr/Bootstrap.php';
-require_once 'Doozr/Route.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 
-// Run the Doozr core to prepare base and extend PHP
-Doozr_Kernel::run();
-
-// Get registry and configuration as well
-/* @var $registry Doozr_Registry */
-$registry = Doozr_Registry::getInstance();
-$config   = $registry->getConfig();
-
-// Iterate filter and prepare URL
-foreach ($config->kernel->transmission->request->filter as $filter) {
-    $registry->getRequest()->setUrl(
-        preg_replace($filter->search, $filter->replace, $registry->getRequest()->getUrl())
-    );
+/**
+ * Doozr - Path - Exception
+ *
+ * Path Exception of Doozr Framework.
+ *
+ * @category   Doozr
+ * @package    Doozr_Path
+ * @subpackage Doozr_Path_Exception
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2015 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/Doozr/
+ */
+class Doozr_Path_Exception extends Doozr_Exception
+{
+    // Just used for namespacing
 }
-
-// Inject route from config to request state
-$registry->getRequest()->setRouteConfig($config->kernel->transmission->request->redirect);
-
-// Run route init
-$router = new Doozr_Route(
-    $registry
-);

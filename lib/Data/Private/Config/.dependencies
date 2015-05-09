@@ -1,353 +1,353 @@
 {
-    "map": [
-        {
-            "Doozr_Encoding": {
-                "constructor": "getInstance",
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Config",
-                        "classname": "Doozr_Config",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Logger",
-                        "classname": "Doozr_Logger",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Debug": {
-                "constructor": "getInstance",
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Logger",
-                        "classname": "Doozr_Logger",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Locale": {
-                "constructor": "getInstance",
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Config",
-                        "classname": "Doozr_Config",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Logger",
-                        "classname": "Doozr_Logger",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Security": {
-                "constructor": "getInstance",
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Config",
-                        "classname": "Doozr_Config",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Logger",
-                        "classname": "Doozr_Logger",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Controller_Back": {
-                "constructor": "getInstance",
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Registry",
-                        "classname": "Doozr_Registry",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Config",
-                        "classname": "Doozr_Config",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Logger",
-                        "classname": "Doozr_Logger",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Config": {
-                "constructor": "getInstance",
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Config_Reader_Json",
-                        "classname": "Doozr_Config_Reader_Json",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Cache_Service",
-                        "classname": "Doozr_Cache_Service",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Cache_Service": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Registry",
-                        "classname": "Doozr_Registry",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Config_Reader_Ini": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Filesystem_Service",
-                        "classname": "Doozr_Filesystem_Service",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Cache_Service",
-                        "classname": "Doozr_Cache_Service",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Logger": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Datetime_Service",
-                        "classname": "Doozr_Datetime_Service",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Logger_System": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Datetime_Service",
-                        "classname": "Doozr_Datetime_Service",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Logger_Collecting": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Datetime_Service",
-                        "classname": "Doozr_Datetime_Service",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Logger_Client": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Datetime_Service",
-                        "classname": "Doozr_Datetime_Service",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Logger_File": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Datetime_Service",
-                        "classname": "Doozr_Datetime_Service",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Logger_Debugbar": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Datetime_Service",
-                        "classname": "Doozr_Datetime_Service",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Registry": {
-                "constructor": "getInstance",
-                "dependencies": []
-            },
-            "Doozr_Model": {
-                "constructor": "getInstance",
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Path",
-                        "classname": "Doozr_Path",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor",
-                            "position": 2
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Config",
-                        "classname": "Doozr_Config",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor",
-                            "position": 3
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Logger",
-                        "classname": "Doozr_Logger",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor",
-                            "position": 4
-                        }
-                    }
-                ]
-            },
-            "Doozr_Request": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Registry",
-                        "classname": "Doozr_Registry",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Request_State",
-                        "classname": "Doozr_Request_State",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Response": {
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Registry",
-                        "classname": "Doozr_Registry",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Response_State",
-                        "classname": "Doozr_Response_State",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Doozr_Controller_Front": {
-                "constructor": "getInstance",
-                "dependencies": [
-                    {
-                        "identifier": "Doozr_Registry",
-                        "classname": "Doozr_Registry",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Request_State",
-                        "classname": "Doozr_Request_State",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    },
-                    {
-                        "identifier": "Doozr_Response_State",
-                        "classname": "Doozr_Response_State",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
-            },
-            "Bar": {
-                "dependencies": [
-                    {
-                        "identifier": "data",
-                        "classname": "Foo",
-                        "instance": null,
-                        "config": {
-                            "type": "constructor"
-                        }
-                    }
-                ]
+  "map": [
+    {
+      "Doozr_Encoding": {
+        "constructor": "getInstance",
+        "dependencies": [
+          {
+            "identifier": "Doozr_Config",
+            "classname": "Doozr_Config",
+            "instance": null,
+            "config": {
+              "type": "constructor"
             }
-        }
-    ]
+          },
+          {
+            "identifier": "Doozr_Logger",
+            "classname": "Doozr_Logger",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Debug": {
+        "constructor": "getInstance",
+        "dependencies": [
+          {
+            "identifier": "Doozr_Logger",
+            "classname": "Doozr_Logger",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Locale": {
+        "constructor": "getInstance",
+        "dependencies": [
+          {
+            "identifier": "Doozr_Config",
+            "classname": "Doozr_Config",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Logger",
+            "classname": "Doozr_Logger",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Security": {
+        "constructor": "getInstance",
+        "dependencies": [
+          {
+            "identifier": "Doozr_Config",
+            "classname": "Doozr_Config",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Logger",
+            "classname": "Doozr_Logger",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Controller_Back": {
+        "constructor": "getInstance",
+        "dependencies": [
+          {
+            "identifier": "Doozr_Registry",
+            "classname": "Doozr_Registry",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Config",
+            "classname": "Doozr_Config",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Logger",
+            "classname": "Doozr_Logger",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Config": {
+        "constructor": "getInstance",
+        "dependencies": [
+          {
+            "identifier": "Doozr_Config_Reader_Json",
+            "classname": "Doozr_Config_Reader_Json",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Cache_Service",
+            "classname": "Doozr_Cache_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Cache_Service": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Registry",
+            "classname": "Doozr_Registry",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Config_Reader_Ini": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Filesystem_Service",
+            "classname": "Doozr_Filesystem_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Cache_Service",
+            "classname": "Doozr_Cache_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Logger": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Datetime_Service",
+            "classname": "Doozr_Datetime_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Logger_System": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Datetime_Service",
+            "classname": "Doozr_Datetime_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Logger_Collecting": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Datetime_Service",
+            "classname": "Doozr_Datetime_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Logger_Client": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Datetime_Service",
+            "classname": "Doozr_Datetime_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Logger_File": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Datetime_Service",
+            "classname": "Doozr_Datetime_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Logger_Debugbar": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Datetime_Service",
+            "classname": "Doozr_Datetime_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Registry": {
+        "constructor": "getInstance",
+        "dependencies": []
+      },
+      "Doozr_Model": {
+        "constructor": "getInstance",
+        "dependencies": [
+          {
+            "identifier": "Doozr_Path",
+            "classname": "Doozr_Path",
+            "instance": null,
+            "config": {
+              "type": "constructor",
+              "position": 2
+            }
+          },
+          {
+            "identifier": "Doozr_Config",
+            "classname": "Doozr_Config",
+            "instance": null,
+            "config": {
+              "type": "constructor",
+              "position": 3
+            }
+          },
+          {
+            "identifier": "Doozr_Logger",
+            "classname": "Doozr_Logger",
+            "instance": null,
+            "config": {
+              "type": "constructor",
+              "position": 4
+            }
+          }
+        ]
+      },
+      "Doozr_Request": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Registry",
+            "classname": "Doozr_Registry",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Request_State",
+            "classname": "Doozr_Request_State",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Response": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Registry",
+            "classname": "Doozr_Registry",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Response_State",
+            "classname": "Doozr_Response_State",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Controller_Front": {
+        "constructor": "getInstance",
+        "dependencies": [
+          {
+            "identifier": "Doozr_Registry",
+            "classname": "Doozr_Registry",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Request_State",
+            "classname": "Doozr_Request_State",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          },
+          {
+            "identifier": "Doozr_Response_State",
+            "classname": "Doozr_Response_State",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Bar": {
+        "dependencies": [
+          {
+            "identifier": "data",
+            "classname": "Foo",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      }
+    }
+  ]
 }

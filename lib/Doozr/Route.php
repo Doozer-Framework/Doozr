@@ -59,6 +59,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Rhumsaa\Uuid\Uuid;
+use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 
 /**
  * Doozr - Route
@@ -85,27 +87,16 @@ final class Doozr_Route extends Doozr_Base_State_Container
      *
      * @var string
      * @access protected
-     * @static
      */
-    protected static $uuid;
-
-    /**
-     * Instance of cache service
-     *
-     * @var Doozr_Cache_Service
-     * @access protected
-     * @static
-     */
-    protected static $cacheService;
+    protected $uuid;
 
     /**
      * Status of cache enable (TRUE|FALSE)
      *
      * @var bool
      * @access protected
-     * @static
      */
-    protected static $cache;
+    protected $cacheEnabled;
 
     /**
      * An annotation reader instance.
@@ -122,7 +113,7 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @var Doozr_Request_State
      * @access protected
      */
-    protected static $requestState;
+    protected $requestState;
 
     /**
      * The routes read from different sources and ready
@@ -130,9 +121,8 @@ final class Doozr_Route extends Doozr_Base_State_Container
      *
      * @var array
      * @access protected
-     * @static
      */
-    protected static $routes;
+    protected $routes;
 
     /**
      * The current active route prefilled with defaults.
@@ -143,41 +133,19 @@ final class Doozr_Route extends Doozr_Base_State_Container
      *
      * @var array
      * @access protected
-     * @static
      */
-    protected static $activeRoute = array(
-        self::DEFAULT_OBJECT,
+    protected $activeRoute = array(
+        self::DEFAULT_PRESENTER,
         self::DEFAULT_ACTION
     );
-
-    /**
-     * The request in its plain form, stored for further
-     * access.
-     *
-     * @var array
-     * @access protected
-     * @static
-     */
-    protected static $request;
-
-    /**
-     * The registry of the Doozr Framework for accessing
-     * base objects.
-     *
-     * @var Doozr_Registry
-     * @access protected
-     * @static
-     */
-    protected static $registryInstance;
 
     /**
      * The namespace used to separate routing data.
      *
      * @var string
      * @access protected
-     * @static
      */
-    protected static $namespace;
+    protected $namespace;
 
     /**
      * The default object.
@@ -185,7 +153,7 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @var string
      * @access const
      */
-    const DEFAULT_OBJECT = 'index';
+    const DEFAULT_PRESENTER = 'index';
 
     /**
      * The default action.
@@ -205,80 +173,62 @@ final class Doozr_Route extends Doozr_Base_State_Container
     const NAMESPACE_CACHE = 'cache.routes';
 
 
+    /**
+     * Constructor.
+     *
+     * @param Doozr_Registry $registry The registry of Doozr
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     */
+    public function __construct(Doozr_Registry $registry)
+    {
+        $this
+            ->registry($registry)
+            ->requestState($registry->getRequest())
+            ->cacheEnabled($registry->getConfig()->kernel->cache->enabled)
+            ->namespace_(DOOZR_NAMESPACE_FLAT . '.' . self::NAMESPACE_CACHE)
+            ->run();
+    }
+
     /*------------------------------------------------------------------------------------------------------------------
     | BEGIN PUBLIC METHODS
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method initializes the routing process and detects the route for running this request-URI on.
-     *
-     * @param Doozr_Registry_Interface   $registry     The registry of Doozr.
-     * @param Doozr_Base_State_Interface $requestState The request state instance for retrieving all request data
-     * @param Doozr_Cache_Service        $cacheService Instance of cache service to improve performance with caching
-     * @param bool                       $cache        TRUE to enable caching, FALSE to disable
-     * @param bool                       $autorun      TRUE to automatic run/execute the route
+     * This method runs or executes the preset configuration. This runner was separated from init() to enable the
+     * user/application to manually or automatically intercept the execution between the route detection of Doozr
+     * and the execution of it.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean TRUE on success, otherwise FALSE
      * @access public
-     * @static
      */
-    public static function init(
-        Doozr_Registry_Interface   $registry,
-        Doozr_Base_State_Interface $requestState,
-        Doozr_Cache_Service        $cacheService  = null,
-                                   $cache         = false,
-                                   $autorun       = true
-    ) {
-        // Assume we do not run so the result is neither TRUE nor FALSE
-        $result = null;
-
-        self::$registryInstance = $registry;
-        self::$requestState     = $requestState;
-        self::$cacheService     = $cacheService;
-        self::$cache            = $cache;
-        self::$namespace        = DOOZR_NAMESPACE_FLAT . '.' . self::NAMESPACE_CACHE;
-
-        // Autorun (enabled in default config)
-        if ($autorun !== false) {
-            $result = self::run();
-        }
-
-        return $result;
-    }
-
-    /**
-     * This method runs or executes the preset configuration. This runner
-     * was separated from init() to enable the user/application to manually
-     * or automatically intercept the execution between the route detection
-     * of Doozr and the execution of it.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access public
-     * @static
-     */
-    public static function run()
+    public function run()
     {
         // With caching we need unique identifier
-        self::$uuid = md5(self::$requestState->getUrl());
+        $this->setUuid($this->calculateUuid($this->getRequestState()->getUrl()));
 
         // Check for cache enabled
-        if (self::$cache === true) {
+        if (true === $this->getCacheEnabled()) {
             // Try to fetch routes from cache
             try {
-                self::$routes = self::$cacheService->read(self::$uuid, self::$namespace);
-
+                $this->setRoutes(
+                    $this->getRegistry()->getCache()->read(
+                        $this->getUuid(),
+                        $this->getNamespace()
+                    )
+                );
             } catch (Doozr_Cache_Service_Exception $e) {
                 // Intentionally left blank
             }
         }
 
         // If cache disabled or routes could not be fetched -> prepare them ...
-        if (self::$routes === null) {
+        if (null === $this->getRoutes()) {
             // If we reach here we must parse the routes first ...
-            $routesFromPresenter = self::getRoutesFromPresenters();
-            $routesFromConfig    = self::$registryInstance->getConfig()->kernel->transmission->routing->routes;
+            $routesFromPresenter = $this->getRoutesFromPresenters();
+            $routesFromConfig    = $this->getRegistry()->getConfig()->kernel->transmission->routing->routes;
             $routes              = array();
 
             // Convert routes to same context as from presenter
@@ -304,18 +254,26 @@ final class Doozr_Route extends Doozr_Base_State_Container
                 }
             }
 
-            self::$routes = array_merge_recursive($routes, $routesFromPresenter);
+            $this->setRoutes(
+                array_merge_recursive($routes, $routesFromPresenter)
+            );
 
             // Cache if enabled ...
-            if (self::$cache === true) {
+            if (true === $this->getCacheEnabled()) {
                 // Store result after reading from presenter(s) and config and so on ...
-                self::$cacheService->create(self::$uuid, self::$routes, null, self::$namespace);
+                $this->getRegistry()->getCache()->create(
+                    $this->getUuid(),
+                    $this->getRoutes(),
+                    null,
+                    $this->getNamespace()
+                );
             }
         }
 
         // Feed dispatcher with routes
         $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-            foreach (self::$routes as $verb => $routes) {
+            $routeCollection = $this->getRoutes();
+            foreach ($routeCollection as $verb => $routes) {
                 foreach ($routes as $route => $config) {
                     $r->addRoute($verb, $route, array($config->presenter, $config->action));
                 }
@@ -325,13 +283,13 @@ final class Doozr_Route extends Doozr_Base_State_Container
         $error = null;
 
         // Dispatch route ...
-        $routeInfo = $dispatcher->dispatch(self::$requestState->getMethod(), self::$requestState->getUrl());
+        $routeInfo = $dispatcher->dispatch($this->getRequestState()->getMethod(), $this->getRequestState()->getUrl());
         switch ($routeInfo[0]) {
             case FastRoute\Dispatcher::NOT_FOUND:
                 $error = array(
                     'number'  => 404,
                     'message' => 'Route %s not found',
-                    'context' => self::$requestState->getUrl(),
+                    'context' => $this->getRequestState()->getUrl(),
                 );
                 break;
 
@@ -345,13 +303,13 @@ final class Doozr_Route extends Doozr_Base_State_Container
 
             case FastRoute\Dispatcher::FOUND:
                 // Store result of dispatch process - we wil use this later as identifier for status response dispatch
-                self::$requestState->setActiveRoute($routeInfo[1], $routeInfo[2]);
+                $this->getRequestState()->setActiveRoute($routeInfo[1], $routeInfo[2]);
                 break;
         }
 
         // Dispatch the request to back controller
-        self::$registryInstance->getBack()->run(
-            self::$requestState,
+        $this->getRegistry()->getBack()->run(
+            $this->getRequestState(),
             $error
         );
     }
@@ -359,6 +317,234 @@ final class Doozr_Route extends Doozr_Base_State_Container
     /*------------------------------------------------------------------------------------------------------------------
     | BEGIN PRIVATE/PROTECTED METHODS
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for routes.
+     *
+     * @param string $routes The routes
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRoutes($routes)
+    {
+        $this->routes = $routes;
+    }
+
+    /**
+     * Fluent setter for routes.
+     *
+     * @param string $routes The routes
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function routes($routes)
+    {
+        $this->setRoutes($routes);
+        return $this;
+    }
+
+    /**
+     * Getter for routes.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string
+     * @access protected
+     */
+    protected function getRoutes()
+    {
+        return $this->routes;
+    }
+
+    /**
+     * Setter for uuid.
+     *
+     * @param string $uuid The uuid
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * Fluent setter for uuid.
+     *
+     * @param string $uuid The uuid
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function uuid($uuid)
+    {
+        $this->setUuid($uuid);
+        return $this;
+    }
+
+    /**
+     * Getter for uuid.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string
+     * @access protected
+     */
+    protected function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * Setter for requestState.
+     *
+     * @param \Doozr_Request_State $requestState
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRequestState(Doozr_Request_State $requestState)
+    {
+        $this->requestState = $requestState;
+    }
+
+    /**
+     * Fluent setter for requestState.
+     *
+     * @param \Doozr_Request_State $requestState
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function requestState(Doozr_Request_State $requestState)
+    {
+        $this->setRequestState($requestState);
+        return $this;
+    }
+
+    /**
+     * Getter for requestState.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \Doozr_Request_State
+     * @access protected
+     */
+    protected function getRequestState()
+    {
+        return $this->requestState;
+    }
+
+    /**
+     * Setter for cacheEnabled.
+     *
+     * @param bool $cacheEnabled TRUE|FALSE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setCacheEnabled($cacheEnabled)
+    {
+        $this->cacheEnabled = $cacheEnabled;
+    }
+
+    /**
+     * Fluent setter for cacheEnabled.
+     *
+     * @param bool $cacheEnabled TRUE|FALSE
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function cacheEnabled($cacheEnabled)
+    {
+        $this->setCacheEnabled($cacheEnabled);
+        return $this;
+    }
+
+    /**
+     * Getter for cacheEnabled.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool $cacheEnabled TRUE|FALSE
+     * @access protected
+     */
+    protected function getCacheEnabled()
+    {
+        return $this->cacheEnabled;
+    }
+
+    /**
+     * Setter for namespace.
+     *
+     * @param string $namespace The namespace
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+    }
+
+    /**
+     * Setter for namespace.
+     *
+     * @param string $namespace The namespace
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function namespace_($namespace)
+    {
+        $this->setNamespace($namespace);
+        return $this;
+    }
+
+    /**
+     * Getter for namespace.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The namspace if set, otherwise NULL
+     * @access protected
+     */
+    protected function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * Calculates a UUID for a passed string.
+     *
+     * @param string $input The input to calculate the UUID for.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The UUID
+     * @access protected
+     */
+    protected function calculateUuid($input)
+    {
+        try {
+            // Generate a version 5 (name-based and hashed with SHA1) UUID object
+            $uuid5 = Uuid::uuid5(Uuid::NAMESPACE_DNS, $input);
+            $uuid = $uuid5->toString();
+
+        } catch (UnsatisfiedDependencyException $e) {
+            $uuid = sha1($input);
+        }
+
+        return $uuid;
+    }
 
     /**
      * Converts an object instance to any other instance (stdClass = default).
@@ -369,9 +555,8 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The new instance
      * @access protected
-     * @static
      */
-    protected static function objectToObject($instance, $classname = 'stdClass') {
+    protected function objectToObject($instance, $classname = 'stdClass') {
         return unserialize(sprintf(
             'O:%d:"%s"%s',
             strlen($classname),
@@ -388,15 +573,14 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Routes from file ordered and ready for further use
      * @access protected
-     * @static
      */
-    protected static function parseRoutesFromFile($filename)
+    protected function parseRoutesFromFile($filename)
     {
         // Assume empty result
         $routes = array();
 
         // Check if file exists ...
-        if (true === self::$registryInstance->getFilesystem()->is_readable($filename)) {
+        if (true === $this->getRegistry()->getFilesystem()->is_readable($filename)) {
             include $filename;
 
             $content = file_get_contents($filename);
@@ -417,12 +601,12 @@ final class Doozr_Route extends Doozr_Base_State_Container
                         }
 
                         $actionsWithRoutes[$filename][$reflection->name] =
-                            self::getAnnotationReader()->getMethodAnnotations($reflection);
+                            $this->getAnnotationReader()->getMethodAnnotations($reflection);
                     }
                 }
             }
 
-            $routes = self::sortRoutes($actionsWithRoutes);
+            $routes = $this->sortRoutes($actionsWithRoutes);
         }
 
         return $routes;
@@ -436,9 +620,8 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Ordered routes
      * @access protected
-     * @static
      */
-    protected static function sortRoutes(array $routesByFile)
+    protected function sortRoutes(array $routesByFile)
     {
         $sortedRoutes = array();
 
@@ -458,7 +641,7 @@ final class Doozr_Route extends Doozr_Base_State_Container
                             // Inject detected presenter if not already redirected to another one by annotation
                             if ($route->getPresenter() === null) {
                                 $route->setPresenter(
-                                    self::getPresenterByClassname(self::getPresenterClassByFilename($file))
+                                    $this->getPresenterByClassname($this->getPresenterClassByFilename($file))
                                 );
                             }
 
@@ -484,9 +667,8 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return AnnotationReader Instance of annotation reader
      * @access protected
-     * @static
      */
-    protected static function getAnnotationReader()
+    protected function getAnnotationReader()
     {
         if (self::$annotationReader === null) {
             self::$annotationReader = new AnnotationReader();
@@ -503,9 +685,8 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The classname
      * @access protected
-     * @static
      */
-    protected static function getPresenterClassByFilename($filename)
+    protected function getPresenterClassByFilename($filename)
     {
         return 'Presenter_' . str_replace('.php', '', basename($filename));
     }
@@ -521,9 +702,8 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The name of the presenter
      * @access protected
-     * @static
      */
-    protected static function getPresenterByClassname($classname)
+    protected function getPresenterByClassname($classname)
     {
         return strtolower(explode('_', $classname)[1]);
     }
@@ -534,9 +714,8 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Routes parsed from presenters.
      * @access protected
-     * @static
      */
-    protected static function getRoutesFromPresenters()
+    protected function getRoutesFromPresenters()
     {
         // Assume no routes
         $routes = array();
@@ -556,7 +735,7 @@ final class Doozr_Route extends Doozr_Base_State_Container
                 }
 
                 foreach ($routesForMethod as $route => $object) {
-                    $routesForMethod[$route] = self::objectToObject($object);
+                    $routesForMethod[$route] = $this->objectToObject($object);
                 }
 
                 $routes[$method] = array_merge($routes[$method], $routesForMethod);
@@ -577,12 +756,11 @@ final class Doozr_Route extends Doozr_Base_State_Container
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The resulting array containing two nodes "object" and "action" of target route
      * @access protected
-     * @static
      */
-    protected static function buildRoutingProfile($node1 = null, $node2 = null)
+    protected function buildRoutingProfile($node1 = null, $node2 = null)
     {
         return array(
-            ($node1 !== null) ? $node1 : self::DEFAULT_OBJECT,
+            ($node1 !== null) ? $node1 : self::DEFAULT_PRESENTER,
             ($node2 !== null) ? $node2 : self::DEFAULT_ACTION
         );
     }

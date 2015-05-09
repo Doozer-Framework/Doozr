@@ -70,5 +70,7 @@
  */
 interface Doozr_Psr_Cache_Interface
 {
-    // nuttin
+    // Just for namespace
+
+    #public function read();
 }

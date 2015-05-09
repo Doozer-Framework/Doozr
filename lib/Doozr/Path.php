@@ -76,25 +76,14 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
     Doozr_Path_Interface
 {
     /**
-     * singelton-instance-holder
-     *
-     * null on initialising - used to hold the instance of
-     * this class for returning it on a getInstance() call
-     * and to prevent multiple instances of the class
-     *
-     * @var object
-     * @access private
-     */
-    private static $_instance = null;
-
-    /**
      * The frameworks default paths
      *
      * @var array
-     * @access private
+     * @access protected
      * @static
      */
-    private static $path = array();
+    protected static $path = array();
+
 
     /**
      * Constructor.
@@ -108,8 +97,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      */
     protected function __construct($pathToRoot = null, $pathToApplication = null)
     {
-        // init
-        $this->_init($pathToRoot, $pathToApplication);
+        $this->init($pathToRoot, $pathToApplication);
     }
 
     /**
@@ -123,38 +111,39 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _init($pathToRoot, $pathToApplication)
+    protected function init($pathToRoot, $pathToApplication)
     {
         // check for rootfolder runtimeEnvironment
         // null = try to detect root | true = use const DOOZR_DOCUMENT_ROOT | ELSE = take path from parameter
         switch ($pathToRoot) {
-        case null:
-            $pathToRoot = str_replace(
-                str_replace('_', DIRECTORY_SEPARATOR, __CLASS__).'.php',
-                '',
-                __FILE__
-            );
-            break;
+            case null:
+                $pathToRoot = str_replace(
+                    str_replace('_', DIRECTORY_SEPARATOR, __CLASS__) . '.php',
+                    '',
+                    __FILE__
+                );
+                break;
 
-        case 'DOOZR':
-            // break intentionally omitted
-        default:
-            $pathToRoot = DOOZR_DOCUMENT_ROOT;
-            break;
+            case 'DOOZR':
+                // break intentionally omitted
+
+            default:
+                $pathToRoot = DOOZR_DOCUMENT_ROOT;
+                break;
         }
 
         // retrieve path to application
         if (!$pathToApplication) {
-            $pathToApplication = $this->_retrievePathToApplication();
+            $pathToApplication = $this->retrievePathToApplication();
         }
 
         // init all important paths from framework and app
-        $this->_initPaths($pathToRoot, $pathToApplication);
+        $this->initPaths($pathToRoot, $pathToApplication);
 
-        // setup include paths to speedup php lookups
-        $this->_initIncludePaths();
+        // setup include paths to speedup PHPs lookups
+        $this->initIncludePaths();
     }
 
     /**
@@ -166,25 +155,19 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Path to Application
-     * @access private
+     * @access protected
      */
-    private function _retrievePathToApplication()
+    protected function retrievePathToApplication()
     {
         // If path to app was defined before return this (prio 1)
         if (!defined('DOOZR_APP_ROOT')) {
-
-            /**
-             * Is environment set?
-             * You can set the DOOZR_APP_ROOT t
-             * SetEnv DOOZR_APP_ROOT /opt/...
-             */
             if (false !== $environment = getenv('DOOZR_APP_ROOT')) {
                 // assume that path to application is like the default environment (one folder up)
-                $path = $this->mergePath($environment, 'App/');
+                $path = $this->mergePath($environment, 'app/');
 
             } else {
                 // assume that path to application is like the default environment (one folder up)
-                $path = $this->mergePath(DOOZR_DOCUMENT_ROOT, '../App/');
+                $path = $this->mergePath(DOOZR_DOCUMENT_ROOT, '../app/');
 
             }
 
@@ -207,9 +190,9 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Path n level up
-     * @access private
+     * @access protected
      */
-    private function _up($path, $level = 1, $preserveTrailingSlash = false)
+    protected function up($path, $level = 1, $preserveTrailingSlash = false)
     {
         $postfix = '';
 
@@ -236,54 +219,51 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _initPaths($pathToRoot, $pathToApplication)
+    protected function initPaths($pathToRoot, $pathToApplication)
     {
-        // shortening
-        $s = DIRECTORY_SEPARATOR;
-
         // get absolute root
-        $root = $this->_up($pathToRoot, 1, true);
+        $root = $this->up($pathToRoot, 1, true);
 
         // real root (without "lib" directory)
         self::$path['document_root'] = $root;
 
         // path to core
-        self::$path['core'] = $this->_combine($root, array('lib', 'Doozr'));
+        self::$path['core'] = $this->combine($root, array('lib', 'Doozr'));
 
         // path to framework
-        self::$path['framework'] = $this->_combine($root, array('lib'));
+        self::$path['framework'] = $this->combine($root, array('lib'));
 
         // path to app
         self::$path['app'] = $pathToApplication;
 
         // path to model
-        self::$path['model'] = $this->_combine($root, array('lib', 'Model'));
+        self::$path['model'] = $this->combine($root, array('lib', 'Model'));
 
         // path to services
-        self::$path['service'] = $this->_combine($root, array('lib', 'Service'));
+        self::$path['service'] = $this->combine($root, array('lib', 'Service'));
 
         // path to controller
-        self::$path['controller'] = $this->_combine($root, array('lib', 'Doozr', 'Controller'));
+        self::$path['controller'] = $this->combine($root, array('lib', 'Doozr', 'Controller'));
 
         // path to data
-        self::$path['data'] = $this->_combine($root, array('lib', 'Data'));
+        self::$path['data'] = $this->combine($root, array('lib', 'Data'));
 
         // path to data-private
-        self::$path['data_private'] = $this->_combine($root, array('lib', 'Data', 'Private'));
+        self::$path['data_private'] = $this->combine($root, array('lib', 'Data', 'Private'));
 
         // path to auth
-        self::$path['auth'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Auth'));
+        self::$path['auth'] = $this->combine($root, array('lib', 'Data', 'Private', 'Auth'));
 
         // path to cache
         self::$path['cache'] = DOOZR_SYSTEM_TEMP;
 
         // path to config
-        self::$path['config'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Config'));
+        self::$path['config'] = $this->combine($root, array('lib', 'Data', 'Private', 'Config'));
 
         // path to font
-        self::$path['font'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Font'));
+        self::$path['font'] = $this->combine($root, array('lib', 'Data', 'Private', 'Font'));
 
         // path to log
            //self::$_path['log'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Log'));
@@ -293,16 +273,16 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
         self::$path['temp'] = DOOZR_SYSTEM_TEMP;
 
         // path to data-public (APP)
-        self::$path['data_public'] = $this->_combine($pathToApplication, array('Data', 'Public'));
+        self::$path['data_public'] = $this->combine($pathToApplication, array('Data', 'Public'));
 
         // path to data-public (APP)
-        self::$path['www'] = $this->_combine($pathToApplication, array('Data', 'Public', 'www'));
+        self::$path['www'] = $this->combine($pathToApplication, array('Data', 'Public', 'www'));
 
         // path to upload (APP)
-        self::$path['upload'] = $this->_combine($pathToApplication, array('Data', 'Private', 'Upload'));
+        self::$path['upload'] = $this->combine($pathToApplication, array('Data', 'Private', 'Upload'));
 
         // path to localisation (APP)
-        self::$path['localisation'] = $this->_combine($pathToApplication, array('Data', 'Private', 'Locale'));
+        self::$path['localisation'] = $this->combine($pathToApplication, array('Data', 'Private', 'Locale'));
     }
 
     /**
@@ -313,9 +293,9 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return String The new combined path
-     * @access private
+     * @access protected
      */
-    private function _combine($base = '', array $relativePaths = array())
+    protected function combine($base = '', array $relativePaths = array())
     {
         foreach ($relativePaths as $relativePath) {
             $base .= $relativePath.DIRECTORY_SEPARATOR;
@@ -331,9 +311,9 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _initIncludePaths()
+    protected function initIncludePaths()
     {
         // get ini include path and split it to an array
         $iniIncludePaths = explode(PATH_SEPARATOR, ini_get('include_path'));
@@ -343,7 +323,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
 
         // build Doozr include paths
         foreach (self::$path as $path) {
-            $includePathsDoozr .= self::_buildPath($path);
+            $includePathsDoozr .= self::buildPath($path);
         }
 
         if (!empty($iniIncludePaths)) {
@@ -353,7 +333,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
                     continue;
                 }
 
-                $includePathsDoozr .= self::_buildPath($iniIncludePath);
+                $includePathsDoozr .= self::buildPath($iniIncludePath);
             }
         }
 
@@ -368,10 +348,10 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string with the correct include path
-     * @access private
+     * @access protected
      * @static
      */
-    private static function _buildPath($path)
+    protected static function buildPath($path)
     {
         return PATH_SEPARATOR.$path;
     }
@@ -416,7 +396,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The path requested
-     * @access private
+     * @access protected
      * @static
      */
     public function get($identifier, $add = '', $trailingSlash = false)
@@ -429,9 +409,9 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
             // check for additional path add-on
             if (strlen($add)) {
                 // if defined we add the correct slashed path
-                $add = self::_correctPath($add);
+                $add = self::correctPath($add);
             }
-            return self::$path[$identifier].$add.(($trailingSlash) ? self::$_separator : '');
+            return self::$path[$identifier] . $add . (($trailingSlash) ? DIRECTORY_SEPARATOR : '');
         } else {
             return false;
         }
@@ -446,7 +426,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return boolean True if successful otherwise false
-     * @access private
+     * @access protected
      * @static
      * @throws Doozr_Exception
      */
@@ -467,31 +447,16 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to correct direction of slashes in given path.
-     *
-     * @param string $path The path to correct slashes in
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The resulting path
-     * @access public
-     * @static
-     */
-    public static function correctPath($path)
-    {
-        return self::_correctPath($path);
-    }
-
-    /**
      * Corrects slashes with "wrong" direction in a path and returns it
      *
      * @param string $path The path to correct slashes in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The path with corrected slash-direction
-     * @access private
+     * @access public
      * @static
      */
-    private static function _correctPath($path)
+    public static function correctPath($path)
     {
         // detect which direction of slash is "wrong"
         switch (DIRECTORY_SEPARATOR) {
@@ -503,7 +468,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
             break;
         }
 
-        // if wrong directioned slash found -> replace it
+        // if wrong directional slash found -> replace it
         if (stristr($path, $wrongDirection)) {
             $path = str_replace($wrongDirection, DIRECTORY_SEPARATOR, $path);
         }
@@ -592,9 +557,10 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      */
     public static function serviceToPath($serviceName, $namespace = 'Doozr')
     {
-        $service = ucfirst(str_replace('_', self::$_separator, $serviceName));
-        return self::_correctPath(
-            self::$path['service'] . $namespace . self::$_separator . $service . self::$_separator
+        $service = ucfirst(str_replace('_', DIRECTORY_SEPARATOR, $serviceName));
+
+        return self::correctPath(
+            self::$path['service'] . $namespace . DIRECTORY_SEPARATOR . $service . DIRECTORY_SEPARATOR
         );
     }
 
@@ -618,7 +584,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
 
             if (isset(self::$path[$identifier]) === false) {
                 throw new Doozr_Path_Exception(
-                    'Path "' . $identifier . '" does not exist!'
+                    sprintf('Path "%s" does not exist!', $identifier)
                 );
             } else {
                 if (strtolower($method[0]) === 'get') {
