@@ -38,7 +38,7 @@
       "enygma/expose": "2.3.*"
   },
   "require-dev": {
-    "raulfraile/ladybug": "~1.0.11",
+    "raulfraile/ladybug": "1.0.11",
     "satooshi/php-coveralls": "dev-master",
     "phpunit/phpunit": "4.5.*",
     "friendsofphp/uprofiler": "dev-master"
