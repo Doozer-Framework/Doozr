@@ -86,10 +86,10 @@ $GLOBALS['_DELETE'] = &$_DELETE;
 /*----------------------------------------------------------------------------------------------------------------------
 | EQUALIZING CLI & WEB & HTTPD - PATCHING REQUEST_URI
 +---------------------------------------------------------------------------------------------------------------------*/
+
 if (!isset($_SERVER['REQUEST_URI']) || $_SERVER['REQUEST_URI'] === '') {
     $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 }
-
 
 /*----------------------------------------------------------------------------------------------------------------------
 | SNAPSHOT OF CURRENTLY DEFINDED VARIABLES
@@ -97,6 +97,16 @@ if (!isset($_SERVER['REQUEST_URI']) || $_SERVER['REQUEST_URI'] === '') {
 
 $_DOOZR = get_defined_vars();
 
+/*----------------------------------------------------------------------------------------------------------------------
+| CONFIGURE LADYBUG
++---------------------------------------------------------------------------------------------------------------------*/
+
+if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI === DOOZR_RUNTIME_ENVIRONMENT) {
+    ladybug_set_format('text');
+} else {
+    ladybug_set_theme('modern');
+    ladybug_set_format('html');
+}
 
 /*----------------------------------------------------------------------------------------------------------------------
 | PHP EXTENDING FUNCTIONS (WORKAROUNDS AND SMART-HACKS)
@@ -684,26 +694,47 @@ function checksum()
 // Check if method already exists
 if (!function_exists('pre')) {
 
-    //ladybug_set_theme('modern');
-    //ladybug_set_format('html');
-
     /**
      * prints out or return a colorized output (no color in CLI-Mode)
      *
      * This method is intend to print out or return a colorized output (no color in CLI-Mode).
      *
-     * @param mixed  $data   The data to show as colorized output
-     * @param mixed  $return Defines if the colorized data should be outputted or returned [optional]
-     * @param string $color  The color for Text in HEX-notation
-     * @param string $cursor The cursor (css) to use
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed True if $return = false and string with colorized html if $return = true
      * @access public
      */
-    function pre($data, $return = false, $color = '#7CFC00', $cursor = 'pointer')
+    function pre()
     {
-        ladybug_dump($data);
+        $arguments = func_get_args();
+
+        foreach ($arguments as $argument) {
+            if ('string' !== gettype($argument)) {
+                $argument = var_export($argument, true);
+            }
+
+            ladybug_dump($argument);
+        }
+    }
+}
+
+// Check if method already exists
+if (!function_exists('pred')) {
+    /**
+     * prints out or return a colorized output (no color in CLI-Mode) and dies! after output
+     *
+     * This method is intend to print out or return a colorized output (no color in CLI-Mode).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed True if $return = false and string with colorized html if $return = true
+     */
+    function pred()
+    {
+        $arguments = func_get_args();
+
+        foreach ($arguments as $argument) {
+            pre($argument);
+        }
+        die;
     }
 }
 
@@ -934,24 +965,6 @@ function banner($data = '', $nl = PHP_EOL)
     $output = $nl.$bar.$nl.$spacer.$nl.$buffer.$spacer.$nl.$bar.$nl;
 
     return $output;
-}
-
-/**
- * prints out or return a colorized output (no color in CLI-Mode) and dies! after output
- *
- * This method is intend to print out or return a colorized output (no color in CLI-Mode).
- *
- * @param mixed  $data   The data to show as colorized output
- * @param mixed  $return Defines if the colorized data should be outputted or returned [optional]
- * @param string $color  The color for Text in HEX-notation
- * @param string $cursor The cursor (css) to use
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return mixed True if $return = false and string with colorized html if $return = true
- */
-function pred($data = 'EMPTY_PRED_CALL', $return = false, $color = '#7CFC00', $cursor = 'pointer')
-{
-    ladybug_dump_die($data);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------

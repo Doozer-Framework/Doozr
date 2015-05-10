@@ -110,7 +110,7 @@ class Doozr_Request_Web extends Doozr_Base_Request
     /**
      * Constructor.
      *
-     * @param Doozr_Config $config An instance of config
+     * @param Doozr_Configuration $config An instance of config
      * @param Doozr_Logger $logger An instance of logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

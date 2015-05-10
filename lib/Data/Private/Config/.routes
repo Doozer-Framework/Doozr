@@ -4,7 +4,7 @@
         "presenter": "index",
         "action": "index"
     },
-    "/index/index": {
+    "/index/index/test": {
         "methods": "GET",
         "presenter": "index",
         "action": "index"

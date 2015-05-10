@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Config - Reader - Abstract
+ * Doozr - Configuration - Reader - Abstract
  *
  * Abstract.php - The Abstract class for config reader. This class provides high level
  * access to filesystem and cache. Can be used for all types of readers.
@@ -44,8 +44,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Reader
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -59,21 +59,21 @@ use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 
 /**
- * Doozr - Config - Reader - Abstract
+ * Doozr - Configuration - Reader - Abstract
  *
  * The Abstract class for config reader. This class provides high level
  * access to filesystem and cache. Can be used for all types of readers.
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Reader
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Config_Reader_Abstract extends Doozr_Base_Class
+abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
 {
     /**
      * Instance of filesystem service.
@@ -142,7 +142,7 @@ abstract class Doozr_Config_Reader_Abstract extends Doozr_Base_Class
      * @param bool                     $enableCache       TRUE to enable caching, FALSE to disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Config_Reader_Abstract
+     * @return \Doozr_Configuration_Reader_Abstract
      * @access public
      */
     public function __construct(
@@ -162,9 +162,9 @@ abstract class Doozr_Config_Reader_Abstract extends Doozr_Base_Class
      *
      * @param string $filename The filename of the configuration file to read (parse)
      *
-     * @return \Doozr_Config_Reader_Abstract
+     * @return \Doozr_Configuration_Reader_Abstract
      * @throws \Doozr_Cache_Service_Exception
-     * @throws \Doozr_Config_Exception
+     * @throws \Doozr_Configuration_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
      */
@@ -190,7 +190,7 @@ abstract class Doozr_Config_Reader_Abstract extends Doozr_Base_Class
 
         // Check first if we can handle the file (basic check - everything else done by filesystem service)
         if (false === file_exists($filename) || false === is_readable($filename)) {
-            throw new Doozr_Config_Exception(
+            throw new Doozr_Configuration_Exception(
                 sprintf('The file "%s" does either not exist or it is not readable.', $filename)
             );
         }
@@ -222,7 +222,7 @@ abstract class Doozr_Config_Reader_Abstract extends Doozr_Base_Class
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The content of the file
      * @access public
-     * @throws Doozr_Config_Exception
+     * @throws Doozr_Configuration_Exception
      */
     protected function process($filename, $uuid)
     {
@@ -247,7 +247,7 @@ abstract class Doozr_Config_Reader_Abstract extends Doozr_Base_Class
                     $content = '{}';
 
                 } else {
-                    throw new Doozr_Config_Exception(
+                    throw new Doozr_Configuration_Exception(
                         'The file "' . $filename . '" could not be included. Sure it exists?'
                     );
                 }

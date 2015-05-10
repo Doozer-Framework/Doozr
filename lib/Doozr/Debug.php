@@ -57,6 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\PlainTextHandler;
 
 /**
  * Doozr - Debug
@@ -183,21 +184,28 @@ class Doozr_Debug extends Doozr_Base_Class_Singleton_Strict
     {
         $whoops = new Run();
 
-        // Configure the PrettyPageHandler
-        $exceptionHandler = new PrettyPageHandler();
+        // Configure the page handler of Whoops
+        if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI === DOOZR_RUNTIME_ENVIRONMENT) {
+            // Text for cli
+            $exceptionHandler = new PlainTextHandler();
 
-        // Add some Doozr specific ingredients
-        $exceptionHandler->setPageTitle('Doozr');
-        $exceptionHandler->addDataTable("Doozr runtime environment", array(
-                "DOOZR_OS"            => (string)DOOZR_OS,
-                "DOOZR_SAPI"          => (string)DOOZR_SAPI,
-                "DOOZR_PHP_VERSION"   => (string)DOOZR_PHP_VERSION,
-                "DOOZR_DOCUMENT_ROOT" => (string)DOOZR_DOCUMENT_ROOT,
-                "DOOZR_SYSTEM_TEMP"   => (string)DOOZR_SYSTEM_TEMP,
-                "DOOZR_ERROR_MAX"     => (string)DOOZR_PHP_ERROR_MAX,
-                "DOOZR_SECURE_HASH"   => (string)DOOZR_SECURE_HASH,
-            )
-        );
+        } else {
+            // Otherwise the pretty one
+            $exceptionHandler = new PrettyPageHandler();
+
+            // Add some Doozr specific ingredients
+            $exceptionHandler->setPageTitle('Doozr');
+            $exceptionHandler->addDataTable("Doozr runtime environment", array(
+                    "DOOZR_OS"            => (string)DOOZR_OS,
+                    "DOOZR_SAPI"          => (string)DOOZR_SAPI,
+                    "DOOZR_PHP_VERSION"   => (string)DOOZR_PHP_VERSION,
+                    "DOOZR_DOCUMENT_ROOT" => (string)DOOZR_DOCUMENT_ROOT,
+                    "DOOZR_SYSTEM_TEMP"   => (string)DOOZR_SYSTEM_TEMP,
+                    "DOOZR_ERROR_MAX"     => (string)DOOZR_PHP_ERROR_MAX,
+                    "DOOZR_SECURE_HASH"   => (string)DOOZR_SECURE_HASH,
+                )
+            );
+        }
 
         $whoops->pushHandler($exceptionHandler);
         $whoops->register();

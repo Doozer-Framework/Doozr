@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Route
+ * Doozr - Configuration - Reader - Exception
  *
- * Route.php - Dispatches to Doozr's Routing.
+ * Exception.php - The Exception for config reader.
  *
  * PHP versions 5.4
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Router
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,31 +52,23 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once 'Doozr/Bootstrap.php';
-require_once 'Doozr/Route.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 
-// Initialize Doozr Kernel
-Doozr_Kernel::init();
-
-// Get registry and configuration as well
-$registry = Doozr_Registry::getInstance();
-
-// Get URL cpu friendly (CPU:1|MEM-1)
-$url = $registry->getRequest()->getUrl();
-
-// Iterate filter and prepare URL
-foreach ($registry->getConfig()->kernel->transmission->request->filter as $filter) {
-    $newUrl = preg_replace($filter->search, $filter->replace, $url);
-    if (null !== $newUrl) {
-        $url = $newUrl;
-    }
+/**
+ * Doozr - Configuration - Rader - Exception
+ *
+ * The Exception for config reader.
+ *
+ * @category   Doozr
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Reader
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2015 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/Doozr/
+ */
+class Doozr_Configuration_Reader_Exception extends Doozr_Exception
+{
+    // Just used for namespacing
 }
-$registry->getRequest()->setUrl($url);
-
-// Inject route from config to request state
-$registry->getRequest()->setRouteConfig($registry->getConfig()->kernel->transmission->request->redirect);
-
-// Route the request (packed in registry)
-$router = new Doozr_Route(
-    $registry
-);

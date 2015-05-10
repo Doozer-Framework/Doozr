@@ -105,7 +105,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     /**
      * Contains instance of Service Config (used for reading INI-Files)
      *
-     * @var Doozr_Config_Service
+     * @var Doozr_Configuration_Service
      * @access protected
      * @static
      */
@@ -240,7 +240,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * This method is a replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
      *
-     * @param Doozr_Config_Interface $config   An instance of a config compliant config reader
+     * @param Doozr_Configuration_Interface $config   An instance of a config compliant config reader
      * @param string|null            $locale   A locale (de, at-de, ...) OR NULL to use autodetection
      * @param string|null            $encoding An optional encoding used for setting/translating in locale/translator
      *                                         also used when setting locale in gettext interface (e.g. en_US.UTF-8)
@@ -249,7 +249,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @return void
      * @access public
      */
-    public function __tearup(Doozr_Config_Interface $config, $locale = null, $encoding = self::ENCODING_UTF_8)
+    public function __tearup(Doozr_Configuration_Interface $config, $locale = null, $encoding = self::ENCODING_UTF_8)
     {
         // Check if requirements fulfilled
         self::checkRequirements();
@@ -841,7 +841,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * Returns an instance of Doozr's internal Config-Reader for reading INI-Configurations.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Config_Reader_Ini
+     * @return \Doozr_Configuration_Reader_Ini
      * @access protected
      * @throws \Doozr_Di_Exception
      */
@@ -865,9 +865,9 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // Store map with fresh instances
         self::$registry->getContainer()->setMap(self::$registry->getMap());
 
-        /* @var Doozr_Config_Reader_Ini $config */
+        /* @var Doozr_Configuration_Reader_Ini $config */
         $config = self::$registry->getContainer()->build(
-            'Doozr_Config_Reader_Ini',
+            'Doozr_Configuration_Reader_Ini',
             array(
                 true
             )

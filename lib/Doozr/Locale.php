@@ -73,7 +73,7 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
     /**
      * Instance of config
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected $config;
@@ -90,14 +90,14 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param Doozr_Config $config The config instance
+     * @param Doozr_Configuration $config The config instance
      * @param Doozr_Logger $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Locale
      * @access protected
      */
-    protected function __construct(Doozr_Config $config, Doozr_Logger $logger)
+    protected function __construct(Doozr_Configuration $config, Doozr_Logger $logger)
     {
         $this->config = $config;
         $this->logger = $logger;
@@ -137,11 +137,13 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
      */
     public function getActiveSetup()
     {
+        $localizationSetup = $this->config->kernel->localization;
+
         return array(
-            'charset'  => $this->config->kernel->localization->charset,
-            'encoding' => $this->config->kernel->localization->encoding,
-            'language' => $this->config->kernel->localization->language,
-            'locale'   => $this->config->kernel->localization->locale,
+            'charset'  => $localizationSetup->charset,
+            'encoding' => $localizationSetup->encoding,
+            'language' => $localizationSetup->language,
+            'locale'   => $localizationSetup->locale,
         );
     }
 }

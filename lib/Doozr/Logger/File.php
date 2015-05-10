@@ -148,7 +148,7 @@ class Doozr_Logger_File extends Doozr_Logger_Abstract
      * @param Doozr_Datetime_Service $datetime
      * @param int $level The loglevel of the logger extending this class
      * @param string $fingerprint The fingerprint of the client
-     * @internal param Doozr_Config $config The configuration instance
+     * @internal param Doozr_Configuration $config The configuration instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Logger_File

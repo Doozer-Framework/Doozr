@@ -103,14 +103,14 @@ class Doozr_Base_Response
     /**
      * Constructor.
      *
-     * @param Doozr_Config|object $config An instance of config
+     * @param Doozr_Configuration|object $config An instance of config
      * @param Doozr_Logger|object $logger An instance of config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Base_Response
      * @access public
      */
-    public function __construct(Doozr_Config $config, Doozr_Logger $logger)
+    public function __construct(Doozr_Configuration $config, Doozr_Logger $logger)
     {
         // get a handle on logger
         $this->config = $config;

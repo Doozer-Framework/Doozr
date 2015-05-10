@@ -471,13 +471,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for config.
      *
-     * @param Doozr_Config $config Instance of config
+     * @param Doozr_Configuration $config Instance of config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setConfig(Doozr_Config $config)
+    public function setConfig(Doozr_Configuration $config)
     {
         $this->set($config, 'config');
     }
@@ -486,7 +486,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for config.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Config The config instance
+     * @return Doozr_Configuration The config instance
      * @access public
      */
     public function getConfig()
@@ -497,13 +497,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for cache.
      *
-     * @param Doozr_Psr_Cache_Interface $cache Instance of cache
+     * @param Psr\Cache\Doozr_Psr_Cache_Interface $cache Instance of cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setCache(Doozr_Psr_Cache_Interface $cache)
+    public function setCache(Psr\Cache\Doozr_Psr_Cache_Interface $cache)
     {
         $this->set($cache, 'cache');
     }
@@ -512,7 +512,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Psr_Cache_Interface The cache instance
+     * @return Psr\Cache\Doozr_Psr_Cache_Interface The cache instance
      * @access public
      */
     public function getCache()

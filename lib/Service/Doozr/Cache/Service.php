@@ -57,6 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Crud/Interface.php';
 
+use Psr\Cache\Doozr_Psr_Cache_Interface;
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**

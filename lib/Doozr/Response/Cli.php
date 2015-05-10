@@ -84,14 +84,14 @@ class Doozr_Response_Cli extends Doozr_Base_Response
     /**
      * Constructor
      *
-     * @param Doozr_Config $config The config of Doozr
+     * @param Doozr_Configuration $config The config of Doozr
      * @param Doozr_Logger $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Response_Cli
      * @access public
      */
-    public function __construct(Doozr_Config $config, Doozr_Logger $logger)
+    public function __construct(Doozr_Configuration $config, Doozr_Logger $logger)
     {
         // map type
         self::$type = self::TYPE;

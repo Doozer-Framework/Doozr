@@ -89,7 +89,7 @@ class Doozr_Response_Httpd extends Doozr_Base_Response
      * @return void
      * @access public
      */
-    public function __construct(Doozr_Config $config, Doozr_Logger $logger)
+    public function __construct(Doozr_Configuration $config, Doozr_Logger $logger)
     {
         // map type
         self::$type = self::TYPE;

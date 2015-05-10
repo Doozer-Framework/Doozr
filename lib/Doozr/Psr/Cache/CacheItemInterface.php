@@ -1,10 +1,12 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+namespace Psr\Cache;
+
 /**
- * Doozr Config Interface
+ * Doozr - PSR - Cache - Item - Interface
  *
- * Interface.php - Config Interface of the Doozr Framework
+ * Interface.php
  *
  * PHP versions 5.4
  *
@@ -43,53 +45,30 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Interface
+ * @package    Doozr_Psr
+ * @subpackage Doozr_Psr_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Reader/Interface.php';
 
 /**
- * Doozr Config Interface
+ * Doozr - PSR - Cache - Item - Interface
  *
- * Config Interface of the Doozr Framework
+ * Interface.php
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Interface
+ * @package    Doozr_Psr
+ * @subpackage Doozr_Psr_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Config_Interface extends Doozr_Config_Reader_Interface
+interface CacheItemInterface
 {
-    /**
-     * Setter for key => value pairs of config.
-     *
-     * @param string $node  The key used for entry
-     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function set($node, $value);
 
-    /**
-     * Getter for value of passed key.
-     *
-     * @param string $node The key used for value lookup.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The value if set, otherwise NULL
-     * @access public
-     */
-    public function get($node);
 }

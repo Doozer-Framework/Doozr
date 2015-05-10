@@ -277,9 +277,9 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
     private static $_passwordhash;
 
     /**
-     * An instance of Doozr_Config
+     * An instance of Doozr_Configuration
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access private
      */
     private $_config;

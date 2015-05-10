@@ -84,7 +84,7 @@ class Doozr_Config_Service_Exception extends Doozr_Exception
     public function __construct($message = null, $code = 0, $previous = null)
     {
         // add prefix to message
-        $message = 'Doozr_Config_Service: '.$message;
+        $message = 'Doozr_Configuration_Service: '.$message;
 
         // check default code = 0
         $code = (!$code) ? 0 : $code;

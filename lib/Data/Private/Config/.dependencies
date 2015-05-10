@@ -5,8 +5,8 @@
         "constructor": "getInstance",
         "dependencies": [
           {
-            "identifier": "Doozr_Config",
-            "classname": "Doozr_Config",
+            "identifier": "Doozr_Configuration",
+            "classname": "Doozr_Configuration",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -39,8 +39,8 @@
         "constructor": "getInstance",
         "dependencies": [
           {
-            "identifier": "Doozr_Config",
-            "classname": "Doozr_Config",
+            "identifier": "Doozr_Configuration",
+            "classname": "Doozr_Configuration",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -60,8 +60,8 @@
         "constructor": "getInstance",
         "dependencies": [
           {
-            "identifier": "Doozr_Config",
-            "classname": "Doozr_Config",
+            "identifier": "Doozr_Configuration",
+            "classname": "Doozr_Configuration",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -89,8 +89,8 @@
             }
           },
           {
-            "identifier": "Doozr_Config",
-            "classname": "Doozr_Config",
+            "identifier": "Doozr_Configuration",
+            "classname": "Doozr_Configuration",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -106,12 +106,12 @@
           }
         ]
       },
-      "Doozr_Config": {
+      "Doozr_Configuration": {
         "constructor": "getInstance",
         "dependencies": [
           {
-            "identifier": "Doozr_Config_Reader_Json",
-            "classname": "Doozr_Config_Reader_Json",
+            "identifier": "Doozr_Configuration_Reader_Json",
+            "classname": "Doozr_Configuration_Reader_Json",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -139,7 +139,7 @@
           }
         ]
       },
-      "Doozr_Config_Reader_Ini": {
+      "Doozr_Configuration_Reader_Ini": {
         "dependencies": [
           {
             "identifier": "Doozr_Filesystem_Service",
@@ -248,8 +248,8 @@
             }
           },
           {
-            "identifier": "Doozr_Config",
-            "classname": "Doozr_Config",
+            "identifier": "Doozr_Configuration",
+            "classname": "Doozr_Configuration",
             "instance": null,
             "config": {
               "type": "constructor",

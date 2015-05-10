@@ -72,9 +72,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 class Doozr_Security extends Doozr_Base_Class_Singleton
 {
     /**
-     * Instance of Doozr_Config
+     * Instance of Doozr_Configuration
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected static $config;
@@ -91,17 +91,41 @@ class Doozr_Security extends Doozr_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param Doozr_Config $config Instance of Doozr_Config
+     * @param Doozr_Configuration $config Instance of Doozr_Configuration
      * @param Doozr_Logger $logger Instance of Doozr_Logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Security
      * @access protected
      */
-    protected function __construct(Doozr_Config $config, Doozr_Logger $logger)
+    protected function __construct(Doozr_Configuration $config, Doozr_Logger $logger)
     {
         self::$config = $config;
         self::$logger = $logger;
+
+        /*
+        $data = array(
+            'POST' => array(
+                'test' => 'foo',
+                'bar' => array(
+                    'baz' => 'quux',
+                    'testing' => '<script>test</script>'
+                )
+            )
+        );
+
+        $filters = new \Expose\FilterCollection();
+        $filters->load();
+        $manager = new \Expose\Manager($filters, $logger);
+        $manager->run($data);
+        echo 'impact: '.$manager->getImpact()."\n"; // should return 8
+        // get all matching filter reports
+        $reports = $manager->getReports();
+        print_r($reports);
+        // export out the report in the given format ("text" is default)
+        echo $manager->export();
+        echo "\n\n";
+        */
     }
 
     /**

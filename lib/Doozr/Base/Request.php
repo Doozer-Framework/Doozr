@@ -108,7 +108,7 @@ class Doozr_Base_Request extends Doozr_Base_Class
     /**
      * The configuration of Doozr
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected $config;

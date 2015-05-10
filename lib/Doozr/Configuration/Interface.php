@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Config - Exception
+ * Doozr - Configuration - Interface
  *
- * Exception.php - The Exception of Config.
+ * Interface.php - Configuration Interface of the Doozr Framework
  *
  * PHP versions 5.4
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Exception
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,23 +52,44 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Reader/Interface.php';
 
 /**
- * Doozr - Config - Exception
+ * Doozr - Configuration - Interface
  *
- * The Exception of Config.
+ * Configuration Interface of the Doozr Framework
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Exception
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Config_Exception extends Doozr_Exception
+interface Doozr_Configuration_Interface extends Doozr_Configuration_Reader_Interface
 {
-    // Just used for namespacing
+    /**
+     * Setter for key => value pairs of config.
+     *
+     * @param string $node  The key used for entry
+     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function set($node, $value);
+
+    /**
+     * Getter for value of passed key.
+     *
+     * @param string $node The key used for value lookup.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The value if set, otherwise NULL
+     * @access public
+     */
+    public function get($node);
 }

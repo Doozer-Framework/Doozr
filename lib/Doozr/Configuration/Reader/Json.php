@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Config - Reader - Json
+ * Doozr - Configuration - Reader - Json
  *
  * Json.php - Configuration reader for reading JSON configurations and represent
  * them in an object oriented way. The JSON format is extended and we say
@@ -46,8 +46,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Reader
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,11 +55,11 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Reader/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Reader/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Interface.php';
 
 /**
- * Doozr - Config - Reader - Json
+ * Doozr - Configuration - Reader - Json
  *
  * Configuration reader for reading JSON configurations and represent
  * them in an object oriented way. The JSON format is extended and we say
@@ -67,17 +67,17 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Interface.php';
  * service instance (this can be either memcache, filesystem ...).
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Reader
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Reader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract
+class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstract
     implements
-    Doozr_Config_Interface
+    Doozr_Configuration_Interface
 {
     /**
      * The decoded content.
@@ -98,7 +98,7 @@ class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \stdClass The configuration as object representation
      * @access public
-     * @throws Doozr_Config_Reader_Exception
+     * @throws Doozr_Configuration_Reader_Exception
      */
     public function read($filename)
     {
@@ -127,7 +127,7 @@ class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract
 
         // Error handling
         if ($configuration === false) {
-            throw new Doozr_Config_Reader_Exception(
+            throw new Doozr_Configuration_Reader_Exception(
                 $this->getErrorByCode(json_last_error())
             );
         }
@@ -148,12 +148,12 @@ class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array|null The configuration as array if set, otherwise NULL
      * @access public
-     * @throws Doozr_Config_Reader_Exception
+     * @throws Doozr_Configuration_Reader_Exception
      */
     public function getAsArray()
     {
         if ($result = $this->getDecodedContent() === null) {
-            throw new Doozr_Config_Reader_Exception(
+            throw new Doozr_Configuration_Reader_Exception(
                 'Please read() a configuration file before you try to access it as array.'
             );
         }
@@ -176,7 +176,7 @@ class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract
                     $configuration &= $configuration->{$node};
 
                 } catch (Doozr_Error_Exception $e) {
-                    throw new Doozr_Config_Reader_Exception(
+                    throw new Doozr_Configuration_Reader_Exception(
                         'Configuration does not have a property: "' . $node . '" in configuration.'
                     );
                 }
@@ -199,7 +199,7 @@ class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The result of the request
      * @access public
-     * @throws Doozr_Config_Reader_Exception
+     * @throws Doozr_Configuration_Reader_Exception
      */
     public function get($node = null)
     {
@@ -212,7 +212,7 @@ class Doozr_Config_Reader_Json extends Doozr_Config_Reader_Abstract
                     $configuration = $configuration->{$node};
 
                 } catch (Doozr_Error_Exception $e) {
-                    throw new Doozr_Config_Reader_Exception(
+                    throw new Doozr_Configuration_Reader_Exception(
                         'Configuration does not have a property: "' . $node . '" in configuration.'
                     );
                 }

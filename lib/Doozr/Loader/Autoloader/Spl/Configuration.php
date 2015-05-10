@@ -4,7 +4,7 @@
 /**
  * Doozr - Loader - Autoloader - Spl - Config
  *
- * Config.php - Config-Class for Doozr's SPL-Autoloader-Facade
+ * Configuration.php - Config-Class for Doozr's SPL-Autoloader-Facade
  *
  * PHP versions 5.4
  *

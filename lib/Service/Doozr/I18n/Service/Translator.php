@@ -214,8 +214,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * @param string                 $locale     The locale this instance is working with
      * @param string                 $encoding   The encoding for this instance
-     * @param Doozr_Config_Interface $configI18n An instance of Doozr_Config_Ini holding the I18n-config
-     * @param Doozr_Config_Interface $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
+     * @param Doozr_Configuration_Interface $configI18n An instance of Doozr_Config_Ini holding the I18n-config
+     * @param Doozr_Configuration_Interface $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_I18n_Service_Translator Instance of this class
@@ -224,8 +224,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     public function __construct(
                                $locale,
                                $encoding,
-        Doozr_Config_Interface $configI18n,
-        Doozr_Config_Interface $configL10n
+        Doozr_Configuration_Interface $configI18n,
+        Doozr_Configuration_Interface $configL10n
     ) {
         $this
             ->locale($locale)

@@ -91,9 +91,9 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     protected $path;
 
     /**
-     * Doozr_Config instance for access to configuration
+     * Doozr_Configuration instance for access to configuration
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected $config;
@@ -112,7 +112,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
      *
      * @param array        $databaseConfiguration Configuration for the Generic Decorator Class
      * @param Doozr_Path   $path                  Instance of Doozr_Path
-     * @param Doozr_Config $config                Instance of Doozr_Config
+     * @param Doozr_Configuration $config                Instance of Doozr_Configuration
      * @param Doozr_Logger $logger                Instance of Doozr_Logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -122,7 +122,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     protected function __construct(
         array        $databaseConfiguration,
         Doozr_Path   $path,
-        Doozr_Config $config,
+        Doozr_Configuration $config,
         Doozr_Logger $logger
     ) {
         // what is to decorate?
@@ -265,13 +265,13 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     /**
      * Setter for config.
      *
-     * @param Doozr_Config $config Doozr config
+     * @param Doozr_Configuration $config Doozr config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setConfig(Doozr_Config $config)
+    protected function setConfig(Doozr_Configuration $config)
     {
         $this->config = $config;
     }
@@ -279,13 +279,13 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     /**
      * Setter for config.
      *
-     * @param Doozr_Config $config Doozr config
+     * @param Doozr_Configuration $config Doozr config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Model Instance for chaining
      * @access protected
      */
-    protected function config(Doozr_Config $config)
+    protected function config(Doozr_Configuration $config)
     {
         $this->setConfig($config);
         return $this;
@@ -295,7 +295,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
      * Getter for config.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Config The instance
+     * @return Doozr_Configuration The instance
      * @access protected
      */
     protected function getConfig()

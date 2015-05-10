@@ -148,7 +148,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     /**
      * contains instance of config
      *
-     * @var Doozr_Config_Interface
+     * @var Doozr_Configuration_Interface
      * @access protected
      */
     protected $config;
@@ -185,7 +185,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
      * Constructor.
      *
      * @param Doozr_Registry           $registry   Instance of Doozr_Registry containing all core components
-     * @param Doozr_Config_Interface   $config     Instance of the Doozr core config
+     * @param Doozr_Configuration_Interface   $config     Instance of the Doozr core config
      * @param Doozr_Logger_Interface   $logger     Instance of the Doozr logging facade (subsystem)
      * @param Doozr_Filesystem_Service $filesystem Instance of filesystem service
      * @param Doozr_Cache_Service      $cache      Instance of cache service
@@ -196,7 +196,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
      */
     public function __construct(
         Doozr_Registry           $registry,
-        Doozr_Config_Interface   $config,
+        Doozr_Configuration_Interface   $config,
         Doozr_Logger_Interface   $logger,
         Doozr_Filesystem_Service $filesystem,
         Doozr_Cache_Service      $cache
@@ -674,7 +674,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     /**
      * Setter for configuration.
      *
-     * @param Doozr_Config_Interface $configuration Instance
+     * @param Doozr_Configuration_Interface $configuration Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -688,7 +688,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     /**
      * Setter for configuration.
      *
-     * @param Doozr_Config_Interface $configuration Instance
+     * @param Doozr_Configuration_Interface $configuration Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -704,7 +704,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Config_Interface|null Doozr_Config_Interface if set, otherwise NULL
+     * @return Doozr_Configuration_Interface|null Doozr_Configuration_Interface if set, otherwise NULL
      * @access protected
      */
     protected function getConfiguration()

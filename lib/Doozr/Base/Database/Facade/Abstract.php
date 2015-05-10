@@ -118,9 +118,9 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
     protected $path;
 
     /**
-     * Instance of Doozr_Config
+     * Instance of Doozr_Configuration
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected $config;
@@ -140,14 +140,14 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * constructor builds the class
      *
      * @param Doozr_Path   $path   Instance of Doozr_Path manager for path'
-     * @param Doozr_Config $config Instance of Doozr_Config holding Doozr's config
+     * @param Doozr_Configuration $config Instance of Doozr_Configuration holding Doozr's config
      * @param Doozr_Logger $logger Instance of Doozr_Logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __construct(Doozr_Path $path, Doozr_Config $config, Doozr_Logger $logger)
+    public function __construct(Doozr_Path $path, Doozr_Configuration $config, Doozr_Logger $logger)
     {
         // store instances
         $this->path   = $path;

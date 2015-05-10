@@ -150,7 +150,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      * @param Doozr_Base_State_Interface $requestState  The whole request as processed by "Route"
      * @param array                      $request       The request
      * @param array                      $translation   The translation required to read the request
-     * @param Doozr_Config_Interface     $configuration The Doozr main config instance
+     * @param Doozr_Configuration_Interface     $configuration The Doozr main config instance
      * @param Doozr_Base_Model           $model         The model to communicate with backend (db)
      * @param Doozr_Base_View            $view          The view to display results
      *
@@ -163,7 +163,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
         Doozr_Base_State_Interface $requestState,
         array                      $request,
         array                      $translation,
-        Doozr_Config_Interface     $configuration = null,
+        Doozr_Configuration_Interface     $configuration = null,
         Doozr_Base_Model           $model         = null,
         Doozr_Base_View            $view          = null
     ) {

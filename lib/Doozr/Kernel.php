@@ -56,7 +56,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Encoding.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Locale.php';
@@ -359,9 +359,9 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
     /**
      * Initializes the registry of the Doozr Framework. The registry itself
-     * is intend to store the instances mainly used by core classes like Doozr_Path, Doozr_Config,
+     * is intend to store the instances mainly used by core classes like Doozr_Path, Doozr_Configuration,
      * Doozr_Logger and this instances are always accessible by its name after the underscore (_ - written lowercase)
-     * e.g. Doozr_Logger will be available like this $registry->logger, Doozr_Config like $registry->config
+     * e.g. Doozr_Logger will be available like this $registry->logger, Doozr_Configuration like $registry->config
      * and so on.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -450,7 +450,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$registry->getMap()->wire(
             Doozr_Di_Container::MODE_STATIC,
             array(
-                'Doozr_Config_Reader_Json' => new Doozr_Config_Reader_Json(
+                'Doozr_Configuration_Reader_Json' => new Doozr_Configuration_Reader_Json(
                     Doozr_Loader_Serviceloader::load('filesystem'),
                     $cache,
                     true
@@ -462,9 +462,9 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         // Store map with fresh instances
         self::$registry->getContainer()->setMap(self::$registry->getMap());
 
-        /* @var Doozr_Config $config */
+        /* @var Doozr_Configuration $config */
         $config = self::$registry->getContainer()->build(
-            'Doozr_Config',
+            'Doozr_Configuration',
             array(
                 true
             )
@@ -600,7 +600,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$registry->getMap()->wire(
             Doozr_Di_Container::MODE_STATIC,
             array(
-                'Doozr_Config' => self::$registry->getConfig(),
+                'Doozr_Configuration' => self::$registry->getConfig(),
                 'Doozr_Logger' => self::$registry->getLogger()
             )
         );

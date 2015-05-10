@@ -79,10 +79,10 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     position=1
  * )
  */
-class Doozr_Config_Service extends Doozr_Base_Service_Multiple
+class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
     implements
     Doozr_Base_Service_Interface,
-    Doozr_Config_Interface
+    Doozr_Configuration_Interface
 {
     /**
      * contains an instance of the class/object decorated

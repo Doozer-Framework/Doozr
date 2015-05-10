@@ -4,7 +4,7 @@
 /**
  * Doozr - Base - Presenter - Rest - Config
  *
- * Config.php - Config class for Rest API
+ * Configuration.php - Config class for Rest API
  *
  * PHP versions 5.4
  *

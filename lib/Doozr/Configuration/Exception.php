@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Config - Reader - Interface
+ * Doozr - Config - Exception
  *
- * Interface.php - Base contract for Doozr's config reader.
+ * Exception.php - The Exception of Config.
  *
  * PHP versions 5.4
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Reader
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,21 +52,23 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+
 /**
- * Doozr - Config - Reader - Interface
+ * Doozr - Config - Exception
  *
- * Base contract for Doozr's config reader.
+ * The Exception of Config.
  *
  * @category   Doozr
- * @package    Doozr_Config
- * @subpackage Doozr_Config_Reader
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Config_Reader_Interface
+class Doozr_Configuration_Exception extends Doozr_Exception
 {
-    // Intentionally left in this state: For Namespace and typehint
+    // Just used for namespacing
 }

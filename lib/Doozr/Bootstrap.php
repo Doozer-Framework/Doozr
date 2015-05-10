@@ -180,7 +180,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Extend.php';
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // SPL facade files config + facade itself
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Config.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Configuration.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Facade.php';
 
 // now configure a new autoloader spl config

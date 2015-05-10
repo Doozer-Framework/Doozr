@@ -219,14 +219,14 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     /**
      * This method is intend to act as constructor.
      *
-     * @param Doozr_Config_Interface   $config   Instance of Doozr_Config_Ini containing the I18n-config
+     * @param Doozr_Configuration_Interface   $config   Instance of Doozr_Config_Ini containing the I18n-config
      * @param Doozr_Registry_Interface $registry Instance of Doozr_Registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_I18n_Service_Detector Instance of this class
      * @access protected
      */
-    protected function __construct(Doozr_Config_Interface $config, Doozr_Registry_Interface $registry)
+    protected function __construct(Doozr_Configuration_Interface $config, Doozr_Registry_Interface $registry)
     {
         // Store registry
         self::$registry           = $registry;

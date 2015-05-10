@@ -1,8 +1,10 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+namespace Psr\Cache;
+
 /**
- * Doozr PSR CacheObject Interface
+ * Doozr - PSR - Cache - Interface
  *
  * Interface.php - Contract for CachingObject following the PSR-Standard:
  * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
@@ -53,8 +55,10 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/CacheItemInterface.php';
+
 /**
- * Doozr PSR CacheObject Interface
+ * Doozr - PSR - Cache - Interface
  *
  * Contract for CachingObject following the PSR-Standard:
  * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
@@ -68,9 +72,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Psr_Cache_Interface
+interface Doozr_Psr_Cache_Interface extends CacheItemInterface
 {
     // Just for namespace
-
-    #public function read();
 }

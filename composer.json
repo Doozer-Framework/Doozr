@@ -40,7 +40,8 @@
   "require-dev": {
     "raulfraile/ladybug": "1.0.*",
     "satooshi/php-coveralls": "dev-master",
-    "phpunit/phpunit": "4.5.*"
+    "phpunit/phpunit": "4.5.*",
+    "friendsofphp/uprofiler": "dev-master"
   },
   "autoload": {
       "psr-0": {

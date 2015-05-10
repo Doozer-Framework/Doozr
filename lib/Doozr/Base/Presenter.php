@@ -102,7 +102,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
     /**
      * The main configuration
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected $configuration;
@@ -204,7 +204,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
      * @param Doozr_Registry             $registry      Instance of Doozr_Registry containing all core components
      * @param Doozr_Base_State_Interface $requestState  The whole request as state
      * @param array                      $request       The request
-     * @param Doozr_Config_Interface     $configuration The Doozr main config instance
+     * @param Doozr_Configuration_Interface     $configuration The Doozr main config instance
      * @param Doozr_Base_Model           $model         The model to communicate with backend (db)
      * @param Doozr_Base_View            $view          The view to display results
      * @param array                      $translation   The translation required to read the request
@@ -218,7 +218,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
         Doozr_Registry             $registry,
         Doozr_Base_State_Interface $requestState,
         array                      $request,
-        Doozr_Config_Interface     $configuration    = null,
+        Doozr_Configuration_Interface     $configuration    = null,
         Doozr_Base_Model           $model            = null,
         Doozr_Base_View            $view             = null,
         array                      $translation      = null
@@ -596,13 +596,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
     /**
      * Setter for configuration.
      *
-     * @param Doozr_Config_Interface $configuration The configuation object
+     * @param Doozr_Configuration_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    protected function setConfiguration(Doozr_Config_Interface $configuration)
+    protected function setConfiguration(Doozr_Configuration_Interface $configuration)
     {
         $this->configuration = $configuration;
     }
@@ -610,13 +610,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
     /**
      * Setter for configuration.
      *
-     * @param Doozr_Config_Interface $configuration The configuation object
+     * @param Doozr_Configuration_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    protected function configuration(Doozr_Config_Interface $configuration)
+    protected function configuration(Doozr_Configuration_Interface $configuration)
     {
         $this->setConfiguration($configuration);
         return $this;
@@ -626,7 +626,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Config_Interface The configuration stored
+     * @return Doozr_Configuration_Interface The configuration stored
      * @access public
      */
     protected function getConfiguration()

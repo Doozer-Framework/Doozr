@@ -147,7 +147,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Contains the Doozr main configuration object
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected $configuration;
@@ -194,7 +194,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * @param Doozr_Base_State_Interface $requestState Whole request as state
      * @param array                      $request      The whole request as processed by "Route"
      * @param Doozr_Cache_Service        $cache        An instance of Doozr_Cache_Service
-     * @param Doozr_Config               $config       An instance of Doozr_Config with Kernel-Configuration
+     * @param Doozr_Configuration               $config       An instance of Doozr_Configuration with Kernel-Configuration
      * @param Doozr_Controller_Front     $front        An instance of Doozr_Front
      * @param array                      $translation  The translation required to read the request
      *
@@ -208,7 +208,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         Doozr_Base_State_Interface $requestState,
         array                      $request,
         Doozr_Cache_Service        $cache,
-        Doozr_Config               $config,
+        Doozr_Configuration               $config,
         Doozr_Controller_Front     $front,
         array                      $translation   = null
     ) {
@@ -404,13 +404,13 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Setter for configuration.
      *
-     * @param Doozr_Config_Interface $configuration The configuation object
+     * @param Doozr_Configuration_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setConfiguration(Doozr_Config_Interface $configuration)
+    protected function setConfiguration(Doozr_Configuration_Interface $configuration)
     {
         $this->configuration = $configuration;
     }
@@ -418,13 +418,13 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Setter for configuration with fluent API support for chaining calls to this class.
      *
-     * @param Doozr_Config_Interface $configuration The
+     * @param Doozr_Configuration_Interface $configuration The
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function configuration(Doozr_Config_Interface $configuration)
+    protected function configuration(Doozr_Configuration_Interface $configuration)
     {
         $this->setConfiguration($configuration);
         return $this;
@@ -434,7 +434,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Config_Interface The configuration stored
+     * @return Doozr_Configuration_Interface The configuration stored
      * @access protected
      */
     protected function getConfiguration()

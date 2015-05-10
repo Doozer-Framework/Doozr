@@ -70,11 +70,8 @@ if (
  * In the default install you won't need this statements above!
  */
 
-var_dump('We need to modify some parts of routing to get the base working!');
-die;
-
 // Start profiling
-uprofiler_enable();
+#uprofiler_enable();
 
 // We are in development environment
 putenv('DOOZR_APP_ENVIRONMENT=development');
@@ -90,16 +87,16 @@ require_once 'Route.php';
  */
 
 // stop profiler
-$uprofiler_data = uprofiler_disable();
+#$uprofiler_data = uprofiler_disable();
 
 //
 // Saving the uprofiler run
 // using the default implementation of iuprofilerRuns.
 //
-include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_lib.php";
-include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_runs.php";
+#include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_lib.php";
+#include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_runs.php";
 
-$uprofiler_runs = new uprofilerRuns_Default();
+#$uprofiler_runs = new uprofilerRuns_Default();
 
 // Save the run under a namespace "uprofiler_doozr".
 //
@@ -108,4 +105,4 @@ $uprofiler_runs = new uprofilerRuns_Default();
 // run id for you. [You can override that behavior by passing
 // a run id (optional arg) to the save_run() method instead.]
 //
-$run_id = $uprofiler_runs->save_run($uprofiler_data, "uprofiler_doozr");
+#$run_id = $uprofiler_runs->save_run($uprofiler_data, "uprofiler_doozr");
