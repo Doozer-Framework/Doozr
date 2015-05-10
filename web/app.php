@@ -56,6 +56,11 @@
  * In the default install you won't need this statements above!
  */
 
+// Application in production environment
+putenv('DOOZR_APP_ENVIRONMENT=production');
+putenv('DOOZR_DEBUG=false');
+putenv('DOOZR_LOG=false');
+
 /**
  * Get composer as well as Doozr's router the rest is magic ...
  */

@@ -73,8 +73,10 @@ if (
 // Start profiling
 #uprofiler_enable();
 
-// We are in development environment
+// App in development environment
 putenv('DOOZR_APP_ENVIRONMENT=development');
+putenv('DOOZR_DEBUG=true');
+putenv('DOOZR_LOG=true');
 
 /**
  * Get composer as well as Doozr's router the rest is magic ...

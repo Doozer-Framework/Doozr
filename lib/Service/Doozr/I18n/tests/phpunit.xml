@@ -28,7 +28,7 @@
     </logging>
 
     <php>
-        <const name="DOOZR_IS_UNIT_TEST" value="true" />
+        <const name="DOOZR_APP_ENVIRONMENT" value="testing" />
         <includePath>.</includePath>
         <includePath>../lib</includePath>
         <ini name="max_execution_time" value="600" />

@@ -646,20 +646,35 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initDebug()
     {
-        // Get debug manager
-        self::$registry->setDebug(
-            self::$registry->getContainer()->build(
-                'Doozr_Debug',
-                array(
-                    self::$registry->getConfig()->kernel->debug->enabled
-                )
-            )
-        );
+        /*--------------------------------------------------------------------------------------------------------------
+        | CHECK FOR DEBUG MODE
+        +-------------------------------------------------------------------------------------------------------------*/
 
-        // This information is really important so make this at least global available without hassle to use
-        define('DOOZR_DEBUG', self::$registry->getConfig()->kernel->debug->enabled);
+        // First we check for configured correct DOOZR_APP_ROOT
+        if (false === defined('DOOZR_DEBUG')) {
+
+            if (false !== getenv('DOOZR_DEBUG')) {
+                $doozrDebug = getenv('DOOZR_DEBUG');
+
+            } else {
+                // This information is really important so make this at least global available without hassle to use
+                $doozrDebug = self::$registry->getConfig()->kernel->debug->enabled;
+            }
+
+            define('DOOZR_DEBUG', $doozrDebug);
+        }
 
         if (DOOZR_DEBUG === true) {
+            // Get debug manager
+            self::$registry->setDebug(
+                self::$registry->getContainer()->build(
+                    'Doozr_Debug',
+                    array(
+                        DOOZR_DEBUG
+                    )
+                )
+            );
+
             $debugbar = new StandardDebugBar();
             $debugbar['time']->startMeasure('request-cycle', 'Doozr request cycle');
 
@@ -700,6 +715,10 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initRequest()
     {
+        if (true === DOOZR_DEBUG) {
+            self::$registry->getDebugbar()['time']->startMeasure('request-parsing', 'Parsing request');
+        }
+
         // Get instance of request
         self::$registry->setRequest(
             self::$registry->getContainer()->build(
@@ -707,6 +726,11 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
                 array(DOOZR_RUNTIME_ENVIRONMENT)
             )->export()
         );
+
+
+        if (true === DOOZR_DEBUG) {
+            self::$registry->getDebugbar()['time']->stopMeasure('request-parsing');
+        }
 
         // Important for bootstrap result
         return true;
@@ -722,6 +746,10 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initResponse()
     {
+        if (true === DOOZR_DEBUG) {
+            self::$registry->getDebugbar()['time']->startMeasure('preparing-response', 'Preparing response');
+        }
+
         /**
          * to be continued. We take action to bring the response in place here for our inner/outer layer state concept.
          * So we would init a reponse state here. The response state can be used and accessed anywhere in the
@@ -733,6 +761,10 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$registry->setResponse(
             self::$registry->getContainer()->build('Doozr_Response')->export()
         );
+
+        if (true === DOOZR_DEBUG) {
+            self::$registry->getDebugbar()['time']->stopMeasure('preparing-response');
+        }
 
         // Important for bootstrap result
         return true;
