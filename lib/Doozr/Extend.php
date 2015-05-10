@@ -102,10 +102,10 @@ $_DOOZR = get_defined_vars();
 +---------------------------------------------------------------------------------------------------------------------*/
 
 if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI === DOOZR_RUNTIME_ENVIRONMENT) {
-    ladybug_set_format('text');
+    #ladybug_set_format('text');
 } else {
-    ladybug_set_theme('modern');
-    ladybug_set_format('html');
+    #ladybug_set_theme('modern');
+    #ladybug_set_format('html');
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
