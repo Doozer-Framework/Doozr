@@ -5,7 +5,7 @@
  * Doozr - Model
  *
  * Model.php - Model of the Doozr Framework. This Model-class provides access
- * to Database libs in Model/Lib/... - by acting as a configurable (.config)
+ * to Database libs in Model/Lib/... - by acting as a configurable (.config.json)
  * proxy.
  *
  * PHP versions 5.4
@@ -60,7 +60,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Decorator/Singleton.php';
  * Doozr - Model
  *
  * Model of the Doozr Framework. This Model-class provides access
- * to Database libs in Model/Lib/... - by acting as a configurable (.config)
+ * to Database libs in Model/Lib/... - by acting as a configurable (.config.json)
  * proxy.
  *
  * @category   Doozr

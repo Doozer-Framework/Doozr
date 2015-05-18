@@ -470,7 +470,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
         // Read config of: Doozr - central core configuration from developer
         $config->read(
-            self::$registry->getPath()->get('config') . '.config'
+            self::$registry->getPath()->get('config') . '.config.json'
         );
 
 
@@ -482,7 +482,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $iterator  = new RecursiveIteratorIterator($directory);
 
         foreach ($iterator as $info) {
-            if ($info->getFilename() === '.config') {
+            if ($info->getFilename() === '.config.json') {
                 $config->read($info->getPathname());
             }
         }
@@ -493,7 +493,8 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
 
         // Read config of application
-        $userlandConfigurationFile = self::$registry->getPath()->get('app', 'Data\Private\Config\.config');
+        /* @todo HERE BY ENV! */
+        $userlandConfigurationFile = self::$registry->getPath()->get('app', 'Data\Private\Config\.config.json');
 
         if (file_exists($userlandConfigurationFile) && is_readable($userlandConfigurationFile)) {
             $config->read($userlandConfigurationFile);
@@ -646,7 +647,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     {
         if (true === DOOZR_DEBUGGING) {
             // Get debug manager
-            self::$registry->setDebug(
+            self::$registry->setDebugging(
                 self::$registry->getContainer()->build(
                     'Doozr_Debugging',
                     array(
@@ -658,6 +659,8 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
             $debugbar = new StandardDebugBar();
             $debugbar['time']->startMeasure('request-cycle', 'Request cycle (Doozr)');
             $debugbar->addCollector(new DebugBar\DataCollector\ConfigCollector(json_decode(json_encode(self::$registry->getConfiguration()->get()), true)));
+
+
 
             self::$registry->setDebugbar(
                 $debugbar

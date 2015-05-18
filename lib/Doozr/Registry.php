@@ -599,29 +599,29 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for debug.
+     * Setter for debugging.
      *
-     * @param Doozr_Debugging $debug Instance of debug
+     * @param Doozr_Debugging $debugging Instance of debugging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setDebug(Doozr_Debugging $debug)
+    public function setDebugging(Doozr_Debugging $debugging)
     {
-        $this->set($debug, 'debug');
+        $this->set($debugging, 'debugging');
     }
 
     /**
-     * Getter for debug.
+     * Getter for debugging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Debugging Instance of debug
+     * @return Doozr_Debugging Instance of debugging
      * @access public
      */
-    public function getDebug()
+    public function getDebugging()
     {
-        return $this->get('debug');
+        return $this->get('debugging');
     }
 
     /**

@@ -687,7 +687,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         Doozr_Registry_Interface $registry        = null,
         $locale                                   = null,
         $namespace                                = null,
-        $configI18n                               = null, // Config of Doozr (main .config) including section "I18n"
+        $configI18n                               = null, // Config of Doozr (main .config.json) including "I18n"
         $configL10n                               = null, // Config I18n/L10n configuration of the current active locale
         Doozr_I18n_Service_Translator $translator = null
     ) {
