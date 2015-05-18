@@ -54,7 +54,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
@@ -553,7 +553,8 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
         } else {
             // Disable logging (+ dispatching ...)
-            self::$registry->getLogger()->disable();
+            //self::$registry->getLogger()->disable();
+            self::$registry->getLogger()->detachAll(true);
         }
 
         // Important for bootstrap result
