@@ -419,13 +419,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for logger.
      *
-     * @param Doozr_Logger_Interface $logger The logger to store
+     * @param Doozr_Logging_Interface $logger The logger to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setLogger(Doozr_Logger_Interface $logger)
+    public function setLogger(Doozr_Logging_Interface $logger)
     {
         $this->set($logger, 'logger');
     }
@@ -434,7 +434,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for logger.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Logger The logger instance
+     * @return Doozr_Logging The logger instance
      * @access public
      */
     public function getLogger()
@@ -469,29 +469,29 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for config.
+     * Setter for configuration.
      *
-     * @param Doozr_Configuration $config Instance of config
+     * @param Doozr_Configuration $configuration Instance of configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setConfig(Doozr_Configuration $config)
+    public function setConfiguration(Doozr_Configuration $configuration)
     {
-        $this->set($config, 'config');
+        $this->set($configuration, 'configuration');
     }
 
     /**
-     * Getter for config.
+     * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Configuration The config instance
+     * @return Doozr_Configuration The configuration instance
      * @access public
      */
-    public function getConfig()
+    public function getConfiguration()
     {
-        return $this->get('config');
+        return $this->get('configuration');
     }
 
     /**
@@ -601,13 +601,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for debug.
      *
-     * @param Doozr_Debug $debug Instance of debug
+     * @param Doozr_Debugging $debug Instance of debug
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setDebug(Doozr_Debug $debug)
+    public function setDebug(Doozr_Debugging $debug)
     {
         $this->set($debug, 'debug');
     }
@@ -616,7 +616,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for debug.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Debug Instance of debug
+     * @return Doozr_Debugging Instance of debug
      * @access public
      */
     public function getDebug()

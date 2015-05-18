@@ -156,7 +156,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     /**
      * Logger instance
      *
-     * @var Doozr_Logger_Interface
+     * @var Doozr_Logging_Interface
      * @access protected
      */
     protected $logger;
@@ -186,7 +186,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
      *
      * @param Doozr_Registry           $registry   Instance of Doozr_Registry containing all core components
      * @param Doozr_Configuration_Interface   $config     Instance of the Doozr core config
-     * @param Doozr_Logger_Interface   $logger     Instance of the Doozr logging facade (subsystem)
+     * @param Doozr_Logging_Interface   $logger     Instance of the Doozr logging facade (subsystem)
      * @param Doozr_Filesystem_Service $filesystem Instance of filesystem service
      * @param Doozr_Cache_Service      $cache      Instance of cache service
      *
@@ -197,7 +197,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     public function __construct(
         Doozr_Registry           $registry,
         Doozr_Configuration_Interface   $config,
-        Doozr_Logger_Interface   $logger,
+        Doozr_Logging_Interface   $logger,
         Doozr_Filesystem_Service $filesystem,
         Doozr_Cache_Service      $cache
     ) {
@@ -392,7 +392,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     protected function repackExceptionData(Exception $exception)
     {
         // Get debug state
-        $debug = (defined('DOOZR_DEBUG') === true) ? DOOZR_DEBUG : true;
+        $debug = (defined('DOOZR_DEBUGGING') === true) ? DOOZR_DEBUGGING : true;
 
         $data           = new \stdClass();
         $data->message  = $exception->getMessage();
@@ -715,13 +715,13 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     /**
      * Setter for logger.
      *
-     * @param Doozr_Logger_Interface $logger Instance of logger
+     * @param Doozr_Logging_Interface $logger Instance of logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setLogger(Doozr_Logger_Interface $logger)
+    protected function setLogger(Doozr_Logging_Interface $logger)
     {
         $this->logger = $logger;
     }
@@ -729,13 +729,13 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     /**
      * Setter for logger.
      *
-     * @param Doozr_Logger_Interface $logger Instance of logger
+     * @param Doozr_Logging_Interface $logger Instance of logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function logger(Doozr_Logger_Interface $logger)
+    protected function logger(Doozr_Logging_Interface $logger)
     {
         $this->setLogger($logger);
         return $this;
@@ -745,7 +745,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
      * Getter for logger.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Logger_Interface|null Doozr_Logger_Interface if set, otherwise NULL
+     * @return Doozr_Logging_Interface|null Doozr_Logging_Interface if set, otherwise NULL
      * @access protected
      */
     protected function getLogger()

@@ -65,7 +65,7 @@ $registry = Doozr_Registry::getInstance();
 $url = $registry->getRequest()->getUrl();
 
 // Iterate filter and prepare URL
-foreach ($registry->getConfig()->kernel->transmission->request->filter as $filter) {
+foreach ($registry->getConfiguration()->kernel->transmission->request->filter as $filter) {
     $newUrl = preg_replace($filter->search, $filter->replace, $url);
     if (null !== $newUrl) {
         $url = $newUrl;
@@ -74,7 +74,7 @@ foreach ($registry->getConfig()->kernel->transmission->request->filter as $filte
 $registry->getRequest()->setUrl($url);
 
 // Inject route from config to request state
-$registry->getRequest()->setRouteConfig($registry->getConfig()->kernel->transmission->request->redirect);
+$registry->getRequest()->setRouteConfig($registry->getConfiguration()->kernel->transmission->request->redirect);
 
 // Route the request (packed in registry)
 $router = new Doozr_Route(

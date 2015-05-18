@@ -773,7 +773,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
 
         $html = null;
 
-        if (false === $this->getConfiguration()->kernel->debug->enabled) {
+        if (false === $this->getConfiguration()->kernel->debugging->enabled) {
 
             // We try to receive data for rendering from cache :) this is much faster
             try {

@@ -159,7 +159,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
      * @access public
      * @expectedException Doozr_I18n_Service_Exception
      */
-    public function testTranslationWithoutNamespaceThrowsException()
+    public function testTranslatingWithoutNamespaceThrowsException()
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
@@ -175,7 +175,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testTranslateTheKeyYes()
+    public function testTranslatingTheKeyYes()
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
@@ -195,7 +195,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testTranslateAKeyWithValuesInserted()
+    public function testTranslatingAKeyWithValuesInserted()
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;

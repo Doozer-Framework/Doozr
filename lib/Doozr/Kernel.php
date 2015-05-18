@@ -60,7 +60,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Encoding.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Locale.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Debug.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Debugging.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Security.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Controller/Front.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Controller/Back.php';
@@ -149,6 +149,12 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @const
      */
     const RUNTIME_ENVIRONMENT_HTTPD = 'Httpd';
+
+
+    const APP_ENVIRONMENT_TESTING = 'testing';
+    const APP_ENVIRONMENT_PRODUCTION = 'production';
+    const APP_ENVIRONMENT_DEVELOPMENT = 'development';
+    const APP_ENVIRONMENT_STAGING = 'staging';
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -297,20 +303,12 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initCache()
     {
-        // We need to detect the cache container of Doozr or fallback to default
-        if (false  === $container = getenv('DOOZR_CACHE_CONTAINER')) {
-            if (defined('DOOZR_CACHE_CONTAINER') === false) {
-                define('DOOZR_CACHE_CONTAINER', Doozr_Cache_Service::CONTAINER_FILESYSTEM);
-            }
-            $container = DOOZR_CACHE_CONTAINER;
-        }
-
         // Build namespace for cache
         $namespace = DOOZR_NAMESPACE_FLAT . '.cache';
 
         // Store cache ...
         self::$registry->setCache(
-            Doozr_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX)
+            Doozr_Loader_Serviceloader::load('cache', DOOZR_CACHE_CONTAINER, $namespace, array(), DOOZR_UNIX)
         );
 
         // Important for bootstrap result
@@ -360,8 +358,8 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     /**
      * Initializes the registry of the Doozr Framework. The registry itself
      * is intend to store the instances mainly used by core classes like Doozr_Path, Doozr_Configuration,
-     * Doozr_Logger and this instances are always accessible by its name after the underscore (_ - written lowercase)
-     * e.g. Doozr_Logger will be available like this $registry->logger, Doozr_Configuration like $registry->config
+     * Doozr_Logging and this instances are always accessible by its name after the underscore (_ - written lowercase)
+     * e.g. Doozr_Logging will be available like this $registry->logger, Doozr_Configuration like $registry->config
      * and so on.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -389,7 +387,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initLogger()
     {
-        // add required dependencies
+        // Add required dependencies
         self::$registry->getMap()->wire(
             Doozr_Di_Container::MODE_STATIC,
             array(
@@ -401,11 +399,11 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$registry->getContainer()->setMap(self::$registry->getMap());
 
         // Get logger
-        $logger = self::$registry->getContainer()->build('Doozr_Logger');
+        $logger = self::$registry->getContainer()->build('Doozr_Logging');
 
         // And attach the Collecting Logger
         $logger->attach(
-            self::$registry->getContainer()->build('Doozr_Logger_Collecting')
+            self::$registry->getContainer()->build('Doozr_Logging_Collecting')
         );
 
         self::$registry->setLogger($logger);
@@ -502,7 +500,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         }
 
         // Store config
-        self::$registry->setConfig($config);
+        self::$registry->setConfiguration($config);
 
         // Important for bootstrap result
         return true;
@@ -529,11 +527,11 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$registry->getLogger()->detachAll(true);
 
         // Check if logging enabled ...
-        if (self::$registry->getConfig()->kernel->logging->enabled) {
+        if (true === DOOZR_LOGGING) {
             // Iterate and attach to subsystem
-            foreach (self::$registry->getConfig()->kernel->logging->logger as $logger) {
+            foreach (self::$registry->getConfiguration()->kernel->logging->logger as $logger) {
                 $loggerInstance = self::$registry->getContainer()->build(
-                    'Doozr_Logger_' . ucfirst(strtolower($logger->name)),
+                    'Doozr_Logging_' . ucfirst(strtolower($logger->name)),
                     array((isset($logger->level)) ? $logger->level : self::$registry->getLogger()->getDefaultLoglevel())
                 );
 
@@ -573,7 +571,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     protected static function initSystem()
     {
         $result      = true;
-        $phpSettings = self::getRegistry()->getConfig()->kernel->system->php;
+        $phpSettings = self::getRegistry()->getConfiguration()->kernel->system->php;
 
         foreach ($phpSettings as $iniKey => $value) {
             if (false === ($result && ini_set($iniKey, $value))) {
@@ -600,8 +598,8 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$registry->getMap()->wire(
             Doozr_Di_Container::MODE_STATIC,
             array(
-                'Doozr_Configuration' => self::$registry->getConfig(),
-                'Doozr_Logger' => self::$registry->getLogger()
+                'Doozr_Configuration' => self::$registry->getConfiguration(),
+                'Doozr_Logging' => self::$registry->getLogger()
             )
         );
 
@@ -646,37 +644,20 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initDebug()
     {
-        /*--------------------------------------------------------------------------------------------------------------
-        | CHECK FOR DEBUG MODE
-        +-------------------------------------------------------------------------------------------------------------*/
-
-        // First we check for configured correct DOOZR_APP_ROOT
-        if (false === defined('DOOZR_DEBUG')) {
-
-            if (false !== getenv('DOOZR_DEBUG')) {
-                $doozrDebug = getenv('DOOZR_DEBUG');
-
-            } else {
-                // This information is really important so make this at least global available without hassle to use
-                $doozrDebug = self::$registry->getConfig()->kernel->debug->enabled;
-            }
-
-            define('DOOZR_DEBUG', $doozrDebug);
-        }
-
-        if (DOOZR_DEBUG === true) {
+        if (true === DOOZR_DEBUGGING) {
             // Get debug manager
             self::$registry->setDebug(
                 self::$registry->getContainer()->build(
-                    'Doozr_Debug',
+                    'Doozr_Debugging',
                     array(
-                        DOOZR_DEBUG
+                        DOOZR_DEBUGGING
                     )
                 )
             );
 
             $debugbar = new StandardDebugBar();
-            $debugbar['time']->startMeasure('request-cycle', 'Doozr request cycle');
+            $debugbar['time']->startMeasure('request-cycle', 'Request cycle (Doozr)');
+            $debugbar->addCollector(new DebugBar\DataCollector\ConfigCollector(json_decode(json_encode(self::$registry->getConfiguration()->get()), true)));
 
             self::$registry->setDebugbar(
                 $debugbar
@@ -715,7 +696,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initRequest()
     {
-        if (true === DOOZR_DEBUG) {
+        if (true === DOOZR_DEBUGGING) {
             self::$registry->getDebugbar()['time']->startMeasure('request-parsing', 'Parsing request');
         }
 
@@ -728,7 +709,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         );
 
 
-        if (true === DOOZR_DEBUG) {
+        if (true === DOOZR_DEBUGGING) {
             self::$registry->getDebugbar()['time']->stopMeasure('request-parsing');
         }
 
@@ -746,7 +727,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initResponse()
     {
-        if (true === DOOZR_DEBUG) {
+        if (true === DOOZR_DEBUGGING) {
             self::$registry->getDebugbar()['time']->startMeasure('preparing-response', 'Preparing response');
         }
 
@@ -762,7 +743,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
             self::$registry->getContainer()->build('Doozr_Response')->export()
         );
 
-        if (true === DOOZR_DEBUG) {
+        if (true === DOOZR_DEBUGGING) {
             self::$registry->getDebugbar()['time']->stopMeasure('preparing-response');
         }
 
@@ -839,7 +820,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     protected static function initModel()
     {
         // Retrieve configuration
-        $config = self::$registry->getConfig();
+        $config = self::$registry->getConfiguration();
         $path   = self::$registry->getPath();
 
         // Build decorator config ...
@@ -882,7 +863,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     protected static function initServices()
     {
         // Get default services for runtimeEnvironment
-        $services = self::$registry->getConfig()
+        $services = self::$registry->getConfiguration()
             ->kernel
             ->services
             ->{strtolower(DOOZR_RUNTIME_ENVIRONMENT)};

@@ -111,9 +111,9 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
     private $path;
 
     /**
-     * Contains instance of Doozr_Logger
+     * Contains instance of Doozr_Logging
      *
-     * @var Doozr_Logger_Interface
+     * @var Doozr_Logging_Interface
      * @access private
      */
     private $logger;

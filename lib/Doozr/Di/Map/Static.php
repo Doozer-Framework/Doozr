@@ -104,22 +104,17 @@ class Doozr_Di_Map_Static extends Doozr_Di_Map
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Builds the collection from dependency parser result for given class
+     * Generates the dependency map from passed filename (JSON).
      *
-     * This method is intend to build the collection from dependency parser result for given class.
-     *
-     * @param string $filename The name of the file to parse dependencies from
+     * @param string $filename The name of the JSON formatted file to parse dependencies from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Collection The build collection
+     * @return void
      * @access public
      */
     public function generate($filename)
     {
-        // set input
         $this->importer->setInput($filename);
-
-        // do the import
         $this->importer->import();
     }
 }

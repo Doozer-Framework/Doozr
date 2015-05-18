@@ -232,7 +232,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      * Purges content from cache.
      *
      * @param string $namespace   The namespace to purge content for.
-     * @param array  $argumentBag A bag of arguments from CLI
+     * @param array  $argumentBag The arguments bag
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed|boolean A result in any form or FALSE on error.
@@ -243,14 +243,6 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
               $namespace   = self::SCOPE_EVERYTHING,
         array $argumentBag = array()
     ) {
-        // We need to detect the cache container of Doozr or fallback to default
-        if (false === $container = getenv('DOOZR_CACHE_CONTAINER')) {
-            if (defined('DOOZR_CACHE_CONTAINER') === false) {
-                define('DOOZR_CACHE_CONTAINER', Doozr_Cache_Service::CONTAINER_FILESYSTEM);
-            }
-            $container = DOOZR_CACHE_CONTAINER;
-        }
-
         // Build namespace for cache
         if (in_array($namespace, $this->validScopes) === false) {
             throw new Doozr_Exception(
@@ -259,7 +251,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
         }
 
         /* @var Doozr_Cache_Service $cache */
-        $cache = Doozr_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX);
+        $cache = Doozr_Loader_Serviceloader::load('cache', DOOZR_CACHE_CONTAINER, $namespace, array(), DOOZR_UNIX);
 
         // We can purge simply everything from passed namespace!
         try {
@@ -275,7 +267,8 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
     /**
      * Prepares content for the cache = warmup.
      *
-     * @param string $namespace The namespace to warmup content for.
+     * @param string $namespace   The namespace to warmup content for.
+     * @param array  $argumentBag The arguments bag
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed A result in any form.

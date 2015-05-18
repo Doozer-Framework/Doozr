@@ -264,7 +264,7 @@ class Doozr_Request_Securitylayer
 
         if (!$phpIdsResult->isEmpty()) {
             // log if result wasn't empty
-            $logger = Doozr_Logger::getInstance();
+            $logger = Doozr_Logging::getInstance();
 
             $logger->debug('Doozr core-protection (IDS) -> detected an impact of: ' . $phpIdsResult->getImpact());
 
@@ -304,7 +304,7 @@ class Doozr_Request_Securitylayer
         if ($totalImpact > $this->_coreConfig->get('FRONTCONTROLLER.IDS_MAX_ALLOWED_IMPACT')) {
         	$httpHeader = 'HTTP/1.0 400 Bad Request';
 
-        	$logger = Doozr_Logger::getInstance();
+        	$logger = Doozr_Logging::getInstance();
 
 			$logger->debug(
                 'Doozr core-protection -> '.__CLASS__.' (IDS) detected an overall-impact of: '.$totalImpact.

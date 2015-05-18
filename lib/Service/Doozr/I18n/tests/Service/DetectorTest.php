@@ -90,7 +90,7 @@ class DetectorTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testRetrieveDetectorInstanceFromService()
+    public function testRetrievingDetectorInstanceFromService()
     {
         // Prepare
         $detector = self::$service->getDetector();
@@ -109,7 +109,7 @@ class DetectorTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testLocaleValidatonAlgorithm()
+    public function testLocaleValidationAlgorithm()
     {
         // Prepare
         $detector = self::$service->getDetector();

@@ -99,9 +99,9 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     protected $config;
 
     /**
-     * Doozr_Logger instance for logging
+     * Doozr_Logging instance for logging
      *
-     * @var Doozr_Logger
+     * @var Doozr_Logging
      * @access protected
      */
     protected $logger;
@@ -113,7 +113,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
      * @param array        $databaseConfiguration Configuration for the Generic Decorator Class
      * @param Doozr_Path   $path                  Instance of Doozr_Path
      * @param Doozr_Configuration $config                Instance of Doozr_Configuration
-     * @param Doozr_Logger $logger                Instance of Doozr_Logger
+     * @param Doozr_Logging $logger                Instance of Doozr_Logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Model
@@ -123,7 +123,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
         array        $databaseConfiguration,
         Doozr_Path   $path,
         Doozr_Configuration $config,
-        Doozr_Logger $logger
+        Doozr_Logging $logger
     ) {
         // what is to decorate?
         $this->setPath($path);
@@ -224,13 +224,13 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     /**
      * Setter for logger.
      *
-     * @param Doozr_Logger $logger Doozr logger
+     * @param Doozr_Logging $logger Doozr logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setLogger(Doozr_Logger $logger)
+    protected function setLogger(Doozr_Logging $logger)
     {
         $this->logger = $logger;
     }
@@ -238,13 +238,13 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     /**
      * Setter for logger.
      *
-     * @param Doozr_Logger $logger Doozr logger
+     * @param Doozr_Logging $logger Doozr logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Model Instance for chaining
      * @access protected
      */
-    protected function logger(Doozr_Logger $logger)
+    protected function logger(Doozr_Logging $logger)
     {
         $this->setLogger($logger);
         return $this;
@@ -254,7 +254,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
      * Getter for logger.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Logger Instance of Doozr logger
+     * @return Doozr_Logging Instance of Doozr logger
      * @access protected
      */
     protected function getLogger()

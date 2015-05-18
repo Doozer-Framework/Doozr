@@ -100,9 +100,9 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
     protected $crypt;
 
     /**
-     * Instance of Doozr_Logger
+     * Instance of Doozr_Logging
      *
-     * @var Doozr_Logger
+     * @var Doozr_Logging
      * @access protected
      */
     protected $logger;
@@ -486,10 +486,10 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
         $this->setFlagStatus('ssl', ($phpVersion >= 4.1));
 
         // automatic start session?
-        if ($autoInit === true || self::getRegistry()->config->session->autoinit === true) {
+        if ($autoInit === true || self::getRegistry()->getConfiguration()->session->autoinit === true) {
             // start initialization with config from core
             $this->autoInit(
-                self::getRegistry()->config->session
+                self::getRegistry()->getConfiguration()->session
             );
         }
     }
@@ -706,7 +706,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
             $domain = $this->getDomain();
         }
 
-        // all advanced features only available for named hosts - no ip!
+        // All advanced features only available for named hosts - no ip!
         if (!is_ip($domain)) {
             switch (strtolower($mode)) {
             case 'subdomain':
@@ -1709,7 +1709,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
     protected function log($message)
     {
         if ($this->logger !== null) {
-            $this->logger->log(Doozr_Logger_Constant::DEBUG, $message);
+            $this->logger->log(Doozr_Logging_Constant::DEBUG, $message);
         }
     }
 

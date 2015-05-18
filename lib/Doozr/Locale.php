@@ -81,7 +81,7 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
     /**
      * Instance of logger
      *
-     * @var Doozr_Logger
+     * @var Doozr_Logging
      * @access protected
      */
     protected $logger;
@@ -91,13 +91,13 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
      * Constructor.
      *
      * @param Doozr_Configuration $config The config instance
-     * @param Doozr_Logger $logger The logger instance
+     * @param Doozr_Logging $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Locale
      * @access protected
      */
-    protected function __construct(Doozr_Configuration $config, Doozr_Logger $logger)
+    protected function __construct(Doozr_Configuration $config, Doozr_Logging $logger)
     {
         $this->config = $config;
         $this->logger = $logger;

@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logger - PsrInterface
+ * Doozr - Logging - PsrInterface
  *
- * PsrInterface.php - PSR Logger Interface
+ * PsrInterface.php - PSR Logging Interface
  *
  * Describes a logger instance
  *
@@ -58,8 +58,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_Interface
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -68,20 +68,20 @@
  */
 
 /**
- * Doozr - Logger - PsrInterface
+ * Doozr - Logging - PsrInterface
  *
- * PSR Logger Interface
+ * PSR Logging Interface
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_PsrInterface
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_PsrInterface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Logger_PsrInterface
+interface Doozr_Logging_PsrInterface
 {
     /**
      * System is unusable.

@@ -66,67 +66,71 @@ $_SERVER['REQUEST_TIME'] = microtime();
 // systems directory separator
 $s = DIRECTORY_SEPARATOR;
 
-// try to get from env => prioritized
-$documentRoot = getenv('DOOZR_DOCUMENT_ROOT');
+// First we check for defined constant DOOZR_DOCUMENT_ROOT ...
+if (false === defined('DOOZR_DOCUMENT_ROOT')) {
 
-// if document root not passed via env:
-if ($documentRoot === false) {
+    // Then for environment variable
+    if (false === $documentRoot = getenv('DOOZR_DOCUMENT_ROOT')) {
 
-    // retrieve path to file without! resolving possible symlinks
-    $partial = explode($s, __FILE__);
-    $root    = $_SERVER['DOCUMENT_ROOT'];
-    $path    = '';
+        // Retrieve path to file without! resolving possible symlinks
+        $partial = explode($s, __FILE__);
+        $root    = $_SERVER['DOCUMENT_ROOT'];
+        $path    = '';
 
-    for ($i = count($partial) - 1; $i > -1; --$i) {
-        $path = $s . $partial[$i] . $path;
+        for ($i = count($partial) - 1; $i > -1; --$i) {
+            $path = $s . $partial[$i] . $path;
 
-        if (realpath($root.$path) === __FILE__) {
-            $path = $root.$path;
-            $path = ($s === '\\')
-                ? str_replace('/', '\\', $path)
-                : str_replace('\\', '/', $path);
-            define('__FILE_LINK__', $path);
+            if (realpath($root.$path) === __FILE__) {
+                $path = $root.$path;
+                $path = ($s === '\\')
+                    ? str_replace('/', '\\', $path)
+                    : str_replace('\\', '/', $path);
+                define('__FILE_LINK__', $path);
 
-            break;
+                break;
+            }
         }
+
+        if (!defined('__FILE_LINK__')) {
+            define('__FILE_LINK__', __FILE__);
+        }
+
+        // retrieve absolute path to Doozr - make it our new document root -> by file link
+        $documentRoot = str_replace('Doozr' . $s . 'Bootstrap.php', '', __FILE_LINK__);
     }
 
-    if (!defined('__FILE_LINK__')) {
-        define('__FILE_LINK__', __FILE__);
-    }
-
-    // retrieve absolute path to Doozr - make it our new document root -> by file link
-    $documentRoot = str_replace('Doozr' . $s . 'Bootstrap.php', '', __FILE_LINK__);
+    // Finally we store as constant for further use
+    define('DOOZR_DOCUMENT_ROOT', $documentRoot);
 }
 
-// store as constant
-define('DOOZR_DOCUMENT_ROOT', $documentRoot);
+/*----------------------------------------------------------------------------------------------------------------------
+| LOAD KERNEL
++---------------------------------------------------------------------------------------------------------------------*/
+
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
 | CHECK FOR PASSED APP PATH
 +---------------------------------------------------------------------------------------------------------------------*/
 
-// First we check for configured correct DOOZR_APP_ROOT
-if (defined('DOOZR_APP_ROOT') === false) {
+// First we check for configured path to application DOOZR_APP_ROOT
+if (false === defined('DOOZR_APP_ROOT')) {
 
-    if (getenv('DOOZR_APP_ROOT') !== false) {
-        $appRoot = getenv('DOOZR_APP_ROOT');
+    // Then for environment variable
+    if (false === $appRoot = getenv('DOOZR_APP_ROOT')) {
 
-    } else {
         // Priority #1: App-Root by Document-Root
-        $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . $s . '..' . $s . 'app');
+        if (false === $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . $s . '..' . $s . 'app')) {
 
-        // Priority #2: App-Root by Doozr Document-Root
-        if (false === $defaultAppRoot) {
+            // Priority #2: App-Root by Doozr Document-Root
             $defaultAppRoot = realpath(DOOZR_DOCUMENT_ROOT . '../app');
         }
 
         $appRoot = ($defaultAppRoot !== false) ? $defaultAppRoot : '';
+        $appRoot = rtrim($appRoot, $s) . $s;
     }
 
-    // Check for important! trailing slash
-    $appRoot = rtrim($appRoot, $s) . $s;
-
+    // Finally store a constant for further use
     define('DOOZR_APP_ROOT', $appRoot);
 }
 
@@ -136,28 +140,82 @@ if (defined('DOOZR_APP_ROOT') === false) {
 define('DOOZR_SYSTEM_TEMP', sys_get_temp_dir() . DIRECTORY_SEPARATOR);
 
 /*----------------------------------------------------------------------------------------------------------------------
-| LOAD KERNEL
+| RUNTIME ENVIRONMENT
 +---------------------------------------------------------------------------------------------------------------------*/
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
-
-/*----------------------------------------------------------------------------------------------------------------------
-| ACTIVE RUNTIME ENVIRONMENT
-+---------------------------------------------------------------------------------------------------------------------*/
-
-// First we check for configured correct DOOZR_RUNTIME_ENVIRONMENT
+// First we check for defined constant DOOZR_RUNTIME_ENVIRONMENT ...
 if (false === defined('DOOZR_RUNTIME_ENVIRONMENT')) {
 
-    if (false !== getenv('DOOZR_RUNTIME_ENVIRONMENT')) {
-        $runtimeEnvironment = getenv('DOOZR_RUNTIME_ENVIRONMENT');
+    // Then for environment variable
+    if (false === $runtimeEnvironment = getenv('DOOZR_RUNTIME_ENVIRONMENT')) {
 
-    } else {
-        // Retrieve by detection through active SAPI
+        // Retrieve by detecting
         $runtimeEnvironment = detectRuntimeEnvironment();
-
     }
 
     define('DOOZR_RUNTIME_ENVIRONMENT', $runtimeEnvironment);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+| CACHE CONTAINER
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_CACHE_CONTAINER ...
+if (false === defined('DOOZR_CACHE_CONTAINER')) {
+
+    // Then for environment variable
+    if (false === $doozrCacheContainer = getenv('DOOZR_CACHE_CONTAINER')) {
+
+        // Default = Filesystem
+        $doozrCacheContainer = 'filesystem';
+    }
+
+    define('DOOZR_CACHE_CONTAINER', $doozrCacheContainer);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+| LOGGING
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_LOGGING ...
+if (false === defined('DOOZR_LOGGING')) {
+
+    // Then for environment variable ...
+    if (false === $doozrLogging = getenv('DOOZR_LOGGING')) {
+
+        // Default by app environment
+        if (DOOZR_APP_ENVIRONMENT !== Doozr_Kernel::APP_ENVIRONMENT_TESTING) {
+            $doozrLogging = true;
+        }
+    } else {
+        // Cast
+        $doozrLogging = (bool)$doozrLogging;
+    }
+
+    define('DOOZR_LOGGING', $doozrLogging);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+| DEBUGGING
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_LOGGING ...
+if (false === defined('DOOZR_DEBUGGING')) {
+
+    // Then for environment variable
+    if (false === $doozrDebugging = getenv('DOOZR_DEBUGGING')) {
+
+        // Default by app environment
+        if (DOOZR_APP_ENVIRONMENT  === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT) {
+            $doozrDebugging = true;
+        }
+
+    } else {
+        // Cast
+        $doozrDebugging = (bool)$doozrDebugging;
+    }
+
+    define('DOOZR_DEBUGGING', $doozrDebugging);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -165,7 +223,7 @@ if (false === defined('DOOZR_RUNTIME_ENVIRONMENT')) {
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // Try to include composer's autoloader to make all the composer stuff easy available
-if (composer_running() === false) {
+if (false === composer_running()) {
     include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
 }
 
@@ -217,12 +275,6 @@ Doozr_Loader_Autoloader_Spl_Facade::attach(
         $autoloaderService,
     )
 );
-
-/*----------------------------------------------------------------------------------------------------------------------
- | DOOZR
- ---------------------------------------------------------------------------------------------------------------------*/
-define('DOOZR_NAMESPACE', 'Doozr');
-define('DOOZR_NAMESPACE_FLAT', 'doozr');
 
 /*----------------------------------------------------------------------------------------------------------------------
  | ERROR & EXCEPTION-HANDLING (HOOK)

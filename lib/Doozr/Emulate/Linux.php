@@ -2,12 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Extend - Emulate - Linux
+ * Doozr - Emulate - Linux
  *
- * Linux.php - This include extends PHP's functionality by emulating
- *             missing native functions available only on Linux/Unix
- *             -based environments like /dev/urandom and
- *             get_all_headers(). This is done by using native PHP-Code.
+ * Linux.php - This include extends PHP's functionality by emulating missing native functions available only
+ *             on Linux/Unix-based environments like get_all_headers(). This is done by using native PHP-Code.
  *
  * PHP versions 5.4
  *

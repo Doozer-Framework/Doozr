@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logger - File
+ * Doozr - Logging - File
  *
  * File.php - This logger logs all passed content to a logfile.
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_File
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_File
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,19 +52,19 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/PsrInterface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/PsrInterface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 
 /**
- * Doozr - Logger - File
+ * Doozr - Logging - File
  *
  * File.php - This logger logs all passed content to a logfile.
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_File
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_File
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -72,10 +72,10 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
  * @link       http://clickalicious.github.com/Doozr/
  * @see        Abstract.php, Interface.php
  */
-class Doozr_Logger_File extends Doozr_Logger_Abstract
+class Doozr_Logging_File extends Doozr_Logging_Abstract
     implements
-    Doozr_Logger_Interface,
-    Doozr_Logger_PsrInterface,
+    Doozr_Logging_Interface,
+    Doozr_Logging_PsrInterface,
     SplObserver
 {
     /**
@@ -148,10 +148,11 @@ class Doozr_Logger_File extends Doozr_Logger_Abstract
      * @param Doozr_Datetime_Service $datetime
      * @param int $level The loglevel of the logger extending this class
      * @param string $fingerprint The fingerprint of the client
-     * @internal param Doozr_Configuration $config The configuration instance
+     *
+*@internal param Doozr_Configuration $config The configuration instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Logger_File
+     * @return \Doozr_Logging_File
      * @access public
      */
     public function __construct(Doozr_Datetime_Service $datetime, $level = null, $fingerprint = null)
@@ -344,7 +345,7 @@ class Doozr_Logger_File extends Doozr_Logger_Abstract
     {
         switch ($event) {
             case 'log':
-                /* @var Doozr_Logger $subject */
+                /* @var Doozr_Logging $subject */
                 $logs = $subject->getCollectionRaw();
 
                 foreach ($logs as $log) {

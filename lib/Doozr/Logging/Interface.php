@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logger - Interface
+ * Doozr - Logging - Interface
  *
- * Interface.php - Logger-Interface for all Logger compliant to requirements of
+ * Interface.php - Logging-Interface for all Logging compliant to requirements of
  * Doozr
  *
  * PHP versions 5.4
@@ -44,8 +44,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_Interface
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -54,21 +54,21 @@
  */
 
 /**
- * Doozr - Logger - Interface
+ * Doozr - Logging - Interface
  *
- * Logger-Interface for all Logger compliant to requirements of
+ * Logging-Interface for all Logging compliant to requirements of
  * Doozr
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_Interface
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Logger_Interface
+interface Doozr_Logging_Interface
 {
     /**
      * Sets the name of the logger or an other identifier.
@@ -111,7 +111,7 @@ interface Doozr_Logger_Interface
     public function getLevel();
 
     /**
-     * Should return the Version of the Logger
+     * Should return the Version of the Logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The version of the logger-class that use this interface

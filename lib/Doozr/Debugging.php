@@ -4,7 +4,7 @@
 /**
  * Doozr - Debug
  *
- * Debug.php - Configures PHP dynamic in debug-runtimeEnvironment and setup hooks
+ * Debugging.php.php - Configures PHP dynamic in debug-runtimeEnvironment and setup hooks
  * on important parts.
  *
  * PHP versions 5.4
@@ -74,7 +74,7 @@ use Whoops\Handler\PlainTextHandler;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Debug extends Doozr_Base_Class_Singleton_Strict
+class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
 {
     /**
      * The debug-mode state (true = enabled / false = disabled)
@@ -87,7 +87,7 @@ class Doozr_Debug extends Doozr_Base_Class_Singleton_Strict
     /**
      * Instance of logger
      *
-     * @var Doozr_Logger
+     * @var Doozr_Logging
      * @access protected
      */
     protected $logger;
@@ -96,21 +96,21 @@ class Doozr_Debug extends Doozr_Base_Class_Singleton_Strict
     /**
      * Constructor.
      *
-     * @param Doozr_Logger_Interface $logger  An instance of Doozr_Logger
-     * @param bool                   $enabled Defines it debug mode is enabled or not
+     * @param Doozr_Logging_Interface $logger  An instance of Doozr_Logging
+     * @param bool                    $enabled Defines it debug mode is enabled or not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Debug
+     * @return \Doozr_Debugging
      * @access protected
      */
-    protected function __construct(Doozr_Logger_Interface $logger, $enabled = false)
+    protected function __construct(Doozr_Logging_Interface $logger, $enabled = false)
     {
         // store instances
         $this->logger = $logger;
 
         // log debug state
         $this->logger->debug(
-            'Debug-Manager - debug-mode enabled = ' . strtoupper(var_export($enabled, true))
+            'Debugging Component ' . ((true === $enabled) ? 'en' : 'dis') . 'abled.'
         );
 
         // check for initial trigger
@@ -129,20 +129,20 @@ class Doozr_Debug extends Doozr_Base_Class_Singleton_Strict
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws Doozr_Debug_Exception
+     * @throws Doozr_Debugging_Exception
      */
     public function enable()
     {
         if ($this->prepareForDevelopment() === true) {
             $this->enabled = true;
             $this->installWhoops();
-            $this->logger->debug('Debug-Mode successfully enabled.');
+            $this->logger->debug('Debugging tools installed.');
 
         } else {
             $this->enabled = false;
 
-            throw new Doozr_Debug_Exception(
-                'Debug-Mode could not be enabled! Your system isn\'t configurable at runtime.'
+            throw new Doozr_Debugging_Exception(
+                'Debugging could not be enabled! Your system seems not configurable at runtime.'
             );
         }
     }
@@ -155,20 +155,20 @@ class Doozr_Debug extends Doozr_Base_Class_Singleton_Strict
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
-     * @throws Doozr_Debug_Exception
+     * @throws Doozr_Debugging_Exception
      */
     public function disable()
     {
         if ($this->prepareForProduction() === true) {
             $this->enabled = false;
             $this->uninstallWhoops();
-            $this->logger->debug('Debug-Mode successfully disabled!');
+            $this->logger->debug('Debugging successfully disabled.');
 
         } else {
             $this->enabled = true;
 
-            throw new Doozr_Debug_Exception(
-                'Debug-Mode could not be disabled!'
+            throw new Doozr_Debugging_Exception(
+                'Debugging could not be disabled!'
             );
         }
     }
@@ -195,7 +195,19 @@ class Doozr_Debug extends Doozr_Base_Class_Singleton_Strict
 
             // Add some Doozr specific ingredients
             $exceptionHandler->setPageTitle('Doozr');
-            $exceptionHandler->addDataTable("Doozr runtime environment", array(
+
+            $constants = get_defined_constants();
+
+            $data = array();
+
+            foreach($constants as $key => $value) {
+                if ('DOOZR_' === substr($key, 0, 6)) {
+                    $data[$key] = $value;
+                }
+            }
+
+            $exceptionHandler->addDataTable("Doozr runtime environment", $data
+            /*array(
                     "DOOZR_OS"            => (string)DOOZR_OS,
                     "DOOZR_SAPI"          => (string)DOOZR_SAPI,
                     "DOOZR_PHP_VERSION"   => (string)DOOZR_PHP_VERSION,
@@ -203,7 +215,7 @@ class Doozr_Debug extends Doozr_Base_Class_Singleton_Strict
                     "DOOZR_SYSTEM_TEMP"   => (string)DOOZR_SYSTEM_TEMP,
                     "DOOZR_ERROR_MAX"     => (string)DOOZR_PHP_ERROR_MAX,
                     "DOOZR_SECURE_HASH"   => (string)DOOZR_SECURE_HASH,
-                )
+                )*/
             );
         }
 

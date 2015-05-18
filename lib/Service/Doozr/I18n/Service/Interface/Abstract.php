@@ -163,16 +163,10 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
         // If cache enabled - get module cache and setup
         if (!self::$cache && true === $this->getCacheEnabled()) {
 
-            if (false === isset($config->cache->container)) {
-                if ($container = getenv('DOOZR_CACHE_CONTAINER') === false) {
-                    if (defined('DOOZR_CACHE_CONTAINER') === false) {
-                        define('DOOZR_CACHE_CONTAINER', Doozr_Cache_Service::CONTAINER_FILESYSTEM);
-                    }
-
-                    $container = DOOZR_CACHE_CONTAINER;
-                }
-            } else {
+            if (true === isset($config->cache->container)) {
                 $container = $config->cache->container;
+            } else {
+                $container = DOOZR_CACHE_CONTAINER;
             }
 
             if (false === isset($config->cache->namespace)) {

@@ -80,7 +80,7 @@ class Doozr_Security extends Doozr_Base_Class_Singleton
     protected static $config;
 
     /**
-     * Contains an instance of Doozr_Logger
+     * Contains an instance of Doozr_Logging
      *
      * @var object
      * @access protected
@@ -92,13 +92,13 @@ class Doozr_Security extends Doozr_Base_Class_Singleton
      * Constructor.
      *
      * @param Doozr_Configuration $config Instance of Doozr_Configuration
-     * @param Doozr_Logger $logger Instance of Doozr_Logger
+     * @param Doozr_Logging $logger Instance of Doozr_Logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Security
      * @access protected
      */
-    protected function __construct(Doozr_Configuration $config, Doozr_Logger $logger)
+    protected function __construct(Doozr_Configuration $config, Doozr_Logging $logger)
     {
         self::$config = $config;
         self::$logger = $logger;

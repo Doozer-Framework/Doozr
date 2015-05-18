@@ -106,7 +106,7 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
         }
 
         // get content from file
-        $content = $this->getObjectFromJsonFile($this->input);
+        $content = $this->importMapFromFromJsonFile($this->input);
 
         // get object freezer
         $freezer = new Object_Freezer();
@@ -192,22 +192,41 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
      * @access protected
      * @throws Doozr_Di_Exception
      */
-    protected function getObjectFromJsonFile($file)
+    protected function importMapFromFromJsonFile($file)
     {
         // get content from file
-        $content = $this->readFile($file);
+        $content = $this->validate(
+            $this->readFile($file)
+        );
 
-        // parse string as json
-        $content = @json_decode($content);
 
-        if (!$content) {
+        if (false === $content) {
             throw new Doozr_Di_Exception(
-                'Error while importing dependencies. Given file does not contain valid JSON. '.
-                'Please ensure that the content of the file is valid JSON.'
+                sprintf('Error while importing dependencies: "%s".', json_last_error_msg())
             );
         }
 
-        // Return json decoded object
         return $content;
+    }
+
+    /**
+     * Validates that a passed string is valid json
+     *
+     * @param string $input The input to validate
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool|string FALSE on error, STRING with result on success
+     * @access protected
+     */
+    protected function validate($input)
+    {
+        if (true === is_string($input)) {
+            $input = @json_decode($input);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $input = false;
+            }
+        }
+
+        return $input;
     }
 }

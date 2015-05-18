@@ -186,7 +186,7 @@ final class Doozr_Route extends Doozr_Base_State_Container
         $this
             ->registry($registry)
             ->requestState($registry->getRequest())
-            ->cacheEnabled($registry->getConfig()->kernel->cache->enabled)
+            ->cacheEnabled($registry->getConfiguration()->kernel->cache->enabled)
             ->namespace_(DOOZR_NAMESPACE_FLAT . '.' . self::NAMESPACE_CACHE)
             ->run();
     }
@@ -228,7 +228,7 @@ final class Doozr_Route extends Doozr_Base_State_Container
         if (null === $this->getRoutes()) {
             // If we reach here we must parse the routes first ...
             $routesFromPresenter = $this->getRoutesFromPresenters();
-            $routesFromConfig    = $this->getRegistry()->getConfig()->kernel->transmission->routing->routes;
+            $routesFromConfig    = $this->getRegistry()->getConfiguration()->kernel->transmission->routing->routes;
             $routes              = array();
 
             // Convert routes to same context as from presenter

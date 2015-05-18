@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logger - Constant
+ * Doozr - Debug - Exception
  *
- * Constant.php - Logger constants
+ * Exception.php - Debug exception of Doozr Framework.
  *
  * PHP versions 5.4
  *
@@ -43,104 +43,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_Constant
+ * @package    Doozr_Debugging
+ * @subpackage Doozr_Debugging_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
+
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
 
 /**
- * Doozr - Logger - Constant
+ * Doozr - Exception
  *
- * Constant.php - Logger constants
+ * Debug exception of Doozr Framework.
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_Constant
+ * @package    Doozr_Debugging
+ * @subpackage Doozr_Debugging_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Logger_Constant
+class Doozr_Debugging_Exception extends Doozr_Base_Exception
 {
-    /*------------------------------------------------------------------------------------------------------------------
-    | Available Loglevel following PSR-3
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Emergency
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const EMERGENCY = 'emergency';                          // level 0
-
-    /**
-     * Alert
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const ALERT     = 'alert';                              // level 1
-
-    /**
-     * Critical
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const CRITICAL  = 'critical';                           // level 2
-
-    /**
-     * Error
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const ERROR     = 'error';                              // level 3
-
-    /**
-     * Warning
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const WARNING   = 'warning';                            // level 4
-
-    /**
-     * Notice
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const NOTICE    = 'notice';                             // level 5
-
-    /**
-     * Info
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const INFO      = 'info';                               // level 6
-
-    /**
-     * Debug
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const DEBUG     = 'debug';                              // level 7
+    // Intentionally left blank - Just for namespacing!
 }

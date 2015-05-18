@@ -111,7 +111,7 @@ class Doozr_Request_Web extends Doozr_Base_Request
      * Constructor.
      *
      * @param Doozr_Configuration $config An instance of config
-     * @param Doozr_Logger $logger An instance of logger
+     * @param Doozr_Logging $logger An instance of logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Request_Web
@@ -310,7 +310,7 @@ class Doozr_Request_Web extends Doozr_Base_Request
     protected function protocolize()
     {
         // this is expensive so only in debug available
-        if ($this->config->kernel->debug->enabled) {
+        if ($this->config->kernel->debugging->enabled) {
 
             // log Request-Parameter and Request-Header
             $this->logger->debug(

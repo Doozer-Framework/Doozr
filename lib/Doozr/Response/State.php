@@ -927,7 +927,7 @@ class Doozr_Response_State extends Doozr_Base_State
     {
         $registry = Doozr_Registry::getInstance();
 
-        if (DOOZR_DEBUG === true) {
+        if (DOOZR_DEBUGGING === true) {
             $debugbar = $registry->getDebugbar();
 
             $archive = $registry->getLogger()->getArchive();

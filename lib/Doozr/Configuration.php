@@ -276,8 +276,11 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
                 $configuration = $configuration->{$node};
             }
 
-            return $configuration;
+        } else {
+            $configuration = $this->getConfiguration();
         }
+
+        return $configuration;
     }
 
     /**

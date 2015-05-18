@@ -2,10 +2,15 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logger - Client
+ * Doozr - Logging - Debugbar
  *
- * Client.php - This logger logs all passed content to the current client:
- * Browser, Cli, ...
+ * Debugbar.php - This logger is a bridge to PHP Debug Bar's logging system (
+ *   http://phpdebugbar.com/docs/base-collectors.html#messages
+ * ) we decided to use this logger - which can be combined with all the other
+ * loggers - to bring the logging functionality of PHP Debug Bar to the devs.
+ * So when developing Doozr you can simply call $logger->log('Foo', LEVEL);
+ * and be sure if logging level config is OK the log entry will also appear in
+ * debug bar.
  *
  * PHP versions 5.4
  *
@@ -44,8 +49,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_Client
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_Debugbar
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,31 +58,35 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/PsrInterface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/PsrInterface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 
 /**
- * Doozr - Logger - Client
+ * Doozr - Logging - Debugbar
  *
- * This logger logs all passed content to systems (OS) default
- * log system.
+ * This logger is a bridge to PHP Debug Bar's logging system (
+ *   http://phpdebugbar.com/docs/base-collectors.html#messages
+ * ) we decided to use this logger - which can be combined with all the other
+ * loggers - to bring the logging functionality of PHP Debug Bar to the devs.
+ * So when developing Doozr you can simply call $logger->log('Foo', LEVEL);
+ * and be sure if logging level config is OK the log entry will also appear in
+ * debug bar.
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_Client
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_Debugbar
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
- * @see        Abstract.php, Interface.php
  */
-class Doozr_Logger_Client extends Doozr_Logger_Abstract
+class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
     implements
-    Doozr_Logger_Interface,
-    Doozr_Logger_PsrInterface,
+    Doozr_Logging_Interface,
+    Doozr_Logging_PsrInterface,
     SplObserver
 {
     /**
@@ -86,7 +95,7 @@ class Doozr_Logger_Client extends Doozr_Logger_Abstract
      * @var string
      * @access protected
      */
-    protected $name = 'Client';
+    protected $name = 'Debugbar';
 
     /**
      * Version of this logger
@@ -96,7 +105,53 @@ class Doozr_Logger_Client extends Doozr_Logger_Abstract
      */
     protected $version = '$Id$';
 
-    /*------------------------------------------------------------------------------------------------------------------
+    /**
+     * The identifier of this instance
+     *
+     * @var string
+     * @access protected
+     */
+    protected $identifier = '';
+
+
+    /**
+     * Constructor.
+     *
+     * @param Doozr_Datetime_Service $datetime
+     * @param int $level The loglevel of the logger extending this class
+     * @param string $fingerprint The fingerprint of the client
+     *
+*@internal param Doozr_Configuration $config The configuration instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return \Doozr_Logging_Debugbar
+     * @access public
+     */
+    public function __construct(Doozr_Datetime_Service $datetime, $level = null, $fingerprint = null)
+    {
+        // call parents constructor
+        parent::__construct($datetime, $level, $fingerprint);
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill Abstract Requirements
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Dispatches a new route to this logger (e.g. for use as new filename).
+     *
+     * @param string $name The name of the route to dispatch
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function route($name)
+    {
+        $this->identifier = $name;
+    }
+
+    /*-----------------------------------------------------------------------------------------------------------------+
     | Fulfill SplObserver
     +-----------------------------------------------------------------------------------------------------------------*/
 
@@ -114,10 +169,11 @@ class Doozr_Logger_Client extends Doozr_Logger_Abstract
     {
         switch ($event) {
             case 'log':
-                /* @var Doozr_Logger $subject */
+                /* @var Doozr_Logging $subject */
                 $logs = $subject->getCollectionRaw();
 
                 foreach ($logs as $log) {
+
                     $this->log(
                         $log['type'],
                         $log['message'],
@@ -136,47 +192,33 @@ class Doozr_Logger_Client extends Doozr_Logger_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the separator for this very specific logger
+     * Output method for writing files.
+     * We need this method cause it differs here from abstract default.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The line separator -> empty in this case
-     * @access protected
-     */
-    protected function getLineSeparator()
-    {
-        return '';
-    }
-
-    /**
-     * This method is intend to add the defined line-separator to log-content.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access protected
-     */
-    protected function separate()
-    {
-        // do nothing to seperate in system logger
-        return true;
-    }
-
-    /*-----------------------------------------------------------------------------------------------------------------+
-    | Fulfill Abstract Requirements
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Dispatches a new route to this logger (e.g. for use as new filename).
-     *
-     * @param string $name The name of the route to dispatch
+     * @param string $color The color of the output as hexadecimal string representation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function route($name)
+    protected function output($color = '#7CFC00')
     {
-        /**
-         * This logger does not need to be re-routed
-         */
+        // first get content to local var
+        $content = $this->getContentRaw();
+
+        // iterate log content
+        foreach ($content as $logEntry) {
+
+            // build the log-line
+            $content = $logEntry['time'].' '.
+                       '['.$logEntry['type'].'] '.
+                       $logEntry['fingerprint'].' '.
+                       $logEntry['message'].
+                       $this->lineBreak.$this->getLineSeparator().$this->lineBreak;
+        }
+
+        // so we can clear the existing log
+        $this->clearContent();
     }
+
 }

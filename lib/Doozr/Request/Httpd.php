@@ -476,7 +476,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
     private function _protocolize()
     {
         // this is expensive so only in debug available
-        if ($this->config->kernel->debug->enabled) {
+        if ($this->config->kernel->debugging->enabled) {
 
             // log Request-Parameter and Request-Header
             $this->logger->debug(
@@ -504,6 +504,6 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
     private function _detectCommandMode()
     {
         // get os setting from php
-        return (DOOZR_WIN) ? 'win' : 'other';
+        return (DOOZR_WINDOWS) ? 'win' : 'other';
     }
 }

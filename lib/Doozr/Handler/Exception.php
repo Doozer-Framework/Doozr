@@ -93,7 +93,7 @@ final class Doozr_Handler_Exception extends Doozr_Base_Class
     public static function handle(Exception $exception)
     {
         // Sometimes errors thrown before subsystem is ready - in this case its never told to outside but logged
-        $debug = (defined('DOOZR_DEBUG') === true) ? DOOZR_DEBUG : true;
+        $debug = (defined('DOOZR_DEBUGGING') === true) ? DOOZR_DEBUGGING : true;
 
         // In range of 100 - 599 we do send a HTTP response by logic and laws of Doozr
         if ($exception->getCode() >= 100 && $exception->getCode() <= 599) {

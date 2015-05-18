@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logger - Collecting
+ * Doozr - Logging - Collecting
  *
  * Collecting.php - This logger collects log-entries and hold them until the
  * logger-subsystem is finally ready for (real) logging.
@@ -44,8 +44,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_Collecting
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_Collecting
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -54,20 +54,20 @@
  * @see        Abstract.php, Interface.php
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/PsrInterface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/PsrInterface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 
 /**
- * Doozr - Logger - Collecting
+ * Doozr - Logging - Collecting
  *
  * This logger collects log-entries and hold them until the
  * logger-subsystem is finally ready for (real) logging.
  *
  * @category   Doozr
- * @package    Doozr_Logger
- * @subpackage Doozr_Logger_Collecting
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_Collecting
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -75,10 +75,10 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logger/Constant.php';
  * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
-final class Doozr_Logger_Collecting extends Doozr_Logger_Abstract
+final class Doozr_Logging_Collecting extends Doozr_Logging_Abstract
     implements
-    Doozr_Logger_Interface,
-    Doozr_Logger_PsrInterface,
+    Doozr_Logging_Interface,
+    Doozr_Logging_PsrInterface,
     SplObserver
 {
     /**
@@ -116,7 +116,7 @@ final class Doozr_Logger_Collecting extends Doozr_Logger_Abstract
     {
         switch ($event) {
             case 'log':
-                /* @var Doozr_Logger $subject */
+                /* @var Doozr_Logging $subject */
                 $logs = $subject->getCollectionRaw();
 
                 foreach ($logs as $log) {

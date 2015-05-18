@@ -142,13 +142,13 @@ class Doozr_Response_Web extends Doozr_Base_Response
      * This method is the constructor of this class.
      *
      * @param Doozr_Configuration $config An instance of config
-     * @param Doozr_Logger $logger An instance of logger
+     * @param Doozr_Logging $logger An instance of logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Response_Web
      * @access public
      */
-    public function __construct(Doozr_Configuration $config, Doozr_Logger $logger)
+    public function __construct(Doozr_Configuration $config, Doozr_Logging $logger)
     {
         // map type
         self::$type = self::TYPE;
@@ -761,7 +761,7 @@ class Doozr_Response_Web extends Doozr_Base_Response
     {
         die;
 
-        if (DOOZR_DEBUG === true) {
+        if (DOOZR_DEBUGGING === true) {
             $debugbar = new StandardDebugBar();
             $debugbarRenderer = $debugbar->getJavascriptRenderer();
             $debugbarRenderer->setBaseUrl('/assets');
@@ -1022,7 +1022,7 @@ class Doozr_Response_Web extends Doozr_Base_Response
     public function __destruct()
     {
         /*
-        if (DOOZR_DEBUG === true) {
+        if (DOOZR_DEBUGGING === true) {
             $this->sendHeader('X-Doozr-Debug: 1');
         }
         */

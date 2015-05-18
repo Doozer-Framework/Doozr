@@ -13,8 +13,8 @@
             }
           },
           {
-            "identifier": "Doozr_Logger",
-            "classname": "Doozr_Logger",
+            "identifier": "Doozr_Logging",
+            "classname": "Doozr_Logging",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -22,12 +22,12 @@
           }
         ]
       },
-      "Doozr_Debug": {
+      "Doozr_Debugging": {
         "constructor": "getInstance",
         "dependencies": [
           {
-            "identifier": "Doozr_Logger",
-            "classname": "Doozr_Logger",
+            "identifier": "Doozr_Logging",
+            "classname": "Doozr_Logging",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -47,8 +47,8 @@
             }
           },
           {
-            "identifier": "Doozr_Logger",
-            "classname": "Doozr_Logger",
+            "identifier": "Doozr_Logging",
+            "classname": "Doozr_Logging",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -68,8 +68,8 @@
             }
           },
           {
-            "identifier": "Doozr_Logger",
-            "classname": "Doozr_Logger",
+            "identifier": "Doozr_Logging",
+            "classname": "Doozr_Logging",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -97,8 +97,8 @@
             }
           },
           {
-            "identifier": "Doozr_Logger",
-            "classname": "Doozr_Logger",
+            "identifier": "Doozr_Logging",
+            "classname": "Doozr_Logging",
             "instance": null,
             "config": {
               "type": "constructor"
@@ -159,7 +159,7 @@
           }
         ]
       },
-      "Doozr_Logger": {
+      "Doozr_Logging": {
         "dependencies": [
           {
             "identifier": "Doozr_Datetime_Service",
@@ -171,7 +171,7 @@
           }
         ]
       },
-      "Doozr_Logger_System": {
+      "Doozr_Logging_System": {
         "dependencies": [
           {
             "identifier": "Doozr_Datetime_Service",
@@ -183,7 +183,7 @@
           }
         ]
       },
-      "Doozr_Logger_Collecting": {
+      "Doozr_Logging_Collecting": {
         "dependencies": [
           {
             "identifier": "Doozr_Datetime_Service",
@@ -195,7 +195,7 @@
           }
         ]
       },
-      "Doozr_Logger_Client": {
+      "Doozr_Logging_Client": {
         "dependencies": [
           {
             "identifier": "Doozr_Datetime_Service",
@@ -207,7 +207,7 @@
           }
         ]
       },
-      "Doozr_Logger_File": {
+      "Doozr_Logging_File": {
         "dependencies": [
           {
             "identifier": "Doozr_Datetime_Service",
@@ -219,7 +219,7 @@
           }
         ]
       },
-      "Doozr_Logger_Debugbar": {
+      "Doozr_Logging_Debugbar": {
         "dependencies": [
           {
             "identifier": "Doozr_Datetime_Service",
@@ -257,8 +257,8 @@
             }
           },
           {
-            "identifier": "Doozr_Logger",
-            "classname": "Doozr_Logger",
+            "identifier": "Doozr_Logging",
+            "classname": "Doozr_Logging",
             "instance": null,
             "config": {
               "type": "constructor",

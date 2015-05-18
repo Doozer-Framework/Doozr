@@ -74,14 +74,14 @@ if (
 #uprofiler_enable();
 
 // App in development environment
-putenv('DOOZR_APP_ENVIRONMENT=development');
-putenv('DOOZR_DEBUG=true');
-putenv('DOOZR_LOG=true');
+define('DOOZR_APP_ENVIRONMENT', 'production');
+//define('DOOZR_DEBUGGING', true);
+//define('DOOZR_LOGGING', true);
 
 /**
  * Get composer as well as Doozr's router the rest is magic ...
  */
-require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR . '../vendor/autoload.php');
+require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 require_once 'Route.php';
 
 /**

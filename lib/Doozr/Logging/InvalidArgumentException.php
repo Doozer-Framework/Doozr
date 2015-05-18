@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Debug - Exception
+ * Doozr - Path - Exception
  *
- * Exception.php - Debug exception of Doozr Framework.
+ * Exception.php - Path Exception of Doozr Framework.
  *
  * PHP versions 5.4
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Debug
- * @subpackage Doozr_Debug_Exception
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,23 +52,23 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 
 /**
- * Doozr - Exception
+ * Doozr - Path - Exception
  *
- * Debug exception of Doozr Framework.
+ * Path Exception of Doozr Framework.
  *
  * @category   Doozr
- * @package    Doozr_Debug
- * @subpackage Doozr_Debug_Exception
+ * @package    Doozr_Logging
+ * @subpackage Doozr_Logging_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Debug_Exception extends Doozr_Base_Exception
+class Doozr_Logging_InvalidArgumentException extends Doozr_Exception
 {
-    // Intentionally left blank - Just for namespacing!
+    // Just used for namespacing
 }

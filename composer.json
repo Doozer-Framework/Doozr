@@ -35,7 +35,8 @@
       "psr/http-message": "0.11.*",
       "lusitanian/oauth": "0.3.*",
       "nesbot/carbon": "1.18.*",
-      "enygma/expose": "2.3.*"
+      "enygma/expose": "2.3.*",
+      "ircmaxell/password-compat": "1.0.*"
   },
   "require-dev": {
     "raulfraile/ladybug": "1.0.11",

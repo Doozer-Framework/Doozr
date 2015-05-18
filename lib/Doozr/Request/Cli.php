@@ -317,6 +317,6 @@ class Doozr_Request_Cli extends Doozr_Base_Request
     private function _detectCommandMode()
     {
         // get os setting from php
-        return (DOOZR_WIN) ? 'win' : 'other';
+        return (DOOZR_WINDOWS) ? 'win' : 'other';
     }
 }

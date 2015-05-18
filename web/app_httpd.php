@@ -71,10 +71,15 @@ if (
  * In the default install you won't need this statements above!
  */
 
+// App in development environment
+define('DOOZR_APP_ENVIRONMENT', 'development');
+//define('DOOZR_DEBUGGING', true);
+//define('DOOZR_LOGGING', true);
+
 /**
  * Get composer as well as Doozr's router the rest is magic ...
  */
-require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR . '../vendor/autoload.php');
+require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 
 /**
  * Check for internal webserver request for real file ...

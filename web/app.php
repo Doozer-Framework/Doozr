@@ -57,14 +57,14 @@
  */
 
 // Application in production environment
-putenv('DOOZR_APP_ENVIRONMENT=production');
-putenv('DOOZR_DEBUG=false');
-putenv('DOOZR_LOG=false');
+define('DOOZR_APP_ENVIRONMENT', 'production');
+//define('DOOZR_DEBUGGING', false);
+//define('DOOZR_LOGGING', false);
 
 /**
  * Get composer as well as Doozr's router the rest is magic ...
  */
-require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR . '../vendor/autoload.php');
+require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 require_once 'Route.php';
 
 /**

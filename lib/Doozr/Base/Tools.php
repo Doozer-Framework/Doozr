@@ -278,7 +278,7 @@ class Doozr_Base_Tools
 
     /**
      * Generic call methods (generic dynamic calling methods). This method is a generic dynamic
-     * calling method. It calls dynamic build methods (by name) in allready existing instances
+     * calling method. It calls dynamic build methods (by name) in already existing instances
      * with or without params (default = null).
      *
      * @param object     $instance The instance of a class to call method in
