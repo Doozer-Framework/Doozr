@@ -94,7 +94,7 @@
     },
     "transmission": {
       "routing": {
-        "routes": "{{include(.routes)}}"
+        "routes": "{{include(.routes.json)}}"
       },
       "ssl": {
         "enabled": false,

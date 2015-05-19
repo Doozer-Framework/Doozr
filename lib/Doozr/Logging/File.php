@@ -99,7 +99,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * the file we log to
+     * The file we log to
      *
      * @var string
      * @access protected
@@ -126,7 +126,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     protected $append = true;
 
     /**
-     * holds the instance of module filesystem
+     * Instance of filesystem service
      *
      * @var object
      * @access protected
@@ -145,11 +145,9 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     /**
      * Constructor.
      *
-     * @param Doozr_Datetime_Service $datetime
-     * @param int $level The loglevel of the logger extending this class
-     * @param string $fingerprint The fingerprint of the client
-     *
-*@internal param Doozr_Configuration $config The configuration instance
+     * @param Doozr_Datetime_Service $datetime    Datetime Service of Doozr
+     * @param int                    $level       Loglevel of the logger extending this class
+     * @param string                 $fingerprint Fingerprint of the client
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Logging_File

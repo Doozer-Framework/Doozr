@@ -4,9 +4,8 @@
 /**
  * Doozr - Route
  *
- * Route.php - This class is responsible for matching routes (collected from
- * both -> .routes configuration in Doozr's main configuration as well as the
- * applications configuration and annotations from applications presenters)
+ * Route.php - This class is responsible for matching routes (collected from both -> .routes.json.json configuration in
+ * Doozr's main configuration as well as the applications configuration and annotations from applications presenters)
  * against the current request-URI.
  *
  * PHP versions 5.4
@@ -65,9 +64,8 @@ use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 /**
  * Doozr - Route
  *
- * This class is responsible for matching routes (collected from
- * both -> .routes configuration in Doozr's main configuration as well as the
- * applications configuration and annotations from applications presenters)
+ * This class is responsible for matching routes (collected from both -> .routes.json.json configuration in Doozr's
+ * main configuration as well as the applications configuration and annotations from applications presenters)
  * against the current request-URI.
  *
  * @category   Doozr

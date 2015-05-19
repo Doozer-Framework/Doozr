@@ -342,7 +342,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $map        = new Doozr_Di_Map_Static($collection, $importer);
 
         // Generate map from static JSON map of Doozr
-        $map->generate(DOOZR_DOCUMENT_ROOT . 'Data/Private/Config/.dependencies');
+        $map->generate(DOOZR_DOCUMENT_ROOT . 'Data/Private/Config/.map.json');
 
         // create
         $container = Doozr_Di_Container::getInstance();
@@ -553,6 +553,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
         } else {
             // Disable logging (+ dispatching ...)
+            /* @todo CHECK disable() useful? makes sense? */
             //self::$registry->getLogger()->disable();
             self::$registry->getLogger()->detachAll(true);
         }
