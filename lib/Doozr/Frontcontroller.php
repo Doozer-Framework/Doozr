@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Controller - Back
+ * Doozr - Frontcontroller
  *
- * Back.php - The Back-Controller of the Doozr-Framework.
+ * Frontcontroller.php - The Frontcontroller of Doozr.
  *
  * PHP versions 5.4
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Controller
- * @subpackage Doozr_Controller_Back
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Frontcontroller
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -59,20 +59,20 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 
 /**
- * Doozr - Controller - Back
+ * Doozr - Frontcontroller
  *
- * The Back-Controller of the Doozr-Framework.
+ * The Frontcontroller of Doozr.
  *
  * @category   Doozr
- * @package    Doozr_Controller
- * @subpackage Doozr_Controller_Back
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Frontcontroller
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
+class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
 {
     /**
      * The object of active route.
@@ -146,12 +146,12 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     protected $connector;
 
     /**
-     * contains instance of config
+     * Instance of configuration
      *
      * @var Doozr_Configuration_Interface
      * @access protected
      */
-    protected $config;
+    protected $configuration;
 
     /**
      * Logger instance
@@ -177,33 +177,48 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
      */
     protected $cache;
 
+    /**
+     * HTTP Status 400
+     *
+     * @var int
+     * @access public
+     * @const
+     */
     const HTTP_STATUS_400 = 400;
+
+    /**
+     * HTTP Status 404
+     *
+     * @var int
+     * @access public
+     * @const
+     */
     const HTTP_STATUS_404 = 404;
 
 
     /**
      * Constructor.
      *
-     * @param Doozr_Registry           $registry   Instance of Doozr_Registry containing all core components
-     * @param Doozr_Configuration_Interface   $config     Instance of the Doozr core config
-     * @param Doozr_Logging_Interface   $logger     Instance of the Doozr logging facade (subsystem)
-     * @param Doozr_Filesystem_Service $filesystem Instance of filesystem service
-     * @param Doozr_Cache_Service      $cache      Instance of cache service
+     * @param Doozr_Registry                $registry      Registry containing all core components
+     * @param Doozr_Configuration_Interface $configuration Doozr core configuration
+     * @param Doozr_Logging_Interface       $logger        Doozr logging facade (subsystem)
+     * @param Doozr_Filesystem_Service      $filesystem    Filesystem service
+     * @param Doozr_Cache_Service           $cache         Cache service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Controller_Back
+     * @return \Doozr_Frontcontroller
      * @access public
      */
     public function __construct(
-        Doozr_Registry           $registry,
-        Doozr_Configuration_Interface   $config,
-        Doozr_Logging_Interface   $logger,
-        Doozr_Filesystem_Service $filesystem,
-        Doozr_Cache_Service      $cache
+        Doozr_Registry                $registry,
+        Doozr_Configuration_Interface $configuration,
+        Doozr_Logging_Interface       $logger,
+        Doozr_Filesystem_Service      $filesystem,
+        Doozr_Cache_Service           $cache
     ) {
         $this
             ->registry($registry)
-            ->configuration($config)
+            ->configuration($configuration)
             ->logger($logger)
             ->filesystem($filesystem)
             ->cache($cache);
@@ -273,7 +288,6 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
                         $this->getRoute(),
                         $this->getCache(),
                         $this->getConfiguration(),
-                        Doozr_Controller_Front::getInstance(Doozr_Registry::getInstance()),
                         $this->getTranslation(),
                     )
                 )
@@ -429,10 +443,10 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     protected function sendHttpResponse($code, $message, $json = false)
     {
         /* @var $front Doozr_Controller_Front */
-        $front = Doozr_Controller_Front::getInstance();
+        //$front = Doozr_Controller_Front::getInstance();
 
         /* @var $response Doozr_Response_Web */
-        $response = $front->getResponse();
+        $response = $this->getResponse();
 
         if ($json === true) {
             $response->sendJson(
@@ -462,10 +476,10 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
     protected function sendJsonResponse($e)
     {
         /* @var $front Doozr_Controller_Front */
-        $front = Doozr_Controller_Front::getInstance();
+        //$front = Doozr_Controller_Front::getInstance();
 
         /* @var $response Doozr_Response_Web */
-        $response = $front->getResponse();
+        $response = $this->getResponse();
 
         $response->sendJson(
             $e,
@@ -682,7 +696,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
      */
     protected function setConfiguration($configuration)
     {
-        $this->config = $configuration;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -709,7 +723,7 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
      */
     protected function getConfiguration()
     {
-        return $this->config;
+        return $this->configuration;
     }
 
     /**
@@ -1032,5 +1046,115 @@ class Doozr_Controller_Back extends Doozr_Base_Class_Singleton
         }
 
         return $instance;
+    }
+
+
+
+
+
+    /**
+     * Setter for request state.
+     *
+     * @param Doozr_Request_State $requestState The request state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRequestState(Doozr_Request_State $requestState)
+    {
+        $this->requestState = $requestState;
+    }
+
+    /**
+     * Setter for request state.
+     *
+     * @param Doozr_Request_State $requestState The request state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function requestState(Doozr_Request_State $requestState)
+    {
+        $this->setRequestState($requestState);
+        return $this;
+    }
+
+    /**
+     * Getter for request state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Request_State|null The stored instance if set, otherwise NULL
+     * @access protected
+     */
+    protected function getRequestState()
+    {
+        return $this->requestState;
+    }
+
+    /**
+     * Setter for response state.
+     *
+     * @param Doozr_Response_State $responseState The response state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setResponseState(Doozr_Response_State $responseState)
+    {
+        $this->responseState = $responseState;
+    }
+
+    /**
+     * Setter for response state.
+     *
+     * @param Doozr_Response_State $responseState The response state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function responseState(Doozr_Response_State $responseState)
+    {
+        $this->setResponseState($responseState);
+        return $this;
+    }
+
+    /**
+     * Getter for response state.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Response_State|null The stored instance if set, otherwise NULL
+     * @access protected
+     */
+    protected function getResponseState()
+    {
+        return $this->responseState;
+    }
+
+    /**
+     * Returns the request state for userland (developer) as "request".
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Request_State The request state
+     * @access public
+     */
+    public function getRequest()
+    {
+        return $this->getRequestState();
+    }
+
+    /**
+     * Returns the response state for userland (developer) as "response".
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Response_State The response state
+     * @access public
+     */
+    public function getResponse()
+    {
+        return $this->getResponseState();
     }
 }

@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Core
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Request
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -63,8 +63,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
  * Request state container.
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Core
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Request
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -130,13 +130,14 @@ class Doozr_Request extends Doozr_Base_State_Container
 
         parent::__construct($stateObject);
 
-        // Check for override URI
-        if ($requestUri === null) {
-            $requestUri = $_SERVER['REQUEST_URI'];
-        }
-
         // Start the job
-        $this->determineState($requestUri, $sapi, $runtimeEnvironment);
+        $this->determineState(
+            $this->prepareUri(
+                $requestUri, (array)$registry->getConfiguration()->kernel->transmission->request->filter
+            ),
+            $sapi,
+            $runtimeEnvironment
+        );
     }
 
     /**
@@ -244,6 +245,53 @@ class Doozr_Request extends Doozr_Base_State_Container
 
         // successful transformed
         return true;
+    }
+
+    /**
+     * Prepares the URI for further use within routing and kernel operation.
+     *
+     * @param string $requestUri The URI to prepare
+     * @param array  $filters    A collection of filters to apply while preparing
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The prepared URI
+     * @access protected
+     */
+    protected function prepareUri($requestUri, array $filters)
+    {
+        // If no override URI provided get the active one from global
+        if (null === $requestUri) {
+            $requestUri = $_SERVER['REQUEST_URI'];
+        }
+
+        $requestUri = $this->filter(
+            $requestUri, $filters
+        );
+
+        return $requestUri;
+    }
+
+    /**
+     * Applies the passed filters (keys: search & replace) on the passed URI and returns result.
+     *
+     * @param       $requestUri The URI to apply filters on
+     * @param array $filters    An collection containing pairs of array('search' => 'x', 'replace' => 'y')
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The URI after filters applied
+     * @access protected
+     */
+    protected function filter($requestUri, array $filters)
+    {
+        // Iterate filter and prepare URL
+        foreach ($filters as $filter) {
+            $newUrl = preg_replace($filter->search, $filter->replace, $requestUri);
+            if (null !== $newUrl) {
+                $requestUri = $newUrl;
+            }
+        }
+
+        return $requestUri;
     }
 
     /**

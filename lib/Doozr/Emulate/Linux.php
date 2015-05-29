@@ -4,8 +4,8 @@
 /**
  * Doozr - Emulate - Linux
  *
- * Linux.php - This include extends PHP's functionality by emulating missing native functions available only
- *             on Linux/Unix-based environments like get_all_headers(). This is done by using native PHP-Code.
+ * Linux.php - Extends PHP's functionality by emulating missing native functions available only to
+ * Linux/Unix-based OS' like get_all_headers() - this is done by using plain vanilla PHP code.
  *
  * PHP versions 5.4
  *
@@ -44,8 +44,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Extend
- * @subpackage Doozr_Extend_Emulate_Linux
+ * @package    Doozr_Emulate
+ * @subpackage Doozr_Emulate_Linux
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -59,9 +59,7 @@
 
 if (!function_exists('getallheaders')) {
     /**
-     * getallheaders
-     *
-     * This method adds getallheader()-Support to Apache and other Webservers
+     * getallheaders  adds getallheader()-Support to Apache and other Webservers
      * on Windows-based OS'. This method originally is only available on Unix/Linux-
      * based OS'. To get all headers it iterates over all Request-Header and prepare
      * them like the getallheaders()-function under Linux/Unix OS'.

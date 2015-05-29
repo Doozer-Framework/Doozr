@@ -4,7 +4,7 @@
 /**
  * Doozr - Base - Connector - Interface
  *
- * Interface.php - Interface for contract in back controller for example.
+ * Interface.php - Interface for contract in Frontcontroller for example.
  *
  * PHP versions 5.4
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Base - Connector - Interface
  *
- * Interface for contract in back controller for example.
+ * Interface for contract in Frontcontroller for example.
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -68,6 +68,11 @@
  */
 interface Doozr_Base_Connector_Interface
 {
-    // Intentionally left blank - Just used for namespace
+    /**
+     * Returns the type.
+     *
+     * @return mixed
+     * @access public
+     */
     public function getType();
 }

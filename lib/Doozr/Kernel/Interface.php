@@ -71,5 +71,5 @@
  */
 interface Doozr_Kernel_Interface
 {
-    // Used for namespace
+    // Used for namespace issues
 }

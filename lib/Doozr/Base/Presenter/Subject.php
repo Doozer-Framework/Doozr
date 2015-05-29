@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Subject/Interface.php';
 
 /**
  * Doozr Base Presenter Subject
@@ -70,12 +71,20 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
  */
 abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
     implements
-    SplSubject
+    Doozr_Base_Subject_Interface
 {
+    /**
+     * Identifier of the observer.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $identifier = self::IDENTIFIER_PRESENTER;
+
     /**
      * Contains all attached observers
      *
-     * @var SplObjectStorage
+     * @var Doozr_Base_Observer_Interface[]
      * @access protected
      */
     protected $observer;
@@ -84,7 +93,7 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
     /**
      * Constructor override for SplObjectStorage instantiation.
      *
-     * @param Doozr_Base_State_Interface $stateObject The state object
+     * @param Doozr_Base_State_Interface $state The state object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Base_Presenter_Subject Subject
@@ -94,6 +103,47 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
     {
         $this->observer = new SplObjectStorage();
         parent::__construct($state);
+    }
+
+    /**
+     * Setter for identifier.
+     *
+     * @param string $identifier Identifier to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * Setter for identifier.
+     *
+     * @param string $identifier Identifier to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function identifier($identifier)
+    {
+        $this->setIdentifier($identifier);
+        return $this;
+    }
+
+    /**
+     * Getter for identifier.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
     }
 
     /**
@@ -128,6 +178,18 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
         $this->observer->detach($observer);
     }
 
+    protected $store = array();
+
+    protected function store($key, $value)
+    {
+        $this->store[$key] = $value;
+    }
+
+    public function getStore()
+    {
+        return $this->store;
+    }
+
     /**
      * Notifies all registered observers about an update
      *
@@ -141,8 +203,7 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
     {
         // iterate the observer within the collection ...
         foreach ($this->observer as $observer) {
-            // ... and trigger update
-            $observer->update($this);
+            $this->store($observer->getIdentifier(), $observer->update($this));
         }
     }
 }

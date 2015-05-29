@@ -67,7 +67,7 @@ final class Presenter_Index extends Doozr_Base_Presenter
      * the request simple with minimal configuration overhead.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function indexAction()
@@ -76,6 +76,6 @@ final class Presenter_Index extends Doozr_Base_Presenter
         $buffer = $this->getModel()->getData();
 
         // Set data to trigger events in view (and maybe also model [two way data binding])
-        $this->setData($buffer);
+        return $this->setData($buffer);
     }
 }

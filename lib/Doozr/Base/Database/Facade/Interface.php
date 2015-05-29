@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
- *
- * @since      -
  */
 
 /**
@@ -68,22 +66,15 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
- * @abstract
  */
 interface Doozr_Base_Database_Interface
 {
     /**
-     * dispatch configuration to ORM/DBA
+     * Dispatch configuration to ORM/DBA - loads the main class or function from the configured
+     * ORM/DBA and pass all relevant configuration-settings to it.
      *
-     * loads the main class or function from the configured ORM/DBA and pass
-     * all relevant configuration-settings to it
-     *
-     * @return    mixed Object if cached ORM/DBA object exists, otherwise true
-     * @access    public
-     * @author    Benjamin Carl <opensource@clickalicious.de>
-     * @copyright Benjamin Carl 2009 - 2010
-     * @since     Method available since Release 1.0.0
-     * @version   1.0
+     * @return object|bool If cached ORM/DBA object exists, otherwise TRUE
+     * @access public
      */
     public function dispatch();
 }

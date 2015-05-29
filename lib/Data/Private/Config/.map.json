@@ -77,35 +77,6 @@
           }
         ]
       },
-      "Doozr_Controller_Back": {
-        "constructor": "getInstance",
-        "dependencies": [
-          {
-            "identifier": "Doozr_Registry",
-            "classname": "Doozr_Registry",
-            "instance": null,
-            "config": {
-              "type": "constructor"
-            }
-          },
-          {
-            "identifier": "Doozr_Configuration",
-            "classname": "Doozr_Configuration",
-            "instance": null,
-            "config": {
-              "type": "constructor"
-            }
-          },
-          {
-            "identifier": "Doozr_Logging",
-            "classname": "Doozr_Logging",
-            "instance": null,
-            "config": {
-              "type": "constructor"
-            }
-          }
-        ]
-      },
       "Doozr_Configuration": {
         "constructor": "getInstance",
         "dependencies": [
@@ -120,6 +91,18 @@
           {
             "identifier": "Doozr_Cache_Service",
             "classname": "Doozr_Cache_Service",
+            "instance": null,
+            "config": {
+              "type": "constructor"
+            }
+          }
+        ]
+      },
+      "Doozr_Route": {
+        "dependencies": [
+          {
+            "identifier": "Doozr_Registry",
+            "classname": "Doozr_Registry",
             "instance": null,
             "config": {
               "type": "constructor"

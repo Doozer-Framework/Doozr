@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Request Securitlayer
+ * Doozr - Request - Firewall
  *
- * Securitylayer.php - Securitylayer for Request(s) of the Doozr-Framework.
+ * Firewall.php - Firewall (basic!) for requests processed by Doozr.
  *
  * PHP versions 5.4
  *
@@ -52,27 +52,24 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-//require_once DOOZR_DOCUMENT_ROOT . 'Core/Controller/Securitylayer/Htmlpurifier/HTMLPurifier.standalone.php';
-//require_once DOOZR_DOCUMENT_ROOT . 'Core/Controller/Securitylayer/IDS/Init.php';
-
 /**
- * Doozr Request Securitlayer
+ * Doozr - Request - Firewall
  *
- * Securitylayer for Request(s) of the Doozr-Framework.
+ * Firewall (basic!) for requests processed by Doozr.
  *
  * @category   Doozr
  * @package    Doozr_Request
- * @subpackage Doozr_Request_Securitylayer
+ * @subpackage Doozr_Request_Firewall
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://www.Doozr.org, http://htmlpurifier.org/, http://php-ids.org/
  */
-class Doozr_Request_Securitylayer
+class Doozr_Request_Firewall
 {
     /**
-     * holds the instance of HTML-Purifier
+     * The instance of HTML-Purifier
      *
      * @var object
      * @access protected
@@ -93,7 +90,7 @@ class Doozr_Request_Securitylayer
      * @var object
      * @access private
      */
-    private $_pathFinder;
+    private $pathFinder;
 
     /**
      * holds the parsed core-configuration
@@ -124,25 +121,19 @@ class Doozr_Request_Securitylayer
 
 
     /**
-     * constructs the class
+     * Constructor.
      *
-     * constructor builds the class
-     *
-     * @return void
-     *
-     * @access  private
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
      */
     public function __construct()
     {
         /*
         // get and store reference to Path-Finder
-        $this->_pathFinder = Path_Manager::getInstance();
+        $this->pathFinder = Path_Manager::getInstance();
 
         // get path to core-config file
-        //$doozrCoreConfigFile = $this->_pathFinder->get('DOOZR_CONFIG').'Config.ini.php';
+        //$doozrCoreConfigFile = $this->pathFinder->get('DOOZR_CONFIG').'Config.ini.php';
         // init Config_Manager for Config.ini.php
         //$this->_coreConfig = Doozr_Config_Ini::getInstance($doozrCoreConfigFile);
 
@@ -155,7 +146,7 @@ class Doozr_Request_Securitylayer
 
         if ($this->_coreConfig->get('FRONTCONTROLLER.IDS_ENABLED')) {
             // get path to ids-config file
-            $doozrIdsConfigFile = $this->_pathFinder->get('DOOZR_CONFIG').'Ids/Ids.ini.php';
+            $doozrIdsConfigFile = $this->pathFinder->get('DOOZR_CONFIG').'Ids/Ids.ini.php';
 
             // init Config_Manager for Ids.ini.php
             $this->_idsConfig = Doozr_Config_Ini::getInstance($doozrIdsConfigFile);
@@ -166,7 +157,6 @@ class Doozr_Request_Securitylayer
         */
     }
 
-
     /**
      * init and instantiate HTMLPurifier
      *
@@ -176,8 +166,6 @@ class Doozr_Request_Securitylayer
      *
      * @access  private
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
      */
     private function _initHtmlPurifier()
     {
@@ -186,38 +174,37 @@ class Doozr_Request_Securitylayer
 
         // setup html purifier - we will work alway with given charset/encoding from config!!!
         $config->set('Core', 'Encoding', $this->_coreConfig->get('ENCODING.CHARSET'));
-		$config->set('Core', 'EscapeNonASCIICharacters', $this->_coreConfig->get('FRONTCONTROLLER.SANITIZE_ESCAPE_NON_ASCII'));
+        $config->set('Core',
+            'EscapeNonASCIICharacters',
+            $this->_coreConfig->get('FRONTCONTROLLER.SANITIZE_ESCAPE_NON_ASCII'));
         $config->set('HTML', 'TidyLevel', $this->_coreConfig->get('FRONTCONTROLLER.SANITIZE_TIDYLEVEL'));
 
         // get allowed HTML-Tags from config
-		$allowedHtmlTags = $this->_coreConfig->get('FRONTCONTROLLER.SANITIZE_ALLOWED_HTML_TAGS');
+        $allowedHtmlTags = $this->_coreConfig->get('FRONTCONTROLLER.SANITIZE_ALLOWED_HTML_TAGS');
 
         // not empty?
-		if (!is_null($allowedHtmlTags) && strlen($allowedHtmlTags)) {
+        if (!is_null($allowedHtmlTags) && strlen($allowedHtmlTags)) {
             $config->set('HTML', 'Allowed', $allowedHtmlTags);
-		}
+        }
 
         // instanciate HTMLPurifier
         $this->htmlPurifier = new HTMLPurifier($config);
     }
 
-
     /**
      * init and instantiate PHPIDS
      *
-     * init and instantiate PHPIDS for use in this class (Securitylayer for protecting the core)
+     * init and instantiate PHPIDS for use in this class (Firewall for protecting the core)
      *
      * @return void
      *
      * @access  private
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
      */
     private function _initPhpIds()
     {
         // build ids include path
-        $idsIncludePath = $this->_pathFinder->get('DOOZR_CONTROLLER').'Securitylayer/';
+        $idsIncludePath = $this->pathFinder->get('DOOZR_CONTROLLER').'Firewall/';
 
         // add path to PHP-IDS to PHP include path
         Path_Manager::addIncludePath($idsIncludePath);
@@ -236,25 +223,26 @@ class Doozr_Request_Securitylayer
 
         // got a result?
         if (count($allowedHtmlFields) > 0) {
-			// define exceptions from config
+            // define exceptions from config
             $idsInit->setConfig(
                 array(
                     'General' => array(
                         'exceptions' => $allowedHtmlFields
                     )
-                ), true);
+                ),
+                true);
         }
 
         // build parameter array for PHPIDS
         $request = array();
 
-		if ($this->_requestSources) {
-			foreach ($this->_requestSources as $requestSource) {
-				$requestSourcePhpGlobal = '_'.$requestSource;
-				global $$requestSourcePhpGlobal;
-				$request[$requestSource] = $$requestSourcePhpGlobal;
-			}
-		}
+        if ($this->_requestSources) {
+            foreach ($this->_requestSources as $requestSource) {
+                $requestSourcePhpGlobal = '_'.$requestSource;
+                global $$requestSourcePhpGlobal;
+                $request[$requestSource] = $$requestSourcePhpGlobal;
+            }
+        }
 
         // new PHPIDS monitor
         $idsMonitor = new IDS_Monitor($request, $idsInit);
@@ -266,7 +254,7 @@ class Doozr_Request_Securitylayer
             // log if result wasn't empty
             $logger = Doozr_Logging::getInstance();
 
-            $logger->debug('Doozr core-protection (IDS) -> detected an impact of: ' . $phpIdsResult->getImpact());
+            $logger->debug('Doozr core-protection (IDS) -> detected an impact of: '.$phpIdsResult->getImpact());
 
             // store result! for setting the impact later ...
             self::$idsResult = $phpIdsResult;
@@ -281,7 +269,6 @@ class Doozr_Request_Securitylayer
         $this->phpIds = $phpIdsResult;
     }
 
-
     /**
      * checks detected impact
      *
@@ -294,24 +281,22 @@ class Doozr_Request_Securitylayer
      *
      * @access  private
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
      * @todo    Check also for single impact(s) and make use of a config var (allowed single impact)
      */
     private function _hardeningCore($totalImpact)
     {
         // check overall impact and cancel if greater than allowed max (conf)
         if ($totalImpact > $this->_coreConfig->get('FRONTCONTROLLER.IDS_MAX_ALLOWED_IMPACT')) {
-        	$httpHeader = 'HTTP/1.0 400 Bad Request';
+            $httpHeader = 'HTTP/1.0 400 Bad Request';
 
-        	$logger = Doozr_Logging::getInstance();
+            $logger = Doozr_Logging::getInstance();
 
-			$logger->debug(
+            $logger->debug(
                 'Doozr core-protection -> '.__CLASS__.' (IDS) detected an overall-impact of: '.$totalImpact.
                 ' and send: '.$httpHeader.' to client: '.$_SERVER['REMOTE_ADDR']
-			);
-			header($httpHeader);
-			exit;
+            );
+            header($httpHeader);
+            exit;
         }
     }
 }

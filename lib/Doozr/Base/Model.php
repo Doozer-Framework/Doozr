@@ -4,7 +4,7 @@
 /**
  * Doozr - Base - Model
  *
- * Model.php - Base class for model-layers from MVP
+ * Model.php - Base class for Models
  *
  * PHP versions 5.4
  *
@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model/Interface.php';
 /**
  * Doozr Base Model
  *
- * Base class for model-layers from MVP
+ * Base class for Models
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -158,8 +158,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
         Doozr_Base_State_Interface $requestState,
         array                      $request,
         Doozr_Cache_Service        $cache,
-        Doozr_Configuration               $configuration,
-        array                      $translation     = null
+        Doozr_Configuration        $configuration,
+        array                      $translation    = null
     ) {
         // Store all passed instances
         $this
@@ -403,6 +403,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     public function setData($data)
     {
         $this->data = $data;
+        return true;
     }
 
     /**

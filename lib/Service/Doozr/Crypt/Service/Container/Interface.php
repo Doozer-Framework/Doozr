@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Service Crypt Container Interface
+ * Doozr - Crypt - Service - Container - Interface
  *
  * Interface.php - Interface for Container of the Caching Service.
  *
@@ -53,7 +53,7 @@
  */
 
 /**
- * Doozr Service Crypt Container Interface
+ * Doozr - Crypt - Service - Container - Interface
  *
  * Interface for Container of the Caching Service.
  *
@@ -69,62 +69,40 @@
 interface Doozr_Crypt_Service_Container_Interface
 {
     /**
-     * Sets the key used for en-/decryption
-     *
-     * This method is intend to set the key used for en-/decryption.
+     * Sets the key used for en-/decryption.
      *
      * @param string $key The key to use
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access public
      */
     public function setKey($key);
 
     /**
-     * Returns the key used for en-/decryption
+     * Returns the key used for en-/decryption.
      *
-     * This method is intend to return the key used for en-/decryption.
-     *
-     * @return  string The key
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return string The key
+     * @access public
      */
     public function getKey();
 
     /**
-     * Encrypts data
-     *
-     * This method is intend to encrypt data.
+     * Encrypts data.
      *
      * @param string $data The data to encrypt
      *
-     * @return  string The encrypted data
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return string The encrypted data
+     * @access public
      */
     public function encrypt($data);
 
     /**
-     * Decrypts data
-     *
-     * This method is intend to decrypt data.
+     * Decrypts data.
      *
      * @param string $data The data to decrypt
      *
-     * @return  string The encrypted data
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return string The encrypted data
+     * @access public
      */
     public function decrypt($data);
 }
-
-?>

@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Response - Httpd
+ * Doozr - Base - Observer - Interface
  *
- * Httpd.php - Response Httpd - Response-Handler to pass responses to CLI
+ * Interface.php - Base Observer Interface of Doozr.
  *
  * PHP versions 5.4
  *
@@ -40,61 +40,71 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Please feel free to contact us via e-mail: opensource@clickalicious.de
+ * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response_Httpd
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Observer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Response.php';
-//require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Response/Interface.php';
 
 /**
- * Doozr - Response - Httpd
+ * Doozr - Base - Observer - Interface
  *
- * Response Httpd - Response-Handler to pass responses to CLI
+ * Base Observer Interface of Doozr.
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response_Httpd
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Observer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Response_Httpd extends Doozr_Base_Response
+interface Doozr_Base_Observer_Interface extends SplObserver
 {
     /**
-     * Type of this response
-     *
-     * holds the type of this response
+     * Default identifier for Presenter
      *
      * @var string
-     * @access private
+     * @access public
+     * @const
      */
-    const TYPE = 'httpd';
+    const IDENTIFIER_PRESENTER = 'presenter';
+
+    /**
+     * Default identifier for View
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const IDENTIFIER_VIEW = 'view';
+
+    /**
+     * Default identifier for Model
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const IDENTIFIER_MODEL = 'model';
 
 
     /**
-     * Constructor
+     * Getter for identifier.
+     *
+     * Must return an identifier/name of the observer instance.
+     * This identifier should be usable when collecting data via Observer pattern to identify source of responses.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return $this Instance for chaining
      * @access public
      */
-    public function __construct(Doozr_Configuration $config, Doozr_Logging $logger)
-    {
-        // map type
-        self::$type = self::TYPE;
-
-        // call parents constructor
-        parent::__construct($config, $logger);
-    }
+    public function getIdentifier();
 }

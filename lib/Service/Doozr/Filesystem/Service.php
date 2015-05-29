@@ -1487,7 +1487,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The function returns the read data or FALSE on failure.
      * @access protected
-     * @see    http://de.php.net/manual/en/function.file-get-contents.php
+     * @link    http://de.php.net/manual/en/function.file-get-contents.php
      */
     protected function _file_get_contents(
         $file,
@@ -1516,7 +1516,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The function returns the number of bytes that were written to the file, or FALSE on failure
      * @access protected
-     * @see    http://de.php.net/manual/en/function.file-put-contents.php
+     * @link    http://de.php.net/manual/en/function.file-put-contents.php
      */
     protected function _file_put_contents($file, $data, $flags = 0, $context = null)
     {

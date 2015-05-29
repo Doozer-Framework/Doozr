@@ -101,6 +101,7 @@ if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI === DOOZR_RUNTIME_ENVIRONMENT) {
     if (function_exists('ladybug_set_format')) {
         ladybug_set_format('text');
     }
+
 } else {
     if (function_exists('ladybug_set_theme')) {
         ladybug_set_theme('modern');
@@ -592,25 +593,6 @@ function regexp($input, $mode = 'default')
 }
 
 // Check if method already exists
-if (!function_exists('is_ssl')) {
-    /**
-     * Checks if the current connection is SSL secured.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE if connection is SSL secured, otherwise FALSE
-     */
-    function is_ssl()
-    {
-        $ssl = false;
-        if (isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == '1') || strtolower($_SERVER['HTTPS']) == 'on')) {
-            $ssl = true;
-        }
-
-        return $ssl;
-    }
-}
-
-// Check if method already exists
 if (!function_exists('is_ip')) {
     /**
      * Checks if a given string is an IP and returns result as boolean
@@ -965,27 +947,6 @@ function sendNoCacheHeaders()
     return false;
 }
 
-
-
-/**
- * detects and returns the current running runtimeEnvironment of PHP (cli or web)
- *
- * This method is intend to detect and return the current running runtimeEnvironment of PHP (cli or web).
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return string cli if running-runtimeEnvironment = cli otherwise web
- * @access public
- */
-function detectRunningMode()
-{
-    // detect running runtimeEnvironment through php functionality
-    if (php_sapi_name() == 'cli') {
-        return 'cli';
-    } else {
-        return 'web';
-    }
-}
-
 /**
  * Returns the protocol (HTTP(S)) used for connecting to Doozr.
  *
@@ -1008,6 +969,26 @@ function getProtocol($plain = false)
     }
 
     return $protocol;
+}
+
+
+// Check if method already exists
+if (!function_exists('is_ssl')) {
+    /**
+     * Checks if the current connection is SSL secured.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if connection is SSL secured, otherwise FALSE
+     */
+    function is_ssl()
+    {
+        $ssl = false;
+        if (isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == '1') || strtolower($_SERVER['HTTPS']) == 'on')) {
+            $ssl = true;
+        }
+
+        return $ssl;
+    }
 }
 
 /*----------------------------------------------------------------------------------------------------------------------

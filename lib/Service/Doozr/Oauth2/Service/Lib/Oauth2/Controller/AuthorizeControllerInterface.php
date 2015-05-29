@@ -31,8 +31,8 @@ interface AuthorizeControllerInterface
      * and the "implicit" mechanism exclusively supports 'token'.
      *
      * @var string
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
-     * @see http://tools.ietf.org/html/rfc6749#section-4.2.1
+     * @link http://tools.ietf.org/html/rfc6749#section-4.1.1
+     * @link http://tools.ietf.org/html/rfc6749#section-4.2.1
      */
     const RESPONSE_TYPE_AUTHORIZATION_CODE = 'code';
     const RESPONSE_TYPE_ACCESS_TOKEN = 'token';

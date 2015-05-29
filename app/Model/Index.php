@@ -31,9 +31,6 @@ final class Model_Index extends Doozr_Base_Model
         );
 
         // Just store and trigger dispatch to view -> render by observer pattern
-        $this->setData($data);
-
-        // Successful
-        return true;
+        return $this->setData($data);
     }
 }

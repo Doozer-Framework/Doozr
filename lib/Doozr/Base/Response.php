@@ -4,7 +4,7 @@
 /**
  * Doozr - Base - Response
  *
- * Response.php - Base response class of the Doozr Framework.
+ * Response.php - Base class for responses
  *
  * PHP versions 5.4
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Base - Response
  *
- * Base response class of the Doozr Framework.
+ * Base class for responses
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -66,10 +66,10 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Response
+class Doozr_Base_Response extends Doozr_Base_State_Container
 {
     /**
-     * holds the TYPE of the Response (can be WEB or CLI)
+     * The TYPE of the Response (can be either WEB or CLI)
      *
      * @var string
      * @access protected
@@ -99,6 +99,7 @@ class Doozr_Base_Response
      * @access protected
      */
     protected $config;
+
 
     /**
      * Constructor.

@@ -218,13 +218,13 @@ class Doozr_Base_Rest_Exception extends Doozr_Base_Exception
         }
 
         // Now here is the interesting part in this logic ...
-        if (defined('DOOZR_DEBUGGING') === true && DOOZR_DEBUGGING === true) {
+        if (true === DOOZR_DEBUGGING) {
             // add debug information!
             $data['meta'] = array(
                 'message' => $this->getMessage(),
-                'code' => $this->getCode(),
-                'file' => $this->getFile(),
-                'line' => $this->getLine(),
+                'code'    => $this->getCode(),
+                'file'    => $this->getFile(),
+                'line'    => $this->getLine(),
             );
         }
 

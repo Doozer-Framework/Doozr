@@ -2,12 +2,11 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logging - Composite
+ * Doozr - Logging
  *
- * Logging.php - This logger is the composite for accessing the logging-
- * subsystem of the Doozr-Framework. This logger is the main entry point
- * for all log-content. This logger takes any log and dispatch this to
- * the attached loggers.
+ * Logging.php - This logger is the composite for accessing the logging-subsystem of Doozr.
+ * This logger is the main entry point for all log-content. This logger takes any log and
+ * dispatch this to the attached loggers.
  *
  * PHP versions 5.4
  *
@@ -46,8 +45,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Logging
- * @subpackage Doozr_Logging_Composite
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Logging
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -60,16 +59,15 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 
 /**
- * Doozr - Logging - Composite
+ * Doozr - Logging
  *
- * This logger is the composite for accessing the logging-
- * subsystem of the Doozr-Framework. This logger is the main entry point
- * for all log-content. This logger takes any log and dispatch this to
- * the attached loggers.
+ * This logger is the composite for accessing the logging-subsystem of Doozr.
+ * This logger is the main entry point for all log-content. This logger takes any log and
+ * dispatch this to the attached loggers.
  *
  * @category   Doozr
- * @package    Doozr_Logging
- * @subpackage Doozr_Logging_Composite
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Logging
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

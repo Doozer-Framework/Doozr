@@ -123,6 +123,22 @@ final class Doozr_Route extends Doozr_Base_State_Container
     protected $routes;
 
     /**
+     * Instance of Response class
+     *
+     * @var Doozr_Response
+     * @access protected
+     */
+    protected $response;
+
+    /**
+     * Instance of Dispatcher class
+     *
+     * @var Doozr_Route_Dispatcher
+     * @access protected
+     */
+    protected $dispatcher;
+
+    /**
      * The current active route prefilled with defaults.
      * The minimum length of a route is 2 nodes which
      * represents an object and its action. But through
@@ -171,10 +187,14 @@ final class Doozr_Route extends Doozr_Base_State_Container
     const NAMESPACE_CACHE = 'cache.routes';
 
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Constructor.
      *
-     * @param Doozr_Registry $registry The registry of Doozr
+     * @param Doozr_Registry $registry Registry of Doozr
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
@@ -183,29 +203,30 @@ final class Doozr_Route extends Doozr_Base_State_Container
     {
         $this
             ->registry($registry)
-            ->requestState($registry->getRequest())
+            ->response($registry->getResponse())
             ->cacheEnabled($registry->getConfiguration()->kernel->cache->enabled)
-            ->namespace_(DOOZR_NAMESPACE_FLAT . '.' . self::NAMESPACE_CACHE)
-            ->run();
+            ->namespace_(DOOZR_NAMESPACE_FLAT . '.' . self::NAMESPACE_CACHE);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | BEGIN PUBLIC METHODS
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method runs or executes the preset configuration. This runner was separated from init() to enable the
-     * user/application to manually or automatically intercept the execution between the route detection of Doozr
-     * and the execution of it.
+     * Routes the request-state to a controller:action and returns
+     *
+     *
+     * @param \Doozr_Request_State $requestState
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return Doozr_Request_State Request state enriched with route information.
      * @access public
+     * @throws \Doozr_Route_Exception
      */
-    public function run()
+    public function route(Doozr_Request_State $requestState)
     {
         // With caching we need unique identifier
-        $this->setUuid($this->calculateUuid($this->getRequestState()->getUrl()));
+        $this->setUuid($this->calculateUuid($requestState->getUrl()));
 
         // Check for cache enabled
         if (true === $this->getCacheEnabled()) {
@@ -278,42 +299,49 @@ final class Doozr_Route extends Doozr_Base_State_Container
             }
         });
 
-        $error = null;
-
         // Dispatch route ...
-        $routeInfo = $dispatcher->dispatch($this->getRequestState()->getMethod(), $this->getRequestState()->getUrl());
+        $routeInfo = $dispatcher->dispatch($requestState->getMethod(), $requestState->getUrl());
         switch ($routeInfo[0]) {
             case FastRoute\Dispatcher::NOT_FOUND:
-                $error = array(
-                    'number'  => 404,
-                    'message' => 'Route %s not found',
-                    'context' => $this->getRequestState()->getUrl(),
+                throw new Doozr_Route_Exception(
+                    sprintf('Route %s not found', $requestState->getUrl()),
+                    404
                 );
                 break;
 
             case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-                $error = array(
-                    'number'  => 405,
-                    'message' => 'Method no allowed. Allowed method(s): %s',
-                    'context' => $routeInfo[1],
+                throw new Doozr_Route_Exception(
+                    sprintf('Method no allowed. Allowed method(s): %s', $routeInfo[1]),
+                    405
                 );
                 break;
 
             case FastRoute\Dispatcher::FOUND:
                 // Store result of dispatch process - we wil use this later as identifier for status response dispatch
-                $this->getRequestState()->setActiveRoute($routeInfo[1], $routeInfo[2]);
+                $requestState->setActiveRoute($routeInfo[1], $routeInfo[2]);
                 break;
         }
 
-        // Dispatch the request to back controller
-        $this->getRegistry()->getBack()->run(
-            $this->getRequestState(),
-            $error
-        );
+        // Just for completing history!!! Not to show architecture!
+        $this->setRequestState($requestState);
+
+        /**
+         * Now use information from requestState AND this routing to dispatch all those input to detected route
+         * (Controller:Action)
+         */
+
+        // So we take 1st the requestState final prepared and marked as FINAL!
+
+        // we take the route info from this instance here -
+
+        // turn requestState into Response object by
+
+        // Return an instance of Response?
+        return $requestState;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | BEGIN PRIVATE/PROTECTED METHODS
+    | GETTER & SETTER
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -520,6 +548,51 @@ final class Doozr_Route extends Doozr_Base_State_Container
     {
         return $this->namespace;
     }
+
+    /**
+     * Setter for response
+     *
+     * @param Doozr_Response $response The response instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setResponse(Doozr_Response &$response)
+    {
+        $this->response = $response;
+    }
+
+    /**
+     * Setter for response with fluent API support for chaining calls.
+     *
+     * @param Doozr_Response $response The response instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function response(Doozr_Response $response)
+    {
+        $this->setResponse($response);
+        return $this;
+    }
+
+    /**
+     * Getter for response
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Response The response of Doozr
+     * @access protected
+     */
+    protected function getResponse()
+    {
+        return $this->response;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Calculates a UUID for a passed string.

@@ -4,7 +4,7 @@
 /**
  * Doozr - Base - Tools
  *
- * Tools.php - Toolset collection useful for developer.
+ * Tools.php - Toolkit collection useful for developers.
  *
  * PHP version 5
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Base - Tools
  *
- * Toolset collection useful for developer.
+ * Toolkit collection useful for developers.
  *
  * @category   Doozr
  * @package    Doozr_Base

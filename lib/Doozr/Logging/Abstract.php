@@ -220,6 +220,12 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     );
 
     /**
+     * @var array
+     */
+    protected $archive = array();
+
+
+    /**
      * This method is the constructor and responsible for building the instance.
      *
      * @param Doozr_Datetime_Service $datetime    Instance of date/time service
@@ -443,17 +449,24 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
         $this->clearCollection();
     }
 
-    protected $archive = array();
-
-    protected function archive($hash, $entry)
+    protected function setArchive($hash, $entry)
     {
         $this->archive[$hash] = $entry;
     }
+
+
+    protected function archive($hash, $entry)
+    {
+        $this->setArchive($hash, $entry);
+        return $this;
+    }
+
 
     public function getArchive()
     {
         return $this->archive;
     }
+
 
     /*------------------------------------------------------------------------------------------------------------------
     | GETTER & SETTER
@@ -740,12 +753,9 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * concats the given raw log-content to curent raw log-content array
+     * Concat the given raw log-content to current raw log-content array.
      *
-     * This method is intend to concat the given raw log-content to curent raw log-content array.
-     *
-     * @param string $what   The type to store
-     * @param string $string The content to store
+     * @param array $array The array to concat
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -760,12 +770,11 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * Formats the passed string with the passed type and the line-break
-     * to a complete log-line.
+     * Formats the passed string with the passed type and the line-break to a complete log-line.
      *
-     * @param string  $content   The string to be formatted
-     * @param string  $type      The type to be formatted
-     * @param bool $lineBreak TRUE to use defined line break, FALSE to do not
+     * @param string $string    The string to be formatted
+     * @param string $type      The type to be formatted
+     * @param bool   $lineBreak TRUE to use defined line break, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The formatted string to log
@@ -778,7 +787,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
 
         // format only if value is passed
         if (isset($string[1])) {
-            $formatted = ' '.(strlen($type) ? $type.':' : '').' '.$string.(($lineBreak) ? $this->lineBreak : '');
+            $formatted = ' ' . (strlen($type) ? $type . ':' : '') . ' ' . $string .
+                (($lineBreak) ? $this->lineBreak : '');
         }
 
         // return the formatted log-content
@@ -922,12 +932,13 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return $this Instance of this class for chaining
      * @access public
      */
     public function warning($message, array $context = array())
     {
         return $this->log(Doozr_Logging_Constant::WARNING, $message, $context);
+        return $this;
     }
 
     /**
@@ -937,12 +948,13 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return $this Instance of this class for chaining
      * @access public
      */
     public function notice($message, array $context = array())
     {
         return $this->log(Doozr_Logging_Constant::NOTICE, $message, $context);
+        return $this;
     }
 
     /**
@@ -953,12 +965,13 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return $this Instance of this class for chaining
      * @access public
      */
     public function info($message, array $context = array())
     {
-        return $this->log(Doozr_Logging_Constant::INFO, $message, $context);
+        $this->log(Doozr_Logging_Constant::INFO, $message, $context);
+        return $this;
     }
 
     /**
@@ -968,12 +981,13 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return $this Instance of this class for chaining
      * @access public
      */
     public function debug($message, array $context = array())
     {
-        return $this->log(Doozr_Logging_Constant::DEBUG, $message, $context);
+        $this->log(Doozr_Logging_Constant::DEBUG, $message, $context);
+        return $this;
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+

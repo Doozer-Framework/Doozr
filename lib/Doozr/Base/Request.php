@@ -4,7 +4,7 @@
 /**
  * Doozr - Base - Request
  *
- * Request.php - Base Request Class (e.g. as base for Web | Cli) of the Doozr Framework.
+ * Request.php - Base class for requests
  *
  * PHP versions 5.4
  *
@@ -58,7 +58,7 @@ include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Arguments.php';
 /**
  * Doozr - Base - Request
  *
- * Base Request Class (e.g. as base for Web | Cli) of the Doozr Framework.
+ * Base class for requests
  *
  * @category   Doozr
  * @package    Doozr_Base

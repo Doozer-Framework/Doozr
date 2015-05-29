@@ -4,7 +4,7 @@
 /**
  * Doozr - Base - Presenter
  *
- * Presenter.php - Base class for presenter-layers from MVP
+ * Presenter.php - Base class for presenters
  *
  * PHP versions 5.4
  *
@@ -58,9 +58,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Route/Annotation/Route.php';
 
 /**
- * Doozr - Base Presenter
+ * Doozr - Base - Presenter
  *
- * Base Presenter of the Doozr Framework.
+ * Base class for presenters
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -215,13 +215,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
      * @throws Doozr_Base_Presenter_Exception
      */
     public function __construct(
-        Doozr_Registry             $registry,
-        Doozr_Base_State_Interface $requestState,
-        array                      $request,
-        Doozr_Configuration_Interface     $configuration    = null,
-        Doozr_Base_Model           $model            = null,
-        Doozr_Base_View            $view             = null,
-        array                      $translation      = null
+        Doozr_Registry                $registry,
+        Doozr_Base_State_Interface    $requestState,
+        array                         $request,
+        Doozr_Configuration_Interface $configuration = null,
+        Doozr_Base_Model              $model         = null,
+        Doozr_Base_View               $view          = null,
+        array                         $translation   = null
     ) {
         // Store instances for further use ...
         $this
@@ -523,6 +523,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
 
         // notify observers about new data
         $this->notify();
+
+        return true;
     }
 
     /**
@@ -816,7 +818,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
      * @param string|array $methods The HTTP Method which is allowed as string or multiple methods via array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @see    http://tools.ietf.org/html/rfc1945#page-30
+     * @link   http://tools.ietf.org/html/rfc1945#page-30
      * @return $this Instance for chaining
      * @access protected
      */
@@ -871,8 +873,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
      * run the presenter (or parts of model/view).
      *
      * @param        $argument
-     * @param string $scope  The scope (Action) for which the argument is required (* = wildcard = all)
-     * @param string $method The method (HTTP verb) to bind the requirement to
+     * @param string $scope    Scope (Action) for which the argument is required (* = wildcard = all)
+     * @param string $method   Method (HTTP verb) to bind the requirement to
      *
      * @internal param mixed $variable A single argument required to execute the presenter or an array of arguments
      * @author   Benjamin Carl <opensource@clickalicious.de>
@@ -931,7 +933,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
             $argument = array($argument);
         }
 
-        // iterate the passed input to build ordered (scope) ruleset
+        // iterate the passed input to build ordered (scope) rules
         foreach ($argument as $requiredVariable) {
             pre($requiredVariable);
         }
@@ -968,7 +970,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
     /**
      * Sets the route
      *
-     * @param string The route to set
+     * @param string $route The route to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Base_Presenter
@@ -984,7 +986,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
     /**
      * Sets the URL of the route
      *
-     * @param string The URL to set
+     * @param string $url The URL to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Base_Presenter

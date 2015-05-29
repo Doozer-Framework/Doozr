@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Observer/Interface.php';
 
 /**
  * Doozr - Base View Observer
@@ -70,17 +71,24 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
  */
 abstract class Doozr_Base_View_Observer extends Doozr_Base_Class
     implements
-    SplObserver
+    Doozr_Base_Observer_Interface
 {
     /**
-     * update dispatcher for this instance of a observer
+     * Identifier of the observer.
      *
-     * This method is the "update" trigger of the "CRUD" architecture
+     * @var string
+     * @access protected
+     */
+    protected $identifier = self::IDENTIFIER_VIEW;
+
+
+    /**
+     * Update dispatcher for this instance of a observer
      *
      * @param SplSubject $subject The SplSubject
      *
-     * @return mixed TRUE on update-success, FALSE on update-failed and
-     *               NULL on no update done
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean|null TRUE on update-success, FALSE on update-failed and NULL on no update done
      * @access public
      */
     public function update(SplSubject $subject)
@@ -91,5 +99,46 @@ abstract class Doozr_Base_View_Observer extends Doozr_Base_Class
 
         // no update method no result
         return null;
+    }
+
+    /**
+     * Setter for identifier.
+     *
+     * @param string $identifier Identifier to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * Setter for identifier.
+     *
+     * @param string $identifier Identifier to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function identifier($identifier)
+    {
+        $this->setIdentifier($identifier);
+        return $this;
+    }
+
+    /**
+     * Getter for identifier.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
     }
 }

@@ -39,7 +39,7 @@ class Scope implements ScopeInterface
      * TRUE if everything in required scope is contained in available scope,
      * and FALSE if it isn't.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-7
+     * @link http://tools.ietf.org/html/rfc6749#section-7
      *
      * @ingroup oauth2_section_7
      */

@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -56,14 +56,16 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Doozr - Response
  *
  * Response state container.
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -71,27 +73,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Response extends Doozr_Base_State_Container
+    implements
+    ResponseInterface
 {
-    /**
-     * The type native for PHP request sources
-     *
-     * @var int
-     * @access const
-     */
-    const NATIVE = 0;
-
-    /**
-     * The type emulated for PHP request sources
-     *
-     * @var int
-     * @access const
-     */
-    const EMULATED = 1;
-
     protected $header;
 
     protected $buffer;
-
 
 
     /**
@@ -100,9 +87,9 @@ class Doozr_Response extends Doozr_Base_State_Container
      * Custom constructor which is required to set app.
      * And then it calls the parent constructor which does the bootstrapping.
      *
-     * @param Doozr_Registry             $registry    The registry containing all important instances
-     * @param Doozr_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
-     * @param string                     $sapi        The SAPI runtimeEnvironment of active PHP Instance
+     * @param Doozr_Registry             $registry    Registry containing all important instances
+     * @param Doozr_Base_State_Interface $stateObject State object instance to use for saving state (DI)
+     * @param string                     $sapi        SAPI runtimeEnvironment of active PHP Instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Response
@@ -116,5 +103,31 @@ class Doozr_Response extends Doozr_Base_State_Container
         $this->setRegistry($registry);
 
         parent::__construct($stateObject);
+    }
+
+
+    public function httpStatusCode($httpStatusCode)
+    {
+        $this->httpStatusCode = $httpStatusCode;
+        return $this;
+    }
+
+    public function content($content)
+    {
+        $this->content = $content;
+        return $this;
+    }
+
+
+    /**
+     * Generic sender. Exports data of this instance by calling export(), turns data into correct format.
+     * Sends data either via Http or Cli...
+     *
+     */
+    public function send()
+    {
+        http_response_code($this->httpStatusCode);
+        echo $this->content;
+        exit;
     }
 }

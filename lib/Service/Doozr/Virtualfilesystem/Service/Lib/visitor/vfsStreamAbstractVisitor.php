@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/vfsStreamVisitor.php';
  * @package     bovigo_vfs
  * @subpackage  visitor
  * @since       0.10.0
- * @see         https://github.com/mikey179/vfsStream/issues/10
+ * @link         https://github.com/mikey179/vfsStream/issues/10
  */
 abstract class vfsStreamAbstractVisitor implements vfsStreamVisitor
 {

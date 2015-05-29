@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
 
 /**
  * Doozr - Service - Template - Exception
@@ -69,17 +69,15 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Generic.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Kernel_Exception extends Doozr_Base_Exception_Generic
+class Doozr_Kernel_Exception extends Doozr_Base_Exception
 {
     /**
-     * overrides parents constructor to add context to each exception of type:
+     * Overrides parents constructor to add context to each exception of type:
      * Doozr_Kernel_Exception
      *
-     * This method is intend to override parents constructor to add context to each exception.
-     *
-     * @param string  $message  The exception-message
-     * @param int $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
+     * @param string  $message  Exception message
+     * @param int     $code     Code of the exception
+     * @param object  $previous Previous exception thrown
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Kernel_Exception instance of this class
@@ -87,15 +85,16 @@ class Doozr_Kernel_Exception extends Doozr_Base_Exception_Generic
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {
-        // if no message set set => throw us again
-        if (!$message) {
-            throw new $this('Exception "'.get_class($this).'" without message!');
+        // If no message set set => throw us again
+        if (null === $message) {
+            throw new $this(
+                sprintf('Exception "%s" without message!', get_class($this))
+            );
         }
 
-        // add context to message!
-        $message = (($code == E_USER_CORE_FATAL_EXCEPTION) ? 'Fatal: ' : '').$message;
+        // Add context to message!
+        $message = (($code == E_USER_CORE_FATAL_EXCEPTION) ? 'Fatal: ' : '') . $message;
 
-        // call parents constructor
         parent::__construct($message, $code, $previous);
     }
 

@@ -177,9 +177,9 @@ class Server implements ResourceControllerInterface,
      * @throws InvalidArgumentException
      * @throws LogicException
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4
-     * @see http://tools.ietf.org/html/rfc6749#section-10.6
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
+     * @link http://tools.ietf.org/html/rfc6749#section-4
+     * @link http://tools.ietf.org/html/rfc6749#section-10.6
+     * @link http://tools.ietf.org/html/rfc6749#section-4.1.3
      *
      * @ingroup oauth2_section_4
      */
@@ -221,7 +221,7 @@ class Server implements ResourceControllerInterface,
      * @param $user_id
      * Identifier of user who authorized the client
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4
+     * @link http://tools.ietf.org/html/rfc6749#section-4
      *
      * @ingroup oauth2_section_4
      */
@@ -246,8 +246,8 @@ class Server implements ResourceControllerInterface,
      * The authorization parameters so the authorization server can prompt
      * the user for approval if valid.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
-     * @see http://tools.ietf.org/html/rfc6749#section-10.12
+     * @link http://tools.ietf.org/html/rfc6749#section-4.1.1
+     * @link http://tools.ietf.org/html/rfc6749#section-10.12
      *
      * @ingroup oauth2_section_3
      */

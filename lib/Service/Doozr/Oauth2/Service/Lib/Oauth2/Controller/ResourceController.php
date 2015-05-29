@@ -47,7 +47,7 @@ class ResourceController implements ResourceControllerInterface
         /**
          * Check scope, if provided
          * If token doesn't have a scope, it's null/empty, or it's insufficient, then throw 403
-         * @see http://tools.ietf.org/html/rfc6750#section-3.1
+         * @link http://tools.ietf.org/html/rfc6750#section-3.1
          */
         if ($scope && (!isset($token["scope"]) || !$token["scope"] || !$this->scopeUtil->checkScope($scope, $token["scope"]))) {
             $response->setError(403, 'insufficient_scope', 'The request requires higher privileges than provided by the access token');

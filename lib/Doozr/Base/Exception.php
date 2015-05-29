@@ -130,15 +130,15 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
     /**
      * Constructor.
      *
-     * @param string    $message  The exception-message
-     * @param int       $code     The code of the exception
-     * @param Exception $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
+     * @param string    $message  Exception-message
+     * @param int       $code     Code of the exception
+     * @param Exception $previous Previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Base_Exception
      * @access public
      */
-    public function __construct($message = null, $code = 0, $previous = null)
+    public function __construct($message = null, $code = 0, Exception $previous = null)
     {
         // if no message set set => throw us again
         if (!$message) {

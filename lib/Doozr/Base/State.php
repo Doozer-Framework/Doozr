@@ -4,7 +4,7 @@
 /**
 * Doozr - Base - State
 *
-* State.php - Base state class for inheritance.
+* State.php - Base class for state representations
 *
 * PHP versions 5.4
 *
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 /**
  * Doozr - Base - State
  *
- * Base state class for inheritance.
+ * Base class for state representations
  *
  * @category   Doozr
  * @package    Doozr_Base

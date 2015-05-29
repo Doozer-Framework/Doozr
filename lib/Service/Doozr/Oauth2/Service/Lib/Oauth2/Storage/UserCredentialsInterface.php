@@ -30,7 +30,7 @@ interface UserCredentialsInterface
      * TRUE if the username and password are valid, and FALSE if it isn't.
      * Moreover, if the username and password are valid, and you want to
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.3
+     * @link http://tools.ietf.org/html/rfc6749#section-4.3
      *
      * @ingroup oauth2_section_4
      */

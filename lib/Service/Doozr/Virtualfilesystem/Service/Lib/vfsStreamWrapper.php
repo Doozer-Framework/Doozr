@@ -438,7 +438,7 @@ class vfsStreamWrapper
      *
      * @param   int  $cast_as
      * @since   0.9.0
-     * @see     https://github.com/mikey179/vfsStream/issues/3
+     * @link     https://github.com/mikey179/vfsStream/issues/3
      * @return  bool
      */
     public function stream_cast($cast_as)
@@ -452,7 +452,7 @@ class vfsStreamWrapper
      * @param   int   $operation
      * @return  bool
      * @since   0.10.0
-     * @see     https://github.com/mikey179/vfsStream/issues/6
+     * @link     https://github.com/mikey179/vfsStream/issues/6
      */
     public function stream_lock($operation)
     {
@@ -468,8 +468,8 @@ class vfsStreamWrapper
      * @param   int   $arg2
      * @return  bool
      * @since   0.10.0
-     * @see     https://github.com/mikey179/vfsStream/issues/15
-     * @see     http://www.php.net/manual/streamwrapper.stream-set-option.php
+     * @link     https://github.com/mikey179/vfsStream/issues/15
+     * @link     http://www.php.net/manual/streamwrapper.stream-set-option.php
      */
     public function stream_set_option($option, $arg1, $arg2)
     {

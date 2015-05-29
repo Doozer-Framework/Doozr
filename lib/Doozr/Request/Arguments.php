@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Request Arguments
+ * Doozr - Request - Arguments
  *
  * Arguments.php - This class is used as replacement for PHP's Globals. It includes
  * the Iterator- and ArrayAccess-Interface to keep original Globals functionality.
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Argument.php';
 
 /**
- * Doozr Request Arguments
+ * Doozr - Request - Arguments
  *
  * This class is used as replacement for PHP's Globals. It includes the Iterator-
  * and ArrayAccess-Interface to keep original Globals functionality.

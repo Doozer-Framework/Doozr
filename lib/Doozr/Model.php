@@ -4,9 +4,8 @@
 /**
  * Doozr - Model
  *
- * Model.php - Model of the Doozr Framework. This Model-class provides access
- * to Database libs in Model/Lib/... - by acting as a configurable (.config.json)
- * proxy.
+ * Model.php - Model of Doozr - This Model-class provides access to Database libs in Model/Lib/...
+ * by acting as a configurable (.config.json) proxy.
  *
  * PHP versions 5.4
  *
@@ -59,9 +58,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Decorator/Singleton.php';
 /**
  * Doozr - Model
  *
- * Model of the Doozr Framework. This Model-class provides access
- * to Database libs in Model/Lib/... - by acting as a configurable (.config.json)
- * proxy.
+ * Model of Doozr - This Model-class provides access to Database libs in Model/Lib/...
+ * by acting as a configurable (.config.json) proxy.
  *
  * @category   Doozr
  * @package    Doozr_Kernel
@@ -108,12 +106,12 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
 
 
     /**
-     * This method is the constructor of the core class.
+     * Constructor.
      *
-     * @param array        $databaseConfiguration Configuration for the Generic Decorator Class
-     * @param Doozr_Path   $path                  Instance of Doozr_Path
+     * @param array               $databaseConfiguration Configuration for the Generic Decorator Class
+     * @param Doozr_Path          $path                  Instance of Doozr_Path
      * @param Doozr_Configuration $config                Instance of Doozr_Configuration
-     * @param Doozr_Logging $logger                Instance of Doozr_Logging
+     * @param Doozr_Logging       $logger                Instance of Doozr_Logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Model

@@ -77,7 +77,7 @@ class Doozr_Http extends Doozr_Base_Class
      * @var string
      * @access public
      * @const
-     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     * @link http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
      */
     const REQUEST_METHOD_GET = 'GET';
 
@@ -87,7 +87,7 @@ class Doozr_Http extends Doozr_Base_Class
      * @var string
      * @access public
      * @const
-     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     * @link http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
      */
     const REQUEST_METHOD_PUT = 'PUT';
 
@@ -97,7 +97,7 @@ class Doozr_Http extends Doozr_Base_Class
      * @var string
      * @access public
      * @const
-     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     * @link http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
      */
     const REQUEST_METHOD_POST = 'POST';
 
@@ -107,7 +107,7 @@ class Doozr_Http extends Doozr_Base_Class
      * @var string
      * @access public
      * @const
-     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     * @link http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
      */
     const REQUEST_METHOD_HEAD = 'HEAD';
 
@@ -117,7 +117,7 @@ class Doozr_Http extends Doozr_Base_Class
      * @var string
      * @access public
      * @const
-     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     * @link http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
      */
     const REQUEST_METHOD_OPTIONS = 'OPTIONS';
 
@@ -127,7 +127,7 @@ class Doozr_Http extends Doozr_Base_Class
      * @var string
      * @access public
      * @const
-     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     * @link http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
      */
     const REQUEST_METHOD_DELETE = 'DELETE';
 
@@ -137,7 +137,7 @@ class Doozr_Http extends Doozr_Base_Class
      * @var string
      * @access public
      * @const
-     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     * @link http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
      */
     const REQUEST_METHOD_TRACE = 'TRACE';
 
@@ -147,7 +147,7 @@ class Doozr_Http extends Doozr_Base_Class
      * @var string
      * @access public
      * @const
-     * @see http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+     * @link http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
      */
     const REQUEST_METHOD_CONNECT = 'CONNECT';
 

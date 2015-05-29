@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Route
+ * Doozr - Base - Subject - Interface
  *
- * Route.php - Dispatches to Doozr's Routing.
+ * Interface.php - Base Subject Interface of Doozr.
  *
  * PHP versions 5.4
  *
@@ -40,11 +40,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Please feel free to contact us via e-mail: opensource@clickalicious.de
+ * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Router
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Subject
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,31 +52,59 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once 'Doozr/Bootstrap.php';
-require_once 'Doozr/Route.php';
+/**
+ * Doozr - Base - Subject - Interface
+ *
+ * Base Subject Interface of Doozr.
+ *
+ * @category   Doozr
+ * @package    Doozr_Base
+ * @subpackage Doozr_Base_Subject
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2015 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/Doozr/
+ */
+interface Doozr_Base_Subject_Interface extends SplSubject
+{
+    /**
+     * Default identifier for Presenter
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const IDENTIFIER_PRESENTER = 'presenter';
 
-// Initialize Doozr Kernel
-Doozr_Kernel::init();
+    /**
+     * Default identifier for View
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const IDENTIFIER_VIEW = 'view';
 
-// Get registry and configuration as well
-$registry = Doozr_Registry::getInstance();
+    /**
+     * Default identifier for Model
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const IDENTIFIER_MODEL = 'model';
 
-// Get URL cpu friendly (CPU:1|MEM-1)
-$url = $registry->getRequest()->getUrl();
 
-// Iterate filter and prepare URL
-foreach ($registry->getConfiguration()->kernel->transmission->request->filter as $filter) {
-    $newUrl = preg_replace($filter->search, $filter->replace, $url);
-    if (null !== $newUrl) {
-        $url = $newUrl;
-    }
+    /**
+     * Getter for identifier.
+     *
+     * Must return an identifier/name of the subject instance.
+     * This identifier should be usable when collecting data via Observer pattern to identify source of responses.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function getIdentifier();
 }
-$registry->getRequest()->setUrl($url);
-
-// Inject route from config to request state
-$registry->getRequest()->setRouteConfig($registry->getConfiguration()->kernel->transmission->request->redirect);
-
-// Route the request (packed in registry)
-$router = new Doozr_Route(
-    $registry
-);

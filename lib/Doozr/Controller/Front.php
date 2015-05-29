@@ -52,6 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
+die;
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
 /**

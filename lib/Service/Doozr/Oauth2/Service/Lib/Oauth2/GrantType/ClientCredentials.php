@@ -31,7 +31,7 @@ class ClientCredentials extends HttpBasic implements GrantTypeInterface
     {
         /*
          * Client Credentials Grant does NOT include a refresh token
-         * @see http://tools.ietf.org/html/rfc6749#section-4.4.3
+         * @link http://tools.ietf.org/html/rfc6749#section-4.4.3
          */
         $includeRefreshToken = false;
         return $accessToken->createAccessToken($client_id, $user_id, $scope, $includeRefreshToken);

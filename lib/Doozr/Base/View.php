@@ -4,7 +4,7 @@
 /**
  * Doozr - Base - View
  *
- * View.php - Base class for view-layers from MVP
+ * View.php - Base class for Views
  *
  * PHP versions 5.4
  *
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/View/Observer.php';
 /**
  * Doozr - Base - View
  *
- * Base master-class for building a view
+ * Base class for Views
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -137,14 +137,6 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected $arguments;
 
     /**
-     * The instance of Doozr_Controller_Front
-     *
-     * @var Doozr_Controller_Front
-     * @access protected
-     */
-    protected $front;
-
-    /**
      * Contains the Doozr main configuration object
      *
      * @var Doozr_Configuration
@@ -192,11 +184,10 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      *
      * @param Doozr_Registry             $registry     Doozr_Registry containing all core components
      * @param Doozr_Base_State_Interface $requestState Whole request as state
-     * @param array                      $request      The whole request as processed by "Route"
-     * @param Doozr_Cache_Service        $cache        An instance of Doozr_Cache_Service
-     * @param Doozr_Configuration               $config       An instance of Doozr_Configuration with Kernel-Configuration
-     * @param Doozr_Controller_Front     $front        An instance of Doozr_Front
-     * @param array                      $translation  The translation required to read the request
+     * @param array                      $request      Whole request as processed by "Route"
+     * @param Doozr_Cache_Service        $cache        Instance of Doozr_Cache_Service
+     * @param Doozr_Configuration        $config       Instance of Doozr_Configuration with Kernel-Configuration
+     * @param array                      $translation  Translation required to read the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Base_View
@@ -208,8 +199,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         Doozr_Base_State_Interface $requestState,
         array                      $request,
         Doozr_Cache_Service        $cache,
-        Doozr_Configuration               $config,
-        Doozr_Controller_Front     $front,
+        Doozr_Configuration        $config,
         array                      $translation   = null
     ) {
         // Store all instances for further use ...
@@ -219,7 +209,6 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
             ->originalRequest($requestState->getRequest())
             ->cache($cache)
             ->configuration($config)
-            ->front($front)
             ->arguments($requestState->getArguments())
             ->requestState($requestState)
             ->translation($translation);
@@ -440,47 +429,6 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected function getConfiguration()
     {
         return $this->configuration;
-    }
-
-    /**
-     * Setter for front.
-     *
-     * @param Doozr_Controller_Front $front Instance of Doozr_Controller_Front
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setFront(Doozr_Controller_Front $front)
-    {
-        $this->front = $front;
-    }
-
-    /**
-     * Setter for front.
-     *
-     * @param Doozr_Controller_Front $front Instance of Doozr_Controller_Front
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access protected
-     */
-    protected function front(Doozr_Controller_Front $front)
-    {
-        $this->setFront($front);
-        return $this;
-    }
-
-    /**
-     * Getter for front.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Controller_Front Instance of front controller
-     * @access protected
-     */
-    protected function getFront()
-    {
-        return $this->front;
     }
 
     /**
@@ -737,23 +685,24 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         return $this->outputMode;
     }
 
+    public $html;
 
     /**
      * This method is intend to render the current state of the view as html. For this it makes use of the base
      * template engine, and html5 template files. If you need another output or something like this, you must
      * overwrite this method.
      *
-     * @param array                     $data              The data as override for internal stored data
-     * @param string                    $fingerprint       Optional fingerprint used as cache identifier for front- and
-     *                                                     backend! Hint: Rendering user specific data an user identifier
-     *                                                     MUST be used as salt when generating the fingerprint!!!
-     *                                                     Otherwise user specific data can and will be sent to another
-     *                                                     user!. So the following rule should be followed:
-     *                                                     - generic view/template no user data = fingerprint by
-     *                                                       content/path/url
-     *                                                     - user specific view/template with user data = use
-     *                                                       session-id or user-id!
-     * @param PHPTAL_TranslationService $i18n              An instance of a Doozr I18n service
+     * @param array                     $data        The data as override for internal stored data
+     * @param string                    $fingerprint Optional fingerprint used as cache identifier for front- and
+     *                                               backend! Hint: Rendering user specific data an user identifier
+     *                                               MUST be used as salt when generating the fingerprint!!!
+     *                                               Otherwise user specific data can and will be sent to another
+     *                                               user!. So the following rule should be followed:
+     *                                                - generic view/template no user data = fingerprint by
+     *                                                  content/path/url
+     *                                                - user specific view/template with user data = use
+     *                                                  session-id or user-id!
+     * @param PHPTAL_TranslationService $i18n        An instance of a Doozr I18n service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if successful, otherwise FALSE
@@ -794,7 +743,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
                                 ->view
                                 ->template
                                 ->path .
-                                $this->translateToTemplatefile() . '.' . self::TEMPLATE_EXTENSION;
+                                $this->translateToTemplateFilename() . '.' . self::TEMPLATE_EXTENSION;
 
             if (file_exists($templateFile) === false) {
                 throw new Doozr_Base_View_Exception(
@@ -848,15 +797,25 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
             }
         }
 
-        /* @var $response Doozr_Response_Web */
-        $response = $this->getFront()->getResponse();
 
+
+
+
+
+        /*
         // Try to get default header for responses from configuration and add them here ...
         try {
             $headers = $this->configuration->kernel->transmission->response->header;
+
         } catch (Exception $e) {
             $headers = array();
         }
+
+
+
+
+
+
 
         foreach ($headers as $category) {
             foreach ($category as $type => $header) {
@@ -873,6 +832,11 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
 
         // send our data as HTML through response
         $response->sendHtml($html, $etag, true);
+        */
+
+        $this->html = $html;
+
+        return $html;
     }
 
     /**
@@ -882,7 +846,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * @return string The filename constructed
      * @access protected
      */
-    protected function translateToTemplatefile()
+    protected function translateToTemplateFilename()
     {
         // get object we operate on
         $object = ucfirst($this->request[0]);
@@ -929,7 +893,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         $arguments[] = (isset($headers['ACCEPT'])) ? $headers['ACCEPT'] : null;
         $arguments[] = (isset($headers['ACCEPT_LANGUAGE'])) ? $headers['ACCEPT_LANGUAGE'] : null;
         $arguments[] = (isset($headers['ACCEPT_ENCODING'])) ? $headers['ACCEPT_ENCODING'] : null;
-        $arguments[] = $this->translateToTemplatefile();
+        $arguments[] = $this->translateToTemplateFilename();
 
         foreach ($arguments as $argument) {
             $fingerprint .= serialize($argument);

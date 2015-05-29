@@ -62,10 +62,19 @@ define('DOOZR_APP_ENVIRONMENT', 'production');
 //define('DOOZR_LOGGING', false);
 
 /**
- * Get composer as well as Doozr's router the rest is magic ...
+ * Get composer and bootstrap Doozr ...
  */
 require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
-require_once 'Route.php';
+require_once 'Doozr/Bootstrap.php';
+
+// Initialize Doozr Kernel
+Doozr_Kernel::init(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
+
+/* @var $response Doozr_Response */
+$response = Doozr_Kernel::handle();
+
+// Send response to client
+$response->send();
 
 /**
  * If you want to call normal files within this directory feel free to :)

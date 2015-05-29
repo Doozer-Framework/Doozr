@@ -2,10 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Debug
+ * Doozr - Debugging
  *
- * Debugging.php.php - Configures PHP dynamic in debug-runtimeEnvironment and setup hooks
- * on important parts.
+ * Debugging.php - Configures some of PHP's runtime parameters for debugging.
  *
  * PHP versions 5.4
  *
@@ -45,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Debug
+ * @subpackage Doozr_Kernel_Debugging
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -60,14 +59,13 @@ use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\PlainTextHandler;
 
 /**
- * Doozr - Debug
+ * Doozr - Debugging
  *
- * Configures PHP dynamic in debug-runtimeEnvironment and setup hooks
- * on important parts.
+ * Configures PHP for debugging. Configures some of PHP's runtime parameters.
  *
  * @category   Doozr
  * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Debug
+ * @subpackage Doozr_Kernel_Debugging
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -77,7 +75,7 @@ use Whoops\Handler\PlainTextHandler;
 class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
 {
     /**
-     * The debug-mode state (true = enabled / false = disabled)
+     * The debugging state (TRUE = enabled / FALSE = disabled)
      *
      * @var bool
      * @access protected
@@ -85,46 +83,185 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
     protected $enabled = false;
 
     /**
-     * Instance of logger
+     * Instance of Doozr_Logging
      *
      * @var Doozr_Logging
      * @access protected
      */
     protected $logger;
 
+    /**
+     * The PHP Version Doozr is running on
+     *
+     * @var float
+     * @access protected
+     */
+    protected $phpVersion;
+
+    /**
+     * CLI state.
+     * TRUE = is Cli Environment | FALSE = not
+     * Important for installing correct Whoops Handler
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $isCli = false;
+
+    /**
+     * Minimum error value (to disable)
+     *
+     * @var int
+     * @access protected
+     */
+    protected $errorMinimum = 0;
+
+    /**
+     * Maximum error value (to enable very verbose)
+     *
+     * @var int
+     * @access protected
+     */
+    protected $errorMaximum;
+
+    /**
+     * Instance of Whoops Error Handler
+     *
+     * @var \Whoops\Run
+     * @access protected
+     */
+    protected $whoops;
+
 
     /**
      * Constructor.
      *
-     * @param Doozr_Logging_Interface $logger  An instance of Doozr_Logging
-     * @param bool                    $enabled Defines it debug mode is enabled or not
+     * @param Doozr_Logging_Interface $logger       Instance of Doozr_Logging
+     * @param bool                    $enabled      Defines it debugging mode is enabled or not
+     * @param float                   $phpVersion   Active PHP version Doozr running on
+     * @param bool                    $isCli        TRUE if Cli environment (other handlers), FALSE if not
+     * @param int                     $errorMaximum Maximum error integer for PHP
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Debugging
      * @access protected
      */
-    protected function __construct(Doozr_Logging_Interface $logger, $enabled = false)
-    {
-        // store instances
-        $this->logger = $logger;
+    protected function __construct(
+        Doozr_Logging_Interface $logger,
+                                $enabled,
+                                $phpVersion,
+                                $isCli,
+                                $errorMaximum
+    ) {
+        $this
+            ->logger($logger)
+            ->phpVersion($phpVersion)
+            ->isCli($isCli)
+            ->errorMaximum($errorMaximum)
+            ->whoops(new Run());
 
-        // log debug state
+        // Log debugging state
         $this->logger->debug(
             'Debugging Component ' . ((true === $enabled) ? 'en' : 'dis') . 'abled.'
         );
 
-        // check for initial trigger
-        if ($enabled) {
+        // Check for initial trigger
+        if (true === $enabled) {
             $this->enable();
+
         } else {
             $this->disable();
         }
     }
 
+
+
+    protected function setLogger(Doozr_Logging_Interface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    protected function logger(Doozr_Logging_Interface $logger)
+    {
+        $this->setLogger($logger);
+        return $this;
+    }
+
+    protected function getLogger()
+    {
+        return $this->logger;
+    }
+
+
+    protected function setPhpVersion($phpVersion)
+    {
+        $this->phpVersion = $phpVersion;
+    }
+
+    protected function phpVersion($phpVersion)
+    {
+        $this->setPhpVersion($phpVersion);
+        return $this;
+    }
+
+    protected function getPhpVersion()
+    {
+        return $this->phpVersion;
+    }
+
+
+    protected function setIsCli($isCli)
+    {
+        $this->isCli = $isCli;
+    }
+
+    protected function isCli($isCli)
+    {
+        $this->setIsCli($isCli);
+        return $this;
+    }
+
+    protected function getIsCli()
+    {
+        return $this->isCli;
+    }
+
+
+    protected function setErrorMaximum($errorMaximum)
+    {
+        $this->errorMaximum = $errorMaximum;
+    }
+
+    protected function errorMaximum($errorMaximum)
+    {
+        $this->setErrorMaximum($errorMaximum);
+        return $this;
+    }
+
+    protected function getErrorMaximum()
+    {
+        return $this->errorMaximum;
+    }
+
+    protected function setWhoops($whoops)
+    {
+        $this->whoops = $whoops;
+    }
+
+    protected function whoops($whoops)
+    {
+        $this->setWhoops($whoops);
+        return $this;
+    }
+
+    protected function getWhoops()
+    {
+        return $this->whoops;
+    }
+
+
     /**
      * Enables debugging.
-     *
-     * This method is intend to enable debugging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -133,7 +270,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      */
     public function enable()
     {
-        if ($this->prepareForDevelopment() === true) {
+        if (true === $this->makeVerbose()) {
             $this->enabled = true;
             $this->installWhoops();
             $this->logger->debug('Debugging tools installed.');
@@ -159,7 +296,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      */
     public function disable()
     {
-        if ($this->prepareForProduction() === true) {
+        if (true === $this->makeSilent()) {
             $this->enabled = false;
             $this->uninstallWhoops();
             $this->logger->debug('Debugging successfully disabled.');
@@ -182,10 +319,8 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      */
     protected function installWhoops()
     {
-        $whoops = new Run();
-
         // Configure the page handler of Whoops
-        if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI === DOOZR_RUNTIME_ENVIRONMENT) {
+        if (true === $this->isCli) {
             // Text for cli
             $exceptionHandler = new PlainTextHandler();
 
@@ -198,29 +333,20 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
 
             $constants = get_defined_constants();
 
+            // Extract Doozr Constants as debugging information
             $data = array();
-
             foreach($constants as $key => $value) {
                 if ('DOOZR_' === substr($key, 0, 6)) {
-                    $data[$key] = $value;
+                    $data[$key] = (true === is_bool($value)) ? ((true === $value) ? 'TRUE' : 'FALSE') : $value;
                 }
             }
+            ksort($data);
 
-            $exceptionHandler->addDataTable("Doozr runtime environment", $data
-            /*array(
-                    "DOOZR_OS"            => (string)DOOZR_OS,
-                    "DOOZR_SAPI"          => (string)DOOZR_SAPI,
-                    "DOOZR_PHP_VERSION"   => (string)DOOZR_PHP_VERSION,
-                    "DOOZR_DOCUMENT_ROOT" => (string)DOOZR_DOCUMENT_ROOT,
-                    "DOOZR_SYSTEM_TEMP"   => (string)DOOZR_SYSTEM_TEMP,
-                    "DOOZR_ERROR_MAX"     => (string)DOOZR_PHP_ERROR_MAX,
-                    "DOOZR_SECURE_HASH"   => (string)DOOZR_SECURE_HASH,
-                )*/
-            );
+            $exceptionHandler->addDataTable("Doozr runtime environment", $data);
         }
 
-        $whoops->pushHandler($exceptionHandler);
-        $whoops->register();
+        $this->whoops->pushHandler($exceptionHandler);
+        $this->whoops->register();
     }
 
     /**
@@ -232,32 +358,29 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      */
     protected function uninstallWhoops()
     {
-        $whoops = new Run();
-        $whoops->unregister();
+        $this->whoops->unregister();
     }
 
     /**
-     * Enables debugging.
-     *
-     * This method is to enable debugging.
+     * Makes PHP verbose to get at much debugging output as possible.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if debug was successfully enabled, otherwise FALSE
+     * @return boolean TRUE if debugging was successfully enabled, otherwise FALSE
      * @access protected
      */
-    protected function prepareForDevelopment()
+    protected function makeVerbose()
     {
-        // set error reporting to maximum output
-        error_reporting(DOOZR_PHP_ERROR_MAX);
+        // Set error reporting to maximum output
+        error_reporting($this->errorMaximum);
 
         // ini_set() can only be used if php version is >= 5.3 (cause from PHP 5.3 safemode
         // is deprecated and from PHP 5.4 it is removed) or if safemode is Off.
-        if (DOOZR_PHP_VERSION >= 5.3 || !ini_get('safemode')) {
-            ini_set('display_errors', 1);
+        if ($this->phpVersion >= 5.3 || !ini_get('safemode')) {
+            ini_set('display_errors',         1);
             ini_set('display_startup_errors', 1);
-            ini_set('track_errors', 1);
-            ini_set('log_errors', 1);
-            ini_set('html_errors', 1);
+            ini_set('track_errors',           1);
+            ini_set('log_errors',             1);
+            ini_set('html_errors',            1);
             $result = true;
 
         } else {
@@ -268,32 +391,32 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
     }
 
     /**
-     * Disables debugging.
-     *
-     * This method is intend to disable debugging.
+     * Makes PHP silent to get less output.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if debug was successfully disabled, otherwise FALSE
+     * @return boolean TRUE if debugging could be disabled, otherwise FALSE
      * @access protected
      */
-    protected function prepareForProduction()
+    protected function makeSilent()
     {
-        // if debug-mode is disabled we must hide all errors to prevent the app from information leakage.
+        // if debugging-mode is disabled we must hide all errors to prevent the app from information leakage.
         // set error_reporting to null (0) to hide PHP's reports
-        error_reporting(0);
+        error_reporting($this->errorMinimum);
 
         // ini_set() can only be used if php version is >= 5.3 (cause from PHP 5.3 safemode
         // is deprecated and from PHP 5.4 it is removed) or if safemode is Off.
-        if (DOOZR_PHP_VERSION >= 5.3 || !ini_get('safemode')) {
-            ini_set('display_errors', 0);
+        if ($this->phpVersion >= 5.3 || !ini_get('safemode')) {
+            ini_set('display_errors',         0);
             ini_set('display_startup_errors', 0);
-            ini_set('track_errors', 0);
-            ini_set('log_errors', 1);
-            ini_set('html_errors', 0);
+            ini_set('track_errors',           0);
+            ini_set('log_errors',             1);
+            ini_set('html_errors',            0);
+            $result = true;
 
+        } else {
+            $result = false;
         }
 
-        // and return -> success
-        return true;
+        return $result;
     }
 }

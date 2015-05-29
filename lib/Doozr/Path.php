@@ -4,8 +4,7 @@
 /**
  * Doozr - Path
  *
- * Path.php - is the Path-Manager of the Doozr-Framework and it is intend for
- * retrieving and setting (maintaining) path's.
+ * Path.php - This is the Path-Manager of Doozr and it is intend for retrieving and setting paths.
  *
  * PHP versions 5.4
  *
@@ -57,10 +56,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path/Interface.php';
 
 /**
- * Doozr Path
+ * Doozr - Path
  *
- * This is the Path-Manager of the Doozr-Framework and it is intend for
- * retrieving and setting (maintaining) path's.
+ * This is the Path-Manager of Doozr and it is intend for retrieving and setting paths.
  *
  * @category   Doozr
  * @package    Doozr_Kernel

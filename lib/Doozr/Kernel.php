@@ -4,7 +4,7 @@
 /**
  * Doozr - Kernel
  *
- * Kernel.php - Kernel class of the Doozr Framework
+ * Kernel.php - Kernel of the Doozr Framework.
  *
  * PHP versions 5.4
  *
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Class
+ * @subpackage Doozr_Kernel_Component
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -54,16 +54,19 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Json.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map/Static.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Container.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Encoding.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Locale.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Debugging.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Security.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Controller/Front.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Controller/Back.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Model.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Arguments.php';
 
@@ -72,11 +75,11 @@ use DebugBar\StandardDebugBar;
 /**
  * Doozr - Kernel
  *
- * Kernel class of the Doozr Framework
+ * Kernel of the Doozr Framework.
  *
  * @category   Doozr
  * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Class
+ * @subpackage Doozr_Kernel_Component
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -150,10 +153,40 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     const RUNTIME_ENVIRONMENT_HTTPD = 'Httpd';
 
-
+    /**
+     * Applications environment for Testing
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const APP_ENVIRONMENT_TESTING = 'testing';
+
+    /**
+     * Applications environment for Production
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const APP_ENVIRONMENT_PRODUCTION = 'production';
+
+    /**
+     * Applications environment for Development
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const APP_ENVIRONMENT_DEVELOPMENT = 'development';
+
+    /**
+     * Applications environment for Staging
+     *
+     * @var string
+     * @access public
+     * @const
+     */
     const APP_ENVIRONMENT_STAGING = 'staging';
 
 
@@ -164,19 +197,21 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     /**
      * This method is the constructor of the core class.
      *
-     * @param bool $virtualized TRUE to run the Kernel virtualized, otherwise FALSE to run in real mode
+     * @param string $appEnvironment     The application environment of the app running this Kernel instance
+     * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI)
+     * @param bool   $virtualized        TRUE to run the Kernel virtualized, otherwise FALSE to run in real mode
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Kernel
      * @access protected
      */
-    protected function __construct($virtualized = false)
+    protected function __construct($appEnvironment, $runtimeEnvironment, $virtualized = false)
     {
         // Start stopwatch
         self::startTimer();
 
         // Run internal bootstrap process
-        self::bootstrap(true, $virtualized);
+        self::bootstrap(true, $appEnvironment, $runtimeEnvironment, $virtualized);
 
         // Stop timer and store execution-time
         self::stopTimer();
@@ -185,15 +220,20 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     /**
      * Proxy to getInstance to reduce confusion e.g. when bootstrapping the application.
      *
-     * @param bool $virtualized TRUE to signalize Doozr that it is running virtual, default = FALSE
+     * @param string $appEnvironment     The application environment of the app running this Kernel instance
+     * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI)
+     * @param bool   $virtualized        TRUE to signalize Doozr that it is running virtual, default = FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Kernel The core instance
+     * @return Doozr_Kernel The Doozr Kernel instance
      * @access public
      */
-    public static function init($virtualized = false)
-    {
-        return Doozr_Kernel::getInstance($virtualized);
+    public static function init(
+        $appEnvironment     = self::APP_ENVIRONMENT_PRODUCTION,
+        $runtimeEnvironment = self::RUNTIME_ENVIRONMENT_WEB,
+        $virtualized        = false
+    ) {
+        return Doozr_Kernel::getInstance($appEnvironment, $runtimeEnvironment, $virtualized);
     }
 
     /**
@@ -217,23 +257,29 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Starts the bootstrapping process. It enables you to rerun the whole
-     * bootstrapping process from outside by implementing this method as public. So you are able
-     * to unit-test your application with a fresh bootstrapped core on each run.
+     * Starts the bootstrapping process. It enables you to rerun the whole bootstrapping process from outside
+     * by implementing this method as public. So you are able to unit-test your application with a fresh bootstrapped
+     * core on each run. Able to  rerun (e.g. to support unit-testing on each run with fresh bootstrap!)
+     * @link http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
      *
-     * @param bool $rerun       TRUE to rerun the bootstrap process, otherwise FALSE to keep state
-     * @param bool $virtualized TRUE to run Kernel virtualized, otherwise FALSE
+     * @param bool   $rerun              TRUE to rerun the bootstrap process, FALSE to keep state from last run
+     * @param string $appEnvironment     Application environment of the app running this Kernel instance
+     * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI)
+     * @param bool   $virtualized        TRUE to run Kernel virtualized, otherwise FALSE
      *
-     * @throws Doozr_Exception
+     * @throws Doozr_Kernel_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      * @static
      */
-    public static function bootstrap($rerun = true, $virtualized = false)
-    {
-        // Check if rerun is given (e.g. to support unit-testing on each run with fresh bootstrap!)
-        // @see: http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
+    public static function bootstrap(
+        $rerun              = true,
+        $appEnvironment     = self::APP_ENVIRONMENT_PRODUCTION,
+        $runtimeEnvironment = self::RUNTIME_ENVIRONMENT_WEB,
+        $virtualized        = false
+    ) {
+        // Check for requested rerun. Prevent duplicate init. But enable to do.
         if ($rerun === true) {
             // Start init-stack ...
             if (!
@@ -244,29 +290,30 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
                     self::initCache() &&
                     self::initLogger() &&
                     self::initPath() &&
-                    self::initConfiguration() &&
+                    self::initConfiguration($appEnvironment) &&
                     self::configureLogging() &&
-                    (self::$registry->getLogger()->debug('Bootstrapping of Doozr (v ' . DOOZR_VERSION . ')')) &&
+                    (
+                        self::$registry->getLogger()
+                            ->debug(
+                                'Runtime environment: ' . $runtimeEnvironment
+                            )
+                            ->debug(
+                                'Bootstrapping of Doozr (v ' . DOOZR_VERSION . ')'
+                            )
+                    ) &&
                     self::initSystem() &&
                     self::initEncoding() &&
                     self::initLocale() &&
                     self::initDebug() &&
                     self::initSecurity() &&
                     self::initRequest() &&
-                    (
-                        self::$registry->getLogger()->debug(
-                            'Runtime environment: ' . DOOZR_RUNTIME_ENVIRONMENT
-                        )
-                    ) &&
                     self::initResponse() &&
-                    self::initFrontController() &&
-                    self::initBackController() &&
                     self::initModel() &&
                     self::initServices()
                 )
             ) {
-                throw new Doozr_Exception(
-                    'Critical error while bootstrapping Doozr. This should never happen. Stopping execution.'
+                throw new Doozr_Kernel_Exception(
+                    'Error while bootstrapping Doozr Kernel. This should never happen. Stopping execution.'
                 );
             }
         }
@@ -325,13 +372,6 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initDependencyInjection()
     {
-        // Required classes (files) for static demonstration #3
-        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
-        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Json.php';
-        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map/Static.php';
-        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
-        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Container.php';
-
         /**
          * Create instances of required classes
          * Create instance of Doozr_Di_Map_Static and pass required classes as arguments to constructor
@@ -433,14 +473,15 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     /**
      * Initialize and prepare the config used for running the framework and the app.
      *
+     * @param string $appEnvironment The application environment of the app running this Kernel instance
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success
      * @access protected
      * @static
      */
-    protected static function initConfiguration()
+    protected static function initConfiguration($appEnvironment)
     {
-        // The cache instance ...
         /* @var Doozr_Cache_Service $cache */
         $cache = self::getRegistry()->getCache();
 
@@ -473,28 +514,24 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
             self::$registry->getPath()->get('config') . '.config.json'
         );
 
-
         /**
          * READ CONFIG OF SERVICES
+         * @todo CACHING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          */
-        $path      = self::$registry->getPath()->get('service');
-        $directory = new RecursiveDirectoryIterator($path);
-        $iterator  = new RecursiveIteratorIterator($directory);
+        $pattern = self::$registry->getPath()->get('service') . '*\\*\\.config.json';
+        $files   = glob($pattern, GLOB_NOSORT);
 
-        foreach ($iterator as $info) {
-            if ($info->getFilename() === '.config.json') {
-                $config->read($info->getPathname());
-            }
+        foreach ($files as $file) {
+            $config->read($file);
         }
-
         /**
          * END CONFIG OF SERVICES
          */
 
-
-        // Read config of application
-        /* @todo HERE BY ENV! */
-        $userlandConfigurationFile = self::$registry->getPath()->get('app', 'Data\Private\Config\.config.json');
+        $userlandConfigurationFile = self::$registry->getPath()->get(
+            'app',
+            'Data\Private\Config\.config.' . $appEnvironment . '.json'
+        );
 
         if (file_exists($userlandConfigurationFile) && is_readable($userlandConfigurationFile)) {
             $config->read($userlandConfigurationFile);
@@ -607,7 +644,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         );
 
         // update map => intentionally this method is used for setting a new map but it
-        // does also work for our usecase ... to inject an updated map on each call
+        // does also work for our use-case ... to inject an updated map on each call
         self::$registry->getContainer()->setMap(self::$registry->getMap());
 
         // Setup + store encoding in registry
@@ -623,7 +660,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success.
      * @access protected
-     * @see    http://de.wikipedia.org/wiki/Locale
+     * @link   http://de.wikipedia.org/wiki/Locale
      * @static
      */
     protected static function initLocale()
@@ -653,16 +690,21 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
                 self::$registry->getContainer()->build(
                     'Doozr_Debugging',
                     array(
-                        DOOZR_DEBUGGING
+                        DOOZR_DEBUGGING,
+                        DOOZR_PHP_VERSION,
+                        (self::RUNTIME_ENVIRONMENT_CLI === DOOZR_RUNTIME_ENVIRONMENT),
+                        DOOZR_PHP_ERROR_MAX,
                     )
                 )
             );
 
             $debugbar = new StandardDebugBar();
             $debugbar['time']->startMeasure('request-cycle', 'Request cycle (Doozr)');
-            $debugbar->addCollector(new DebugBar\DataCollector\ConfigCollector(json_decode(json_encode(self::$registry->getConfiguration()->get()), true)));
-
-
+            $debugbar->addCollector(
+                new DebugBar\DataCollector\ConfigCollector(
+                    json_decode(json_encode(self::$registry->getConfiguration()->get()), true)
+                )
+            );
 
             self::$registry->setDebugbar(
                 $debugbar
@@ -705,14 +747,13 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
             self::$registry->getDebugbar()['time']->startMeasure('request-parsing', 'Parsing request');
         }
 
-        // Get instance of request
         self::$registry->setRequest(
             self::$registry->getContainer()->build(
                 'Doozr_Request',
                 array(DOOZR_RUNTIME_ENVIRONMENT)
-            )->export()
+            )
         );
-
+        //->export()
 
         if (true === DOOZR_DEBUGGING) {
             self::$registry->getDebugbar()['time']->stopMeasure('request-parsing');
@@ -738,76 +779,20 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
         /**
          * to be continued. We take action to bring the response in place here for our inner/outer layer state concept.
-         * So we would init a reponse state here. The response state can be used and accessed anywhere in the
+         * So we would init a response state here. The response state can be used and accessed anywhere in the
          * application. You can add header(s), information(s), ... At the end of the request cycle or on an explicit
          * flush() - The response will be send() [you can either call flush() -> will clear state | or send() without
          * any further ops.]
          */
         // Get instance of response
         self::$registry->setResponse(
-            self::$registry->getContainer()->build('Doozr_Response')->export()
+            self::$registry->getContainer()->build('Doozr_Response')
         );
+        //->export()
 
         if (true === DOOZR_DEBUGGING) {
             self::$registry->getDebugbar()['time']->stopMeasure('preparing-response');
         }
-
-        // Important for bootstrap result
-        return true;
-    }
-
-    /**
-     * Initializes the front-controller. The front-controller
-     * is mainly responsible for retrieving data from and sending data to the client.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success
-     * @access protected
-     * @static
-     */
-    protected static function initFrontController()
-    {
-        // add required dependencies
-        self::$registry->getMap()->wire(
-            Doozr_Di_Container::MODE_STATIC,
-            array(
-                'Doozr_Request_State'  => self::$registry->getRequest(),
-                'Doozr_Response_State' => self::$registry->getResponse(),
-            )
-        );
-
-        // Store map with fresh instances
-        self::$registry->getContainer()->setMap(self::$registry->getMap());
-
-        // Get front controller and store in central registry
-        self::$registry->setFront(
-            self::$registry->getContainer()->build('Doozr_Controller_Front')
-        );
-
-        // Important for bootstrap result
-        return true;
-    }
-
-    /**
-     * Initializes the back-controller. The back-controller
-     * is mainly responsible for managing access to the MVP part and used as interface
-     * to model as well.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success
-     * @access protected
-     * @static
-     */
-    protected static function initBackController()
-    {
-        // Get instance of back controller
-        self::$registry->setBack(
-            self::$registry->getContainer()->build('Doozr_Controller_Back', array(
-                    Doozr_Loader_Serviceloader::load('filesystem'),
-                    self::getRegistry()->getCache()
-                )
-            )
-        );
 
         // Important for bootstrap result
         return true;
@@ -975,6 +960,44 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
         return self::$coreExecutionTime;
     }
 
+    /**
+     * Handles a request. For this it takes the request-state as input, routes the request
+     * to the correct target (MVP) and returns a prepared response instance.
+     *
+     * @param \Doozr_Request_State $requestState The request state object to route through Doozr
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Response An instance of Doozr_Response - ready to send
+     * @access public
+     */
+    public static function handle(Doozr_Request_State $requestState = null)
+    {
+        /* @var $router Doozr_Route */
+        $router = self::$registry->getContainer()->build('Doozr_Route');
+
+        /* @var $requestState Doozr_Request_State */
+        $requestState = (null === $requestState) ? self::$registry->getRequest()->export() : $requestState;
+
+        $response = self::$registry->getResponse();
+
+        /* @var $routeDispatcher Doozr_Route_Dispatcher */
+        $routeDispatcher = new Doozr_Route_Dispatcher(self::$registry);
+
+        // Try to route - fetch on exception for return
+        try {
+            // Dispatch route detected to the MVP. Fetch the result - can also be an exceptional state!
+            $requestState = $router->route($requestState);
+            $response     = $routeDispatcher->createFromRequestState($requestState);
+
+        } catch (Doozr_Route_Exception $routeException) {
+            $response
+                ->httpStatusCode($routeException->getCode())
+                ->content($routeException->getMessage());
+        }
+
+        return $response;
+    }
+
     /*------------------------------------------------------------------------------------------------------------------
     | MAGIC
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -989,7 +1012,7 @@ final class Doozr_Kernel extends Doozr_Base_Class_Singleton
     public function __destruct()
     {
         // Log request serving time -> but only if logger available!
-        if (self::$registry->getLogger()) {
+        if (null !== self::$registry->getLogger()) {
             self::$registry->getLogger()->debug(
                 'Request cycle completed in: ' . self::getDateTime()->getMicrotimeDiff(self::$starttime) . ' seconds'
             );

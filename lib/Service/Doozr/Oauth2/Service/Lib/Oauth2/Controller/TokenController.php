@@ -45,7 +45,7 @@ class TokenController implements TokenControllerInterface
     public function handleTokenRequest(RequestInterface $request, ResponseInterface $response)
     {
         if ($token = $this->grantAccessToken($request, $response)) {
-            // @see http://tools.ietf.org/html/rfc6749#section-5.1
+            // @link http://tools.ietf.org/html/rfc6749#section-5.1
             // server MUST disable caching in headers when tokens are involved
             $response->setStatusCode(200);
             $response->addParameters($token);
@@ -64,9 +64,9 @@ class TokenController implements TokenControllerInterface
      * @throws InvalidArgumentException
      * @throws LogicException
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4
-     * @see http://tools.ietf.org/html/rfc6749#section-10.6
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
+     * @link http://tools.ietf.org/html/rfc6749#section-4
+     * @link http://tools.ietf.org/html/rfc6749#section-10.6
+     * @link http://tools.ietf.org/html/rfc6749#section-4.1.3
      *
      * @ingroup oauth2_section_4
      */

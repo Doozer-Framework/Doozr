@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Request Argument
+ * Doozr - Request - Argument
  *
  * Argument.php - The Argument part of Doozr_Request_Arguments (Parameter => Argument).
  *
@@ -46,7 +46,7 @@
  */
 
 /**
- * Doozr Request Argument
+ * Doozr - Request - Argument
  *
  * The Argument part of Doozr_Request_Arguments (Parameter => Argument).
  *

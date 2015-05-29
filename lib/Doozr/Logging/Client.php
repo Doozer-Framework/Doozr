@@ -4,8 +4,7 @@
 /**
  * Doozr - Logging - Client
  *
- * Client.php - This logger logs all passed content to the current client:
- * Browser, Cli, ...
+ * Client.php - This logger logs all passed content to the current client: Browser, Cli, ...
  *
  * PHP versions 5.4
  *
@@ -61,8 +60,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 /**
  * Doozr - Logging - Client
  *
- * This logger logs all passed content to systems (OS) default
- * log system.
+ * This logger logs all passed content to systems (OS) default log system.
  *
  * @category   Doozr
  * @package    Doozr_Logging

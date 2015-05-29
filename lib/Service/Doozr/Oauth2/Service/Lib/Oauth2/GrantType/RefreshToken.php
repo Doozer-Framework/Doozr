@@ -73,7 +73,7 @@ class RefreshToken implements GrantTypeInterface
         /*
          * It is optional to force a new refresh token when a refresh token is used.
          * However, if a new refresh token is issued, the old one MUST be expired
-         * @see http://tools.ietf.org/html/rfc6749#section-6
+         * @link http://tools.ietf.org/html/rfc6749#section-6
          */
         $issueNewRefreshToken = $this->config['always_issue_new_refresh_token'];
         $token = $accessToken->createAccessToken($client_id, $user_id, $scope, $issueNewRefreshToken);

@@ -289,13 +289,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for request (state).
      *
-     * @param Doozr_Request_State $request The request state to set
+     * @param Doozr_Request $request The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setRequest(Doozr_Request_State $request)
+    public function setRequest(Doozr_Request $request)
     {
         $this->set($request, 'request');
     }
@@ -304,7 +304,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for request (state).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State The request state
+     * @return Doozr_Request The request state
      * @access public
      */
     public function getRequest()
@@ -315,13 +315,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for response (state).
      *
-     * @param Doozr_Response_State $response The response state
+     * @param Doozr_Response $response The response state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setResponse(Doozr_Response_State $response)
+    public function setResponse(Doozr_Response $response)
     {
         $this->set($response, 'response');
     }
@@ -330,7 +330,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for response (state).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Response_State The response state
+     * @return Doozr_Response The response state
      * @access public
      */
     public function getResponse()
@@ -362,58 +362,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     public function getMap()
     {
         return $this->get('map');
-    }
-
-    /**
-     * Setter for front.
-     *
-     * @param Doozr_Controller_Front $front Front controller instance
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setFront(Doozr_Controller_Front $front)
-    {
-        $this->set($front, 'front');
-    }
-
-    /**
-     * Getter for front controller.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Controller_Front Front controller instance
-     * @access public
-     */
-    public function getFront()
-    {
-        return $this->get('front');
-    }
-
-    /**
-     * Setter for back.
-     *
-     * @param Doozr_Controller_Back $back The back controller.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setBack(Doozr_Controller_Back $back)
-    {
-        $this->set($back, 'back');
-    }
-
-    /**
-     * Getter for back.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Controller_Back The back controller
-     * @access public
-     */
-    public function getBack()
-    {
-        return $this->get('back');
     }
 
     /**
