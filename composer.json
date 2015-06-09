@@ -34,7 +34,7 @@
       "sepia/po-parser": "4.2.*",
       "psr/http-message": "1.0.*",
       "stack/callable-http-kernel": "1.0.*",
-      "pipeline/pipeline": "1.*@dev"
+      "relay/relay": "1.*@dev"
   },
   "require-dev": {
     "raulfraile/ladybug": "1.0.*",
