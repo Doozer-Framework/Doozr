@@ -6,7 +6,7 @@
  *
  * Service.php - Doozr Service for all virtual filesystem operations.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -75,7 +75,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @inject     Doozr_Registry:Doozr_Registry identifier:__construct type:constructor position:1
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )

@@ -6,7 +6,7 @@
  *
  * Currency.php - Currency formatter
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -75,7 +75,6 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
      *
      * @var int
      * @access public
-     * @const
      */
     const NOTATION_SYMBOL = 1;
 
@@ -84,10 +83,8 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
      *
      * @var int
      * @access public
-     * @const
      */
     const NOTATION_TEXT   = 2;
-
 
     /*------------------------------------------------------------------------------------------------------------------
      | PUBLIC API

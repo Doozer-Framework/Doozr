@@ -9,7 +9,7 @@
  * child components (also if it doesn't make sense for some components!) and
  * that a call on render() will return the HTML for the whole component.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -92,7 +92,7 @@ interface Doozr_Form_Service_Component_Interface_Html
      * @param int $index The index of the child component to remove from component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|null TRUE  if child was removed successfully,
+     * @return bool|null TRUE  if child was removed successfully,
      *                      FALSE if child could not be removed,
      *                      NULL  if child wasn't found
      * @access public
@@ -123,7 +123,7 @@ interface Doozr_Form_Service_Component_Interface_Html
      * Returns the parent status of a component.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the component has childs, otherwise FALSE
+     * @return bool TRUE if the component has childs, otherwise FALSE
      * @access public
      */
     public function hasChilds();

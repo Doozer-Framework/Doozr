@@ -6,7 +6,7 @@
  *
  * Interface.php - Interface class for all Importer of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -70,7 +70,7 @@ interface Doozr_Di_Importer_Interface
     /**
      * Contract for import
      *
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      */
     public function import();
 

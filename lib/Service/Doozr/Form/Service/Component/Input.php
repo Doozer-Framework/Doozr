@@ -7,7 +7,7 @@
  * Input.php - The Input component control layer which adds validation,
  * and so on to an HTML component.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -100,7 +100,6 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_TEXT = 'text';
 
@@ -109,7 +108,6 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_BUTTON = 'button';
 
@@ -118,7 +116,6 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_IMAGE = 'image';
 
@@ -127,7 +124,6 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_ABORT = 'abort';
 
@@ -136,7 +132,6 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_RESET = 'reset';
 
@@ -145,7 +140,6 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_UPLOAD = 'upload';
 
@@ -154,7 +148,6 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_SUBMIT = 'submit';
 
@@ -683,7 +676,7 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      * Returns the autocapitalize state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if autocapitalize is on, otherwise FALSE
+     * @return bool TRUE if autocapitalize is on, otherwise FALSE
      * @access public
      */
     public function getAutocapitalize()

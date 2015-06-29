@@ -6,7 +6,7 @@
  *
  * Session.php - Session based storage.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -107,7 +107,7 @@ class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract
      * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function create($key, $value)
@@ -137,7 +137,7 @@ class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract
      * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function update($key, $value)
@@ -151,7 +151,7 @@ class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract
      * @param string $key The key to delete
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function delete($key)

@@ -6,7 +6,7 @@
  *
  * Exception.php - Base exception of module Config
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

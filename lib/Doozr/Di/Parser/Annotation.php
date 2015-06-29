@@ -6,7 +6,7 @@
  *
  * Annotation.php - Annotation Parser of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -143,7 +143,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      *
      * This method is intend to build an array of options for each of the commands that were matched.
      * This options array is readable/similar to a dependency map item. This method requires only
-     * argument one ($identifier) to work properly.
+     * argument one ($target) to work properly.
      *
      * @param int $range The range to parse from
      *
@@ -224,7 +224,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * This method is intend to check if the requirements are fulfilled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if requirements fulfilled, otherwise FALSE
+     * @return bool TRUE if requirements fulfilled, otherwise FALSE
      * @access public
      * @static
      */
@@ -246,7 +246,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      */
     protected function parseFromReflectionByRange(ReflectionClass $reflection, $range)
     {
-        $dependencies = array();
+        $dependencies = [];
 
         switch ($range) {
             case self::RANGE_CLASS:
@@ -298,7 +298,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
         );
 
         // assume empty result
-        $result = array();
+        $result = [];
 
         // check for command
         if ($this->hasCommand()) {
@@ -315,13 +315,13 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
                 // split whole command into single arguments
                 $arguments = explode(' ', $command);
 
-                // store identifier
+                // store target
                 if (stristr($arguments[0], ':')) {
-                    $identifier = explode(':', $arguments[0]);
-                    $tmp['class']      = $identifier[0];
-                    $tmp['identifier'] = $identifier[1];
+                    $target = explode(':', $arguments[0]);
+                    $tmp['class']  = $target[0];
+                    $tmp['target'] = $target[1];
                 } else {
-                    $tmp['identifier'] = $arguments[0];
+                    $tmp['target'] = $arguments[0];
                 }
 
                 $countArguments = count($arguments);
@@ -372,22 +372,22 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      */
     protected function parseFromClassComment(ReflectionClass $reflection)
     {
-        $result = array();
+        $result = [];
 
         $dependencies = self::getAnnotationReader()->getClassAnnotations($reflection);
 
         foreach ($dependencies as $key => $dependency) {
-            if ($dependency->type === 'constructor' && $dependency->identifier !== '__construct') {
-                $dependency->constructor = $dependency->identifier;
+            if ($dependency->type === 'constructor' && $dependency->target !== '__construct') {
+                $dependency->constructor = $dependency->target;
             } else {
                 $dependency->constructor = '__construct';
             }
 
-            if (!isset($result[$dependency->identifier])) {
-                $result[$dependency->identifier] = array();
+            if (!isset($result[$dependency->target])) {
+                $result[$dependency->target] = [];
             }
 
-            $result[$dependency->identifier][] = object_to_array($dependency);
+            $result[$dependency->target][] = object_to_array($dependency);
         }
 
         return $result;
@@ -396,10 +396,10 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
         $dependencies = $this->getAnnotationFromSource($reflection->getDocComment());
 
         $type        = isset($dependencies[0]['type']) ? $dependencies[0]['type'] : null;
-        $identifier  = isset($dependencies[0]['identifier']) ? $dependencies[0]['identifier'] : null;
+        $target  = isset($dependencies[0]['target']) ? $dependencies[0]['target'] : null;
 
-        if ($type === 'constructor' && $identifier !== '__construct') {
-            $constructor = $identifier;
+        if ($type === 'constructor' && $target !== '__construct') {
+            $constructor = $target;
         } else {
             $constructor = '__construct';
         }
@@ -418,7 +418,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      */
     protected function parseFromClassMethods(ReflectionClass $reflection)
     {
-        $result = array();
+        $result = [];
 
         // get dependencies from method comment
         $reflectionMethods = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);
@@ -446,7 +446,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      */
     protected function parseFromClassProperties(ReflectionClass $reflection)
     {
-        $result = array();
+        $result = [];
 
         // get dependencies from property comment
         $reflectionProperties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);

@@ -6,7 +6,7 @@
  *
  * Exception.php - Exception for REST in general as base for M,V,P ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -85,7 +85,7 @@ class Doozr_Base_Rest_Exception extends Doozr_Base_Exception
      * @var array
      * @access public
      */
-    public $error = array();
+    public $error = [];
 
 
     /**

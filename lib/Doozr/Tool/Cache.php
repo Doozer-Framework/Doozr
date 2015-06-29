@@ -6,7 +6,7 @@
  *
  * Cache.php - Cache tool for internal webserver.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -54,7 +54,7 @@
 
 require_once 'Doozr/Tool/Abstract.php';
 
-use \donatj\Flags;
+use donatj\Flags;
 
 /**
  * Doozr - Tool - Cache
@@ -91,7 +91,6 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
     *
     * @var string
     * @access public
-    * @const
     */
     const COMMAND_CLEAR = 'purge';
 
@@ -100,7 +99,6 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const COMMAND_WARMUP = 'warmup';
 
@@ -109,7 +107,6 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const SCOPE_EVERYTHING    = '*';                        // <= Everything/Generic
     const SCOPE_DOOZR         = 'doozr';                    // <= Doozr root namespace
@@ -149,7 +146,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
             $this->showVersion();
         }
 
-        $argumentBag = array();
+        $argumentBag = [];
 
         // Check for passed commands ...
         foreach ($longs as $name => $value) {
@@ -187,10 +184,10 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      * @param array  $argumentBag A collection of arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
-    protected function dispatchCommand($command, array $argumentBag = array())
+    protected function dispatchCommand($command, array $argumentBag = [])
     {
         $result    = false;
         $arguments = null;
@@ -241,7 +238,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      */
     protected function purge(
               $namespace   = self::SCOPE_EVERYTHING,
-        array $argumentBag = array()
+        array $argumentBag = []
     ) {
         // Build namespace for cache
         if (in_array($namespace, $this->validScopes) === false) {
@@ -251,7 +248,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
         }
 
         /* @var Doozr_Cache_Service $cache */
-        $cache = Doozr_Loader_Serviceloader::load('cache', DOOZR_CACHE_CONTAINER, $namespace, array(), DOOZR_UNIX);
+        $cache = Doozr_Loader_Serviceloader::load('cache', DOOZR_CACHE_CONTAINER, $namespace, [], DOOZR_UNIX);
 
         // We can purge simply everything from passed namespace!
         try {
@@ -276,7 +273,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      */
     protected function warmup(
               $namespace   = self::SCOPE_EVERYTHING,
-        array $argumentBag = array()
+        array $argumentBag = []
     ) {
         var_dump($namespace);
         die;

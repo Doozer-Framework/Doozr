@@ -7,7 +7,7 @@
  * Linux.php - Extends PHP's functionality by emulating missing native functions available only to
  * Linux/Unix-based OS' like get_all_headers() - this is done by using plain vanilla PHP code.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -71,10 +71,10 @@ if (!function_exists('getallheaders')) {
     function getallheaders()
     {
         // holds the headers to return
-        $headers = array();
+        $headers = [];
 
         // holds the result
-        $headerParsed = array();
+        $headerParsed = [];
 
         // iterate over $_SERVER to parse header from there
         foreach ($_SERVER as $header => $value) {

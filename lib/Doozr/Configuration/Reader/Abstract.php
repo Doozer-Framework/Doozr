@@ -7,7 +7,7 @@
  * Abstract.php - The Abstract class for config reader. This class provides high level
  * access to filesystem and cache. Can be used for all types of readers.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -81,7 +81,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @var Doozr_Filesystem_Service
      * @access protected
      */
-    protected $filesystemService;
+    protected $filesystem;
 
     /**
      * Instance of cache service.
@@ -120,7 +120,6 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      *
      * @var string
      * @access public
-     * @const
      */
     const DIRECTIVE_INCLUDE = 'include';
 
@@ -129,33 +128,30 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      *
      * @var string
      * @access public
-     * @const
      */
     const DIRECTIVE_REQUIRE = 'require';
-
 
     /**
      * Constructor.
      *
-     * @param Doozr_Filesystem_Service $filesystemService An instance of the filesystem service
-     * @param Doozr_Cache_Service      $cacheService      An instance of the cache service
-     * @param bool                     $enableCache       TRUE to enable caching, FALSE to disable
+     * @param Doozr_Filesystem_Service $filesystem   Instance of filesystem service
+     * @param Doozr_Cache_Service      $cacheService Instance of cache service
+     * @param bool                     $enableCache  TRUE to enable caching, FALSE to disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Configuration_Reader_Abstract
      * @access public
      */
     public function __construct(
-        Doozr_Filesystem_Service $filesystemService,
-        Doozr_Cache_Service      $cacheService      = null,
-                                 $enableCache       = false
+        Doozr_Filesystem_Service $filesystem,
+        Doozr_Cache_Service      $cacheService = null,
+                                 $enableCache  = false
     ) {
         $this
-            ->filesystemService($filesystemService)
+            ->filesystem($filesystem)
             ->cacheService($cacheService)
             ->cache($enableCache);
     }
-
 
     /**
      * Reads a configuration.
@@ -189,7 +185,10 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
         }
 
         // Check first if we can handle the file (basic check - everything else done by filesystem service)
-        if (false === file_exists($filename) || false === is_readable($filename)) {
+        if (
+            false === $this->getFilesystem()->exists($filename) ||
+            false === $this->getFilesystem()->readable($filename)
+        ) {
             throw new Doozr_Configuration_Exception(
                 sprintf('The file "%s" does either not exist or it is not readable.', $filename)
             );
@@ -358,7 +357,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
         }
 
         // Fetch content from filesystem
-        $content = $this->getFilesystemService()->read($filename);
+        $content = $this->getFilesystem()->read($filename);
 
         // Check if caching enabled and store read result to cache
         if ($this->getCache() === true) {
@@ -435,6 +434,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     protected function cache($cache)
     {
         $this->cache = $cache;
+
         return $this;
     }
 
@@ -488,6 +488,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     protected function filename($filename)
     {
         $this->filename = $filename;
+
         return $this;
     }
 
@@ -506,29 +507,30 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     /**
      * Setter for filesystem service.
      *
-     * @param Doozr_Filesystem_Service $filesystemService
+     * @param Doozr_Filesystem_Service $filesystem
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setFilesystemService(Doozr_Filesystem_Service $filesystemService)
+    protected function setFilesystem(Doozr_Filesystem_Service $filesystem)
     {
-        $this->filesystemService = $filesystemService;
+        $this->filesystem = $filesystem;
     }
 
     /**
      * Fluent setter for filesystem service.
      *
-     * @param Doozr_Filesystem_Service $filesystemService
+     * @param Doozr_Filesystem_Service $filesystem
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance of this class for chaining (fluent interface pattern)
      * @access protected
      */
-    protected function filesystemService(Doozr_Filesystem_Service $filesystemService)
+    protected function filesystem(Doozr_Filesystem_Service $filesystem)
     {
-        $this->filesystemService = $filesystemService;
+        $this->filesystem = $filesystem;
+
         return $this;
     }
 
@@ -539,9 +541,9 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @return null|Doozr_Filesystem_Service Instance of filesystem service if set, otherwise NULL
      * @access protected
      */
-    protected function getFilesystemService()
+    protected function getFilesystem()
     {
-        return $this->filesystemService;
+        return $this->filesystem;
     }
 
     /**
@@ -570,6 +572,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     protected function cacheService(Doozr_Cache_Service $cacheService)
     {
         $this->cacheService = $cacheService;
+
         return $this;
     }
 

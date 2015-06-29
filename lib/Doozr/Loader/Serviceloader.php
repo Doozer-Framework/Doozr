@@ -7,7 +7,7 @@
  * Serviceloader.php - The Serviceloader loads services within the Doozr
  * world. No matter which namespace and no matter if singleton or multiple.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -90,7 +90,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      * @access protected
      * @static
      */
-    private static $loaded = array();
+    private static $loaded = [];
 
     /**
      * The dependency map
@@ -115,7 +115,6 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_NAMESPACE = 'Doozr';
 
@@ -124,7 +123,6 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *
      * @var null
      * @access public
-     * @const
      */
     const DEFAULT_ALIAS = null;
 
@@ -133,7 +131,6 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_NAME = null;
 
@@ -142,10 +139,8 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_INFO = null;
-
 
     /**
      * Loads a service from any namespace.
@@ -295,7 +290,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
             // If an array is found we need at least namespace and service
             if (isset($service['name']) === false) {
                 throw new Doozr_Loader_Serviceloader_Exception(
-                    'Serviceloader requires at least a "service" name when passing an array()!'
+                    'Serviceloader requires at least a "service" name when passing an []!'
                 );
             }
 
@@ -340,7 +335,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      * @param string $namespace The namespace to load service from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      * @static
      */

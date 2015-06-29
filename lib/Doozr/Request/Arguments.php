@@ -7,7 +7,7 @@
  * Arguments.php - This class is used as replacement for PHP's Globals. It includes
  * the Iterator- and ArrayAccess-Interface to keep original Globals functionality.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -82,7 +82,7 @@ class Doozr_Request_Arguments extends Doozr_Base_Class
      * @var array
      * @access protected
      */
-    protected $arguments = array();
+    protected $arguments = [];
 
     /**
      * holds the original input this can be either $_GET, $_POST,
@@ -189,7 +189,7 @@ class Doozr_Request_Arguments extends Doozr_Base_Class
      * Validates the position of the iterator
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if valid, otherwise false
+     * @return bool True if valid, otherwise false
      * @access public
      */
     public function valid()
@@ -262,7 +262,7 @@ class Doozr_Request_Arguments extends Doozr_Base_Class
      * @param mixed  $value  The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function offsetSet($offset, $value)
@@ -273,7 +273,7 @@ class Doozr_Request_Arguments extends Doozr_Base_Class
             $this->arguments[$offset]->set($value);
             $this->arguments[$offset]->setRaw($value);
         } else {
-            // otheriwse => create new entry
+            // otherwise => create new entry
             $this->arguments[$offset] = new Request_Value($value);
         }
 
@@ -287,7 +287,7 @@ class Doozr_Request_Arguments extends Doozr_Base_Class
      * @param string $offset The offset (key) to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function offsetExists($offset)
@@ -412,7 +412,7 @@ class Doozr_Request_Arguments extends Doozr_Base_Class
      * @param string $propertyName The property to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if property is set, otherwise FALSE
+     * @return bool TRUE if property is set, otherwise FALSE
      * @access magic
      */
     public function __isset($propertyName)
@@ -449,7 +449,7 @@ class Doozr_Request_Arguments extends Doozr_Base_Class
      * @param string $global The name of the global to parse
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function set($global)

@@ -116,7 +116,7 @@ class vfsStream
      *                                                 'other.php'   => 'Some more text content',
      *                                                 'Invalid.csv' => 'Something else',
      *                                           ),
-     *                      'AnEmptyFolder'   => array(),
+     *                      'AnEmptyFolder'   => [],
      *                      'badlocation.php' => 'some bad content',
      *                )
      * )
@@ -142,7 +142,7 @@ class vfsStream
      * @link     https://github.com/mikey179/vfsStream/issues/14
      * @link     https://github.com/mikey179/vfsStream/issues/20
      */
-    public static function setup($rootDirName = 'root', $permissions = null, array $structure = array())
+    public static function setup($rootDirName = 'root', $permissions = null, array $structure = [])
     {
         vfsStreamWrapper::register();
         return self::create($structure, vfsStreamWrapper::setRoot(self::newDirectory($rootDirName, $permissions)));
@@ -157,7 +157,7 @@ class vfsStream
      *                                                 'other.php'   => 'Some more text content',
      *                                                 'Invalid.csv' => 'Something else',
      *                                           ),
-     *                      'AnEmptyFolder'   => array(),
+     *                      'AnEmptyFolder'   => [],
      *                      'badlocation.php' => 'some bad content',
      *                )
      * )

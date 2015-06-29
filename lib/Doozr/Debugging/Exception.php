@@ -2,11 +2,11 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Debug - Exception
+ * Doozr - Debugging - Exception
  *
- * Exception.php - Debug exception of Doozr Framework.
+ * Exception.php - Debugging exception of Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
 /**
  * Doozr - Exception
  *
- * Debug exception of Doozr Framework.
+ * Debugging exception of Doozr Framework.
  *
  * @category   Doozr
  * @package    Doozr_Debugging

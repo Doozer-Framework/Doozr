@@ -6,7 +6,7 @@
  *
  * Autoloader.php - Class-Autoloader of the Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -118,7 +118,7 @@ class Doozr_Loader_Autoloader
      * @var array
      * @access protected
      */
-    protected $packages = array();
+    protected $packages = [];
 
     /**
      * holds UID of the current instance
@@ -175,7 +175,7 @@ class Doozr_Loader_Autoloader
      * This method is intend to register this class loader on the SPL autoload stack.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function register()

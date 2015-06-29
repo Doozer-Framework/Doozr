@@ -16,8 +16,8 @@ class Response implements ResponseInterface
     public $version;
     protected $statusCode = 200;
     protected $statusText;
-    protected $parameters = array();
-    protected $httpHeaders = array();
+    protected $parameters = [];
+    protected $httpHeaders = [];
 
     public static $statusTexts = array(
         100 => 'Continue',
@@ -63,7 +63,7 @@ class Response implements ResponseInterface
         505 => 'HTTP Version Not Supported',
     );
 
-    public function __construct($parameters = array(), $statusCode = 200, $headers = array())
+    public function __construct($parameters = [], $statusCode = 200, $headers = [])
     {
         $this->setParameters($parameters);
         $this->setStatusCode($statusCode);
@@ -78,7 +78,7 @@ class Response implements ResponseInterface
      */
     public function __toString()
     {
-        $headers = array();
+        $headers = [];
         foreach ($this->httpHeaders as $name => $value) {
             $headers[$name] = (array) $value;
         }
@@ -246,7 +246,7 @@ class Response implements ResponseInterface
             throw new \InvalidArgumentException('Cannot redirect to an empty URL.');
         }
 
-        $parameters = array();
+        $parameters = [];
 
         if (!is_null($state)) {
             $parameters['state'] = $state;

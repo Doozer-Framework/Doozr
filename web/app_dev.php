@@ -84,14 +84,43 @@ define('DOOZR_APP_ENVIRONMENT', 'development');
 require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 require_once 'Doozr/Bootstrap.php';
 
-// Initialize Doozr Kernel
-Doozr_Kernel::init(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use Relay\Runner;
 
-/* @var $response Doozr_Response */
-$response = Doozr_Kernel::handle();
+// Build queue for running middleware through relay
+$queue[] = function(Request $request, Response $response, callable $next) {
 
-// Send response to client
+    /* @var $app Doozr_Kernel_App Get kernel instance */
+    $app = Doozr_Kernel_App::boot(
+        DOOZR_APP_ENVIRONMENT,
+        DOOZR_RUNTIME_ENVIRONMENT,
+        DOOZR_DEBUGGING,
+        DOOZR_CACHING,
+        DOOZR_LOGGING,
+        DOOZR_DOCUMENT_ROOT,
+        DOOZR_APP_ROOT
+    );
+
+    return $app->handle($request, $response, !DOOZR_DEBUGGING);
+};
+
+// Create a Relay Runner instance ...
+$runner = new Runner($queue);
+
+// ... and run it with the queue defined above
+$response = $runner(
+    new \Doozr_Request_Web(
+        new \Doozr_Request_State()
+    ),
+    new \Doozr_Response_Web(
+        new \Doozr_Response_State()
+    )
+);
+
+// After running the whole queue deliver the response
 $response->send();
+
 
 /**
  * If you want to call normal files within this directory feel free to :)

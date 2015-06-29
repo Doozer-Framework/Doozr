@@ -195,7 +195,7 @@ class vfsStreamWrapper
      */
     protected function resolvePath($path)
     {
-        $newPath  = array();
+        $newPath  = [];
         foreach (explode('/', $path) as $pathPart) {
             if ('.' !== $pathPart) {
                 if ('..' !== $pathPart) {

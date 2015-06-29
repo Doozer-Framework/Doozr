@@ -6,7 +6,7 @@
  *
  * Container.php - Base class of all cache storage container.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -129,7 +129,7 @@ abstract class Doozr_Cache_Service_Container
      * @var array
      * @access protected
      */
-    protected $entries = array();
+    protected $entries = [];
 
     /**
      * Options that can be set in every derived class using it's constructor.
@@ -151,7 +151,7 @@ abstract class Doozr_Cache_Service_Container
      * @var array
      * @access protected
      */
-    protected $thisContainerAllowedOptions = array();
+    protected $thisContainerAllowedOptions = [];
 
     /**
      * Dumb runtime cache implementation.
@@ -159,14 +159,13 @@ abstract class Doozr_Cache_Service_Container
      * @var array
      * @access protected
      */
-    protected $runtimeCache = array();
+    protected $runtimeCache = [];
 
     /**
      * The encoding base64
      *
      * @var string
      * @access public
-     * @const
      */
     const ENCODING_BASE64 = 'base64';
 
@@ -177,10 +176,8 @@ abstract class Doozr_Cache_Service_Container
      *
      * @var string
      * @access public
-     * @const
      */
     const NAMESPACE_SEPARATOR = '.';
-
 
     /**
      * This method is intend to act as constructor.
@@ -191,7 +188,7 @@ abstract class Doozr_Cache_Service_Container
      * @return Doozr_Cache_Service_Container Instance of this class
      * @access public
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         // Configure
         $this
@@ -490,7 +487,7 @@ abstract class Doozr_Cache_Service_Container
     protected function addToRuntimeCache($key, array $dataset, $namespace)
     {
         if (!isset($this->runtimeCache[$namespace])) {
-            $this->runtimeCache[$namespace] = array();
+            $this->runtimeCache[$namespace] = [];
         }
 
         $this->runtimeCache[$namespace][$key] = $dataset;
@@ -553,11 +550,11 @@ abstract class Doozr_Cache_Service_Container
         } else {
             // Hard reset when both null ...
             if ($key === null && $namespace === null) {
-                $this->runtimeCache = array();
+                $this->runtimeCache = [];
 
             } else {
                 if ($key === null) {
-                    $this->runtimeCache[$namespace] = array();
+                    $this->runtimeCache[$namespace] = [];
                 } else {
                     unset($this->runtimeCache[$namespace][$key]);
                 }
@@ -622,7 +619,7 @@ abstract class Doozr_Cache_Service_Container
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function options(array $requested = array(), array $allowed = array())
+    protected function options(array $requested = [], array $allowed = [])
     {
         foreach ($allowed as $key => $value) {
             if (isset($requested[$value]) === true) {

@@ -14,7 +14,7 @@ class AccessToken implements AccessTokenInterface
     private $tokenStorage;
     private $refreshStorage;
 
-    public function __construct(AccessTokenStorageInterface $tokenStorage, RefreshTokenInterface $refreshStorage = null, array $config = array())
+    public function __construct(AccessTokenStorageInterface $tokenStorage, RefreshTokenInterface $refreshStorage = null, array $config = [])
     {
         $this->tokenStorage = $tokenStorage;
         $this->refreshStorage = $refreshStorage;
@@ -29,7 +29,7 @@ class AccessToken implements AccessTokenInterface
     public function getAuthorizeResponse($params, $user_id = null)
     {
         // build the URL to redirect to
-        $result = array('query' => array());
+        $result = array('query' => []);
 
         $params += array('scope' => null, 'state' => null);
 

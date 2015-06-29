@@ -6,7 +6,7 @@
  *
  * Exception.php - The Exception of Config.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -70,5 +70,5 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
  */
 class Doozr_Configuration_Exception extends Doozr_Exception
 {
-    // Just used for namespacing
+    // Just used for namespace.
 }

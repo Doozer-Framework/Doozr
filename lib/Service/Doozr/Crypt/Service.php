@@ -12,7 +12,7 @@
  *     Standards Publication 197 - 26th November 2001 -
  *     Text cipher class - This class is using AES crypt algoritm
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -81,7 +81,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -167,7 +167,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      * @param string $cipher The (name of) cipher to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setCipher($cipher = 'Aes')
@@ -276,7 +276,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      * @access protected
      * @throws Doozr_Exception
      */
-    protected function containerFactory($container, array $containerOptions = array())
+    protected function containerFactory($container, array $containerOptions = [])
     {
         $container = ucfirst(strtolower($container));
         $class     = __CLASS__.'_Container_'.$container;

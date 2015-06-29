@@ -6,7 +6,7 @@
  *
  * Extend.php - This include extends PHP's built-in functionality with plain PHP functions.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -72,9 +72,9 @@ define('DOOZR_NAMESPACE_FLAT', 'doozr');
 | EXTENDING PHP SUPERGLOBALS
 +---------------------------------------------------------------------------------------------------------------------*/
 
-$_CLI               = array();
-$_PUT               = array();
-$_DELETE            = array();
+$_CLI               = [];
+$_PUT               = [];
+$_DELETE            = [];
 $GLOBALS['_CLI']    = &$_CLI;
 $GLOBALS['_PUT']    = &$_PUT;
 $GLOBALS['_DELETE'] = &$_DELETE;
@@ -200,7 +200,7 @@ function array_change_key_case_recursive($input, $case = CASE_LOWER)
  */
 function traverse($path)
 {
-    $result = array();
+    $result = [];
 
     // Correct and may equalize slashes so we operate correctly
     $path = str_replace('\\', '/', $path);
@@ -237,7 +237,7 @@ function traverse($path)
 function realpath_ext($path, $resolveSymlinks = false)
 {
     if ($resolveSymlinks === false && $_SERVER['DOCUMENT_ROOT'] != '') {
-        $result   = array();
+        $result   = [];
         $realpath = traverse($path);
         $prepared = '';
         $root     = (DIRECTORY_SEPARATOR === '\\')
@@ -278,7 +278,7 @@ function realpath_ext($path, $resolveSymlinks = false)
  */
 function array_change_value_case($input, $case = CASE_LOWER)
 {
-    $result = array();
+    $result = [];
 
     if (!is_array($input)) {
         return $result;
@@ -352,7 +352,7 @@ function removeLastElementIfSame(array &$array, $reference)
  * @param mixed $reference The variable to check against
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
- * @return boolean TRUE if is recursive, otherwise FALSE
+ * @return bool TRUE if is recursive, otherwise FALSE
  * @access public
  */
 function isRecursiveArrayIteration(array &$array, $reference)
@@ -384,7 +384,7 @@ function isRecursiveArrayIteration(array &$array, $reference)
  * @param array $array The array to check
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
- * @return boolean TRUE if is recursive, otherwise FALSE
+ * @return bool TRUE if is recursive, otherwise FALSE
  * @access public
  */
 function array_recursive(array $array)
@@ -436,37 +436,6 @@ function array_to_object(array $array, $recursive = true)
 }
 
 /**
- * Returns all currently defined variables PHP knows about (global scope)
- *
- * @param bool $force TRUE to force the retrieval, otherwise FALSE
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return array The global defined variables
- * @access public
- */
-function getdefinedvars($force = true)
-{
-    // get defined variables from outside scope
-    global $_DOOZR;
-
-    // force the retrieval
-    if ($force) {
-        // really really dirty but necessary smart-hack (prevents recursion!)
-        ob_start();
-        $definedvars = array_unique($_DOOZR);
-        var_dump($definedvars);
-        $definedvars = ob_get_contents();
-        ob_end_clean();
-
-        // and return
-        return $definedvars;
-    } else {
-        // just return as read
-        return $_DOOZR;
-    }
-}
-
-/**
  * Takes a string and split it by camel-case
  *
  * @param string $string The string to split by camel-case
@@ -490,7 +459,7 @@ function str_split_camelcase($string)
  * @example $string = is_json('MyTestString');
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
- * @return boolean TRUE if string is json, otherwise FALSE
+ * @return bool TRUE if string is json, otherwise FALSE
  * @access public
  */
 function is_json($string)
@@ -535,7 +504,7 @@ function crossfoot($number)
 }
 
 // Check if function already exists
-if (!function_exists('filename')) {
+if (false === function_exists('filename')) {
     /**
      * Inofficial counterpart to dirname()
      *
@@ -593,14 +562,14 @@ function regexp($input, $mode = 'default')
 }
 
 // Check if method already exists
-if (!function_exists('is_ip')) {
+if (false === function_exists('is_ip')) {
     /**
      * Checks if a given string is an IP and returns result as boolean
      *
      * @param string $ip The string to check if it is an IP
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if is IP otherwise FALSE
+     * @return bool TRUE if is IP otherwise FALSE
      */
     function is_ip($ip)
     {
@@ -636,7 +605,7 @@ function checksum()
 }
 
 // Check if method already exists
-if (!function_exists('pre')) {
+if (false === function_exists('pre')) {
     /**
      * prints out or return a colorized output (no color in CLI-Mode)
      *
@@ -661,7 +630,7 @@ if (!function_exists('pre')) {
 }
 
 // Check if method already exists
-if (!function_exists('pred')) {
+if (false === function_exists('pred')) {
     /**
      * prints out or return a colorized output (no color in CLI-Mode) and dies! after output
      *
@@ -682,7 +651,7 @@ if (!function_exists('pred')) {
 }
 
 // Check if method already exists
-if (!function_exists('json_last_error_msg')) {
+if (false === function_exists('json_last_error_msg')) {
     /**
      * Returns the last JSON error as string.
      *
@@ -790,7 +759,7 @@ function explodeTree($array, $delimiter = '_', $baseval = false)
     }
 
     $regularExpressionSplit = '/' . preg_quote($delimiter, '/') . '/';
-    $result                 = array();
+    $result                 = [];
 
     foreach ($array as $key => $value) {
         // Get parent parts and the current leaf
@@ -801,13 +770,13 @@ function explodeTree($array, $delimiter = '_', $baseval = false)
         $parentArr = &$result;
         foreach ($parts as $part) {
             if (false === isset($parentArr[$part])) {
-                $parentArr[$part] = array();
+                $parentArr[$part] = [];
 
             } elseif (false === is_array($parentArr[$part])) {
                 if ($baseval) {
                     $parentArr[$part] = array('__base_val' => $parentArr[$part]);
                 } else {
-                    $parentArr[$part] = array();
+                    $parentArr[$part] = [];
                 }
             }
             $parentArr = &$parentArr[$part];
@@ -865,7 +834,7 @@ function banner($data = '', $nl = PHP_EOL)
     $words = preg_split('/\s+/', $data);
 
     // check for to long "words" and force splitting
-    $tmp = array();
+    $tmp = [];
     foreach ($words as $word) {
         if (mb_strlen($word) > ($maxWidthWords)) {
             $wordParts = str_split($word, ($maxWidthWords-4));
@@ -907,73 +876,8 @@ function banner($data = '', $nl = PHP_EOL)
     return $output;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*****
- *
- */
-
-
-/**
- * Send headers informing browser to not cache the content
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return boolean TRUE on success, FALSE if headers are already sent
- */
-function sendNoCacheHeaders()
-{
-    if (false === headers_sent()) {
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-        header('Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Cache-Control: post-check=0, pre-check=0', false);
-        header('Pragma: no-cache');
-
-        return true;
-    }
-
-    return false;
-}
-
-/**
- * Returns the protocol (HTTP(S)) used for connecting to Doozr.
- *
- * @param bool $plain TRUE to retrieve the protocol without dot + slashes, otherwise FALSE
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return string The protocol used while accessing a resource
- * @access public
- */
-function getProtocol($plain = false)
-{
-    if (true === is_ssl()) {
-        $protocol = 'https';
-    } else {
-        $protocol = 'http';
-    }
-
-    if (!$plain) {
-        $protocol .= '://';
-    }
-
-    return $protocol;
-}
-
-
 // Check if method already exists
-if (!function_exists('is_ssl')) {
+if (false === function_exists('is_ssl')) {
     /**
      * Checks if the current connection is SSL secured.
      *
@@ -982,9 +886,14 @@ if (!function_exists('is_ssl')) {
      */
     function is_ssl()
     {
-        $ssl = false;
-        if (isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == '1') || strtolower($_SERVER['HTTPS']) == 'on')) {
-            $ssl = true;
+        static $ssl = null;
+
+        if (null === $ssl) {
+            if (isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == '1') || strtolower($_SERVER['HTTPS']) == 'on')) {
+                $ssl = true;
+            } else {
+                $ssl = false;
+            }
         }
 
         return $ssl;

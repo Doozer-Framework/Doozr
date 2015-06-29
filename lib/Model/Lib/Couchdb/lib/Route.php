@@ -7,7 +7,7 @@
  *
  * Route.php - Doodi - Couchdb - Route
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -76,5 +76,5 @@ final class Doodi_Couchdb_Route
      * at: 2013-05-12 19:14:06
      * for: Doodi (Doozr's-object-oriented-database-interface)
      */
-    public $matrix = array();
+    public $matrix = [];
 }

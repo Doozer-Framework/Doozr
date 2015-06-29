@@ -9,7 +9,7 @@
  * child components (also if it doesn't make sense for some components!) and
  * that a call on render() will return the HTML for the whole component.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -89,7 +89,7 @@ interface Doozr_Form_Service_Component_Interface_Input
      * Returns the autocapitalize state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if autocapitalize is on, otherwise FALSE
+     * @return bool TRUE if autocapitalize is on, otherwise FALSE
      * @access public
      */
     public function getAutocapitalize();

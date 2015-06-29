@@ -8,7 +8,7 @@
  * This logger is the main entry point for all log-content. This logger takes any log and
  * dispatch this to the attached loggers.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -58,6 +58,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+
 /**
  * Doozr - Logging
  *
@@ -81,7 +84,8 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     SplSubject,
     ArrayAccess,
     Iterator,
-    Countable
+    Countable,
+    LoggerAwareInterface
 {
     /**
      * The observer storage.
@@ -124,6 +128,9 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      */
     protected $position = 0;
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | Init
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
@@ -139,7 +146,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      */
     public function __construct(Doozr_Datetime_Service $datetime = null, $level = null, $fingerprint = null)
     {
-        // instanciate the SplObjectStorage
+        // Instantiate the SplObjectStorage
         $this->observer = new SplObjectStorage();
 
         // and then call the original constructor
@@ -161,13 +168,13 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param string $separator   The separator to use/set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function log(
               $type,
               $message,
-        array $context     = array(),
+        array $context     = [],
               $time        = null,
               $fingerprint = null,
               $separator   = null
@@ -271,6 +278,32 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     }
 
     /*------------------------------------------------------------------------------------------------------------------
+    | Fulfill LoggerAwareInterface
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for logger.
+     * Attaches a passed logger to queue of loggers.
+     *
+     * @param LoggerInterface $logger The logger to attach
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @throws Doozr_Logging_Exception
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        if (!$logger instanceof SplObserver) {
+            throw new Doozr_Logging_Exception(
+                sprintf('Please implement SplObserver before trying to attach this logger.')
+            );
+        }
+
+        $this->attach($logger);
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
     | Fulfill SplSubject
     +-----------------------------------------------------------------------------------------------------------------*/
 
@@ -305,6 +338,8 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     /**
      * Notifies the attached observers about changes.
      *
+     * @param string $event The event to send with notify
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
@@ -327,13 +362,11 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * This logger implementation is Composite and does not echo any
      * log-content it just dispatch the stuff to its attached observers.
      *
-     * @param string $color The color of output text as hex-value string
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE as dummy return value
+     * @return bool TRUE as dummy return value
      * @access protected
      */
-    protected function output($color = '#7CFC00')
+    protected function output()
     {
         // return true -> cause not needed for collecting logger
         return true;

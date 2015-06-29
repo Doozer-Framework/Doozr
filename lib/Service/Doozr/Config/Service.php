@@ -6,7 +6,7 @@
  *
  * Service.php - Config Service
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -74,7 +74,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -290,7 +290,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
      * @param string $property The property to check if set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if set, otherwise FALSE
+     * @return bool TRUE if set, otherwise FALSE
      * @access public
      */
     public function __isset($property)
@@ -354,7 +354,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
      * @param string $value The data to write
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @return bool TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
     public function update($node, $value)
@@ -399,7 +399,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
      * @param string $data The data to write to config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @return bool TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
     public function create($node, $data)
@@ -427,7 +427,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
      * @param string $node The node to delete
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
+     * @return bool TRUE if entry was deleted successful, otherwise FALSE
      * @access public
      */
     public function delete($node)

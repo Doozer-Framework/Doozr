@@ -6,7 +6,7 @@
  *
  * Service.php - Service for OAuth2 server + client support
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -73,7 +73,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -112,7 +112,7 @@ class Doozr_Oauth2_Service extends Doozr_Base_Service_Multiple_Facade
      * @return object instance of this class
      * @access public
      */
-    public function __tearup($mode = self::MODE_SERVER, $container = self::CONTAINER_PDO, array $config = array())
+    public function __tearup($mode = self::MODE_SERVER, $container = self::CONTAINER_PDO, array $config = [])
     {
         if ($mode === self::MODE_SERVER) {
             // register the autoloader

@@ -6,7 +6,7 @@
  *
  * Frontcontroller.php - The Frontcontroller of Doozr.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -73,6 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
+    #implements HttpKernelInterface
 {
     /**
      * The object of active route.
@@ -138,7 +139,7 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
     protected $view;
 
     /**
-     * Instance of Presentor if MVP-pattern is used
+     * Instance of Presenter if MVP-pattern is used
      *
      * @var object
      * @access protected
@@ -210,18 +211,18 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
      * @access public
      */
     public function __construct(
-        Doozr_Registry                $registry,
-        Doozr_Configuration_Interface $configuration,
-        Doozr_Logging_Interface       $logger,
-        Doozr_Filesystem_Service      $filesystem,
-        Doozr_Cache_Service           $cache
+        Doozr_Registry                $registry
+        #,Doozr_Configuration_Interface $configuration,
+        #Doozr_Logging_Interface       $logger,
+        #Doozr_Filesystem_Service      $filesystem,
+        #Doozr_Cache_Service           $cache
     ) {
         $this
             ->registry($registry)
-            ->configuration($configuration)
-            ->logger($logger)
-            ->filesystem($filesystem)
-            ->cache($cache);
+            ;#->configuration($configuration)
+            #->logger($logger)
+            #->filesystem($filesystem)
+            #->cache($cache);
     }
 
     /**
@@ -232,7 +233,7 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
      * @param array|null                 $error        An optional error array containing error from routing
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Route_Exception
      */
@@ -348,7 +349,7 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
 
             switch ($status) {
                 case self::HTTP_STATUS_400:
-                    $message = 'No connector instance to execute route ("/' . $object .'/' . $action . '") on. Sure it exists?';
+                    $message = 'No presenter instance to execute route ("/' . $object .'/' . $action . '") on. Sure it exists?';
                     break;
 
                 case self::HTTP_STATUS_404:
@@ -411,8 +412,8 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
         $data           = new \stdClass();
         $data->message  = $exception->getMessage();
         $data->code     = $exception->getCode();
-        $data->meta     = array();
-        $data->security = array();
+        $data->meta     = [];
+        $data->security = [];
 
         if (isset($exception->token) === true) {
             $data->security['token'] = $exception->token;
@@ -494,14 +495,14 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
 
 
     /**
-     * Validates the existing request data. A request needs at least a connector-instance
+     * Validates the existing request data. A request needs at least a presenter-instance
      * (Presenter) and an entry point (e.g. Main()) to be valid.
      *
-     * @param string $instance The name of the connector class (Presenter, Controller)
+     * @param string $instance The name of the presenter class (Presenter, Controller)
      * @param string $method   The name of the method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|integer TRUE if request is valid, otherwise HTTP-Error like 400 ...
+     * @return bool|integer TRUE if request is valid, otherwise HTTP-Error like 400 ...
      * @access protected
      */
     protected function validateRequest($instance, $method)
@@ -509,12 +510,12 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
         // Assume valid
         $valid = true;
 
-        // no connector instance = Bad Request = 400
+        // no presenter instance = Bad Request = 400
         if ($instance === null) {
             $valid = self::HTTP_STATUS_400;
 
         } elseif (method_exists($instance, $method) === false) {
-            // No action to call after existing connector exist = Not Found = 404
+            // No action to call after existing presenter exist = Not Found = 404
             $valid = self::HTTP_STATUS_404;
         }
 
@@ -850,9 +851,9 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for connector.
+     * Setter for presenter.
      *
-     * @param Doozr_Base_Connector_Interface $connector The connector instance
+     * @param Doozr_Base_Connector_Interface $connector The presenter instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -864,9 +865,9 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for connector.
+     * Setter for presenter.
      *
-     * @param Doozr_Base_Connector_Interface $connector The connector instance
+     * @param Doozr_Base_Connector_Interface $connector The presenter instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -879,7 +880,7 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Getter for connector.
+     * Getter for presenter.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Base_Connector_Interface|null Doozr_Base_Connector_Interface if set, otherwise NULL
@@ -999,11 +1000,11 @@ class Doozr_Frontcontroller extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Returns the connector layer.
+     * Returns the presenter layer.
      *
-     * @param string     $connector The name of the current connector.
-     * @param string     $type      The type of the current connector.
-     * @param null|array $arguments The optional arguments to pass to connector.
+     * @param string     $connector The name of the current presenter.
+     * @param string     $type      The type of the current presenter.
+     * @param null|array $arguments The optional arguments to pass to presenter.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Base_Connector_Interface

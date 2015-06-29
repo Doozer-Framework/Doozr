@@ -4,9 +4,9 @@
 /**
  * Doozr - Kernel - Test
  *
- * KernelTest.php - Tests for Doozr's kernel & core functionality (bootstrapping & init).
+ * KernelTest.php - Tests for Doozr's kernel & core functionality (bootstrapping & boot).
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -55,7 +55,7 @@
 /**
  * Doozr - Kernel - Test
  *
- * Tests for Doozr's core & core functionality (bootstrapping & init).
+ * Tests for Doozr's core & core functionality (bootstrapping & boot).
  *
  * @category   Doozr
  * @package    Doozr_Kernel
@@ -77,7 +77,7 @@ class KernelTest extends PHPUnit_Framework_TestCase
      */
     public function testInit()
     {
-        $doozrInstance = Doozr_Kernel::init();
+        $doozrInstance = Doozr_Kernel::boot();
         $this->assertInstanceOf('Doozr_Kernel', $doozrInstance);
     }
 }

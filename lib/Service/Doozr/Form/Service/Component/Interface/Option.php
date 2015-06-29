@@ -7,7 +7,7 @@
  * Option.php - Interface for Options as well as Optgroup components.
  * Same contract.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -105,7 +105,7 @@ interface Doozr_Form_Service_Component_Interface_Option
      * Getter for disabled status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if disabled, otherwise FALSE
+     * @return bool TRUE if disabled, otherwise FALSE
      * @access public
      */
     public function getDisabled();

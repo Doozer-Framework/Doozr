@@ -6,7 +6,7 @@
  *
  * Container.php - Container for handling storage of state instance.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -146,6 +146,18 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
     public function export()
     {
         return $this->getStateObject();
+    }
+
+    /**
+     * Dumps state immutable.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Immutable object state as array
+     * @access public
+     */
+    public function dump()
+    {
+        return $this->getStateObject()->unwrap();
     }
 
     /**

@@ -17,7 +17,7 @@ class HttpBasic implements ClientAssertionTypeInterface
     private $config;
     private $clientData;
 
-    public function __construct(ClientCredentialsInterface $storage, array $config = array())
+    public function __construct(ClientCredentialsInterface $storage, array $config = [])
     {
         $this->storage = $storage;
         $this->config = array_merge(array(

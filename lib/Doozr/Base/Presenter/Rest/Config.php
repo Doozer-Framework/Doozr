@@ -6,7 +6,7 @@
  *
  * Configuration.php - Config class for Rest API
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -111,7 +111,7 @@ class Doozr_Base_Presenter_Rest_Config
      * @var array
      * @access protected
      */
-    protected $required = array();
+    protected $required = [];
 
     /**
      * The URL active
@@ -127,7 +127,7 @@ class Doozr_Base_Presenter_Rest_Config
      * @var array
      * @access protected
      */
-    protected $ids = array();
+    protected $ids = [];
 
     /**
      * The route of this config object

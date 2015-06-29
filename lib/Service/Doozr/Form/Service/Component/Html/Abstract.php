@@ -7,7 +7,7 @@
  * Abstract.php Class Doozr_Form_Service_Component_Html_Abstract is
  * a simple basic HTML-Component in an abstract form.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -102,7 +102,7 @@ abstract class Doozr_Form_Service_Component_Html_Abstract
      * @var int
      * @access protected
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * Setter for attributes[]

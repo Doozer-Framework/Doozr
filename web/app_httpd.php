@@ -102,11 +102,11 @@ $_SERVER['QUERY_STRING'] = (
 
 require_once 'Doozr/Bootstrap.php';
 
-// Initialize Doozr Kernel
-Doozr_Kernel::init(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
+// Initialize Doozr App Kernel
+$app = Doozr_Kernel_App::boot(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
 
-/* @var $response Doozr_Response */
-$response = Doozr_Kernel::handle();
+// Handle the default detected request (Web or Cli)
+$response = $app->handle();
 
 // Send response to client
 $response->send();

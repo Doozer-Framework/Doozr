@@ -33,4 +33,14 @@ final class Model_Index extends Doozr_Base_Model
         // Just store and trigger dispatch to view -> render by observer pattern
         return $this->setData($data);
     }
+
+    protected function __tearup()
+    {
+
+    }
+
+    protected function __teardown()
+    {
+
+    }
 }

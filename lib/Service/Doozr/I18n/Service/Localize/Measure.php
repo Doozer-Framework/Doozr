@@ -6,7 +6,7 @@
  *
  * Measure.php - Measurement formatter
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -160,7 +160,7 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param string $system The system used for input
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setInputMeasureSystem($system = null)
@@ -192,7 +192,7 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param string $system The system used for output
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setOutputMeasureSystem($system = null)
@@ -224,7 +224,7 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param string $system A measure system to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if given measure system is valid, otherwise FALSE
+     * @return bool TRUE if given measure system is valid, otherwise FALSE
      * @access public
      */
     public function isValidMeasureSystem($system = null)

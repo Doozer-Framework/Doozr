@@ -6,7 +6,7 @@
  *
  * Typehint.php - Typehint Parser of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -164,7 +164,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
         $reflectionMethods = $reflectionClass->getMethods(ReflectionMethod::IS_STATIC|ReflectionMethod::IS_PUBLIC);
 
         // assume empty result
-        $result = array();
+        $result = [];
 
         // set parser input for constructor parser
         $this->parser->setInput(
@@ -190,7 +190,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
             // now check the result for typehints
             foreach ($signature as $method => $arguments) {
 
-                $result2 = array();
+                $result2 = [];
 
                 foreach ($arguments as $position => $argument) {
                     // get default dependencies (skeleton)
@@ -198,7 +198,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
 
                     // fill with real data
                     $tmp['class']      = $argument[0];
-                    $tmp['identifier'] = str_replace('$', '', $argument[1]);
+                    $tmp['target']     = str_replace('$', '', $argument[1]);
                     $tmp['type']       = ($constructor == $method) ?
                         Doozr_Di_Dependency::TYPE_CONSTRUCTOR :
                         Doozr_Di_Dependency::TYPE_METHOD;
@@ -223,7 +223,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
      * This method is intend to check if the requirements are fulfilled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if requirements fulfilled, otherwise FALSE
+     * @return bool TRUE if requirements fulfilled, otherwise FALSE
      * @access public
      * @static
      */
@@ -262,7 +262,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
         $arguments = explode(',', $signature);
 
         // empty result
-        $result = array();
+        $result = [];
 
         $i = 1;
 

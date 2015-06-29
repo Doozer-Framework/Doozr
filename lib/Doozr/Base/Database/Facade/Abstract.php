@@ -6,7 +6,7 @@
  *
  * Abstract.php - Abstract base class for building a Database Abstraction Layer for the Doozr Framework
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -98,7 +98,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * @access protected
      * @static
      */
-    protected static $ormDirectory = array();
+    protected static $ormDirectory = [];
 
     /**
      * stored instance identifier used for config
@@ -166,7 +166,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * @param string $identifier The identifier to use for this instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setInstanceIdentifier($identifier)
@@ -217,7 +217,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * @param string $filename The name (and path) to the file
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if file exists AND readable AND include succeeded
+     * @return bool True if file exists AND readable AND include succeeded
      * @access protected
      * @throws Doozr_Exception
      */

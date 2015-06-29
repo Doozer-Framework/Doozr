@@ -6,7 +6,7 @@
  *
  * Button.php - Extension to default Input-Component <input type="..."
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

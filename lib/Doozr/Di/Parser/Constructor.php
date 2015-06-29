@@ -6,7 +6,7 @@
  *
  * Constructor.php - Constructor Parser of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -165,7 +165,7 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
      * This method is intend to check if the requirements are fulfilled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if requirements fulfilled, otherwise FALSE
+     * @return bool TRUE if requirements fulfilled, otherwise FALSE
      * @access public
      * @static
      */

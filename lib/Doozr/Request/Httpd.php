@@ -6,7 +6,7 @@
  *
  * Httpd.php - Request-Handler for requests passed through CLI to Front-Controller.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -177,7 +177,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
      * is GET.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is GET, otherwise FALSE
+     * @return bool TRUE if current request is GET, otherwise FALSE
      * @access public
      */
     public function isGet()
@@ -190,7 +190,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
      * is HEAD.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is HEAD, otherwise FALSE
+     * @return bool TRUE if current request is HEAD, otherwise FALSE
      * @access public
      */
     public function isHead()
@@ -203,7 +203,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
      * is PUT.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is PUT, otherwise FALSE
+     * @return bool TRUE if current request is PUT, otherwise FALSE
      * @access public
      */
     public function isPut()
@@ -216,7 +216,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
      * is POST.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is POST, otherwise FALSE
+     * @return bool TRUE if current request is POST, otherwise FALSE
      * @access public
      */
     public function isPost()
@@ -229,7 +229,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
      * is DELETE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is DELETE, otherwise FALSE
+     * @return bool TRUE if current request is DELETE, otherwise FALSE
      * @access public
      */
     public function isDelete()
@@ -242,7 +242,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
      * is OPTIONS.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is OPTIONS, otherwise FALSE
+     * @return bool TRUE if current request is OPTIONS, otherwise FALSE
      * @access public
      */
     public function isOptions()
@@ -255,7 +255,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
      * is TRACE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is TRACE, otherwise FALSE
+     * @return bool TRUE if current request is TRACE, otherwise FALSE
      * @access public
      */
     public function isTrace()

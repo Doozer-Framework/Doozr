@@ -34,7 +34,7 @@ class Autoloader
      *
      * @param  string  $class  A class name.
      *
-     * @return boolean Returns true if the class has been loaded
+     * @return bool Returns true if the class has been loaded
      */
     public function autoload($class)
     {

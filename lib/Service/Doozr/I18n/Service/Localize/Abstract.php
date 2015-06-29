@@ -6,7 +6,7 @@
  *
  * Abstract.php - Abstract base class for formatter of the I18n module
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

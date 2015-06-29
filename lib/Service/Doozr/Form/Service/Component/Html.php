@@ -7,7 +7,7 @@
 * Html.php - Generic renderable HTML component like <p>...</p> or
  * <span>...</span> ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -90,7 +90,7 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * @var array
      * @access protected
      */
-    protected $childs = array();
+    protected $childs = [];
 
     /**
      * This is the pointer which points to the last
@@ -166,7 +166,7 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
     {
         $template   = $this->getTemplate();
         $tag        = $this->getTag();
-        $variables  = array();
+        $variables  = [];
         $childs     = $this->getChilds();
         $attributes = $this->getAttributes();
         $innerHtml  = $this->getInnerHtml();
@@ -270,7 +270,7 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * @param int $index The index of the child component to remove from component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|null TRUE  if child was removed successfully,
+     * @return bool|null TRUE  if child was removed successfully,
      *                      FALSE if child could not be removed,
      *                      NULL  if child wasn't found
      * @access public
@@ -349,7 +349,7 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * Returns the parent status of a component.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the component has childs, otherwise FALSE
+     * @return bool TRUE if the component has childs, otherwise FALSE
      * @access public
      */
     public function hasChilds()
@@ -542,7 +542,7 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * Returns the validity of the current pointer
      * position as boolean (TRUE|FALSE)
      *
-     * @return boolean TRUE of pointer is valid, otherwise FALSE
+     * @return bool TRUE of pointer is valid, otherwise FALSE
      * @access public
      */
     public function valid()

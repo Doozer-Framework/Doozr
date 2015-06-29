@@ -4,15 +4,12 @@
 /**
  * Doozr - Configuration
  *
- * Configuration.php - Configuration container for a Json reader (based on filesystem reader)
- * to read Json configurations and make use of three possible layers of caching
- * [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG] -> [CACHE:FILESYSTEM] -> read
- * from filesystem/network. So lookup is (look in runtime cache) then (look in
- * config stored in memory) then (look in memory for file) then access
- * filesystem/network the 1st time. Speedup!!!
+ * Configuration.php - Configuration container for a Json reader (based on filesystem reader) to read Json
+ * configurations and make use of three possible layers of caching [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG]
+ * -> [CACHE:FILESYSTEM] -> read from filesystem/network. So lookup is (look in runtime cache) then (look in
+ * config stored in memory) then (look in memory for file) then access filesystem/network the 1st time. Speedup!!!
  *
- *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -163,7 +160,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     protected function __construct(
         Doozr_Configuration_Reader_Interface $configReader,
         Doozr_Cache_Service           $cacheService = null,
-                                      $cache        = true
+                                      $cache        = false
     ) {
         $this
             ->configReader($configReader)
@@ -196,9 +193,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
         if (isset($configurations[$this->getUuid()]) === false) {
 
             // Otherwise look for cached version?
-            if ($this->getCache() === true) {
+            if (true === $this->getCache()) {
 
-                // Yes ... try lookup
                 try {
                     $configuration = $this->getCacheService()->read($this->getUuid(), $this->getNamespace());
 

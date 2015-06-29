@@ -7,7 +7,7 @@
  * Validator.php - Validation base class for validating basic types and
  * as a base for applications internal validation
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -136,7 +136,7 @@ class Doozr_Form_Service_Validate_Validator
      * @var array
      * @access protected
      */
-    protected $currentValidationtypes = array();
+    protected $currentValidationtypes = [];
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $validationTypes ... against this validation-types
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if given information is valid, otherwise FALSE if invalid
+     * @return bool TRUE if given information is valid, otherwise FALSE if invalid
      * @access public
      */
     public function validate($value, $validationTypes = Doozr_Form_Service_Validate_Constant::VALIDATE_REQUIRED)
@@ -160,7 +160,7 @@ class Doozr_Form_Service_Validate_Validator
         // we assume a valid result
         $valid = true;
 
-        // store validation types // e.g. to keep existing "value" => array() validations
+        // store validation types // e.g. to keep existing "value" => [] validations
         $this->currentValidationtypes = $validationTypes;
 
         // if not of type array make it one
@@ -216,7 +216,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues An array of valid values to check given value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateValue($value, array $validValues)
@@ -249,7 +249,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if could be validatet, otherwise FALSE
+     * @return bool TRUE if could be validatet, otherwise FALSE
      * @access public
      */
     public function validateFileExtension($value, array $validValues)
@@ -273,7 +273,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if could be validatet, otherwise FALSE
+     * @return bool TRUE if could be validatet, otherwise FALSE
      * @access public
      */
     public function validateRegularexpression($value, array $validValues)
@@ -293,7 +293,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if could be validatet, otherwise FALSE
+     * @return bool TRUE if could be validatet, otherwise FALSE
      * @access public
      */
     public function validateFileType($value, array $validValues)
@@ -315,7 +315,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if could be validatet, otherwise FALSE
+     * @return bool TRUE if could be validatet, otherwise FALSE
      * @access public
      */
     public function validateFileSizeMin($value, array $validValues)
@@ -339,7 +339,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if could be validatet, otherwise FALSE
+     * @return bool TRUE if could be validatet, otherwise FALSE
      * @access public
      */
     public function validateFileSizeMax($value, array $validValues)
@@ -361,7 +361,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateRequired($value)
@@ -382,7 +382,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateNotnull($value)
@@ -396,7 +396,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateNotempty($value)
@@ -413,7 +413,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateEmpty($value)
@@ -428,7 +428,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param int $charCount The character limitation (optional)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateAlphabetic($value, $charCount = null)
@@ -455,7 +455,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $invalidValues The invalid values to check $value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateInvalid($value, array $invalidValues)
@@ -469,7 +469,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateBoolean($value)
@@ -485,7 +485,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateDouble($value)
@@ -502,7 +502,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateInteger($value)
@@ -517,7 +517,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean
+     * @return bool
      * @access public
      */
     public function validateString($value)
@@ -532,7 +532,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $values The invalid values to check $value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateLink($value, array $values)
@@ -549,7 +549,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateImpact($value)
@@ -568,7 +568,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues An array of valid values to check given value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateMinlength($value, array $validValues)
@@ -583,7 +583,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues An array of valid values to check given value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateMaxlength($value, array $validValues)
@@ -599,7 +599,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $additionalParameter Additional parameter to use for validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      * @throws Doozr_Form_Service_Exception
      */
@@ -636,7 +636,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $additionalParameter Additional parameter to use for validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      * @throws Doozr_Form_Service_Exception
      */
@@ -682,7 +682,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateUppercase($value)
@@ -700,7 +700,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateLowercase($value)
@@ -718,7 +718,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateIp($value)
@@ -736,7 +736,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateNumeric($value)
@@ -754,7 +754,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateEmail($value)
@@ -770,7 +770,7 @@ class Doozr_Form_Service_Validate_Validator
      *                           required only in this special case. not nice but functional.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if fulfilled requirements, otherwise FALSE
+     * @return bool TRUE if fulfilled requirements, otherwise FALSE
      * @access public
      */
     public function validateEmailauth($value, $validValues)
@@ -803,10 +803,10 @@ class Doozr_Form_Service_Validate_Validator
             $domain = $matches[2];
 
             // holds the found mx-hosts
-            $mxHosts = array();
+            $mxHosts = [];
 
             // holds the weight of the found mx-hosts
-            $mxweight = array();
+            $mxweight = [];
 
             // Check availability of DNS MX records and construct array of available mailservers
             if (getmxrr($domain, $mxHosts, $mxweight)) {
@@ -984,7 +984,7 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $b ... against this value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if given information is valid, otherwise FALSE if invalid
+     * @return bool TRUE if given information is valid, otherwise FALSE if invalid
      * @access private
      * @static
      * @throws Doozr_Form_Service_Exception
@@ -1026,7 +1026,7 @@ class Doozr_Form_Service_Validate_Validator
         $sortable = $validationTypes;
 
         // hols temporary removed items
-        $nonsortable = array();
+        $nonsortable = [];
 
         // types to be removed before ordering
         $removeTypes = array(

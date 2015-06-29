@@ -6,7 +6,7 @@
  *
  * Json.php - Exporter (JSON-Localize) of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -87,7 +87,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
      * @param bool $exportInstances TRUE to export instances as well, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Di_Exception
      */
@@ -147,7 +147,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
         $freezer = new Object_Freezer();
 
         // the collection for export in correct JSON structure
-        $collection = array();
+        $collection = [];
 
         // iterate over collection
         foreach ($this->collection as $class => $dependencies) {
@@ -172,8 +172,8 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                 // temp object for storage
                 $tmp = new stdClass();
 
-                // the identifier
-                $tmp->identifier = $dependency->getIdentifier();
+                // the target
+                $tmp->target = $dependency->getTarget();
 
                 // the classname
                 $tmp->classname = $dependency->getClassname();

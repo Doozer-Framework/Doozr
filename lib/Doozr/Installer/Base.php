@@ -6,7 +6,7 @@
  *
  * Base.php - Installer base script.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -79,7 +79,7 @@ class Doozr_Installer_Base
      * @access protected
      * @static
      */
-    protected static $arguments = array();
+    protected static $arguments = [];
 
     /**
      * The extra(s) from composer.json passed.
@@ -88,7 +88,7 @@ class Doozr_Installer_Base
      * @access protected
      * @static
      */
-    protected static $extra = array();
+    protected static $extra = [];
 
     /**
      * The install path

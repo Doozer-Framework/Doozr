@@ -6,7 +6,7 @@
  *
  * Interface.php - Interface for Doozr-Compatible Autoloaders.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -74,7 +74,7 @@ interface Doozr_Loader_Autoloader_Interface
      *
      * This method is intend to register this class loader on the SPL autoload stack.
      *
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */

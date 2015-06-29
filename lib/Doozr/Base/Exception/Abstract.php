@@ -6,7 +6,7 @@
  *
  * DoozrBaseExceptionAbstract.class.php - Abstract Class for Base-Exception of the Doozr Framework
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -61,7 +61,6 @@
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Exception_Generic
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$ <doozr@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$

@@ -23,7 +23,7 @@ class vfsStreamDirectory extends vfsStreamAbstractContent implements vfsStreamCo
      *
      * @var  array<string,vfsStreamContent>
      */
-    protected $children = array();
+    protected $children = [];
 
     /**
      * constructor
@@ -81,7 +81,7 @@ class vfsStreamDirectory extends vfsStreamAbstractContent implements vfsStreamCo
                 $size += $child->size();
             }
         }
-        
+
         return $size;
     }
 
@@ -96,7 +96,7 @@ class vfsStreamDirectory extends vfsStreamAbstractContent implements vfsStreamCo
         if (strstr($newName, '/') !== false) {
             throw new vfsStreamException('Directory name can not contain /.');
         }
-        
+
         parent::rename($newName);
     }
 
@@ -126,7 +126,7 @@ class vfsStreamDirectory extends vfsStreamAbstractContent implements vfsStreamCo
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -164,12 +164,12 @@ class vfsStreamDirectory extends vfsStreamAbstractContent implements vfsStreamCo
             if ($child->getName() === $childName) {
                 return $child;
             }
-            
+
             if ($child->appliesTo($childName) === true && $child->hasChild($childName) === true) {
                 return $child->getChild($childName);
             }
         }
-        
+
         return null;
     }
 
@@ -184,7 +184,7 @@ class vfsStreamDirectory extends vfsStreamAbstractContent implements vfsStreamCo
         if ($this->appliesTo($name) === true) {
             return self::getChildName($name, $this->name);
         }
-        
+
         return $name;
     }
 

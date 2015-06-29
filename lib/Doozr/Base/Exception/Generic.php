@@ -6,7 +6,7 @@
  *
  * Generic.php - Generic Base-Exception of the Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -64,7 +64,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Interface.php';
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Exception_Generic
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
@@ -73,5 +72,5 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Interface.php';
 class Doozr_Base_Exception_Generic extends Doozr_Base_Exception_Generic_Abstract
     implements Doozr_Base_Exception_Generic_Interface
 {
-    // Intentionally left blank - Just used for namespacing
+    // Just used for namespace.
 }

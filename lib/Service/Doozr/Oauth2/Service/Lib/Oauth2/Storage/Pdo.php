@@ -24,7 +24,7 @@ class Pdo implements AuthorizationCodeInterface,
     protected $db;
     protected $config;
 
-    public function __construct($connection, $config = array())
+    public function __construct($connection, $config = [])
     {
         if (!$connection instanceof \PDO) {
             if (!is_array($connection)) {

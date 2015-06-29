@@ -10,7 +10,7 @@
  * A toolset which is useful while developing classes which give you features like
  * ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -112,7 +112,6 @@ class Doozr_Base_Response_Rest extends Doozr_Base_Class
      * States this instance can handle/have.
      *
      * @var string
-     * @const
      */
     const STATUS_SUCCESS  = 'success';
     const STATUS_ERROR    = 'error';
@@ -323,7 +322,7 @@ class Doozr_Base_Response_Rest extends Doozr_Base_Class
      */
     public function toJson($encode = true)
     {
-        $response = array();
+        $response = [];
 
         foreach ($this->responseStructure as $node) {
             $value = call_user_func(array($this, 'get' . ucfirst($node)));

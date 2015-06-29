@@ -7,7 +7,7 @@
  * Facade.php - Facade to the SPL-Autoload-Subsystem
  * A simple and OOP-based Interface for the procedural SPL-functionality.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -79,7 +79,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
      * @access private
      * @static
      */
-    private static $_autoloader = array();
+    private static $autoloader = [];
 
     /**
      * holds the init-done status
@@ -89,7 +89,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
      * @access private
      * @static
      */
-    private static $_initialized = false;
+    private static $initialized = false;
 
 
     /**
@@ -105,7 +105,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
     public static function init($checkMagicAutoload = true)
     {
         // check first if init wasn't done already
-        if (!self::$_initialized) {
+        if (!self::$initialized) {
             // clear stack
             spl_autoload_register(null, false);
 
@@ -115,7 +115,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
             }
 
             // mark init done
-            self::$_initialized = true;
+            self::$initialized = true;
         }
     }
 
@@ -123,8 +123,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
      * Registers an autoloader by passed configuration. Registers a new autoloader to SPL-Subsystem
      * based on the Information (setup) of given config (Doozr_Loader_Autoloader_Spl_Config-Instance).
      *
-     * @param Doozr_Loader_Autoloader_Spl_Config[]|Doozr_Loader_Autoloader_Spl_Config $configuration An instance of the
-     *                                                                                        Doozr_Loader_Autoloader_Spl_Config
+     * @param Doozr_Loader_Autoloader_Spl_Config[]|Doozr_Loader_Autoloader_Spl_Config $configuration An instance of the Doozr_Loader_Autoloader_Spl_Config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if autoloader was registered successfully, otherwise FALSE
@@ -135,26 +134,26 @@ class Doozr_Loader_Autoloader_Spl_Facade
     public static function attach($configuration)
     {
         // Assume op will fail
-        $result   = false;
-        $priorize = false;
+        $result     = false;
+        $prioritize = false;
 
         // init if not already done
-        if (!self::$_initialized) {
+        if (!self::$initialized) {
             self::init(true);
         }
 
-        // check input
+        // Check input
         if (is_array($configuration)) {
             /* @var Doozr_Loader_Autoloader_Spl_Config $singleConfig */
             foreach ($configuration as $singleConfig) {
-                if (!$singleConfig instanceof Doozr_Loader_Autoloader_Spl_Config) {
+                if (false === $singleConfig instanceof Doozr_Loader_Autoloader_Spl_Config) {
                     throw new Doozr_Exception(
                         'Passed config must be of type: "Doozr_Loader_Autoloader_Spl_Config_Interface"'
                     );
                 }
             }
         } else {
-            if (!$configuration instanceof Doozr_Loader_Autoloader_Spl_Config) {
+            if (false === $configuration instanceof Doozr_Loader_Autoloader_Spl_Config) {
                 throw new Doozr_Exception(
                     'Passed config must be of type: "Doozr_Loader_Autoloader_Spl_Config_Interface"'
                 );
@@ -172,7 +171,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
             // check if autoloader is already registered (not uid - real check)
             if (
                 !$registeredAutoloader ||
-                !self::_isRegistered(
+                !self::isRegistered(
                     $singleConfig->isClass(),
                     $singleConfig->getClass(),
                     $singleConfig->getMethod(),
@@ -201,7 +200,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
                     $singleConfig->getPriority() !== null &&
                     $singleConfig->getPriority() !== count($registeredAutoloader)
                 ) {
-                    $priorize = true;
+                    $prioritize = true;
                 }
             }
 
@@ -209,9 +208,9 @@ class Doozr_Loader_Autoloader_Spl_Facade
             self::addFileExtensions($singleConfig->getExtension());
 
             // store config
-            self::$_autoloader[$singleConfig->getUid()] = $singleConfig;
+            self::$autoloader[$singleConfig->getUid()] = $singleConfig;
 
-            if ($priorize === true) {
+            if ($prioritize === true) {
                 self::changeAutoloaderPriority($singleConfig->getUid(), $singleConfig->getPriority());
             }
         }
@@ -228,14 +227,14 @@ class Doozr_Loader_Autoloader_Spl_Facade
      * @param string $uId The unique-id used to identify the Autoloader which should be removed
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if Autoloader was released successfully, otherwise false
+     * @return bool true if Autoloader was released successfully, otherwise false
      * @access public
      * @static
      */
     public static function release($uId)
     {
         // get autoloader setup by uid
-        $configuration = self::$_autoloader[$uId];
+        $configuration = self::$autoloader[$uId];
 
         // assume op will fail
         $result = false;
@@ -244,7 +243,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
         $registeredAutoloader = self::getSplAutoloader();
 
         // check if autoloader is registered (not uid - real check)
-        if ($registeredAutoloader && self::_isRegistered(
+        if ($registeredAutoloader && self::isRegistered(
             $configuration->isClass(),
             $configuration->getClass(),
             $configuration->getMethod(),
@@ -262,7 +261,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
         }
 
         // remove config
-        unset(self::$_autoloader[$uId]);
+        unset(self::$autoloader[$uId]);
 
         // return result
         return $result;
@@ -289,7 +288,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
         // check if result from stack valid and containing elements
         if ($autoloader && count($autoloader) > 0) {
             // get first
-            $result = self::_findAutoloaderByFunction(end($autoloader));
+            $result = self::findAutoloaderByFunction(end($autoloader));
         }
 
         // return result
@@ -317,7 +316,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
         // check if result from stack valid and containing elements
         if ($autoloader && count($autoloader) > 0) {
             // get first
-            $result = self::_findAutoloaderByFunction(reset($autoloader));
+            $result = self::findAutoloaderByFunction(reset($autoloader));
         }
 
         // return result
@@ -339,9 +338,9 @@ class Doozr_Loader_Autoloader_Spl_Facade
     public static function getAutoloader($uId = null)
     {
         if ($uId) {
-            $autoloader = (isset(self::$_autoloader[$uId])) ? self::$_autoloader[$uId] : null;
+            $autoloader = (isset(self::$autoloader[$uId])) ? self::$autoloader[$uId] : null;
         } else {
-            $autoloader = self::$_autoloader;
+            $autoloader = self::$autoloader;
         }
 
         // return list or single autoloader
@@ -410,38 +409,36 @@ class Doozr_Loader_Autoloader_Spl_Facade
     }
 
     /**
-     * changes the priority (order on spl-autoloader stack) for previously registered ALs
+     * Changes the priority (order on spl-autoloader stack) for previously registered autoloaders.
      *
-     * This method is intend to change the priority (order on spl-autoloader stack) for previously registered ALs.
-     *
-     * @param string  $uId      The unique-Id of the AL to change priority for
-     * @param int $priority The new priority of the AL
+     * @param string $uniqueId The unique-Id of the AL to change priority for
+     * @param int    $priority The new priority of the AL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @static
      */
-    public static function changeAutoloaderPriority($uId, $priority = 0)
+    public static function changeAutoloaderPriority($uniqueId, $priority = 0)
     {
-        // return if no autoloader for given uid exists
-        if (!isset(self::$_autoloader[$uId])) {
+        // Return if no autoloader for given uid exists
+        if (false === isset(self::$autoloader[$uniqueId])) {
             return false;
         }
 
-        // get current active autoloader order
+        // Get current active autoloader order
         $autoloaderPriority = spl_autoload_functions();
 
-        // count of current file-extensions
+        // Count of current file-extensions
         $autoloaderCount = count($autoloaderPriority);
 
-        // set prio to max possible
+        // Set priority to max possible
         ($priority > ($autoloaderCount-1)) ? ($priority = $autoloaderCount-1) : '';
 
-        // get config as $configuration for better reading
-        $configuration = self::$_autoloader[$uId];
+        // Get config as $configuration for better reading
+        $configuration = self::$autoloader[$uniqueId];
 
-        // find out what we are looking for ...
+        // Find out what we are looking for ...
         if ($configuration->isClass()) {
             $loader = array($configuration->getClass(), $configuration->getMethod());
         } elseif ($configuration->isLoader()) {
@@ -450,24 +447,21 @@ class Doozr_Loader_Autoloader_Spl_Facade
             $loader = $configuration->getFunction();
         }
 
-        // check if reposition needed
+        // Check if repositioning in general required => If loader already is at position we do nothing.
         if (!(isset($autoloaderPriority[$priority]) && $autoloaderPriority[$priority] === $loader)) {
 
-            // if the new prio is 0 = first element we use the fastet way possible
+            // If the new priority is 0 = first element we use the fastest way possible
             if ($priority === 0) {
-                // remove
+                // Remove & Directly add at first pos (prepend = true)
                 spl_autoload_unregister($loader);
-
-                // add at first pos (prepend = true)
                 spl_autoload_register($loader, true, true);
-            } else {
-                // remove element from array
-                $autoloaderPriority = array_remove_value($autoloaderPriority, $loader);
 
-                // and insert
+            } else {
+                // Remove element from array & insert
+                $autoloaderPriority = array_remove_value($autoloaderPriority, $loader);
                 array_splice($autoloaderPriority, $priority, 0, array($loader));
 
-                // unregister autoloader in new order
+                // Unregister autoloader in new order
                 foreach ($autoloaderPriority as $autoloader) {
                     spl_autoload_unregister($autoloader);
                 }
@@ -477,13 +471,8 @@ class Doozr_Loader_Autoloader_Spl_Facade
                     spl_autoload_register($autoloader);
                 }
             }
-
-        } else {
-            // nothing to do
-            return false;
         }
 
-        // return
         return true;
     }
 
@@ -496,7 +485,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
      * @param int $priority      The new priority of the file-extension
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @static
      */
@@ -573,11 +562,11 @@ class Doozr_Loader_Autoloader_Spl_Facade
      * @param mixed   $autoloader A already retrieved list of currently registered SPL-Autoloaders
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if autoloader is regsitered, otherwise false
+     * @return bool True if autoloader is regsitered, otherwise false
      * @access private
      * @static
      */
-    private static function _isRegistered($isClass, $class, $method, $autoloader = null)
+    private static function isRegistered($isClass, $class, $method, $autoloader = null)
     {
         // get autoloader if not received via parameter
         if (!$autoloader) {
@@ -608,17 +597,17 @@ class Doozr_Loader_Autoloader_Spl_Facade
      * @access private
      * @static
      */
-    private static function _findAutoloaderByFunction($function)
+    private static function findAutoloaderByFunction($function)
     {
         // is function or method of class?
         if (is_array($function)) {
-            foreach (self::$_autoloader as $autoloader) {
+            foreach (self::$autoloader as $autoloader) {
                 if ($autoloader->getClass() == $function[0] && $autoloader->getFunction() == $function[1]) {
                     return $autoloader;
                 }
             }
         } else {
-            foreach (self::$_autoloader as $autoloader) {
+            foreach (self::$autoloader as $autoloader) {
                 if ($autoloader->getFunction() == $function) {
                     return $autoloader;
                 }

@@ -7,7 +7,7 @@
  * Cache.php - Caching Service for caching operations with support for
  * different container like "Filesystem", "Memcache" ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -77,7 +77,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @throws     Doozr_Cache_Service_Exception
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -161,7 +161,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const CONTAINER_FILESYSTEM = 'filesystem';
 
@@ -170,7 +169,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const CONTAINER_MEMCACHE = 'memcache';
 
@@ -179,10 +177,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const NAMESPACE_DEFAULT = 'doozr.cache';
-
 
     /**
      * Constructor.
@@ -199,7 +195,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     public function __tearup(
               $container,
               $namespace        = self::NAMESPACE_DEFAULT,
-        array $containerOptions = array(),
+        array $containerOptions = [],
               $unix             = true
     ) {
         $this
@@ -590,7 +586,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      */
     protected function setContainer(
               $container,
-        array $containerOptions = array()
+        array $containerOptions = []
     ) {
         // check if container-type exists
         if ($this->containerExists($container) === false) {
@@ -780,7 +776,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @access protected
      * @throws Doozr_Cache_Service_Exception
      */
-    protected function containerFactory($container, array $containerOptions = array())
+    protected function containerFactory($container, array $containerOptions = [])
     {
         $container = ucfirst(strtolower($container));
         $class     = __CLASS__ . '_Container_' . $container;

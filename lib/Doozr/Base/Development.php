@@ -6,7 +6,7 @@
  * A toolset which is useful while developing classes which give you features like
  * ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -129,7 +129,7 @@ class Doozr_Base_Development
             $instance = $class;
         }
 
-        $durations = array();
+        $durations = [];
 
         for ($i = 0; $i < $invocations; $i++) {
             $start = microtime(true);

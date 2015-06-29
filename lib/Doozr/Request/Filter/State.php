@@ -15,15 +15,15 @@ class Doozr_Request_Filter_State extends Doozr_Base_State
 {
     protected $fields;
 
-    protected $sorting = array();
+    protected $sorting = [];
 
-    protected $grouping = array();
+    protected $grouping = [];
 
     protected $offset;
 
     protected $limit;
 
-    protected $arguments = array();
+    protected $arguments = [];
 
 
 

@@ -6,7 +6,7 @@
  *
  * Service.php - I18n Service for internationalization and localization.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -75,7 +75,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="getInstance",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -118,14 +118,13 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @access protected
      * @static
      */
-    protected static $configurationByLocale = array();
+    protected static $configurationByLocale = [];
 
     /**
      * Default formatter of I18n service
      *
      * @var string
      * @access public
-     * @const
      */
     const FORMAT_DEFAULT = 'String';
 
@@ -134,7 +133,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const FORMAT_STRING = 'String';
 
@@ -143,7 +141,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const FORMAT_CURRENCY = 'Currency';
 
@@ -152,7 +149,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const FORMAT_DATETIME = 'Datetime';
 
@@ -161,7 +157,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const FORMAT_MEASURE = 'Measure';
 
@@ -170,7 +165,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const FORMAT_NUMBER = 'Number';
 
@@ -188,7 +182,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const FILE_NAME_L10N = 'L10n';
 
@@ -197,7 +190,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const FILE_EXTENSION_L10N = 'ini';
 
@@ -206,7 +198,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const ENCODING_UTF_1       = 'UTF-1';
     const ENCODING_UTF_5       = 'UTF-5';
@@ -310,7 +301,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @param string $locale The locale to set as active
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_I18n_Service_Exception
      */
@@ -514,7 +505,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * which is instrumentalized in this mehtod.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|string Locale which was set on success, otherwise FALSE
+     * @return bool|string Locale which was set on success, otherwise FALSE
      * @access public
      * @see PHPTAL_TranslationService::setLanguage()
      */
@@ -545,7 +536,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @param string $encoding The encoding as string e.g. ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setEncoding($encoding)
@@ -601,7 +592,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @param string $value_escaped XHTML markup                \\ value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @see PHPTAL_TranslationService::setVar()
      */
@@ -619,7 +610,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     /**
      * @var array
      */
-    protected $variables = array();
+    protected $variables = [];
 
     public function setVariable($key, $value)
     {
@@ -760,7 +751,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * This method is intend to initialize the template translator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function initTemplateTranslator()
@@ -778,7 +769,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * Checks for fulfilled requirements of I18n service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if requirements fulfilled, otherwise FALSE
+     * @return bool TRUE if requirements fulfilled, otherwise FALSE
      * @access protected
      * @static
      * @throws Doozr_I18n_Service_Exception
@@ -856,7 +847,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
                     'cache',
                     DOOZR_CACHE_CONTAINER,
                     DOOZR_NAMESPACE_FLAT . '.cache.i18n',
-                    array(),
+                    [],
                     DOOZR_UNIX
                 )
             )
@@ -886,7 +877,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @param string $locale A locale to check for validity (e.g. "de", "de-AT", "en-us", ...)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access public
      */
     public function isValidLocale($locale = '')

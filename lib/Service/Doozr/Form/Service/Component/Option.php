@@ -7,7 +7,7 @@
  * Option.php - Option part of select field. Extra element cause it
  * has a similar interface like standard html elements. so recycle.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -135,7 +135,7 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
      * Getter for disabled status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if disabled, otherwise FALSE
+     * @return bool TRUE if disabled, otherwise FALSE
      * @access public
      */
     public function getDisabled()

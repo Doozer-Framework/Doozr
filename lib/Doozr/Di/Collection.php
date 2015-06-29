@@ -6,7 +6,7 @@
  *
  * Collection.php - Collection class of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -95,7 +95,7 @@ class Doozr_Di_Collection
      * @var array
      * @access protected
      */
-    protected $arguments = array();
+    protected $arguments = [];
 
     /**
      * Contains the constructor method if not default
@@ -104,7 +104,7 @@ class Doozr_Di_Collection
      * @var array
      * @access protected
      */
-    protected $constructor = array();
+    protected $constructor = [];
 
     /**
      * Indexed dependencies with target as key
@@ -112,7 +112,7 @@ class Doozr_Di_Collection
      * @var array
      * @access protected
      */
-    protected $indexByTarget = array();
+    protected $indexByTarget = [];
 
     /**
      * Indexed dependencies with dependency as key
@@ -120,7 +120,7 @@ class Doozr_Di_Collection
      * @var array
      * @access protected
      */
-    protected $indexByDependency = array();
+    protected $indexByDependency = [];
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ class Doozr_Di_Collection
      * @param Doozr_Di_Dependency $dependency The dependency setup as Doozr_Di_Dependency object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function addDependency($classname, Doozr_Di_Dependency $dependency)
@@ -167,7 +167,7 @@ class Doozr_Di_Collection
      * @param array  $dependencies The dependency setup as Doozr_Di_Dependency object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Di_Exception
      */
@@ -181,9 +181,9 @@ class Doozr_Di_Collection
             if (!$result) {
                 throw new Doozr_Di_Exception(
                     sprintf(
-                        'Dependencies could not be added! The dependency with identifier: "%s" produced an error. ' .
+                        'Dependencies could not be added! The dependency with target: "%s" produced an error. ' .
                         'No Dependencies added.',
-                        $dependency->getIdentifier()
+                        $dependency->getTarget()
                     )
                 );
             }
@@ -355,7 +355,7 @@ class Doozr_Di_Collection
     /**
      * Implements valid
      *
-     * @return boolean TRUE if current element exists, otherwise FALSE
+     * @return bool TRUE if current element exists, otherwise FALSE
      */
     public function valid()
     {
@@ -371,7 +371,7 @@ class Doozr_Di_Collection
      *
      * @param string $offset The offset to check
      *
-     * @return boolean TRUE if offset is set, otherwise FALSE
+     * @return bool TRUE if offset is set, otherwise FALSE
      */
     public function offsetExists($offset)
     {
@@ -430,7 +430,7 @@ class Doozr_Di_Collection
     {
         // create an entry array if not already created (lazy init)
         if (!isset($this->indexByTarget[$target])) {
-            $this->indexByTarget[$target] = array();
+            $this->indexByTarget[$target] = [];
         }
     }
 
@@ -449,7 +449,7 @@ class Doozr_Di_Collection
     {
         // create an entry array if not already created (lazy init)
         if (!isset($this->indexByDependency[$dependency])) {
-            $this->indexByDependency[$dependency] = array();
+            $this->indexByDependency[$dependency] = [];
         }
     }
 }

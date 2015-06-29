@@ -6,7 +6,7 @@
  *
  * Constant.php - Logging constants
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -77,7 +77,6 @@ class Doozr_Logging_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const EMERGENCY = 'emergency';                          // level 0
 
@@ -86,7 +85,6 @@ class Doozr_Logging_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const ALERT     = 'alert';                              // level 1
 
@@ -95,7 +93,6 @@ class Doozr_Logging_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const CRITICAL  = 'critical';                           // level 2
 
@@ -104,7 +101,6 @@ class Doozr_Logging_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const ERROR     = 'error';                              // level 3
 
@@ -113,7 +109,6 @@ class Doozr_Logging_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const WARNING   = 'warning';                            // level 4
 
@@ -122,7 +117,6 @@ class Doozr_Logging_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const NOTICE    = 'notice';                             // level 5
 
@@ -131,7 +125,6 @@ class Doozr_Logging_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const INFO      = 'info';                               // level 6
 
@@ -140,7 +133,6 @@ class Doozr_Logging_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const DEBUG     = 'debug';                              // level 7
 }

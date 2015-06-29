@@ -7,7 +7,7 @@
  *
  * Service.php - Service for ACL
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -73,7 +73,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -132,7 +132,6 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const ACTION_CREATE = 'create';
 
@@ -141,7 +140,6 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const ACTION_READ = 'read';
 
@@ -150,7 +148,6 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const ACTION_UPDATE = 'update';
 
@@ -159,7 +156,6 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const ACTION_DELETE = 'delete';
 
@@ -168,7 +164,6 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      *
      * @var int
      * @access public
-     * @const
      */
     const TYPE_PROVIDER = 1;
 
@@ -177,10 +172,8 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      *
      * @var int
      * @access public
-     * @const
      */
     const TYPE_CONSUMER = 2;
-
 
     /**
      * Constructor.
@@ -208,7 +201,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      * @return void
      * @access public
      */
-    public function setActions(array $actions = array())
+    public function setActions(array $actions = [])
     {
         $this->actions = $actions;
     }
@@ -222,7 +215,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      * @return Doozr_Acl_Service The current instance for chaining
      * @access public
      */
-    public function actions(array $actions = array())
+    public function actions(array $actions = [])
     {
         $this->setActions($actions);
         return $this;
@@ -329,7 +322,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      * @param string            $action The action to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if is allowed, otherwise FALSE
+     * @return bool TRUE if is allowed, otherwise FALSE
      * @access public
      * @throws Doozr_Exception_Service
      */
@@ -351,7 +344,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      * @param string $action The action to be checked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if exist, otherwise FALSE
+     * @return bool TRUE if exist, otherwise FALSE
      * @access public
      */
     public function hasAction($action)
@@ -365,7 +358,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      * @param string $action The action to be tested for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if allowed (has permission), otherwise FALSE
+     * @return bool TRUE if allowed (has permission), otherwise FALSE
      * @access public
      * @throws Doozr_Exception_Service
      */
@@ -434,7 +427,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
      * @param string  $action      The action to test check if granted
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the action should be allowed, otherwise FALSE
+     * @return bool TRUE if the action should be allowed, otherwise FALSE
      * @access protected
      */
     protected function grant($permissions, $action)

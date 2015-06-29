@@ -6,7 +6,7 @@
  *
  * Rest.php - Base View Rest of the Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -112,7 +112,7 @@ class Doozr_Base_View_Rest extends Doozr_Base_View
      * @return void
      * @access public
      */
-    public function setDefaultApiResponseHeader(array $defaultApiResponseHeader = array())
+    public function setDefaultApiResponseHeader(array $defaultApiResponseHeader = [])
     {
         $this->defaultApiResponseHeader = $defaultApiResponseHeader;
     }
@@ -142,7 +142,7 @@ class Doozr_Base_View_Rest extends Doozr_Base_View
      */
     protected function normalizeHeaders(array $headers)
     {
-        $responseHeaders = array();
+        $responseHeaders = [];
 
         foreach ($headers as $header => $value) {
             $key = md5(strtolower($header));
@@ -173,7 +173,7 @@ class Doozr_Base_View_Rest extends Doozr_Base_View
             );
 
         } catch (Exception $e) {
-            $headers = array();
+            $headers = [];
         }
 
         // add our REST API Header set ... $headers

@@ -6,7 +6,7 @@
  *
  * console - A console PHP script for managing the Doozr Framework installation.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

@@ -9,7 +9,7 @@ namespace Psr\Cache;
  * Interface.php - Contract for CachingObject following the PSR-Standard:
  * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -55,7 +55,8 @@ namespace Psr\Cache;
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/CacheItemInterface.php';
+#require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/CacheItemPoolInterface.php';
+#use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * Doozr - PSR - Cache - Interface
@@ -72,7 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/CacheItemInterface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Psr_Cache_Interface extends CacheItemInterface
+interface Doozr_Psr_Cache_Interface #extends CacheItemPoolInterface
 {
     // Just for namespace
 }

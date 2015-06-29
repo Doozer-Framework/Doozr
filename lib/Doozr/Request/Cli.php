@@ -6,7 +6,7 @@
  *
  * Cli.php - Request-Handler for requests passed through CLI to Front-Controller.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -161,7 +161,7 @@ class Doozr_Request_Cli extends Doozr_Base_Request
      * Initializes the main-settings.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if everything wents fine, otherwise false
+     * @return bool True if everything wents fine, otherwise false
      * @access private
      */
     private function _init()

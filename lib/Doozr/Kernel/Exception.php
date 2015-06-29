@@ -6,7 +6,7 @@
  *
  * Exception.php - Exception of Doozr Kernel
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -63,7 +63,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
  * @package    Doozr_Base_Exception
  * @subpackage Doozr_Base_Exception_Kernel
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$ <develop@doozr.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$

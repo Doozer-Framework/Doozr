@@ -7,7 +7,7 @@
  * Abstract.php - Abstract Renderer. Brings basic templating and rendering
  * capabilities to the rendering part of the service.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -80,7 +80,7 @@ abstract class Doozr_Form_Service_Renderer_Abstract
      * @var $array
      * @access protected
      */
-    protected $template = array();
+    protected $template = [];
 
     /**
      * The raw buffer content we operate on
@@ -132,25 +132,25 @@ abstract class Doozr_Form_Service_Renderer_Abstract
      */
     public function render(
         $force            = false,
-        $template         = array(),
+        $template         = [],
         $tag              = '',
-        array $variables  = array(),
-        array $childs     = array(),
-        array $attributes = array(),
+        array $variables  = [],
+        array $childs     = [],
+        array $attributes = [],
         $innerHtml        = ''
     ) {
         // What is with
-        $template['attributes'] = array();
+        $template['attributes'] = [];
         foreach ($attributes as $key => $attribute) {
             $template['attributes'][$key] = $attribute;
         }
 
-        $template['childs'] = array();
+        $template['childs'] = [];
         foreach ($childs as $child) {
             $template['childs'][] = $child;
         }
 
-        $template['variables'] = array();
+        $template['variables'] = [];
         foreach ($variables as $key => $variable) {
             $template['variables'][$key] = $variable;
         }

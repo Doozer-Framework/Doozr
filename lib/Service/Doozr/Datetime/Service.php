@@ -6,7 +6,7 @@
  *
  * Service.php - Datetime Service-Mainclass
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -72,7 +72,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -399,7 +399,7 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
      * This method is intend to check if current Date/Time is NULL.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if NULL, otherwise FALSE
+     * @return bool TRUE if NULL, otherwise FALSE
      * @access public
      */
     public function isNull()

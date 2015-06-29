@@ -6,7 +6,7 @@
  *
  * Model.php - Base class for Models
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -55,6 +55,8 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model/Observer.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model/Interface.php';
 
+use Psr\Cache\CacheItemPoolInterface;
+
 /**
  * Doozr Base Model
  *
@@ -82,7 +84,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     protected $data;
 
     /**
-     * The last action processed.
+     * Active/last action.
      *
      * @var string
      * @access protected
@@ -90,20 +92,12 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     protected $action;
 
     /**
-     * The complete request
+     * Active/last route.
      *
-     * @var array
+     * @var Doozr_Request_State_Route
      * @access protected
      */
-    protected $request;
-
-    /**
-     * The original untouched request
-     *
-     * @var array
-     * @access protected
-     */
-    protected $originalRequest;
+    protected $route;
 
     /**
      * The request state object of Doozr
@@ -112,14 +106,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @access protected
      */
     protected $requestState;
-
-    /**
-     * Translation for reading request
-     *
-     * @var array
-     * @access protected
-     */
-    protected $translation;
 
     /**
      * Instance of the Doozr_Cache_Service
@@ -141,39 +127,29 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     /**
      * Constructor.
      *
-     * @param Doozr_Registry             $registry      Doozr_Registry containing all core components
-     * @param Doozr_Base_State_Interface $requestState  Whole request as state
-     * @param array                      $request       Whole request as processed by "Route"
-     * @param Doozr_Cache_Service        $cache         Instance of Doozr_Cache_Service
-     * @param Doozr_Configuration               $configuration Main configuration
-     * @param array                      $translation   Translation required to read the request
+     * @param Doozr_Registry      $registry     Doozr registry
+     * @param Doozr_Request_State $requestState Request state
+     *
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Base_Model
      * @access public
      * @throws Doozr_Base_Model_Exception
      */
     public function __construct(
-        Doozr_Registry             $registry,
-        Doozr_Base_State_Interface $requestState,
-        array                      $request,
-        Doozr_Cache_Service        $cache,
-        Doozr_Configuration        $configuration,
-        array                      $translation    = null
+        Doozr_Registry      $registry,
+        Doozr_Request_State $requestState
     ) {
         // Store all passed instances
         $this
             ->registry($registry)
-            ->request($request)
-            ->originalRequest($requestState->getRequest())
+            ->route($requestState->getRoute())
             ->requestState($requestState)
-            ->cache($cache)
-            ->configuration($configuration)
-            ->translation($translation);
+            ->cache($registry->getCache())
+            ->configuration($registry->getConfiguration());
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
-            $result = $this->__tearup($request, $translation);
+            $result = $this->__tearup($requestState->getRoute());
 
             if ($result !== true) {
                 throw new Doozr_Base_Model_Exception(
@@ -187,126 +163,44 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     }
 
     /**
-     * Setter for request.
+     * Setter for route.
      *
-     * @param array $request The request to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setRequest(array $request)
-    {
-        $this->request = $request;
-    }
-
-    /**
-     * Setter for request.
-     *
-     * @param array $request The request to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access protected
-     */
-    protected function request(array $request)
-    {
-        $this->setRequest($request);
-        return $this;
-    }
-
-    /**
-     * Getter for request.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|null The request stored, otherwise NULL
-     * @access protected
-     */
-    protected function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * Setter for translation.
-     *
-     * @param array|null $translation The translation to set
+     * @param Doozr_Request_State_Route $route The route to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setTranslation(array $translation = null)
+    protected function setRoute(Doozr_Request_State_Route $route)
     {
-        $this->translation = $translation;
+        $this->route = $route;
     }
 
     /**
-     * Setter for translation.
+     * Setter for route.
      *
-     * @param array|null $translation The translation to set
+     * @param Doozr_Request_State_Route $route The route to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translation(array $translation = null)
+    protected function route(Doozr_Request_State_Route $route)
     {
-        $this->setTranslation($translation);
+        $this->setRoute($route);
         return $this;
     }
 
     /**
-     * Getter for translation.
+     * Getter for route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|null The translation stored, otherwise NULL
+     * @return Doozr_Request_State_Route|null The route stored, otherwise NULL
      * @access protected
      */
-    protected function getTranslation()
+    protected function getRoute()
     {
-        return $this->translation;
-    }
-
-    /**
-     * Setter for originalRequest.
-     *
-     * @param mixed $originalRequest The originalRequest to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setOriginalRequest($originalRequest)
-    {
-        $this->originalRequest = $originalRequest;
-    }
-
-    /**
-     * Setter for originalRequest.
-     *
-     * @param mixed $originalRequest The originalRequest to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access protected
-     */
-    protected function originalRequest($originalRequest)
-    {
-        $this->setOriginalRequest($originalRequest);
-        return $this;
-    }
-
-    /**
-     * Getter for originalRequest.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The originalRequest stored, otherwise NULL
-     * @access protected
-     */
-    protected function getOriginalRequest()
-    {
-        return $this->originalRequest;
+        return $this->route;
     }
 
     /**
@@ -353,13 +247,13 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     /**
      * Setter for cache.
      *
-     * @param Doozr_Cache_Service $cache The cache service instance to set
+     * @param CacheItemPoolInterface $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setCache(Doozr_Cache_Service $cache)
+    protected function setCache($cache)
     {
         $this->cache = $cache;
     }
@@ -367,15 +261,16 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     /**
      * Setter for cache.
      *
-     * @param Doozr_Cache_Service $cache The cache service instance to set
+     * @param CacheItemPoolInterface $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function cache(Doozr_Cache_Service $cache)
+    protected function cache($cache)
     {
         $this->setCache($cache);
+
         return $this;
     }
 
@@ -383,7 +278,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Cache_Service|null The cache service instance stored, otherwise NULL
+     * @return CacheItemPoolInterface|null The cache service instance stored, otherwise NULL
      * @access protected
      */
     protected function getCache()
@@ -394,7 +289,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     /**
      * This method (container) is intend to set the data for a requested runtimeEnvironment.
      *
-     * @param mixed $data The data (array prefered) to set
+     * @param mixed $data The data (array preferred) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -403,7 +298,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     public function setData($data)
     {
         $this->data = $data;
-        return true;
     }
 
     /**
@@ -418,6 +312,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     public function data($data)
     {
         $this->setData($data);
+
         return $this;
     }
 
@@ -474,8 +369,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     public function getData($force = false)
     {
         if ($this->data === null || $force === true) {
-            $route  = $this->getRequestState()->getActiveRoute();
-            $action = $route[0];
+            $route  = $this->getRoute();
+            $action = $route->getAction();
             $method = false;
 
             $this->action($action);
@@ -571,7 +466,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param mixed $data The data for create
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function create($data = null)
@@ -617,7 +512,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Delete of cruD
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function delete()
@@ -639,7 +534,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     /**
      * Returns an array containing a flat structure for a breadcrumb navigation
      *
-     * @param $url The URL used to extract breadcrumb from
+     * @param string $url  The URL used to extract breadcrumb from
+     * @param string $home The crumb used for "Home" e.g. >> Home
      *
      * @author Benjamin Carl <benjamin.carl@clickalicious.de>
      * @return array The resulting breadcrumb structure
@@ -650,7 +546,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
         $nodes      = explode('/', $url);
         $countNodes = count($nodes);
 
-        $breadcrumb = array();
+        $breadcrumb = [];
         $root       = '';
 
         for ($i = 0; $i < $countNodes; ++$i) {

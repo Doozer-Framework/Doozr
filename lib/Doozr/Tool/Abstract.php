@@ -6,7 +6,7 @@
  *
  * Abstract.php - The abstract base for CLI Tools.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -54,7 +54,7 @@
 
 require_once 'Doozr/Base/Class.php';
 
-use \donatj\Flags;
+use donatj\Flags;
 
 /**
  * Doozr - Tool - Abstract
@@ -120,7 +120,7 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
      * @var array
      * @access protected
      */
-    protected $flagConfiguration = array();
+    protected $flagConfiguration = [];
 
 
     /**
@@ -140,7 +140,7 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
         Flags $flags,
               $name              = DOOZR_NAME,
               $version           = DOOZR_VERSION,
-        array $flagConfiguration = array(),
+        array $flagConfiguration = [],
               $injectCommand     = null
     ) {
         // For tools like PS ...

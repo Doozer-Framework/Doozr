@@ -7,7 +7,7 @@
  * Group.php - The group element control layer which adds validation,
  * and so on to an HTML element.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -111,7 +111,6 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
      *
      * @var string
      * @access public
-     * @const
      */
     const LABEL = 'label';
 
@@ -120,7 +119,6 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
      *
      * @var string
      * @access public
-     * @const
      */
     const COMPONENT = 'component';
 
@@ -129,7 +127,6 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
      *
      * @var string
      * @access public
-     * @const
      */
     const MESSAGE = 'message';
 
@@ -139,7 +136,7 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
      * @var array
      * @access protected
      */
-    protected $index = array();
+    protected $index = [];
 
     /**
      * The index in reverse lookup preparation (key <=> value)
@@ -147,7 +144,7 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
      * @var array
      * @access protected
      */
-    protected $indexReverse = array();
+    protected $indexReverse = [];
 
     /**
      * Constructor.
@@ -223,7 +220,7 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
         $index               = $this->addChild($label);
         $this->index[$index] = self::LABEL;
 
-        (!isset($this->indexReverse[self::LABEL])) ? $this->indexReverse[self::LABEL] = array() : null;
+        (!isset($this->indexReverse[self::LABEL])) ? $this->indexReverse[self::LABEL] = [] : null;
         $this->indexReverse[self::LABEL][] = $index;
 
         return $index;
@@ -243,7 +240,7 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
         $index               = $this->addChild($element);
         $this->index[$index] = self::COMPONENT;
 
-        (!isset($this->indexReverse[self::COMPONENT])) ? $this->indexReverse[self::COMPONENT] = array() : null;
+        (!isset($this->indexReverse[self::COMPONENT])) ? $this->indexReverse[self::COMPONENT] = [] : null;
         $this->indexReverse[self::COMPONENT][] = $index;
 
         return $index;
@@ -263,7 +260,7 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
         $index               = $this->addChild($message);
         $this->index[$index] = self::MESSAGE;
 
-        (!isset($this->indexReverse[self::MESSAGE])) ? $this->indexReverse[self::MESSAGE] = array() : null;
+        (!isset($this->indexReverse[self::MESSAGE])) ? $this->indexReverse[self::MESSAGE] = [] : null;
         $this->indexReverse[self::MESSAGE][] = $index;
 
         return $index;
@@ -292,9 +289,9 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
      */
     public function getLabels()
     {
-        $result = array();
+        $result = [];
 
-        $labels = (isset($this->indexReverse[self::LABEL])) ? $this->indexReverse[self::LABEL] : array();
+        $labels = (isset($this->indexReverse[self::LABEL])) ? $this->indexReverse[self::LABEL] : [];
 
         foreach ($labels as $index) {
             $result[] = $this->getChild($index);
@@ -326,7 +323,7 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
      */
     public function getComponents()
     {
-        $components = array();
+        $components = [];
 
         foreach ($this->indexReverse[self::COMPONENT] as $index) {
             $components[] = $this->getChild($index);
@@ -358,9 +355,9 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
      */
     public function getMessage()
     {
-        $result = array();
+        $result = [];
 
-        $messages = (isset($this->indexReverse[self::MESSAGE])) ? $this->indexReverse[self::MESSAGE] : array();
+        $messages = (isset($this->indexReverse[self::MESSAGE])) ? $this->indexReverse[self::MESSAGE] : [];
 
         foreach ($messages as $index) {
             $result[] = $this->getChild($index);
@@ -460,7 +457,7 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
      */
     protected function sort($order)
     {
-        $ordered = array();
+        $ordered = [];
 
         $matrix = array(
             'label'     => 'getLabels',

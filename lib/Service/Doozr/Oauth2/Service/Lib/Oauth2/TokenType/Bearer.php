@@ -12,7 +12,7 @@ class Bearer implements TokenTypeInterface
 {
     private $config;
 
-    public function __construct(array $config = array())
+    public function __construct(array $config = [])
     {
         $this->config = array_merge(array(
             'token_param_name'         => 'access_token',

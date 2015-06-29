@@ -12,7 +12,7 @@
  * and be sure if logging level config is OK the log entry will also appear in
  * debug bar.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -60,8 +60,10 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/PsrInterface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
+
+use Psr\Log\LoggerInterface;
+use DebugBar\DebugBar;
 
 /**
  * Doozr - Logging - Debugbar
@@ -86,7 +88,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
     implements
     Doozr_Logging_Interface,
-    Doozr_Logging_PsrInterface,
+    LoggerInterface,
     SplObserver
 {
     /**
@@ -113,6 +115,14 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
      */
     protected $identifier = '';
 
+    /**
+     * Controls wether the output should be triggered automatically after each log() call (true)
+     * or manually (false).
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $automaticOutput = false;
 
     /**
      * Constructor.
@@ -121,7 +131,7 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
      * @param int $level The loglevel of the logger extending this class
      * @param string $fingerprint The fingerprint of the client
      *
-*@internal param Doozr_Configuration $config The configuration instance
+     * @internal param Doozr_Configuration $config The configuration instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Logging_Debugbar
@@ -129,7 +139,7 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
      */
     public function __construct(Doozr_Datetime_Service $datetime, $level = null, $fingerprint = null)
     {
-        // call parents constructor
+        // Call parents constructor
         parent::__construct($datetime, $level, $fingerprint);
     }
 
@@ -173,7 +183,6 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
                 $logs = $subject->getCollectionRaw();
 
                 foreach ($logs as $log) {
-
                     $this->log(
                         $log['type'],
                         $log['message'],
@@ -192,33 +201,51 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Output method for writing files.
-     * We need this method cause it differs here from abstract default.
+     * Exports to current log entries to a debug bar instance.
      *
-     * @param string $color The color of the output as hexadecimal string representation
+     * @param DebugBar $debugBar An debugBar Instance to output content to
+     *
+     * @return DebugBar The debugbar instance added messages
+     */
+    public function exportToDebugBar(DebugBar $debugBar)
+    {
+        $archive = $this->getCollectionRaw();
+
+        foreach ($archive as $logentry) {
+            if (false === empty($logentry)) {
+                $debugBar['messages']->{$logentry['type']}($logentry['message']);
+            }
+        }
+
+        return $debugBar;
+    }
+
+    /**
+     * Output method.
+     * We need this method cause it differs here from abstract default.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function output($color = '#7CFC00')
+    protected function output()
     {
-        // first get content to local var
         $content = $this->getContentRaw();
+        $result  = '';
 
-        // iterate log content
+        // Iterate log content
         foreach ($content as $logEntry) {
-
-            // build the log-line
-            $content = $logEntry['time'].' '.
-                       '['.$logEntry['type'].'] '.
-                       $logEntry['fingerprint'].' '.
-                       $logEntry['message'].
-                       $this->lineBreak.$this->getLineSeparator().$this->lineBreak;
+            // Build the final log entry
+            $result .= $logEntry['time'].' '.
+                '['.$logEntry['type'].'] '.
+                $logEntry['fingerprint'].' '.
+                $logEntry['message'].
+                $this->lineBreak.$this->getLineSeparator().$this->lineBreak;
         }
 
         // so we can clear the existing log
         $this->clearContent();
-    }
 
+        return $result;
+    }
 }

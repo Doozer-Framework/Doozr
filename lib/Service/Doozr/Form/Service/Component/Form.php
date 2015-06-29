@@ -8,7 +8,7 @@
  * the <form></form> part and provide some more specialized access
  * like getters and setters for action, method, ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

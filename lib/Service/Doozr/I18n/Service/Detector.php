@@ -6,7 +6,7 @@
  *
  * Detector.php - Locale detection part of the I18n service.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -403,7 +403,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param string $code de, de-AT, en-us ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access public
      */
     public function isValidLocaleCode($code = '')
@@ -463,7 +463,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param bool $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if detection was successful
+     * @return bool TRUE if detection was successful
      * @access protected
      */
     protected function init($lookupAlternative)
@@ -537,7 +537,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param array $preferences The preferences to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if storing was successful, otherwise FALSE
+     * @return bool TRUE if storing was successful, otherwise FALSE
      * @access private
      */
     private function writePreferences(array $preferences)
@@ -713,7 +713,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * This method is intend to detect available locale(s) by requesting hostname/client-ip|domain.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function detectByUserIp()
@@ -758,7 +758,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected function sortByWeight(array $locales)
     {
         // new index
-        $index = array();
+        $index = [];
 
         // for those who are interested in (int) or intval() whats faster:
         // http://www.entwicklerblog.net/php/php-variable-in-integer-verwandeln-intfoo-oder-intvalfoo/
@@ -773,7 +773,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         krsort($index);
 
         // rebuild
-        $locales = array();
+        $locales = [];
 
         foreach ($index as $weight => $locale) {
             $locales[] = array(
@@ -849,7 +849,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param array $preferences The preferences to store in session
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function writeSession(array $preferences)
@@ -891,7 +891,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param array $preferences The preferences to store in session
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function writeCookie(array $preferences)
@@ -915,7 +915,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * This method is intend to read a cookie with a previous stored locale-config (state).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function readCookie()

@@ -6,7 +6,7 @@
  *
  * Configuration.php - Config-Class for Doozr's SPL-Autoloader-Facade
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -113,7 +113,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @var array
      * @access protected
      */
-    protected $extension = array();
+    protected $extension = [];
 
     /**
      * Holds the (optional) classname containing the Autoloader-Method (Function)
@@ -137,7 +137,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @var array
      * @access protected
      */
-    protected $path = array();
+    protected $path = [];
 
     /**
      * Holds the information if Autoloader-Method is standalone (procedural Function) or part of a class
@@ -211,7 +211,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param string $uId An unique-Id to identify the Autoloader later from outside the SPL-Facade.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
      * @access public
      */
     public function setUid($uId)
@@ -242,7 +242,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param string $namespace A namespace for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
      * @access public
      */
     public function setNamespace($namespace)
@@ -275,7 +275,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param int $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
      * @access public
      */
     public function setPriority($priority)
@@ -306,7 +306,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param string $description A description for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
      * @access public
      */
     public function setDescription($description)
@@ -337,7 +337,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param string $extension A file-extension used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
      * @access public
      */
     public function addExtension($extension)
@@ -404,7 +404,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param string $class A name of a class containing the Autoloader-Method used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
      * @access public
      */
     public function setClass($class)
@@ -440,7 +440,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * This method is intend to return the is-class status of the Autoloader-Config.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true is a Class containing the Autoloader-Method (Function), otherwise false (proced. Function)
+     * @return bool true is a Class containing the Autoloader-Method (Function), otherwise false (proced. Function)
      * @access public
      */
     public function isClass()
@@ -456,7 +456,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param string $method A method-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
      * @access public
      */
     public function setMethod($method)
@@ -493,7 +493,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param string $function A function-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
      * @access public
      */
     public function setFunction($function)
@@ -524,16 +524,16 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Current instance for chaining
+     * @return $this Instance for chaining
      * @access public
      */
     public function setPath($path)
     {
         // check given type
         if (is_array($path)) {
-            $result = ($this->path = $path);
+            $this->path = $path;
         } else {
-            $result = ($this->path = array($path));
+            $this->path = array($path);
         }
 
         // for chaining
@@ -586,7 +586,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      * otherwise FALSE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if loader, otherwise FALSE
+     * @return bool TRUE if loader, otherwise FALSE
      * @access public
      */
     public function isLoader()
@@ -600,11 +600,91 @@ class Doozr_Loader_Autoloader_Spl_Config
      * @param string $classname The name of the class to load
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function load($classname)
     {
+        /*
+        if (
+            'Doctrine\Common\Annotations\AnnotationReader' !== $classname &&
+            'Doctrine\Common\Annotations\Reader' !== $classname &&
+            'Doctrine\Common\Annotations\AnnotationRegistry' !== $classname &&
+            'Doctrine\Common\Annotations\DocParser' !== $classname &&
+            'Doctrine\Common\Annotations\DocLexer' !== $classname &&
+            'Doctrine\Common\Lexer\AbstractLexer' !== $classname &&
+            'Doctrine\Common\Annotations\Annotation\Target' !== $classname &&
+            'Doctrine\Common\Annotations\PhpParser' !== $classname &&
+            'Doctrine\Common\Annotations\TokenParser' !== $classname &&
+            'Doozr_Logging_Collecting' !== $classname &&
+            'Doozr_Configuration_Reader_Json' !== $classname &&
+            'Rhumsaa\Uuid\Uuid' !== $classname &&
+            'Doozr_Logging_System' !== $classname &&
+            'Doozr_Logging_Debugbar' !== $classname &&
+            'Whoops\Run' !== $classname &&
+            'Whoops\Handler\PrettyPageHandler' !== $classname &&
+            'Whoops\Handler\Handler' !== $classname &&
+            'Whoops\Handler\HandlerInterface' !== $classname &&
+            'Whoops\Exception\ErrorException' !== $classname &&
+            'Whoops\Exception\FrameCollection' !== $classname &&
+            'Whoops\Exception\Frame' !== $classname &&
+            'Whoops\Exception\Inspector' !== $classname &&
+            'DebugBar\StandardDebugBar' !== $classname &&
+            'DebugBar\DebugBar' !== $classname &&
+            'DebugBar\DataCollector\PhpInfoCollector' !== $classname &&
+            'DebugBar\DataCollector\DataCollector' !== $classname &&
+            'DebugBar\DataCollector\DataCollectorInterface' !== $classname &&
+            'DebugBar\DataCollector\MessagesCollector' !== $classname &&
+            'Psr\Log\AbstractLogger' !== $classname &&
+            'Psr\Log\LoggerInterface' !== $classname &&
+            'DebugBar\DataCollector\MessagesAggregateInterface' !== $classname &&
+            'DebugBar\DataCollector\Renderable' !== $classname &&
+            'DebugBar\DataCollector\RequestDataCollector' !== $classname &&
+            'DebugBar\DataCollector\TimeDataCollector' !== $classname &&
+            'DebugBar\DataCollector\MemoryCollector' !== $classname &&
+            'DebugBar\DataCollector\ExceptionsCollector' !== $classname &&
+            'DebugBar\DataCollector\ConfigCollector' !== $classname &&
+            'Doozr_Request_Web' !== $classname &&
+            'Psr\Http\Message\ServerRequestInterface' !== $classname &&
+            'Psr\Http\Message\RequestInterface' !== $classname &&
+            'Psr\Http\Message\MessageInterface' !== $classname &&
+            'Doozr_Request_State' !== $classname &&
+            'Doozr_Request_Uri' !== $classname &&
+            'Psr\Http\Message\UriInterface' !== $classname &&
+            'DebugBar\DataFormatter\DataFormatter' !== $classname &&
+            'DebugBar\DataFormatter\DataFormatterInterface' !== $classname &&
+            'Symfony\Component\VarDumper\Cloner\VarCloner' !== $classname &&
+            'Symfony\Component\VarDumper\Cloner\AbstractCloner' !== $classname &&
+            'Symfony\Component\VarDumper\Cloner\ClonerInterface' !== $classname &&
+            'Symfony\Component\VarDumper\Dumper\CliDumper' !== $classname &&
+            'Symfony\Component\VarDumper\Dumper\AbstractDumper' !== $classname &&
+            'Symfony\Component\VarDumper\Dumper\DataDumperInterface' !== $classname &&
+            'Symfony\Component\VarDumper\Cloner\DumperInterface' !== $classname &&
+            'Doozr_Response_Web' !== $classname &&
+            'Psr\Http\Message\ResponseInterface' !== $classname &&
+            'Doozr_Response_State' !== $classname &&
+            'Doctrine\Common\ClassLoader' !== $classname &&
+            'Doozr_Session_Service_Exception' !== $classname &&
+            'Doozr_Route' !== $classname &&
+            'Doozr_Request_Dispatcher' !== $classname &&
+            'Doozr_Cache_Service_Exception' !== $classname &&
+            'Doozr_Base_Presenter' !== $classname &&
+            'Doozr_Route_Dispatcher' !== $classname &&
+            'FastRoute\RouteCollector' !== $classname &&
+            'FastRoute\Dispatcher\GroupCountBased' !== $classname &&
+            'FastRoute\Dispatcher\RegexBasedAbstract' !== $classname &&
+            'FastRoute\Dispatcher' !== $classname &&
+            'FastRoute\RouteParser\Std' !== $classname &&
+            'FastRoute\RouteParser' !== $classname &&
+            'FastRoute\DataGenerator\GroupCountBased' !== $classname &&
+            'FastRoute\DataGenerator\RegexBasedAbstract' !== $classname &&
+            'FastRoute\DataGenerator' !== $classname
+        ) {
+            echo $classname;
+            die;
+        }
+        */
+
         // get namespace of current instance
         $currentNamespace = $this->namespace . $this->namespaceSeparator;
 

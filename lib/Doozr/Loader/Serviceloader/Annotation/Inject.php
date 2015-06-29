@@ -8,7 +8,7 @@ namespace Doozr\Loader\Serviceloader\Annotation;
  *
  * Inject.php - Inject Annotation for DI of Doozr.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -60,7 +60,7 @@ namespace Doozr\Loader\Serviceloader\Annotation;
  * Inject Annotation for DI of Doozr.
  *
  * class           string      "Doozr_Registry" ASCII
- * identifier      string      "__construct" ASCII
+ * target          string      "__construct" ASCII
  * instance        null
  * type            string      "constructor" ASCII
  * value           null
@@ -88,13 +88,13 @@ class Inject
     public $class;
 
     /**
-     * The identifier for the injection (name of property,
+     * The target for the injection (name of property,
      * name of method like __construct or something like this).
      *
      * @var string
      * @access public
      */
-    public $identifier = self::DEFAULT_IDENTIFIER;
+    public $target = self::DEFAULT_TARGET;
 
     /**
      * The instance for an injection.
@@ -133,7 +133,6 @@ class Inject
      *
      * @var int
      * @access public
-     * @const
      */
     const DEFAULT_POSITION = 1;
 
@@ -142,16 +141,14 @@ class Inject
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_TYPE = 'constructor';
 
     /**
-     * The default identifier of an injection.
+     * The default target of an injection.
      *
      * @var string
      * @access public
-     * @const
      */
-    const DEFAULT_IDENTIFIER = '__construct';
+    const DEFAULT_TARGET = '__construct';
 }

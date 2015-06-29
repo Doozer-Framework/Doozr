@@ -9,7 +9,7 @@
  * JSON+ to it. This class also provides caching of contents through a cache
  * service instance (this can be either memcache, filesystem ...).
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -94,7 +94,6 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      *
      * @var bool
      * @access public
-     * @const
      */
     const PHP_INI_PARSER_PROCESS_SECTIONS = true;
 
@@ -140,7 +139,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
         if ($configuration === false) {
             throw new Doozr_Configuration_Reader_Exception(
                 'Configuration could no be parsed. Ensure its valid.'
-                /* @TODO Ensure Lint on error with exception = details! */
+                /* @todo Ensure Lint on error with exception = details! */
             );
         }
 
@@ -179,7 +178,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
 
     public function set($node, $value = null)
     {
-        echo 1;
+        echo 13;
         die;
 
         if ($node !== null) {

@@ -6,7 +6,7 @@
  *
  * Error.php - Form Error class
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -115,7 +115,7 @@ class Doozr_Form_Service_Validate_Error
      * @access protected
      * @static
      */
-    protected $errorCodeMatrix = array();
+    protected $errorCodeMatrix = [];
 
     /**
      * The "error to error-message" translation-matrix
@@ -271,7 +271,7 @@ class Doozr_Form_Service_Validate_Error
      * Initializes the validation matrix
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function init()

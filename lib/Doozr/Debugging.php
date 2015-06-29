@@ -6,7 +6,7 @@
  *
  * Debugging.php - Configures some of PHP's runtime parameters for debugging.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -334,7 +334,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
             $constants = get_defined_constants();
 
             // Extract Doozr Constants as debugging information
-            $data = array();
+            $data = [];
             foreach($constants as $key => $value) {
                 if ('DOOZR_' === substr($key, 0, 6)) {
                     $data[$key] = (true === is_bool($value)) ? ((true === $value) ? 'TRUE' : 'FALSE') : $value;
@@ -365,7 +365,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * Makes PHP verbose to get at much debugging output as possible.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if debugging was successfully enabled, otherwise FALSE
+     * @return bool TRUE if debugging was successfully enabled, otherwise FALSE
      * @access protected
      */
     protected function makeVerbose()
@@ -394,7 +394,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * Makes PHP silent to get less output.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if debugging could be disabled, otherwise FALSE
+     * @return bool TRUE if debugging could be disabled, otherwise FALSE
      * @access protected
      */
     protected function makeSilent()

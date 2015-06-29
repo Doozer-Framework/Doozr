@@ -7,7 +7,7 @@
  * Security.php - Access to private/public keys for security operations of
  * the Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

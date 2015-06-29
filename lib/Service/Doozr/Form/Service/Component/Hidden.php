@@ -7,7 +7,7 @@
  * Hidden.php - Extension to default Input-Component <input type="..." ...
  * but with some specific radio-field tuning.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

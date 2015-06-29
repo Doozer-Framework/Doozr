@@ -6,7 +6,7 @@
  *
  * Configuration.php - Configuration class for sharing configurations.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -69,7 +69,7 @@
 class Doozr_Form_Service_Configuration
 {
     /**
-     * The id.
+     * The Id.
      *
      * @var string
      * @access protected
@@ -113,10 +113,8 @@ class Doozr_Form_Service_Configuration
      *
      * @var string
      * @access public
-     * @const
      */
     const DOOZR_COMMAND_PREFIX = 'doozr-';
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -188,7 +186,7 @@ class Doozr_Form_Service_Configuration
      * Getter for dirty state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if dirty, FALSE if not
+     * @return bool TRUE if dirty, FALSE if not
      * @access public
      */
     public function getDirty()
@@ -202,7 +200,7 @@ class Doozr_Form_Service_Configuration
      * @param array $configuration The configuration to parse
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Form_Service_Configuration Current instance for chaining
+     * @return Doozr_Form_Service_Configuration Instance for chaining
      * @access public
      */
     public function parseFromArray(array $configuration)
@@ -225,7 +223,7 @@ class Doozr_Form_Service_Configuration
      * @return mixed Result of operation
      * @access public
      */
-    public function __call($method, $argument = array())
+    public function __call($method, $argument = [])
     {
         $method = str_split_camelcase($method);
 
@@ -284,7 +282,7 @@ class Doozr_Form_Service_Configuration
      * @param array $input The input to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access protected
      * @throws \Exception
      */
@@ -320,7 +318,7 @@ class Doozr_Form_Service_Configuration
      */
     protected function updateHash()
     {
-        $this->setHash(sha1(serialize($this->configuration)));
+        $this->setHash(spl_object_hash($this->configuration));
     }
 
     /**
@@ -329,7 +327,7 @@ class Doozr_Form_Service_Configuration
      * @param string $value The value to check for command
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if command was found, otherwise FALSE
+     * @return bool TRUE if command was found, otherwise FALSE
      * @access protected
      */
     protected function containsCommand($value)
@@ -366,7 +364,7 @@ class Doozr_Form_Service_Configuration
      */
     protected function parse($configuration)
     {
-        $result = array();
+        $result = [];
 
         // Extract commands of Doozr from configuration
         foreach($configuration as $root => $childs) {
@@ -375,8 +373,8 @@ class Doozr_Form_Service_Configuration
 
                 foreach ($values as $node => $value) {
 
-                    $dom   = array();
-                    $doozr = array();
+                    $dom   = [];
+                    $doozr = [];
 
                     switch ($node) {
                         case 'tag':
@@ -402,7 +400,7 @@ class Doozr_Form_Service_Configuration
                 }
 
                 if (isset($result[$root]) === false) {
-                    $result[$root] = array();
+                    $result[$root] = [];
                 }
 
                 $result[$root][] = array(

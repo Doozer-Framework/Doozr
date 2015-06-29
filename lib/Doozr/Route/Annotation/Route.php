@@ -8,7 +8,7 @@ namespace Doozr\Route\Annotation;
  *
  * Route.php - Route Annotation for DI of Doozr.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -132,7 +132,6 @@ class Route
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_PRESENTER = 'index';
 
@@ -141,7 +140,6 @@ class Route
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_ACTION = 'index';
 
@@ -150,7 +148,6 @@ class Route
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_ROUTE = '/index/index';
 
@@ -173,7 +170,6 @@ class Route
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_METHODS = 'OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT';
 

@@ -6,7 +6,7 @@
  *
  * Subject.php - Base subject-template for "Presenter" build (MVP pattern)
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -89,6 +89,17 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
      */
     protected $observer;
 
+    /**
+     * Store for data.
+     *
+     * @var array
+     * @access protected
+     */
+    protected $store = [];
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Init
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor override for SplObjectStorage instantiation.
@@ -105,45 +116,27 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
         parent::__construct($state);
     }
 
-    /**
-     * Setter for identifier.
-     *
-     * @param string $identifier Identifier to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-    }
+    /*------------------------------------------------------------------------------------------------------------------
+    | SplSubject
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for identifier.
+     * Notifies all registered observers about an update
      *
-     * @param string $identifier Identifier to set
+     * This method is intend to notify all registered observers about an update.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
+     * @return mixed|null The result of view or NULL
      * @access public
      */
-    public function identifier($identifier)
+    public function notify()
     {
-        $this->setIdentifier($identifier);
-        return $this;
-    }
+        // Iterate the observer within the collection ...
+        foreach ($this->observer as $observer) {
+            $this->storeData($observer->getIdentifier(), $observer->update($this));
+        }
 
-    /**
-     * Getter for identifier.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access public
-     */
-    public function getIdentifier()
-    {
-        return $this->identifier;
+        return $this->getStore(self::IDENTIFIER_VIEW);
     }
 
     /**
@@ -178,32 +171,135 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
         $this->observer->detach($observer);
     }
 
-    protected $store = array();
-
-    protected function store($key, $value)
-    {
-        $this->store[$key] = $value;
-    }
-
-    public function getStore()
-    {
-        return $this->store;
-    }
+    /*------------------------------------------------------------------------------------------------------------------
+    | Setter & Getter, Isser & Hasser
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Notifies all registered observers about an update
+     * Setter for identifier.
      *
-     * This method is intend to notify all registered observers about an update.
+     * @param string $identifier Identifier to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function notify()
+    public function setIdentifier($identifier)
     {
-        // iterate the observer within the collection ...
-        foreach ($this->observer as $observer) {
-            $this->store($observer->getIdentifier(), $observer->update($this));
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * Setter for identifier.
+     *
+     * @param string $identifier Identifier to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function identifier($identifier)
+    {
+        $this->setIdentifier($identifier);
+
+        return $this;
+    }
+
+    /**
+     * Getter for identifier.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+
+    /**
+     * Setter for store.
+     *
+     * @param array $store The store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setStore(array $store)
+    {
+        $this->store = $store;
+    }
+
+    /**
+     * Fluent: Setter for store.
+     *
+     * @param array $store The store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function store(array $store)
+    {
+        $this->setStore($store);
+
+        return $this;
+    }
+
+    /**
+     * Setter for store.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Store
+     * @access protected
+     */
+    protected function getStore()
+    {
+        return $this->store;
+    }
+
+    /**
+     * Stores data by key.
+     *
+     * @param string $source The key
+     * @param mixed  $value  The value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function storeData($source, $value)
+    {
+        $this->store[$source] = $value;
+    }
+
+    /**
+     * Returns the data from internal store.
+     *
+     * @param string|null $source The source to return, or NULL for whole store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed The data from store
+     * @access public
+     * @throws \Doozr_Base_Presenter_Exception
+     */
+    public function getStoredData($source = null)
+    {
+        if (null === $source) {
+            $result = $this->store;
+
+        } else {
+            if (false === isset($this->store[$source])) {
+                throw new Doozr_Base_Presenter_Exception(
+                    sprintf('No stored data for source (key) "%s"', $source)
+                );
+            }
+
+            $result = $this->store[$source];
         }
+
+        return $result;
     }
 }

@@ -74,7 +74,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
     /**
      * @var array
      */
-    protected $revisions = array();
+    protected $revisions = [];
 
     /**
      * @var bool
@@ -132,7 +132,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
      */
     protected function doStore(array $frozenObject)
     {
-        $payload = array('docs' => array());
+        $payload = array('docs' => []);
 
         foreach ($frozenObject['objects'] as $id => $object) {
             if ($object['isDirty'] !== FALSE) {
@@ -200,7 +200,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    protected function doFetch($id, array &$objects = array())
+    protected function doFetch($id, array &$objects = [])
     {
         $isRoot = empty($objects);
 

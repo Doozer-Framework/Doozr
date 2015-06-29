@@ -9,7 +9,7 @@
  * JSON+ to it. This class also provides caching of contents through a cache
  * service instance (this can be either memcache, filesystem ...).
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

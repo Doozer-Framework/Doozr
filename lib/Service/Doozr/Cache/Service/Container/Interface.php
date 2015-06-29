@@ -6,7 +6,7 @@
  *
  * Interface.php - Interface for caching-container
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -78,7 +78,7 @@ interface Doozr_Cache_Service_Container_Interface
      * @param mixed  $userdata  The additional userdata
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @return bool TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
     public function create($key, $value, $lifetime, $namespace, $userdata = null);
@@ -105,7 +105,7 @@ interface Doozr_Cache_Service_Container_Interface
      * @param mixed  $userdata  The additional userdata
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @return bool TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
     public function update($key, $value, $namespace, $lifetime, $userdata = null);
@@ -117,7 +117,7 @@ interface Doozr_Cache_Service_Container_Interface
      * @param string $namespace The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
+     * @return bool TRUE if entry was deleted successful, otherwise FALSE
      * @access public
      */
     public function delete($key, $namespace);
@@ -129,7 +129,7 @@ interface Doozr_Cache_Service_Container_Interface
      * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
+     * @return bool TRUE if entry was deleted successful, otherwise FALSE
      * @access protected
      */
     public function garbageCollection($namespace, $lifetime);

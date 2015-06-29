@@ -9,7 +9,7 @@
  * functionality. So extend this class for building form components and get
  * functionality like getName(), setName() ... on top!
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -82,7 +82,7 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @var array
      * @access protected
      */
-    protected $validation = array();
+    protected $validation = [];
 
     /**
      * Status if component is capable of
@@ -215,7 +215,7 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Returns the validity state of the form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access public
      */
     public function isValid()
@@ -237,7 +237,7 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
     public function addValidation($validation, $value = null)
     {
         if (!isset($this->validation[$validation])) {
-            $this->validation[$validation] = array();
+            $this->validation[$validation] = [];
         }
 
         $this->validation[$validation][] = $value;

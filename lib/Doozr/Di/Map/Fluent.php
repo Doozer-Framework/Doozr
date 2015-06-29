@@ -6,7 +6,7 @@
  *
  * Fluent.php - Fluent map class of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -208,39 +208,39 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Setter for the identifier of the dependency class
+     * Setter for the target of the dependency class
      *
-     * This method is intend to set the identifier of the dependency class.
+     * This method is intend to set the target of the dependency class.
      *
-     * @param string $identifier The identifier of the dependency class
+     * @param string $target The target of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
-    public function identifier($identifier)
+    public function target($target)
     {
         /* @var $this->_current Doozr_Di_Dependency */
-        $this->_current->setIdentifier($identifier);
+        $this->_current->setTarget($target);
 
         // fluent interface
         return $this;
     }
 
     /**
-     * Setter for the identifier of the dependency class
+     * Setter for the target of the dependency class
      *
-     * This method is intend to set the identifier of the dependency class.
+     * This method is intend to set the target of the dependency class.
      *
-     * @param string $identifier The identifier of the dependency class
+     * @param string $target The target of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
-    public function id($identifier)
+    public function id($target)
     {
-        return $this->identifier($identifier);
+        return $this->target($target);
     }
 
     /**
@@ -345,7 +345,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
-    public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = array())
+    public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = [])
     {
         // flush maybe existing temporary content
         $this->_flush();

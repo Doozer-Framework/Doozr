@@ -6,7 +6,7 @@
  *
  * Html.php - Contract for all form components including <form> itself.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -72,7 +72,7 @@ interface Doozr_Form_Service_Component_Interface_Form
      * Returns the valid state of the component.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if component state is valid, otherwise FALSE
+     * @return bool TRUE if component state is valid, otherwise FALSE
      * @access public
      */
     public function isValid();

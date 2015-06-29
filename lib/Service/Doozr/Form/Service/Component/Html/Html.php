@@ -8,7 +8,7 @@
  * which provides some simple rendering and templating capabilities.
  * It's a concrete implementation which extends the HTML-skeleton abstract.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -89,7 +89,7 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * @var SplObjectStorage
      * @access protected
      */
-    protected $observers = array();
+    protected $observers = [];
 
     /**
      * The template is required for output. Each HTML-Component inherits

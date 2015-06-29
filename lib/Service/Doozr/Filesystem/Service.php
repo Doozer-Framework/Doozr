@@ -7,7 +7,7 @@
  * Service.php - Doozr Service for all filesystem operations with virtual-filesystem
  * support (e.g. for unit-testing).
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -75,7 +75,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="getInstance",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -132,7 +132,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      * @var array
      * @access protected
      */
-    protected $fileHandle = array();
+    protected $fileHandle = [];
 
     /**
      * holds data about resources
@@ -140,7 +140,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      * @var array
      * @access protected
      */
-    protected $resources = array();
+    protected $resources = [];
 
     /**
      * file runtimeEnvironment for reading
@@ -793,7 +793,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      * @return bool TRUE if the resource is readable, FALSE otherwise.
      * @access public
      */
-    public function is_readable($resource)
+    public function readable($resource)
     {
         // Preprocessing
         $resource = $this->_preProcess($resource);
@@ -1447,7 +1447,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     }
 
     /**
-     * is_readable - virtual-fs supporting wrapper
+     * readable - virtual-fs supporting wrapper
      *
      * This method is intend to work as is_readale - virtual-fs supporting wrapper
      *

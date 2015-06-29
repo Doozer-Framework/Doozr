@@ -8,7 +8,7 @@
  * This module is build upon the deep core integration of
  * Doozr_Base_Template_Engine.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -77,7 +77,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -364,7 +364,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
      * @param mixed $value    The variable-value to assign
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return bool TRUE if successful, otherwise FALSE
      * @access public
      * @throws Doozr_Exception
      */
@@ -387,7 +387,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
      * @param array $variables The variables to assign as array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return bool TRUE if successful, otherwise FALSE
      * @access public
      */
     public function assignVariables(array $variables)
@@ -424,7 +424,6 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
      * The type for singleton services.
      *
      * @var string
-     * @const
      */
     const TYPE_SINGLETON = 'singleton';
 
@@ -432,7 +431,6 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
      * The type for multi instance services.
      *
      * @var string
-     * @const
      */
     const TYPE_MULTIPLE = 'multiple';
 
@@ -440,7 +438,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
      * Returns true if service is singleton.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if service is singleton, otherwise FALSE.
+     * @return bool TRUE if service is singleton, otherwise FALSE.
      * @access public
      */
     public function isSingleton()
@@ -452,7 +450,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
      * Returns true if service is a multi instance service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if service is multi instance, otherwise FALSE.
+     * @return bool TRUE if service is multi instance, otherwise FALSE.
      * @access public
      */
     public function isMultiple()

@@ -6,7 +6,7 @@
  *
  * Singleton.php - Base-Service for building single-instance services
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -114,7 +114,6 @@ class Doozr_Base_Service_Singleton extends Doozr_Base_Class_Singleton
      * The type for singleton services.
      *
      * @var string
-     * @const
      */
     const TYPE_SINGLETON = 'singleton';
 
@@ -122,10 +121,8 @@ class Doozr_Base_Service_Singleton extends Doozr_Base_Class_Singleton
      * The type for multi instance services.
      *
      * @var string
-     * @const
      */
     const TYPE_MULTIPLE = 'multiple';
-
 
     /**
      * Constructor.
@@ -171,7 +168,7 @@ class Doozr_Base_Service_Singleton extends Doozr_Base_Class_Singleton
      * Returns true if service is singleton.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if service is singleton, otherwise FALSE.
+     * @return bool TRUE if service is singleton, otherwise FALSE.
      * @access public
      */
     public function isSingleton()
@@ -183,7 +180,7 @@ class Doozr_Base_Service_Singleton extends Doozr_Base_Class_Singleton
      * Returns true if service is a multi instance service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if service is multi instance, otherwise FALSE.
+     * @return bool TRUE if service is multi instance, otherwise FALSE.
      * @access public
      */
     public function isMultiple()

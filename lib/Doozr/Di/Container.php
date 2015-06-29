@@ -6,7 +6,7 @@
  *
  * Container.php - Container class of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -95,7 +95,7 @@ class Doozr_Di_Container
      * @access private
      * @static
      */
-    private static $dependencyMaps = array();
+    private static $dependencyMaps = [];
 
     /**
      * Contains container instances
@@ -104,7 +104,7 @@ class Doozr_Di_Container
      * @access protected
      * @static
      */
-    private static $instances = array();
+    private static $instances = [];
 
     /**
      * Instance of Doozr_Di_Factory for creating instances
@@ -128,7 +128,6 @@ class Doozr_Di_Container
      *
      * @var int
      * @access public
-     * @const
      */
     const MODE_STATIC = 1;
 
@@ -138,10 +137,8 @@ class Doozr_Di_Container
      *
      * @var int
      * @access public
-     * @const
      */
     const MODE_DYNAMIC = 2;
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
@@ -156,7 +153,7 @@ class Doozr_Di_Container
      * @param bool $override TRUE to override the existing map, FALSE to merge the maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setMap(Doozr_Di_Map $map, $override = true)
@@ -323,7 +320,7 @@ class Doozr_Di_Container
      * This method is intend to check if the requirements are fulfilled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if requirements fulfilled, otherwise FALSE
+     * @return bool TRUE if requirements fulfilled, otherwise FALSE
      * @access public
      */
     public function requirementsFulfilled()

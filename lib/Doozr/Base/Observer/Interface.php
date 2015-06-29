@@ -6,7 +6,7 @@
  *
  * Interface.php - Base Observer Interface of Doozr.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -73,7 +73,6 @@ interface Doozr_Base_Observer_Interface extends SplObserver
      *
      * @var string
      * @access public
-     * @const
      */
     const IDENTIFIER_PRESENTER = 'presenter';
 
@@ -82,7 +81,6 @@ interface Doozr_Base_Observer_Interface extends SplObserver
      *
      * @var string
      * @access public
-     * @const
      */
     const IDENTIFIER_VIEW = 'view';
 
@@ -91,7 +89,6 @@ interface Doozr_Base_Observer_Interface extends SplObserver
      *
      * @var string
      * @access public
-     * @const
      */
     const IDENTIFIER_MODEL = 'model';
 

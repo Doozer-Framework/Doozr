@@ -6,7 +6,7 @@
  *
  * Client.php - This logger logs all passed content to the current client: Browser, Cli, ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -54,8 +54,9 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/PsrInterface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
+
+use Psr\Log\LoggerInterface;
 
 /**
  * Doozr - Logging - Client
@@ -75,7 +76,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 class Doozr_Logging_Client extends Doozr_Logging_Abstract
     implements
     Doozr_Logging_Interface,
-    Doozr_Logging_PsrInterface,
+    LoggerInterface,
     SplObserver
 {
     /**
@@ -149,7 +150,7 @@ class Doozr_Logging_Client extends Doozr_Logging_Abstract
      * This method is intend to add the defined line-separator to log-content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function separate()

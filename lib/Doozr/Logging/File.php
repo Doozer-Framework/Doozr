@@ -6,7 +6,7 @@
  *
  * File.php - This logger logs all passed content to a logfile.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -54,8 +54,9 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/PsrInterface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
+
+use Psr\Log\LoggerInterface;
 
 /**
  * Doozr - Logging - File
@@ -75,7 +76,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 class Doozr_Logging_File extends Doozr_Logging_Abstract
     implements
     Doozr_Logging_Interface,
-    Doozr_Logging_PsrInterface,
+    LoggerInterface,
     SplObserver
 {
     /**
@@ -273,7 +274,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * Getter for persistent status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if persistent write is on, otherwise FALSE if not
+     * @return bool TRUE if persistent write is on, otherwise FALSE if not
      * @access public
      */
     public function getPersistent()
@@ -299,7 +300,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * Getter for append status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if append is on, otherwise FALSE if not
+     * @return bool TRUE if append is on, otherwise FALSE if not
      * @access public
      */
     public function getAppend()
@@ -368,13 +369,11 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * Output method for writing files.
      * We need this method cause it differs here from abstract default.
      *
-     * @param string $color The color of the output as hexadecimal string representation
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function output($color = '#7CFC00')
+    protected function output()
     {
         // first get content to local var
         $content = $this->getContentRaw();
@@ -419,7 +418,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * This method is intend to add the defined line-separator to log-content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function separate()

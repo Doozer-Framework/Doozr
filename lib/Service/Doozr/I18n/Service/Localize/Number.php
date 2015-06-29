@@ -6,7 +6,7 @@
  *
  * Number.php - This localizer is responsible to localize (L10N) values of type number.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

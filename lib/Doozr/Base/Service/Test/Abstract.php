@@ -6,7 +6,7 @@
  *
  * ServiceTest.php - This is the Test-Controller of a Service Test
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -117,7 +117,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         // Init the Doozr core to execute
-        self::$core = Doozr_Kernel::init();
+        self::$core = Doozr_Kernel::boot();
 
         // Store classname
         self::$serviceClassName = 'Doozr_' . self::$serviceName . '_Service';

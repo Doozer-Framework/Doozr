@@ -85,10 +85,10 @@ class Server implements ResourceControllerInterface,
      *
      * @ingroup oauth2_section_7
      */
-    public function __construct($storage = array(), array $config = array(), array $grantTypes = array(), array $responseTypes = array(), TokenTypeInterface $tokenType = null, ScopeInterface $scopeUtil = null, ClientAssertionTypeInterface $clientAssertionType = null)
+    public function __construct($storage = [], array $config = [], array $grantTypes = [], array $responseTypes = [], TokenTypeInterface $tokenType = null, ScopeInterface $scopeUtil = null, ClientAssertionTypeInterface $clientAssertionType = null)
     {
         $storage = is_array($storage) ? $storage : array($storage);
-        $this->storages = array();
+        $this->storages = [];
         foreach ($storage as $key => $service) {
             $this->addStorage($service, $key);
         }
@@ -416,7 +416,7 @@ class Server implements ResourceControllerInterface,
 
     protected function getDefaultResponseTypes()
     {
-        $responseTypes = array();
+        $responseTypes = [];
 
         if (isset($this->storages['access_token'])) {
             $responseTypes['token'] = $this->getAccessTokenResponseType();
@@ -436,7 +436,7 @@ class Server implements ResourceControllerInterface,
 
     protected function getDefaultGrantTypes()
     {
-        $grantTypes = array();
+        $grantTypes = [];
 
         if (isset($this->storages['user_credentials'])) {
             $grantTypes['password'] = new UserCredentials($this->storages['user_credentials']);

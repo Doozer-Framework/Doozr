@@ -6,7 +6,7 @@
  *
  * Observer.php - Base observer-template for "Models" build (MVP pattern)
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

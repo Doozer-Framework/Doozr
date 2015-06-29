@@ -67,14 +67,94 @@ define('DOOZR_APP_ENVIRONMENT', 'production');
 require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 require_once 'Doozr/Bootstrap.php';
 
-// Initialize Doozr Kernel
-Doozr_Kernel::init(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
 
-/* @var $response Doozr_Response */
-$response = Doozr_Kernel::handle();
+
+
+
+
+
+/**
+ * 8< ----------------------------------------
+ */
+
+// Initialize Doozr App Kernel
+$app = Doozr_Kernel_App::boot(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
+
+// Handle the default detected request (Web or Cli)
+$response = $app->handle();
 
 // Send response to client
 $response->send();
+
+die;
+
+/**
+ * ---------------------------------------- >8
+ */
+
+
+
+
+
+
+
+
+
+/**
+ * Prototype implementation of relay.relay here ...
+ * Just test out for this pattern in this very 1st place.
+ * Possible to add any compatible framework stack!
+ */
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use Relay\Relay;
+
+// Create request & response pair ...
+$request  = new \Doozr_Request_Web(
+    new \Doozr_Request_State()
+);
+
+$response = new \Doozr_Response_Web(
+    new \Doozr_Response_State()
+);
+
+// Build queue for middlewares
+$queue[] = function (Request $request, Response $response, callable $next) {
+
+    /* @var $app Doozr_Kernel_App Get kernel instance */
+    $app = Doozr_Kernel_App::boot(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
+
+    // Handle the default detected request (Web or Cli)
+    $response = $app->handle($request, $response);
+
+
+};
+
+// Get relay & execute ...
+$dispatcher = new Relay($queue);
+$dispatcher($request, $response);
+
+die;
+
+
+
+/**
+ * In theory the request is/was handled. thats it. now we can achieve that other middleware can
+ * intercept our result and modify it further. We're also able to implement this symfony like
+ * request/response caching before the kernel is called by implementing a lightweight middleware
+ * for caching through varnish for example
+ *
+ *   ||
+ *   REQUEST
+ *     ||
+ *     RELAY
+ *       ||
+ *       CACHED? => YES = VARNISH = RESPONSE
+ *       ||
+ *       NO? => PROCESS => CACHE => SEND RESPONSE
+ *
+ * and so on :)
+ */
 
 /**
  * If you want to call normal files within this directory feel free to :)

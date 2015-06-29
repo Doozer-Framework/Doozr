@@ -2,11 +2,11 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Request Interface
+ * Doozr - Request - Interface
  *
- * Interface.php - Interface for Request-Based classes of the Doozr Framework.
+ * Interface.php - Contract for Doozr request implementations.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -53,9 +53,9 @@
  */
 
 /**
- * Doozr Request Interface
+ * Doozr - Request - Interface
  *
- * Interface for Request-Based classes of the Doozr Framework.
+ * Contract for Doozr request implementations.
  *
  * @category   Doozr
  * @package    Doozr_Request
@@ -69,9 +69,20 @@
 interface Doozr_Request_Interface
 {
     /**
-     * signature for getType()
+     * Marshalling of request. Each of our request implementations must have a retrieve() method which triggers
+     * the retrieval/marshalling of request data (header, body, files, ...).
      *
-     * @return string Type of request(-method)
+     * @return bool TRUE on success, otherwise FALSE
+     * @access public
+     * @throws Doozr_Request_Exception
      */
-    public static function getType();
+    public function receive();
+
+    /**
+     * Must return the type of the request implementation.
+     *
+     * @return mixed
+     * @access public
+     */
+    public function getType();
 }

@@ -6,7 +6,7 @@
  *
  * Abstract.php - Abstract base class for all Parser of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -91,7 +91,7 @@ abstract class Doozr_Di_Parser_Abstract
      * @var array
      * @access protected
      */
-    protected $data = array();
+    protected $data = [];
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ abstract class Doozr_Di_Parser_Abstract
     {
         return array(
             'class'      => null,
-            'identifier' => null,
+            'target'     => null,
             'instance'   => null,
             'type'       => null,
             'value'      => null,
@@ -258,7 +258,7 @@ abstract class Doozr_Di_Parser_Abstract
     public function reset()
     {
         $this->input = null;
-        $this->data  = array();
+        $this->data  = [];
         $this->lastResult = '';
 
         // fluent / chaining

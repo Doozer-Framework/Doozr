@@ -31,7 +31,7 @@ class Request implements RequestInterface
      *
      * @api
      */
-    public function __construct(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = null, array $headers = null)
+    public function __construct(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null, array $headers = null)
     {
         $this->initialize($query, $request, $attributes, $cookies, $files, $server, $content, $headers);
     }
@@ -51,7 +51,7 @@ class Request implements RequestInterface
      *
      * @api
      */
-    public function initialize(array $query = array(), array $request = array(), array $attributes = array(), array $cookies = array(), array $files = array(), array $server = array(), $content = null, array $headers = null)
+    public function initialize(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null, array $headers = null)
     {
         $this->request = $request;
         $this->query = $query;
@@ -116,7 +116,7 @@ class Request implements RequestInterface
 
     private function getHeadersFromServer($server)
     {
-        $headers = array();
+        $headers = [];
         foreach ($server as $key => $value) {
             if (0 === strpos($key, 'HTTP_')) {
                 $headers[substr($key, 5)] = $value;
@@ -197,8 +197,8 @@ class Request implements RequestInterface
         $files  = ($files !== null)  ? $files  : $_FILES;
         $server = ($server !== null) ? $server : $_SERVER;
 
-        //$request = new $class($_GET, $_POST, array(), $_COOKIE, $_FILES, $_SERVER);
-        $request = new $class($get, $post, array(), $cookie, $files, $server);
+        //$request = new $class($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
+        $request = new $class($get, $post, [], $cookie, $files, $server);
 
         $contentType = $request->server('CONTENT_TYPE', '');
         $requestMethod = $request->server('REQUEST_METHOD', 'GET');

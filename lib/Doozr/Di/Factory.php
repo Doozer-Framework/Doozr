@@ -6,7 +6,7 @@
  *
  * Factory.php - Factory of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -118,13 +118,13 @@ class Doozr_Di_Factory
      */
     public function build($classname, $dependencies = null)
     {
-        // get reflection
+        // Get reflection
         $this->reflector = new ReflectionClass($classname);
 
-        // check if is instantiable (simple runtimeEnvironment)
+        // Check if is instantiable (simple runtimeEnvironment)
         $this->instantiable = $this->reflector->isInstantiable();
 
-        // default
+        // Default
         if ($dependencies !== null) {
             // store constructor
             if (isset($dependencies['constructor'])) {
@@ -154,7 +154,7 @@ class Doozr_Di_Factory
      * @access public
      * @throws Doozr_Di_Exception
      */
-    public function construct($classname, array $arguments = array())
+    public function construct($classname, array $arguments = [])
     {
         switch(count($arguments)) {
         case 0:
@@ -206,8 +206,23 @@ class Doozr_Di_Factory
         // get dependencies
         $dependencies = $setup['dependencies'];
 
+/*
+        array (size=1)
+  0 => &
+    object(Doozr_Di_Dependency)[72]
+      protected 'classname' => string 'Doozr_Registry' (length=14)
+      protected 'instance' => null
+      protected 'arguments' => null
+      protected 'constructor' => null
+      protected 'configuration' =>
+        array (size=3)
+          'type' => string 'constructor' (length=11)
+          'value' => null
+          'position' => int 1
+      protected 'target' => string 'getInstance' (l*/
+
         // get arguments for final class from setup
-        $arguments = (isset($setup['arguments'])) ? $setup['arguments'] : array();
+        $arguments = (isset($setup['arguments'])) ? $setup['arguments'] : [];
 
         // hold the 3 possible methods of injection (constructor, method, property)
         $injections = $this->initEmptyInjectionContainer();
@@ -225,10 +240,16 @@ class Doozr_Di_Factory
                         $this->construct($dependency->getClassname(), $dependency->getArguments())
                     );
                 } else {
-                    $dependenyClassname = $dependency->getClassname();
-                    $dependency->setInstance(
-                        new $dependenyClassname()
-                    );
+                    $dependencyClassname = $dependency->getClassname();
+
+                    // Call either the defined constructor method or PHP's construct __construct
+                    if (null !== $this->constructor) {
+                        $instance = call_user_func(array($dependencyClassname, $this->constructor));
+                    } else {
+                        $instance = new $dependencyClassname();
+                    }
+
+                    $dependency->setInstance($instance);
                 }
             }
 
@@ -268,7 +289,7 @@ class Doozr_Di_Factory
      * @return object The new created instance
      * @access protected
      */
-    protected function instantiateWithoutDependencies($classname, array $arguments = array())
+    protected function instantiateWithoutDependencies($classname, array $arguments = [])
     {
         return $this->createInstance($classname, $arguments);
     }
@@ -289,7 +310,7 @@ class Doozr_Di_Factory
      * @return object The new created instance
      * @access protected
      */
-    protected function createInstance($classname, array $arguments = array(), array $injections = array())
+    protected function createInstance($classname, array $arguments = [], array $injections = [])
     {
         // process only if $injections exists
         if (count($injections)) {
@@ -426,7 +447,7 @@ class Doozr_Di_Factory
         $result = null;
 
         if (!empty($injections[$type])) {
-            $result = array();
+            $result = [];
 
             switch ($type) {
             case Doozr_Di_Dependency::TYPE_PROPERTY:
@@ -508,9 +529,9 @@ class Doozr_Di_Factory
     protected function initEmptyInjectionContainer()
     {
         return array(
-            'constructor' => array(),
-            'setter'      => array(),
-            'property'    => array(),
+            'constructor' => [],
+            'setter'      => [],
+            'property'    => [],
         );
     }
 }

@@ -6,7 +6,7 @@
  *
  * Dependency.php - Dependency representation. Instances of this class representing a dependency with a configuration.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -113,12 +113,12 @@ class Doozr_Di_Dependency
     protected $configuration;
 
     /**
-     * The identifier eg. used for wiring
+     * The target eg. used for wiring
      *
      * @var string
      * @access protected
      */
-    protected $identifier;
+    protected $target;
 
     /**
      * Dependency type: constructor
@@ -126,7 +126,6 @@ class Doozr_Di_Dependency
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_CONSTRUCTOR = 'constructor';
 
@@ -136,7 +135,6 @@ class Doozr_Di_Dependency
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_METHOD = 'method';
 
@@ -146,10 +144,8 @@ class Doozr_Di_Dependency
      *
      * @var string
      * @access public
-     * @const
      */
     const TYPE_PROPERTY = 'property';
-
 
     /**
      * Constructor
@@ -166,7 +162,6 @@ class Doozr_Di_Dependency
         $this
             ->classname($classname);
     }
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
@@ -260,44 +255,44 @@ class Doozr_Di_Dependency
     }
 
     /**
-     * Setter for identifier.
+     * Setter for target.
      *
-     * @param string $identifier The identifier to set
+     * @param string $target The target to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setIdentifier($identifier)
+    public function setTarget($target)
     {
-        $this->identifier = $identifier;
+        $this->target = $target;
     }
 
     /**
-     * Setter for identifier.
+     * Setter for target.
      *
-     * @param string $identifier The identifier to set
+     * @param string $target The target to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    public function identifier($identifier)
+    public function target($target)
     {
-        $this->setIdentifier($identifier);
+        $this->setTarget($target);
         return $this;
     }
 
     /**
-     * Returns the identifier of the current instance.
+     * Returns the target of the current instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The identifier of the instance
+     * @return string The target of the instance
      * @access public
      */
-    public function getIdentifier()
+    public function getTarget()
     {
-        return $this->identifier;
+        return $this->target;
     }
 
     /**
@@ -345,7 +340,7 @@ class Doozr_Di_Dependency
      * Returns TRUE if this dependency has arguments, otherwise FALSE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if this dependency has arguments, otherwise FALSE
+     * @return bool TRUE if this dependency has arguments, otherwise FALSE
      * @access public
      */
     public function hasArguments()
@@ -398,7 +393,7 @@ class Doozr_Di_Dependency
      * Returns TRUE if this dependency has a custom constructor, otherwise FALSE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if this dependency has arguments, otherwise FALSE
+     * @return bool TRUE if this dependency has arguments, otherwise FALSE
      * @access public
      */
     public function hasConstructor()
@@ -479,7 +474,8 @@ class Doozr_Di_Dependency
      */
     public function getRandomId()
     {
-        return sha1(serialize($this) . microtime());
+        $generator = new Clickalicious\Rng\Generator();
+        return sha1($generator->generate(1, 999999) . microtime());
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -509,7 +505,7 @@ class Doozr_Di_Dependency
      *
      * @param string $offset The offset to check
      *
-     * @return boolean TRUE if offset is set, otherwise FALSE
+     * @return bool TRUE if offset is set, otherwise FALSE
      */
     public function offsetExists($offset)
     {
@@ -538,7 +534,7 @@ class Doozr_Di_Dependency
      */
     public function offsetSet($offset, $value)
     {
-        if (is_null($offset)) {
+        if (true === is_null($offset)) {
             $this->classname = $value;
         } else {
             $this->{$offset} = $value;

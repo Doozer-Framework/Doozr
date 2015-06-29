@@ -6,7 +6,7 @@
  *
  * Path.php - This is the Path-Manager of Doozr and it is intend for retrieving and setting paths.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -80,7 +80,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      * @access protected
      * @static
      */
-    protected static $path = array();
+    protected static $path = [];
 
 
     /**
@@ -293,7 +293,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      * @return String The new combined path
      * @access protected
      */
-    protected function combine($base = '', array $relativePaths = array())
+    protected function combine($base = '', array $relativePaths = [])
     {
         foreach ($relativePaths as $relativePath) {
             $base .= $relativePath.DIRECTORY_SEPARATOR;
@@ -423,7 +423,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      * @param bool $force      True to force overwrite of already existing identifier
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if successful otherwise false
+     * @return bool True if successful otherwise false
      * @access protected
      * @static
      * @throws Doozr_Exception

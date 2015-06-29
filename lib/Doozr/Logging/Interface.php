@@ -7,7 +7,7 @@
  * Interface.php - Logging-Interface for all Logging compliant to requirements of
  * Doozr
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -122,11 +122,15 @@ interface Doozr_Logging_Interface
     /**
      * Should log to a channel of choice.
      *
+     * @param int    $level   The log level
+     * @param string $message The message to log
+     * @param array  $context The context used for logging
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
-    public function log($level, $message, array $context = array());
+    public function log($level, $message, array $context = []);
 
     /**
      * Should return the current collection.
@@ -135,7 +139,7 @@ interface Doozr_Logging_Interface
      * @return array|string The collection as string or as array if $asArray is set to true
      * @access public
      */
-    public function getCollection($asArray = false);
+    public function getCollection();
 
     /**
      * Should return the current collection in its raw format.
@@ -153,7 +157,7 @@ interface Doozr_Logging_Interface
      * @return array|string The content as string or as array if $asArray is set to true
      * @access public
      */
-    public function getContent($asArray = false);
+    public function getContent();
 
     /**
      * Should return the current content in its raw format.

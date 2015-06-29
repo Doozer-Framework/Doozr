@@ -6,7 +6,7 @@
  *
  * Gettext.php - Translation interface to => gettext™
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -171,7 +171,7 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * @param string $path      A valid path to the *.mo files to make them known to gettext™
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|array An array with files/namespaces found for current locale, otherwise FALSE on failure
+     * @return bool|array An array with files/namespaces found for current locale, otherwise FALSE on failure
      * @access protected
      * @throws Doozr_I18n_Service_Exception
      */
@@ -276,7 +276,7 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * For example it checks if a required extension is loaded or not and so on.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      * @static
      * @throws Doozr_I18n_Service_Exception

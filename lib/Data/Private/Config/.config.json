@@ -1,6 +1,6 @@
 {
   "kernel": {
-    "cache": {
+    "caching": {
       "enabled": true,
       "container": "filesystem",
       "memcache": {},

@@ -6,7 +6,7 @@
  *
  * I18nServiceTest.php - Tests for Service instance of Doozr I18n Service.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

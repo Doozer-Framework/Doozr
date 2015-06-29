@@ -13,7 +13,7 @@ class AuthorizationCode implements AuthorizationCodeInterface
     private $storage;
     private $config;
 
-    public function __construct(AuthorizationCodeStorageInterface $storage, array $config = array())
+    public function __construct(AuthorizationCodeStorageInterface $storage, array $config = [])
     {
         $this->storage = $storage;
         $this->config = array_merge(array(
@@ -26,7 +26,7 @@ class AuthorizationCode implements AuthorizationCodeInterface
     public function getAuthorizeResponse($params, $user_id = null)
     {
         // build the URL to redirect to
-        $result = array('query' => array());
+        $result = array('query' => []);
 
         $params += array('scope' => null, 'state' => null);
 

@@ -6,7 +6,7 @@
  *
  * TransformationCouchdb.class.php - The Transformation Class for CouchDB calls
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -122,8 +122,8 @@ final class Doodi_Couchdb_Transformation extends Doozr_Base_Class
                 0 => 'DATABASE'
             )
         ),
-        'close' => array(),
-        'disconnect' => array()
+        'close' => [],
+        'disconnect' => []
     );
 
     /*******************************************************************************************************************
@@ -194,7 +194,7 @@ final class Doodi_Couchdb_Transformation extends Doozr_Base_Class
                         //$missingArguments = ($argumentCount - $argumentCountCall);
 
                         // if not an array => make it one
-                        $arguments = (!is_array($arguments)) ? array() : $arguments;
+                        $arguments = (!is_array($arguments)) ? [] : $arguments;
 
                         // iterate over missing and add from default
                         for ($i = $argumentCountCall; $i < $argumentCount; ++$i) {

@@ -6,7 +6,7 @@
  *
  * Fixtures.php - Fixtures for tests of Doozr I18n Service.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -101,7 +101,6 @@ class Resource_Fixture
      *
      * @var string
      * @access public
-     * @const
      */
     const LOCALE_DEFAULT = 'en-us';
     const LOCALE_VALID   = 'de-de';

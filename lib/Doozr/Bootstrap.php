@@ -7,7 +7,7 @@
  * Bootstrap.php - The Bootstrapper of the Doozr-Framework.
  * Delegates important operations at startup of Doozr.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -107,7 +107,7 @@ if (false === defined('DOOZR_DOCUMENT_ROOT')) {
 | LOAD KERNEL
 +---------------------------------------------------------------------------------------------------------------------*/
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/App.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
 | CHECK FOR PASSED APP PATH
@@ -187,12 +187,9 @@ if (false === defined('DOOZR_LOGGING')) {
         if (DOOZR_APP_ENVIRONMENT !== Doozr_Kernel::APP_ENVIRONMENT_TESTING) {
             $doozrLogging = true;
         }
-    } else {
-        // Cast
-        $doozrLogging = (bool)$doozrLogging;
     }
 
-    define('DOOZR_LOGGING', $doozrLogging);
+    define('DOOZR_LOGGING', (bool)$doozrLogging);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -209,13 +206,30 @@ if (false === defined('DOOZR_DEBUGGING')) {
         if (DOOZR_APP_ENVIRONMENT  === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT) {
             $doozrDebugging = true;
         }
-
-    } else {
-        // Cast
-        $doozrDebugging = (bool)$doozrDebugging;
     }
 
     define('DOOZR_DEBUGGING', $doozrDebugging);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+| CACHING
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_LOGGING ...
+if (false === defined('DOOZR_CACHING')) {
+
+    // Then for environment variable
+    if (false === $doozrCaching = getenv('DOOZR_CACHING')) {
+
+        // Default by app environment
+        if (DOOZR_APP_ENVIRONMENT  === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT) {
+            $doozrCaching = false;
+        } else {
+            $doozrCaching = !DOOZR_DEBUGGING;
+        }
+    }
+
+    define('DOOZR_CACHING', (bool)$doozrCaching);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -248,7 +262,7 @@ $autoloaderDoozr
     ->setNamespaceSeparator('_')
     ->addExtension('php')
     ->setPath(substr(DOOZR_DOCUMENT_ROOT, 0, -1))
-    ->setDescription('Doozr\'s main autoloader and responsible for loading core classes')
+    ->setDescription('Doozr\'s autoloader for loading classes of Doozr below "lib/".')
     ->setPriority(0);
 
 /**
@@ -260,7 +274,7 @@ $autoloaderService
     ->setNamespaceSeparator('_')
     ->addExtension('php')
     ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
-    ->setDescription('Doozr\'s autoloader responsible for loading services from Doozr\'s namespace')
+    ->setDescription('Doozr\'s autoloader for loading Services of Doozr below "lib/Service".')
     ->setPriority(1);
 
 /**

@@ -6,7 +6,7 @@
  *
  * Response.php - Base class for responses
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -52,6 +52,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
+
 /**
  * Doozr - Base - Response
  *
@@ -68,66 +70,19 @@
  */
 class Doozr_Base_Response extends Doozr_Base_State_Container
 {
-    /**
-     * The TYPE of the Response (can be either WEB or CLI)
-     *
-     * @var string
-     * @access protected
-     */
-    protected static $type;
+    /*------------------------------------------------------------------------------------------------------------------
+    | OVERRIDES
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * The registry
-     *
-     * @var Doozr_Registry
-     * @access protected
-     */
-    protected $registry;
-
-    /**
-     * holds an instance/handle on logger
-     *
-     * @var object
-     * @access protected
-     */
-    protected $logger;
-
-    /**
-     * contains instance of config
-     *
-     * @var object
-     * @access protected
-     */
-    protected $config;
-
-
-    /**
-     * Constructor.
-     *
-     * @param Doozr_Configuration|object $config An instance of config
-     * @param Doozr_Logging|object $logger An instance of config
+     * Getter for state object.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Base_Response
+     * @return \Doozr_Response_State The state object instance
      * @access public
      */
-    public function __construct(Doozr_Configuration $config, Doozr_Logging $logger)
+    protected function getStateObject()
     {
-        // get a handle on logger
-        $this->config = $config;
-        $this->logger = $logger;
-    }
-
-    /**
-     * Returns the type of current request (web OR cli) as string
-     *
-     * @return string type of current request CLI or WEB (returns lowercase!)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access  public
-     */
-    public static function getType()
-    {
-        return self::$type;
+        return parent::getStateObject();
     }
 }

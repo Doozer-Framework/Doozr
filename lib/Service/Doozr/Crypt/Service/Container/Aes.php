@@ -8,7 +8,7 @@
  * Supports AES-128, AES-192 and AES-256 cause the length is
  * defined by key length
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -342,8 +342,8 @@ class Doozr_Crypt_Service_Container_Aes extends Doozr_Crypt_Service_Container
             die("Key is " . ($this->_nk*32) . " bits long. *not* 128, 192, or 256.");
 
         $this->_rounds = $this->_nk+self::$_nb+2;
-        $this->_word = array(); // Nb*(Nr+1) 32-bit words
-        $this->_state = array(array());  // 2-D array of Nb colums and 4 rows
+        $this->_word = []; // Nb*(Nr+1) 32-bit words
+        $this->_state = array([]);  // 2-D array of Nb colums and 4 rows
 
         $this->KeyExpansion($key); // places expanded key in w
     }

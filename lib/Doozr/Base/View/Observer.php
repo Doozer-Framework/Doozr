@@ -6,7 +6,7 @@
  *
  * Observer.php - Base View Observer of the Doozr Framework
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -88,7 +88,7 @@ abstract class Doozr_Base_View_Observer extends Doozr_Base_Class
      * @param SplSubject $subject The SplSubject
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|null TRUE on update-success, FALSE on update-failed and NULL on no update done
+     * @return bool|null TRUE on update-success, FALSE on update-failed and NULL on no update done
      * @access public
      */
     public function update(SplSubject $subject)

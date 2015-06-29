@@ -6,7 +6,7 @@
  *
  * Memcachedphp.php - Container Memcachedphp: Serves I/O access to memcached.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -144,7 +144,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      *
      * @var string
      * @access public
-     * @const
      */
     const MEMCACHE_TYPE_SLABS = 'slabs';
 
@@ -153,7 +152,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      *
      * @var string
      * @access public
-     * @const
      */
     const MEMCACHE_TYPE_ITEMS = 'items';
 
@@ -162,10 +160,8 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      *
      * @var string
      * @access public
-     * @const
      */
     const MEMCACHE_TYPE_CACHEDUMP = 'cachedump';
-
 
     /**
      * Constructor.
@@ -177,7 +173,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @access public
      * @throws Doozr_Cache_Service_Exception
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         // do the check and transfer of allowed options
         parent::__construct($options);
@@ -216,7 +212,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string $userdata  The custom userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Cache_Service_Exception
      */
@@ -386,7 +382,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string $namespace The namespace of the dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if dataset exist, otherwise FALSE
+     * @return bool TRUE if dataset exist, otherwise FALSE
      * @access public
      * @throws Doozr_Cache_Service_Exception
      */
@@ -480,7 +476,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean The result of the operation
+     * @return bool The result of the operation
      * @access public
      */
     public function garbageCollection($namespace, $lifetime)
@@ -753,7 +749,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     protected function getAllEntries($namespace = null, $flat = false)
     {
         // Assume empty result
-        $list = array();
+        $list = [];
 
         // Fetch all keys and all values ...
         $allSlabs = $this->getConnection()->stats(Client::STATS_TYPE_SLABS);

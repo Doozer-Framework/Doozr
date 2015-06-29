@@ -6,7 +6,7 @@
  *
  * Interface.php - Contract for Doozr compatible CRUD Classes.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -75,7 +75,7 @@ interface Doozr_Base_Crud_Interface
      * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function create($key, $value);
@@ -98,7 +98,7 @@ interface Doozr_Base_Crud_Interface
      * @param mixed  $value The value to update
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function update($key, $value);
@@ -109,7 +109,7 @@ interface Doozr_Base_Crud_Interface
      * @param string $key The key to update data for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function delete($key);

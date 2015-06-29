@@ -6,7 +6,7 @@
  *
  * Locale.php - Locale bootstrap of the Doozr Framework
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -118,7 +118,7 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
      * @param string $timezone The timezone to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if timezone could be set, otherwise FALSE
+     * @return bool TRUE if timezone could be set, otherwise FALSE
      * @access protected
      */
     protected function setTimezone($timezone = 'Europe/Berlin')

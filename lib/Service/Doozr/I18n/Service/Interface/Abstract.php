@@ -6,7 +6,7 @@
  *
  * Abstract.php - I18n Translation Abstract Interface
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -78,7 +78,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @access protected
      * @static
      */
-    protected static $translationTables = array();
+    protected static $translationTables = [];
 
     /**
      * Translations
@@ -87,7 +87,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @access protected
      * @static
      */
-    protected static $translations = array();
+    protected static $translations = [];
 
     /**
      * Cache service instance for caching
@@ -174,7 +174,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
             }
 
             // Get module cache
-            self::$cache = Doozr_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX);
+            self::$cache = Doozr_Loader_Serviceloader::load('cache', $container, $namespace, [], DOOZR_UNIX);
         }
     }
 
@@ -263,7 +263,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @return void
      * @access protected
      */
-    protected function setTranslationTables(array $translationTables = array())
+    protected function setTranslationTables(array $translationTables = [])
     {
         self::$translationTables = $translationTables;
     }
@@ -277,7 +277,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translationTables(array $translationTables = array())
+    protected function translationTables(array $translationTables = [])
     {
         $this->setTranslationTables($translationTables);
         return $this;
@@ -335,7 +335,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @return void
      * @access protected
      */
-    protected function setTranslations(array $translations = array())
+    protected function setTranslations(array $translations = [])
     {
         self::$translations = $translations;
     }
@@ -349,7 +349,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translations(array $translations = array())
+    protected function translations(array $translations = [])
     {
         $this->setTranslations($translations);
         return $this;

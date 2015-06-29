@@ -6,7 +6,7 @@
 *
 * State.php - Base class for state representations
 *
-* PHP versions 5.4
+* PHP versions 5.5
 *
 * LICENSE:
 * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -76,66 +76,7 @@ abstract class Doozr_Base_State extends Doozr_Base_Class
      * @var array
      * @access protected
      */
-    protected $history = array();
-
-    /**
-     * The request arguments
-     *
-     * @var array
-     * @access protected
-     */
-    protected $arguments = array();
-
-    /**
-     * The protocol
-     *
-     * @var string
-     * @access protected
-     */
-    protected $protocol;
-
-
-    /**
-     * Setter for protocol.
-     *
-     * @param string $protocol The protocol used
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setProtocol($protocol)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->protocol = $protocol;
-    }
-
-    /**
-     * Setter for protocol.
-     *
-     * @param string $protocol The protocol used
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function protocol($protocol)
-    {
-        $this->setProtocol($protocol);
-        return $this;
-    }
-
-    /**
-     * Getter for protocol.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The protocol
-     * @access public
-     */
-    public function getProtocol()
-    {
-        return $this->protocol;
-    }
+    protected $history = [];
 
     /**
      * Adds a history entry to collection.
@@ -150,10 +91,40 @@ abstract class Doozr_Base_State extends Doozr_Base_Class
     protected function addHistory($method, $arguments)
     {
         if (!isset($this->history[$method])) {
-            $this->history[$method] = array();
+            $this->history[$method] = [];
         }
 
         $this->history[$method][] = $arguments;
+
+        return $this;
+    }
+
+    /**
+     * Setter for history.
+     *
+     * @param array $history The history data to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setHistory(array $history)
+    {
+        $this->history = $history;
+    }
+
+    /**
+     * Setter for history.
+     *
+     * @param array $history The history data to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function history(array $history)
+    {
+        $this->setHistory($history);
 
         return $this;
     }
@@ -169,6 +140,10 @@ abstract class Doozr_Base_State extends Doozr_Base_Class
     {
         return $this->history;
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | IMMUTABLE STATE EXPORT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns the instance as array

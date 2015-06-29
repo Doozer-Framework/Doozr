@@ -6,13 +6,13 @@
  *
  * Argument.php - The Argument part of Doozr_Request_Arguments (Parameter => Argument).
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE: Doozr - PHP Framework - Copyright (c) 2009, Benjamin Carl -
  * All rights reserved. Redistribution and use in source and binary forms, with
  * or without modification, are permitted provided that the following conditions
  * are met: Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer. * Redistributions in binary
+ * this list of conditions and the following disclaimer.* Redistributions in binary
  * form must reproduce the above copyright notice, this list of conditions and the
  * following disclaimer in the documentation and/or other materials provided with
  * the distribution. * All advertising materials mentioning features or use of
@@ -143,7 +143,7 @@ class Doozr_Request_Argument
      *
      * @param mixed $value The value to set
      *
-     * @return boolean TRUE if successful set, otherwise FALSE
+     * @return bool TRUE if successful set, otherwise FALSE
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -179,7 +179,7 @@ class Doozr_Request_Argument
      *
      * @param mixed $value The value to set
      *
-     * @return boolean TRUE if successful set, otherwise FALSE
+     * @return bool TRUE if successful set, otherwise FALSE
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */

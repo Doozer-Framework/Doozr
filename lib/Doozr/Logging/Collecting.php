@@ -7,7 +7,7 @@
  * Collecting.php - This logger collects log-entries and hold them until the
  * logger-subsystem is finally ready for (real) logging.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -56,8 +56,9 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/PsrInterface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
+
+use Psr\Log\LoggerInterface;
 
 /**
  * Doozr - Logging - Collecting
@@ -78,7 +79,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 final class Doozr_Logging_Collecting extends Doozr_Logging_Abstract
     implements
     Doozr_Logging_Interface,
-    Doozr_Logging_PsrInterface,
+    LoggerInterface,
     SplObserver
 {
     /**
@@ -140,15 +141,13 @@ final class Doozr_Logging_Collecting extends Doozr_Logging_Abstract
     /**
      * Prevent content from being echoed or something like this.
      *
-     * @param string $color The color of output text as hex-value string
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE as dummy return value (empty method are expensive!)
+     * @return bool TRUE as dummy return value (empty method are expensive!)
      * @access protected
      */
-    protected function output($color = '#7CFC00')
+    protected function output()
     {
-        // dummmy return true -> cause not needed for collecting logger
+        // Dummy return true -> cause not needed for collecting logger
         return true;
     }
 

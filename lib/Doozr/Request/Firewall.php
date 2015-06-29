@@ -6,7 +6,7 @@
  *
  * Firewall.php - Firewall (basic!) for requests processed by Doozr.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -234,7 +234,7 @@ class Doozr_Request_Firewall
         }
 
         // build parameter array for PHPIDS
-        $request = array();
+        $request = [];
 
         if ($this->_requestSources) {
             foreach ($this->_requestSources as $requestSource) {

@@ -4,9 +4,9 @@
 /**
  * Doozr - Base - Model - Rest
  *
- * Rest.php - Base class for model-layers from MVP with REST support
+ * Rest.php - Base class for models (MVP) with REST support.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -56,9 +56,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model.php';
 
 /**
- * Doozr - Base Presenter
+ * Doozr - Base - Model - Rest
  *
- * Base Presenter of the Doozr Framework.
+ * Base class for models (MVP) with REST support.
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -77,7 +77,6 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
      *
      * @var int
      * @access public
-     * @const
      */
     const PERMISSION_OVERRIDE_ALLOW_ALL = 1;
 
@@ -103,7 +102,7 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
      * @var array
      * @access protected
      */
-    protected $error = array();
+    protected $error = [];
 
 
     /**
@@ -195,7 +194,7 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
      * Getter for result
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean The result
+     * @return bool The result
      * @access protected
      */
     protected function getResult()
@@ -249,7 +248,7 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
      * object to check if resource is allowed for current consumer...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if authorized, otherwise FALSE
+     * @return bool TRUE if authorized, otherwise FALSE
      * @access protected
      * @throws Doozr_Base_Model_Rest_Exception
      */
@@ -335,7 +334,7 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
     protected function mergeArguments($routeArguments, $requestArguments)
     {
         $input  = array($routeArguments, $requestArguments);
-        $output = array();
+        $output = [];
 
         foreach ($input as $keyValueStore) {
 
@@ -393,7 +392,7 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
         /* @var $model Doozr_Base_Model */
         $resource = $this->getStateObject()
             ->get($configuration->getRootNode() . $configuration->getRoute(), function() use ($model) {
-                $result = array();
+                $result = [];
                 foreach (func_get_args() as $argument) {
                     $result[] = $model->escape($argument);
                 };
@@ -405,7 +404,7 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
         $routeArguments = array_combine($configuration->getIds(), $resource);
 
         // Get arguments passed with this request
-        $requestArguments = $this->getStateObject()->getArguments();
+        $requestArguments = $this->getStateObject()->getQueryParams();
 
         // Get the identifier of the field/argument containing the real Id (uid) of the resource
         $id = $configuration->getId();

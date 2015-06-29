@@ -28,18 +28,18 @@ class Memory implements AuthorizationCodeInterface,
     private $clientSupportedScopes;
     private $defaultScope;
 
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         $params = array_merge(array(
-            'authorization_codes' => array(),
-            'user_credentials' => array(),
-            'client_credentials' => array(),
-            'refresh_tokens' => array(),
-            'access_tokens' => array(),
-            'jwt' => array(),
+            'authorization_codes' => [],
+            'user_credentials' => [],
+            'client_credentials' => [],
+            'refresh_tokens' => [],
+            'access_tokens' => [],
+            'jwt' => [],
             'default_scope' => null,
-            'client_supported_scopes' => array(),
-            'supported_scopes' => array(),
+            'client_supported_scopes' => [],
+            'supported_scopes' => [],
         ), $params);
 
         $this->authorizationCodes = $params['authorization_codes'];

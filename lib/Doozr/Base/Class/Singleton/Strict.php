@@ -9,7 +9,7 @@
  * (DoozrBaseSingleton.php) which do not use the given parameter at instanciation
  * to check for singleton instance
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

@@ -7,7 +7,7 @@
  * Rest.php - Contains some nice REST helper methods and prepares the request
  * in a way which makes it easier processable in the further process.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -76,7 +76,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @throws     Doozr_Rest_Service_Exception
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -97,7 +97,7 @@ class Doozr_Rest_Service extends Doozr_Base_Service_Multiple
      * @return   void
      * @access   public
      */
-    public function __tearup(Doozr_Base_State_Interface $requestState, array $route = array(), $countRootNodes = 2)
+    public function __tearup(Doozr_Base_State_Interface $requestState, array $route = [], $countRootNodes = 2)
     {
         // If no custom request data/config is passed ...
         if (empty($route)) {

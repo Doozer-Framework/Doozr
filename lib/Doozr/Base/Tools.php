@@ -173,7 +173,7 @@ class Doozr_Base_Tools
      * @param string $method The name of the method to check for existence in base class of current instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if  method exist, otherwise false
+     * @return bool True if  method exist, otherwise false
      * @access public
      */
     public function hasMethod($method)

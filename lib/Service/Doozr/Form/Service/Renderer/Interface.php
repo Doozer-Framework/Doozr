@@ -6,7 +6,7 @@
  *
  * Interface.php - Interface for all renderer.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -85,11 +85,11 @@ interface Doozr_Form_Service_Renderer_Interface
      */
     public function render(
         $force            = false,
-        $template         = array(),
+        $template         = [],
         $tag              = '',
-        array $variables  = array(),
-        array $childs     = array(),
-        array $attributes = array(),
+        array $variables  = [],
+        array $childs     = [],
+        array $attributes = [],
         $innerHtml        = ''
     );
 

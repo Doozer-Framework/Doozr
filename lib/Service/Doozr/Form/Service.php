@@ -7,7 +7,7 @@
  * Service.php - Service for generating valid and 100% x-browser compatible
  * HTML-Forms.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -75,7 +75,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="getInstance",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -379,7 +379,7 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
         $requestState = $this->getRegistry()->request;
 
         // Get required input to search in ...
-        $requestArguments = $requestState->getArguments();
+        $requestArguments = $requestState->getQueryParams();
         $requestBody      = $requestState->getRequestBody();
 
         if (isset($requestArguments->{$this->getFieldnameSubmitted()}) === true) {

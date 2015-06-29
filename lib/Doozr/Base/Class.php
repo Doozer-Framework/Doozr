@@ -7,7 +7,7 @@
  * Class.php - Base-Class for all classes of the Doozr Framework except
  * the classes following the singleton pattern.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

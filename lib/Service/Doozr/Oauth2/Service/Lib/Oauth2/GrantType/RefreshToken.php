@@ -17,7 +17,7 @@ class RefreshToken implements GrantTypeInterface
     private $config;
     private $refreshToken;
 
-    public function __construct(RefreshTokenInterface $storage, $config = array())
+    public function __construct(RefreshTokenInterface $storage, $config = [])
     {
         $this->config = array_merge(array(
             'always_issue_new_refresh_token' => false

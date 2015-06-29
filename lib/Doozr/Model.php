@@ -7,7 +7,7 @@
  * Model.php - Model of Doozr - This Model-class provides access to Database libs in Model/Lib/...
  * by acting as a configurable (.config.json) proxy.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites

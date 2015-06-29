@@ -11,7 +11,7 @@
  *  - B
  *  - C
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -141,7 +141,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @access protected
      * @static
      */
-    protected static $translatorInterfaces = array();
+    protected static $translatorInterfaces = [];
 
     /**
      * I18n-configuration of the I18n-Service
@@ -165,7 +165,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @var array
      * @access protected
      */
-    protected $namespaces = array();
+    protected $namespaces = [];
 
     /**
      * Key identifier for translation-table
@@ -180,7 +180,6 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * @var string
      * @access public
-     * @const
      */
     const MODE_TRANSLATE = 'translate';
 
@@ -189,7 +188,6 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * @var string
      * @access public
-     * @const
      */
     const MODE_TRANSLATE_ENCODE = 'translateEncode';
 
@@ -198,10 +196,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * @var string
      * @access public
-     * @const
      */
     const MODE_TRANSLATE_ENCODE_PLUS = 'translateEncodePlus';
-
 
     /*------------------------------------------------------------------------------------------------------------------
      | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
@@ -235,8 +231,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
                     null
             )
             ->encoding($encoding)
-            ->cacheEnabled($configI18n->kernel->cache->enabled)
-            ->cacheLifetime($configI18n->kernel->cache->lifetime)
+            ->cacheEnabled($configI18n->kernel->caching->enabled)
+            ->cacheLifetime($configI18n->kernel->caching->lifetime)
             ->pathToTranslations($configI18n->i18n->path)
             ->translatorInterface(
                 ucfirst(strtolower($configI18n->i18n->translator->interface))
@@ -692,7 +688,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * This method is intend to return the redirect-status of the translator instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if redirect, otherwise FALSE
+     * @return bool TRUE if redirect, otherwise FALSE
      * @access public
      */
     public function hasRedirect()
@@ -709,7 +705,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @param mixed $namespace STRING single namespace, or ARRAY collection of namespaces
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setNamespace($namespace)
@@ -737,7 +733,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @param mixed $namespace STRING single namespace, or ARRAY collection of namespaces
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if namespace(s) have been added, otherwise FALSE
+     * @return bool TRUE if namespace(s) have been added, otherwise FALSE
      * @access public
      */
     public function addNamespace($namespace)
@@ -804,7 +800,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @param string $namespace The namespace to check its existence
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if namespace is in list, otherwise FALSE
+     * @return bool TRUE if namespace is in list, otherwise FALSE
      * @access public
      */
     public function hasNamespace($namespace = null)
@@ -827,7 +823,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @param string $namespace The namespace to check its existence
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if namespace is in list, otherwise FALSE
+     * @return bool TRUE if namespace is in list, otherwise FALSE
      * @access public
      */
     public function removeNamespace($namespace)

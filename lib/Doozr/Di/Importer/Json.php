@@ -6,7 +6,7 @@
  *
  * Json.php - Importer (JSON-Localize) of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -85,7 +85,7 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
      * This method is intend to return the content of a JSON-Formatted file.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Di_Exception
      */
@@ -135,7 +135,7 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
                     // create new Dependency Object
                     $dependency = new Doozr_Di_Dependency($setup->classname);
                     $dependency->setConfiguration((array) $setup->config);
-                    $dependency->setIdentifier($setup->identifier);
+                    $dependency->setTarget($setup->target);
 
                     // check for frozen instance and thaw it if found
                     if ($setup->instance !== null) {

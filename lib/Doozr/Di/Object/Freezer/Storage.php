@@ -171,7 +171,7 @@ abstract class Object_Freezer_Storage
      * @param array $array
      * @param array $objects
      */
-    protected function fetchArray(array &$array, array &$objects = array())
+    protected function fetchArray(array &$array, array &$objects = [])
     {
         foreach ($array as &$value) {
             if (is_array($value)) {

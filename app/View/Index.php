@@ -3,7 +3,7 @@
 /**
  * Demonstration View
  */
-final class View_Index extends Doozr_Base_View
+final class View_Index extends Doozr_View_Web
 {
     /**
      * Index: Renderer for view.

@@ -6,7 +6,7 @@
  *
  * Filesystem.php - Container Filesystem: Serves I/O access to the filesystem.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -88,7 +88,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @var array
      * @access protected
      */
-    protected $directoriesByNamespace = array();
+    protected $directoriesByNamespace = [];
 
     /**
      * Directory where to put the cache files. Make sure to add a trailing slash!
@@ -164,7 +164,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @return Doozr_Cache_Service_Container_Filesystem
      * @access public
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         // Do the check and transfer of allowed options
         parent::__construct($options);
@@ -188,7 +188,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $userdata  The custom userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Cache_Service_Exception
      */
@@ -270,7 +270,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $namespace The namespace of the dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     public function delete($key, $namespace)
@@ -397,7 +397,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $namespace The namespace of the dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if file exist, otherwise FALSE
+     * @return bool TRUE if file exist, otherwise FALSE
      * @access public
      * @throws Doozr_Cache_Service_Exception
      */
@@ -489,7 +489,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean The result of the operation
+     * @return bool The result of the operation
      * @access public
      */
     public function garbageCollection($namespace, $lifetime)

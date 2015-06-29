@@ -6,7 +6,7 @@
  *
  * Service.php - Password Service of the Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -72,7 +72,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -107,7 +107,6 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
      *
      * @var int
      * @access private
-     * @const
      */
     const PASSWORD_ALPHANUM = 2;
 
@@ -117,7 +116,6 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
      *
      * @var int
      * @access private
-     * @const
      */
     const PASSWORD_ALPHANUM_SPECIAL = 3;
 
@@ -128,7 +126,6 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
      *
      * @var int
      * @access private
-     * @const
      */
     const PASSWORD_ALPHANUM_SPECIAL_HARDCORE = 4;
 
@@ -137,7 +134,6 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
      *
      * @var int
      * @access private
-     * @const
      */
     const RETURN_TYPE_PLAIN = 0;
 
@@ -146,7 +142,6 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
      *
      * @var int
      * @access private
-     * @const
      */
     const RETURN_TYPE_MD5 = 1;
 
@@ -157,7 +152,6 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
      *
      * @var int
      * @access private
-     * @const
      */
     const RETURN_TYPE_PASSWORDHASH = 2;
 
@@ -350,7 +344,7 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
                 $charMatrix = explode(',', $content);
 
                 // new empty matrix
-                $matrix = array();
+                $matrix = [];
 
                 // get count of elements
                 $countCharMatrix = count($charMatrix);
@@ -373,7 +367,7 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
                 }
                 // remove possible duplicate values (chars)
                 $tmp = array_unique($matrix);
-                $matrix = array();
+                $matrix = [];
                 foreach ($tmp as $elem) {
                     $matrix[] = $elem;
                 }
@@ -809,7 +803,7 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
      * @param string $hash     The hash used to validate password against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if password matches hash, otherwise false Instance of Passwordhash (module)
+     * @return bool True if password matches hash, otherwise false Instance of Passwordhash (module)
      * @access public
      */
     public function validateAgainstHash($buffer, $hash)

@@ -4,9 +4,9 @@
 /**
  * Doozr - Base - View
  *
- * View.php - Base class for Views
+ * View.php - Base class for Views of Doozr.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/View/Observer.php';
 /**
  * Doozr - Base - View
  *
- * Base class for Views
+ * Base class for Views of Doozr.
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -81,12 +81,28 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected $data;
 
     /**
+     * Debug state of this class' instance.
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $debugging;
+
+    /**
+     * Cahcing state of this class' instance
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $caching;
+
+    /**
      * The output runtimeEnvironment used
      *
      * @var int
      * @access protected
      */
-    protected $outputMode = PHPTAL::HTML5;
+    protected $outputMode;
 
     /**
      * holds the path to templates
@@ -97,20 +113,12 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected $pathTemplates;
 
     /**
-     * contains the complete request
+     * Active/last route.
      *
-     * @var array
+     * @var Doozr_Request_State_Route
      * @access protected
      */
-    protected $request;
-
-    /**
-     * The original untouched request
-     *
-     * @var array
-     * @access protected
-     */
-    protected $originalRequest;
+    protected $route;
 
     /**
      * Translator instance used to pass to template service/system
@@ -145,14 +153,6 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected $configuration;
 
     /**
-     * contains the translation for reading request
-     *
-     * @var array
-     * @access protected
-     */
-    protected $translation;
-
-    /**
      * Contains an instance of the module Doozr_Cache_Service
      *
      * @var Doozr_Cache_Service
@@ -173,49 +173,42 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Extension of templates.
      *
      * @var string
-     * @access public
-     * @const
+     * @access protected
      */
-    const TEMPLATE_EXTENSION = 'html';
+    protected $templateExtension = 'cli';
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
-     * @param Doozr_Registry             $registry     Doozr_Registry containing all core components
-     * @param Doozr_Base_State_Interface $requestState Whole request as state
-     * @param array                      $request      Whole request as processed by "Route"
-     * @param Doozr_Cache_Service        $cache        Instance of Doozr_Cache_Service
-     * @param Doozr_Configuration        $config       Instance of Doozr_Configuration with Kernel-Configuration
-     * @param array                      $translation  Translation required to read the request
+     * @param Doozr_Registry      $registry     Doozr registry
+     * @param Doozr_Request_State $requestState Request state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Base_View
      * @access public
      * @throws Doozr_Base_View_Exception
      */
     public function __construct(
-        Doozr_Registry             $registry,
-        Doozr_Base_State_Interface $requestState,
-        array                      $request,
-        Doozr_Cache_Service        $cache,
-        Doozr_Configuration        $config,
-        array                      $translation   = null
+        Doozr_Registry      $registry,
+        Doozr_Request_State $requestState
     ) {
         // Store all instances for further use ...
         $this
             ->registry($registry)
-            ->request($request)
-            ->originalRequest($requestState->getRequest())
-            ->cache($cache)
-            ->configuration($config)
-            ->arguments($requestState->getArguments())
+            ->route($requestState->getRoute())
+            ->cache($registry->getCache())
+            ->configuration($registry->getConfiguration())
+            ->arguments($requestState->getQueryParams())
             ->requestState($requestState)
-            ->translation($translation);
+            ->debugging($registry->getParameter('doozr.kernel.debugging'))
+            ->caching($registry->getParameter('doozr.kernel.caching'));
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
-            $result = $this->__tearup($request, $translation);
+            $result = $this->__tearup($this->getRoute());
 
             if ($result !== true) {
                 throw new Doozr_Base_View_Exception(
@@ -226,127 +219,200 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         }
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | SETTER & GETTER / HASSER & ISSER
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * Setter for request.
+     * Setter for templateExtension.
      *
-     * @param array $request The request to set
+     * @param string $templateExtension The templates extension
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setRequest(array $request)
+    protected function setTemplateExtension($templateExtension)
     {
-        $this->request = $request;
+        $this->templateExtension = $templateExtension;
     }
 
     /**
-     * Setter for request.
+     * Fluent: Setter for templateExtension.
      *
-     * @param array $request The request to set
+     * @param string $templateExtension The templates extension
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function request(array $request)
+    protected function templateExtension($templateExtension)
     {
-        $this->setRequest($request);
+        $this->setTemplateExtension($templateExtension);
+
         return $this;
     }
 
     /**
-     * Getter for request.
+     * Getter for templateExtension.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|null The request stored, otherwise NULL
+     * @return string Template extension
      * @access protected
      */
-    protected function getRequest()
+    protected function getTemplateExtension()
     {
-        return $this->request;
+        return $this->templateExtension;
     }
 
     /**
-     * Setter for translation.
+     * Setter for debugging.
      *
-     * @param array|null $translation The translation to set
+     * @param bool $debugging TRUE enable debugging, otherwise FALSE to disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setTranslation(array $translation = null)
+    protected function setDebugging($debugging)
     {
-        $this->translation = $translation;
+        $this->debugging = $debugging;
     }
 
     /**
-     * Setter for translation.
+     * Fluent: Setter for debugging.
      *
-     * @param array|null $translation The translation to set
+     * @param string $templateExtension The templates extension
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translation(array $translation = null)
+    protected function debugging($debugging)
     {
-        $this->setTranslation($translation);
+        $this->setDebugging($debugging);
+
         return $this;
     }
 
     /**
-     * Getter for translation.
+     * Getter for debugging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|null The translation stored, otherwise NULL
+     * @return bool TRUE if debugging is enabled, otherwise FALSE
      * @access protected
      */
-    protected function getTranslation()
+    protected function getDebugging()
     {
-        return $this->translation;
+        return $this->debugging;
     }
 
     /**
-     * Setter for originalRequest.
+     * Isser for debugging.
      *
-     * @param mixed $originalRequest The originalRequest to set
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if debugging is enabled, otherwise FALSE if not
+     * @access protected
+     */
+    protected function isDebugging()
+    {
+        return (true === $this->getDebugging());
+    }
+
+    /**
+     * Setter for caching.
+     *
+     * @param bool $caching TRUE enable caching, otherwise FALSE to disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setOriginalRequest($originalRequest)
+    protected function setCaching($caching)
     {
-        $this->originalRequest = $originalRequest;
+        $this->caching = $caching;
     }
 
     /**
-     * Setter for originalRequest.
+     * Fluent: Setter for caching.
      *
-     * @param mixed $originalRequest The originalRequest to set
+     * @param bool $caching TRUE enable caching, otherwise FALSE to disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function originalRequest($originalRequest)
+    protected function caching($caching)
     {
-        $this->setOriginalRequest($originalRequest);
+        $this->setCaching($caching);
+
         return $this;
     }
 
     /**
-     * Getter for originalRequest.
+     * Getter for caching.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The originalRequest stored, otherwise NULL
+     * @return bool TRUE if caching is enabled, otherwise FALSE
      * @access protected
      */
-    protected function getOriginalRequest()
+    protected function getCaching()
     {
-        return $this->originalRequest;
+        return $this->caching;
+    }
+
+    /**
+     * Hasser for caching.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if caching is enabled, otherwise FALSE if not
+     * @access protected
+     */
+    protected function hasCaching()
+    {
+        return (true === $this->getCaching());
+    }
+
+    /**
+     * Setter for route.
+     *
+     * @param Doozr_Request_State_Route $route The route to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setRoute(Doozr_Request_State_Route $route)
+    {
+        $this->route = $route;
+    }
+
+    /**
+     * Setter for route.
+     *
+     * @param Doozr_Request_State_Route $route The route to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function route(Doozr_Request_State_Route $route)
+    {
+        $this->setRoute($route);
+
+        return $this;
+    }
+
+    /**
+     * Getter for route.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Request_State_Route|null The route stored, otherwise NULL
+     * @access protected
+     */
+    protected function getRoute()
+    {
+        return $this->route;
     }
 
     /**
@@ -375,6 +441,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected function cache(Doozr_Cache_Service $cache)
     {
         $this->setCache($cache);
+
         return $this;
     }
 
@@ -416,6 +483,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected function configuration(Doozr_Configuration_Interface $configuration)
     {
         $this->setConfiguration($configuration);
+
         return $this;
     }
 
@@ -457,6 +525,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected function arguments($arguments)
     {
         $this->setArguments($arguments);
+
         return $this;
     }
 
@@ -498,6 +567,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected function requestState($requestState)
     {
         $this->setRequestState($requestState);
+
         return $this;
     }
 
@@ -539,6 +609,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected function translator(Doozr_I18n_Service $translator)
     {
         $this->setTranslator($translator);
+
         return $this;
     }
 
@@ -553,6 +624,10 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     {
         return $this->translator;
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is the setter for the data to use in the action method.
@@ -573,9 +648,9 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         $result = null;
 
         // Do render the view?
-        if ($render) {
-            // Lookup specific renderer
-            $specificViewRenderer = '__render' . ucfirst($this->request[0]);
+        if (true === $render) {
+            // Lookup specific renderer per view! view:action
+            $specificViewRenderer = '__render' . ucfirst($this->getRoute()->getPresenter());
 
             // check if specific renderer is callable
             if (method_exists($this, $specificViewRenderer)) {
@@ -615,6 +690,8 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected function setFingerprint($fingerprint)
     {
         $this->fingerprint = $fingerprint;
+
+        return $fingerprint;
     }
 
     /**
@@ -629,6 +706,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected function fingerprint($fingerprint)
     {
         $this->setFingerprint($fingerprint);
+
         return $this;
     }
 
@@ -670,6 +748,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     public function outputMode($outputMode = PHPTAL::HTML5)
     {
         $this->setOutputMode($outputMode);
+
         return $this;
     }
 
@@ -684,8 +763,6 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     {
         return $this->outputMode;
     }
-
-    public $html;
 
     /**
      * This method is intend to render the current state of the view as html. For this it makes use of the base
@@ -711,8 +788,11 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * @throws \Doozr_Exception
      * @throws \PHPTAL_ConfigurationException
      */
-    protected function render(array $data = array(), $fingerprint = null, PHPTAL_TranslationService $i18n = null)
+    protected function render(array $data = [], $fingerprint = null, PHPTAL_TranslationService $i18n = null)
     {
+        echo '475438f54n5894jf8j487f5834';
+        var_dump($data);die;
+
         $this->setFingerprint(
             $this->generateFingerprint(
                 $fingerprint,
@@ -722,7 +802,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
 
         $html = null;
 
-        if (false === $this->getConfiguration()->kernel->debugging->enabled) {
+        if (false === $this->getConfiguration()->kernel->debug->enabled) {
 
             // We try to receive data for rendering from cache :) this is much faster
             try {
@@ -737,17 +817,12 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         if ($html === null) {
 
             // Get name of template file
-            $templateFile = $this
-                                ->configuration
-                                ->kernel
-                                ->view
-                                ->template
-                                ->path .
-                                $this->translateToTemplateFilename() . '.' . self::TEMPLATE_EXTENSION;
+            $templateFile = $this->configuration->kernel->view->template->path .
+                            $this->translateToTemplateFilename() . '.' . $this->getTemplateExtension();
 
-            if (file_exists($templateFile) === false) {
+            if (false === $this->getRegistry()->getFilesystem()->exists($templateFile)) {
                 throw new Doozr_Base_View_Exception(
-                    'The template file "' . $templateFile . '" is required for rendering but it does not exist.'
+                    sprintf('The template file "%s" is required for rendering but it does not exist.', $templateFile)
                 );
             }
 
@@ -758,7 +833,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
             $template->setOutputMode($this->getOutputMode());
 
             // if I18n passed -> forward to template engine (e.g. PHPTAL)
-            if ($i18n !== null) {
+            if (null !== $i18n) {
                 $i18n->useDomain($this->translateToTextdomain());
                 $template->setTranslator($i18n);
                 $template->{'doozr_locale'} = $i18n->getActiveLocale();
@@ -787,54 +862,24 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
             // execute = get result
             $html = $template->execute();
 
+            if (true === $this->isDebugging()) {
+                $renderer = $this->getRegistry()->getDebugbar()->getJavascriptRenderer();
+                $renderer->setBaseUrl('/assets');
+                $head = $renderer->renderHead();
+                $body = $renderer->render();
+
+                $html = str_replace('</head>', $head . '</head>', $html);
+                $html = str_replace('</body>', $body . '</body>', $html);
+            }
+
             // finally store in cache
             try {
                 $this->cache->create($html, $this->getFingerprint());
 
             } catch (Doozr_Cache_Service_Exception $e) {
                 pred($e);
-
             }
         }
-
-
-
-
-
-
-        /*
-        // Try to get default header for responses from configuration and add them here ...
-        try {
-            $headers = $this->configuration->kernel->transmission->response->header;
-
-        } catch (Exception $e) {
-            $headers = array();
-        }
-
-
-
-
-
-
-
-        foreach ($headers as $category) {
-            foreach ($category as $type => $header) {
-                if ($type === 'mvp') {
-                    foreach ($header as $key => $value) {
-                        $response->sendHeader($key . ': ' . $value);
-                    }
-                }
-            }
-        }
-
-        // Shorten fingerprint (extra long) to used as etag for client (reduces the weight transported <=> directions)
-        $etag = md5($this->getFingerprint());
-
-        // send our data as HTML through response
-        $response->sendHtml($html, $etag, true);
-        */
-
-        $this->html = $html;
 
         return $html;
     }
@@ -849,13 +894,13 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected function translateToTemplateFilename()
     {
         // get object we operate on
-        $object = ucfirst($this->request[0]);
+        $presenter = ucfirst($this->getRoute()->getPresenter());
 
         // get action we should operate
-        $action = ucfirst($this->request[1]);
+        $action = ucfirst($this->getRoute()->getAction());
 
         // construct relative filename (+path) for current-view template
-        return $object . DIRECTORY_SEPARATOR . $action;
+        return $presenter . DIRECTORY_SEPARATOR . $action;
     }
 
     /**
@@ -868,7 +913,8 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      */
     protected function translateToTextdomain()
     {
-        return strtolower($this->request[$this->translation[0]]);
+        echo 'FIX REQUIRED!';die;
+        return strtolower($this->route[$this->translation[0]]);
     }
 
     /**
@@ -899,41 +945,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
             $fingerprint .= serialize($argument);
         }
 
-        return $this->generateHash($fingerprint);
-    }
-
-    /**
-     * Returns hash-value for passed in phrase.
-     *
-     * @param string $phrase The phrase to return hash for
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The resulting String
-     * @access protected
-     */
-    protected function generateHash($phrase)
-    {
-        // bytes * bits
-        $size = strlen($phrase) * 8;
-
-        if (DOOZR_SECURE_HASH === true && $size >= 1024) {
-            $hash = hash('sha512', $phrase);
-
-        } elseif (DOOZR_SECURE_HASH === true && $size >= 768) {
-            $hash = hash('sha256', $phrase);
-
-        } elseif (DOOZR_SECURE_HASH === true && $size >= 512) {
-            $hash = hash('sha256', $phrase);
-
-        } elseif ($size >= 320) {
-            $hash = sha1($phrase);
-
-        } else {
-            $hash = md5($phrase);
-
-        }
-
-        return $hash;
+        return md5($fingerprint);
     }
 
     /**

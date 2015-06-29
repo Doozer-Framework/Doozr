@@ -7,7 +7,7 @@
  * Radio.php - Extension to default Input-Component <input type="..." ...
  * but with some specific radio-field tuning.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -162,7 +162,7 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * Returns the multiple status of this element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if field is multi select, FALSE if not
+     * @return bool TRUE if field is multi select, FALSE if not
      * @access public
      */
     public function getMultiValue()
@@ -280,7 +280,7 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * Active = TRUE means that this element was selected (from a group of elements).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the element is active, FALSE if not
+     * @return bool TRUE if the element is active, FALSE if not
      * @access protected
      */
     protected function isActive()

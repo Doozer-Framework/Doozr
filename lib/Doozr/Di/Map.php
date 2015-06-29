@@ -6,7 +6,7 @@
  *
  * Map.php - Map class of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -107,7 +107,6 @@ class Doozr_Di_Map
      *
      * @var int
      * @access public
-     * @const
      */
     const WIRE_MODE_MANUAL = 1;
 
@@ -116,7 +115,6 @@ class Doozr_Di_Map
      *
      * @var int
      * @access public
-     * @const
      */
     const WIRE_MODE_AUTOMATIC = 2;
 
@@ -125,10 +123,8 @@ class Doozr_Di_Map
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_NAMESPACE = 'Di';
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
@@ -237,11 +233,11 @@ class Doozr_Di_Map
      * @param array   $matrix A matrix defining the relation between an Id and an Instance as key => value pair
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Di_Exception
      */
-    public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = array())
+    public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = [])
     {
         if ($mode === self::WIRE_MODE_AUTOMATIC) {
             $matrix = $this->retrieveGlobals();
@@ -293,18 +289,18 @@ class Doozr_Di_Map
     protected function addRawDependenciesToCollection($classname, array $rawDependencies)
     {
         // iterate raw dependencies, convert to Doozr_Di_Dependency and add it to Doozr_Di_Collection
-        foreach ($rawDependencies as $identifier => $dependencies) {
+        foreach ($rawDependencies as $target => $dependencies) {
             foreach ($dependencies as $setup) {
 
-                if ($setup['type'] === 'constructor' && $identifier !== '__construct') {
-                    $this->getCollection()->setConstructor($classname, $identifier);
+                if ($setup['type'] === 'constructor' && $target !== '__construct') {
+                    $this->getCollection()->setConstructor($classname, $target);
                 }
 
                 // tricky clone base dependency object so we don't need a new operator here
                 $dependency = clone $this->dependency;
 
                 $dependency->setClassname($setup['class']);
-                $dependency->setIdentifier($setup['identifier']);
+                $dependency->setTarget($setup['target']);
                 $dependency->setConfiguration(
                     array('type' => $setup['type'], 'value' => $setup['value'], 'position' => $setup['position'])
                 );
@@ -323,7 +319,7 @@ class Doozr_Di_Map
      * @param array $matrix The matrix containing the instances for wiring (id => instance)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success
+     * @return bool TRUE on success
      * @access protected
      */
     protected function wireClassWithDependencies(array $matrix)
@@ -336,9 +332,9 @@ class Doozr_Di_Map
 
                 // if dependency is set to NULL set dependency retrieved from given matrix
                 if ($dependency->getInstance() === null) {
-                    if (isset($matrix[$dependency->getIdentifier()])) {
+                    if (isset($matrix[$dependency->getTarget()])) {
                         $dependency->setInstance(
-                            $matrix[$dependency->getIdentifier()]
+                            $matrix[$dependency->getTarget()]
                         );
                     }
                 }
