@@ -34,13 +34,13 @@
       "sepia/po-parser": "4.2.*",
       "psr/http-message": "1.0.*",
       "stack/callable-http-kernel": "1.0.*",
-      "relay/relay": "1.*@dev"
+      "relay/relay": "1.*@dev",
+      "friendsofphp/uprofiler": "dev-master"
   },
   "require-dev": {
     "raulfraile/ladybug": "1.0.*",
     "satooshi/php-coveralls": "dev-master",
-    "phpunit/phpunit": "4.5.*",
-    "friendsofphp/uprofiler": "dev-master"
+    "phpunit/phpunit": "4.5.*"
   },
   "autoload": {
       "psr-0": {
