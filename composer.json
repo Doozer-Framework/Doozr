@@ -38,6 +38,7 @@
       "friendsofphp/uprofiler": "dev-master"
   },
   "require-dev": {
+    "friendsofphp/uprofiler": "dev-master",
     "raulfraile/ladybug": "1.0.*",
     "satooshi/php-coveralls": "dev-master",
     "phpunit/phpunit": "4.5.*"
