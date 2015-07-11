@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 
-#use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -85,7 +85,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     ArrayAccess,
     Iterator,
     Countable,
-    \Psr\Log\LoggerAwareInterface
+    LoggerAwareInterface
 {
     /**
      * The observer storage.
