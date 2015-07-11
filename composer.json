@@ -37,8 +37,8 @@
     "nesbot/carbon": "~1.20.0",
     "enygma/expose": "~2.3.0",
     "ircmaxell/password-compat": "~1.0.4",
-    "relay/relay": "~1.*@dev",
-    "relay/middleware": "~1.*@dev",
+    "relay/relay": "1.*@dev",
+    "relay/middleware": "1.*@dev",
     "vlucas/phpdotenv": "~2.0.1",
     "friendsofphp/uprofiler": "dev-master"
   },

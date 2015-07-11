@@ -201,6 +201,7 @@ class Doozr_View_Web extends Doozr_Base_View
     protected function injectDebugbar($html)
     {
         $debugBar = $this->getRegistry()->getDebugbar();
+
         $debugBar = $this->getRegistry()->getLogger()->getLogger('debugbar')->exportToDebugBar($debugBar);
         $renderer = $debugBar->getJavascriptRenderer();
         $renderer->setBaseUrl('/assets');
