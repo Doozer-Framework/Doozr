@@ -7,7 +7,7 @@
  * Cache.php - Caching Service for caching operations with support for
  * different container like "Filesystem", "Memcache" ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -23,7 +23,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -57,6 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Crud/Interface.php';
 
+use Psr\Cache\Doozr_Psr_Cache_Interface;
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
@@ -76,7 +77,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @throws     Doozr_Cache_Service_Exception
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
@@ -160,7 +161,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const CONTAINER_FILESYSTEM = 'filesystem';
 
@@ -169,7 +169,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const CONTAINER_MEMCACHE = 'memcache';
 
@@ -178,10 +177,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      * @access public
-     * @const
      */
     const NAMESPACE_DEFAULT = 'doozr.cache';
-
 
     /**
      * Constructor.
@@ -198,7 +195,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     public function __tearup(
               $container,
               $namespace        = self::NAMESPACE_DEFAULT,
-        array $containerOptions = array(),
+        array $containerOptions = [],
               $unix             = true
     ) {
         $this
@@ -589,7 +586,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      */
     protected function setContainer(
               $container,
-        array $containerOptions = array()
+        array $containerOptions = []
     ) {
         // check if container-type exists
         if ($this->containerExists($container) === false) {
@@ -779,7 +776,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @access protected
      * @throws Doozr_Cache_Service_Exception
      */
-    protected function containerFactory($container, array $containerOptions = array())
+    protected function containerFactory($container, array $containerOptions = [])
     {
         $container = ucfirst(strtolower($container));
         $class     = __CLASS__ . '_Container_' . $container;

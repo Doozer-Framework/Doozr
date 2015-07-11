@@ -6,7 +6,7 @@
  *
  * Request.php - Request state container.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Core
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Request
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,10 +52,9 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Request.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
 
 /**
  * Doozr - Request
@@ -63,468 +62,157 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
  * Request state container.
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Core
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Request
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Request extends Doozr_Base_State_Container
+class Doozr_Request extends Doozr_Base_Request
+    implements
+    Doozr_Request_Interface
 {
     /**
-     * The type native for PHP request sources
-     *
-     * @var int
-     * @access const
-     */
-    const NATIVE = 0;
-
-    /**
-     * The type emulated for PHP request sources
-     *
-     * @var int
-     * @access const
-     */
-    const EMULATED = 1;
-
-    /**
-     * The request sources valid for active running runtimeEnvironment.
-     *
-     * @var array
-     * @access protected
-     */
-    protected $requestSources;
-
-    /**
-     * The request type!
+     * The Type of the Response
+     * Can be one of: Cli, Web
      *
      * @var string
-     *
+     * @access protected
      */
-    protected $requestType = Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI;
+    protected $type;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
-     * @param Doozr_Registry             $registry    The registry containing all important instances
-     * @param Doozr_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
-     * @param string                     $requestUri  The request URI for overriding detection of real
-     * @param string                     $sapi        The SAPI runtimeEnvironment of active PHP Instance
+     * @param \Doozr_Base_State_Interface $stateObject The state-object used to hold the state
+     * @param bool                        $marshalling TRUE to marshall on init, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Request
      * @access public
      */
     public function __construct(
-        Doozr_Registry             $registry,
         Doozr_Base_State_Interface $stateObject,
-                                   $requestUri  = null,
-                                   $sapi        = PHP_SAPI
+        $marshalling = true
     ) {
-        $this->setRegistry($registry);
-
+        // Do parents stuff
         parent::__construct($stateObject);
 
-        // Check for override URI
-        if ($requestUri === null) {
-            $requestUri = $_SERVER['REQUEST_URI'];
+        // Check for automagic marshalling!
+        if (true === $marshalling) {
+            $this->receive();
         }
-
-        // Start the job
-        $this->determineState($requestUri, $sapi);
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * Detects important parts of request and brings them in a more ore better usable order.
+     * Setter for data.
      *
-     * @param string $requestUri The request URI of current request
-     * @param string $sapi       The SAPI used
+     * @param string $data The data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function determineState($requestUri, $sapi = PHP_SAPI)
+    public function setData($data)
     {
-        // Store request URI
-        $this->getStateObject()->setRequestUri($requestUri);
-
-        // Store clean URL
-        $this->getStateObject()->setUrl(strtok($requestUri, '?'));
-
-        // Store SAPI (CLI, HTTPD, APACHE ....)
-        $this->getStateObject()->setSapi($sapi);
-
-        // Store runtimeEnvironment the framework runs in. Something like CLI or CLI-SERVER (PHP's internal webserver) or ...
-        $mode = $this->getModeBySapi($sapi);
-
-        // Set valid request sources
-        $this->setRequestSources(
-            $this->emitValidRequestSources($mode)
-        );
-
-        // Store the runtimeEnvironment
-        $this->getStateObject()->setRuntimeEnvironment($mode);
-
-        // Store method
-        $this->getStateObject()->setMethod(
-            $this->getMethod()
-        );
-
-        // Store SSL state
-        $this->getStateObject()->setSsl(
-            isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == '1' || strtolower($_SERVER['HTTPS']) == 'on')
-        );
-
-        // Store headers normalized to prevent System/OS/PHP mismatches
-        $this->getStateObject()->setHeaders(
-            $this->normalizeHeaders(getallheaders())
-        );
-
-        $this->getStateObject()->setProtocol(
-            ($this->getStateObject()->isSsl() === true) ? 'https://' : 'http://'
-        );
-
-        $this->emulateRequest(
-            $this->getStateObject()->getMethod()
-        );
-
-        $this->getStateObject()->setArguments(
-            $this->transformToRequestObject($this->getStateObject()->getMethod())
-        );
+        $this->getStateObject()->setData($data);
     }
 
     /**
-     * Returns the method (POST / GET / PUT ... || CLI) of the current processed request.
+     * Fluent: Setter for data.
+     *
+     * @param string $data The data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string the method of current processed request (GET / POST / PUT ... || CLI)
+     * @return $this Instance for chaining
      * @access public
      */
-    public function getMethod()
+    public function data($data)
     {
-        if ($requestMethod = (isset($_SERVER['REQUEST_METHOD'])) ? $_SERVER['REQUEST_METHOD'] : null) {
-            return strtoupper($requestMethod);
-        } else {
+        $this->setData($data);
 
-            return strtoupper($this->getRequestType());
-        }
-    }
-
-    /**
-     * Transforms a given PHP-Global (e.g. SERVER [without "$_"]) to an object with an array interface
-     *
-     * This method is intend to transform a given PHP-Global (e.g. SERVER [without "$_"])
-     * to an object with an array interface.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @throws Doozr_Exception
-     * @return void
-     * @access protected
-     */
-    protected function transform()
-    {
-        // get dynamic the sources
-        $requestSources = array_change_value_case(func_get_args(), CASE_UPPER);
-
-        // iterate over given sources
-        foreach ($requestSources as $requestSource) {
-            if (!in_array($requestSource, $this->_requestSources)) {
-                throw new Doozr_Exception(
-                    'Invalid request-source "$_'.$requestSource.'" passed to '.__METHOD__
-                );
-            }
-
-            // build objects from global request array(s) like SERVER, GET, POST | CLI
-            $this->transformToRequestObject($requestSource);
-        }
-
-        // successful transformed
-        return true;
-    }
-
-    /**
-     * Getter for request type.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The active request type
-     * @access protected
-     */
-    protected function getRequestType()
-    {
-        return $this->requestType;
-    }
-
-    /**
-     * Transforms a given superglobal (e.g. _GET, _POST ...) to an object
-     *
-     * This method is intend to transforms a given global to an object and replace the original
-     * PHP-Global with the new object.
-     *
-     * @param string $globalVariable The PHP-global to process (POST, GET, COOKIE, SESSION ...)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function transformToRequestObject($globalVariable, $injectInRootScope = false)
-    {
-        // get prefix
-        $globalVariable = $this->addPrefix($globalVariable);
-
-        if (
-            (isset($GLOBALS[$globalVariable]) === true) &&
-            (($GLOBALS[$globalVariable] instanceof Doozr_Request_Arguments) === false)
-        ) {
-            $arguments = new Doozr_Request_Arguments($globalVariable);
-
-            // Replace passed superglobal with object-interface
-            if ($injectInRootScope === true) {
-                $GLOBALS[$globalVariable] = $arguments;
-            }
-
-        } else {
-            // this enables us to use a quick preset without the dependency to run a detection twice
-            $arguments = $GLOBALS[$globalVariable];
-
-        }
-
-        return $arguments;
-    }
-
-    /**
-     * This method emulates those requests which are not implemented
-     * in PHP's global by default. So you can access PUT via $_PUT
-     * and DELETE via $_DELETE and so on.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
-     * @access private
-     */
-    protected function emulateRequest($method)
-    {
-        global $_PUT, $_DELETE, $_REQUEST;
-
-        $headers = $this->getStateObject()->getHeaders();
-
-        // Check if current request type must be emulated OR
-        // If we reach here cause of a POST request without header content-type application/x-www-form-urlencoded
-        if (
-            ($this->requestSources[$method] === self::EMULATED) ||
-            (
-                $method === Doozr_Http::REQUEST_METHOD_POST &&
-                (
-                    (isset($headers['CONTENT_TYPE']) === false) ||
-                    (stristr(strtolower($headers['CONTENT_TYPE']), 'application/x-www-form-urlencoded') === false)
-                )
-            )
-        ) {
-            //$GLOBALS['_' . $method]['DOOZR_REQUEST_BODY'] = file_get_contents("php://input");
-            // So we @ Doozr decided that we equalize the accessibility of arguments passed to a PHP process.
-            // To do so we extract the data from request body as single arguments instead of taking them as something
-            // completely different. So we also inject the values into global $_REQUEST.
-            $requestBody = file_get_contents("php://input");
-
-            // Check for empty request body
-            if (strlen($requestBody) > 0) {
-
-                // Automagically prepare data send in body (often JSON!) as object (auto extract)- Why? Just to be nice :O
-                $data = json_decode($requestBody, false);
-
-                // Check if response could be extracted (= JSON input) if not do conversion to stdClass now:
-                if ($data === null) {
-                    $data  = new \stdClass();
-                    $input = explode('&', $requestBody);
-
-                    foreach ($input as $argumentSet) {
-                        $keyValue = explode('=', $argumentSet);
-                        $data->{$keyValue[0]} = isset($keyValue[1]) ? $keyValue[1] : null;
-                    }
-                }
-
-                foreach ($data as $argument => $value) {
-                    $GLOBALS['_' . $method][$argument] = $value;
-                    $_REQUEST[$argument] = $value;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Setter for request sources.
-     *
-     * @param array $requestSources The request sources to store
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setRequestSources(array $requestSources)
-    {
-        $this->requestSources = $requestSources;
-    }
-
-    /**
-     * Setter for request sources.
-     *
-     * @param array $requestSources The request sources to store
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function requestSources(array $requestSources)
-    {
-        $this->setRequestSources($requestSources);
         return $this;
     }
 
     /**
-     * Getter for request sources.
+     * Getter for data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|null The request sources stored, otherwise NULL
-     * @access protected
+     * @return null|string The data if set, otherwise NULL
+     * @access public
      */
-    protected function getRequestSources()
+    public function getData()
     {
-        return $this->requestSources;
+        return $this->getStateObject()->getData();
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------------------------------
+    | FULFILL: @see Doozr_Response_Interface
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Generic marshalling method.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE on success, otherwise FALSE
+     * @access public
+     * @throws Doozr_Request_Exception
+     */
+    public function receive()
+    {
+        return true;
     }
 
     /**
-     * Combines the request sources to a single array by passed runtimeEnvironment.
+     * Setter for type.
      *
-     * @param string $mode The active runtimeEnvironment to return request sources for
+     * @param string $type The type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The combined request sources
+     * @return void
      * @access protected
      */
-    protected function emitValidRequestSources($mode)
+    protected function setType($type)
     {
-        $requestSources = array(
-            'ENVIRONMENT' => self::NATIVE,
-            'SERVER'      => self::NATIVE,
-        );
-
-        switch ($mode) {
-            case Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI:
-                $requestSources = array_merge(
-                    $requestSources,
-                    array(
-                        'CLI' => self::NATIVE
-                    )
-                );
-                break;
-
-            case Doozr_Request_State::RUNTIME_ENVIRONMENT_WEB:
-            case Doozr_Request_State::RUNTIME_ENVIRONMENT_HTTPD:
-            default:
-                $requestSources = array_merge(
-                    $requestSources,
-                    array(
-                        'GET'         => self::NATIVE,
-                        'POST'        => self::NATIVE,
-                        'HEAD'        => self::EMULATED,
-                        'OPTIONS'     => self::EMULATED,
-                        'PUT'         => self::EMULATED,
-                        'DELETE'      => self::EMULATED,
-                        'TRACE'       => self::EMULATED,
-                        'CONNECT'     => self::EMULATED,
-                        'COOKIE'      => self::NATIVE,
-                        'REQUEST'     => self::NATIVE,
-                        'SESSION'     => self::NATIVE,
-                        'FILES'       => self::NATIVE,
-                    )
-                );
-                break;
-        }
-
-        return $requestSources;
+        $this->type = $type;
     }
 
     /**
-     * Returns input prefixed with an underscore.
+     * Fluent: Setter for type.
      *
-     * @param string $value The string to add an underscore to
+     * @param string $type The type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The prefixed string
+     * @return $this Instance for chaining
      * @access protected
      */
-    protected function addPrefix($value)
+    protected function type($type)
     {
-        // check if already prefixed
-        if ($value == 'argv' || strpos($value, '_')) {
-            return $value;
-        }
-
-        return '_'.$value;
+        $this->setType($type);
+        return $this;
     }
 
     /**
-     * Normalizes headers so they are accessible on all OS' in the same way/naming ...
-     *
-     * @param array $headers The headers to normalize
+     * Getter for type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The normalized array of headers (all keys = uppercase & underscore!)
-     * @access protected
+     * @return string Type of the response Cli, Web, ...
+     * @access public
      */
-    protected function normalizeHeaders(array $headers)
+    public function getType()
     {
-        $normalized = array();
-
-        foreach ($headers as $header => $value) {
-            $normalized[str_replace('-', '_', strtoupper($header))] = $value;
-        }
-
-        return $normalized;
-    }
-
-    /**
-     * Proxy to teach IDE the correct return type ;)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State The state object
-     * @access protected
-     */
-    protected function getStateObject()
-    {
-        return parent::getStateObject();
-    }
-
-    /**
-     * Detect and returns SAPI PHP running in/on.
-     *
-     * (aolserver, apache, apache2filter, apache2handler, caudium, cgi (until PHP 5.3), cgi-fcgi, cli, continuity,
-     * embed, isapi, litespeed, milter, nsapi, phttpd, pi3web, roxen, thttpd, tux und webjames)
-     *
-     * @param string $sapi The SAPI of PHP
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The runtimeEnvironment [web|cli|cli-server]
-     * @access protected
-     */
-    protected function getModeBySapi($sapi)
-    {
-        // Assume default running runtimeEnvironment
-        $mode = Doozr_Request_State::RUNTIME_ENVIRONMENT_WEB;
-
-        // Detect running runtimeEnvironment through php functionality
-        switch ($sapi) {
-            case 'cli':
-                $mode = Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI;
-                break;
-            case 'cli-server':
-                $mode = Doozr_Request_State::RUNTIME_ENVIRONMENT_HTTPD;
-                break;
-        }
-
-        return $mode;
+        return $this->type;
     }
 }

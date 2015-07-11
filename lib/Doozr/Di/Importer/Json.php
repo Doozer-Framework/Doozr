@@ -2,16 +2,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Importer Json
+ * Doozr - Di - Importer - Json
  *
- * Json.php - Importer (JSON-Localize) of the Di-Framework
+ * Json.php - Importer (JSON-Localize) of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Importer_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -52,18 +52,18 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB . 'Object/Freezer.php';
-require_once DI_PATH_LIB_DI . 'Importer/Abstract.php';
-require_once DI_PATH_LIB_DI . 'Importer/Interface.php';
-require_once DI_PATH_LIB_DI . 'Dependency.php';
-require_once DI_PATH_LIB_DI . 'Collection.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
- * Doozr - Di - Importer Json
+ * Doozr - Di - Importer - Json
  *
- * Importer (JSON-Localize) of the Di-Framework
+ * Importer (JSON-Localize) of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Importer_Json
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -71,11 +71,13 @@ require_once DI_PATH_LIB_DI . 'Collection.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract implements Doozr_Di_Importer_Interface
+class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
+    implements
+    Doozr_Di_Importer_Interface
 {
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Import content from JSON-File
@@ -83,10 +85,8 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract implements Doozr
      * This method is intend to return the content of a JSON-Formatted file.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
-     * (non-PHPdoc)
-     * @see Doozr_Di_Importer_Interface::import()
      * @throws Doozr_Di_Exception
      */
     public function import()
@@ -106,7 +106,7 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract implements Doozr
         }
 
         // get content from file
-        $content = $this->_getObjectFromJsonFile($this->input);
+        $content = $this->importMapFromFromJsonFile($this->input);
 
         // get object freezer
         $freezer = new Object_Freezer();
@@ -135,7 +135,7 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract implements Doozr
                     // create new Dependency Object
                     $dependency = new Doozr_Di_Dependency($setup->classname);
                     $dependency->setConfiguration((array) $setup->config);
-                    $dependency->setIdentifier($setup->identifier);
+                    $dependency->setTarget($setup->target);
 
                     // check for frozen instance and thaw it if found
                     if ($setup->instance !== null) {
@@ -170,17 +170,15 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract implements Doozr
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array An array containing instances of Doozr_Di_Dependency for each dependency
      * @access public
-     * (non-PHPdoc)
-     * @see Doozr_Di_Importer_Interface::export()
      */
     public function export()
     {
         return $this->collection;
     }
 
-    /*******************************************************************************************************************
-     * PRIVATE
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PROTECTED
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns the content of a JSON file as object
@@ -191,25 +189,44 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract implements Doozr
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      * @throws Doozr_Di_Exception
      */
-    private function _getObjectFromJsonFile($file)
+    protected function importMapFromFromJsonFile($file)
     {
         // get content from file
-        $content = $this->readFile($file);
+        $content = $this->validate(
+            $this->readFile($file)
+        );
 
-        // parse string as json
-        $content = @json_decode($content);
 
-        if (!$content) {
+        if (false === $content) {
             throw new Doozr_Di_Exception(
-                'Error while importing dependencies. Given file does not contain valid JSON. '.
-                'Please ensure that the content of the file is valid JSON.'
+                sprintf('Error while importing dependencies: "%s".', json_last_error_msg())
             );
         }
 
-        // return json decoded object
         return $content;
+    }
+
+    /**
+     * Validates that a passed string is valid json
+     *
+     * @param string $input The input to validate
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool|string FALSE on error, STRING with result on success
+     * @access protected
+     */
+    protected function validate($input)
+    {
+        if (true === is_string($input)) {
+            $input = @json_decode($input);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $input = false;
+            }
+        }
+
+        return $input;
     }
 }

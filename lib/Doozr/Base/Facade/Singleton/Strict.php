@@ -6,7 +6,7 @@
  *
  * DoozrBaseFacadeSingleton.class.php - Base-Facade-Singleton-Strict for all ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -63,7 +63,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Facade
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$ <doozr@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$

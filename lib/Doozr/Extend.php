@@ -4,14 +4,9 @@
 /**
  * Doozr - Extend
  *
- * Extend.php - This include extends PHP's built-in functionality with plain PHP
- * functions. This functions are for Array-operations (like array_remove_value
- * or array_merge_recursive).
+ * Extend.php - This include extends PHP's built-in functionality with plain PHP functions.
  *
- * This extension also adds PHP 5.3 functionality and ERROR-types to PHP
- * installations < 5.3 (like get_called_class() ...).
- *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -27,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -48,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Extend
+ * @package    Doozr_Extend
+ * @subpackage Doozr_Extend_Global
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -61,52 +56,71 @@
 | DOOZR RUNTIME GLOBAL CONSTANTS
 +---------------------------------------------------------------------------------------------------------------------*/
 
-define('DOOZR_PHP_VERSION',   floatval(PHP_VERSION));
-define('DOOZR_PHP_ERROR_MAX', PHP_INT_MAX);
-define('DOOZR_OS',            strtoupper(PHP_OS));
-define('DOOZR_WIN',           (substr(DOOZR_OS, 0, 3) === 'WIN') && DIRECTORY_SEPARATOR !== '/');
-define('DOOZR_UNIX',          (DIRECTORY_SEPARATOR === '/' && !DOOZR_WIN));
-define('DOOZR_SECURE_HASH',   (DOOZR_PHP_VERSION > 5.11));
-define('DOOZR_SAPI',          php_sapi_name());
-define('DOOZR_VERSION',       '$Id$');
-define('DOOZR_NAME',          'Doozr');
+define('DOOZR_PHP_VERSION',    floatval(PHP_VERSION));
+define('DOOZR_PHP_ERROR_MAX',  PHP_INT_MAX);
+define('DOOZR_OS',             strtoupper(PHP_OS));
+define('DOOZR_WINDOWS',        (substr(DOOZR_OS, 0, 3) === 'WIN') && DIRECTORY_SEPARATOR !== '/');
+define('DOOZR_UNIX',           (DIRECTORY_SEPARATOR === '/' && DOOZR_WINDOWS === false));
+define('DOOZR_SECURE_HASH',    (DOOZR_PHP_VERSION > 5.11));
+define('DOOZR_SAPI',           php_sapi_name());
+define('DOOZR_VERSION',        '$Id$');
+define('DOOZR_NAME',           'Doozr');
+define('DOOZR_NAMESPACE',      'Doozr');
+define('DOOZR_NAMESPACE_FLAT', 'doozr');
 
 /*----------------------------------------------------------------------------------------------------------------------
 | EXTENDING PHP SUPERGLOBALS
 +---------------------------------------------------------------------------------------------------------------------*/
 
-$_CLI               = array();
-$_PUT               = array();
-$_DELETE            = array();
+$_CLI               = [];
+$_PUT               = [];
+$_DELETE            = [];
 $GLOBALS['_CLI']    = &$_CLI;
 $GLOBALS['_PUT']    = &$_PUT;
 $GLOBALS['_DELETE'] = &$_DELETE;
 
-
 /*----------------------------------------------------------------------------------------------------------------------
 | EQUALIZING CLI & WEB & HTTPD - PATCHING REQUEST_URI
 +---------------------------------------------------------------------------------------------------------------------*/
+
 if (!isset($_SERVER['REQUEST_URI']) || $_SERVER['REQUEST_URI'] === '') {
     $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 }
 
-
 /*----------------------------------------------------------------------------------------------------------------------
-| SNAPSHOT OF CURRENTLY DEFINDED VARIABLES
+| SNAPSHOT OF CURRENTLY DEFINED VARIABLES
 +---------------------------------------------------------------------------------------------------------------------*/
 
 $_DOOZR = get_defined_vars();
 
+/*----------------------------------------------------------------------------------------------------------------------
+| CONFIGURE LADYBUG
++---------------------------------------------------------------------------------------------------------------------*/
+
+if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI === DOOZR_RUNTIME_ENVIRONMENT) {
+    if (function_exists('ladybug_set_format')) {
+        ladybug_set_format('text');
+    }
+
+} else {
+    if (function_exists('ladybug_set_theme')) {
+        ladybug_set_theme('modern');
+    }
+    if (function_exists('ladybug_set_format')) {
+        ladybug_set_format('html');
+    }
+}
 
 /*----------------------------------------------------------------------------------------------------------------------
 | PHP EXTENDING FUNCTIONS (WORKAROUNDS AND SMART-HACKS)
 +---------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * This method is an extension to php's builtin functions array_merge and array_merge_recursive but
+ * This method is an extension to PHP's builtin functions array_merge and array_merge_recursive but
  * with a little difference - This method replace existing values for duplicate keys instead of adding
- * a numeric index like array_merge_recursive does and it does not simply replace the existing keys like
- * array_merge does - instead it extend existing keys with new keys/values from second array given.
+ * a numeric index like array_merge_recursive does!
+ * And it does not simply replace the existing keys like array_merge does - instead it extend existing
+ * keys with new keys/values from second array given.
  *
  * @param array $array_1 The array which should be extended ($array_2 overwrites values of duplicate keys!) by $array_2
  * @param array $array_2 The array which extend / overwrite values of $array_1
@@ -119,32 +133,32 @@ $_DOOZR = get_defined_vars();
  */
 function merge_array(array $array_1, array $array_2)
 {
-    // iterate over array which overwrites/supplements array_1
+    // Iterate over array which overwrites/supplements array_1
     foreach ($array_2 as $key => $value) {
-        // check if element is an array or a value
+        // Check if element is an array or a value
         if (is_array($value)) {
             if (!isset($array_1[$key])) {
-                // if key does not exist - just set it
+                // If key does not exist - just set it
                 $array_1[$key] = $value;
             } else {
-                // if key allready exist - start recursion
+                // If key already exist - start recursion
                 $array_1[$key] = merge_array($array_1[$key], $value);
             }
         } else {
-            // values could be stored directly
+            // Values could be stored directly
             $array_1[$key] = $value;
         }
     }
-    // return the new merged array
 
+    // Return the new merged array
     return $array_1;
 }
 
 /**
  * A recursive array_change_key_case function
  *
- * @param array   $input The array to change keys in
- * @param int $case  The case - can be either CASE_UPPER or CASE_LOWER (constants)
+ * @param array $input The array to change keys in
+ * @param int   $case  The case - can be either CASE_UPPER or CASE_LOWER (constants)
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return array The resulting (processed) array
@@ -175,11 +189,8 @@ function array_change_key_case_recursive($input, $case = CASE_LOWER)
 }
 
 /**
- * Traverses a passed path' ".." out and return a valid filesystem path.
- *
- * This method is intend to normalize a path from a resource. May it be
- * to prevent directory traversal attacks or just to build correct absolute
- * path'.
+ * Traverses a passed path' ".." out and return a valid filesystem path. Intend to normalize a path from a resource.
+ * May it be to prevent directory traversal attacks or just to build correct absolute path'.
  *
  * @param string $path The path (may include a filename) of a resource
  *
@@ -189,7 +200,7 @@ function array_change_key_case_recursive($input, $case = CASE_LOWER)
  */
 function traverse($path)
 {
-    $result = array();
+    $result = [];
 
     // Correct and may equalize slashes so we operate correctly
     $path = str_replace('\\', '/', $path);
@@ -214,10 +225,10 @@ function traverse($path)
 }
 
 /**
- * realpath with a switch to not resolve symlinks.
+ * Realpath implementation with a switch to NOT RESOLVE SYMLINKS.
  *
- * @param string $path             The path to return without resolving symlinks
- * @param bool $resolveSymlinks TRUE to resolve, FALSE to do not
+ * @param string $path            The path to return without resolving symlinks
+ * @param bool   $resolveSymlinks TRUE to resolve, FALSE to do not
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return string|null The resulting path as string or NULL if failed
@@ -226,7 +237,7 @@ function traverse($path)
 function realpath_ext($path, $resolveSymlinks = false)
 {
     if ($resolveSymlinks === false && $_SERVER['DOCUMENT_ROOT'] != '') {
-        $result   = array();
+        $result   = [];
         $realpath = traverse($path);
         $prepared = '';
         $root     = (DIRECTORY_SEPARATOR === '\\')
@@ -243,8 +254,8 @@ function realpath_ext($path, $resolveSymlinks = false)
             }
         }
 
-        // This is important !>
-        if (file_exists($realpath) === false) {
+        // This is important!
+        if (false === file_exists($realpath)) {
             $realpath = null;
         }
 
@@ -258,8 +269,8 @@ function realpath_ext($path, $resolveSymlinks = false)
 /**
  * Changes all values of input to lower- or upper-case
  *
- * @param array   $input The array to change values in
- * @param int $case  The case - can be either CASE_UPPER or CASE_LOWER (constants)
+ * @param array $input The array to change values in
+ * @param int   $case  The case - can be either CASE_UPPER or CASE_LOWER (constants)
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return array The resulting (processed) array
@@ -267,7 +278,7 @@ function realpath_ext($path, $resolveSymlinks = false)
  */
 function array_change_value_case($input, $case = CASE_LOWER)
 {
-    $result = array();
+    $result = [];
 
     if (!is_array($input)) {
         return $result;
@@ -285,11 +296,11 @@ function array_change_value_case($input, $case = CASE_LOWER)
 }
 
 /**
- * Removes an element (key + value) from an array by value
+ * Removes an element (key + value) from an array by elements value
  *
- * @param array   $array         The array to remove element from
- * @param string  $value         The value to remove (item + key)
- * @param bool $preserve_keys TRUE to keep keys untouched, otherwise FALSE to reindex
+ * @param array  $array         The array to remove element from
+ * @param string $value         The value to remove (item + key)
+ * @param bool   $preserve_keys TRUE to keep keys untouched, otherwise FALSE to reindex
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return array The resulting (processed) array
@@ -314,7 +325,6 @@ function array_remove_value(array $array, $value = '', $preserve_keys = true)
         }
     }
 
-    // return
     return ($preserve_keys === true) ? $array : array_values($array);
 }
 
@@ -326,6 +336,7 @@ function array_remove_value(array $array, $value = '', $preserve_keys = true)
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return void
+ * @access public
  */
 function removeLastElementIfSame(array &$array, $reference)
 {
@@ -341,8 +352,8 @@ function removeLastElementIfSame(array &$array, $reference)
  * @param mixed $reference The variable to check against
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
- * @return boolean TRUE if is recursive, otherwise FALSE
- * @static
+ * @return bool TRUE if is recursive, otherwise FALSE
+ * @access public
  */
 function isRecursiveArrayIteration(array &$array, $reference)
 {
@@ -373,8 +384,8 @@ function isRecursiveArrayIteration(array &$array, $reference)
  * @param array $array The array to check
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
- * @return boolean TRUE if is recursive, otherwise FALSE
- * @static
+ * @return bool TRUE if is recursive, otherwise FALSE
+ * @access public
  */
 function array_recursive(array $array)
 {
@@ -420,42 +431,12 @@ function array_to_object(array $array, $recursive = true)
             $value = array_to_object($value);
         }
     }
+
     return $array;
 }
 
 /**
- * Returns all currently defined variables PHP knows about (global scope)
- *
- * @param bool $force TRUE to force the retrieval, otherwise FALSE
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return array The global defined variables
- * @access public
- */
-function getdefinedvars($force = true)
-{
-    // get defined variables from outside scope
-    global $_DOOZR;
-
-    // force the retrieval
-    if ($force) {
-        // really really dirty but necessary smart-hack (prevents recursion!)
-        ob_start();
-        $definedvars = array_unique($_DOOZR);
-        var_dump($definedvars);
-        $definedvars = ob_get_contents();
-        ob_end_clean();
-
-        // and return
-        return $definedvars;
-    } else {
-        // just return as read
-        return $_DOOZR;
-    }
-}
-
-/**
- * takes a string and split it by camel-case
+ * Takes a string and split it by camel-case
  *
  * @param string $string The string to split by camel-case
  *
@@ -478,7 +459,7 @@ function str_split_camelcase($string)
  * @example $string = is_json('MyTestString');
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
- * @return boolean TRUE if string is json, otherwise FALSE
+ * @return bool TRUE if string is json, otherwise FALSE
  * @access public
  */
 function is_json($string)
@@ -522,10 +503,10 @@ function crossfoot($number)
     return $result;
 }
 
-// check if function allready exists
-if (!function_exists('filename')) {
+// Check if function already exists
+if (false === function_exists('filename')) {
     /**
-     * inofficial counterpart to dirname()
+     * Inofficial counterpart to dirname()
      *
      * Given a string containing a path to a file, this function will return the base name of the file.
      * This method is intend to be the inofficial counterpart for dirname() (is used to retrieve the directory
@@ -536,6 +517,7 @@ if (!function_exists('filename')) {
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string Given a string containing a path to a file, this function will return the base name of the file.
+     * @access public
      */
     function filename($path, $suffix = '')
     {
@@ -579,88 +561,29 @@ function regexp($input, $mode = 'default')
     return $output;
 }
 
-/**
- * detects and returns the current running runtimeEnvironment of PHP (cli or web)
- *
- * This method is intend to detect and return the current running runtimeEnvironment of PHP (cli or web).
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return string cli if running-runtimeEnvironment = cli otherwise web
- * @access public
- */
-function detectRunningMode()
-{
-    // detect running runtimeEnvironment through php functionality
-    if (php_sapi_name() == 'cli') {
-        return 'cli';
-    } else {
-        return 'web';
+// Check if method already exists
+if (false === function_exists('is_ip')) {
+    /**
+     * Checks if a given string is an IP and returns result as boolean
+     *
+     * @param string $ip The string to check if it is an IP
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if is IP otherwise FALSE
+     */
+    function is_ip($ip)
+    {
+        $result = false;
+        if (is_string($ip)) {
+            $result = (is_numeric(str_replace('.', '', $ip)) && (substr_count($ip, '.') === 3));
+        }
+
+        return $result;
     }
 }
 
 /**
- * checks for protocol and returns it
- *
- * This method is intend to check for protocol and returns it
- *
- * @param bool $plain TRUE to retrieve the protocol without dot + slashes, otherwise FALSE
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return string The protocol used while accessing a resource
- */
-function getProtocol($plain = false)
-{
-    if (is_ssl()) {
-        $protocol = 'https';
-    } else {
-        $protocol = 'http';
-    }
-
-    if (!$plain) {
-        $protocol .= '://';
-    }
-
-    return $protocol;
-}
-
-/**
- * checks if the current connection is ssl protected
- *
- * This method is intend to check if the current connection is ssl protected
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return string The protocol used while accessing a resource
- */
-function is_ssl()
-{
-    if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == '1' || strtolower($_SERVER['HTTPS'])=='on')) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-/**
- * Checks if a given string is an IP and returns result as boolean
- *
- * @param string $string The string to check if it is an IP
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return boolean TRUE if is IP otherwise FALSE
- */
-function is_ip($string)
-{
-    if (is_string($string)) {
-        return is_numeric(str_replace('.', '', $string));
-    }
-
-    return false;
-}
-
-/**
- * generic checksum function
- *
- * This method is intend to create a checksum of any given input (generic).
+ * Generic checksum function creates a checksum of any given input (generic).
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return string The crc32 checksum of input
@@ -682,50 +605,71 @@ function checksum()
 }
 
 // Check if method already exists
-if (!function_exists('pre')) {
-
-    //ladybug_set_theme('modern');
-    //ladybug_set_format('html');
-
+if (false === function_exists('pre')) {
     /**
      * prints out or return a colorized output (no color in CLI-Mode)
      *
      * This method is intend to print out or return a colorized output (no color in CLI-Mode).
      *
-     * @param mixed  $data   The data to show as colorized output
-     * @param mixed  $return Defines if the colorized data should be outputted or returned [optional]
-     * @param string $color  The color for Text in HEX-notation
-     * @param string $cursor The cursor (css) to use
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed True if $return = false and string with colorized html if $return = true
      * @access public
      */
-    function pre($data, $return = false, $color = '#7CFC00', $cursor = 'pointer')
+    function pre()
     {
-        ladybug_dump($data);
+        $arguments = func_get_args();
+
+        foreach ($arguments as $argument) {
+            if ('string' !== gettype($argument)) {
+                $argument = var_export($argument, true);
+            }
+
+            ladybug_dump($argument);
+        }
     }
 }
 
-/**
- * Send headers informing browser to not cache the content
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return boolean TRUE on success, FALSE if headers are already sent
- */
-function sendNoCacheHeaders()
-{
-    if (!headers_sent()) {
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-        header('Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Cache-Control: post-check=0, pre-check=0', false);
-        header('Pragma: no-cache');
+// Check if method already exists
+if (false === function_exists('pred')) {
+    /**
+     * prints out or return a colorized output (no color in CLI-Mode) and dies! after output
+     *
+     * This method is intend to print out or return a colorized output (no color in CLI-Mode).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed True if $return = false and string with colorized html if $return = true
+     */
+    function pred()
+    {
+        $arguments = func_get_args();
 
-        return true;
+        foreach ($arguments as $argument) {
+            pre($argument);
+        }
+        die;
     }
+}
 
-    return false;
+// Check if method already exists
+if (false === function_exists('json_last_error_msg')) {
+    /**
+     * Returns the last JSON error as string.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The last JSON error as string
+     */
+    function json_last_error_msg() {
+        static $errors = array(
+            JSON_ERROR_NONE             => null,
+            JSON_ERROR_DEPTH            => 'Maximum stack depth exceeded',
+            JSON_ERROR_STATE_MISMATCH   => 'Underflow or the modes mismatch',
+            JSON_ERROR_CTRL_CHAR        => 'Unexpected control character found',
+            JSON_ERROR_SYNTAX           => 'Syntax error, malformed JSON',
+            JSON_ERROR_UTF8             => 'Malformed UTF-8 characters, possibly incorrectly encoded'
+        );
+        $error = json_last_error();
+        return array_key_exists($error, $errors) ? $errors[$error] : "Unknown error ({$error})";
+    }
 }
 
 /**
@@ -794,46 +738,45 @@ function sendNoCacheHeaders()
  * // )
  * </code>
  *
- * @author    Kevin van Zonneveld &lt;kevin@vanzonneveld.net>
+ * @author    Kevin van Zonneveld <kevin@vanzonneveld.net>
  * @author    Lachlan Donald
  * @author    Takkie
  * @copyright 2008 Kevin van Zonneveld (http://kevin.vanzonneveld.net)
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD Licence
  * @link      http://kevin.vanzonneveld.net/
  *
- * @param array   $array
- * @param string  $delimiter
- * @param bool $baseval
+ * @param array  $array
+ * @param string $delimiter
+ * @param bool   $baseval
  *
  * @return array
  */
 function explodeTree($array, $delimiter = '_', $baseval = false)
 {
-    // Check 1st if passed
-    if (!is_array($array)) {
+    // Check 1st if passed array
+    if (false === is_array($array)) {
         return false;
     }
 
-    $splitRE   = '/' . preg_quote($delimiter, '/') . '/';
-    $returnArr = array();
+    $regularExpressionSplit = '/' . preg_quote($delimiter, '/') . '/';
+    $result                 = [];
 
-    foreach ($array as $key => $val) {
+    foreach ($array as $key => $value) {
         // Get parent parts and the current leaf
-        $parts    = preg_split($splitRE, $key, -1, PREG_SPLIT_NO_EMPTY);
+        $parts    = preg_split($regularExpressionSplit, $key, -1, PREG_SPLIT_NO_EMPTY);
         $leafPart = array_pop($parts);
 
-        // Build parent structure
-        // Might be slow for really deep and large structures
-        $parentArr = &$returnArr;
+        // Build parent structure - Might be slow for really deep and large structures!
+        $parentArr = &$result;
         foreach ($parts as $part) {
-            if (!isset($parentArr[$part])) {
-                $parentArr[$part] = array();
+            if (false === isset($parentArr[$part])) {
+                $parentArr[$part] = [];
 
-            } elseif (!is_array($parentArr[$part])) {
+            } elseif (false === is_array($parentArr[$part])) {
                 if ($baseval) {
                     $parentArr[$part] = array('__base_val' => $parentArr[$part]);
                 } else {
-                    $parentArr[$part] = array();
+                    $parentArr[$part] = [];
                 }
             }
             $parentArr = &$parentArr[$part];
@@ -841,21 +784,18 @@ function explodeTree($array, $delimiter = '_', $baseval = false)
 
         // Add the final part to the structure
         if (empty($parentArr[$leafPart])) {
-            $parentArr[$leafPart] = $val;
+            $parentArr[$leafPart] = $value;
 
         } elseif ($baseval && is_array($parentArr[$leafPart])) {
-            $parentArr[$leafPart]['__base_val'] = $val;
-
+            $parentArr[$leafPart]['__base_val'] = $value;
         }
     }
 
-    return $returnArr;
+    return $result;
 }
 
 /**
- * creates a banner (formatted ASCII-output) of a given string
- *
- * This method is intend to create a banner (formatted ASCII-output) of a given string
+ * Creates a banner (formatted ASCII-output) from a passed string.
  *
  * @param mixed $data The data to format as banner
  * @param mixed $nl   The new-line operator (control-char) to use for banner
@@ -868,10 +808,10 @@ function banner($data = '', $nl = PHP_EOL)
     // console buffer max width
     $maxWidthLine  = 78;
 
-    // fillup-char
-    $fillupChar = ' ';
+    // fillUp-char
+    $fillUpChar = ' ';
 
-    // bugfix -> could not find the real bug
+    // Bugfix -> could not find the real bug
     $maxWidthLine++;
 
     // console words in a line max width
@@ -881,7 +821,7 @@ function banner($data = '', $nl = PHP_EOL)
     $bar    = str_repeat('#', $maxWidthLine-1);
 
     // the space between text and bar (formatting)
-    $spacer = '#'.str_repeat($fillupChar, $maxWidthWords-1).'#';
+    $spacer = '#' . str_repeat($fillUpChar, $maxWidthWords-1).'#';
 
     // check for HTML
     $data = str_replace('<br />', '', $data);
@@ -894,7 +834,7 @@ function banner($data = '', $nl = PHP_EOL)
     $words = preg_split('/\s+/', $data);
 
     // check for to long "words" and force splitting
-    $tmp = array();
+    $tmp = [];
     foreach ($words as $word) {
         if (mb_strlen($word) > ($maxWidthWords)) {
             $wordParts = str_split($word, ($maxWidthWords-4));
@@ -921,37 +861,43 @@ function banner($data = '', $nl = PHP_EOL)
 
     for ($i = 0; $i < count($words); ++$i) {
         if ((strlen($buffer)+strlen($words[$i])+1 ) <= ($lineCount * $maxWidthWords) - 1) {
-            $buffer .= $words[$i].$fillupChar;
+            $buffer .= $words[$i] . $fillUpChar;
         } else {
-            $frame = ($lineCount * $maxWidthLine) - (strlen($buffer) + 2);
-            $buffer .= str_repeat($fillupChar, ($frame >= 0) ? $frame : 0).'#'.$nl.'# '.$words[$i].' ';
+            $frame   = ($lineCount * $maxWidthLine) - (strlen($buffer) + 2);
+            $buffer .= str_repeat($fillUpChar, ($frame >= 0) ? $frame : 0) . '#' . $nl . '# ' . $words[$i] . ' ';
             ++$lineCount;
         }
     }
 
     $fillCount = ($lineCount * $maxWidthLine) - (strlen($buffer) + 2);
-    $buffer .= str_repeat($fillupChar, $fillCount).'#'.$nl;
-    $output = $nl.$bar.$nl.$spacer.$nl.$buffer.$spacer.$nl.$bar.$nl;
+    $buffer   .= str_repeat($fillUpChar, $fillCount) . '#' . $nl;
+    $output    = $nl . $bar . $nl . $spacer . $nl . $buffer . $spacer . $nl . $bar . $nl;
 
     return $output;
 }
 
-/**
- * prints out or return a colorized output (no color in CLI-Mode) and dies! after output
- *
- * This method is intend to print out or return a colorized output (no color in CLI-Mode).
- *
- * @param mixed  $data   The data to show as colorized output
- * @param mixed  $return Defines if the colorized data should be outputted or returned [optional]
- * @param string $color  The color for Text in HEX-notation
- * @param string $cursor The cursor (css) to use
- *
- * @author Benjamin Carl <opensource@clickalicious.de>
- * @return mixed True if $return = false and string with colorized html if $return = true
- */
-function pred($data = 'EMPTY_PRED_CALL', $return = false, $color = '#7CFC00', $cursor = 'pointer')
-{
-    ladybug_dump_die($data);
+// Check if method already exists
+if (false === function_exists('is_ssl')) {
+    /**
+     * Checks if the current connection is SSL secured.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if connection is SSL secured, otherwise FALSE
+     */
+    function is_ssl()
+    {
+        static $ssl = null;
+
+        if (null === $ssl) {
+            if (isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == '1') || strtolower($_SERVER['HTTPS']) == 'on')) {
+                $ssl = true;
+            } else {
+                $ssl = false;
+            }
+        }
+
+        return $ssl;
+    }
 }
 
 /*----------------------------------------------------------------------------------------------------------------------

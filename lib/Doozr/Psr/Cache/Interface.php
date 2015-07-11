@@ -1,13 +1,15 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+namespace Psr\Cache;
+
 /**
- * Doozr PSR CacheObject Interface
+ * Doozr - PSR - Cache - Interface
  *
  * Interface.php - Contract for CachingObject following the PSR-Standard:
  * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -23,7 +25,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -53,8 +55,11 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
+#require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/CacheItemPoolInterface.php';
+#use Psr\Cache\CacheItemPoolInterface;
+
 /**
- * Doozr PSR CacheObject Interface
+ * Doozr - PSR - Cache - Interface
  *
  * Contract for CachingObject following the PSR-Standard:
  * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
@@ -68,7 +73,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Psr_Cache_Interface
+interface Doozr_Psr_Cache_Interface #extends CacheItemPoolInterface
 {
-    // nuttin
+    // Just for namespace
 }

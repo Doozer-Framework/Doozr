@@ -6,7 +6,7 @@
  *
  * Exception.php - Generic Exception (no specific type) of Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -73,9 +73,9 @@ class Doozr_Exception extends Doozr_Base_Exception
     /**
      * Constructor.
      *
-     * @param string    $message  The message of the exception
-     * @param int   $code     The error-code of the exception
-     * @param Exception $previous An previos throw exception which should be repacked
+     * @param string    $message  Message of the exception
+     * @param int       $code     Error-code of the exception
+     * @param Exception $previous Previous thrown exception which should be repacked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Exception

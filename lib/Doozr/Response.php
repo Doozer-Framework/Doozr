@@ -4,9 +4,9 @@
 /**
  * Doozr - Response
  *
- * Response.php - Response state container.
+ * Response.php - Response implementation of Doozr.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,69 +52,145 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Response.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Response/Interface.php';
 
 /**
  * Doozr - Response
  *
- * Response state container.
+ * Response implementation of Doozr.
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Response
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Response extends Doozr_Base_State_Container
+class Doozr_Response extends Doozr_Base_Response
+    implements
+    Doozr_Response_Interface
 {
     /**
-     * The type native for PHP request sources
+     * The Type of the Response
+     * Can be one of: Cli, Web
      *
-     * @var int
-     * @access const
+     * @var string
+     * @access protected
      */
-    const NATIVE = 0;
+    protected $type;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * The type emulated for PHP request sources
+     * Setter for data.
      *
-     * @var int
-     * @access const
-     */
-    const EMULATED = 1;
-
-    protected $header;
-
-    protected $buffer;
-
-
-
-    /**
-     * Constructor.
-     *
-     * Custom constructor which is required to set app.
-     * And then it calls the parent constructor which does the bootstrapping.
-     *
-     * @param Doozr_Registry             $registry    The registry containing all important instances
-     * @param Doozr_Base_State_Interface $stateObject The state object instance to use for saving state (DI)
-     * @param string                     $sapi        The SAPI runtimeEnvironment of active PHP Instance
+     * @param string $data The data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Response
+     * @return void
      * @access public
      */
-    public function __construct(
-        Doozr_Registry             $registry,
-        Doozr_Base_State_Interface $stateObject,
-                                   $sapi         = PHP_SAPI
-    ) {
-        $this->setRegistry($registry);
+    public function setData($data)
+    {
+        $this->getStateObject()->setData($data);
+    }
 
-        parent::__construct($stateObject);
+    /**
+     * Fluent: Setter for data.
+     *
+     * @param string $data The data.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function data($data)
+    {
+        $this->setData($data);
+
+        return $this;
+    }
+
+    /**
+     * Getter for data.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The data if set, otherwise NULL
+     * @access public
+     */
+    public function getData()
+    {
+        return $this->getStateObject()->getData();
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------------------------------
+    | FULFILL: @see Doozr_Response_Interface
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Generic output method.
+     *
+     * @param bool $exit TRUE to exit execution directly, otherwise FALSE to continue run after data sent.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function send($exit = true)
+    {
+        echo $this->getData();
+
+        if (true === $exit) {
+            exit;
+        }
+    }
+
+    /**
+     * Setter for type.
+     *
+     * @param string $type The type.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Fluent: Setter for type.
+     *
+     * @param string $type The type.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function type($type)
+    {
+        $this->setType($type);
+        return $this;
+    }
+
+    /**
+     * Getter for type.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string Type of the response Cli, Web, ...
+     * @access public
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

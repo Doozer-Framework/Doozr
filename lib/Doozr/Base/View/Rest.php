@@ -6,7 +6,7 @@
  *
  * Rest.php - Base View Rest of the Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -112,7 +112,7 @@ class Doozr_Base_View_Rest extends Doozr_Base_View
      * @return void
      * @access public
      */
-    public function setDefaultApiResponseHeader(array $defaultApiResponseHeader = array())
+    public function setDefaultApiResponseHeader(array $defaultApiResponseHeader = [])
     {
         $this->defaultApiResponseHeader = $defaultApiResponseHeader;
     }
@@ -142,7 +142,7 @@ class Doozr_Base_View_Rest extends Doozr_Base_View
      */
     protected function normalizeHeaders(array $headers)
     {
-        $responseHeaders = array();
+        $responseHeaders = [];
 
         foreach ($headers as $header => $value) {
             $key = md5(strtolower($header));
@@ -169,11 +169,11 @@ class Doozr_Base_View_Rest extends Doozr_Base_View
         // Custom default header configured?
         try {
             $headers = object_to_array(
-                $this->configuration->transmission->header->api->rest
+                $this->configuration->kernel->transmission->response->header->api->rest
             );
 
         } catch (Exception $e) {
-            $headers = array();
+            $headers = [];
         }
 
         // add our REST API Header set ... $headers

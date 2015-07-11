@@ -2,11 +2,11 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Service Crypt Container Interface
+ * Doozr - Crypt - Service - Container - Interface
  *
  * Interface.php - Interface for Container of the Caching Service.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -53,7 +53,7 @@
  */
 
 /**
- * Doozr Service Crypt Container Interface
+ * Doozr - Crypt - Service - Container - Interface
  *
  * Interface for Container of the Caching Service.
  *
@@ -69,62 +69,40 @@
 interface Doozr_Crypt_Service_Container_Interface
 {
     /**
-     * Sets the key used for en-/decryption
-     *
-     * This method is intend to set the key used for en-/decryption.
+     * Sets the key used for en-/decryption.
      *
      * @param string $key The key to use
      *
-     * @return  void
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return void
+     * @access public
      */
     public function setKey($key);
 
     /**
-     * Returns the key used for en-/decryption
+     * Returns the key used for en-/decryption.
      *
-     * This method is intend to return the key used for en-/decryption.
-     *
-     * @return  string The key
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return string The key
+     * @access public
      */
     public function getKey();
 
     /**
-     * Encrypts data
-     *
-     * This method is intend to encrypt data.
+     * Encrypts data.
      *
      * @param string $data The data to encrypt
      *
-     * @return  string The encrypted data
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return string The encrypted data
+     * @access public
      */
     public function encrypt($data);
 
     /**
-     * Decrypts data
-     *
-     * This method is intend to decrypt data.
+     * Decrypts data.
      *
      * @param string $data The data to decrypt
      *
-     * @return  string The encrypted data
-     * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @since   Method available since Release 1.0.0
-     * @version 1.0
+     * @return string The encrypted data
+     * @access public
      */
     public function decrypt($data);
 }
-
-?>

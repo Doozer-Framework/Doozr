@@ -7,7 +7,7 @@
  * Bootstrap.php - The Bootstrapper of the Doozr-Framework.
  * Delegates important operations at startup of Doozr.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -23,7 +23,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -66,67 +66,71 @@ $_SERVER['REQUEST_TIME'] = microtime();
 // systems directory separator
 $s = DIRECTORY_SEPARATOR;
 
-// try to get from env => priorized
-$documentRoot = getenv('DOOZR_DOCUMENT_ROOT');
+// First we check for defined constant DOOZR_DOCUMENT_ROOT ...
+if (false === defined('DOOZR_DOCUMENT_ROOT')) {
 
-// if document root not passed via env:
-if ($documentRoot === false) {
+    // Then for environment variable
+    if (false === $documentRoot = getenv('DOOZR_DOCUMENT_ROOT')) {
 
-    // retrieve path to file without! resolving possible symlinks
-    $partial = explode($s, __FILE__);
-    $root    = $_SERVER['DOCUMENT_ROOT'];
-    $path    = '';
+        // Retrieve path to file without! resolving possible symlinks
+        $partial = explode($s, __FILE__);
+        $root    = $_SERVER['DOCUMENT_ROOT'];
+        $path    = '';
 
-    for ($i = count($partial) - 1; $i > -1; --$i) {
-        $path = $s . $partial[$i] . $path;
+        for ($i = count($partial) - 1; $i > -1; --$i) {
+            $path = $s . $partial[$i] . $path;
 
-        if (realpath($root.$path) === __FILE__) {
-            $path = $root.$path;
-            $path = ($s === '\\')
-                ? str_replace('/', '\\', $path)
-                : str_replace('\\', '/', $path);
-            define('__FILE_LINK__', $path);
+            if (realpath($root.$path) === __FILE__) {
+                $path = $root.$path;
+                $path = ($s === '\\')
+                    ? str_replace('/', '\\', $path)
+                    : str_replace('\\', '/', $path);
+                define('__FILE_LINK__', $path);
 
-            break;
+                break;
+            }
         }
+
+        if (!defined('__FILE_LINK__')) {
+            define('__FILE_LINK__', __FILE__);
+        }
+
+        // retrieve absolute path to Doozr - make it our new document root -> by file link
+        $documentRoot = str_replace('Doozr' . $s . 'Bootstrap.php', '', __FILE_LINK__);
     }
 
-    if (!defined('__FILE_LINK__')) {
-        define('__FILE_LINK__', __FILE__);
-    }
-
-    // retrieve absolute path to Doozr - make it our new document root -> by file link
-    $documentRoot = str_replace('Doozr'.$s.'Bootstrap.php', '', __FILE_LINK__);
+    // Finally we store as constant for further use
+    define('DOOZR_DOCUMENT_ROOT', $documentRoot);
 }
 
-// store as constant
-define('DOOZR_DOCUMENT_ROOT', $documentRoot);
+/*----------------------------------------------------------------------------------------------------------------------
+| LOAD KERNEL
++---------------------------------------------------------------------------------------------------------------------*/
+
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/App.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
 | CHECK FOR PASSED APP PATH
 +---------------------------------------------------------------------------------------------------------------------*/
 
-// First we check for configured correct DOOZR_APP_ROOT
-if (defined('DOOZR_APP_ROOT') === false) {
+// First we check for configured path to application DOOZR_APP_ROOT
+if (false === defined('DOOZR_APP_ROOT')) {
 
-    if (getenv('DOOZR_APP_ROOT') !== false) {
-        $appRoot = getenv('DOOZR_APP_ROOT');
+    // Then for environment variable
+    if (false === $appRoot = getenv('DOOZR_APP_ROOT')) {
 
-    } else {
         // Priority #1: App-Root by Document-Root
-        $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . $s . '..' . $s . 'app');
+        if (false === $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . $s . '..' . $s . 'app')) {
 
-        // Priority #2: App-Root by Doozr Document-Root
-        if (false === $defaultAppRoot) {
+            // Priority #2: App-Root by Doozr Document-Root
             $defaultAppRoot = realpath(DOOZR_DOCUMENT_ROOT . '../app');
         }
 
         $appRoot = ($defaultAppRoot !== false) ? $defaultAppRoot : '';
+        $appRoot = rtrim($appRoot, $s) . $s;
     }
 
-    // Check for important! trailing slash
-    $appRoot = rtrim($appRoot, $s) . $s;
-
+    // Finally store a constant for further use
     define('DOOZR_APP_ROOT', $appRoot);
 }
 
@@ -136,11 +140,104 @@ if (defined('DOOZR_APP_ROOT') === false) {
 define('DOOZR_SYSTEM_TEMP', sys_get_temp_dir() . DIRECTORY_SEPARATOR);
 
 /*----------------------------------------------------------------------------------------------------------------------
+| RUNTIME ENVIRONMENT
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_RUNTIME_ENVIRONMENT ...
+if (false === defined('DOOZR_RUNTIME_ENVIRONMENT')) {
+
+    // Then for environment variable
+    if (false === $runtimeEnvironment = getenv('DOOZR_RUNTIME_ENVIRONMENT')) {
+
+        // Retrieve by detecting
+        $runtimeEnvironment = detectRuntimeEnvironment();
+    }
+
+    define('DOOZR_RUNTIME_ENVIRONMENT', $runtimeEnvironment);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+| CACHE CONTAINER
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_CACHE_CONTAINER ...
+if (false === defined('DOOZR_CACHE_CONTAINER')) {
+
+    // Then for environment variable
+    if (false === $doozrCacheContainer = getenv('DOOZR_CACHE_CONTAINER')) {
+
+        // Default = Filesystem
+        $doozrCacheContainer = 'filesystem';
+    }
+
+    define('DOOZR_CACHE_CONTAINER', $doozrCacheContainer);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+| LOGGING
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_LOGGING ...
+if (false === defined('DOOZR_LOGGING')) {
+
+    // Then for environment variable ...
+    if (false === $doozrLogging = getenv('DOOZR_LOGGING')) {
+
+        // Default by app environment
+        if (DOOZR_APP_ENVIRONMENT !== Doozr_Kernel::APP_ENVIRONMENT_TESTING) {
+            $doozrLogging = true;
+        }
+    }
+
+    define('DOOZR_LOGGING', (bool)$doozrLogging);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+| DEBUGGING
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_LOGGING ...
+if (false === defined('DOOZR_DEBUGGING')) {
+
+    // Then for environment variable
+    if (false === $doozrDebugging = getenv('DOOZR_DEBUGGING')) {
+
+        // Default by app environment
+        if (DOOZR_APP_ENVIRONMENT  === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT) {
+            $doozrDebugging = true;
+        }
+    }
+
+    define('DOOZR_DEBUGGING', $doozrDebugging);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+| CACHING
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_LOGGING ...
+if (false === defined('DOOZR_CACHING')) {
+
+    // Then for environment variable
+    if (false === $doozrCaching = getenv('DOOZR_CACHING')) {
+
+        // Default by app environment
+        if (DOOZR_APP_ENVIRONMENT  === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT) {
+            $doozrCaching = false;
+        } else {
+            $doozrCaching = !DOOZR_DEBUGGING;
+        }
+    }
+
+    define('DOOZR_CACHING', (bool)$doozrCaching);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
 | COMPOSER INTEGRATION
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // Try to include composer's autoloader to make all the composer stuff easy available
-if (composer_running() === false) {
+if (false === composer_running()) {
     include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
 }
 
@@ -155,7 +252,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Extend.php';
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // SPL facade files config + facade itself
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Config.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Configuration.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Facade.php';
 
 // now configure a new autoloader spl config
@@ -165,7 +262,7 @@ $autoloaderDoozr
     ->setNamespaceSeparator('_')
     ->addExtension('php')
     ->setPath(substr(DOOZR_DOCUMENT_ROOT, 0, -1))
-    ->setDescription('Doozr\'s main autoloader and responsible for loading core classes')
+    ->setDescription('Doozr\'s autoloader for loading classes of Doozr below "lib/".')
     ->setPriority(0);
 
 /**
@@ -177,7 +274,7 @@ $autoloaderService
     ->setNamespaceSeparator('_')
     ->addExtension('php')
     ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
-    ->setDescription('Doozr\'s autoloader responsible for loading services from Doozr\'s namespace')
+    ->setDescription('Doozr\'s autoloader for loading Services of Doozr below "lib/Service".')
     ->setPriority(1);
 
 /**
@@ -192,12 +289,6 @@ Doozr_Loader_Autoloader_Spl_Facade::attach(
         $autoloaderService,
     )
 );
-
-/*----------------------------------------------------------------------------------------------------------------------
- | DOOZR
- ---------------------------------------------------------------------------------------------------------------------*/
-define('DOOZR_NAMESPACE', 'Doozr');
-define('DOOZR_NAMESPACE_FLAT', 'doozr');
 
 /*----------------------------------------------------------------------------------------------------------------------
  | ERROR & EXCEPTION-HANDLING (HOOK)
@@ -235,11 +326,8 @@ set_exception_handler(
 );
 
 /*----------------------------------------------------------------------------------------------------------------------
-| LOAD Doozr's CORE-CLASS
+| HELPER
 +---------------------------------------------------------------------------------------------------------------------*/
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
-
 
 /**
  * Detects composer in global scope
@@ -261,4 +349,37 @@ function composer_running()
     }
 
     return $result;
+}
+
+/**
+ * Returns the runtime environment by PHP SAPI.
+ *
+ * PHP has a lot of known SAPIs and we need just to distinguish between Cli, Web and Httpd (Running on PHP's
+ * internal webserver). Some of PHP's known SAPIs:
+ * aolserver, apache, apache2filter, apache2handler, caudium, cgi (until PHP 5.3), cgi-fcgi, cli, continuity,
+ * embed, isapi, litespeed, milter, nsapi, phttpd, pi3web, roxen, thttpd, tux und webjames ...
+ *
+ * @param string $sapi The SAPI of PHP
+ *
+ * @author Benjamin Carl <opensource@clickalicious.de>
+ * @return string The runtime environment the Kernel is running in
+ * @access public
+ */
+function detectRuntimeEnvironment($sapi = PHP_SAPI)
+{
+    // Assume default running runtimeEnvironment
+    $environment = Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB;
+
+    // Detect running runtimeEnvironment through php functionality
+    switch ($sapi) {
+        case 'cli':
+            $environment = Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI;
+            break;
+
+        case 'cli-server':
+            $environment = Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD;
+            break;
+    }
+
+    return $environment;
 }

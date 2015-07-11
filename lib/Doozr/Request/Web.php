@@ -4,9 +4,9 @@
 /**
  * Doozr - Request - Web
  *
- * Web.php - Request-Handler for requests passed through WEB to Front-Controller.
+ * Web.php - Doozr request implementation for Web (HTTP) response(s).
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -52,14 +52,16 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Request.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request.php';
+
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
- * Doozr Request-Web
+ * Doozr - Request - Web
  *
- * Request-Web of the Doozr-Framework
+ * Doozr request implementation for Web (HTTP) response(s).
  *
  * @category   Doozr
  * @package    Doozr_Request
@@ -70,421 +72,622 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Request_Web extends Doozr_Base_Request implements Doozr_Request_Interface
+class Doozr_Request_Web extends Doozr_Request
+    implements
+    ServerRequestInterface
 {
     /**
-     * need to identify HTML Redirect Type
+     * Type of the Response
      *
+     * @example Cli, Web, ...
      * @var string
-     * @access const
+     * @access protected
      */
-    const REDIRECT_TYPE_HTML = 'html';
+    protected $type = Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB;
 
     /**
-     * need to identify Header Redirect Type
+     * The request sources valid for active running runtimeEnvironment.
      *
-     * @var string
-     * @access const
+     * @var array
+     * @access protected
      */
-    const REDIRECT_TYPE_HEADER = 'header';
+    protected $requestSources;
 
     /**
-     * need to identify HTML Redirect Type
+     * The type native for PHP request sources
      *
-     * @var string
+     * @var int
      * @access const
      */
-    const REDIRECT_TYPE_JS = 'js';
+    const NATIVE = 0;
 
     /**
-     * holds the own type of Request
+     * The type emulated for PHP request sources
      *
-     * @var string
+     * @var int
      * @access const
      */
-    const TYPE = 'web';
+    const EMULATED = 1;
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | FULFILL: @see Doozr_Request_Interface
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor.
+     * Receive method.
      *
-     * @param Doozr_Config $config An instance of config
-     * @param Doozr_Logger $logger An instance of logger
+     * @param string $sapi The sapi to use for receiving values and settings.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Request_Web
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
-    public function __construct(Doozr_Registry $app)
+    public function receive($sapi = PHP_SAPI)
     {
-        var_dump('BUG');
-        die;
-
-        $this->setApp($app);
-
-        // store instance(s)
-        $this->logger = $this->app->logger;
-        $this->config = $this->app->config;
-
-        // set type
-        self::$type = self::TYPE;
-
-        // list of valid request sources and type (native | emulated)
-        $this->_requestSources = array(
-            'GET'         => self::NATIVE,
-            'POST'        => self::NATIVE,
-            'HEAD'        => self::EMULATED,
-            'OPTIONS'     => self::EMULATED,
-            'PUT'         => self::EMULATED,
-            'DELETE'      => self::EMULATED,
-            'TRACE'       => self::EMULATED,
-            'CONNECT'     => self::EMULATED,
-            'COOKIE'      => self::NATIVE,
-            'REQUEST'     => self::NATIVE,
-            'SESSION'     => self::NATIVE,
-            'ENVIRONMENT' => self::NATIVE,
-            'SERVER'      => self::NATIVE,
-            'FILES'       => self::NATIVE,
+        // Set valid request sources
+        $this->setRequestSources(
+            $this->emitValidRequestSources(
+                DOOZR_RUNTIME_ENVIRONMENT
+            )
         );
 
-        // prepare non-native request for global PHP like access
-        #$this->emulateRequest();
+        // Emulate the request in case of PUT ...
+        $this->emulateRequest($this->receiveMethod());
 
-        // check automatic conversion of input
-        #$this->arguments = $this->transformToRequestObject($this->getMethod());
+        // Store SAPI (CLI, HTTPD, APACHE ....)
+        #$this->setSapi($sapi);
 
-        // protocolize the incoming request data
-        #$this->protocolize();
-
-        // store URL (the base of all requests)
-        $this->url = strtok($_SERVER['REQUEST_URI'], '?');
-    }
-
-    /**
-     * This method returns TRUE if the current requests type
-     * is GET.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is GET, otherwise FALSE
-     * @access public
-     */
-    public function isGet()
-    {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_GET);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type
-     * is HEAD.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is HEAD, otherwise FALSE
-     * @access public
-     */
-    public function isHead()
-    {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_HEAD);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type
-     * is PUT.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is PUT, otherwise FALSE
-     * @access public
-     */
-    public function isPut()
-    {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_PUT);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type
-     * is POST.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is POST, otherwise FALSE
-     * @access public
-     */
-    public function isPost()
-    {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_POST);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type
-     * is DELETE.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is DELETE, otherwise FALSE
-     * @access public
-     */
-    public function isDelete()
-    {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_DELETE);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type
-     * is OPTIONS.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is OPTIONS, otherwise FALSE
-     * @access public
-     */
-    public function isOptions()
-    {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_OPTIONS);
-    }
-
-    /**
-     * This method returns TRUE if the current requests type
-     * is TRACE.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is TRACE, otherwise FALSE
-     * @access public
-     */
-    public function isTrace()
-    {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_TRACE);
-    }
-
-    /**
-     * This method is intend to return the global $_GET vars if current request is of type GET.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Request_Parameter ($_GET) if request is of type GET, otherwise NULL
-     * @access public
-     */
-    public function getGet()
-    {
-        if ($this->isGet()) {
-            return $_GET;
+        // Store headers normalized to prevent System/OS/PHP mismatches
+        $headers = $this->normalizeHeaders(getallheaders());
+        foreach ($headers as $header => $value) {
+            $this->withHeader($header, $value);
         }
 
-        // return null if not GET
-        return null;
+        // Store query params as array
+        $this->withQueryParams(
+            $this->receiveQueryParams($this->getMethod())
+        );
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | SETTER & GETTER & ISSER & HASSER
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * This method is intend to return the global $_POST vars if current request is of type POST.
+     * Setter for request sources.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Request_Parameter ($_POST) if request is of type POST, otherwise NULL
-     * @access public
-     */
-    public function getPost()
-    {
-        if ($this->isPost()) {
-            return $_POST;
-        }
-
-        // return null if not POST
-        return null;
-    }
-
-    /**
-     * This method is intend to return the global $_REQUEST vars if current request is of type REQUEST.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Request_Parameter ($_REQUEST) if request is of type REQUEST, otherwise NULL
-     * @access public
-     */
-    public function getRequest()
-    {
-        return $_REQUEST;
-    }
-
-    /**
-     * This method protocolizes request details if running in debug-runtimeEnvironment
-     * enabled. This should help debugging the application.
+     * @param array $requestSources The request sources to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function protocolize()
+    protected function setRequestSources(array $requestSources)
     {
-        // this is expensive so only in debug available
-        if ($this->config->debug->enabled) {
-
-            // log Request-Parameter and Request-Header
-            $this->logger->debug(
-                "Request-Header: \n".self::getRequestHeader(true)
-            );
-
-            // if request defined -> log its parameter (all)
-            if (count($_REQUEST) > 0) {
-                $this->logger->debug(
-                    "Request-Parameter: \n".self::getRequestAsString()
-                );
-            }
-        }
+        $this->requestSources = $requestSources;
     }
 
     /**
-     * Returns all headers from request (the so called Request-Headers).
+     * Fluent: Setter for request sources.
      *
-     * @param bool $string TRUE to return them as string, otherwise FALSE (default) to return array
+     * @param array $requestSources The request sources to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean The result as array or string
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function getHeader($string = false)
+    protected function requestSources(array $requestSources)
     {
-        return self::getRequestHeader($string);
+        $this->setRequestSources($requestSources);
+
+        return $this;
     }
 
     /**
-     * get all request-headers
-     *
-     * if the $string parameter is setted to true, this function will return
-     * an string instead of an array
-     *
-     * @param bool $string Set to true to retrive header as string, otherwise array is returned
+     * Getter for request sources.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed All request-headers as: "string" if parameter $string is set to true, otherwise as "array"
-     * @access public
-     * @static
+     * @return array|null The request sources stored, otherwise NULL
+     * @access protected
      */
-    public static function getRequestHeader($string = false)
+    protected function getRequestSources()
     {
-        $header = getallheaders();
+        return $this->requestSources;
+    }
 
-        if ($string === true) {
-            $allheaders = '';
-            foreach ($header as $headerName => $headerValue) {
-                $allheaders .= $headerName . ' = ' . $headerValue . PHP_EOL;
-            }
-            $header = $allheaders;
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Normalizes headers so they are accessible on all OS' in the same way/naming ...
+     *
+     * @param array $headers The headers to normalize
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The normalized array of headers (all keys = uppercase & underscore!)
+     * @access protected
+     */
+    protected function normalizeHeaders(array $headers)
+    {
+        $normalized = [];
+
+        foreach ($headers as $header => $value) {
+            $normalized[str_replace('-', '_', strtoupper($header))] = $value;
         }
 
-        return $header;
+        return $normalized;
     }
 
     /**
-     * Returns the PHP Global Array $_REQUEST as string
+     * Combines the request sources to a single array by passed runtimeEnvironment.
+     *
+     * @param string $mode The active runtimeEnvironment to return request sources for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array All given $_REQUEST-vars as string
-     * @access public
-     * @static
+     * @return array The combined request sources
+     * @access protected
      */
-    public static function getRequestAsString()
+    protected function emitValidRequestSources($mode)
     {
-        $request = '';
-
-        foreach ($_REQUEST as $parameter => $value) {
-            $cleaned  = self::clean($value);
-            $request .= $parameter.' = '.((is_array($cleaned)) ? serialize($cleaned) : $cleaned) . PHP_EOL;
-        }
-
-        return $request;
-    }
-
-    /**
-     * Returns the url of the current request
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The url
-     * @access public
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * Sets the url of the current request
-     *
-     * @param string $url The URL to set as active URL of current request
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The url
-     * @access public
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
-    /**
-     * Cleans the input variable. This method removes tags with strip_tags and afterwards
-     * it turns all non-safe characters to its htmlentities.
-     *
-     * @param mixed $mixed The input to clean
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The cleaned input
-     * @access public
-     * @static
-     */
-    public static function clean($mixed)
-    {
-        if (is_array($mixed)) {
-            foreach ($mixed as $key => $value) {
-                $mixed[$key] = self::clean($value);
-            }
-
-        } else {
-            $mixed = htmlentities(strip_tags($mixed));
-        }
-
-        return $mixed;
-    }
-
-    /**
-     * This method is intend to return the SSL-status of the current request.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the request is SSL, otherwise FALSE
-     * @access public
-     */
-    public function isSsl()
-    {
-        return (
-            isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == '1' || strtolower($_SERVER['HTTPS']) == 'on')
+        $requestSources = array(
+            'ENVIRONMENT' => self::NATIVE,
+            'SERVER'      => self::NATIVE,
         );
+
+        switch ($mode) {
+            case Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI:
+                $requestSources = array_merge(
+                    $requestSources,
+                    array(
+                        'CLI' => self::NATIVE
+                    )
+                );
+                break;
+
+            case Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB:
+            case Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD:
+            default:
+                $requestSources = array_merge(
+                    $requestSources,
+                    array(
+                        'GET'         => self::NATIVE,
+                        'POST'        => self::NATIVE,
+                        'HEAD'        => self::EMULATED,
+                        'OPTIONS'     => self::EMULATED,
+                        'PUT'         => self::EMULATED,
+                        'DELETE'      => self::EMULATED,
+                        'TRACE'       => self::EMULATED,
+                        'CONNECT'     => self::EMULATED,
+                        'COOKIE'      => self::NATIVE,
+                        'REQUEST'     => self::NATIVE,
+                        'SESSION'     => self::NATIVE,
+                        'FILES'       => self::NATIVE,
+                    )
+                );
+                break;
+        }
+
+        return $requestSources;
     }
 
     /**
-     * This method is intend to check for protocol and returns it
+     * Returns the query parameter for a HTTP method as array.
+     *
+     * @param string $method The HTTP method to receive query parameter for.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The protocol used while accessing a resource
+     * @return array The query parameter
      * @access public
      */
-    public function getProtocol()
+    protected function receiveQueryParams($method = Doozr_Http::REQUEST_METHOD_GET)
     {
-        if ($this->isSsl()) {
-            return 'https://';
-        } else {
-            return 'http://';
+        global $_GET, $_POST, $_DELETE, $_PUT;
+
+        // Retrieve parameter/arguments by method
+        switch ($method) {
+
+            case Doozr_Http::REQUEST_METHOD_GET:
+                /* @var $arguments $_GET */
+                $arguments = $_GET;
+                break;
+
+            case Doozr_Http::REQUEST_METHOD_POST:
+                /* @var $arguments $_POST */
+                $arguments = $_POST;
+                break;
+
+            case Doozr_Http::REQUEST_METHOD_PUT:
+                /* @var $arguments $_PUT */
+                $arguments = $_PUT;
+                break;
+
+            case Doozr_Http::REQUEST_METHOD_DELETE:
+                /* @var $arguments $_DELETE */
+                $arguments = $_DELETE;
+                break;
+
+            default:
+                $arguments = [];
         }
+
+        return $arguments;
     }
 
     /**
-     * This is a shortcut to globals conversion
+     * This method emulates those requests which are not implemented in PHP's global by default.
+     * So you can access PUT via $_PUT and DELETE via $_DELETE and so on ...
      *
-     * @param string $method    The name of the method called
-     * @param array  $arguments The parameter of the method call
+     * @param string $method The active HTTP method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access magic
+     * @return bool TRUE on success, otherwise FALSE
+     * @access protected
      */
-    public function __call($method, $arguments)
+    protected function emulateRequest($method)
     {
-        // check if init done for requested source;
-        if (!isset(self::$initialized[$method])) {
-            self::$initialized[$method] = $this->transform($method);
+        global $_PUT, $_DELETE, $_REQUEST;
+
+        $headers        = $this->getHeaders();
+        $requestSources = $this->getRequestSources();
+
+        // Check if current request type must be emulated OR
+        // If we reach here cause of a POST request without header content-type application/x-www-form-urlencoded
+        if (
+            (self::EMULATED === $requestSources[$method]) ||
+            (
+                Doozr_Http::REQUEST_METHOD_POST === $method &&
+                (
+                    (isset($headers['CONTENT_TYPE']) === false) ||
+                    (stristr(strtolower($headers['CONTENT_TYPE']), 'application/x-www-form-urlencoded') === false)
+                )
+            )
+        ) {
+            echo 'EMULATED!!!!!!!!';die;
+            //$GLOBALS['_' . $method]['DOOZR_REQUEST_BODY'] = file_get_contents("php://input");
+            // So we @ Doozr decided that we equalize the accessibility of arguments passed to a PHP process.
+            // To do so we extract the data from request body as single arguments instead of taking them as something
+            // completely different. So we also inject the values into global $_REQUEST.
+            $requestBody = file_get_contents("php://input");
+
+            // Check for empty request body
+            if (strlen($requestBody) > 0) {
+
+                // Automagically prepare data send in body (often JSON!) as object (auto extract)- Why? Just to be nice :O
+                $data = json_decode($requestBody, false);
+
+                // Check if response could be extracted (= JSON input) if not do conversion to stdClass now:
+                if ($data === null) {
+                    $data  = new \stdClass();
+                    $input = explode('&', $requestBody);
+
+                    foreach ($input as $argumentSet) {
+                        $keyValue = explode('=', $argumentSet);
+                        $data->{$keyValue[0]} = isset($keyValue[1]) ? $keyValue[1] : null;
+                    }
+                }
+
+                foreach ($data as $argument => $value) {
+                    $GLOBALS['_' . $method][$argument] = $value;
+                    $_REQUEST[$argument] = $value;
+                }
+            }
         }
 
-        if (in_array($method, $this->_requestSources) && count($arguments) === 0) {
-            return $GLOBALS['_'.$method];
+        return true;
+    }
+
+    /**
+     * Returns the method (POST / GET / PUT ... || CLI) of the current processed request.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string the method of current processed request (GET / POST / PUT ... || CLI)
+     * @access public
+     */
+    public function receiveMethod()
+    {
+        if ($requestMethod = (isset($_SERVER['REQUEST_METHOD'])) ? $_SERVER['REQUEST_METHOD'] : null) {
+            $requestMethod = strtoupper($requestMethod);
         }
+
+        return $requestMethod;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | FULFILL: @see RequestInterface
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getServerParams()
+    {
+        return $this->getStateObject()->getServerParams();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCookieParams()
+    {
+        return $this->getStateObject()->getCookieParams();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withCookieParams(array $cookies)
+    {
+        $this->getStateObject()->withCookieParams($cookies);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getQueryParams()
+    {
+        return $this->getStateObject()->getQueryParams();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withQueryParams(array $query)
+    {
+        $this->getStateObject()->withQueryParams($query);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUploadedFiles()
+    {
+        return $this->getStateObject()->getUploadedFiles();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withUploadedFiles(array $uploadedFiles)
+    {
+        return $this->getStateObject()->withUploadedFiles($uploadedFiles);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParsedBody()
+    {
+        return $this->getStateObject()->getParsedBody();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withParsedBody($data)
+    {
+        $this->getStateObject()->withParsedBody($data);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributes()
+    {
+        return $this->getStateObject()->getAttributes();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttribute($name, $default = null)
+    {
+        return $this->getStateObject()->getAttribute($name, $default);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withAttribute($name, $value)
+    {
+        $this->getStateObject()->withAttribute($name, $value);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withoutAttribute($name)
+    {
+        $this->getStateObject()->withoutAttribute($name);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function getRequestTarget()
+    {
+        return $this->getStateObject()->getRequestTarget();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withRequestTarget($requestTarget)
+    {
+        $this->getStateObject()->withRequestTarget($requestTarget);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMethod()
+    {
+        return $this->getStateObject()->getMethod();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withMethod($method)
+    {
+        $this->getStateObject()->withMethod($method);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUri()
+    {
+        return $this->getStateObject()->getUri();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withUri(UriInterface $uri, $preserveHost = false)
+    {
+        $this->getStateObject()->withUri($uri, $preserveHost);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProtocolVersion()
+    {
+        return $this->getStateObject()->getProtocolVersion();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withProtocolVersion($version)
+    {
+        $this->getStateObject()->withProtocolVersion($version);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHeaders()
+    {
+        return $this->getStateObject()->getHeaders();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHeader($name)
+    {
+        return $this->getStateObject()->getHeader($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasHeader($name)
+    {
+        return $this->getStateObject()->hasHeader($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHeaderLine($name)
+    {
+        return $this->getStateObject()->getHeaderLine($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withHeader($name, $value)
+    {
+        $this->getStateObject()->withHeader($name, $value);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withAddedHeader($name, $value)
+    {
+        $this->getStateObject()->withAddedHeader($name, $value);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withoutHeader($name)
+    {
+        $this->getStateObject()->withoutHeader($name);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBody()
+    {
+        return $this->getStateObject()->getBody();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function withBody(StreamInterface $body)
+    {
+        $this->getStateObject()->withBody($body);
+
+        return $this;
     }
 }

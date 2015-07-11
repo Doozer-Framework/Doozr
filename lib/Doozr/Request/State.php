@@ -4,9 +4,9 @@
 /**
  * Doozr - Request - State
  *
- * State.php - Request state class for transportation of request data
+ * State.php - Request state used as immutable request state representation.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -53,13 +53,15 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http/State.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Route/State.php';
+
+use Psr\Http\Message\UriInterface;
 
 /**
  * Doozr - Request - State
  *
- * Request state class for transportation of request data
+ * Request state used as immutable request state representation.
  *
  * @category   Doozr
  * @package    Doozr_Request
@@ -69,499 +71,435 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
+ * @final
  */
-class Doozr_Request_State extends Doozr_Base_State implements Doozr_Base_State_Interface
+final class Doozr_Request_State extends Doozr_Http_State
 {
     /**
-     * The method used for request
-     *
-     * @var string
-     * @access protected
-     */
-    protected $method;
-
-    /**
-     * The request in Doozr format (array)
-     * for internal use.
+     * The server ($_SERVER) params or similar implementation (array = key:value).
+     * Should be filled on __construct.
      *
      * @var array
      * @access protected
      */
-    protected $request;
+    protected $serverParams = [];
 
     /**
-     * The SSL status of the request.
-     * Either TRUE = SSL or FALSE = no ssl
-     *
-     * @var string
-     * @access protected
-     */
-    protected $ssl;
-
-    /**
-     * The clean URL without arguments
-     *
-     * @var string
-     * @access protected
-     */
-    protected $url;
-
-    /**
-     * The request URI
-     *
-     * @var string
-     * @access protected
-     */
-    protected $requestUri;
-
-    /**
-     * The request arguments
-     *
-     * @var Doozr_Request_Arguments[]
-     * @access protected
-     */
-    protected $arguments = array();
-
-    /**
-     * The request headers
+     * The cookie ($_COOKIE) params or similar implementation (array = key:value).
+     * Should be filled on __construct.
      *
      * @var array
      * @access protected
      */
-    protected $headers;
+    protected $cookieParams = [];
 
     /**
-     * The extracted (possible JSON structure) submitted in request body!
-     *
-     * @var stdClass
-     * @access protected
-     */
-    protected $requestBody;
-
-    /**
-     * The routes available for dispatching.
-     *
-     * @var \stdClass
-     * @access protected
-     */
-    protected $routes;
-
-    /**
-     * The route config.
-     *
-     * @var \stdClass
-     * @access protected
-     */
-    protected $routeConfig;
-
-    /**
-     * The active and dispatched/processed route
+     * The query parameters of this request. If any.
      *
      * @var array
      * @access protected
      */
-    protected $activeRoute;
+    protected $queryParams = [];
 
     /**
-     * The active route arguments
+     * Normalized leaf tree representation of uploaded files.
      *
      * @var array
      * @access protected
      */
-    protected $activeRouteArguments;
+    protected $uploadedFiles = [];
 
     /**
-     * The translation matrix
+     * The parsed body.
+     *
+     * @var null
+     * @access protected
+     */
+    protected $parsedBody = null;
+
+    /**
+     * The attributes.
      *
      * @var array
      * @access protected
      */
-    protected $translationMatrix;
+    protected $attributes = [];
 
     /**
-     * The pattern
+     * @var null|string
+     * @access protected
+     */
+    protected $requestTarget = self::DEFAULT_REQUEST_TARGET;
+
+    /**
+     * The uri.
+     *
+     * @var UriInterface
+     * @access protected
+     */
+    protected $uri;
+
+    /**
+     * The HTTP method used for request.
+     * Defaults to GET.
      *
      * @var string
      * @access protected
      */
-    protected $pattern;
+    protected $method = Doozr_Http::REQUEST_METHOD_GET;
 
     /**
-     * The is-REST state of the request
-     * state object
-     *
-     * @var bool
-     * @access protected
-     */
-    protected $rest = false;
-
-    /**
-     * CLI running runtimeEnvironment
+     * The default request target used when not specifically defined.
      *
      * @var string
      * @access public
-     * @const
      */
-    const RUNTIME_ENVIRONMENT_CLI = 'Cli';
+    const DEFAULT_REQUEST_TARGET = '/';
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * WEB running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const RUNTIME_ENVIRONMENT_WEB = 'Web';
-
-    /**
-     * HTTPD running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const RUNTIME_ENVIRONMENT_HTTPD = 'Httpd';
-
-    /**
-     * Argument entry in URL
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const URL_ARGUMENT_ENTRY = '?';
-
-    /**
-     * Argument separator in URL
-     *
-     * @var string
-     * @access public
-     * @const
-     */
-    const URL_ARGUMENT_SEPARATOR = '&';
-
-
-    /**
-     * This method returns TRUE if the current requests type is GET.
+     * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is GET, otherwise FALSE
      * @access public
      */
-    public function isGet()
+    public function __construct()
     {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_GET);
+        if (false === $uri = Doozr_Http::getUrl()) {
+            throw new Doozr_Request_Exception(
+                'Error retrieving URI for request analysis!'
+            );
+        }
+
+        $this
+            ->uri(
+                new Doozr_Request_Uri(
+                    $uri
+                )
+            );
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | FULFILL: @see ServerRequestInterface
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Retrieve server parameters.
+     *
+     * Retrieves data related to the incoming request environment,
+     * typically derived from PHP's $_SERVER superglobal. The data IS NOT
+     * REQUIRED to originate from $_SERVER.
+     *
+     * @return array
+     */
+    public function getServerParams()
+    {
+        return $this->serverParams;
     }
 
     /**
-     * This method returns TRUE if the current requests type is HEAD.
+     * Retrieve cookies.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is HEAD, otherwise FALSE
-     * @access public
+     * Retrieves cookies sent by the client to the server.
+     *
+     * The data MUST be compatible with the structure of the $_COOKIE superglobal.
+     *
+     * @return array
      */
-    public function isHead()
+    public function getCookieParams()
     {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_HEAD);
+        return $this->cookieParams;
     }
 
     /**
-     * This method returns TRUE if the current requests type is PUT.
+     * Return an instance with the specified cookies.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is PUT, otherwise FALSE
-     * @access public
+     * The data IS NOT REQUIRED to come from the $_COOKIE superglobal, but MUST
+     * be compatible with the structure of $_COOKIE. Typically, this data will
+     * be injected at instantiation.
+     *
+     * This method MUST NOT update the related Cookie header of the request
+     * instance, nor related values in the server params.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * updated cookie values.
+     *
+     * @param array $cookies Array of key/value pairs representing cookies.
+     * @return self
      */
-    public function isPut()
+    public function withCookieParams(array $cookies)
     {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_PUT);
+        $this->setCookieParams($cookies);
     }
 
     /**
-     * This method returns TRUE if the current requests type is POST.
+     * Retrieve query string arguments.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is POST, otherwise FALSE
-     * @access public
+     * Retrieves the deserialized query string arguments, if any.
+     *
+     * Note: the query params might not be in sync with the URI or server
+     * params. If you need to ensure you are only getting the original
+     * values, you may need to parse the query string from `getUri()->getQuery()`
+     * or from the `QUERY_STRING` server param.
+     *
+     * @return array
      */
-    public function isPost()
+    public function getQueryParams()
     {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_POST);
+        return $this->queryParams;
     }
 
     /**
-     * This method returns TRUE if the current requests type is DELETE.
+     * Return an instance with the specified query string arguments.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is DELETE, otherwise FALSE
-     * @access public
+     * These values SHOULD remain immutable over the course of the incoming
+     * request. They MAY be injected during instantiation, such as from PHP's
+     * $_GET superglobal, or MAY be derived from some other value such as the
+     * URI. In cases where the arguments are parsed from the URI, the data
+     * MUST be compatible with what PHP's parse_str() would return for
+     * purposes of how duplicate query parameters are handled, and how nested
+     * sets are handled.
+     *
+     * Setting query string arguments MUST NOT change the URI stored by the
+     * request, nor the values in the server params.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * updated query string arguments.
+     *
+     * @param array $query Array of query string arguments, typically from $_GET.
+     * @return self
      */
-    public function isDelete()
+    public function withQueryParams(array $query)
     {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_DELETE);
+        $this->setQueryParams($query);
     }
 
     /**
-     * This method returns TRUE if the current requests type is OPTIONS.
+     * Retrieve normalized file upload data.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is OPTIONS, otherwise FALSE
-     * @access public
+     * This method returns upload metadata in a normalized tree, with each leaf
+     * an instance of Psr\Http\Message\UploadedFileInterface.
+     *
+     * These values MAY be prepared from $_FILES or the message body during
+     * instantiation, or MAY be injected via withUploadedFiles().
+     *
+     * @return array An array tree of UploadedFileInterface instances;
+     *               an empty array MUST be returned if no data is present.
      */
-    public function isOptions()
+    public function getUploadedFiles()
     {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_OPTIONS);
+        return $this->uploadedFiles;
     }
 
     /**
-     * This method returns TRUE if the current requests type is TRACE.
+     * Create a new instance with the specified uploaded files.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is TRACE, otherwise FALSE
-     * @access public
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * updated body parameters.
+     *
+     * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
+     * @return self
+     * @throws \InvalidArgumentException if an invalid structure is provided.
      */
-    public function isTrace()
+    public function withUploadedFiles(array $uploadedFiles)
     {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_TRACE);
+        $this->setUploadedFiles($uploadedFiles);
     }
 
     /**
-     * This method returns TRUE if the current requests type is CONNECT.
+     * Retrieve any parameters provided in the request body.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is CONNECT, otherwise FALSE
-     * @access public
+     * If the request Content-Type is either application/x-www-form-urlencoded
+     * or multipart/form-data, and the request method is POST, this method MUST
+     * return the contents of $_POST.
+     *
+     * Otherwise, this method may return any results of deserializing
+     * the request body content; as parsing returns structured content, the
+     * potential types MUST be arrays or objects only. A null value indicates
+     * the absence of body content.
+     *
+     * @return null|array|object The deserialized body parameters, if any.
+     *                           These will typically be an array or object.
      */
-    public function isConnect()
+    public function getParsedBody()
     {
-        return ($this->getMethod() === Doozr_Http::REQUEST_METHOD_CONNECT);
+        return $this->parsedBody;
     }
 
     /**
-     * This method is intend to return the SSL-status of the current request.
+     * Return an instance with the specified body parameters.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the request is SSL, otherwise FALSE
-     * @access public
+     * These MAY be injected during instantiation.
+     *
+     * If the request Content-Type is either application/x-www-form-urlencoded
+     * or multipart/form-data, and the request method is POST, use this method
+     * ONLY to inject the contents of $_POST.
+     *
+     * The data IS NOT REQUIRED to come from $_POST, but MUST be the results of
+     * deserializing the request body content. Deserialization/parsing returns
+     * structured data, and, as such, this method ONLY accepts arrays or objects,
+     * or a null value if nothing was available to parse.
+     *
+     * As an example, if content negotiation determines that the request data
+     * is a JSON payload, this method could be used to create a request
+     * instance with the deserialized parameters.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * updated body parameters.
+     *
+     * @param null|array|object $data The deserialized body data. This will
+     *     typically be in an array or object.
+     * @return self
+     * @throws \InvalidArgumentException if an unsupported argument type is
+     *     provided.
      */
-    public function isSsl()
+    public function withParsedBody($data)
     {
-        return $this->getSsl();
+        $this->setParsedBody($data);
     }
 
     /**
-     * Returns the is-REST state of instance
+     * Retrieve attributes derived from the request.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if instance is a REST state, otherwise FALSE
-     * @access public
+     * The request "attributes" may be used to allow injection of any
+     * parameters derived from the request: e.g., the results of path
+     * match operations; the results of decrypting cookies; the results of
+     * deserializing non-form-encoded message bodies; etc. Attributes
+     * will be application and request specific, and CAN be mutable.
+     *
+     * @return array Attributes derived from the request.
      */
-    public function isRest()
+    public function getAttributes()
     {
-        return ($this->rest === true);
+        return $this->attributes;
     }
 
     /**
-     * Extracts variables from current requests URL
+     * Retrieve a single derived request attribute.
      *
-     * @param string  $pattern  The pattern to use for extracting variables from URL (e.g. /{{foo}}/{{bar}}/
-     * @param closure $callback The callback/closure to execute
+     * Retrieves a single derived request attribute as described in
+     * getAttributes(). If the attribute has not been previously set, returns
+     * the default value as provided.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * This method obviates the need for a hasAttribute() method, as it allows
+     * specifying a default value to return if the attribute is not found.
+     *
+     * @see getAttributes()
+     * @param string $name The attribute name.
+     * @param mixed $default Default value to return if the attribute does not exist.
      * @return mixed
-     * @access public
-     * @throws Doozr_Exception
      */
-    public function get($pattern, $callback = null)
+    public function getAttribute($name, $default = null)
     {
-        // Check for required url
-        if ($this->getUrl() === null) {
-            throw new Doozr_Exception('Set URL ($this->setUrl(...)) first.');
+        $value      = $default;
+        $attributes = $this->getAttributes();
+
+        if (true === isset($attributes[$name])) {
+            $value = $attributes[$name];
         }
 
-        $count   = 0;
-        $pattern = explode('/', trim($pattern));
-        $url     = explode('/', $this->getUrl());
-
-        array_shift($pattern);
-        array_shift($url);
-
-        $result = array();
-        $matrix = array();
-
-        foreach ($pattern as $key => $partial) {
-            $variable = preg_match('/{{(.*)}}/i', $partial, $result);
-
-            $count += $variable;
-            if ($variable === 1 && isset($url[$key])) {
-                $matrix[substr($partial, 1, strlen($partial) - 1)] = $url[$key];
-            }
-        }
-
-        if ($callback !== null) {
-            while (count($matrix) < $count) {
-                $matrix[] = null;
-            }
-
-            $result = call_user_func_array($callback, $matrix);
-            return $result;
-
-        } else {
-            return $matrix;
-        }
+        return $value;
     }
 
     /**
-     * Adding argument to collection of arguments (key => value inline store).
+     * Return an instance with the specified derived request attribute.
      *
-     * @param string $argument The argument to add
-     * @param mixed  $value    The value of argument
+     * This method allows setting a single derived request attribute as
+     * described in getAttributes().
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * updated attribute.
+     *
+     * @see getAttributes()
+     * @param string $name The attribute name.
+     * @param mixed $value The value of the attribute.
+     * @return self
      */
-    public function addArgument($argument, $value)
+    public function withAttribute($name, $value)
     {
-        $this->arguments[$argument] = $value;
+        $this->attributes[$name] = $value;
     }
 
     /**
-     * Removing argument from collection of arguments.
+     * Return an instance that removes the specified derived request attribute.
      *
-     * @param string $argument The argument to remove
+     * This method allows removing a single derived request attribute as
+     * described in getAttributes().
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that removes
+     * the attribute.
+     *
+     * @see getAttributes()
+     * @param string $name The attribute name.
+     * @return self
      */
-    public function removeArgument($argument)
+    public function withoutAttribute($name)
     {
-        if (isset($this->arguments[$argument]) === true) {
-            unset($this->arguments[$argument]);
-            $this->arguments = array_values($this->arguments);
+        if (true === isset($this->attributes[$name])) {
+            unset($this->attributes[$name]);
         }
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | FULFILL: @see RequestInterface
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * Setter for request arguments.
+     * Retrieves the message's request target.
      *
-     * @param Doozr_Request_Arguments $arguments
+     * Retrieves the message's request-target either as it will appear (for
+     * clients), as it appeared at request (for servers), or as it was
+     * specified for the instance (see withRequestTarget()).
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_Arguments The arguments
-     * @access public
+     * In most cases, this will be the origin-form of the composed URI,
+     * unless a value was provided to the concrete implementation (see
+     * withRequestTarget() below).
+     *
+     * If no URI is available, and no request-target has been specifically
+     * provided, this method MUST return the string "/".
+     *
+     * @return string
      */
-    public function setArguments(Doozr_Request_Arguments $arguments)
+    public function getRequestTarget()
     {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->arguments = $arguments;
+        return $this->requestTarget;
     }
 
     /**
-     * Setter for request arguments.
+     * Return an instance with the specific request-target.
      *
-     * @param Doozr_Request_Arguments $arguments
+     * If the request needs a non-origin-form request-target — e.g., for
+     * specifying an absolute-form, authority-form, or asterisk-form —
+     * this method may be used to create an instance with the specified
+     * request-target, verbatim.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access public
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * changed request target.
+     *
+     * @link http://tools.ietf.org/html/rfc7230#section-2.7 (for the various
+     *     request-target forms allowed in request messages)
+     * @param mixed $requestTarget
+     * @return self
      */
-    public function arguments(Doozr_Request_Arguments $arguments)
+    public function withRequestTarget($requestTarget)
     {
-        $this->setArguments($arguments);
-        return $this;
+        $this->setRequestTarget($requestTarget);
     }
 
     /**
-     * Getter for arguments.
+     * Retrieves the HTTP method of the request.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_Arguments The arguments
-     * @access public
-     */
-    public function getArguments()
-    {
-        return $this->arguments;
-    }
-
-    /**
-     * Setter for HTTP-Verb
-     *
-     * @param string $verb The HTTP-Verb
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setVerb($verb)
-    {
-        $this->setMethod($verb);
-    }
-
-    /**
-     * Setter for HTTP-Verb
-     *
-     * @param string $verb The HTTP-Verb
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function verb($verb)
-    {
-        $this->setVerb($verb);
-        return $this;
-    }
-
-    /**
-     * Getter for HTTP-Verb
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The HTTP-Verb for Method used for requesting data from Doozr
-     * @access public
-     */
-    public function getVerb()
-    {
-        return $this->getMethod();
-    }
-
-    /**
-     * Setter for HTTP-Method
-     *
-     * @param string $method The method used for requesting data from Doozr
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setMethod($method)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->method = $method;
-    }
-
-    /**
-     * Setter for HTTP-Method
-     *
-     * @param string $method The method used for requesting data from Doozr
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function method($method)
-    {
-        $this->setMethod($method);
-        return $this;
-    }
-
-    /**
-     * Getter for HTTP-Method
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The HTTP-Verb for Method used for requesting data from Doozr
-     * @access public
+     * @return string Returns the request method.
      */
     public function getMethod()
     {
@@ -569,621 +507,345 @@ class Doozr_Request_State extends Doozr_Base_State implements Doozr_Base_State_I
     }
 
     /**
-     * Setter for url.
+     * Return an instance with the provided HTTP method.
      *
-     * @param string $url The url
+     * While HTTP method names are typically all uppercase characters, HTTP
+     * method names are case-sensitive and thus implementations SHOULD NOT
+     * modify the given string.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * changed request method.
+     *
+     * @param string $method Case-sensitive method.
+     * @return self
+     * @throws \InvalidArgumentException for invalid HTTP methods.
+     */
+    public function withMethod($method)
+    {
+        $this->setMethod($method);
+    }
+
+    /**
+     * Retrieves the URI instance.
+     *
+     * This method MUST return a UriInterface instance.
+     *
+     * @link http://tools.ietf.org/html/rfc3986#section-4.3
+     * @return Doozr_Request_Uri Returns a UriInterface instance
+     *     representing the URI of the request.
+     */
+    public function getUri()
+    {
+        return $this->uri;
+    }
+
+    /**
+     * Returns an instance with the provided URI.
+     *
+     * This method MUST update the Host header of the returned request by
+     * default if the URI contains a host component. If the URI does not
+     * contain a host component, any pre-existing Host header MUST be carried
+     * over to the returned request.
+     *
+     * You can opt-in to preserving the original state of the Host header by
+     * setting `$preserveHost` to `true`. When `$preserveHost` is set to
+     * `true`, this method interacts with the Host header in the following ways:
+     *
+     * - If the the Host header is missing or empty, and the new URI contains
+     *   a host component, this method MUST update the Host header in the returned
+     *   request.
+     * - If the Host header is missing or empty, and the new URI does not contain a
+     *   host component, this method MUST NOT update the Host header in the returned
+     *   request.
+     * - If a Host header is present and non-empty, this method MUST NOT update
+     *   the Host header in the returned request.
+     *
+     * This method MUST be implemented in such a way as to retain the
+     * immutability of the message, and MUST return an instance that has the
+     * new UriInterface instance.
+     *
+     * @link http://tools.ietf.org/html/rfc3986#section-4.3
+     * @param UriInterface $uri New request URI to use.
+     * @param bool $preserveHost Preserve the original state of the Host header.
+     * @return self
+     */
+    public function withUri(UriInterface $uri, $preserveHost = false)
+    {
+        echo 'IMPLEMENT ME!';
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for serverParams.
+     *
+     * @param array $serverParams The server params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setUrl($url)
+    protected function setServerParams(array $serverParams)
     {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->url = $url;
+        $this->serverParams = $serverParams;
     }
 
     /**
-     * Setter for url.
+     * Fluent: Setter for serverParams.
      *
-     * @param string $url The url
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function url($url)
-    {
-        $this->setUrl($url);
-        return $this;
-    }
-
-    /**
-     * Getter for url.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The url
-     * @access public
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * Setter for requestUri.
-     *
-     * @param string $requestUri The request URI used for request
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setRequestUri($requestUri)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->requestUri = $requestUri;
-    }
-
-    /**
-     * Setter for requestUri.
-     *
-     * @param string $requestUri The request URI used for request
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function requestUri($requestUri)
-    {
-        $this->setRequestUri($requestUri);
-        return $this;
-    }
-
-    /**
-     * Getter for requestUri.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The request URI used for request
-     * @access public
-     */
-    public function getRequestUri()
-    {
-        return $this->requestUri;
-    }
-
-    /**
-     * Setter for sapi.
-     *
-     * @param string $sapi The sapi Doozr running on
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setSapi($sapi)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->sapi = $sapi;
-    }
-
-    /**
-     * Setter for sapi.
-     *
-     * @param string $sapi The sapi Doozr running on
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function sapi($sapi)
-    {
-        $this->setSapi($sapi);
-        return $this;
-    }
-
-    /**
-     * Getter for sapi.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The sapi Doozr running on
-     * @access public
-     */
-    public function getSapi()
-    {
-        return $this->sapi;
-    }
-
-    /**
-     * Setter for SSL.
-     *
-     * @param bool $ssl SSL state
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setSsl($ssl)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->ssl = $ssl;
-    }
-
-    /**
-     * Setter for SSL.
-     *
-     * @param bool $ssl SSL state
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function ssl($ssl)
-    {
-        $this->setSsl($ssl);
-        return $this;
-    }
-
-    /**
-     * Getter for SSL.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean SSL state
-     * @access public
-     */
-    public function getSsl()
-    {
-        return $this->ssl;
-    }
-
-    /**
-     * Setter for headers.
-     *
-     * @param array $headers The headers to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setHeaders(array $headers)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->headers = $headers;
-    }
-
-    /**
-     * Setter for headers.
-     *
-     * @param array $headers The headers to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function headers(array $headers)
-    {
-        $this->setHeaders($headers);
-        return $this;
-    }
-
-    /**
-     * Getter for headers.
-     *
-     * @param bool $string TRUE to return string, FALSE to return array
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|string The headers
-     * @access public
-     */
-    public function getHeaders($string = false)
-    {
-        if ($string === true) {
-            $headers = '';
-            foreach ($this->headers as $headerName => $headerValue) {
-                $headers .= $headerName . ' = ' . $headerValue . PHP_EOL;
-            }
-        } else {
-            $headers = $this->headers;
-        }
-
-        return $headers;
-    }
-
-    /**
-     * Setter for request body.
-     *
-     * @param \stdClass $requestBody The request body to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setRequestBody(\stdClass $requestBody)
-    {
-        $this->requestBody = $requestBody;
-    }
-
-    /**
-     * Setter for request body.
-     *
-     * @param \stdClass $requestBody The request body to set
+     * @param array $serverParams The server params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
-     * @access public
+     * @access protected
      */
-    public function requestBody(\stdClass $requestBody)
+    protected function serverParams(array $serverParams)
     {
-        $this->setRequestBody($requestBody);
+        $this->setServerParams($serverParams);
+
         return $this;
     }
 
     /**
-     * Getter for requestBody.
+     * Setter for cookieParams.
      *
-     * @param bool $associative TRUE to return associative array, FALSE to return object
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \stdClass|null The request body if set otherwise NULL
-     * @access public
-     */
-    public function getRequestBody($associative = false)
-    {
-        if ($associative === true) {
-            $requestBody = object_to_array($this->requestBody);
-        } else {
-            $requestBody = $this->requestBody;
-        }
-
-        return $requestBody;
-    }
-
-    /**
-     * Setter for routes
-     *
-     * @param stdClass $routes The routes object (often retrieved from config)
+     * @param array $cookieParams The cookie params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setRoutes(\stdClass $routes)
+    protected function setCookieParams(array $cookieParams)
     {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->routes = $routes;
+        $this->cookieParams = $cookieParams;
     }
 
     /**
-     * Setter for routes
+     * Fluent: Setter for cookieParams.
      *
-     * @param stdClass $routes The routes object (often retrieved from config)
+     * @param array $cookieParams The server params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function routes(\stdClass $routes)
+    protected function cookieParams(array $cookieParams)
     {
-        $this->setRoutes($routes);
+        $this->setCookieParams($cookieParams);
+
         return $this;
     }
 
     /**
-     * Getter for routes.
+     * Setter for queryParams.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \stdClass The routes
-     * @access public
-     */
-    public function getRoutes()
-    {
-        return $this->routes;
-    }
-
-    /**
-     * Setter for routeConfig
-     *
-     * @param stdClass $routeConfig The routes config object (often retrieved from config)
+     * @param array $queryParams The query params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setRouteConfig(\stdClass $routeConfig)
+    protected function setQueryParams(array $queryParams)
     {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->routeConfig = $routeConfig;
+        $this->queryParams = $queryParams;
     }
 
     /**
-     * Setter for routeConfig
+     * Fluent: Setter for queryParams.
      *
-     * @param stdClass $routeConfig The routes object (often retrieved from config)
+     * @param array $queryParams The server params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function routeConfig(\stdClass $routeConfig)
+    protected function queryParams(array $queryParams)
     {
-        $this->setRouteConfig($routeConfig);
+        $this->setQueryParams($queryParams);
+
         return $this;
     }
 
     /**
-     * Getter for routeConfig.
+     * Setter for uploadedFiles.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \stdClass The routeConfig
-     * @access public
-     */
-    public function getRouteConfig()
-    {
-        return $this->routeConfig;
-    }
-
-    /**
-     * Setter for active route.
-     *
-     * @param array      $activeRoute    The active and dispatched/processed route!
-     * @param array|null $routeArguments The active route arguments.
+     * @param array $uploadedFiles The uploaded files to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
-     * @throws Doozr_Exception
+     * @access protected
      */
-    public function setActiveRoute(array $activeRoute, array $routeArguments = null)
+    protected function setUploadedFiles(array $uploadedFiles)
     {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->activeRoute = $activeRoute;
-
-        if (null !== $routeArguments) {
-            if (false === is_array($routeArguments)) {
-                throw new Doozr_Exception(
-                    sprintf('Route arguments must be passed as key => value array!')
-                );
-            } else {
-                $this->activeRouteArguments($routeArguments);
-
-            }
-        }
+        $this->uploadedFiles = $uploadedFiles;
     }
 
     /**
-     * Setter for active route.
+     * Fluent: Setter for uploadedFiles.
      *
-     * @param array $activeRoute The active and dispatched/processed route!
+     * @param array $uploadedFiles The uploaded files to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function activeRoute(array $activeRoute)
+    protected function uploadedFiles(array $uploadedFiles)
     {
-        $this->setActiveRoute($activeRoute);
+        $this->setUploadedFiles($uploadedFiles);
+
         return $this;
     }
 
     /**
-     * Getter for active route.
+     * Setter for parsedBody.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The active route
-     * @access public
-     */
-    public function getActiveRoute()
-    {
-        return $this->activeRoute;
-    }
-
-    /**
-     * Setter for active route arguments.
-     *
-     * @param array $activeRouteArguments The active and dispatched/processed route arguments!
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function setActiveRouteArguments(array $activeRouteArguments)
-    {
-        $this->activeRouteArguments = $activeRouteArguments;
-        return $this;
-    }
-
-    /**
-     * Setter for active route arguments.
-     *
-     * @param array $activeRouteArguments The active and dispatched/processed route arguments!
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function activeRouteArguments(array $activeRouteArguments)
-    {
-        $this->setActiveRouteArguments($activeRouteArguments);
-        return $this;
-    }
-
-    /**
-     * Getter for active route arguments.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The active route arguments
-     * @access public
-     */
-    public function getActiveRouteArguments()
-    {
-        return $this->activeRouteArguments;
-    }
-
-    /**
-     * Setter for request.
-     *
-     * @param array $request The request in Doozr format
+     * @param null|array|object $parsedBody The deserialized body data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setRequest(array $request)
+    protected function setParsedBody($parsedBody)
     {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->request = $request;
+        $this->parsedBody = $parsedBody;
     }
 
     /**
-     * Setter for request.
+     * Fluent: Setter for parsedBody.
      *
-     * @param array $request The request in Doozr format
+     * @param null|array|object $parsedBody The deserialized body data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function request(array $request)
+    protected function parsedBody($parsedBody)
     {
-        $this->setRequest($request);
+        $this->setParsedBody($parsedBody);
+
         return $this;
     }
 
     /**
-     * Getter for request.
+     * Setter for attributes.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The request
-     * @access public
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * Setter for translation matrix.
-     *
-     * @param array $translationMatrix The translation matrix
+     * @param array $attributes Attributes to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setTranslationMatrix(array $translationMatrix)
+    protected function setAttributes(array $attributes)
     {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->translationMatrix = $translationMatrix;
+        $this->attributes = $attributes;
     }
 
     /**
-     * Setter for translation matrix.
+     * Fluent: Setter for attributes.
      *
-     * @param array $translationMatrix The translation matrix
+     * @param array $attributes Attributes to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function translationMatrix(array $translationMatrix)
+    protected function attributes(array $attributes)
     {
-        $this->setTranslationMatrix($translationMatrix);
+        $this->setAttributes($attributes);
+
         return $this;
     }
 
     /**
-     * Getter for translation matrix.
+     * Setter for requestTarget.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The translation matrix
-     * @access public
-     */
-    public function getTranslationMatrix()
-    {
-        return $this->translationMatrix;
-    }
-
-    /**
-     * Setter for pattern.
-     *
-     * @param string $pattern The pattern (MVP) ...
+     * @param string $requestTarget requestTarget to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setPattern($pattern)
+    protected function setRequestTarget($requestTarget)
     {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->pattern = $pattern;
+        $this->requestTarget = $requestTarget;
     }
 
     /**
-     * Setter for pattern.
+     * Fluent: Setter for requestTarget.
      *
-     * @param string $pattern The pattern (MVP) ...
+     * @param string $requestTarget requestTarget to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function pattern($pattern)
+    protected function requestTarget($requestTarget)
     {
-        $this->setPattern($pattern);
+        $this->setRequestTarget($requestTarget);
+
         return $this;
     }
 
     /**
-     * Getter for pattern.
+     * Setter for method.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The pattern
-     * @access public
-     */
-    public function getPattern()
-    {
-        return $this->pattern;
-    }
-
-    /**
-     * Setter for rest.
-     *
-     * @param bool TRUE to mark state REST, otherwise FALSE
+     * @param string $method method to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
+     * @access protected
      */
-    public function setRest($rest)
+    protected function setMethod($method)
     {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->rest = $rest;
+        $this->method = $method;
     }
 
     /**
-     * Setter for rest.
+     * Fluent: Setter for method.
      *
-     * @param bool TRUE to mark state REST, otherwise FALSE
+     * @param string $method method to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
+     * @return $this Instance for chaining
+     * @access protected
      */
-    public function rest($rest)
+    protected function method($method)
     {
-        $this->setPattern($rest);
+        $this->setMethod($method);
+
         return $this;
     }
 
     /**
-     * Getter for rest.
+     * Setter for uri.
+     *
+     * @param UriInterface $uri uri to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean The REST state
-     * @access public
+     * @return void
+     * @access protected
      */
-    public function getRest()
+    protected function setUri($uri)
     {
-        return $this->rest;
+        $this->uri = $uri;
+    }
+
+    /**
+     * Fluent: Setter for uri.
+     *
+     * @param UriInterface $uri uri to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function uri($uri)
+    {
+        $this->setUri($uri);
+
+        return $this;
     }
 }

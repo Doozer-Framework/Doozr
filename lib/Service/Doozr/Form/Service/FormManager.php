@@ -8,7 +8,7 @@
  * a form and all its childs and adds the control layer to it and so
  * on!
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -24,7 +24,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -121,7 +121,7 @@ class Doozr_Form_Service_FormManager
      * @var array
      * @access protected
      */
-    protected $error = array();
+    protected $error = [];
 
     /**
      * The store where our data resides while moving from one page request to the next.
@@ -232,7 +232,7 @@ class Doozr_Form_Service_FormManager
      * @var array
      * @access protected
      */
-    protected $metaFields = array();
+    protected $metaFields = [];
 
     /**
      * Validator instance for validation.
@@ -563,7 +563,7 @@ class Doozr_Form_Service_FormManager
      * @internal param string $identifier The (optional) identifier
      *
      * @author   Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the form is jumped to a specific step, otherwise FALSE
+     * @return bool TRUE if the form is jumped to a specific step, otherwise FALSE
      * @access   public
      */
     public function wasJumped()
@@ -627,7 +627,7 @@ class Doozr_Form_Service_FormManager
      * @throws Doozr_Form_Service_Exception
      * @return mixed The
      */
-    public function translate($string, array $arguments = array())
+    public function translate($string, array $arguments = [])
     {
         if ($this->getI18n() === null) {
             throw new Doozr_Form_Service_Exception(
@@ -956,7 +956,7 @@ class Doozr_Form_Service_FormManager
      * Getter for arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE or FALSE depending on state
+     * @return bool TRUE or FALSE depending on state
      * @access public
      */
     public function getAngularDirectives()
@@ -1035,7 +1035,7 @@ class Doozr_Form_Service_FormManager
      * @internal param mixed $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     public function removeFromRegistry($key, $component = null)
@@ -1127,7 +1127,7 @@ class Doozr_Form_Service_FormManager
      * Checks and returns the submission status of this form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if the form was submitted, otherwise FALSE
+     * @return bool TRUE if the form was submitted, otherwise FALSE
      * @access public
      */
     public function wasSubmitted()
@@ -1168,7 +1168,7 @@ class Doozr_Form_Service_FormManager
      * @param int $step The step to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE is the form is valid, otherwise FALSE
+     * @return bool TRUE is the form is valid, otherwise FALSE
      * @access public
      */
     public function isValid($step = 1)
@@ -1215,7 +1215,7 @@ class Doozr_Form_Service_FormManager
      * @param int $steps The count of steps to check against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if form steps are complete, otherwise FALSE
+     * @return bool TRUE if form steps are complete, otherwise FALSE
      * @access public
      */
     public function isComplete($steps = 1)
@@ -1285,7 +1285,7 @@ class Doozr_Form_Service_FormManager
      * Validates the store.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE is the store is valid, otherwise FALSE
+     * @return bool TRUE is the store is valid, otherwise FALSE
      * @access protected
      */
     protected function validateRegistry()
@@ -1309,12 +1309,12 @@ class Doozr_Form_Service_FormManager
         if (is_array($error) === false) {
             $error = array(
                 'error'   => $error,
-                'context' => array(), // needs to be empty array for passing to I18n directly!
+                'context' => [], // needs to be empty array for passing to I18n directly!
             );
         }
 
         if (!isset($this->error[$componentName])) {
-            $this->error[$componentName] = array();
+            $this->error[$componentName] = [];
         }
 
         $this->error[$componentName][] = $error;
@@ -1328,7 +1328,7 @@ class Doozr_Form_Service_FormManager
      *
      * @param $step
      *
-     * @return boolean TRUE if valid, otherwise FALSE if invalid
+     * @return bool TRUE if valid, otherwise FALSE if invalid
      * @access protected
      */
     protected function validate($step)
@@ -1415,10 +1415,10 @@ class Doozr_Form_Service_FormManager
      * @param array|\Doozr_Form_Service_Store_Interface $store      The store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE if invalid
+     * @return bool TRUE if valid, otherwise FALSE if invalid
      * @access protected
      */
-    protected function validateComponents(array $components, $step = 1, $arguments = null, &$store = array())
+    protected function validateComponents(array $components, $step = 1, $arguments = null, &$store = [])
     {
         $valid = true;
 
@@ -1657,7 +1657,7 @@ class Doozr_Form_Service_FormManager
      * @param Doozr_Registry $registry   The registry of Doozr
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if file upload is valid, otherwise FALSE
+     * @return bool TRUE if file upload is valid, otherwise FALSE
      * @access protected
      */
     protected function validateFileUpload($name, $value, $validation, $registry)
@@ -1712,7 +1712,7 @@ class Doozr_Form_Service_FormManager
      * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function addToRegistry($key, $value)
@@ -1794,7 +1794,7 @@ class Doozr_Form_Service_FormManager
      * It also removes used tokens from list of valid tokens and cancel requests without valid tokens.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if token could be validated (valid), otherwise FALSE
+     * @return bool TRUE if token could be validated (valid), otherwise FALSE
      * @access protected
      */
     protected function validateToken()
@@ -1898,8 +1898,8 @@ class Doozr_Form_Service_FormManager
     {
         // the default skeleton containing entries at the 1st level
         return array(
-            'data'          => array(),
-            'components'    => array(),
+            'data'          => [],
+            'components'    => [],
             'method'        => null,
             'step'          => null,
             'steps'         => null,
@@ -1919,7 +1919,7 @@ class Doozr_Form_Service_FormManager
      * @return array The result with childs
      * @access protected
      */
-    protected function getComponents($component, $result = array())
+    protected function getComponents($component, $result = [])
     {
         /**
          * Check if the component has any childs... Why do we exclude container components here? Easy to understand

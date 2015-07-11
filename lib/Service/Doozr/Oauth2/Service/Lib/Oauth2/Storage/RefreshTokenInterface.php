@@ -28,7 +28,7 @@ interface RefreshTokenInterface
      * - expires: Stored expiration unix timestamp.
      * - scope: (optional) Stored scope values in space-separated string.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-6
+     * @link http://tools.ietf.org/html/rfc6749#section-6
      *
      * @ingroup oauth2_section_6
      */

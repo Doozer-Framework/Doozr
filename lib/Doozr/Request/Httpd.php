@@ -6,7 +6,7 @@
  *
  * Httpd.php - Request-Handler for requests passed through CLI to Front-Controller.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -71,7 +71,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_Interface
+class Doozr_Request_Httpd extends Doozr_Base_Request
+    implements
+    Doozr_Request_Interface
 {
     /**
      * holds the type of os-runtimeEnvironment for commands
@@ -175,7 +177,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_In
      * is GET.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is GET, otherwise FALSE
+     * @return bool TRUE if current request is GET, otherwise FALSE
      * @access public
      */
     public function isGet()
@@ -188,7 +190,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_In
      * is HEAD.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is HEAD, otherwise FALSE
+     * @return bool TRUE if current request is HEAD, otherwise FALSE
      * @access public
      */
     public function isHead()
@@ -201,7 +203,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_In
      * is PUT.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is PUT, otherwise FALSE
+     * @return bool TRUE if current request is PUT, otherwise FALSE
      * @access public
      */
     public function isPut()
@@ -214,7 +216,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_In
      * is POST.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is POST, otherwise FALSE
+     * @return bool TRUE if current request is POST, otherwise FALSE
      * @access public
      */
     public function isPost()
@@ -227,7 +229,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_In
      * is DELETE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is DELETE, otherwise FALSE
+     * @return bool TRUE if current request is DELETE, otherwise FALSE
      * @access public
      */
     public function isDelete()
@@ -240,7 +242,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_In
      * is OPTIONS.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is OPTIONS, otherwise FALSE
+     * @return bool TRUE if current request is OPTIONS, otherwise FALSE
      * @access public
      */
     public function isOptions()
@@ -253,7 +255,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_In
      * is TRACE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if current request is TRACE, otherwise FALSE
+     * @return bool TRUE if current request is TRACE, otherwise FALSE
      * @access public
      */
     public function isTrace()
@@ -474,7 +476,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_In
     private function _protocolize()
     {
         // this is expensive so only in debug available
-        if ($this->config->debug->enabled()) {
+        if ($this->config->kernel->debugging->enabled) {
 
             // log Request-Parameter and Request-Header
             $this->logger->debug(
@@ -502,6 +504,6 @@ class Doozr_Request_Httpd extends Doozr_Base_Request implements Doozr_Request_In
     private function _detectCommandMode()
     {
         // get os setting from php
-        return (DOOZR_WIN) ? 'win' : 'other';
+        return (DOOZR_WINDOWS) ? 'win' : 'other';
     }
 }

@@ -6,7 +6,7 @@
  *
  * Gettext.php - Translation interface to => gettext™
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -80,13 +80,13 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
     /**
      * Constructor.
      *
-     * @param array $config The config for this type of interface
+     * @param \stdClass $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_I18n_Service_Interface_Gettext Instance of this class
      * @access protected
      */
-    protected function __construct(array $config)
+    protected function __construct(\stdClass $config)
     {
         // Override simple by setter
         $this->setCacheEnabled(false);
@@ -171,7 +171,7 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * @param string $path      A valid path to the *.mo files to make them known to gettext™
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|array An array with files/namespaces found for current locale, otherwise FALSE on failure
+     * @return bool|array An array with files/namespaces found for current locale, otherwise FALSE on failure
      * @access protected
      * @throws Doozr_I18n_Service_Exception
      */
@@ -276,7 +276,7 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * For example it checks if a required extension is loaded or not and so on.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      * @static
      * @throws Doozr_I18n_Service_Exception

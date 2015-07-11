@@ -85,10 +85,10 @@ class Server implements ResourceControllerInterface,
      *
      * @ingroup oauth2_section_7
      */
-    public function __construct($storage = array(), array $config = array(), array $grantTypes = array(), array $responseTypes = array(), TokenTypeInterface $tokenType = null, ScopeInterface $scopeUtil = null, ClientAssertionTypeInterface $clientAssertionType = null)
+    public function __construct($storage = [], array $config = [], array $grantTypes = [], array $responseTypes = [], TokenTypeInterface $tokenType = null, ScopeInterface $scopeUtil = null, ClientAssertionTypeInterface $clientAssertionType = null)
     {
         $storage = is_array($storage) ? $storage : array($storage);
-        $this->storages = array();
+        $this->storages = [];
         foreach ($storage as $key => $service) {
             $this->addStorage($service, $key);
         }
@@ -177,9 +177,9 @@ class Server implements ResourceControllerInterface,
      * @throws InvalidArgumentException
      * @throws LogicException
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4
-     * @see http://tools.ietf.org/html/rfc6749#section-10.6
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
+     * @link http://tools.ietf.org/html/rfc6749#section-4
+     * @link http://tools.ietf.org/html/rfc6749#section-10.6
+     * @link http://tools.ietf.org/html/rfc6749#section-4.1.3
      *
      * @ingroup oauth2_section_4
      */
@@ -221,7 +221,7 @@ class Server implements ResourceControllerInterface,
      * @param $user_id
      * Identifier of user who authorized the client
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4
+     * @link http://tools.ietf.org/html/rfc6749#section-4
      *
      * @ingroup oauth2_section_4
      */
@@ -246,8 +246,8 @@ class Server implements ResourceControllerInterface,
      * The authorization parameters so the authorization server can prompt
      * the user for approval if valid.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
-     * @see http://tools.ietf.org/html/rfc6749#section-10.12
+     * @link http://tools.ietf.org/html/rfc6749#section-4.1.1
+     * @link http://tools.ietf.org/html/rfc6749#section-10.12
      *
      * @ingroup oauth2_section_3
      */
@@ -416,7 +416,7 @@ class Server implements ResourceControllerInterface,
 
     protected function getDefaultResponseTypes()
     {
-        $responseTypes = array();
+        $responseTypes = [];
 
         if (isset($this->storages['access_token'])) {
             $responseTypes['token'] = $this->getAccessTokenResponseType();
@@ -436,7 +436,7 @@ class Server implements ResourceControllerInterface,
 
     protected function getDefaultGrantTypes()
     {
-        $grantTypes = array();
+        $grantTypes = [];
 
         if (isset($this->storages['user_credentials'])) {
             $grantTypes['password'] = new UserCredentials($this->storages['user_credentials']);

@@ -41,7 +41,7 @@ class AuthorizeController implements AuthorizeControllerInterface
      * @param OAuth2_ScopeInterface $scopeUtil
      * OPTIONAL Instance of OAuth2_ScopeInterface to validate the requested scope
      */
-    public function __construct(ClientInterface $clientStorage, array $responseTypes = array(), array $config = array(), ScopeInterface $scopeUtil = null)
+    public function __construct(ClientInterface $clientStorage, array $responseTypes = [], array $config = [], ScopeInterface $scopeUtil = null)
     {
         $this->clientStorage = $clientStorage;
         $this->responseTypes = $responseTypes;
@@ -110,9 +110,9 @@ class AuthorizeController implements AuthorizeControllerInterface
         $registered_redirect_uri = isset($clientData['redirect_uri']) ? $clientData['redirect_uri'] : '';
 
         // Make sure a valid redirect_uri was supplied. If specified, it must match the clientData URI.
-        // @see http://tools.ietf.org/html/rfc6749#section-3.1.2
-        // @see http://tools.ietf.org/html/rfc6749#section-4.1.2.1
-        // @see http://tools.ietf.org/html/rfc6749#section-4.2.2.1
+        // @link http://tools.ietf.org/html/rfc6749#section-3.1.2
+        // @link http://tools.ietf.org/html/rfc6749#section-4.1.2.1
+        // @link http://tools.ietf.org/html/rfc6749#section-4.2.2.1
         if ($supplied_redirect_uri = $request->query('redirect_uri')) {
             // validate there is no fragment supplied
             $parts = parse_url($supplied_redirect_uri);
@@ -201,7 +201,7 @@ class AuthorizeController implements AuthorizeControllerInterface
         $this->scope         = $scope;
         $this->state         = $state;
         $this->client_id     = $client_id;
-        // Only save the SUPPLIED redirect URI (@see http://tools.ietf.org/html/rfc6749#section-4.1.3)
+        // Only save the SUPPLIED redirect URI (@link http://tools.ietf.org/html/rfc6749#section-4.1.3)
         $this->redirect_uri  = $supplied_redirect_uri;
         $this->response_type = $response_type;
 
@@ -256,7 +256,7 @@ class AuthorizeController implements AuthorizeControllerInterface
      * The allowed URI(s) to validate against.  Can be a space-delimited string of URIs to
      * allow for multiple URIs
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-3.1.2
+     * @link http://tools.ietf.org/html/rfc6749#section-3.1.2
      */
     private function validateRedirectUri($inputUri, $registeredUriString)
     {

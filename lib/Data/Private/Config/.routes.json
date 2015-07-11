@@ -1,0 +1,12 @@
+{
+    "/foo/bar/:id": {
+        "methods": "GET,POST",
+        "presenter": "index",
+        "action": "index"
+    },
+    "/index/index/test": {
+        "methods": "GET",
+        "presenter": "index",
+        "action": "index"
+    }
+}

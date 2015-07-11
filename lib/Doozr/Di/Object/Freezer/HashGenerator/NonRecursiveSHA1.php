@@ -41,8 +41,8 @@
  * @since      File available since Release 1.0.0
  */
 
-require_once 'Object/Freezer/HashGenerator.php';
-require_once 'Object/Freezer/Util.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/HashGenerator.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/Util.php';
 
 /**
  * Interface for generators of object hashes.
@@ -55,7 +55,9 @@ require_once 'Object/Freezer/Util.php';
  * @link       http://github.com/sebastianbergmann/php-object-freezer/
  * @since      Interface available since Release 1.0.0
  */
-class Object_Freezer_HashGenerator_NonRecursiveSHA1 implements Object_Freezer_HashGenerator
+class Object_Freezer_HashGenerator_NonRecursiveSHA1
+    implements
+    Object_Freezer_HashGenerator
 {
     /**
      * @var Object_Freezer_IdGenerator

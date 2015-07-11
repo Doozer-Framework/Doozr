@@ -2,16 +2,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Parser Abstract
+ * Doozr - Di - Parser - Abstract
  *
- * Abstract.php - Abstract base class for all Parser of the Di-Framework
+ * Abstract.php - Abstract base class for all Parser of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -52,14 +52,14 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 
 /**
- * Doozr - Di - Parser Abstract
+ * Doozr - Di - Parser - Abstract
  *
- * Abstract base class for all Parser of the Di-Framework
+ * Abstract base class for all Parser of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -91,11 +91,12 @@ abstract class Doozr_Di_Parser_Abstract
      * @var array
      * @access protected
      */
-    protected $data = array();
+    protected $data = [];
 
-    /*******************************************************************************************************************
-     * PROTECTED API
-     ******************************************************************************************************************/
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PROTECTED API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Prepares input for later use (e.g. in parse())
@@ -157,7 +158,10 @@ abstract class Doozr_Di_Parser_Abstract
     {
         if (!is_file($file)) {
             throw new Doozr_Di_Exception(
-                'Error loading file! File "'.$file.'" is not a valid file.'
+                sprintf(
+                    'Error loading file! File "%s" is not a valid file.',
+                    $file
+                )
             );
         }
 
@@ -177,7 +181,7 @@ abstract class Doozr_Di_Parser_Abstract
     {
         return array(
             'class'      => null,
-            'identifier' => null,
+            'target'     => null,
             'instance'   => null,
             'type'       => null,
             'value'      => null,
@@ -201,9 +205,9 @@ abstract class Doozr_Di_Parser_Abstract
         return $GLOBALS;
     }
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Setter for input to parse from
@@ -254,7 +258,7 @@ abstract class Doozr_Di_Parser_Abstract
     public function reset()
     {
         $this->input = null;
-        $this->data  = array();
+        $this->data  = [];
         $this->lastResult = '';
 
         // fluent / chaining

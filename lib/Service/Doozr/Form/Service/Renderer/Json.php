@@ -8,7 +8,7 @@
  * Useful for example if you only need a skeleton for client side
  * Javascript e.g. AngularJS or some jQuery based projects.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -24,7 +24,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -97,18 +97,18 @@ class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstr
      */
     public function render(
         $force            = false,
-        $template         = array(),
+        $template         = [],
         $tag              = '',
-        array $variables  = array(),
-        array $childs     = array(),
-        array $attributes = array(),
+        array $variables  = [],
+        array $childs     = [],
+        array $attributes = [],
         $innerJson  = ''
     )
     {
         //
-        $json               = array();
+        $json               = [];
         $json['tag']        = $tag;
-        $json['childs']     = array();
+        $json['childs']     = [];
         $json['attributes'] = $attributes;
 
         //

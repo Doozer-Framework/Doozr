@@ -6,7 +6,7 @@
  *
  * Abstract.php - I18n Translation Abstract Interface
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -78,7 +78,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @access protected
      * @static
      */
-    protected static $translationTables = array();
+    protected static $translationTables = [];
 
     /**
      * Translations
@@ -87,7 +87,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @access protected
      * @static
      */
-    protected static $translations = array();
+    protected static $translations = [];
 
     /**
      * Cache service instance for caching
@@ -142,45 +142,39 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
     /**
      * Constructor.
      *
-     * @param array $config The config for this type of interface
+     * @param \stdClass $config The config for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_I18n_Service_Interface_Abstract Instance of this class
      * @access protected
      */
-    protected function __construct($config)
+    protected function __construct(\stdClass $config)
     {
         // Check if requirements fulfilled
         self::checkRequirements();
 
         // Store the path to translation files
         $this
-            ->path($config['path'])
-            ->cacheEnabled($this->getCacheEnabled() && $config['cache']['enabled'])
-            ->cacheLifetime($config['cache']['lifetime'])
-            ->encoding($config['encoding']);
+            ->path($config->path)
+            ->cacheEnabled($this->getCacheEnabled() && $config->cache->enabled)
+            ->cacheLifetime($config->cache->lifetime)
+            ->encoding($config->encoding);
 
         // If cache enabled - get module cache and setup
         if (!self::$cache && true === $this->getCacheEnabled()) {
 
-            if (isset($config['cache']['container']) === false) {
-                if ($container = getenv('DOOZR_CACHE_CONTAINER') === false) {
-                    if (defined('DOOZR_CACHE_CONTAINER') === false) {
-                        define('DOOZR_CACHE_CONTAINER', Doozr_Cache_Service::CONTAINER_FILESYSTEM);
-                    }
-
-                    $container = DOOZR_CACHE_CONTAINER;
-                }
+            if (true === isset($config->cache->container)) {
+                $container = $config->cache->container;
             } else {
-                $container = $config['cache']['container'];
+                $container = DOOZR_CACHE_CONTAINER;
             }
 
-            if (isset($config['cache']['namespace']) === false) {
+            if (false === isset($config->cache->namespace)) {
                 $namespace = 'doozr.cache.i18n';
             }
 
             // Get module cache
-            self::$cache = Doozr_Loader_Serviceloader::load('cache', $container, $namespace, array(), DOOZR_UNIX);
+            self::$cache = Doozr_Loader_Serviceloader::load('cache', $container, $namespace, [], DOOZR_UNIX);
         }
     }
 
@@ -269,7 +263,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @return void
      * @access protected
      */
-    protected function setTranslationTables(array $translationTables = array())
+    protected function setTranslationTables(array $translationTables = [])
     {
         self::$translationTables = $translationTables;
     }
@@ -283,7 +277,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translationTables(array $translationTables = array())
+    protected function translationTables(array $translationTables = [])
     {
         $this->setTranslationTables($translationTables);
         return $this;
@@ -341,7 +335,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @return void
      * @access protected
      */
-    protected function setTranslations(array $translations = array())
+    protected function setTranslations(array $translations = [])
     {
         self::$translations = $translations;
     }
@@ -355,7 +349,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function translations(array $translations = array())
+    protected function translations(array $translations = [])
     {
         $this->setTranslations($translations);
         return $this;

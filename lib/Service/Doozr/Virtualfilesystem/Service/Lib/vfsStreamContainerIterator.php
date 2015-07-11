@@ -16,7 +16,7 @@ class vfsStreamContainerIterator implements Iterator
      *
      * @var  array<vfsStreamContent>
      */
-    protected $children = array();
+    protected $children = [];
 
     /**
      * constructor
@@ -48,7 +48,7 @@ class vfsStreamContainerIterator implements Iterator
         if (false === $child) {
             return null;
         }
-        
+
         return $child;
     }
 
@@ -63,7 +63,7 @@ class vfsStreamContainerIterator implements Iterator
         if (false === $child) {
             return null;
         }
-        
+
         return $child->getName();
     }
 

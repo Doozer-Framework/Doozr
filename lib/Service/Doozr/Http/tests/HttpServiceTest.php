@@ -6,7 +6,7 @@
  *
  * HttpServiceTest.php - Tests for Service instance of Doozr Http Service.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -75,7 +75,6 @@ class HttpServiceTest extends Doozr_Base_Service_Test_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const PROTOCOL = 'http';
 
@@ -84,7 +83,6 @@ class HttpServiceTest extends Doozr_Base_Service_Test_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const HOST = 'google.de';
 
@@ -93,7 +91,6 @@ class HttpServiceTest extends Doozr_Base_Service_Test_Abstract
      *
      * @var int
      * @access public
-     * @const
      */
     const PORT = 80;
 
@@ -102,7 +99,6 @@ class HttpServiceTest extends Doozr_Base_Service_Test_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const USERNAME = 'John';
 
@@ -111,10 +107,8 @@ class HttpServiceTest extends Doozr_Base_Service_Test_Abstract
      *
      * @var int
      * @access public
-     * @const
      */
     const PASSWORD = 'Doe';
-
 
     /**
      * Prepares setup for Tests

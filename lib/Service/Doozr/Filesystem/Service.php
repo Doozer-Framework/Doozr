@@ -7,7 +7,7 @@
  * Service.php - Doozr Service for all filesystem operations with virtual-filesystem
  * support (e.g. for unit-testing).
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -23,7 +23,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -75,12 +75,14 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="getInstance",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
+class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * holds the status of "is-virtual" of this instance
@@ -130,7 +132,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      * @var array
      * @access protected
      */
-    protected $fileHandle = array();
+    protected $fileHandle = [];
 
     /**
      * holds data about resources
@@ -138,7 +140,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      * @var array
      * @access protected
      */
-    protected $resources = array();
+    protected $resources = [];
 
     /**
      * file runtimeEnvironment for reading
@@ -265,13 +267,13 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function __teardown()
     {
-        // close all (still) open file handles
+        // Close all (still) open file handles
         foreach ($this->fileHandle as $uid => $fileHandle) {
             // close
             fclose($fileHandle['handle']);
         }
 
-        // just to be sure leave current stats
+        // Just to be sure leave current stats
         clearstatcache();
     }
 
@@ -373,7 +375,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function pwrite($file, $data, $append = false, $create = true, $modeBoolean = true)
     {
-        // preproccessing
+        // Preprocessing
         $file = $this->_preProcess($file);
 
         // exception for the case that the file|folder isn't writable
@@ -419,7 +421,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function writeBinary($file, $data, $create = true, $append = false, $modeBoolean = true)
     {
-        // preproccessing
+        // Preprocessing
         $file = $this->_preProcess($file);
 
         // exception for the case that the file|folder isn't writable
@@ -463,7 +465,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function appendBinary($file, $data, $create = true, $writecheck = true)
     {
-        // preproccessing
+        // Preprocessing
         $file = $this->_preProcess($file);
 
         // if write checking is enabled
@@ -495,7 +497,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function append($file, $data, $create = true, $modeBoolean = true)
     {
-        // preproccessing
+        // Preprocessing
         $file = $this->_preProcess($file);
 
         if (!$create && !$this->_resource_exists($file)) {
@@ -548,7 +550,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
         $context = null,
         $offset = -1
     ) {
-        // preproccessing
+        // Preprocessing
         $file = $this->_preProcess($file);
 
         // exception for the case that the file to read does not exist
@@ -579,7 +581,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function pread($file, $length = null)
     {
-        // preproccessing
+        // Preprocessing
         $file = $this->_preProcess($file);
 
         // exception for the case that the file to read does not exist
@@ -634,7 +636,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function readArray($file = null)
     {
-        // preproccessing
+        // Preprocessing
         $file = $this->_preProcess($file);
 
         // exception for the case that the file to read does not exist
@@ -663,7 +665,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function exists($resource)
     {
-        // preproccessing
+        // Preprocessing
         $resource = $this->_preProcess($resource);
 
         // return result
@@ -686,7 +688,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function parse($file)
     {
-        // preproccessing
+        // Preprocessing
         $file = $this->_preProcess($file);
 
         // exception for the case that the file to read does not exist
@@ -717,7 +719,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function delete($resource, $recursive = false, $context = null)
     {
-        // preproccessing
+        // Preprocessing
         $resource = $this->_preProcess($resource);
 
         if ($this->_is_dir($resource)) {
@@ -776,7 +778,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function is_writable($resource)
     {
-        // preproccessing
+        // Preprocessing
         $resource = $this->_preProcess($resource);
 
         return $this->_is_writable($resource);
@@ -791,9 +793,9 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      * @return bool TRUE if the resource is readable, FALSE otherwise.
      * @access public
      */
-    public function is_readable($resource)
+    public function readable($resource)
     {
-        // preproccessing
+        // Preprocessing
         $resource = $this->_preProcess($resource);
 
         return $this->_is_readable($resource);
@@ -812,7 +814,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function is_file($resource)
     {
-        // preproccessing - clean the resource given (part of fs-protection)
+        // Preprocessing - clean the resource given (part of fs-protection)
         $resource = $this->_preProcess($resource);
 
         // return result
@@ -832,7 +834,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      */
     public function is_dir($resource)
     {
-        // preproccessing - clean the resource given (part of fs-protection)
+        // Preprocessing - clean the resource given (part of fs-protection)
         $resource = $this->_preProcess($resource);
 
         // return result
@@ -1445,7 +1447,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
     }
 
     /**
-     * is_readable - virtual-fs supporting wrapper
+     * readable - virtual-fs supporting wrapper
      *
      * This method is intend to work as is_readale - virtual-fs supporting wrapper
      *
@@ -1485,7 +1487,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The function returns the read data or FALSE on failure.
      * @access protected
-     * @see    http://de.php.net/manual/en/function.file-get-contents.php
+     * @link    http://de.php.net/manual/en/function.file-get-contents.php
      */
     protected function _file_get_contents(
         $file,
@@ -1514,7 +1516,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The function returns the number of bytes that were written to the file, or FALSE on failure
      * @access protected
-     * @see    http://de.php.net/manual/en/function.file-put-contents.php
+     * @link    http://de.php.net/manual/en/function.file-put-contents.php
      */
     protected function _file_put_contents($file, $data, $flags = 0, $context = null)
     {

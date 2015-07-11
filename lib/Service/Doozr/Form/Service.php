@@ -7,7 +7,7 @@
  * Service.php - Service for generating valid and 100% x-browser compatible
  * HTML-Forms.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -23,7 +23,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -75,12 +75,14 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="getInstance",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements Doozr_Base_Service_Interface
+class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * Name of token field.
@@ -377,7 +379,7 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
         $requestState = $this->getRegistry()->request;
 
         // Get required input to search in ...
-        $requestArguments = $requestState->getArguments();
+        $requestArguments = $requestState->getQueryParams();
         $requestBody      = $requestState->getRequestBody();
 
         if (isset($requestArguments->{$this->getFieldnameSubmitted()}) === true) {

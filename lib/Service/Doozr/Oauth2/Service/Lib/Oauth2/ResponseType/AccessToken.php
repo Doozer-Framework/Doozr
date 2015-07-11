@@ -14,7 +14,7 @@ class AccessToken implements AccessTokenInterface
     private $tokenStorage;
     private $refreshStorage;
 
-    public function __construct(AccessTokenStorageInterface $tokenStorage, RefreshTokenInterface $refreshStorage = null, array $config = array())
+    public function __construct(AccessTokenStorageInterface $tokenStorage, RefreshTokenInterface $refreshStorage = null, array $config = [])
     {
         $this->tokenStorage = $tokenStorage;
         $this->refreshStorage = $refreshStorage;
@@ -29,14 +29,14 @@ class AccessToken implements AccessTokenInterface
     public function getAuthorizeResponse($params, $user_id = null)
     {
         // build the URL to redirect to
-        $result = array('query' => array());
+        $result = array('query' => []);
 
         $params += array('scope' => null, 'state' => null);
 
         /*
          * a refresh token MUST NOT be included in the fragment
          *
-         * @see http://tools.ietf.org/html/rfc6749#section-4.2.2
+         * @link http://tools.ietf.org/html/rfc6749#section-4.2.2
          */
         $includeRefreshToken = false;
         $result["fragment"] = $this->createAccessToken($params['client_id'], $user_id, $params['scope'], $includeRefreshToken);
@@ -60,7 +60,7 @@ class AccessToken implements AccessTokenInterface
      * @param bool $includeRefreshToken
      * If true, a new refresh_token will be added to the response
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-5
+     * @link http://tools.ietf.org/html/rfc6749#section-5
      * @ingroup oauth2_section_5
      */
     public function createAccessToken($client_id, $user_id, $scope = null, $includeRefreshToken = true)

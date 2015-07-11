@@ -6,7 +6,7 @@
  *
  * Keygen.php - The Kegen component.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -94,7 +94,6 @@ class Doozr_Form_Service_Component_Keygen extends Doozr_Form_Service_Component_I
      * Keytype RSA
      *
      * @access public
-     * @const
      */
     const KEYTYPE_RSA = 'rsa';
 
@@ -102,7 +101,6 @@ class Doozr_Form_Service_Component_Keygen extends Doozr_Form_Service_Component_I
      * Keytype DSA
      *
      * @access public
-     * @const
      */
     const KEYTYPE_DSA = 'dsa';
 
@@ -110,7 +108,6 @@ class Doozr_Form_Service_Component_Keygen extends Doozr_Form_Service_Component_I
      * Keytype EC
      *
      * @access public
-     * @const
      */
     const KEYTYPE_EC = 'ec';
 

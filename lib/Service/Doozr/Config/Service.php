@@ -6,7 +6,7 @@
  *
  * Service.php - Config Service
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -74,14 +74,15 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class Doozr_Config_Service extends Doozr_Base_Service_Multiple implements
+class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
+    implements
     Doozr_Base_Service_Interface,
-    Doozr_Config_Interface
+    Doozr_Configuration_Interface
 {
     /**
      * contains an instance of the class/object decorated
@@ -110,9 +111,9 @@ class Doozr_Config_Service extends Doozr_Base_Service_Multiple implements
     private $path;
 
     /**
-     * Contains instance of Doozr_Logger
+     * Contains instance of Doozr_Logging
      *
-     * @var Doozr_Logger_Interface
+     * @var Doozr_Logging_Interface
      * @access private
      */
     private $logger;
@@ -289,7 +290,7 @@ class Doozr_Config_Service extends Doozr_Base_Service_Multiple implements
      * @param string $property The property to check if set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if set, otherwise FALSE
+     * @return bool TRUE if set, otherwise FALSE
      * @access public
      */
     public function __isset($property)
@@ -353,7 +354,7 @@ class Doozr_Config_Service extends Doozr_Base_Service_Multiple implements
      * @param string $value The data to write
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @return bool TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
     public function update($node, $value)
@@ -398,7 +399,7 @@ class Doozr_Config_Service extends Doozr_Base_Service_Multiple implements
      * @param string $data The data to write to config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was created successful, otherwise FALSE
+     * @return bool TRUE if entry was created successful, otherwise FALSE
      * @access public
      */
     public function create($node, $data)
@@ -426,7 +427,7 @@ class Doozr_Config_Service extends Doozr_Base_Service_Multiple implements
      * @param string $node The node to delete
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if entry was deleted successful, otherwise FALSE
+     * @return bool TRUE if entry was deleted successful, otherwise FALSE
      * @access public
      */
     public function delete($node)

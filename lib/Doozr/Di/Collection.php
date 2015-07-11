@@ -4,14 +4,14 @@
 /**
  * Doozr - Di - Collection
  *
- * Collection.php - Collection class of the Di-Framework
+ * Collection.php - Collection class of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Collection
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -57,9 +57,9 @@ require_once 'Exception.php';
 /**
  * Doozr - Di - Collection
  *
- * Collection class of the Di-Framework
+ * Collection class of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -67,91 +67,91 @@ require_once 'Exception.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class Doozr_Di_Collection implements ArrayAccess, Iterator
+class Doozr_Di_Collection
+    implements
+    ArrayAccess,
+    Iterator
 {
     /**
      * The position of Iterator
      *
      * @var int
-     * @access private
+     * @access protected
      */
-    private $_position = 0;
+    protected $position = 0;
 
     /**
      * The numerical index to translate
      * position of Iterator to array index
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_numericalIndex;
+    protected $numericalIndex;
 
     /**
      * The collection of arguments to pass to final class
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_arguments = array();
+    protected $arguments = [];
 
     /**
      * Contains the constructor method if not default
      * (eg. for singleton classes)
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_constructor = array();
+    protected $constructor = [];
 
     /**
      * Indexed dependencies with target as key
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_indexByTarget = array();
+    protected $indexByTarget = [];
 
     /**
      * Indexed dependencies with dependency as key
      *
      * @var array
-     * @access private
+     * @access protected
      */
-    private $_indexByDependency = array();
+    protected $indexByDependency = [];
 
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Adds a dependency to collection
      *
-     * This method is intend to add a dependency to the collection of
-     * dependencies.
-     *
-     * @param string        $classname  The name of the class which depends on the $dependency
+     * @param string              $classname  The name of the class which depends on the $dependency
      * @param Doozr_Di_Dependency $dependency The dependency setup as Doozr_Di_Dependency object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function addDependency($classname, Doozr_Di_Dependency $dependency)
     {
         // init (lazy stuff)
-        $this->_initIndexByTarget($classname);
-        $this->_initIndexByDependency($dependency->getClassname());
+        $this->initIndexByTarget($classname);
+        $this->initIndexByDependency($dependency->getClassname());
 
         // store dependency object in indices
-        $this->_indexByTarget[$classname][] = $dependency;
+        $this->indexByTarget[$classname][] = $dependency;
 
         // a ref to real object
-        $this->_indexByDependency[$dependency->getClassname()][]
-            = &$this->_indexByTarget[$classname][(count($this->_indexByTarget[$classname])-1)];
+        $this->indexByDependency[$dependency->getClassname()][]
+            = &$this->indexByTarget[$classname][(count($this->indexByTarget[$classname])-1)];
 
         // update the numerical index for iterator access
-        $this->_numericalIndex = array_keys($this->_indexByTarget);
+        $this->numericalIndex = array_keys($this->indexByTarget);
 
         // successs
         return true;
@@ -167,7 +167,7 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      * @param array  $dependencies The dependency setup as Doozr_Di_Dependency object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Di_Exception
      */
@@ -180,8 +180,11 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
 
             if (!$result) {
                 throw new Doozr_Di_Exception(
-                    'Dependencies could not be added! The dependency with identifier: "'.
-                    $dependency->getIdentifier().'" produced an error. No Dependencies added.'
+                    sprintf(
+                        'Dependencies could not be added! The dependency with target: "%s" produced an error. ' .
+                        'No Dependencies added.',
+                        $dependency->getTarget()
+                    )
                 );
             }
         }
@@ -203,7 +206,7 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function addArguments($classname, array $arguments)
     {
-        $this->_arguments[$classname] = $arguments;
+        $this->arguments[$classname] = $arguments;
     }
 
     /**
@@ -219,8 +222,8 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function getArguments($classname)
     {
-        return (isset($this->_arguments[$classname])) ?
-            $this->_arguments[$classname] :
+        return (isset($this->arguments[$classname])) ?
+            $this->arguments[$classname] :
             null;
     }
 
@@ -239,7 +242,7 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function setConstructor($classname, $constructor)
     {
-        $this->_constructor[$classname] = $constructor;
+        $this->constructor[$classname] = $constructor;
     }
 
     /**
@@ -256,8 +259,8 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function getConstructor($classname)
     {
-        return (isset($this->_constructor[$classname])) ?
-            $this->_constructor[$classname] :
+        return (isset($this->constructor[$classname])) ?
+            $this->constructor[$classname] :
             null;
     }
 
@@ -275,14 +278,14 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
     public function getSetup($classname)
     {
         return array(
-            'arguments'    => (isset($this->_arguments[$classname])) ?
-                $this->_arguments[$classname] :
+            'arguments'    => (isset($this->arguments[$classname])) ?
+                $this->arguments[$classname] :
                 null,
-            'constructor'  => (isset($this->_constructor[$classname])) ?
-                $this->_constructor[$classname] :
+            'constructor'  => (isset($this->constructor[$classname])) ?
+                $this->constructor[$classname] :
                 null,
-            'dependencies' => (isset($this->_indexByTarget[$classname])) ?
-                $this->_indexByTarget[$classname] :
+            'dependencies' => (isset($this->indexByTarget[$classname])) ?
+                $this->indexByTarget[$classname] :
                 null
         );
     }
@@ -300,14 +303,14 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function getDependencies($classname)
     {
-        return (isset($this->_indexByTarget[$classname])) ?
-            $this->_indexByTarget[$classname] :
+        return (isset($this->indexByTarget[$classname])) ?
+            $this->indexByTarget[$classname] :
             null;
     }
 
-    /*******************************************************************************************************************
-     * ITERATOR
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | ITERATOR
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Implements rewind
@@ -316,7 +319,7 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function rewind()
     {
-        $this->_position = 0;
+        $this->position = 0;
     }
 
     /**
@@ -326,7 +329,7 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function current()
     {
-        return $this->_indexByTarget[$this->_numericalIndex[$this->_position]];
+        return $this->indexByTarget[$this->numericalIndex[$this->position]];
     }
 
     /**
@@ -336,7 +339,7 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function key()
     {
-        return $this->_numericalIndex[$this->_position];
+        return $this->numericalIndex[$this->position];
     }
 
     /**
@@ -346,33 +349,33 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function next()
     {
-        ++$this->_position;
+        ++$this->position;
     }
 
     /**
      * Implements valid
      *
-     * @return boolean TRUE if current element exists, otherwise FALSE
+     * @return bool TRUE if current element exists, otherwise FALSE
      */
     public function valid()
     {
-        return isset($this->_numericalIndex[$this->_position]);
+        return isset($this->numericalIndex[$this->position]);
     }
 
-    /*******************************************************************************************************************
-     * ARRAY ACCESS
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | ARRAY ACCESS
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Implements offsetExists
      *
      * @param string $offset The offset to check
      *
-     * @return boolean TRUE if offset is set, otherwise FALSE
+     * @return bool TRUE if offset is set, otherwise FALSE
      */
     public function offsetExists($offset)
     {
-        return isset($this->_indexByTarget[$offset]);
+        return isset($this->indexByTarget[$offset]);
     }
 
     /**
@@ -384,7 +387,7 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function offsetGet($offset)
     {
-        return $this->_indexByTarget[$offset];
+        return $this->indexByTarget[$offset];
     }
 
     /**
@@ -397,7 +400,7 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function offsetSet($offset, $value)
     {
-        $this->_indexByTarget[$offset] = $value;
+        $this->indexByTarget[$offset] = $value;
     }
 
     /**
@@ -409,12 +412,8 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      */
     public function offsetUnset($offset)
     {
-        unset($this->_indexByTarget[$offset]);
+        unset($this->indexByTarget[$offset]);
     }
-
-    /*******************************************************************************************************************
-     * PRIVATE
-     ******************************************************************************************************************/
 
     /**
      * Inits the index - Index by Target
@@ -425,13 +424,13 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _initIndexByTarget($target)
+    protected function initIndexByTarget($target)
     {
         // create an entry array if not already created (lazy init)
-        if (!isset($this->_indexByTarget[$target])) {
-            $this->_indexByTarget[$target] = array();
+        if (!isset($this->indexByTarget[$target])) {
+            $this->indexByTarget[$target] = [];
         }
     }
 
@@ -444,13 +443,13 @@ class Doozr_Di_Collection implements ArrayAccess, Iterator
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _initIndexByDependency($dependency)
+    protected function initIndexByDependency($dependency)
     {
         // create an entry array if not already created (lazy init)
-        if (!isset($this->_indexByDependency[$dependency])) {
-            $this->_indexByDependency[$dependency] = array();
+        if (!isset($this->indexByDependency[$dependency])) {
+            $this->indexByDependency[$dependency] = [];
         }
     }
 }

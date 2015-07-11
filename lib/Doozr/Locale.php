@@ -6,7 +6,7 @@
  *
  * Locale.php - Locale bootstrap of the Doozr Framework
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -73,7 +73,7 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
     /**
      * Instance of config
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected $config;
@@ -81,7 +81,7 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
     /**
      * Instance of logger
      *
-     * @var Doozr_Logger
+     * @var Doozr_Logging
      * @access protected
      */
     protected $logger;
@@ -90,20 +90,20 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param Doozr_Config $config The config instance
-     * @param Doozr_Logger $logger The logger instance
+     * @param Doozr_Configuration $config The config instance
+     * @param Doozr_Logging $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Locale
      * @access protected
      */
-    protected function __construct(Doozr_Config $config, Doozr_Logger $logger)
+    protected function __construct(Doozr_Configuration $config, Doozr_Logging $logger)
     {
         $this->config = $config;
         $this->logger = $logger;
 
         // retrieve timezone from config
-        $timezone = $this->config->locale->timezone;
+        $timezone = $this->config->kernel->localization->timezone;
 
         // setup
         $this->setTimezone($timezone);
@@ -118,7 +118,7 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
      * @param string $timezone The timezone to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if timezone could be set, otherwise FALSE
+     * @return bool TRUE if timezone could be set, otherwise FALSE
      * @access protected
      */
     protected function setTimezone($timezone = 'Europe/Berlin')
@@ -137,11 +137,13 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
      */
     public function getActiveSetup()
     {
+        $localizationSetup = $this->config->kernel->localization;
+
         return array(
-            'charset'  => $this->config->locale->charset,
-            'encoding' => $this->config->locale->encoding,
-            'language' => $this->config->locale->language,
-            'locale'   => $this->config->locale->locale,
+            'charset'  => $localizationSetup->charset,
+            'encoding' => $localizationSetup->encoding,
+            'language' => $localizationSetup->language,
+            'locale'   => $localizationSetup->locale,
         );
     }
 }

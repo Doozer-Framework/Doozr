@@ -7,7 +7,7 @@
  * Security.php - Access to private/public keys for security operations of
  * the Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -23,7 +23,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -72,15 +72,15 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 class Doozr_Security extends Doozr_Base_Class_Singleton
 {
     /**
-     * Instance of Doozr_Config
+     * Instance of Doozr_Configuration
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected static $config;
 
     /**
-     * Contains an instance of Doozr_Logger
+     * Contains an instance of Doozr_Logging
      *
      * @var object
      * @access protected
@@ -91,17 +91,41 @@ class Doozr_Security extends Doozr_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param Doozr_Config $config Instance of Doozr_Config
-     * @param Doozr_Logger $logger Instance of Doozr_Logger
+     * @param Doozr_Configuration $config Instance of Doozr_Configuration
+     * @param Doozr_Logging $logger Instance of Doozr_Logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Security
      * @access protected
      */
-    protected function __construct(Doozr_Config $config, Doozr_Logger $logger)
+    protected function __construct(Doozr_Configuration $config, Doozr_Logging $logger)
     {
         self::$config = $config;
         self::$logger = $logger;
+
+        /*
+        $data = array(
+            'POST' => array(
+                'test' => 'foo',
+                'bar' => array(
+                    'baz' => 'quux',
+                    'testing' => '<script>test</script>'
+                )
+            )
+        );
+
+        $filters = new \Expose\FilterCollection();
+        $filters->load();
+        $manager = new \Expose\Manager($filters, $logger);
+        $manager->run($data);
+        echo 'impact: '.$manager->getImpact()."\n"; // should return 8
+        // get all matching filter reports
+        $reports = $manager->getReports();
+        print_r($reports);
+        // export out the report in the given format ("text" is default)
+        echo $manager->export();
+        echo "\n\n";
+        */
     }
 
     /**
@@ -127,7 +151,7 @@ class Doozr_Security extends Doozr_Base_Class_Singleton
         $bytes = round($bit / 8);
 
         // get whole key
-        $key = self::$config->crypt->keys->private;
+        $key = self::$config->kernel->security->encryption->keys->private;
 
         // return extracted key
         return substr($key, (strlen($key) - $bytes), $bytes);

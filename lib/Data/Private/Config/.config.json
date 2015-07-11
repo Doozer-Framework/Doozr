@@ -1,0 +1,157 @@
+{
+  "kernel": {
+    "caching": {
+      "enabled": true,
+      "container": "filesystem",
+      "memcache": {},
+      "filesystem": {
+        "directory": "{{DOOZR_SYSTEM_TEMP}}"
+      },
+      "lifetime": 3600
+    },
+    "debugging": {
+      "enabled": true
+    },
+    "localization": {
+      "charset": "unicode",
+      "encoding": "UTF-8",
+      "language": "en",
+      "country": "us",
+      "locale": "en-us",
+      "mimetype": "text/html",
+      "timezone": "UTC"
+    },
+    "logging": {
+      "enabled": true,
+      "level": 0,
+      "unclassified": true,
+      "logger": {
+        "system": {
+          "name": "system",
+          "level": 0
+        },
+        "debugbar": {
+          "name": "debugbar",
+          "level": 0
+        }
+      }
+    },
+    "model": {
+      "enabled": true,
+      "errormessage": "Error while accessing database. Please contact your technical support.",
+      "proxy": "Couchdb",
+      "oxm": "Couchdb",
+      "bootstrap": "Bootstrap.php",
+      "route": "Route.php",
+      "docroot": "{{DOOZR_DOCUMENT_ROOT}}Model/Lib/Couchdb/lib/",
+      "connection": {
+        "read": {
+          "name": "Doozr",
+          "description": "",
+          "type": "nosql",
+          "host": "localhost",
+          "port": "5984",
+          "database": "Doozr",
+          "user": "",
+          "password": ""
+        }
+      }
+    },
+    "path": {
+      "root": "{{DOOZR_DOCUMENT_ROOT}}",
+      "app": "{{DOOZR_APP_ROOT}}",
+      "upload": "{{DOOZR_APP_ROOT}}Data/Private/Upload/"
+    },
+    "presenter": {},
+    "security": {
+      "encryption": {
+        "keys": {
+          "private": "{{DOOZR_PRIVATE_KEY}}",
+          "public": "{{DOOZR_PUBLIC_KEY}}"
+        }
+      }
+    },
+    "services": {
+      "web": [
+        "session"
+      ],
+      "cli": [
+        "crypt",
+        "filesystem"
+      ],
+      "httpd": [
+        "filesystem"
+      ]
+    },
+    "system": {
+      "php": {
+        "max_execution_time": 0,
+        "memory_limit": "128M"
+      },
+      "gc": {
+        "lifetime": 1800
+      }
+    },
+    "transmission": {
+      "routing": {
+        "routes": "{{include(.routes.json)}}"
+      },
+      "ssl": {
+        "enabled": false,
+        "force": false
+      },
+      "response": {
+        "header": {},
+        "gzip": {
+          "enabled": true
+        }
+      },
+      "request": {
+        "redirect": {
+          "exclude": "Doozr,abc,123",
+          "defaults": [
+            "Index",
+            "Index"
+          ],
+          "pattern": {
+            "pattern": "/[^\\/]{{EXCLUDE}}[a-zA-Z0-9_\\-]+/i",
+            "translation": "presenter/action"
+          }
+        },
+        "filter": [
+          {
+            "search": "/(\\/app_dev.php)/u",
+            "replace": ""
+          },
+          {
+            "search": "/(\\/$)/u",
+            "replace": ""
+          },
+          {
+            "search": "/^$/u",
+            "replace": "/"
+          }
+        ]
+      }
+    },
+    "view": {
+      "settings": {
+        "outputmode": 55
+      },
+      "directories": {
+        "templates": "{{DOOZR_APP_ROOT}}Data/Private/Template/",
+        "compiled": "{{DOOZR_SYSTEM_TEMP}}",
+        "config": "{{DOOZR_APP_ROOT}}Data/Private/Config/",
+        "cache": "{{DOOZR_SYSTEM_TEMP}}",
+        "plugins": "{{DOOZR_APP_ROOT}}Data/Private/Plugin/Phptal/"
+      },
+      "template": {
+        "path": "{{DOOZR_APP_ROOT}}Data/Private/Template/",
+        "engine": {
+          "name": "PHPTAL",
+          "library": "phptal"
+        }
+      }
+    }
+  }
+}

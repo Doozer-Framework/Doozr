@@ -6,7 +6,7 @@
  *
  * Detector.php - Locale detection part of the I18n service.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -109,7 +109,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     /**
      * Instance of session service
      *
-     * @var object
+     * @var Doozr_Session_Service
      * @access protected
      * @static
      */
@@ -206,11 +206,12 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected static $registry;
 
     /**
-     * Runtime environment (CLI || WEB || HTTPD)
-     * To know if cookie and session is accessible
+     * Runtime environment (Cli || Web || Httpd)
+     * To know if cookie and session is accessible.
      *
      * @var string
      * @access protected
+     * @static
      */
     protected static $runtimeEnvironment;
 
@@ -218,18 +219,18 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     /**
      * This method is intend to act as constructor.
      *
-     * @param Doozr_Config_Interface   $config   Instance of Doozr_Config_Ini containing the I18n-config
+     * @param Doozr_Configuration_Interface   $config   Instance of Doozr_Config_Ini containing the I18n-config
      * @param Doozr_Registry_Interface $registry Instance of Doozr_Registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_I18n_Service_Detector Instance of this class
      * @access protected
      */
-    protected function __construct(Doozr_Config_Interface $config, Doozr_Registry_Interface $registry)
+    protected function __construct(Doozr_Configuration_Interface $config, Doozr_Registry_Interface $registry)
     {
         // Store registry
         self::$registry           = $registry;
-        self::$runtimeEnvironment = self::$registry->getRequest()->getRuntimeEnvironment();
+        self::$runtimeEnvironment = DOOZR_RUNTIME_ENVIRONMENT;
 
         // locale defaults
         self::$defaults = array(
@@ -402,7 +403,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param string $code de, de-AT, en-us ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access public
      */
     public function isValidLocaleCode($code = '')
@@ -462,7 +463,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param bool $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if detection was successful
+     * @return bool TRUE if detection was successful
      * @access protected
      */
     protected function init($lookupAlternative)
@@ -536,7 +537,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param array $preferences The preferences to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if storing was successful, otherwise FALSE
+     * @return bool TRUE if storing was successful, otherwise FALSE
      * @access private
      */
     private function writePreferences(array $preferences)
@@ -544,11 +545,10 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         // assume result true
         $result = true;
 
-        if (self::$runtimeEnvironment !== Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI !== self::$runtimeEnvironment) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$stores as $store) {
-
                 // construct method-name for current store
                 $method = 'write'.ucfirst($store);
 
@@ -574,7 +574,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         $detectedPreferences = false;
 
         // prevent access to HEADER and IP in CLI does not make sense
-        if (self::$runtimeEnvironment !== Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI !== self::$runtimeEnvironment) {
 
             // try to detect locale by user-agents header
             $detectedPreferences = $this->detectByRequestHeader();
@@ -602,7 +602,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         // assume empty user-preferences
         $storedPreferences = null;
 
-        if (self::$runtimeEnvironment !== Doozr_Request_State::RUNTIME_ENVIRONMENT_CLI) {
+        if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI !== self::$runtimeEnvironment) {
 
             // iterate over stores and try to reconstruct the previously stored preferences
             foreach (self::$stores as $store) {
@@ -713,7 +713,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * This method is intend to detect available locale(s) by requesting hostname/client-ip|domain.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function detectByUserIp()
@@ -758,7 +758,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected function sortByWeight(array $locales)
     {
         // new index
-        $index = array();
+        $index = [];
 
         // for those who are interested in (int) or intval() whats faster:
         // http://www.entwicklerblog.net/php/php-variable-in-integer-verwandeln-intfoo-oder-intvalfoo/
@@ -773,7 +773,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         krsort($index);
 
         // rebuild
-        $locales = array();
+        $locales = [];
 
         foreach ($index as $weight => $locale) {
             $locales[] = array(
@@ -849,7 +849,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param array $preferences The preferences to store in session
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function writeSession(array $preferences)
@@ -891,7 +891,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * @param array $preferences The preferences to store in session
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function writeCookie(array $preferences)
@@ -915,7 +915,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      * This method is intend to read a cookie with a previous stored locale-config (state).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function readCookie()

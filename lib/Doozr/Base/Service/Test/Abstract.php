@@ -6,7 +6,7 @@
  *
  * ServiceTest.php - This is the Test-Controller of a Service Test
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -117,7 +117,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         // Init the Doozr core to execute
-        self::$core = Doozr_Kernel::run();
+        self::$core = Doozr_Kernel::boot();
 
         // Store classname
         self::$serviceClassName = 'Doozr_' . self::$serviceName . '_Service';
@@ -126,7 +126,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
         self::$registry = Doozr_Registry::getInstance();
 
         // Load service
-        self::$service = Doozr_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfig());
+        self::$service = Doozr_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfiguration());
     }
 
     /**
@@ -136,7 +136,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
      * @return void
      * @access public
      */
-    public function testServiceIsLoadable()
+    public function testEnsureServiceIsLoadable()
     {
         $this->assertInstanceOf(self::$serviceClassName, self::$service);
     }

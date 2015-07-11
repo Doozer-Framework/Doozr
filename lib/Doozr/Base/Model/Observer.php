@@ -6,7 +6,7 @@
  *
  * Observer.php - Base observer-template for "Models" build (MVP pattern)
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Observer/Interface.php';
 
 /**
  * Doozr Base Model Observer
@@ -68,8 +69,19 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Model_Observer extends Doozr_Base_State_Container implements SplObserver
+class Doozr_Base_Model_Observer extends Doozr_Base_State_Container
+    implements
+    Doozr_Base_Observer_Interface
 {
+    /**
+     * Identifier of the observer.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $identifier = self::IDENTIFIER_MODEL;
+
+
     /**
      * Update (for notifications from subject)
      *
@@ -87,5 +99,46 @@ class Doozr_Base_Model_Observer extends Doozr_Base_State_Container implements Sp
         if ($this->hasMethod('__update') && is_callable(array($this, '__update'))) {
             $this->__update($subject);
         }
+    }
+
+    /**
+     * Setter for identifier.
+     *
+     * @param string $identifier Identifier to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * Setter for identifier.
+     *
+     * @param string $identifier Identifier to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function identifier($identifier)
+    {
+        $this->setIdentifier($identifier);
+        return $this;
+    }
+
+    /**
+     * Getter for identifier.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
     }
 }

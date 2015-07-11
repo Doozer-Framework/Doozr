@@ -14,10 +14,10 @@ abstract class Doozr_Config_Service_Container_Base
 
     /**
      * @param Doozr_Path_Interface $path
-     * @param Doozr_Logger_Interface $logger
+     * @param Doozr_Logging_Interface $logger
      * @param $cache
      */
-    public function __construct(Doozr_Path_Interface $path, Doozr_Logger_Interface $logger, $cache)
+    public function __construct(Doozr_Path_Interface $path, Doozr_Logging_Interface $logger, $cache)
     {
         $this->path   = $path;
         $this->logger = $logger;

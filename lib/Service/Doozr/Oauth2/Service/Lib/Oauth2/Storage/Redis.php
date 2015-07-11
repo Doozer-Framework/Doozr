@@ -28,7 +28,7 @@ class Redis implements AuthorizationCodeInterface,
      * @param \Predis\Client $redis
      * @param array $config
      */
-    public function __construct($redis, $config=array())
+    public function __construct($redis, $config=[])
     {
         $this->redis = $redis;
         $this->config = array_merge(array(

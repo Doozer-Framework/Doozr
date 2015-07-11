@@ -8,7 +8,7 @@
  * This module is build upon the deep core integration of
  * Doozr_Base_Template_Engine.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -24,7 +24,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -77,12 +77,14 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Doozr_Base_Service_Interface
+class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * The resource to process
@@ -186,73 +188,147 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
             $path    = $config['path'];
             $library = $config['library'];
         } else {
-            $path    = $registry->config->base->template->path;
-            $library = $registry->config->base->template->engine->library;
+            $path    = $registry->getConfiguration()->kernel->view->template->path;
+            $library = $registry->getConfiguration()->kernel->view->template->engine->library;
         }
 
+        // Store registry instance
         self::setRegistry($registry);
-        $this->setResource($resource);
-        $this->setPath($path);
-        $this->setLibrary($library);
 
-        // Start the engine ...
-        $this->initEngine($this->library, $this->path);
+        // Init
+        $this
+            ->resource($resource)
+            ->path($path)
+            ->library($library)
+            ->initEngine($library, $path);
     }
 
-
+    /**
+     * Setter for path.
+     *
+     * @param string $path The path to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setPath($path)
     {
         $this->path = $path;
     }
 
+    /**
+     * Setter for path.
+     *
+     * @param string $path The path to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function path($path)
     {
         $this->setPath($path);
         return $this;
     }
 
+    /**
+     * Getter for path.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The path if set, otherwise NULL
+     * @access protected
+     */
     protected function getPath()
     {
         return $this->path;
     }
 
+    /**
+     * Setter for library.
+     *
+     * @param string $library The library to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setLibrary($library)
     {
         $this->library = $library;
     }
 
+    /**
+     * Setter for library.
+     *
+     * @param string $library The library to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function library($library)
     {
         $this->setLibrary($library);
         return $this;
     }
 
+    /**
+     * Getter for library.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The library if set, otherwise NULL
+     * @access protected
+     */
     protected function getLibrary()
     {
         return $this->library;
     }
 
+    /**
+     * Setter for resource.
+     *
+     * @param string $resource The resource to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setResource($resource)
     {
         $this->resource = $resource;
     }
 
+    /**
+     * Setter for resource.
+     *
+     * @param string $resource The resource to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function resource($resource)
     {
         $this->setResource($resource);
         return $this;
     }
 
+
+    /**
+     * Getter for resource.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|string The resource if set, otherwise NULL
+     * @access protected
+     */
     protected function getResource()
     {
         return $this->resource;
     }
 
-
-
     /**
-     * Initializes the engine (e.g. phptal) and store the instance
-     * as decorated object.
+     * Initializes the engine (e.g. PHPTAL) and store the instance as decorated object.
      *
      * @param string $engine The name/identifier of the engine we use (phptal)
      *
@@ -265,8 +341,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
     {
         switch ($engine) {
         case 'phptal':
-            //
-            #include_once $this->getPathToClass().'Service/Lib/PHPTAL/PHPTAL.php';
+            // We do not need to include PHPTAL cause Composer's job ;)
             $this->setDecoratedObject(new PHPTAL($this->resource));
             break;
         default:
@@ -289,7 +364,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
      * @param mixed $value    The variable-value to assign
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return bool TRUE if successful, otherwise FALSE
      * @access public
      * @throws Doozr_Exception
      */
@@ -312,7 +387,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
      * @param array $variables The variables to assign as array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return bool TRUE if successful, otherwise FALSE
      * @access public
      */
     public function assignVariables(array $variables)
@@ -349,7 +424,6 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
      * The type for singleton services.
      *
      * @var string
-     * @const
      */
     const TYPE_SINGLETON = 'singleton';
 
@@ -357,7 +431,6 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
      * The type for multi instance services.
      *
      * @var string
-     * @const
      */
     const TYPE_MULTIPLE = 'multiple';
 
@@ -365,7 +438,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
      * Returns true if service is singleton.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if service is singleton, otherwise FALSE.
+     * @return bool TRUE if service is singleton, otherwise FALSE.
      * @access public
      */
     public function isSingleton()
@@ -377,7 +450,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
      * Returns true if service is a multi instance service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if service is multi instance, otherwise FALSE.
+     * @return bool TRUE if service is multi instance, otherwise FALSE.
      * @access public
      */
     public function isMultiple()

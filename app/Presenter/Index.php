@@ -7,7 +7,7 @@
  * Index.php - Base-Class for all classes of the Doozr Framework except
  * the classes following the singleton pattern.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -42,20 +42,6 @@ use Doozr\Route\Annotation\Route;
  * which will result in a rendering of the data if a view with rendering capabilities
  * was attached. If not (now view for example) it just will end up in a HTTP response
  * 200. Everything handled fine.
- *
- * @Route(
- *     route="/index/index",
- *     method="GET",
- *     presenter="index",
- *     action="index"
- * )
- *
- * @Route(
- *     route="/",
- *     method="GET",
- *     presenter="index",
- *     action="index"
- * )
  */
 final class Presenter_Index extends Doozr_Base_Presenter
 {
@@ -66,8 +52,22 @@ final class Presenter_Index extends Doozr_Base_Presenter
      * and call its indexAction). In our demonstration we use this mechanism to route
      * the request simple with minimal configuration overhead.
      *
+     * @Route(
+     *     route="/index/index",
+     *     methods="GET",
+     *     presenter="index",
+     *     action="index"
+     * )
+     *
+     * @Route(
+     *     route="/",
+     *     methods="GET",
+     *     presenter="index",
+     *     action="index"
+     * )
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function indexAction()
@@ -76,6 +76,6 @@ final class Presenter_Index extends Doozr_Base_Presenter
         $buffer = $this->getModel()->getData();
 
         // Set data to trigger events in view (and maybe also model [two way data binding])
-        $this->setData($buffer);
+        return $this->setData($buffer);
     }
 }

@@ -2,16 +2,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Map Fluent
+ * Doozr - Di - Map - Annotation
  *
- * Fluent.php - Fluent map class of the Di-Framework
+ * Fluent.php - Fluent map class of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Map_Fluent
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -52,18 +52,18 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Map.php';
-require_once DI_PATH_LIB_DI . 'Factory.php';
-require_once DI_PATH_LIB_DI . 'Container.php';
-require_once DI_PATH_LIB_DI . 'Dependency.php';
-require_once DI_PATH_LIB_DI . 'Collection.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Container.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
- * Doozr - Di - Map Fluent
+ * Doozr - Di - Map - Annotation
  *
- * Fluent map class of the Di-Framework
+ * Fluent map class of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Map_Fluent
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -77,38 +77,34 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * The current active classname to add dependencies for
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_classname;
+    protected $_classname;
 
     /**
      * The last active classname
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_lastClassname;
+    protected $_lastClassname;
 
     /**
      * The base dependency object
      *
      * @var Doozr_Di_Dependency
-     * @access private
+     * @access protected
      */
-    private $_dependency;
+    protected $_dependency;
 
     /**
      * The current active dependency
      *
      * @var Doozr_Di_Dependency
-     * @access private
+     * @access protected
      */
-    private $_current;
+    protected $_current;
 
-
-    /*******************************************************************************************************************
-     * PHP CONSTRUCT
-     ******************************************************************************************************************/
 
     /**
      * Constructor
@@ -119,7 +115,6 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * @param Doozr_Di_Dependency $dependency An instance of Doozr_Di_Dependency used as base object for cloning new dependencies
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
      * @access public
      */
     public function __construct(Doozr_Di_Collection $collection, Doozr_Di_Dependency $dependency)
@@ -129,9 +124,9 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
         $this->_dependency = $dependency;
     }
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Empty container method to keep the interface consistent with other Doozr_Di_Map_* classes
@@ -213,39 +208,39 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Setter for the identifier of the dependency class
+     * Setter for the target of the dependency class
      *
-     * This method is intend to set the identifier of the dependency class.
+     * This method is intend to set the target of the dependency class.
      *
-     * @param string $identifier The identifier of the dependency class
+     * @param string $target The target of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
-    public function identifier($identifier)
+    public function target($target)
     {
         /* @var $this->_current Doozr_Di_Dependency */
-        $this->_current->setIdentifier($identifier);
+        $this->_current->setTarget($target);
 
         // fluent interface
         return $this;
     }
 
     /**
-     * Setter for the identifier of the dependency class
+     * Setter for the target of the dependency class
      *
-     * This method is intend to set the identifier of the dependency class.
+     * This method is intend to set the target of the dependency class.
      *
-     * @param string $identifier The identifier of the dependency class
+     * @param string $target The target of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
-    public function id($identifier)
+    public function id($target)
     {
-        return $this->identifier($identifier);
+        return $this->target($target);
     }
 
     /**
@@ -350,7 +345,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
-    public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = array())
+    public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = [])
     {
         // flush maybe existing temporary content
         $this->_flush();
@@ -413,10 +408,9 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
         return $this->store()->build($classname, $arguments);
     }
 
-
-    /*******************************************************************************************************************
-     * PRIVATE
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PROTECTED
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Resets the state of this instance to default
@@ -425,9 +419,9 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _reset()
+    protected function _reset()
     {
         $this->_classname = null;
         $this->_dependency = null;
@@ -440,9 +434,9 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _flush()
+    protected function _flush()
     {
         $this->_lastClassname = $this->_classname;
 

@@ -12,7 +12,7 @@ use OAuth2\ResponseInterface;
 /**
  * The JWT bearer authorization grant implements JWT (JSON Web Tokens) as a grant type per the IETF draft.
  *
- * @see http://tools.ietf.org/html/draft-ietf-oauth-jwt-bearer-04#section-4
+ * @link http://tools.ietf.org/html/draft-ietf-oauth-jwt-bearer-04#section-4
  *
  * @author F21
  * @author Brent Shaffer <bshafs at gmail dot com>
@@ -150,7 +150,7 @@ class JwtBearer implements GrantTypeInterface, ClientAssertionTypeInterface
         }
 
         // Get the iss's public key
-        // @see http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-06#section-4.1.1
+        // @link http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-06#section-4.1.1
         if (!$key = $this->storage->getClientKey($jwt['iss'], $jwt['sub'])) {
             $response->setError(400, 'invalid_grant', "Invalid issuer (iss) or subject (sub) provided");
             return null;

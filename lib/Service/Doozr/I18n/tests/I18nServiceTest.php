@@ -6,7 +6,7 @@
  *
  * I18nServiceTest.php - Tests for Service instance of Doozr I18n Service.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -91,7 +91,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testRetrievingDefaultLocaleAsExpected()
+    public function testRetrievingExpectedDefaultLocale()
     {
         // Assertion(s)
         $this->assertEquals(Resource_Fixture::LOCALE_DEFAULT, self::$service->getActiveLocale());
@@ -104,7 +104,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testSetACustomLocale()
+    public function testSettingACustomLocale()
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
@@ -123,7 +123,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      *
      * @expectedException Doozr_I18n_Service_Exception
      */
-    public function testTryToSetAnInvalidCustomLocale()
+    public function testTryingToSetAnInvalidCustomLocale()
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_INVALID;
@@ -152,7 +152,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testRetrieveClientsPreferredLocale()
+    public function testRetrievingClientsPreferredLocale()
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
@@ -323,7 +323,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testSetAvailableLocales()
+    public function testSettingAvailableLocales()
     {
         $locales = Resource_Fixture::$localesAvailable;
         $locales[] = 'nl';
@@ -345,7 +345,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testSetAndGetAnCustomEncoding()
+    public function testSettingAndGetAnCustomEncoding()
     {
         $encoding = Doozr_I18n_Service::ENCODING_ISO_8859_1;
         $this->assertTrue(self::$service->setEncoding($encoding));
@@ -363,7 +363,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testUseDomainFromPhptalInterfaceFulfillment()
+    public function testUsingDomainFromPhptalInterfaceImplementation()
     {
         // Prepare
         $domain = 'foo';
@@ -379,7 +379,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testSetVarFromPhptalInterfaceFulfillment()
+    public function testSettingVarFromPhptalInterfaceImplementation()
     {
         // Prepare
         $key   = 'Foo';
@@ -396,7 +396,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testTranslateAnKeyToDefaultLocaleEnUs()
+    public function testTranslatingAnKeyToDefaultLocaleEnUs()
     {
         // Prepare
         $key = 'Foo <p>Bar</p>';
@@ -413,7 +413,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testSetLanguageFromPhptalInterfaceFulfillment()
+    public function testSettingLanguageFromPhptalInterfaceImplementation()
     {
         $language = Resource_Fixture::LOCALE_VALID;
         $this->assertTrue(self::$service->setLanguage($language));

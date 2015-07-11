@@ -6,7 +6,7 @@
  *
  * Multiple.php - Base-Service for building multi-instance services
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -70,7 +70,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Serviceloader/Annotation/Inject
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container implements Doozr_Base_Service_Interface
+class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * Autoloader auto install control flag.
@@ -109,7 +111,6 @@ class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container implements 
      * The type for singleton services.
      *
      * @var string
-     * @const
      */
     const TYPE_SINGLETON = 'singleton';
 
@@ -117,10 +118,8 @@ class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container implements 
      * The type for multi instance services.
      *
      * @var string
-     * @const
      */
     const TYPE_MULTIPLE = 'multiple';
-
 
     /**
      * Constructor.
@@ -166,7 +165,7 @@ class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container implements 
      * Returns true if service is singleton.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if service is singleton, otherwise FALSE.
+     * @return bool TRUE if service is singleton, otherwise FALSE.
      * @access public
      */
     public function isSingleton()
@@ -178,7 +177,7 @@ class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container implements 
      * Returns true if service is a multi instance service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if service is multi instance, otherwise FALSE.
+     * @return bool TRUE if service is multi instance, otherwise FALSE.
      * @access public
      */
     public function isMultiple()

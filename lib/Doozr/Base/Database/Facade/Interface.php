@@ -6,7 +6,7 @@
  *
  * DoozrBaseDatabaseInterface.class.php - Base/master interface for building a Database-Abstraction-Layer
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -50,8 +50,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
- *
- * @since      -
  */
 
 /**
@@ -63,27 +61,19 @@
  * @package    Doozr_Kernel
  * @subpackage Doozr_Kernel_Base_Database
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$ <doozr@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
- * @abstract
  */
 interface Doozr_Base_Database_Interface
 {
     /**
-     * dispatch configuration to ORM/DBA
+     * Dispatch configuration to ORM/DBA - loads the main class or function from the configured
+     * ORM/DBA and pass all relevant configuration-settings to it.
      *
-     * loads the main class or function from the configured ORM/DBA and pass
-     * all relevant configuration-settings to it
-     *
-     * @return    mixed Object if cached ORM/DBA object exists, otherwise true
-     * @access    public
-     * @author    Benjamin Carl <opensource@clickalicious.de>
-     * @copyright Benjamin Carl 2009 - 2010
-     * @since     Method available since Release 1.0.0
-     * @version   1.0
+     * @return object|bool If cached ORM/DBA object exists, otherwise TRUE
+     * @access public
      */
     public function dispatch();
 }

@@ -6,7 +6,7 @@
  *
  * Html.php - HTML Renderer. Renders a components setup to HTML.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -93,11 +93,11 @@ class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstr
      */
     public function render(
         $force            = false,
-        $template         = array(),
+        $template         = [],
         $tag              = '',
-        array $variables  = array(),
-        array $childs     = array(),
-        array $attributes = array(),
+        array $variables  = [],
+        array $childs     = [],
+        array $attributes = [],
               $innerHtml  = ''
     ) {
         // Render childs if any attached
@@ -175,7 +175,7 @@ class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstr
      * @return string The rendered result
      * @access public
      */
-    protected function renderChilds(array $childs = array(), $force)
+    protected function renderChilds(array $childs = [], $force)
     {
         // The HTML result of childs
         $html = '';

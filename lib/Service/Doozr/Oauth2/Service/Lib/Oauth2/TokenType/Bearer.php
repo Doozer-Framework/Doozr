@@ -12,7 +12,7 @@ class Bearer implements TokenTypeInterface
 {
     private $config;
 
-    public function __construct(array $config = array())
+    public function __construct(array $config = [])
     {
         $this->config = array_merge(array(
             'token_param_name'         => 'access_token',
@@ -39,12 +39,12 @@ class Bearer implements TokenTypeInterface
      *
      * @todo Should we enforce TLS/SSL in this function?
      *
-     * @see http://tools.ietf.org/html/rfc6750#section-2.1
-     * @see http://tools.ietf.org/html/rfc6750#section-2.2
-     * @see http://tools.ietf.org/html/rfc6750#section-2.3
+     * @link http://tools.ietf.org/html/rfc6750#section-2.1
+     * @link http://tools.ietf.org/html/rfc6750#section-2.2
+     * @link http://tools.ietf.org/html/rfc6750#section-2.3
      *
      * Old Android version bug (at least with version 2.2)
-     * @see http://code.google.com/p/android/issues/detail?id=6684
+     * @link http://code.google.com/p/android/issues/detail?id=6684
      *
      */
     public function getAccessTokenParameter(RequestInterface $request, ResponseInterface $response)
@@ -85,7 +85,7 @@ class Bearer implements TokenTypeInterface
 
             if ($contentType !== null && $contentType != 'application/x-www-form-urlencoded') {
                 // IETF specifies content-type. NB: Not all webservers populate this _SERVER variable
-                // @see http://tools.ietf.org/html/rfc6750#section-2.2
+                // @link http://tools.ietf.org/html/rfc6750#section-2.2
                 $response->setError(400, 'invalid_request', 'The content type for POST requests must be "application/x-www-form-urlencoded"');
                 return null;
             }

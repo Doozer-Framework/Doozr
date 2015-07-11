@@ -4,7 +4,7 @@
 /**
  * Doozr - Base - Tools
  *
- * Tools.php - Toolset collection useful for developer.
+ * Tools.php - Toolkit collection useful for developers.
  *
  * PHP version 5
  *
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -55,7 +55,7 @@
 /**
  * Doozr - Base - Tools
  *
- * Toolset collection useful for developer.
+ * Toolkit collection useful for developers.
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -173,7 +173,7 @@ class Doozr_Base_Tools
      * @param string $method The name of the method to check for existence in base class of current instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if  method exist, otherwise false
+     * @return bool True if  method exist, otherwise false
      * @access public
      */
     public function hasMethod($method)
@@ -278,7 +278,7 @@ class Doozr_Base_Tools
 
     /**
      * Generic call methods (generic dynamic calling methods). This method is a generic dynamic
-     * calling method. It calls dynamic build methods (by name) in allready existing instances
+     * calling method. It calls dynamic build methods (by name) in already existing instances
      * with or without params (default = null).
      *
      * @param object     $instance The instance of a class to call method in

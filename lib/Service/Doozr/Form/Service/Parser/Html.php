@@ -34,7 +34,7 @@
  *   will result in an configuration-object instance :)
  *   do not forget to TYPEHINT!
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -50,7 +50,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -117,7 +117,7 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @var array
      * @access protected
      */
-    protected $forms = array();
+    protected $forms = [];
 
     /**
      * The configurations
@@ -131,7 +131,6 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * The pattern to extract HTML-Forms
      *
      * @access public
-     * @const
      */
     const REGEXP_PATTERN_FORMS = '/(<form.*?>)(.*?)<\/form>/ius';
 
@@ -139,7 +138,6 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * The pattern to extract HTML elements attributes
      *
      * @access public
-     * @const
      */
     const REGEXP_PATTERN_ATTRIBUTES = '/<([\w]*)|\s*([\w-]*)\s*=\s*[\'"](.*?)[\'"]/ius';
 
@@ -148,7 +146,6 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * INPUT, SELECT, TEXTAREA
      *
      * @access public
-     * @const
      */
     const REGEXP_PATTERN_ELEMENTS = '/(<(input|select|textarea)(.*?)>)/ius';
 
@@ -156,7 +153,6 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * The prefix for templae var placeholder(s)
      *
      * @access public
-     * @const
      */
     const TEMPLATE_PREFIX = 'DOOZR_FORM_SERVICE_TEMPLATE_';
 
@@ -164,7 +160,6 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * The template identifier for form(s)
      *
      * @access public
-     * @const
      */
     const TEMPLATE_IDENTIFIER_FORM = 'FORM';
 
@@ -173,7 +168,6 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * START
      *
      * @access public
-     * @const
      */
     const TEMPLATE_BRACKETS_OPEN = '{{';
 
@@ -182,7 +176,6 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * END
      *
      * @access public
-     * @const
      */
     const TEMPLATE_BRACKETS_CLOSE = '}}';
 
@@ -395,7 +388,7 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
             // store in result
             $setup = array(
                 'form'     => array(array('tag' => 'form', 'properties' => $configuration['properties'])),
-                'elements' => array()
+                'elements' => []
             );
 
             // now parse elements from inside <form>
@@ -444,7 +437,7 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
     protected function parseElements(array $elements)
     {
         // assume empty result
-        $result = array();
+        $result = [];
 
         //@todo check input?
 
@@ -617,7 +610,7 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
     protected function parseGeneric($pattern, $buffer = '')
     {
         // assume empty result
-        $result = array();
+        $result = [];
 
         preg_match_all($pattern, $buffer, $result);
 

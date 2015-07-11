@@ -9,7 +9,7 @@
  * configurable) with high secure encryption standard AES256! Also brings session fixation
  * protection with a configurable regenerate cycle, IP-binding, and so on ...
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -25,7 +25,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -80,12 +80,13 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="getInstance",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
+class Doozr_Session_Service extends Doozr_Base_Service_Singleton
+    implements
     Doozr_Base_Crud_Interface,
     Doozr_Session_Service_Interface,
     Doozr_Base_Service_Interface
@@ -99,9 +100,9 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
     protected $crypt;
 
     /**
-     * Instance of Doozr_Logger
+     * Instance of Doozr_Logging
      *
-     * @var Doozr_Logger
+     * @var Doozr_Logging
      * @access protected
      */
     protected $logger;
@@ -250,7 +251,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @access protected
      */
     protected $callStack = array(
-        'start' => array()
+        'start' => []
     );
 
     /**
@@ -485,10 +486,10 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
         $this->setFlagStatus('ssl', ($phpVersion >= 4.1));
 
         // automatic start session?
-        if ($autoInit === true || self::getRegistry()->config->session->autoinit === true) {
+        if ($autoInit === true || self::getRegistry()->getConfiguration()->session->autoinit === true) {
             // start initialization with config from core
             $this->autoInit(
-                self::getRegistry()->config->session
+                self::getRegistry()->getConfiguration()->session
             );
         }
     }
@@ -646,7 +647,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @param string  $ip     The Ip-Address of the client to bind session to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function bindToIp($octets = self::DEFAULT_BIND_IP_OCTETS, $ip = null)
@@ -705,7 +706,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
             $domain = $this->getDomain();
         }
 
-        // all advanced features only available for named hosts - no ip!
+        // All advanced features only available for named hosts - no ip!
         if (!is_ip($domain)) {
             switch (strtolower($mode)) {
             case 'subdomain':
@@ -785,7 +786,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * This method is intend to check the status of encryption.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if encryption is enabled, otherwise FALSE if not
+     * @return bool TRUE if encryption is enabled, otherwise FALSE if not
      * @access public
      */
     public function useEncryption()
@@ -927,7 +928,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * This method is intend to return the status of session started.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if session was already started, FALSE if not
+     * @return bool TRUE if session was already started, FALSE if not
      * @access public
      */
     public function wasStarted()
@@ -1102,7 +1103,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * This method is intend to return the current status of obfuscation.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if enabled, otherwise FALSE
+     * @return bool TRUE if enabled, otherwise FALSE
      * @access public
      */
     public function useObfuscation()
@@ -1132,7 +1133,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * This method is intend to return the status of SSL-encryption.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if SSL is enabled, otherwise FALSE if not
+     * @return bool TRUE if SSL is enabled, otherwise FALSE if not
      * @access public
      */
     public function getSsl()
@@ -1162,7 +1163,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * This method is intend to return the status of HTTP-Only support.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if HTTP-Only is supported, otherwise FALSE if not
+     * @return bool TRUE if HTTP-Only is supported, otherwise FALSE if not
      * @access public
      */
     public function getHttpOnly()
@@ -1179,7 +1180,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @param mixed  $value    The value of the session-variable to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function set($variable, $value)
@@ -1242,7 +1243,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @param string $variable The name of the session-variable to check if set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if variable is set, otherwise FALSE
+     * @return bool TRUE if variable is set, otherwise FALSE
      * @access public
      */
     public function issetVariable($variable)
@@ -1285,7 +1286,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @param mixed $sessionId The Session-Id to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setId($sessionId)
@@ -1344,26 +1345,24 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
     public function getIdentifier()
     {
         // Get identifier
-        $identifier = 'aloha'; //$this->identifier;
+        $identifier = $this->identifier;
 
         // Who is requesting (fingerprint client)
-        $allHeaders = getallheaders();
+        $headers = getallheaders();
 
         // Get arguments
-        /*
-        $headers = array(
-            (isset($allHeaders['USER_AGENT']))      ? $allHeaders['USER_AGENT']      : null,
-            (isset($allHeaders['ACCEPT']))          ? $allHeaders['ACCEPT']          : null,
-            (isset($allHeaders['ACCEPT_LANGUAGE'])) ? $allHeaders['ACCEPT_LANGUAGE'] : null,
-            (isset($allHeaders['ACCEPT_ENCODING'])) ? $allHeaders['ACCEPT_ENCODING'] : null,
-        );
-        */
-        $headers = array();
+        $filter = ['USER-AGENT', 'ACCEPT', 'ACCEPT-LANGUAGE', 'ACCEPT-ENCODING'];
+
+        foreach ($headers as $header => $value) {
+            if (false === in_array(strtoupper($header), $filter)) {
+                unset($headers[$header]);
+            }
+        }
 
         // If identifier must be obfuscated
         if ($this->useObfuscation()) {
-            $identifier = $this->generateHash(
-                $identifier.
+            $identifier = md5(
+                $identifier .
                 $this->generateFingerprint(
                     $this->getClientIp(),
                     $headers
@@ -1371,7 +1370,6 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
             );
         }
 
-        //
         return $identifier;
     }
 
@@ -1497,7 +1495,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * destroy an existing session! clean session garbage collector
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if everything wents fine, otherwise false
+     * @return bool True if everything wents fine, otherwise false
      * @access public
      */
     public function destroy()
@@ -1561,7 +1559,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * This method is intend to return the status of session id must be regenerated.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if Session-Id must be regenerated, FALSE if not
+     * @return bool TRUE if Session-Id must be regenerated, FALSE if not
      * @access public
      */
     public function mustRegenerate()
@@ -1595,7 +1593,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @param bool $flush TRUE to flush the whole session content, otherwise FALSE to transfer to new session
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if everything wents fine, otherwise FALSE
+     * @return bool TRUE if everything wents fine, otherwise FALSE
      * @access public
      */
     public function regenerate($flush = false)
@@ -1639,7 +1637,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @example $session->create('foo', 'bar');
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function create($key, $value)
@@ -1655,7 +1653,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @example $session->read('foo');
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function read($key)
@@ -1672,7 +1670,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @example $session->update('foo', 'baz');
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function update($key, $value)
@@ -1688,7 +1686,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @example $session->delete('foo');
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function delete($key)
@@ -1708,7 +1706,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
     protected function log($message)
     {
         if ($this->logger !== null) {
-            $this->logger->log(Doozr_Logger_Constant::DEBUG, $message);
+            $this->logger->log(Doozr_Logging_Constant::DEBUG, $message);
         }
     }
 
@@ -1726,7 +1724,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
      * @param mixed   $httpOnly   NULL (default) to do not set this flag, TRUE to set, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if operation was successful, otherwise FALSE
+     * @return bool TRUE if operation was successful, otherwise FALSE
      * @access protected
      */
     protected function setSessionCookie($identifier, $sessionId, $lifetime, $path, $domain, $ssl, $httpOnly = null)
@@ -1788,39 +1786,5 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton implements
         } else {
             return implode('.', array_slice(explode('.', $string), (substr_count($string, '.') + 1) - $parts, $parts));
         }
-    }
-
-    /**
-     * Returns hash-value for passed in phrase.
-     *
-     * @param string $phrase The phrase to return hash for
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The resulting String
-     * @access protected
-     */
-    protected function generateHash($phrase)
-    {
-        // bytes * bits
-        $size = strlen($phrase) * 8;
-
-        if (DOOZR_SECURE_HASH === true && $size >= 1024) {
-            $hash = hash('sha512', $phrase);
-
-        } elseif (DOOZR_SECURE_HASH === true && $size >= 768) {
-            $hash = hash('sha256', $phrase);
-
-        } elseif (DOOZR_SECURE_HASH === true && $size >= 512) {
-            $hash = hash('sha256', $phrase);
-
-        } elseif ($size >= 320) {
-            $hash = sha1($phrase);
-
-        } else {
-            $hash = md5($phrase);
-
-        }
-
-        return $hash;
     }
 }

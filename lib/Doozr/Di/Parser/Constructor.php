@@ -2,15 +2,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Constructor Parser
+ * Doozr - Di - Parser - Constructor
  *
- * Constructor.php - Constructor Parser of the Di-Framework
+ * Constructor.php - Constructor Parser of the Di-Library
  *
- * PHP version 5
+ * PHP versions 5.5
  *
- * Di - The Dependency Injection Framework
+ * LICENSE:
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -41,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Constructor
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -51,16 +52,16 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Parser/Abstract.php';
-require_once DI_PATH_LIB_DI . 'Parser/Interface.php';
-require_o* Doozr - Di - I_PATH_LIB_DI . '* Doozr - Di - tion.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
- * Di Constructor Parser
+ * Doozr - Di - Parser - Constructor
  *
- * Constructor Parser of the Di-Framework
+ * Constructor Parser of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Parser_Constructor
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -68,11 +69,13 @@ require_o* Doozr - Di - I_PATH_LIB_DI . '* Doozr - Di - tion.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract implements Doozr_Di_Parser_Interface
+class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
+    implements
+    Doozr_Di_Parser_Interface
 {
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Parse out the constructor of a class (eg. for singleton classes)
@@ -162,7 +165,7 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract implements Do
      * This method is intend to check if the requirements are fulfilled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if requirements fulfilled, otherwise FALSE
+     * @return bool TRUE if requirements fulfilled, otherwise FALSE
      * @access public
      * @static
      */

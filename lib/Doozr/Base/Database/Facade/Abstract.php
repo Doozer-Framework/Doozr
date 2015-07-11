@@ -6,7 +6,7 @@
  *
  * Abstract.php - Abstract base class for building a Database Abstraction Layer for the Doozr Framework
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -98,7 +98,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * @access protected
      * @static
      */
-    protected static $ormDirectory = array();
+    protected static $ormDirectory = [];
 
     /**
      * stored instance identifier used for config
@@ -118,17 +118,17 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
     protected $path;
 
     /**
-     * Instance of Doozr_Config
+     * Instance of Doozr_Configuration
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected $config;
 
     /**
-     * Instance of Doozr_Logger
+     * Instance of Doozr_Logging
      *
-     * @var Doozr_Logger
+     * @var Doozr_Logging
      * @access protected
      */
     protected $logger;
@@ -140,14 +140,14 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * constructor builds the class
      *
      * @param Doozr_Path   $path   Instance of Doozr_Path manager for path'
-     * @param Doozr_Config $config Instance of Doozr_Config holding Doozr's config
-     * @param Doozr_Logger $logger Instance of Doozr_Logger
+     * @param Doozr_Configuration $config Instance of Doozr_Configuration holding Doozr's config
+     * @param Doozr_Logging $logger Instance of Doozr_Logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function __construct(Doozr_Path $path, Doozr_Config $config, Doozr_Logger $logger)
+    public function __construct(Doozr_Path $path, Doozr_Configuration $config, Doozr_Logging $logger)
     {
         // store instances
         $this->path   = $path;
@@ -166,7 +166,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * @param string $identifier The identifier to use for this instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setInstanceIdentifier($identifier)
@@ -217,7 +217,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * @param string $filename The name (and path) to the file
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if file exists AND readable AND include succeeded
+     * @return bool True if file exists AND readable AND include succeeded
      * @access protected
      * @throws Doozr_Exception
      */
@@ -328,15 +328,15 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      */
     protected function retrieveOrmConfig($orm)
     {
-        // try to load configuration of orm
+        // Try to retrieve config for ORM/DBA
         try {
-            // retrieve config for ORM/DBA
-            self::$ormConfig = $this->config->database->{$orm};
+            self::$ormConfig = $this->config->kernel->model->{$orm};
 
         } catch(Doozr_Config_Ini_Exception $e) {
-
             throw new Doozr_Exception(
-                'Configuration for ORM: "'.$orm.'" could not be retrieved! Please check your configuration',
+                sprintf(
+                    'Configuration for ORM "%s" could not be retrieved! Please check your configuration', $orm
+                ),
                 null,
                 $e
             );

@@ -6,7 +6,7 @@
  *
  * Front.php - The Front-Controller of the Doozr-Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -52,6 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
+die;
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
 /**
@@ -71,14 +72,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 class Doozr_Controller_Front extends Doozr_Base_Class_Singleton
 {
     /**
-     * Detected runtime environment (web|cli|httpd)
-     *
-     * @var string
-     * @access protected
-     */
-    protected $runtimeEnvironment = 'web';
-
-    /**
      * The request state of active request
      *
      * @var Doozr_Request_State
@@ -93,36 +86,6 @@ class Doozr_Controller_Front extends Doozr_Base_Class_Singleton
      * @access protected
      */
     protected $responseState;
-
-    /**
-     * constant RUNTIME_ENVIRONMENT_CLI
-     *
-     * holds the key for "cli" running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     */
-    const RUNTIME_ENVIRONMENT_CLI = 'cli';
-
-    /**
-     * constant RUNTIME_ENVIRONMENT_WEB
-     *
-     * holds the key for "web" running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     */
-    const RUNTIME_ENVIRONMENT_WEB = 'web';
-
-    /**
-     * constant RUNTIME_ENVIRONMENT_HTTPD
-     *
-     * holds the key for "httpd" running runtimeEnvironment
-     *
-     * @var string
-     * @access public
-     */
-    const RUNTIME_ENVIRONMENT_HTTPD = 'httpd';
 
 
     /**
@@ -229,47 +192,6 @@ class Doozr_Controller_Front extends Doozr_Base_Class_Singleton
     protected function getResponseState()
     {
         return $this->responseState;
-    }
-
-    /**
-     * Setter for runtime environment.
-     *
-     * @param string $runtimeEnvironment The runtime environment.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setRuntimeEnvironment($runtimeEnvironment)
-    {
-        $this->runtimeEnvironment = $runtimeEnvironment;
-    }
-
-    /**
-     * Setter for runtime environment.
-     *
-     * @param string $runtimeEnvironment The runtime environment.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access protected
-     */
-    protected function runtimeEnvironment($runtimeEnvironment)
-    {
-        $this->setRuntimeEnvironment($runtimeEnvironment);
-        return $this;
-    }
-
-    /**
-     * Getter for runtime environment.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The current runtime environment
-     * @access public
-     */
-    public function getRuntimeEnvironment()
-    {
-        return $this->runtimeEnvironment;
     }
 
     /**

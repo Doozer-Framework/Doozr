@@ -4,9 +4,10 @@
 /**
 * Doozr - Base - State
 *
-* State.php - Base state class for inheritance.
+* State.php - Base class for state representations. Based on the Data Transfer Object Pattern:
+* @link https://en.wikipedia.org/wiki/Data_transfer_object
 *
-* PHP versions 5.4
+* PHP versions 5.5
 *
 * LICENSE:
 * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +23,7 @@
 *   this list of conditions and the following disclaimer in the documentation
 *   and/or other materials provided with the distribution.
 * - All advertising materials mentioning features or use of this software
-*   must display the following acknowledgement: This product includes software
+*   must display the following acknowledgment: This product includes software
 *   developed by Benjamin Carl and other contributors.
 * - Neither the name Benjamin Carl nor the names of other contributors
 *   may be used to endorse or promote products derived from this
@@ -57,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 /**
  * Doozr - Base - State
  *
- * Base state class for inheritance.
+ * Base class for state representations
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -71,121 +72,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 abstract class Doozr_Base_State extends Doozr_Base_Class
 {
     /**
-     * The runtimeEnvironment Doozr runs ins
-     *
-     * @var string
-     * @access protected
-     */
-    protected $runtimeEnvironment;
-
-    /**
      * History to trace changes in flow.
      *
      * @var array
      * @access protected
      */
-    protected $history = array();
-
-    /**
-     * The request arguments
-     *
-     * @var array
-     * @access protected
-     */
-    protected $arguments = array();
-
-    /**
-     * The protocol
-     *
-     * @var string
-     * @access protected
-     */
-    protected $protocol;
-
-
-    /**
-     * Setter for protocol.
-     *
-     * @param string $protocol The protocol used
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setProtocol($protocol)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->protocol = $protocol;
-    }
-
-    /**
-     * Setter for protocol.
-     *
-     * @param string $protocol The protocol used
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function protocol($protocol)
-    {
-        $this->setProtocol($protocol);
-        return $this;
-    }
-
-    /**
-     * Getter for protocol.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The protocol
-     * @access public
-     */
-    public function getProtocol()
-    {
-        return $this->protocol;
-    }
-
-    /**
-     * Setter for runtimeEnvironment.
-     *
-     * @param string $runtimeEnvironment The runtimeEnvironment Doozr is running in (WEB, CLI, CLI-SERVER)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setRuntimeEnvironment($runtimeEnvironment)
-    {
-        $this->addHistory(__METHOD__, func_get_args());
-        $this->runtimeEnvironment = $runtimeEnvironment;
-    }
-
-    /**
-     * Setter for runtimeEnvironment.
-     *
-     * @param string $runtimeEnvironment The runtimeEnvironment Doozr is running in (WEB, CLI, CLI-SERVER)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State Instance for chaining
-     * @access public
-     */
-    public function runtimeEnvironment($runtimeEnvironment)
-    {
-        $this->setRuntimeEnvironment($runtimeEnvironment);
-        return $this;
-    }
-
-    /**
-     * Getter for runtimeEnvironment.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The runtimeEnvironment Doozr is running in (WEB, CLI, CLI-SERVER)
-     * @access public
-     */
-    public function getRuntimeEnvironment()
-    {
-        return $this->runtimeEnvironment;
-    }
+    protected $history = [];
 
     /**
      * Adds a history entry to collection.
@@ -200,10 +92,40 @@ abstract class Doozr_Base_State extends Doozr_Base_Class
     protected function addHistory($method, $arguments)
     {
         if (!isset($this->history[$method])) {
-            $this->history[$method] = array();
+            $this->history[$method] = [];
         }
 
         $this->history[$method][] = $arguments;
+
+        return $this;
+    }
+
+    /**
+     * Setter for history.
+     *
+     * @param array $history The history data to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setHistory(array $history)
+    {
+        $this->history = $history;
+    }
+
+    /**
+     * Setter for history.
+     *
+     * @param array $history The history data to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function history(array $history)
+    {
+        $this->setHistory($history);
 
         return $this;
     }
@@ -219,6 +141,10 @@ abstract class Doozr_Base_State extends Doozr_Base_Class
     {
         return $this->history;
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | IMMUTABLE STATE EXPORT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns the instance as array

@@ -6,7 +6,7 @@
  *
  * Webserver.php - Management tool for internal webserver.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -54,7 +54,7 @@
 
 require_once 'Doozr/Tool/Abstract.php';
 
-use \donatj\Flags;
+use donatj\Flags;
 
 /**
  * Doozr - Tool - Webserver
@@ -101,7 +101,6 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const COMMAND_START = 'start';
 
@@ -110,7 +109,6 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const COMMAND_STOP = 'stop';
 
@@ -119,7 +117,6 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const COMMAND_RESTART = 'restart';
 
@@ -128,7 +125,6 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const COMMAND_STATUS = 'status';
 
@@ -137,7 +133,6 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const INTERFACE_LOCALHOST = 'localhost';
 
@@ -146,7 +141,6 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const INTERFACE_LOCALIP = '127.0.0.1';
 
@@ -155,7 +149,6 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const INTERFACE_ALL = '0.0.0.0';
 
@@ -164,7 +157,6 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_PORT = 80;
 
@@ -173,7 +165,6 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_DOCUMENT_ROOT = '.';
 
@@ -182,10 +173,8 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_ROOTER = '';
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | Internal helper
@@ -217,7 +206,7 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
             $this->showVersion();
         }
 
-        $argumentBag = array();
+        $argumentBag = [];
 
         // Check for passed commands ...
         foreach ($longs as $name => $value) {
@@ -253,7 +242,7 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      * @return void
      * @access protected
      */
-    protected function dispatchCommand($command, array $argumentBag = array())
+    protected function dispatchCommand($command, array $argumentBag = [])
     {
         $result = false;
 
@@ -294,7 +283,7 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      * @param resource $process The resource to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if running, otherwise FALSE
+     * @return bool TRUE if running, otherwise FALSE
      * @access protected
      */
     protected function isRunning($process)

@@ -15,8 +15,8 @@ interface AuthorizationCodeInterface
      * The Authorization Code grant type supports a response type of "code".
      *
      * @var string
-     * @see http://tools.ietf.org/html/rfc6749#section-1.4.1
-     * @see http://tools.ietf.org/html/rfc6749#section-4.2
+     * @link http://tools.ietf.org/html/rfc6749#section-1.4.1
+     * @link http://tools.ietf.org/html/rfc6749#section-4.2
      */
     const RESPONSE_TYPE_CODE = "code";
 
@@ -42,7 +42,7 @@ interface AuthorizationCodeInterface
      * );
      * @endcode
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1
+     * @link http://tools.ietf.org/html/rfc6749#section-4.1
      *
      * @ingroup oauth2_section_4
      */
@@ -79,7 +79,7 @@ interface AuthorizationCodeInterface
     /**
      * once an Authorization Code is used, it must be exipired
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.2
+     * @link http://tools.ietf.org/html/rfc6749#section-4.1.2
      *
      *    The client MUST NOT use the authorization code
      *    more than once.  If an authorization code is used more than

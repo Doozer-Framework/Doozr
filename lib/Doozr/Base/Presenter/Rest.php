@@ -6,7 +6,7 @@
  *
  * Rest.php - Base class for presenter-layers from MVP with REST support
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -100,14 +100,13 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      * @var array
      * @access protected
      */
-    protected $routes = array();
+    protected $routes = [];
 
     /**
      * The seperator for the route (URL).
      *
      * @var string
      * @access public
-     * @const
      */
     const ROUTE_SEPARATOR = '/';
 
@@ -116,7 +115,6 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      *
      * @var int
      * @access public
-     * @const
      */
     const STATUS_OK_DEFAULT = 200;
 
@@ -125,7 +123,6 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      *
      * @var int
      * @access public
-     * @const
      */
     const STATUS_OK_CREATE  = 201;
 
@@ -134,10 +131,8 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      *
      * @var int
      * @access public
-     * @const
      */
     const STATUS_OK_DELETED = 204;
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | Public API
@@ -150,7 +145,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      * @param Doozr_Base_State_Interface $requestState  The whole request as processed by "Route"
      * @param array                      $request       The request
      * @param array                      $translation   The translation required to read the request
-     * @param Doozr_Config_Interface     $configuration The Doozr main config instance
+     * @param Doozr_Configuration_Interface     $configuration The Doozr main config instance
      * @param Doozr_Base_Model           $model         The model to communicate with backend (db)
      * @param Doozr_Base_View            $view          The view to display results
      *
@@ -163,7 +158,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
         Doozr_Base_State_Interface $requestState,
         array                      $request,
         array                      $translation,
-        Doozr_Config_Interface     $configuration = null,
+        Doozr_Configuration_Interface     $configuration = null,
         Doozr_Base_Model           $model         = null,
         Doozr_Base_View            $view          = null
     ) {
@@ -353,8 +348,8 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
         $url        = str_replace($this->rootNode, '', $url);
         $nodes      = explode(self::ROUTE_SEPARATOR, $url);
         $routeTree  = $this->routeTree;
-        $ids        = array();
-        $route      = array();
+        $ids        = [];
+        $route      = [];
         $countNodes = count($nodes);
         $uid        = null;
 
@@ -415,7 +410,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      * @param string $input The input to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if field is Id field, otherwise FALSE
+     * @return bool TRUE if field is Id field, otherwise FALSE
      * @access protected
      */
     protected function isId($input)
@@ -487,13 +482,13 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
         // Missing argument + message
         if ($this->validateInputArguments(
                 $routeConfig->getRequired(),
-                $this->getStateObject()->getArguments()
+                $this->getStateObject()->getQueryParams()
             ) !== true
         ) {
-            $missingArguments = array();
+            $missingArguments = [];
 
             foreach ($routeConfig->getRequired() as $key => $value) {
-                if (array_key_exists($key, $this->getStateObject()->getArguments()->getArray()) === false) {
+                if (array_key_exists($key, $this->getStateObject()->getQueryParams()->getArray()) === false) {
                     $missingArguments[] = $key . (($value !== null) ? ' => ' . $value : '');
                 }
             }
@@ -523,7 +518,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      * @param Doozr_Request_Arguments $argumentsSent     The arguments send with request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if all required fields where sent, otherwise FALSE
+     * @return bool TRUE if all required fields where sent, otherwise FALSE
      * @access protected
      */
     protected function validateInputArguments(array $argumentsRequired, Doozr_Request_Arguments $argumentsSent)

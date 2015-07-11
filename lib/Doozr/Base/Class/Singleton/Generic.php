@@ -6,7 +6,7 @@
  *
  * Generic.php Generic singleton base class of the Doozr Framework
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -76,7 +76,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
      * @var array
      * @access protected
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Status of using STRICT-SINGLETON runtimeEnvironment for this
@@ -122,7 +122,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
             // build identifier including parameter
             if (is_array($arguments)) {
                 // array to hold all elements for crc but object(s)
-                $crc = array();
+                $crc = [];
 
                 // iterate over arguments to filter objects out => too complex!
                 // TODO: maybe serialize objects is a way to process them?!

@@ -257,7 +257,7 @@ class vfsStreamFile extends vfsStreamAbstractContent
      * @param   int            $operation
      * @return  vfsStreamFile
      * @since   0.10.0
-     * @see     https://github.com/mikey179/vfsStream/issues/6
+     * @link     https://github.com/mikey179/vfsStream/issues/6
      */
     public function lock($operation)
     {
@@ -275,7 +275,7 @@ class vfsStreamFile extends vfsStreamAbstractContent
      *
      * @return  bool
      * @since   0.10.0
-     * @see     https://github.com/mikey179/vfsStream/issues/6
+     * @link     https://github.com/mikey179/vfsStream/issues/6
      */
     public function isLocked()
     {
@@ -287,7 +287,7 @@ class vfsStreamFile extends vfsStreamAbstractContent
      *
      * @return  bool
      * @since   0.10.0
-     * @see     https://github.com/mikey179/vfsStream/issues/6
+     * @link     https://github.com/mikey179/vfsStream/issues/6
      */
     public function hasSharedLock()
     {
@@ -299,7 +299,7 @@ class vfsStreamFile extends vfsStreamAbstractContent
      *
      * @return  bool
      * @since   0.10.0
-     * @see     https://github.com/mikey179/vfsStream/issues/6
+     * @link     https://github.com/mikey179/vfsStream/issues/6
      */
     public function hasExclusiveLock()
     {

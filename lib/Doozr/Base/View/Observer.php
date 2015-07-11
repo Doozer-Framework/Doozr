@@ -6,7 +6,7 @@
  *
  * Observer.php - Base View Observer of the Doozr Framework
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -53,6 +53,7 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Observer/Interface.php';
 
 /**
  * Doozr - Base View Observer
@@ -68,17 +69,26 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Base_View_Observer extends Doozr_Base_Class implements SplObserver
+abstract class Doozr_Base_View_Observer extends Doozr_Base_Class
+    implements
+    Doozr_Base_Observer_Interface
 {
     /**
-     * update dispatcher for this instance of a observer
+     * Identifier of the observer.
      *
-     * This method is the "update" trigger of the "CRUD" architecture
+     * @var string
+     * @access protected
+     */
+    protected $identifier = self::IDENTIFIER_VIEW;
+
+
+    /**
+     * Update dispatcher for this instance of a observer
      *
      * @param SplSubject $subject The SplSubject
      *
-     * @return mixed TRUE on update-success, FALSE on update-failed and
-     *               NULL on no update done
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool|null TRUE on update-success, FALSE on update-failed and NULL on no update done
      * @access public
      */
     public function update(SplSubject $subject)
@@ -89,5 +99,46 @@ abstract class Doozr_Base_View_Observer extends Doozr_Base_Class implements SplO
 
         // no update method no result
         return null;
+    }
+
+    /**
+     * Setter for identifier.
+     *
+     * @param string $identifier Identifier to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * Setter for identifier.
+     *
+     * @param string $identifier Identifier to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function identifier($identifier)
+    {
+        $this->setIdentifier($identifier);
+        return $this;
+    }
+
+    /**
+     * Getter for identifier.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
     }
 }

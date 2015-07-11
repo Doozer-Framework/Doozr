@@ -57,7 +57,7 @@ class Object_Freezer_Cache
     /**
      * @var array
      */
-    protected $objects = array();
+    protected $objects = [];
 
     /**
      * Retrieves an object from the object cache.

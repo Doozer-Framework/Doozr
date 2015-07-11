@@ -80,7 +80,7 @@ class Http
         return new self(null, null, null, true);
     }
 
-    private $_append = array();
+    private $_append = [];
     public function add($http)
     {
         $this->_append[] = $http;
@@ -120,14 +120,14 @@ class Http
     const DELETE = 'DELETE';
     const PUT    = 'PUT';
 
-    private $_requests = array();
+    private $_requests = [];
 
     /**
      * @param string $url
      * @param array $params
      * @return Http
      */
-    public function put($url, $params=array())
+    public function put($url, $params=[])
     {
         $this->_requests[] = array(self::PUT, $this->_url($url), $params);
         return $this;
@@ -138,7 +138,7 @@ class Http
      * @param array $params
      * @return Http
      */
-    public function post($url, $params=array())
+    public function post($url, $params=[])
     {
         $this->_requests[] = array(self::POST, $this->_url($url), $params);
         return $this;
@@ -149,7 +149,7 @@ class Http
      * @param array $params
      * @return Http
      */
-    public function get($url, $params=array())
+    public function get($url, $params=[])
     {
         $this->_requests[] = array(self::GET, $this->_url($url), $params);
         return $this;
@@ -160,7 +160,7 @@ class Http
      * @param array $params
      * @return Http
      */
-    public function delete($url, $params=array())
+    public function delete($url, $params=[])
     {
         $this->_requests[] = array(self::DELETE, $this->_url($url), $params);
         return $this;
@@ -178,7 +178,7 @@ class Http
      * @param array $params
      * @return string
      */
-    public function doPut($url, $params=array())
+    public function doPut($url, $params=[])
     {
         return $this->_exec(self::PUT, $this->_url($url), $params);
     }
@@ -190,7 +190,7 @@ class Http
      * @param array $params
      * @return string
      */
-    public function doPost($url, $params=array())
+    public function doPost($url, $params=[])
     {
         return $this->_exec(self::POST, $this->_url($url), $params);
     }
@@ -202,7 +202,7 @@ class Http
      * @param array $params
      * @return string
      */
-    public function doGet($url, $params=array())
+    public function doGet($url, $params=[])
     {
         return $this->_exec(self::GET, $this->_url($url), $params);
     }
@@ -214,12 +214,12 @@ class Http
      * @param array $params
      * @return string
      */
-    public function doDelete($url, $params=array())
+    public function doDelete($url, $params=[])
     {
         return $this->_exec(self::DELETE, $this->_url($url), $params);
     }
 
-    private $_headers = array();
+    private $_headers = [];
     /**
      * setHeaders
      *
@@ -255,7 +255,7 @@ class Http
      * @param array $params
      * @return string
      */
-    private function _exec($type, $url, $params = array())
+    private function _exec($type, $url, $params = [])
     {
         $headers = $this->_headers;
         $s = curl_init();
@@ -316,7 +316,7 @@ class Http
     {
         $out= null;
         if (count($this->_append) > 0) {
-            $arr = array();
+            $arr = [];
             foreach ($this->_append as $_append) {
                 $arr = array_merge($arr, $_append->_getRequests());
             }
@@ -330,7 +330,7 @@ class Http
     private function _run()
     {
         $headers = $this->_headers;
-        $curly = $result = array();
+        $curly = $result = [];
 
         $mh = curl_multi_init();
         foreach ($this->_requests as $id => $reg) {

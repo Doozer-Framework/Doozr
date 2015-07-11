@@ -7,7 +7,7 @@
  * Serviceloader.php - The Serviceloader loads services within the Doozr
  * world. No matter which namespace and no matter if singleton or multiple.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -23,7 +23,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -90,7 +90,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      * @access protected
      * @static
      */
-    private static $loaded = array();
+    private static $loaded = [];
 
     /**
      * The dependency map
@@ -115,7 +115,6 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_NAMESPACE = 'Doozr';
 
@@ -124,7 +123,6 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *
      * @var null
      * @access public
-     * @const
      */
     const DEFAULT_ALIAS = null;
 
@@ -133,7 +131,6 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_NAME = null;
 
@@ -142,10 +139,8 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_INFO = null;
-
 
     /**
      * Loads a service from any namespace.
@@ -256,13 +251,10 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      */
     protected static function initDependencyInjection()
     {
-        // Bootstrap if required (CLI!)
-        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Bootstrap.php';
-
         // get required dependency container for annotations!
-        require_once DI_PATH_LIB_DI . 'Map/Annotation.php';
-        require_once DI_PATH_LIB_DI . 'Parser/Annotation.php';
-        require_once DI_PATH_LIB_DI . 'Dependency.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map/Annotation.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Annotation.php';
+        require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
 
         $collection      = new Doozr_Di_Collection();
         $parser          = new Doozr_Di_Parser_Annotation();
@@ -298,7 +290,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
             // If an array is found we need at least namespace and service
             if (isset($service['name']) === false) {
                 throw new Doozr_Loader_Serviceloader_Exception(
-                    'Serviceloader requires at least a "service" name when passing an array()!'
+                    'Serviceloader requires at least a "service" name when passing an []!'
                 );
             }
 
@@ -343,7 +335,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      * @param string $namespace The namespace to load service from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      * @static
      */

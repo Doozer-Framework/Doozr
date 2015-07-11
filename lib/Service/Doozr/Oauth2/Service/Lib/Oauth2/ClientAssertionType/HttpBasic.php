@@ -17,7 +17,7 @@ class HttpBasic implements ClientAssertionTypeInterface
     private $config;
     private $clientData;
 
-    public function __construct(ClientCredentialsInterface $storage, array $config = array())
+    public function __construct(ClientCredentialsInterface $storage, array $config = [])
     {
         $this->storage = $storage;
         $this->config = array_merge(array(
@@ -71,7 +71,7 @@ class HttpBasic implements ClientAssertionTypeInterface
      * );
      * @endcode
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-2.3.1
+     * @link http://tools.ietf.org/html/rfc6749#section-2.3.1
      *
      * @ingroup oauth2_section_2
      */
@@ -86,7 +86,7 @@ class HttpBasic implements ClientAssertionTypeInterface
             if (!is_null($request->request('client_id'))) {
                 /**
                  * client_secret can be null if the client's password is an empty string
-                 * @see http://tools.ietf.org/html/rfc6749#section-2.3.1
+                 * @link http://tools.ietf.org/html/rfc6749#section-2.3.1
                  */
                 return array('client_id' => $request->request('client_id'), 'client_secret' => $request->request('client_secret', ''));
             }

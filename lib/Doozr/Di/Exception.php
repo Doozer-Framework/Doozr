@@ -4,14 +4,14 @@
 /**
  * Doozr - Di - Exception
  *
- * Exception.php - Base Exception class of the Di-Framework
+ * Exception.php - Base Exception class of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -57,9 +57,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 /**
  * Doozr - Di - Exception
  *
- * Base Exception class of the Di-Framework
+ * Base Exception class of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -69,7 +69,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
  */
 class Doozr_Di_Exception extends Doozr_Exception
 {
-    // simple extending of PHP's base exception
-    // for Unit-Testing -> cause using PHP's default Exception "Exception"
-    // will lead to an Failure
+    /**
+     * Just used for namespacing issues
+     */
 }

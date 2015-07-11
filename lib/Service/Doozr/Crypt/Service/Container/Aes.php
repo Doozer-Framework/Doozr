@@ -8,7 +8,7 @@
  * Supports AES-128, AES-192 and AES-256 cause the length is
  * defined by key length
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -24,7 +24,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -89,8 +89,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Crypt/Service/Container/Interf
  * @link       http://clickalicious.github.com/Doozr/
  * @service    Multiple
  */
-class Doozr_Crypt_Service_Container_Aes
-extends Doozr_Crypt_Service_Container implements Doozr_Crypt_Service_Container_Interface
+class Doozr_Crypt_Service_Container_Aes extends Doozr_Crypt_Service_Container
+    implements
+    Doozr_Crypt_Service_Container_Interface
 {
     /**
      * The number of 32-bit words comprising the plaintext and
@@ -341,8 +342,8 @@ extends Doozr_Crypt_Service_Container implements Doozr_Crypt_Service_Container_I
             die("Key is " . ($this->_nk*32) . " bits long. *not* 128, 192, or 256.");
 
         $this->_rounds = $this->_nk+self::$_nb+2;
-        $this->_word = array(); // Nb*(Nr+1) 32-bit words
-        $this->_state = array(array());  // 2-D array of Nb colums and 4 rows
+        $this->_word = []; // Nb*(Nr+1) 32-bit words
+        $this->_state = array([]);  // 2-D array of Nb colums and 4 rows
 
         $this->KeyExpansion($key); // places expanded key in w
     }

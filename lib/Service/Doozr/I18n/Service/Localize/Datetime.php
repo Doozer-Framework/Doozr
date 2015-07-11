@@ -6,7 +6,7 @@
  *
  * Datetime.php - Datetime formatter
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -136,7 +136,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timecode The timecode to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access public
      */
     public function isValidTimeCode($timecode = 0)
@@ -150,7 +150,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param string $date The date to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access public
      */
     public function isValidIsoDate($date)
@@ -164,7 +164,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param string $date The date to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access public
      */
     public function isValidIsoDatetime($date)
@@ -178,7 +178,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access public
      */
     public function isValidUnixTimestamp($timestamp)
@@ -463,7 +463,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timeset The timeset to set active
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setTimeset($timeset = 0)
@@ -687,7 +687,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         Doozr_Registry_Interface $registry        = null,
         $locale                                   = null,
         $namespace                                = null,
-        $configI18n                               = null, // Config of Doozr (main .config) including section "I18n"
+        $configI18n                               = null, // Config of Doozr (main .config.json) including "I18n"
         $configL10n                               = null, // Config I18n/L10n configuration of the current active locale
         Doozr_I18n_Service_Translator $translator = null
     ) {

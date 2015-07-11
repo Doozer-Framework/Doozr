@@ -70,42 +70,62 @@ if (
  * In the default install you won't need this statements above!
  */
 
-var_dump('We need to modify some parts of routing to get the base working!');
-die;
+// App in development environment
+define('DOOZR_APP_ENVIRONMENT', 'development');
+//define('DOOZR_DEBUGGING', true);
+//define('DOOZR_LOGGING', true);
+//define('DOOZR_PROFILING', true); <-- NOT KERNEL => MORE FOR APP OF THE DEVELOPER USING DOOZR
 
 // Start profiling
-uprofiler_enable();
+uprofiler_enable(UPROFILER_FLAGS_CPU + UPROFILER_FLAGS_MEMORY);
 
-// We are in development environment
-putenv('DOOZR_APP_ENVIRONMENT=development');
+// Get composer and bootstrap Doozr ...
+require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
+require_once 'Doozr/Bootstrap.php';
 
-/**
- * Get composer as well as Doozr's router the rest is magic ...
- */
-require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR . '../vendor/autoload.php');
-require_once 'Route.php';
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use Relay\Runner;
+
+// Build queue for running middleware through relay
+$queue[] = function(Request $request, Response $response, callable $next) {
+
+    /* @var $app Doozr_Kernel_App Get kernel instance */
+    $app = Doozr_Kernel_App::boot(
+        DOOZR_APP_ENVIRONMENT,
+        DOOZR_RUNTIME_ENVIRONMENT,
+        DOOZR_DEBUGGING,
+        DOOZR_CACHING,
+        DOOZR_LOGGING,
+        DOOZR_DOCUMENT_ROOT,
+        DOOZR_APP_ROOT
+    );
+
+    return $app->handle($request, $response, !DOOZR_DEBUGGING);
+};
+
+// Create a Relay Runner instance ...
+$runner = new Runner($queue);
+
+// ... and run it with the queue defined above
+$response = $runner(
+    new Doozr_Request_Web(
+        new Doozr_Request_State()
+    ),
+    new Doozr_Response_Web(
+        new Doozr_Response_State()
+    )
+);
+
+// Stop profiler & save data
+$profilerData = uprofiler_disable();
+$profiler     = new uprofilerRuns_Default();
+$profiler->save_run($profilerData, DOOZR_NAMESPACE_FLAT);
+
+// After running the whole queue send the response (HTTP way)
+$responseSender = new Doozr_Response_Sender_Web($response);
+$responseSender->send();
 
 /**
  * If you want to call normal files within this directory feel free to :)
  */
-
-// stop profiler
-$uprofiler_data = uprofiler_disable();
-
-//
-// Saving the uprofiler run
-// using the default implementation of iuprofilerRuns.
-//
-include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_lib.php";
-include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_runs.php";
-
-$uprofiler_runs = new uprofilerRuns_Default();
-
-// Save the run under a namespace "uprofiler_doozr".
-//
-// **NOTE**:
-// By default save_run() will automatically generate a unique
-// run id for you. [You can override that behavior by passing
-// a run id (optional arg) to the save_run() method instead.]
-//
-$run_id = $uprofiler_runs->save_run($uprofiler_data, "uprofiler_doozr");

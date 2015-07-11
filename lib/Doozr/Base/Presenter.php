@@ -4,9 +4,9 @@
 /**
  * Doozr - Base - Presenter
  *
- * Presenter.php - Base class for presenter-layers from MVP
+ * Presenter.php - Base class for presenters
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -58,9 +58,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Route/Annotation/Route.php';
 
 /**
- * Doozr - Base Presenter
+ * Doozr - Base - Presenter
  *
- * Base Presenter of the Doozr Framework.
+ * Base class for presenters
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -71,7 +71,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Route/Annotation/Route.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr_Base_Presenter_Interface
+class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
+    implements
+    Doozr_Base_Presenter_Interface
 {
     /**
      * Data for CRUD operation(s)
@@ -90,23 +92,15 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     protected $model;
 
     /**
-     * Instance of view for communication
-     *
-     * @var Doozr_Base_View
-     * @access protected
-     */
-    protected $view;
-
-    /**
      * The main configuration
      *
-     * @var Doozr_Config
+     * @var Doozr_Configuration
      * @access protected
      */
     protected $configuration;
 
     /**
-     * Type of connector.
+     * Type of presenter.
      *
      * @var string
      * @access protected
@@ -114,12 +108,12 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     protected $type = 'Presenter';
 
     /**
-     * Complete request
+     * Complete route
      *
-     * @var array
+     * @var Doozr_Request_Route_State
      * @access protected
      */
-    protected $request;
+    protected $route;
 
     /**
      * The request state.
@@ -136,7 +130,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
      * @var array
      * @access protected
      */
-    protected $required = array();
+    protected $required = [];
 
     /**
      * Allowed request types to execute against this
@@ -145,23 +139,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
      * @var array
      * @access protected
      */
-    protected $allowed = array();
-
-    /**
-     * The original unmodified request as array
-     *
-     * @var array
-     * @access protected
-     */
-    protected $originalRequest;
-
-    /**
-     * Translation for reading request
-     *
-     * @var array
-     * @access protected
-     */
-    protected $translation;
+    protected $allowed = [];
 
     /**
      * The count of root nodes
@@ -188,24 +166,11 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     protected $url;
 
     /**
-     * The route
-     *
-     * @var array
-     * @access protected
-     */
-    protected $route;
-
-
-    /**
      * Constructor.
      *
-     * @param Doozr_Registry             $registry      Instance of Doozr_Registry containing all core components
-     * @param Doozr_Base_State_Interface $requestState  The whole request as state
-     * @param array                      $request       The request
-     * @param Doozr_Config_Interface     $configuration The Doozr main config instance
-     * @param Doozr_Base_Model           $model         The model to communicate with backend (db)
-     * @param Doozr_Base_View            $view          The view to display results
-     * @param array                      $translation   The translation required to read the request
+     * @param Doozr_Registry      $registry     Instance of Doozr_Registry containing all core components
+     * @param Doozr_Request_State $requestState The whole request as state
+     * @param Doozr_Base_Model    $model        The model to communicate with backend (db)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Base_Presenter
@@ -213,38 +178,32 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
      * @throws Doozr_Base_Presenter_Exception
      */
     public function __construct(
-        Doozr_Registry             $registry,
-        Doozr_Base_State_Interface $requestState,
-        array                      $request,
-        Doozr_Config_Interface     $configuration    = null,
-        Doozr_Base_Model           $model            = null,
-        Doozr_Base_View            $view             = null,
-        array                      $translation      = null
+        Doozr_Registry $registry,
+        Doozr_Request_State $requestState,
+        Doozr_Base_Model $model = null
     ) {
         // Store instances for further use ...
         $this
             ->registry($registry)
             ->requestState($requestState)
-            ->request($request)
-            ->originalRequest($requestState->getRequest())
+            ->route($requestState->getAttribute('route'))
             ->model($model)
-            ->view($view)
-            ->configuration($configuration)
-            ->translation($translation);
+            ->configuration($registry->getConfiguration());
+
 
         // Check if an app is configured -> enable autoloading for it automagically
-        if (isset($this->getConfiguration()->app)) {
+        if (false !== isset($this->getConfiguration()->app)) {
             $this->registerAutoloader(
-                $this->getConfiguration()->app()
+                $this->getConfiguration()->get('app')
             );
         }
 
-        // important! => call parents constructor so SplObjectStorage is created!
+        // Important! => call parents constructor so SplObjectStorage is created!
         parent::__construct($requestState);
 
-        // check for __tearup - Method (it's Doozr's __construct-like magic-method)
+        // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
-            $result = $this->__tearup($this->request, $this->translation);
+            $result = $this->__tearup($this->getRoute());
 
             if ($result !== true) {
                 throw new Doozr_Base_Presenter_Exception(
@@ -256,54 +215,44 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     }
 
     /**
-     * Setter for request.
+     * Setter for route.
      *
-     * @param array $request The request
+     * @param Doozr_Request_Route_State $route The route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setRequest(array $request)
+    protected function setRoute(Doozr_Request_Route_State $route)
     {
-        $this->request = $request;
+        $this->route = $route;
     }
 
     /**
-     * Setter for request.
+     * Setter for route.
      *
-     * @param array $request The request
+     * @param Doozr_Request_Route_State $route The route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function request(array $request)
+    protected function route(Doozr_Request_Route_State $route)
     {
-        $this->setRequest($request);
+        $this->setRoute($route);
         return $this;
     }
 
     /**
-     * Returns the current active processed request as array. If passed FALSE ($original = false) this method will
-     * return the modified (already rewritten request) when TRUE is passed then this method will return the original
-     * request.
-     *
-     * @param bool $original TRUE [default] to retrieve the raw request, FALSE to retrieve rewritten request
+     * Getter for route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The request
+     * @return Doozr_Request_Route_State The route
      * @access public
      */
-    public function getRequest($original = true)
+    public function getRoute()
     {
-        if ($original === true) {
-            $request = $this->originalRequest;
-        } else {
-            $request = $this->request;
-        }
-
-        return $request;
+        return $this->route;
     }
 
     /**
@@ -348,88 +297,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     }
 
     /**
-     * Setter for translation.
-     *
-     * @param array|null $translation The translation to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setTranslation(array $translation = null)
-    {
-        $this->translation = $translation;
-    }
-
-    /**
-     * Setter for translation.
-     *
-     * @param array|null $translation The translation to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access protected
-     */
-    protected function translation(array $translation = null)
-    {
-        $this->setTranslation($translation);
-        return $this;
-    }
-
-    /**
-     * Getter for translation.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|null The translation stored, otherwise NULL
-     * @access protected
-     */
-    protected function getTranslation()
-    {
-        return $this->translation;
-    }
-
-    /**
-     * Setter for originalRequest.
-     *
-     * @param mixed $originalRequest The originalRequest to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setOriginalRequest($originalRequest)
-    {
-        $this->originalRequest = $originalRequest;
-    }
-
-    /**
-     * Setter for originalRequest.
-     *
-     * @param mixed $originalRequest The originalRequest to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access protected
-     */
-    protected function originalRequest($originalRequest)
-    {
-        $this->setOriginalRequest($originalRequest);
-        return $this;
-    }
-
-    /**
-     * Getter for originalRequest.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The originalRequest stored, otherwise NULL
-     * @access protected
-     */
-    protected function getOriginalRequest()
-    {
-        return $this->originalRequest;
-    }
-
-    /**
      * Setter for model.
      *
      * @param Doozr_Base_Model $model The model to set
@@ -466,61 +333,22 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     }
 
     /**
-     * Setter for view.
-     *
-     * @param Doozr_Base_View $view The view to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function setView(Doozr_Base_View $view = null)
-    {
-        $this->view = $view;
-    }
-
-    /**
-     * Setter for view.
-     *
-     * @param Doozr_Base_View $view The view to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access protected
-     */
-    protected function view(Doozr_Base_View $view = null)
-    {
-        $this->setView($view);
-        return $this;
-    }
-
-    /**
-     * Getter for view.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Base_View|null The view if set, otherwise NULL
-     * @access protected
-     */
-    protected function getView()
-    {
-        return $this->view;
-    }
-
-    /**
      * This method (container) is intend to set the data for a requested runtimeEnvironment.
      *
      * @param mixed $data The data (array preferred) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean True if everything wends fine, otherwise false
+     * @return bool True if everything wends fine, otherwise false
      * @access public
      */
     public function setData($data)
     {
         $this->data = $data;
 
-        // notify observers about new data
-        $this->notify();
+        // Notify observers about new data
+        return $this->notify();
+
+        #return true;
     }
 
     /**
@@ -594,13 +422,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     /**
      * Setter for configuration.
      *
-     * @param Doozr_Config_Interface $configuration The configuation object
+     * @param Doozr_Configuration_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    protected function setConfiguration(Doozr_Config_Interface $configuration)
+    protected function setConfiguration(Doozr_Configuration_Interface $configuration)
     {
         $this->configuration = $configuration;
     }
@@ -608,13 +436,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     /**
      * Setter for configuration.
      *
-     * @param Doozr_Config_Interface $configuration The configuation object
+     * @param Doozr_Configuration_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    protected function configuration(Doozr_Config_Interface $configuration)
+    protected function configuration(Doozr_Configuration_Interface $configuration)
     {
         $this->setConfiguration($configuration);
         return $this;
@@ -624,7 +452,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Config_Interface The configuration stored
+     * @return Doozr_Configuration_Interface The configuration stored
      * @access public
      */
     protected function getConfiguration()
@@ -725,31 +553,18 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     }
 
     /**
-     *
-     * @return Doozr_Response_Web|Doozr_Response_Cli|Doozr_Response_Httpd
-     */
-    protected function getResponse()
-    {
-        // get registry
-        $registry = Doozr_Registry::getInstance();
-
-        // get front-controller and return it
-        return $registry->front->getResponse();
-    }
-
-    /**
      * Create of Crud
      *
      * @param mixed $data The data for create
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function create($data = null)
     {
         if ($this->hasMethod('__create') && is_callable(array($this, '__create'))) {
-            return $this->__create();
+            return $this->__create($data);
         }
 
         // notify observers about new data
@@ -776,14 +591,16 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     /**
      * Update of crUd
      *
+     * @param mixed $data The data for update
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Data on success, otherwise null
      * @access protected
      */
-    public function update()
+    public function update($data = null)
     {
         if ($this->hasMethod('__update') && is_callable(array($this, '__update'))) {
-            return $this->__update();
+            return $this->__update($data);
         }
 
         // notify observers about new data
@@ -793,14 +610,16 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     /**
      * Delete of cruD
      *
+     * @param mixed $data The data for delete
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
-    protected function delete()
+    protected function delete($data = null)
     {
         if ($this->hasMethod('__delete') && is_callable(array($this, '__delete'))) {
-            return $this->__delete();
+            return $this->__delete($data);
         }
 
         // notify observers about new data
@@ -814,7 +633,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
      * @param string|array $methods The HTTP Method which is allowed as string or multiple methods via array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @see    http://tools.ietf.org/html/rfc1945#page-30
+     * @link   http://tools.ietf.org/html/rfc1945#page-30
      * @return $this Instance for chaining
      * @access protected
      */
@@ -841,7 +660,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
      *
      * @param string $method The HTTP Method which should be checked
      *
-     * @return boolean TRUE if passed method is allowed, otherwise FALSE
+     * @return bool TRUE if passed method is allowed, otherwise FALSE
      * @access protected
      */
     protected function allowed($method)
@@ -852,10 +671,10 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     /**
      * Checks if passed method (HTTP verb) is allowed.
      *
-     * @param $method The HTTP Method which should be checked
+     * @param string $method The HTTP Method which should be checked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if passed method is allowed, otherwise FALSE
+     * @return bool TRUE if passed method is allowed, otherwise FALSE
      * @access protected
      */
     protected function isAllowed($method)
@@ -869,8 +688,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
      * run the presenter (or parts of model/view).
      *
      * @param        $argument
-     * @param string $scope  The scope (Action) for which the argument is required (* = wildcard = all)
-     * @param string $method The method (HTTP verb) to bind the requirement to
+     * @param string $scope    Scope (Action) for which the argument is required (* = wildcard = all)
+     * @param string $method   Method (HTTP verb) to bind the requirement to
      *
      * @internal param mixed $variable A single argument required to execute the presenter or an array of arguments
      * @author   Benjamin Carl <opensource@clickalicious.de>
@@ -880,17 +699,17 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     protected function required($argument, $scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)
     {
         // prepare storage on method/verb level
-        if (!isset($this->required[$method])) {
-            $this->required[$method] = array();
+        if (false === isset($this->required[$method])) {
+            $this->required[$method] = [];
         }
 
         // prepare storage on scope level
-        if (!isset($this->required[$method][$scope])) {
-            $this->required[$method][$scope] = array();
+        if (false === isset($this->required[$method][$scope])) {
+            $this->required[$method][$scope] = [];
         }
 
         // convert input to array if not an array
-        if (!is_array($argument)) {
+        if (false === is_array($argument)) {
             $argument = array($argument => null);
         }
 
@@ -909,32 +728,32 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
      * @param string $method   The method (HTTP verb) to use for lookup
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if required, otherwise FALSE
+     * @return bool TRUE if required, otherwise FALSE
      * @access protected
      */
     protected function isRequired($argument, $scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)
     {
-        // prepare storage on method/verb level
-        if (!isset($this->required[$method])) {
+        // Prepare storage on method/verb level
+        if (false === isset($this->required[$method])) {
             return false;
         }
 
-        // prepare storage on scope level
-        if (!isset($this->required[$method][$scope])) {
+        // Prepare storage on scope level
+        if (false === isset($this->required[$method][$scope])) {
             return false;
         }
 
-        // convert input to array if not an array
-        if (!is_array($argument)) {
+        // Convert input to array if not an array
+        if (false === is_array($argument)) {
             $argument = array($argument);
         }
 
-        // iterate the passed input to build ordered (scope) ruleset
+        // Iterate the passed input to build ordered (scope) rules
         foreach ($argument as $requiredVariable) {
             pre($requiredVariable);
         }
 
-        // success
+        // Success
         return true;
     }
 
@@ -952,37 +771,21 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements Doozr
     {
         // prepare storage on method/verb level
         if (!isset($this->required[$method])) {
-            return array();
+            return [];
         }
 
         // prepare storage on scope level
         if (!isset($this->required[$method][$scope])) {
-            return array();
+            return [];
         }
 
         return $this->required[$method][$scope];
     }
 
     /**
-     * Sets the route
-     *
-     * @param string The route to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Base_Presenter
-     * @access protected
-     */
-    protected function route($route)
-    {
-        $this->route = $route;
-
-        return $this;
-    }
-
-    /**
      * Sets the URL of the route
      *
-     * @param string The URL to set
+     * @param string $url The URL to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Base_Presenter

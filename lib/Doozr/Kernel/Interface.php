@@ -6,8 +6,10 @@
  *
  * Interface.php - Interface for forcing the US to keep important methods
  * and marking them as "deprecated" instead of silently removing them!
+ * We also implement a slightly different HttpKernel approach. But a bit more
+ * seperated to reduce overhead for Cli-only applications.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -23,7 +25,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -63,7 +65,6 @@
  * @package    Doozr_Kernel
  * @subpackage Doozr_Kernel_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @author     $LastChangedBy$
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
@@ -71,5 +72,5 @@
  */
 interface Doozr_Kernel_Interface
 {
-    // TODO: remove interface?
+    // Just used for namespace.
 }

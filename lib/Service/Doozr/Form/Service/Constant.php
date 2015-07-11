@@ -6,7 +6,7 @@
  *
  * Constant.php - Shared Constants used by classes of this service.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -73,7 +73,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const PREFIX = 'Doozr_Form_Service_';
 
@@ -86,7 +85,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const SCOPE = '';
 
@@ -95,7 +93,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const DEFAULT_NAMESPACE = 'Form';
 
@@ -103,8 +100,7 @@ class Doozr_Form_Service_Constant
      * The default step if no step is/was set before
      *
      * @var int
-     * @acces public
-     * @const
+     * @access public
      */
     const STEP_DEFAULT_FIRST = 1;
 
@@ -113,7 +109,6 @@ class Doozr_Form_Service_Constant
      *
      * @var int
      * @access public
-     * @const
      */
     const STEP_DEFAULT_LAST = 1;
 
@@ -122,7 +117,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const FORM_NAME_FIELD_SUBMITTED = 'Submitted';
 
@@ -131,7 +125,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const FORM_NAME_FIELD_TOKEN = 'Token';
 
@@ -141,7 +134,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const FORM_NAME_FIELD_FILE = 'File';
 
@@ -150,7 +142,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const FORM_NAME_FIELD_STEP = 'Step';
 
@@ -159,7 +150,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const FORM_NAME_FIELD_STEPS = 'Steps';
 
@@ -168,7 +158,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const FORM_NAME_FIELD_JUMP = 'Jump';
 
@@ -178,7 +167,6 @@ class Doozr_Form_Service_Constant
      *
      * @var int
      * @access public
-     * @const
      */
     const TOKEN_BEHAVIOR_DENY = 1;
 
@@ -188,7 +176,6 @@ class Doozr_Form_Service_Constant
      *
      * @var int
      * @access public
-     * @const
      */
     const TOKEN_BEHAVIOR_IGNORE = 2;
 
@@ -198,7 +185,6 @@ class Doozr_Form_Service_Constant
      *
      * @var int
      * @access public
-     * @const
      */
     const TOKEN_BEHAVIOR_INVALIDATE = 3;
 
@@ -207,7 +193,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_NONE = '';
 
@@ -216,7 +201,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_FORM = 'form';
 
@@ -225,7 +209,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_RADIO = 'radio';
 
@@ -234,7 +217,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_CHECKBOX = 'checkbox';
 
@@ -243,7 +225,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_SELECT = 'select';
 
@@ -252,7 +233,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_OPTION = 'option';
 
@@ -261,7 +241,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_OPTGROUP = 'optgroup';
 
@@ -270,7 +249,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_TEXTAREA = 'textarea';
 
@@ -279,7 +257,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_INPUT = 'input';#
 
@@ -288,7 +265,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_LABEL = 'label';
 
@@ -297,7 +273,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_DIV = 'div';
 
@@ -306,7 +281,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_FIELDSET = 'fieldset';
 
@@ -315,7 +289,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_LEGEND = 'legend';
 
@@ -324,7 +297,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_BUTTON = 'button';
 
@@ -333,7 +305,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_DATALIST = 'datalist';
 
@@ -342,7 +313,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_KEYGEN = 'keygen';
 
@@ -351,7 +321,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const HTML_TAG_OUTPUT = 'output';
 
@@ -360,7 +329,6 @@ class Doozr_Form_Service_Constant
      *
      * @var int
      * @access public
-     * @const
      */
     const HTML_VERSION_4 = 4;
 
@@ -369,7 +337,6 @@ class Doozr_Form_Service_Constant
      *
      * @var int
      * @access public
-     * @const
      */
     const HTML_VERSION_5 = 5;
 
@@ -382,7 +349,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const ENCODING_TYPE_DEFAULT = 'application/x-www-form-urlencoded';
 
@@ -391,7 +357,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const ENCODING_TYPE_FILEUPLOAD = 'multipart/form-data';
 
@@ -401,7 +366,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const ENCODING_TYPE_TEXT = 'text/plain';
 
@@ -410,7 +374,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const COMPONENT_GENERIC = 'generic';
 
@@ -419,7 +382,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const COMPONENT_DEFAULT = 'default';
 
@@ -429,7 +391,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const COMPONENT_CONTAINER = 'container';
 
@@ -438,7 +399,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const TEMPLATE_DEFAULT_CLOSING = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
 
@@ -447,7 +407,6 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      * @access public
-     * @const
      */
     const TEMPLATE_DEFAULT_NONCLOSING = '<{{TAG}}{{ATTRIBUTES}} />';
 }

@@ -6,7 +6,7 @@
  *
  * Exception.php - Simple basic exception class of the Doozr Framework.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -130,15 +130,15 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
     /**
      * Constructor.
      *
-     * @param string    $message  The exception-message
-     * @param int       $code     The code of the exception
-     * @param Exception $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
+     * @param string    $message  Exception-message
+     * @param int       $code     Code of the exception
+     * @param Exception $previous Previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Base_Exception
      * @access public
      */
-    public function __construct($message = null, $code = 0, $previous = null)
+    public function __construct($message = null, $code = 0, Exception $previous = null)
     {
         // if no message set set => throw us again
         if (!$message) {

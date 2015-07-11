@@ -20,7 +20,7 @@ class Mongo implements AuthorizationCodeInterface,
     protected $db;
     protected $config;
 
-    public function __construct($connection, $config = array())
+    public function __construct($connection, $config = [])
     {
         if ($connection instanceof \MongoDB) {
             $this->db = $connection;

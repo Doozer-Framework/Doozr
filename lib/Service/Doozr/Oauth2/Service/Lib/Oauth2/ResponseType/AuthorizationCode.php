@@ -13,7 +13,7 @@ class AuthorizationCode implements AuthorizationCodeInterface
     private $storage;
     private $config;
 
-    public function __construct(AuthorizationCodeStorageInterface $storage, array $config = array())
+    public function __construct(AuthorizationCodeStorageInterface $storage, array $config = [])
     {
         $this->storage = $storage;
         $this->config = array_merge(array(
@@ -26,7 +26,7 @@ class AuthorizationCode implements AuthorizationCodeInterface
     public function getAuthorizeResponse($params, $user_id = null)
     {
         // build the URL to redirect to
-        $result = array('query' => array());
+        $result = array('query' => []);
 
         $params += array('scope' => null, 'state' => null);
 
@@ -52,7 +52,7 @@ class AuthorizationCode implements AuthorizationCodeInterface
      * @param $scope
      * (optional) Scopes to be stored in space-separated string.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4
+     * @link http://tools.ietf.org/html/rfc6749#section-4
      * @ingroup oauth2_section_4
      */
     public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = null)

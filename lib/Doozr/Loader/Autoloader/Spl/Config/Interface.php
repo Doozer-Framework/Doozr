@@ -6,7 +6,7 @@
  *
  * Interface.php - Interface for Config-Classes for Doozr's SPL-Autoloader-Facade.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -76,7 +76,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param string $uId An unique-Id to identify the Autoloader later from outside the SPL-Facade.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function setUid($uId);
@@ -100,7 +100,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param string $namespace A namespace for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function setNamespace($namespace);
@@ -124,7 +124,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param int $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function setPriority($priority);
@@ -148,7 +148,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param string $description A description for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function setDescription($description);
@@ -172,7 +172,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param string $extension A file-extension used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function addExtension($extension);
@@ -185,7 +185,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param array $extensions A list of file-extensions used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function addExtensions(array $extensions);
@@ -209,7 +209,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param string $class A name of a class containing the Autoloader-Method used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function setClass($class);
@@ -231,7 +231,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * This method is intend to return the is-class status of the Autoloader-Config.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true is a Class containing the Autoloader-Method (Function), otherwise false (proced. Function)
+     * @return bool true is a Class containing the Autoloader-Method (Function), otherwise false (proced. Function)
      * @access public
      */
     public function isClass();
@@ -244,7 +244,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param string $method A method-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function setMethod($method);
@@ -268,7 +268,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param string $function A function-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function setFunction($function);
@@ -292,7 +292,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function setPath($path);
@@ -306,7 +306,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean true if setting was successful, otherwise false
+     * @return bool true if setting was successful, otherwise false
      * @access public
      */
     public function addPath($path);
@@ -338,7 +338,7 @@ interface Doozr_Autoload_Spl_Config_Interface
      * otherwise FALSE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if loader, otherwise FALSE
+     * @return bool TRUE if loader, otherwise FALSE
      * @access public
      */
     public function isLoader();

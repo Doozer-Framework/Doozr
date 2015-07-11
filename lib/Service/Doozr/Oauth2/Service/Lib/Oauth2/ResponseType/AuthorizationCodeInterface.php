@@ -27,7 +27,7 @@ interface AuthorizationCodeInterface extends ResponseTypeInterface
      * @param $scope
      * (optional) Scopes to be stored in space-separated string.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4
+     * @link http://tools.ietf.org/html/rfc6749#section-4
      * @ingroup oauth2_section_4
      */
     public function createAuthorizationCode($client_id, $user_id, $redirect_uri, $scope = null);

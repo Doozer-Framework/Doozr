@@ -4,14 +4,14 @@
 /**
  * Doozr - Di - Container
  *
- * Container.php - Container class of the Di-Framework
+ * Container.php - Container class of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -52,15 +52,15 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Map.php';
-require_once DI_PATH_LIB_DI . 'Dependency.php';
-require_once DI_PATH_LIB_DI . 'Factory.php';
-require_once DI_PATH_LIB_DI . 'Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 
 /**
  * Doozr - Di - Container
  *
- * Container class of the Di-Framework
+ * Container class of the Di-Library
  *
  * @category   Doozr
  * @package    Doozr_Di
@@ -73,29 +73,20 @@ require_once DI_PATH_LIB_DI . 'Exception.php';
 class Doozr_Di_Container
 {
     /**
-     * Contains container instances
-     *
-     * @var object
-     * @access protected
-     * @static
-     */
-    private static $_instances = array();
-
-    /**
      * The namespace of this container instance
      *
      * @var string
-     * @access private
+     * @access protected
      */
-    private $_namespace;
+    protected $namespace;
 
     /**
-     * The runtimeEnvironment the instance operates in
+     * The mode the instance operates in
      *
      * @var int
-     * @access private
+     * @access protected
      */
-    private $_mode;
+    protected $mode;
 
     /**
      * Contains the dependency maps of all containers
@@ -104,15 +95,24 @@ class Doozr_Di_Container
      * @access private
      * @static
      */
-    static private $_dependencyMaps = array();
+    private static $dependencyMaps = [];
+
+    /**
+     * Contains container instances
+     *
+     * @var object
+     * @access protected
+     * @static
+     */
+    private static $instances = [];
 
     /**
      * Instance of Doozr_Di_Factory for creating instances
      *
      * @var Doozr_Di_Factory
-     * @access private
+     * @access protected
      */
-    private $_factory;
+    protected $factory;
 
     /**
      * Default namespace
@@ -120,24 +120,29 @@ class Doozr_Di_Container
      * @var string
      * @access public
      */
-    const DEFAULT_NAMESPACE   = 'Di';
+    const DEFAULT_NAMESPACE = 'Di';
 
     /**
      * The runtimeEnvironment used to handle maps
-     * This can be either
-     * STATIC  = Used for static
+     * STATIC = Used for static
+     *
+     * @var int
+     * @access public
+     */
+    const MODE_STATIC = 1;
+
+    /**
+     * The runtimeEnvironment used to handle maps
      * DYNAMIC = Used for dynamic creation of instances
      *
      * @var int
      * @access public
      */
-    const MODE_STATIC  = 1;
     const MODE_DYNAMIC = 2;
 
-
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Adds a Doozr_Di_Map to an existing Map by merging it in
@@ -148,7 +153,7 @@ class Doozr_Di_Container
      * @param bool $override TRUE to override the existing map, FALSE to merge the maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setMap(Doozr_Di_Map $map, $override = true)
@@ -157,12 +162,12 @@ class Doozr_Di_Container
             $existingMap = $this->getMap();
 
             if ($existingMap) {
-                $map = $this->_mergeMaps($existingMap, $map);
+                $map = $this->mergeMaps($existingMap, $map);
             }
         }
 
         // store
-        self::$_dependencyMaps[$this->_namespace] = $map;
+        self::$dependencyMaps[$this->namespace] = $map;
 
         // success
         return true;
@@ -180,8 +185,8 @@ class Doozr_Di_Container
      */
     public function getMap()
     {
-        return (isset(self::$_dependencyMaps[$this->_namespace]))
-            ? self::$_dependencyMaps[$this->_namespace]
+        return (isset(self::$dependencyMaps[$this->namespace]))
+            ? self::$dependencyMaps[$this->namespace]
             : null;
     }
 
@@ -199,14 +204,17 @@ class Doozr_Di_Container
      */
     public function getMapFromOtherNamespace($namespace)
     {
-        if (!isset(self::$_dependencyMaps[$namespace])) {
+        if (!isset(self::$dependencyMaps[$namespace])) {
             throw new Doozr_Di_Exception(
-                'Dependency-Map could not be found. Dependency-Map with namespace "'.$namespace.'" does not exist.'
+                sprintf(
+                    'Dependency-Map could not be found. Dependency-Map with namespace "%s" does not exist.',
+                    $namespace
+                )
             );
         }
 
         // return requested map
-        return self::$_dependencyMaps[$namespace];
+        return self::$dependencyMaps[$namespace];
     }
 
     /**
@@ -222,7 +230,7 @@ class Doozr_Di_Container
      */
     public function importMapFromOtherNamespace($namespace)
     {
-        self::$_dependencyMaps[$this->_namespace] = $this->getMapFromOtherNamespace($namespace);
+        self::$dependencyMaps[$this->namespace] = $this->getMapFromOtherNamespace($namespace);
     }
 
     /**
@@ -238,7 +246,7 @@ class Doozr_Di_Container
      */
     public function setFactory(Doozr_Di_Factory $factory)
     {
-        $this->_factory = $factory;
+        $this->factory = $factory;
     }
 
     /**
@@ -252,7 +260,7 @@ class Doozr_Di_Container
      */
     public function getFactory()
     {
-        return $this->_factory;
+        return $this->factory;
     }
 
     /**
@@ -279,7 +287,7 @@ class Doozr_Di_Container
         }
 
         // Get setup for static || dynamic
-        if ($this->_mode === self::MODE_DYNAMIC) {
+        if ($this->mode === self::MODE_DYNAMIC) {
             $setup = $this->getMap()->getCollection()->getSetup($classname);
 
         } else {
@@ -312,7 +320,7 @@ class Doozr_Di_Container
      * This method is intend to check if the requirements are fulfilled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if requirements fulfilled, otherwise FALSE
+     * @return bool TRUE if requirements fulfilled, otherwise FALSE
      * @access public
      */
     public function requirementsFulfilled()
@@ -337,8 +345,8 @@ class Doozr_Di_Container
      * By passing a namespace through argument $namespace you are able to create
      * more than one instance of container if needed/required by your application.
      *
-     * @param string  $namespace The namespace of the Doozr_Di_Container instance
-     * @param int $mode      The runtimeEnvironment used to handle maps
+     * @param string $namespace The namespace of the Doozr_Di_Container instance
+     * @param int    $mode      The mode used to handle maps
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Di_Container Instance
@@ -347,34 +355,28 @@ class Doozr_Di_Container
      */
     public static function getInstance($namespace = self::DEFAULT_NAMESPACE, $mode = self::MODE_STATIC)
     {
-        if (!isset(self::$_instances[$namespace])) {
-            self::$_instances[$namespace] = new self(
+        if (!isset(self::$instances[$namespace])) {
+            self::$instances[$namespace] = new self(
                 $namespace,
                 $mode
             );
         }
 
         // return instance
-        return self::$_instances[$namespace];
+        return self::$instances[$namespace];
     }
 
-    /*******************************************************************************************************************
-     * PRIVATE
-     ******************************************************************************************************************/
-
     /**
-     * merges a new map with existing one
-     *
-     * This method is intend to merge an already existing map with a new one.s
+     * Merges a new map with existing one.
      *
      * @param Doozr_Di_Map $target The map in which the $source is merged into
      * @param Doozr_Di_Map $source The map which is merged into $target
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Di_Container The current instance of the Container for chaining/fluent-interface
-     * @access private
+     * @access protected
      */
-    private function _mergeMaps(Doozr_Di_Map $target, Doozr_Di_Map $source)
+    protected function mergeMaps(Doozr_Di_Map $target, Doozr_Di_Map $source)
     {
         // import of dependencies is built in functionality of map
         $target->import(
@@ -402,7 +404,7 @@ class Doozr_Di_Container
      */
     private function __construct($namespace, $mode)
     {
-        $this->_namespace = $namespace;
-        $this->_mode      = $mode;
+        $this->namespace = $namespace;
+        $this->mode      = $mode;
     }
 }

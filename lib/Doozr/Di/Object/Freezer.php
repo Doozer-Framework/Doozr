@@ -41,9 +41,9 @@
  * @since      File available since Release 1.0.0
  */
 
-require_once 'Object/Freezer/HashGenerator/NonRecursiveSHA1.php';
-require_once 'Object/Freezer/IdGenerator/UUID.php';
-require_once 'Object/Freezer/Util.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/HashGenerator/NonRecursiveSHA1.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/IdGenerator/UUID.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/Util.php';
 
 /**
  * This class provides the low-level functionality required to store ("freeze")
@@ -67,7 +67,7 @@ class Object_Freezer
     /**
      * @var array
      */
-    protected $blacklist = array();
+    protected $blacklist = [];
 
     /**
      * @var Object_Freezer_IdGenerator
@@ -88,7 +88,7 @@ class Object_Freezer
      * @param  boolean                      $useAutoload
      * @throws InvalidArgumentException
      */
-    public function __construct(Object_Freezer_IdGenerator $idGenerator = NULL, Object_Freezer_HashGenerator $hashGenerator = NULL, array $blacklist = array(), $useAutoload = TRUE)
+    public function __construct(Object_Freezer_IdGenerator $idGenerator = NULL, Object_Freezer_HashGenerator $hashGenerator = NULL, array $blacklist = [], $useAutoload = TRUE)
     {
         // Use Object_Freezer_IdGenerator_UUID by default.
         if ($idGenerator === NULL) {
@@ -196,7 +196,7 @@ class Object_Freezer
      * @return array            The frozen object(s).
      * @throws InvalidArgumentException
      */
-    public function freeze($object, array &$objects = array())
+    public function freeze($object, array &$objects = [])
     {
         // Bail out if a non-object was passed.
         if (!is_object($object)) {
@@ -216,7 +216,7 @@ class Object_Freezer
             $objects[$uuid] = array(
               'className' => get_class($object),
               'isDirty'   => $isDirty,
-              'state'     => array()
+              'state'     => []
             );
 
             // Iterate over the attributes of the object.
@@ -333,14 +333,15 @@ class Object_Freezer
      * @return object                The thawed object.
      * @throws RuntimeException
      */
-    public function thaw(array $frozenObject, $root = NULL, array &$objects = array())
+    public function thaw(array $frozenObject, $root = NULL, array &$objects = [])
     {
         // Bail out if one of the required classes cannot be found.
         foreach ($frozenObject['objects'] as $object) {
             if (!class_exists($object['className'], $this->useAutoload)) {
                 throw new RuntimeException(
                   sprintf(
-                    'Class "%s" could not be found.', $object['className']
+                      'Class "%s" could not be found.',
+                      $object['className']
                   )
                 );
             }
@@ -490,7 +491,7 @@ class Object_Freezer
      * Returns the flag that controls whether or not __autoload()
      * should be invoked.
      *
-     * @return boolean
+     * @return bool
      */
     public function getUseAutoload()
     {
@@ -526,7 +527,7 @@ class Object_Freezer
      *
      * @param  object  $object The object that is to be checked.
      * @param  boolean $rehash Whether or not to rehash dirty objects.
-     * @return boolean
+     * @return bool
      * @throws InvalidArgumentException
      */
     public function isDirty($object, $rehash = FALSE)

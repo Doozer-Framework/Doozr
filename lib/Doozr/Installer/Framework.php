@@ -13,7 +13,7 @@ if (php_sapi_name() !== 'cli') {
  * after using composer to install Doozr. It's a convenient way to get Doozr
  * running.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -29,7 +29,7 @@ if (php_sapi_name() !== 'cli') {
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -382,7 +382,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * @return void
      * @access protected
      */
-    protected static function setFolders(array $folders = array())
+    protected static function setFolders(array $folders = [])
     {
         self::$folders = $folders;
     }
@@ -415,7 +415,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
         $path = parent::validatePath($path);
 
         // Collection of existing folders for error message
-        $existingFolders = array();
+        $existingFolders = [];
 
         // Check now if any of the target directories exists
         foreach (self::getFolders() as $folder) {

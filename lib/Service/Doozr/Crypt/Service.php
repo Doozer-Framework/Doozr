@@ -12,7 +12,7 @@
  *     Standards Publication 197 - 26th November 2001 -
  *     Text cipher class - This class is using AES crypt algoritm
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -28,7 +28,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -81,12 +81,14 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
+class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * holds the AES-cipher object
@@ -165,7 +167,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade implements 
      * @param string $cipher The (name of) cipher to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setCipher($cipher = 'Aes')
@@ -274,11 +276,11 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade implements 
      * @access protected
      * @throws Doozr_Exception
      */
-    protected function containerFactory($container, array $containerOptions = array())
+    protected function containerFactory($container, array $containerOptions = [])
     {
         $container = ucfirst(strtolower($container));
         $class     = __CLASS__.'_Container_'.$container;
-        $file      = $this->registry->path->get('service').str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+        $file      = $this->registry->path->get('service') . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
 
         // check if file exists
         if (!file_exists($file)) {

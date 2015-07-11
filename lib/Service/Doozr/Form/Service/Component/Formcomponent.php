@@ -9,7 +9,7 @@
  * functionality. So extend this class for building form components and get
  * functionality like getName(), setName() ... on top!
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -25,7 +25,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -72,7 +72,8 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Service_Component_Html implements
+abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Service_Component_Html
+    implements
     Doozr_Form_Service_Component_Interface_Form
 {
     /**
@@ -81,7 +82,7 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @var array
      * @access protected
      */
-    protected $validation = array();
+    protected $validation = [];
 
     /**
      * Status if component is capable of
@@ -214,7 +215,7 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Returns the validity state of the form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if valid, otherwise FALSE
+     * @return bool TRUE if valid, otherwise FALSE
      * @access public
      */
     public function isValid()
@@ -236,7 +237,7 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
     public function addValidation($validation, $value = null)
     {
         if (!isset($this->validation[$validation])) {
-            $this->validation[$validation] = array();
+            $this->validation[$validation] = [];
         }
 
         $this->validation[$validation][] = $value;

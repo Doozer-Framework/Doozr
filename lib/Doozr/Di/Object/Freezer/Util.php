@@ -70,7 +70,7 @@ class Object_Freezer_Util
         }
 
         $reflector = new ReflectionObject($object);
-        $result    = array();
+        $result    = [];
 
         // Iterate over the attributes of the object.
         foreach ($reflector->getProperties() as $attribute) {

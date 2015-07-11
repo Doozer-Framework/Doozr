@@ -116,7 +116,7 @@ class vfsStream
      *                                                 'other.php'   => 'Some more text content',
      *                                                 'Invalid.csv' => 'Something else',
      *                                           ),
-     *                      'AnEmptyFolder'   => array(),
+     *                      'AnEmptyFolder'   => [],
      *                      'badlocation.php' => 'some bad content',
      *                )
      * )
@@ -139,10 +139,10 @@ class vfsStream
      * @param   array<string,array|string>  $structure    optional  directory structure to add under root directory
      * @return  vfsStreamDirectory
      * @since   0.7.0
-     * @see     https://github.com/mikey179/vfsStream/issues/14
-     * @see     https://github.com/mikey179/vfsStream/issues/20
+     * @link     https://github.com/mikey179/vfsStream/issues/14
+     * @link     https://github.com/mikey179/vfsStream/issues/20
      */
-    public static function setup($rootDirName = 'root', $permissions = null, array $structure = array())
+    public static function setup($rootDirName = 'root', $permissions = null, array $structure = [])
     {
         vfsStreamWrapper::register();
         return self::create($structure, vfsStreamWrapper::setRoot(self::newDirectory($rootDirName, $permissions)));
@@ -157,7 +157,7 @@ class vfsStream
      *                                                 'other.php'   => 'Some more text content',
      *                                                 'Invalid.csv' => 'Something else',
      *                                           ),
-     *                      'AnEmptyFolder'   => array(),
+     *                      'AnEmptyFolder'   => [],
      *                      'badlocation.php' => 'some bad content',
      *                )
      * )
@@ -184,8 +184,8 @@ class vfsStream
      * @return  vfsStreamDirectory
      * @throws  InvalidArgumentException
      * @since   0.10.0
-     * @see     https://github.com/mikey179/vfsStream/issues/14
-     * @see     https://github.com/mikey179/vfsStream/issues/20
+     * @link     https://github.com/mikey179/vfsStream/issues/14
+     * @link     https://github.com/mikey179/vfsStream/issues/20
      */
     public static function create(array $structure, vfsStreamDirectory $baseDir = null)
     {
@@ -237,7 +237,7 @@ class vfsStream
      * @return  vfsStreamDirectory
      * @throws  InvalidArgumentException
      * @since   0.11.0
-     * @see     https://github.com/mikey179/vfsStream/issues/4
+     * @link     https://github.com/mikey179/vfsStream/issues/4
      */
     public static function copyFromFileSystem($path, vfsStreamDirectory $baseDir = null, $maxFileSize = 1048576)
     {
@@ -355,7 +355,7 @@ class vfsStream
      * @return  vfsStreamVisitor
      * @throws  InvalidArgumentException
      * @since   0.10.0
-     * @see     https://github.com/mikey179/vfsStream/issues/10
+     * @link     https://github.com/mikey179/vfsStream/issues/10
      */
     public static function inspect(vfsStreamVisitor $visitor, vfsStreamContent $content = null)
     {

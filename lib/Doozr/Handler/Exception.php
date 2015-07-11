@@ -7,7 +7,7 @@
  * Exception.php - Exception-Handler of the Doozr-Framework which overrides
  * the PHP default exception-handler (handling)
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -23,7 +23,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -93,12 +93,12 @@ final class Doozr_Handler_Exception extends Doozr_Base_Class
     public static function handle(Exception $exception)
     {
         // Sometimes errors thrown before subsystem is ready - in this case its never told to outside but logged
-        $debug = (defined('DOOZR_DEBUG') === true) ? DOOZR_DEBUG : true;
+        $debug = (defined('DOOZR_DEBUGGING') === true) ? DOOZR_DEBUGGING : false;
 
         // In range of 100 - 599 we do send a HTTP response by logic and laws of Doozr
         if ($exception->getCode() >= 100 && $exception->getCode() <= 599) {
             $code    = $exception->getCode();
-            $message = ($debug === true) ? $exception->getMessage() : constant('Doozr_Http::STATUS_' . $code);
+            $message = ($debug === true) ? $exception->getMessage() : constant('Doozr_Http::REASONPHRASE_' . $code);
 
         } else {
             $code    = '500';

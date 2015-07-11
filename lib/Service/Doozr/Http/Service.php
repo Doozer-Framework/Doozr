@@ -6,7 +6,7 @@
  *
  * Service.php - Http Service
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -72,12 +72,14 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     class="Doozr_Registry",
- *     identifier="__construct",
+ *     target="getInstance",
  *     type="constructor",
  *     position=1
  * )
  */
-class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
+class Doozr_Http_Service extends Doozr_Base_Service_Multiple
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * The curl sessions/references/handles
@@ -85,7 +87,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @var array
      * @access protected
      */
-    protected $sessions = array();
+    protected $sessions = [];
 
     /**
      * The HOST
@@ -141,7 +143,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @var Doozr_Http_Service[]
      * @access protected
      */
-    protected $append = array();
+    protected $append = [];
 
     /**
      * The silent runtimeEnvironment
@@ -158,7 +160,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @var array
      * @access protected
      */
-    protected $requests = array();
+    protected $requests = [];
 
     /**
      * The header used when requesting data
@@ -166,12 +168,11 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @var array
      * @access protected
      */
-    protected $header = array();
+    protected $header = [];
 
     /**
      * The status for OK = 200
      *
-     * @const
      * @access public
      */
     const HTTP_STATUS_OK = 200;
@@ -179,7 +180,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The status for CREATED = 201
      *
-     * @const
      * @access public
      */
     const HTTP_STATUS_CREATED = 201;
@@ -187,7 +187,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The status for ACCEPTED = 202
      *
-     * @const
      * @access public
      */
     const HTTP_STATUS_ACCEPTED = 202;
@@ -195,7 +194,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The protocol HTTP
      *
-     * @const
      * @access public
      */
     const CONNECTION_PROTOCOL_HTTP = 'http';
@@ -203,7 +201,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The protocol HTTPS
      *
-     * @const
      * @access public
      */
     const CONNECTION_PROTOCOL_HTTPS = 'https';
@@ -212,7 +209,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * The method GET
      * API's -> Read
      *
-     * @const
      * @access public
      */
     const GET = 'GET';
@@ -221,7 +217,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * The method POST
      * API's -> Create
      *
-     * @const
      * @access public
      */
     const POST = 'POST';
@@ -230,7 +225,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * The method PUT
      * API's -> Update
      *
-     * @const
      * @access public
      */
     const PUT = 'PUT';
@@ -238,7 +232,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The method PATCH
      *
-     * @const
      * @access public
      */
     const PATCH = 'PATCH';
@@ -247,7 +240,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * The method DELETE
      * API's -> Delete
      *
-     * @const
      * @access public
      */
     const DELETE = 'DELETE';
@@ -255,7 +247,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The method HEAD
      *
-     * @const
      * @access public
      */
     const HEAD = 'HEAD';
@@ -263,7 +254,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The method OPTIONS
      *
-     * @const
      * @access public
      */
     const OPTIONS = 'OPTIONS';
@@ -271,7 +261,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The method CONNECT
      *
-     * @const
      * @access public
      */
     const CONNECT = 'CONNECT';
@@ -279,7 +268,6 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The method TRACE
      *
-     * @const
      * @access public
      */
     const TRACE   = 'TRACE';
@@ -287,11 +275,9 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     /**
      * The time paused between two executions
      *
-     * @const
      * @access public
      */
     const REQUEST_SLEEP_BETWEEN = 0.2;
-
 
     /**
      * Constructor replacement for services of Doozr Framework
@@ -320,7 +306,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @param string $password The password
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setCredentials($user, $password)
@@ -369,7 +355,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @param string $protocol The protocol to use for request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setProtocol($protocol)
@@ -413,7 +399,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @param string $host The host to use for request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setHost($host)
@@ -457,7 +443,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @param int $port The port to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setPort($port)
@@ -501,7 +487,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @param bool $mode TRUE to be silent, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setSilent($mode = true)
@@ -531,7 +517,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * Returns the current silent-runtimeEnvironment
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if silent-runtimeEnvironment enabled, otherwise FALSE
+     * @return bool TRUE if silent-runtimeEnvironment enabled, otherwise FALSE
      * @access public
      */
     public function getSilent()
@@ -545,7 +531,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @param array $header The header to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setHeader($header)
@@ -609,7 +595,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
-    public function get($url = null, $parameter = array())
+    public function get($url = null, $parameter = [])
     {
         $this->requests[] = array(
             'method'    => self::GET,
@@ -630,7 +616,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
-    public function post($url = null, $parameter = array())
+    public function post($url = null, $parameter = [])
     {
         $this->requests[] = array(
             'method'    => self::POST,
@@ -651,7 +637,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
-    public function put($url = null, $parameter = array())
+    public function put($url = null, $parameter = [])
     {
         $this->requests[] = array(
             'method'    => self::PUT,
@@ -672,7 +658,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @return Doozr_Http_Service $this The current instance for chaining
      * @access public
      */
-    public function delete($url = null, $parameter = array())
+    public function delete($url = null, $parameter = [])
     {
         $this->requests[] = array(
             'method'    => self::DELETE,
@@ -709,7 +695,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @return array The result as an array status => 400,401,403..., response => '<html ...>'
      * @access public
      */
-    public function doPut($url = null, $parameter = array())
+    public function doPut($url = null, $parameter = [])
     {
         return $this->_exec(
             self::PUT,
@@ -728,7 +714,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @return array The result as an array status => 400,401,403..., response => '<html ...>'
      * @access public
      */
-    public function doPost($url = null, $parameter = array())
+    public function doPost($url = null, $parameter = [])
     {
         return $this->_exec(
             self::POST,
@@ -747,7 +733,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @return array The result as an array status => 400,401,403..., response => '<html ...>'
      * @access public
      */
-    public function doGet($url = null, $parameter = array())
+    public function doGet($url = null, $parameter = [])
     {
         return $this->_exec(
             self::GET,
@@ -766,7 +752,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * @return array The result as an array status => 400,401,403..., response => '<html ...>'
      * @access public
      */
-    public function doDelete($url = null, $parameter = array())
+    public function doDelete($url = null, $parameter = [])
     {
         return $this->_exec(
             self::DELETE,
@@ -850,7 +836,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * Configures the credentials for the request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access private
      */
     private function _configureCredentials($session)
@@ -944,7 +930,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      * Configures the Return-Transfer option
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access private
      */
     private function _returnTransfer($session, $state)
@@ -1021,7 +1007,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      */
     private function _exec($method, $url, array $parameter)
     {
-        $result = array();
+        $result = [];
 
         // init a new curl session
         $session = $this->_init();
@@ -1058,7 +1044,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      */
     private function _run()
     {
-        $result = array();
+        $result = [];
 
         // prepare data for multi-run if active
         if ($this->multiple) {

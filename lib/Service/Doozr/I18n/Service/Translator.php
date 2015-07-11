@@ -11,7 +11,7 @@
  *  - B
  *  - C
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -27,7 +27,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -141,7 +141,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @access protected
      * @static
      */
-    protected static $translatorInterfaces = array();
+    protected static $translatorInterfaces = [];
 
     /**
      * I18n-configuration of the I18n-Service
@@ -165,7 +165,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @var array
      * @access protected
      */
-    protected $namespaces = array();
+    protected $namespaces = [];
 
     /**
      * Key identifier for translation-table
@@ -180,7 +180,6 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * @var string
      * @access public
-     * @const
      */
     const MODE_TRANSLATE = 'translate';
 
@@ -189,7 +188,6 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * @var string
      * @access public
-     * @const
      */
     const MODE_TRANSLATE_ENCODE = 'translateEncode';
 
@@ -198,10 +196,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * @var string
      * @access public
-     * @const
      */
     const MODE_TRANSLATE_ENCODE_PLUS = 'translateEncodePlus';
-
 
     /*------------------------------------------------------------------------------------------------------------------
      | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
@@ -214,18 +210,18 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * @param string                 $locale     The locale this instance is working with
      * @param string                 $encoding   The encoding for this instance
-     * @param Doozr_Config_Interface $configI18n An instance of Doozr_Config_Ini holding the I18n-config
-     * @param Doozr_Config_Interface $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
+     * @param Doozr_Configuration_Interface $configI18n An instance of Doozr_Config_Ini holding the I18n-config
+     * @param Doozr_Configuration_Interface $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_I18n_Service_Translator Instance of this class
      * @access public
      */
     public function __construct(
-        $locale,
-        $encoding,
-        Doozr_Config_Interface $configI18n,
-        Doozr_Config_Interface $configL10n
+                               $locale,
+                               $encoding,
+        Doozr_Configuration_Interface $configI18n,
+        Doozr_Configuration_Interface $configL10n
     ) {
         $this
             ->locale($locale)
@@ -235,8 +231,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
                     null
             )
             ->encoding($encoding)
-            ->cacheEnabled($configI18n->cache->enabled)
-            ->cacheLifetime($configI18n->cache->lifetime)
+            ->cacheEnabled($configI18n->kernel->caching->enabled)
+            ->cacheLifetime($configI18n->kernel->caching->lifetime)
             ->pathToTranslations($configI18n->i18n->path)
             ->translatorInterface(
                 ucfirst(strtolower($configI18n->i18n->translator->interface))
@@ -692,7 +688,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * This method is intend to return the redirect-status of the translator instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if redirect, otherwise FALSE
+     * @return bool TRUE if redirect, otherwise FALSE
      * @access public
      */
     public function hasRedirect()
@@ -709,7 +705,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @param mixed $namespace STRING single namespace, or ARRAY collection of namespaces
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE
+     * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
     public function setNamespace($namespace)
@@ -737,7 +733,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @param mixed $namespace STRING single namespace, or ARRAY collection of namespaces
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if namespace(s) have been added, otherwise FALSE
+     * @return bool TRUE if namespace(s) have been added, otherwise FALSE
      * @access public
      */
     public function addNamespace($namespace)
@@ -804,7 +800,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @param string $namespace The namespace to check its existence
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if namespace is in list, otherwise FALSE
+     * @return bool TRUE if namespace is in list, otherwise FALSE
      * @access public
      */
     public function hasNamespace($namespace = null)
@@ -827,7 +823,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      * @param string $namespace The namespace to check its existence
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE if namespace is in list, otherwise FALSE
+     * @return bool TRUE if namespace is in list, otherwise FALSE
      * @access public
      */
     public function removeNamespace($namespace)
@@ -955,14 +951,11 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     protected function translatorInterfaceFactory()
     {
         // Combine some parts to a config for the interface
-        $config = array(
-            'path' => $this->getPathToTranslations(),
-            'cache' => array(
-                'enabled'  => $this->getCacheEnabled(),
-                'lifetime' => $this->getCacheLifetime()
-            ),
-            'encoding' => $this->getEncoding(),
-        );
+        $config                  = $this->getConfigI18n()->i18n;
+        $config->path            = $this->getPathToTranslations();
+        $config->cache->enabled  = $this->getCacheEnabled();
+        $config->cache->lifetime = $this->getCacheLifetime();
+        $config->encoding        = $this->getEncoding();
 
         // Include required file -> NO autoloading -> cause of performance!
         include_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/' .
@@ -999,13 +992,6 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
                 'or addNamespace(...) first.'
             );
         }
-
-        /*
-        // Check if translator is already initialized
-        if (!self::$translatorInterfaces[$encoding]) {
-            self::$translatorInterfaces[$encoding] = $this->translatorInterfaceFactory();
-        }
-        */
 
         // Translate
         $translation = self::$translatorInterfaces[$encoding]->lookup(

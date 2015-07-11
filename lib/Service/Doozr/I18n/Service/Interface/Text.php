@@ -6,7 +6,7 @@
  *
  * Text.php - Translation-Interface to text
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -80,7 +80,6 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
      *
      * @var string
      * @access public
-     * @const
      */
     const TRANSLATION_FILES_DIRECTORY = 'Text';
 
@@ -89,10 +88,8 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
      *
      * @var string
      * @access public
-     * @const
      */
     const TRANSLATION_FILES_EXTENSION = 'ini';
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
@@ -166,14 +163,14 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
     protected function buildTranslationtable($locale, array $namespaces)
     {
         // The resulting array
-        $result = array();
+        $result = [];
 
         // Assume init was done already
         $fresh = false;
 
         // check if locale was prepared before
         if (!isset(self::$translations[$locale])) {
-            self::$translations[$locale] = array();
+            self::$translations[$locale] = [];
             $fresh = true;
         }
 
@@ -186,7 +183,9 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
             } else {
                 // load fresh from file
                 $translationFile = $this->path . $locale . DIRECTORY_SEPARATOR . self::TRANSLATION_FILES_DIRECTORY .
-                    DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . $namespace . '.' . self::TRANSLATION_FILES_EXTENSION;
+                                   DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . $namespace . '.' .
+                                   self::TRANSLATION_FILES_EXTENSION;
+
                 $result = array_merge($result, $this->_parseTranslationfile($translationFile));
             }
         }
@@ -216,7 +215,7 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
         }
 
         // assume empty resulting array
-        $result = array();
+        $result = [];
 
         // open read handle to file
         $fileHandle = fopen($filename, 'r');

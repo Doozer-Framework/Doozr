@@ -7,11 +7,12 @@
 *.php         eol=lf    text       ident  diff=php
 *.phps        eol=lf    text       ident  diff=php
 *.properties            text       ident
-*.js                    text       ident  diff=html
-*.css                   text       ident  diff=html
+*.js          eol=lf    text       ident  diff=java
+*.json        eol=lf    text       ident  diff=java
+*.css         eol=lf    text       ident  diff=html
 *.sh          eol=lf    text       ident
 *.bat         eol=crlf  text       ident
 *.cmd         eol=crlf  text       ident
 *.vcproj      eol=crlf  text       ident
 *.md          eol=lf    text       ident  diff=html
-*                       text=auto
+*             eol=lf    text=auto

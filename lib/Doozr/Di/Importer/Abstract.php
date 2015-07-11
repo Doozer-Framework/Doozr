@@ -2,16 +2,16 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Importer Abstract
+ * Doozr - Di - Importer - Abstract
  *
- * Abstract.php - Abstract base class for all Importer of the Di-Framework
+ * Abstract.php - Abstract base class for all Importer of the Di-Library
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
- * Doozr - Di - The Dependency Injection Framework
+ * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2012, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -42,7 +42,7 @@
  *
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Importer_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -52,14 +52,14 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DI_PATH_LIB_DI . 'Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 
 /**
- * Doozr - Di - Importer Abstract
+ * Doozr - Di - Importer - Abstract
  *
- * Abstract base class for all Importer of the Di-Framework
+ * Abstract base class for all Importer of the Di-Library
  *
- * @category   Di
+ * @category   Doozr
  * @package    Doozr_Di
  * @subpackage Doozr_Di_Importer_Abstract
  * @author     Benjamin Carl <opensource@clickalicious.de>
@@ -86,9 +86,9 @@ abstract class Doozr_Di_Importer_Abstract
     protected $input;
 
 
-    /*******************************************************************************************************************
-     * PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Sets the collection of the current instance
@@ -176,9 +176,9 @@ abstract class Doozr_Di_Importer_Abstract
         return $this;
     }
 
-    /*******************************************************************************************************************
-     * PRIVATE
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | PROTECTED
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Reads content from given file
@@ -196,7 +196,10 @@ abstract class Doozr_Di_Importer_Abstract
     {
         if (!file_exists($file) || !is_file($file)) {
             throw new Doozr_Di_Exception(
-                'Error reading file. File "'.$file.'" does not exist or is not a valid file'
+                sprintf(
+                    'Error reading file. File "%s" does not exist or is not a valid file',
+                    $file
+                )
             );
         }
 

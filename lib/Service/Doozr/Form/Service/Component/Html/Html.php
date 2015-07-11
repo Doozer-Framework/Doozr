@@ -8,7 +8,7 @@
  * which provides some simple rendering and templating capabilities.
  * It's a concrete implementation which extends the HTML-skeleton abstract.
  *
- * PHP versions 5.4
+ * PHP versions 5.5
  *
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
@@ -24,7 +24,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -74,7 +74,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interfa
  * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
-abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service_Component_Html_Abstract implements
+abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service_Component_Html_Abstract
+    implements
     Doozr_Form_Service_Component_Interface_Html,
     SplSubject,
     SplObserver,
@@ -88,7 +89,7 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * @var SplObjectStorage
      * @access protected
      */
-    protected $observers = array();
+    protected $observers = [];
 
     /**
      * The template is required for output. Each HTML-Component inherits
