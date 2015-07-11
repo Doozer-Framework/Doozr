@@ -345,7 +345,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @return void
      * @access public
      */
-    public function testSettingAndGetAnCustomEncoding()
+    public function testSettingAndGettingAnCustomEncoding()
     {
         $encoding = Doozr_I18n_Service::ENCODING_ISO_8859_1;
         $this->assertTrue(self::$service->setEncoding($encoding));

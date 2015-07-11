@@ -18,12 +18,6 @@
         <testsuite name="Doozr">
             <directory>.</directory>
         </testsuite>
-        <testsuite name="Doozr_I18n_Service">
-            <directory>../lib/Service/Doozr/I18n/tests/</directory>
-        </testsuite>
-        <testsuite name="Doozr_Http_Service">
-            <directory>../lib/Service/Doozr/Http/tests/</directory>
-        </testsuite>
     </testsuites>
 
     <logging>
