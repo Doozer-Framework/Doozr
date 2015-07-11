@@ -16,6 +16,8 @@
     "doctrine/dbal": "2.5.*",
     "doctrine/orm": "2.5.*",
     "doctrine/annotations": "1.2.*",
+    "raulfraile/ladybug": "1.0.*",
+    "maximebf/debugbar": "1.10.*",
     "symfony/console": "2.6.*",
     "firephp/firephp-core": "0.4.*",
     "phptal/phptal": "1.3.*",
@@ -38,8 +40,6 @@
     "relay/relay": "1.*@dev",
     "relay/middleware": "1.*@dev",
     "vlucas/phpdotenv": "2.0.*",
-    "raulfraile/ladybug": "1.0.*",
-    "maximebf/debugbar": "1.10.*",
     "friendsofphp/uprofiler": "dev-master"
   },
   "require-dev": {
