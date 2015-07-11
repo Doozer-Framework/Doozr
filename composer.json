@@ -36,7 +36,7 @@
       "stack/callable-http-kernel": "1.0.*",
       "relay/relay": "1.*@dev",
       "relay/middleware": "1.*@dev",
-      "friendsofphp/uprofiler": "dev-master"
+      "vlucas/phpdotenv": "2.0.*"
   },
   "require-dev": {
     "friendsofphp/uprofiler": "dev-master",
