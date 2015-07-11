@@ -14,7 +14,6 @@ The **lightweight** PHP-Framework for **high-performance** websites
 - [Requirements](#requirements)
 - [Philosophy](#philosophy)
 - [Services](#services)
-- [API](#api)
 - [Versioning](#versioning)
 - [Roadmap](#roadmap)
 - [Security-Issues](#security-issues)
@@ -28,25 +27,27 @@ The **lightweight** PHP-Framework for **high-performance** websites
 
  - High performance (developed with profiler)
  - Ultra fast routing, caching and request processing!
- - Lightweight and high quality code base
- - Deep integrated logger subsystem
+ - Lightweight and high quality code base (following PSR-0,1,2,3,4,7)
+ - Full PSR-7 compatible
+ - Middleware Layer support (relay\relay)
+ - Integrated logger subsystem
  - Clean & well documented code
  - Unit-tested
 
 
 ## Requirements
 
- - PHP >= 5.4 (compatible up to version 5.6)
+ - PHP >= 5.5 (compatible up to version 5.6)
 
 
 ## Philosophy
 
-Doozr is the **lightweight** PHP-Framework for **high-performance** applications. It follows the `convention over configuration`-principle. `Doozr` comes with the right set of core services. Build, test and deploy **high-scalable** applications with in very short time. `Doozr` supports the **CLI**, **CGI** and PHP's **Internal Webserver** (for development) SAPI. A ultra fast and convenient routing mechanism helps you building large scale applications. `Doozr` is shipped with builtin `I18n` support ... But **Doozr** has so much more to offer!
+Doozr is the **lightweight** PHP-Framework for **high-performance** applications. It follows the `convention over configuration`-principle. `Doozr` comes with the right set of core services. Build, test and deploy **high-scalable** applications with in very short time. `Doozr` supports the **CLI**, **CGI** and PHP's **Internal Webserver** (for development) SAPI. A ultra fast and convenient routing mechanism helps you building large scale applications. `Doozr` is shipped with builtin `I18n` support ... But **Doozr** has so much more to offer! Try it, run it - love it :)
 
 
 ## Services
 
-`Doozr` is shipped with the following high quality core services:
+`Doozr` is shipped with the following high quality core *Services*:
 
  - `Acl` (CRUD Secured Objects)
  - `Cache` (Interface to Filesystem + Memcached)
@@ -60,12 +61,9 @@ Doozr is the **lightweight** PHP-Framework for **high-performance** applications
  - `Session` (Secure and OO Session interface)
  - `Template` (Interface to PHPTal)
 
-100% `composer` support. For all missing features we can make use of [packagist.org][1]. So just put the required package(s) in your `composer.json` and use them right after installation without need to include `.../vendor/autoload.php` manually. `Doozr` detects the `composer` packages and includes the autoloader of `composer`.
+100% `composer` support. For all missing features we can make use of [packagist.org][1]. So just put the required package(s) in your `composer.json` and use them right after installation without need to include `.../vendor/autoload.php` manually. `Doozr` detects the `composer` packages and includes the autoloader of `composer`. 
 
-
-## API
-
-`Doozr` provides a ready to use `API` right after installation. The structure and routes are generic and built using best practices from community powered PHP-projects.
+This mechanism is our pragmatic approach as bridge to all the software & libraries out there. Of course you can build your very own *Services* and load them the same way as you would load a `Doozr` *Service* - but you are not required to do so. In other words: If you just want to use some smart library then pick it by using `composer` - but if you want to build your own piece of library then you should build a `Doozr` *Service* (which itself can use Composer as well). 
 
 
 ## Versioning
