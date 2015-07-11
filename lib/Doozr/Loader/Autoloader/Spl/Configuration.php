@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -666,10 +666,10 @@ class Doozr_Loader_Autoloader_Spl_Config
             'Doctrine\Common\ClassLoader' !== $classname &&
             'Doozr_Session_Service_Exception' !== $classname &&
             'Doozr_Route' !== $classname &&
-            'Doozr_Request_Dispatcher' !== $classname &&
+            'Doozr_Response_Resolver' !== $classname &&
             'Doozr_Cache_Service_Exception' !== $classname &&
             'Doozr_Base_Presenter' !== $classname &&
-            'Doozr_Route_Dispatcher' !== $classname &&
+            'Doozr_Route_Resolver' !== $classname &&
             'FastRoute\RouteCollector' !== $classname &&
             'FastRoute\Dispatcher\GroupCountBased' !== $classname &&
             'FastRoute\Dispatcher\RegexBasedAbstract' !== $classname &&

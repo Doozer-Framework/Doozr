@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -198,9 +198,15 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
         $this->phpVersion = $phpVersion;
     }
 
+    /**
+     * @param $phpVersion
+     *
+     * @return $this
+     */
     protected function phpVersion($phpVersion)
     {
         $this->setPhpVersion($phpVersion);
+
         return $this;
     }
 
@@ -218,6 +224,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
     protected function isCli($isCli)
     {
         $this->setIsCli($isCli);
+
         return $this;
     }
 

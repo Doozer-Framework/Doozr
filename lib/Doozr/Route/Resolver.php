@@ -4,7 +4,7 @@
 /**
  * Doozr - Route - Dispatcher
  *
- * Dispatcher.php - Route dispatcher for dispatching route from request state to MVP.
+ * Resolver.php - Route dispatcher for dispatching route from request state to MVP.
  *
  * PHP versions 5.5
  *
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Route
- * @subpackage Doozr_Route_Dispatcher
+ * @subpackage Doozr_Route_Resolver
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -63,14 +63,14 @@ use FastRoute\Dispatcher\GroupCountBased;
  *
  * @category   Doozr
  * @package    Doozr_Route
- * @subpackage Doozr_Route_Dispatcher
+ * @subpackage Doozr_Route_Resolver
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Route_Dispatcher extends GroupCountBased
+class Doozr_Route_Resolver extends GroupCountBased
 {
     /*------------------------------------------------------------------------------------------------------------------
     | INIT
@@ -107,5 +107,20 @@ class Doozr_Route_Dispatcher extends GroupCountBased
         }
 
         parent::__construct($routeCollector->getData());
+    }
+
+    /**
+     * Wrapper for using resolve() instead of dispatch().
+     *
+     * @param string $httpMethod The HTTP Method to route
+     * @param string $uri        The URI to route
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The result as array?
+     * @access public
+     */
+    public function resolve($httpMethod, $uri)
+    {
+        return parent::dispatch($httpMethod, $uri);
     }
 }

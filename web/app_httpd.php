@@ -15,7 +15,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -75,6 +75,7 @@ if (
 define('DOOZR_APP_ENVIRONMENT', 'development');
 //define('DOOZR_DEBUGGING', true);
 //define('DOOZR_LOGGING', true);
+//define('DOOZR_PROFILING', true);
 
 /**
  * Get composer and bootstrap Doozr ...
@@ -102,14 +103,43 @@ $_SERVER['QUERY_STRING'] = (
 
 require_once 'Doozr/Bootstrap.php';
 
-// Initialize Doozr App Kernel
-$app = Doozr_Kernel_App::boot(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use Relay\Runner;
 
-// Handle the default detected request (Web or Cli)
-$response = $app->handle();
+// Build queue for running middleware through relay
+$queue[] = function(Request $request, Response $response, callable $next) {
 
-// Send response to client
-$response->send();
+    /* @var $app Doozr_Kernel_App Get kernel instance */
+    $app = Doozr_Kernel_App::boot(
+        DOOZR_APP_ENVIRONMENT,
+        DOOZR_RUNTIME_ENVIRONMENT,
+        DOOZR_DEBUGGING,
+        DOOZR_CACHING,
+        DOOZR_LOGGING,
+        DOOZR_DOCUMENT_ROOT,
+        DOOZR_APP_ROOT
+    );
+
+    return $app->handle($request, $response, !DOOZR_DEBUGGING);
+};
+
+// Create a Relay Runner instance ...
+$runner = new Runner($queue);
+
+// ... and run it with the queue defined above
+$response = $runner(
+    new \Doozr_Request_Web(
+        new \Doozr_Request_State()
+    ),
+    new \Doozr_Response_Web(
+        new \Doozr_Response_State()
+    )
+);
+
+// After running the whole queue send the response (HTTP way)
+$responseSender = new Doozr_Response_Sender_Web($response);
+$responseSender->send();
 
 /**
  * If you want to call normal files within this directory feel free to :)

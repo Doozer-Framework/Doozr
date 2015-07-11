@@ -15,7 +15,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -60,6 +60,7 @@
 define('DOOZR_APP_ENVIRONMENT', 'production');
 //define('DOOZR_DEBUGGING', false);
 //define('DOOZR_LOGGING', false);
+//define('DOOZR_PROFILING', false);
 
 /**
  * Get composer and bootstrap Doozr ...
@@ -67,94 +68,43 @@ define('DOOZR_APP_ENVIRONMENT', 'production');
 require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 require_once 'Doozr/Bootstrap.php';
 
-
-
-
-
-
-
-/**
- * 8< ----------------------------------------
- */
-
-// Initialize Doozr App Kernel
-$app = Doozr_Kernel_App::boot(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
-
-// Handle the default detected request (Web or Cli)
-$response = $app->handle();
-
-// Send response to client
-$response->send();
-
-die;
-
-/**
- * ---------------------------------------- >8
- */
-
-
-
-
-
-
-
-
-
-/**
- * Prototype implementation of relay.relay here ...
- * Just test out for this pattern in this very 1st place.
- * Possible to add any compatible framework stack!
- */
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Relay\Relay;
+use Relay\Runner;
 
-// Create request & response pair ...
-$request  = new \Doozr_Request_Web(
-    new \Doozr_Request_State()
-);
-
-$response = new \Doozr_Response_Web(
-    new \Doozr_Response_State()
-);
-
-// Build queue for middlewares
-$queue[] = function (Request $request, Response $response, callable $next) {
+// Build queue for running middleware through relay
+$queue[] = function(Request $request, Response $response, callable $next) {
 
     /* @var $app Doozr_Kernel_App Get kernel instance */
-    $app = Doozr_Kernel_App::boot(DOOZR_APP_ENVIRONMENT, DOOZR_RUNTIME_ENVIRONMENT, false);
+    $app = Doozr_Kernel_App::boot(
+        DOOZR_APP_ENVIRONMENT,
+        DOOZR_RUNTIME_ENVIRONMENT,
+        DOOZR_DEBUGGING,
+        DOOZR_CACHING,
+        DOOZR_LOGGING,
+        DOOZR_DOCUMENT_ROOT,
+        DOOZR_APP_ROOT
+    );
 
-    // Handle the default detected request (Web or Cli)
-    $response = $app->handle($request, $response);
-
-
+    return $app->handle($request, $response, !DOOZR_DEBUGGING);
 };
 
-// Get relay & execute ...
-$dispatcher = new Relay($queue);
-$dispatcher($request, $response);
+// Create a Relay Runner instance ...
+$runner = new Runner($queue);
 
-die;
+// ... and run it with the queue defined above
+$response = $runner(
+    new \Doozr_Request_Web(
+        new \Doozr_Request_State()
+    ),
+    new \Doozr_Response_Web(
+        new \Doozr_Response_State()
+    )
+);
 
-
-
-/**
- * In theory the request is/was handled. thats it. now we can achieve that other middleware can
- * intercept our result and modify it further. We're also able to implement this symfony like
- * request/response caching before the kernel is called by implementing a lightweight middleware
- * for caching through varnish for example
- *
- *   ||
- *   REQUEST
- *     ||
- *     RELAY
- *       ||
- *       CACHED? => YES = VARNISH = RESPONSE
- *       ||
- *       NO? => PROCESS => CACHE => SEND RESPONSE
- *
- * and so on :)
- */
+// After running the whole queue send the response (HTTP way)
+$responseSender = new Doozr_Response_Sender_Web($response);
+$responseSender->send();
 
 /**
  * If you want to call normal files within this directory feel free to :)

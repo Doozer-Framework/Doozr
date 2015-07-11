@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Request - Dispatcher
+ * Doozr - Response - Resolver
  *
- * Dispatcher.php - Request dispatcher for dispatching route from request state to MVP.
+ * Resolver.php - Response resolver. Returns a response by request (route from request-state to MVP).
  *
  * PHP versions 5.5
  *
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Request
- * @subpackage Doozr_Request_Dispatcher
+ * @subpackage Doozr_Response_Resolver
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -54,6 +54,9 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+
 /**
  * Doozr - Request - Dispatcher
  *
@@ -61,14 +64,14 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
  *
  * @category   Doozr
  * @package    Doozr_Request
- * @subpackage Doozr_Request_Dispatcher
+ * @subpackage Doozr_Response_Resolver
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Request_Dispatcher extends Doozr_Base_Class
+class Doozr_Response_Resolver extends Doozr_Base_Class
 {
     /**
      * Presenter class for active route.
@@ -161,16 +164,17 @@ class Doozr_Request_Dispatcher extends Doozr_Base_Class
     /**
      * Marshalling everything for running MVP (run()) by request.
      *
-     * @param Doozr_Request_Interface  $request  The request to marshall from.
-     * @param Doozr_Response_Interface $response The response to use as base.
+     * @param Request  $request  The request to marshall from.
+     * @param Response $response The response to use as base.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    public function marshall(Doozr_Request_Interface $request, Doozr_Response_Interface $response)
+    public function resolve(Request $request, Response $response)
     {
-        $route        = $request->getRoute();
+        // Ensure to put *route* in before ;) - here.
+        $route        = $request->getAttribute('route');
         $target       = $route->getPresenter();
         $requestState = $request->export();
 
@@ -179,27 +183,29 @@ class Doozr_Request_Dispatcher extends Doozr_Base_Class
             ->route($route)
             ->classname($target)
             ->action($route->getAction())
-            ->initMvp($this->getRegistry(), $target, $requestState);
+            ->initMvp($target, $this->getRegistry(), $requestState);
 
-        return $this;
+        return $this->run();
     }
 
     /**
      * Dispatches the request to the backend layers. This can be "Model" "View" "Presenter" in MVP runtimeEnvironment
      *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Response_Interface|Doozr_Response_Web
-     * @throws \Doozr_Route_Exception
      * @access public
+     * @throws \Doozr_Route_Exception
      */
     public function run()
     {
+        // The MVP process is here ...
         $response  = $this->getResponse();
-        $route     = $this->getRoute();
-        $classname = 'Presenter_' . ucfirst($this->getClassname());
         $presenter = $this->getPresenter();
         $action    = $this->getAction();
         $view      = $this->getView();
-        $method    = $action . 'Action';                                          // Use inofficial standard "xAction()"
+
+        // Use inofficial standard "xAction()"
+        $method = $action . 'Action';
 
         // Validate that request mapped to a route (foo:bar) can be executed by Doozr
         if (true === $httpStatus = $this->validateRequest($presenter, $method)) {
@@ -215,6 +221,7 @@ class Doozr_Request_Dispatcher extends Doozr_Base_Class
             // Create a response body with write access
             $responseBody = new Doozr_Response_Body('php://memory', 'w');
             $responseBody->write($data[Doozr_Base_Presenter::IDENTIFIER_VIEW]);
+
             $response = $response->withBody($responseBody);
             $response = $response->withStatus(Doozr_Http::STATUS_200);
 
@@ -224,7 +231,7 @@ class Doozr_Request_Dispatcher extends Doozr_Base_Class
                 case Doozr_Http::STATUS_400:
                     $message = sprintf(
                         'No Presenter to execute route ("%s"). Sure it exists?',
-                        $route
+                        $this->getRoute()
                     );
                     break;
 
@@ -233,7 +240,7 @@ class Doozr_Request_Dispatcher extends Doozr_Base_Class
                     $message = sprintf(
                         'Method "%s()" of class "%s" not callable. Sure it exists and it\'s public?',
                         $method,
-                        $classname
+                        'Presenter_' . ucfirst($this->getClassname())
                     );
                     break;
             }
@@ -297,13 +304,13 @@ class Doozr_Request_Dispatcher extends Doozr_Base_Class
     /**
      * Setter for route.
      *
-     * @param Doozr_Request_State_Route $route The route of current request
+     * @param Doozr_Request_Route_State $route The route of current request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setRoute(Doozr_Request_State_Route$route)
+    protected function setRoute(Doozr_Request_Route_State $route)
     {
         $this->route = $route;
     }
@@ -311,13 +318,13 @@ class Doozr_Request_Dispatcher extends Doozr_Base_Class
     /**
      * Setter for route.
      *
-     * @param Doozr_Request_State_Route $route The route of current request
+     * @param Doozr_Request_Route_State $route The route of current request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function route(Doozr_Request_State_Route $route)
+    protected function route(Doozr_Request_Route_State $route)
     {
         $this->setRoute($route);
 
@@ -328,7 +335,7 @@ class Doozr_Request_Dispatcher extends Doozr_Base_Class
      * Getter for route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State_Route The route if set, otherwise NULL
+     * @return Doozr_Request_Route_State The route if set, otherwise NULL
      * @access protected
      */
     protected function getRoute()
@@ -552,15 +559,15 @@ class Doozr_Request_Dispatcher extends Doozr_Base_Class
     /**
      * Initializes the MVP layer by creating instances of Model, View & Presenter.
      *
-     * @param \Doozr_Registry      $registry     Instance of Doozr registry to inject
      * @param string               $target       The target for MVP (name of class)
+     * @param \Doozr_Registry      $registry     Instance of Doozr registry to inject
      * @param \Doozr_Request_State $requestState The request state to inject NOT REQUEST! only state cause no transform!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function initMvp(Doozr_Registry $registry, $target, Doozr_Request_State $requestState)
+    protected function initMvp($target, Doozr_Registry $registry, Doozr_Request_State $requestState)
     {
         // Try to get model instance
         $model = $this->modelFactory(

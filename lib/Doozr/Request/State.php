@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -54,7 +54,7 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/State/Route.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Route/State.php';
 
 use Psr\Http\Message\UriInterface;
 
@@ -75,14 +75,6 @@ use Psr\Http\Message\UriInterface;
  */
 final class Doozr_Request_State extends Doozr_Http_State
 {
-    /**
-     * The route as model.
-     *
-     * @var Doozr_Request_State_Route
-     * @access protected
-     */
-    protected $route;
-
     /**
      * The server ($_SERVER) params or similar implementation (array = key:value).
      * Should be filled on __construct.
@@ -855,66 +847,5 @@ final class Doozr_Request_State extends Doozr_Http_State
         $this->setUri($uri);
 
         return $this;
-    }
-
-    /**
-     * With route returns a new instance with active route stored.
-     *
-     * @param string $presenter The presenter to set
-     * @param string $action    The action to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access public
-     */
-    public function withRoute($presenter = 'index', $action = 'index')
-    {
-        $this->setRoute($presenter, $action);
-
-        return $this;
-    }
-
-    /**
-     * Setter for route.
-     *
-     * @param string $presenter The presenter to set
-     * @param string $action    The action to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    protected function setRoute($presenter = 'index', $action = 'index')
-    {
-        $this->route = new Doozr_Request_State_Route($presenter, $action);
-    }
-
-    /**
-     * Fluent: Setter for route.
-     *
-     * @param string $presenter The presenter to set
-     * @param string $action    The action to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access public
-     */
-    protected function route($presenter = 'index', $action = 'index')
-    {
-        $this->setRoute($presenter, $action);
-
-        return $this;
-    }
-
-    /**
-     * Getter for route.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State_Route The route as model.
-     * @access public
-     */
-    public function getRoute()
-    {
-        return $this->route;
     }
 }

@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -328,7 +328,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $virtualized        = false
     ) {
         // Check for requested rerun. Prevent duplicate init. But enable to do.
-        if ($rerun === true) {
+        if (true === $rerun) {
             // Start init-stack ...
             if (!
                 (
@@ -365,9 +365,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
                     self::initEncoding() &&
                     self::initLocale() &&
                     self::initDebugging() &&
-                    #self::initSecurity() &&
-                    #self::initRequest() &&
-                    #self::initResponse() &&
                     self::initModel() &&
                     self::initServices()
                 )
@@ -1077,13 +1074,11 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             $router  = self::$registry->getContainer()->build('Doozr_Route');
             $request = $router->route($request);
 
-            /* @var $requestDispatcher Doozr_Request_Dispatcher */
-            $requestDispatcher = self::$registry->getContainer()->build('Doozr_Request_Dispatcher');
+            /* @var $responseResolver Doozr_Response_Resolver */
+            $responseResolver = self::$registry->getContainer()->build('Doozr_Response_Resolver');
 
             // Retrieving response by dispatching "request + route" to request dispatcher
-            $response = $requestDispatcher
-                ->marshall($request, $response)
-                ->run();
+            $response = $responseResolver->resolve($request, $response);
 
         } catch (\Exception $exception) {
             if (true === $catch) {

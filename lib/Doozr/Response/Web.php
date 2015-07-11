@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -257,39 +257,5 @@ class Doozr_Response_Web extends Doozr_Response
     protected function getProtocolLine()
     {
         return $this->getStateObject()->getProtocolLine();
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | FULFILL: @see Doozr_Response_Interface
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Send method.
-     *
-     * @param bool $exit TRUE to exit execution directly, otherwise FALSE to continue run after data sent.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function send($exit = true)
-    {
-        // Send HTTP status & reason-phrase
-        header($this->getProtocolLine() . ' ' . $this->getStatusCode() . ' ' . $this->getReasonPhrase());
-
-        // Send headers
-        $headers = $this->getHeaders();
-
-        foreach ($headers as $name => $valueCollection) {
-            foreach ($valueCollection as $value) {
-                header($name . ': ' . $value, false);
-            }
-        }
-
-        echo $this->getData();
-
-        if (true === $exit) {
-            exit;
-        }
     }
 }

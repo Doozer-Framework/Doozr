@@ -24,7 +24,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -61,7 +61,6 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
 
 /**
  * Doozr - Route
@@ -110,7 +109,7 @@ final class Doozr_Route extends Doozr_Base_Class
     /**
      * Instance of Dispatcher class
      *
-     * @var Doozr_Route_Dispatcher
+     * @var Doozr_Route_Resolver
      * @access protected
      */
     protected $dispatcher;
@@ -135,6 +134,14 @@ final class Doozr_Route extends Doozr_Base_Class
      * @access protected
      */
     protected $namespace;
+
+    /**
+     * The route collection.
+     *
+     * @var array
+     * @access protected
+     */
+    protected $routes = [];
 
     /**
      * The default object.
@@ -197,9 +204,12 @@ final class Doozr_Route extends Doozr_Base_Class
     public function route(Request $request)
     {
         // Map the request states URL to a route (presenter:action)
+        // $uri = sprintf('%s', $request->getUri());
+        $uri = '' . $request->getUri();
+
         $route = $this
             ->uuid(
-                $this->calculateUuid($request->getUri()->asString())
+                $this->calculateUuid($uri)
             )
             ->mapToRoute(
                 $request, $this->retrieveRoutes()
@@ -207,23 +217,23 @@ final class Doozr_Route extends Doozr_Base_Class
 
         // Check for 404 and 405 -> can and should be caught here
         switch ($route[0]) {
-            case Doozr_Route_Dispatcher::NOT_FOUND:
+            case Doozr_Route_Resolver::NOT_FOUND:
                 throw new Doozr_Route_Exception(
                     sprintf('Route %s not found', $request->getUri()->getPath()),
                     Doozr_Http::STATUS_404
                 );
                 break;
 
-            case Doozr_Route_Dispatcher::METHOD_NOT_ALLOWED:
+            case Doozr_Route_Resolver::METHOD_NOT_ALLOWED:
                 throw new Doozr_Route_Exception(
                     sprintf('Method no allowed. Allowed method(s): %s', $route[1]),
                     Doozr_Http::STATUS_405
                 );
                 break;
 
-            case Doozr_Route_Dispatcher::FOUND:
+            case Doozr_Route_Resolver::FOUND:
                 // Store result of dispatch process - we wil use this later as identifier for status response dispatch
-                $request = $request->withRoute($route[1][0], $route[1][1]);
+                $request = $request->withAttribute('route', new Doozr_Request_Route_State($route[1][0], $route[1][1]));
                 break;
         }
 
@@ -231,7 +241,7 @@ final class Doozr_Route extends Doozr_Base_Class
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | GETTER & SETTER
+    | SETTER, GETTER, ADDER, REMOVER, ISSER & HASSER
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -268,6 +278,7 @@ final class Doozr_Route extends Doozr_Base_Class
      * Getter for routes.
      *
      * @param string $method Optional method argument to return only routes for a specific method/verb.
+     * @param array  $routes Routes to use for lookup
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array Collection of stored routes
@@ -454,12 +465,12 @@ final class Doozr_Route extends Doozr_Base_Class
         }
 
         // Dispatch via wrapped Fastroute
-        $dispatcher = new Doozr_Route_Dispatcher(
+        $resolver = new Doozr_Route_Resolver(
             $routes[$method],
             $method
         );
 
-        return $dispatcher->dispatch($method, $request->getUri()->getPath());
+        return $resolver->resolve($method, $request->getUri()->getPath());
     }
 
     /**

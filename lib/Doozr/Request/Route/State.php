@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Request - State - Route
+ * Doozr - Request - Route - State
  *
- * Route.php - Route model representation.
+ * State.php - DTO: Route model representation.
  *
  * PHP versions 5.5
  *
@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Request
- * @subpackage Doozr_Request_State
+ * @subpackage Doozr_Request_Route
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,15 +53,16 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
 
 /**
- * Doozr - Request - State - Route
+ * Doozr - Request - Route - State
  *
- * Route model representation.
+ * DTO: Route model representation.
  *
  * @category   Doozr
  * @package    Doozr_Request
- * @subpackage Doozr_Request_State
+ * @subpackage Doozr_Request_Route
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -69,7 +70,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State.php';
  * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
-final class Doozr_Request_State_Route extends Doozr_Base_State
+final class Doozr_Request_Route_State extends Doozr_Base_State
+    implements
+    Doozr_Base_State_Interface
 {
     /**
      * The presenter the route is targeting.
@@ -124,7 +127,7 @@ final class Doozr_Request_State_Route extends Doozr_Base_State
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | GETTER & SETTER
+    | SETTER, GETTER, ADDER, REMOVER, ISSER & HASSER
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

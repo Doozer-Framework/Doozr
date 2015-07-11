@@ -250,7 +250,7 @@
           }
         ]
       },
-      "Doozr_Request_Dispatcher": {
+      "Doozr_Response_Resolver": {
         "dependencies": [
           {
             "target": "Doozr_Registry",

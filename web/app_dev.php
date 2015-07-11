@@ -70,17 +70,16 @@ if (
  * In the default install you won't need this statements above!
  */
 
-// Start profiling
-#uprofiler_enable();
-
 // App in development environment
 define('DOOZR_APP_ENVIRONMENT', 'development');
 //define('DOOZR_DEBUGGING', true);
 //define('DOOZR_LOGGING', true);
+//define('DOOZR_PROFILING', true); <-- NOT KERNEL => MORE FOR APP OF THE DEVELOPER USING DOOZR
 
-/**
- * Get composer and bootstrap Doozr ...
- */
+// Start profiling
+uprofiler_enable(UPROFILER_FLAGS_CPU + UPROFILER_FLAGS_MEMORY);
+
+// Get composer and bootstrap Doozr ...
 require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
 require_once 'Doozr/Bootstrap.php';
 
@@ -110,39 +109,23 @@ $runner = new Runner($queue);
 
 // ... and run it with the queue defined above
 $response = $runner(
-    new \Doozr_Request_Web(
-        new \Doozr_Request_State()
+    new Doozr_Request_Web(
+        new Doozr_Request_State()
     ),
-    new \Doozr_Response_Web(
-        new \Doozr_Response_State()
+    new Doozr_Response_Web(
+        new Doozr_Response_State()
     )
 );
 
-// After running the whole queue deliver the response
-$response->send();
+// Stop profiler & save data
+$profilerData = uprofiler_disable();
+$profiler     = new uprofilerRuns_Default();
+$profiler->save_run($profilerData, DOOZR_NAMESPACE_FLAT);
 
+// After running the whole queue send the response (HTTP way)
+$responseSender = new Doozr_Response_Sender_Web($response);
+$responseSender->send();
 
 /**
  * If you want to call normal files within this directory feel free to :)
  */
-
-// stop profiler
-#$uprofiler_data = uprofiler_disable();
-
-//
-// Saving the uprofiler run
-// using the default implementation of iuprofilerRuns.
-//
-#include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_lib.php";
-#include_once "../vendor/friendsofphp/uprofiler/uprofiler_lib/utils/uprofiler_runs.php";
-
-#$uprofiler_runs = new uprofilerRuns_Default();
-
-// Save the run under a namespace "uprofiler_doozr".
-//
-// **NOTE**:
-// By default save_run() will automatically generate a unique
-// run id for you. [You can override that behavior by passing
-// a run id (optional arg) to the save_run() method instead.]
-//
-#$run_id = $uprofiler_runs->save_run($uprofiler_data, "uprofiler_doozr");

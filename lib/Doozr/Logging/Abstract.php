@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -220,7 +220,10 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     );
 
     /**
+     * Archive collection for log entries.
+     *
      * @var array
+     * @access protected
      */
     protected $archive = [];
 
@@ -458,27 +461,52 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
         $this->clearCollection();
     }
 
+    /**
+     * Archives an entry indexed by hash.
+     *
+     * @param string $hash  The hash used as identifier
+     * @param mixed  $entry The entry to archive
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setArchive($hash, $entry)
     {
         $this->archive[$hash] = $entry;
     }
 
-
+    /**
+     * Fluent proxy for setArchive().
+     *
+     * @param string $hash  The hash used as identifier
+     * @param mixed  $entry The entry to archive
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
     protected function archive($hash, $entry)
     {
         $this->setArchive($hash, $entry);
+
         return $this;
     }
 
-
+    /**
+     * Getter for archive.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The archive collection
+     * @access public
+     */
     public function getArchive()
     {
         return $this->archive;
     }
 
-
     /*------------------------------------------------------------------------------------------------------------------
-    | GETTER & SETTER
+    | SETTER, GETTER, ADDER, REMOVER, ISSER & HASSER
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

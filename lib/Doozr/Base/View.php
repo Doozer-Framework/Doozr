@@ -22,7 +22,7 @@
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  * - All advertising materials mentioning features or use of this software
- *   must display the following acknowledgement: This product includes software
+ *   must display the following acknowledgment: This product includes software
  *   developed by Benjamin Carl and other contributors.
  * - Neither the name Benjamin Carl nor the names of other contributors
  *   may be used to endorse or promote products derived from this
@@ -115,7 +115,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Active/last route.
      *
-     * @var Doozr_Request_State_Route
+     * @var Doozr_Request_Route_State
      * @access protected
      */
     protected $route;
@@ -198,7 +198,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         // Store all instances for further use ...
         $this
             ->registry($registry)
-            ->route($requestState->getRoute())
+            ->route($requestState->getAttribute('route'))
             ->cache($registry->getCache())
             ->configuration($registry->getConfiguration())
             ->arguments($requestState->getQueryParams())
@@ -376,13 +376,13 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Setter for route.
      *
-     * @param Doozr_Request_State_Route $route The route to set
+     * @param Doozr_Request_Route_State $route The route to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setRoute(Doozr_Request_State_Route $route)
+    protected function setRoute(Doozr_Request_Route_State $route)
     {
         $this->route = $route;
     }
@@ -390,13 +390,13 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Setter for route.
      *
-     * @param Doozr_Request_State_Route $route The route to set
+     * @param Doozr_Request_Route_State $route The route to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function route(Doozr_Request_State_Route $route)
+    protected function route(Doozr_Request_Route_State $route)
     {
         $this->setRoute($route);
 
@@ -407,7 +407,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Getter for route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State_Route|null The route stored, otherwise NULL
+     * @return Doozr_Request_Route_State|null The route stored, otherwise NULL
      * @access protected
      */
     protected function getRoute()
@@ -684,7 +684,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * @param string $fingerprint The fingerprint to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return string The fingerprint passed in and stored
      * @access protected
      */
     protected function setFingerprint($fingerprint)
