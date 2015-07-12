@@ -37,7 +37,7 @@ The **lightweight** PHP-Framework for **high-performance** websites.
 
 ## Requirements
 
- - PHP >= 5.5 (compatible up to version 5.6)
+ - PHP >= 5.5 (compatible up to PHP version 7)
 
 
 ## Philosophy

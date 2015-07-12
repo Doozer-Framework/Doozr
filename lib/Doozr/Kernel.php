@@ -599,12 +599,13 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         }
         */
 
-        $pattern = self::$registry->getPath()->get('service') . '*\\*\\.config.json';
+        $pattern = self::$registry->getPath()->get('service') . '*/*/.config.json';
         $files   = glob($pattern, GLOB_NOSORT);
 
         foreach ($files as $file) {
             $config->read($file);
         }
+
         /**
          * END CONFIG OF SERVICES
          */
