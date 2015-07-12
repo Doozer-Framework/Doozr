@@ -71,8 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Route/Annotation/Route.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
-    implements
+class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     Doozr_Base_Presenter_Interface
 {
     /**
@@ -173,7 +172,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
      * @param Doozr_Base_Model    $model        The model to communicate with backend (db)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Base_Presenter
      * @access public
      * @throws Doozr_Base_Presenter_Exception
      */
