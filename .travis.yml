@@ -23,9 +23,6 @@ before_install:
   - travis_retry composer selfupdate
   - composer --version
 
-install:
-  - pip install coveralls
-
 env:
   - PREFER_LOWEST="--prefer-lowest"
   - PREFER_LOWEST=""
@@ -39,11 +36,12 @@ script:
   - phpunit -c tests/phpunit.xml --coverage-clover ./build/logs/clover.xml
 
 after_script:
-  - coveralls
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --access-token=$SCRUTINIZERKEY --format=php-clover ./build/logs/clover.xml
 
 after_success:
+  # Push report to coveralls.io
+  - coveralls
   # Push coverage to github pages branch
   - chmod +x ./bin/update-gh-pages.sh
   - bash ./bin/update-gh-pages.sh
