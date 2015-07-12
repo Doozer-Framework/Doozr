@@ -3,9 +3,9 @@
 ![Logo of Doozr](docs/logo-large.png)  
 The **lightweight** PHP-Framework for **high-performance** websites.  
 
-| [![Build Status](https://img.shields.io/travis/clickalicious/DoozR.svg)](https://travis-ci.org/clickalicious/DoozR) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/DoozR.svg)](https://scrutinizer-ci.com/g/clickalicious/DoozR/) 	| [![clickalicious premium](https://img.shields.io/badge/clickalicious-premium-green.svg?style=flat)](https://www.clickalicious.de/) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/DoozR.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause) 	|
+| [![Build Status](https://img.shields.io/travis/clickalicious/Doozr.svg)](https://travis-ci.org/clickalicious/Doozr) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Doozr.svg)](https://scrutinizer-ci.com/g/clickalicious/Doozr/) 	| [![clickalicious premium](https://img.shields.io/badge/clickalicious-premium-green.svg?style=flat)](https://www.clickalicious.de/) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/Doozr.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause) 	|
 |---	|---	|---	|---	|
-| [![GitHub issues](https://img.shields.io/github/issues/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/DoozR/issues) 	| [![Coverage Status](https://coveralls.io/repos/clickalicious/DoozR/badge.svg)](https://coveralls.io/r/clickalicious/DoozR)  	| [![GitHub release](https://img.shields.io/github/release/clickalicious/DoozR.svg?style=flat)](https://github.com/clickalicious/DoozR/releases) 	| [![GitHub stars](https://img.shields.io/github/stars/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/DoozR/stargazers)  	|
+| [![GitHub issues](https://img.shields.io/github/issues/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/issues) 	| [![Coverage Status](https://coveralls.io/repos/clickalicious/Doozr/badge.svg)](https://coveralls.io/r/clickalicious/Doozr)  	| [![GitHub release](https://img.shields.io/github/release/clickalicious/Doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/releases) 	| [![GitHub stars](https://img.shields.io/github/stars/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/stargazers)  	|
 
 
 ## Table of Contents
@@ -17,9 +17,9 @@ The **lightweight** PHP-Framework for **high-performance** websites.
 - [Versioning](#versioning)
 - [Roadmap](#roadmap)
 - [Security-Issues](#security-issues)
-- [Install »](https://github.com/clickalicious/DoozR/blob/master/docs/INSTALL.md)
-- [Architecture »](https://github.com/clickalicious/DoozR/blob/master/docs/ARCHITECTURE.md)
-- [Service: I18n »](https://github.com/clickalicious/DoozR/blob/master/lib/Service/Doozr/I18n/README.md)
+- [Install »](https://github.com/clickalicious/Doozr/blob/master/docs/INSTALL.md)
+- [Architecture »](https://github.com/clickalicious/Doozr/blob/master/docs/ARCHITECTURE.md)
+- [Service: I18n »](https://github.com/clickalicious/Doozr/blob/master/lib/Service/Doozr/I18n/README.md)
 - [License »](LICENSE)
 
 
@@ -75,8 +75,8 @@ For a consistent versioning we decided to make use of `Semantic Versioning 2.0.0
 
 - [ ] Target stable release 1.0.0 (The Rock)
 - [ ] 75 - 90% Test Coverage
-- [x] Travis implementation ([travis-ci.org](https://travis-ci.org/clickalicious/DoozR))
-- [x] Scrutinizer ([scrutinizer-ci.com](https://scrutinizer-ci.com/g/clickalicious/DoozR/))
+- [x] Travis implementation ([travis-ci.org](https://travis-ci.org/clickalicious/Doozr))
+- [x] Scrutinizer ([scrutinizer-ci.com](https://scrutinizer-ci.com/g/clickalicious/Doozr/))
 - [x] Bug hunt and quality offensive
 - [x] Documentation ([doozr.readme.io](https://doozr.readme.io))
 
@@ -89,7 +89,7 @@ If you encounter a (potential) security issue don't hesitate to get in contact w
 ## Participate & Share
 
 ... yeah. If you're a code monkey too - maybe we can build a force ;) If you would like to participate in either **Code**, **Comments**, **Documentation**, **Wiki**, **Bug-Reports**, **Unit-Tests**, **Bug-Fixes**, **Feedback** and/or **Critic** then please let us know as well!
-<a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=Doozr%20-%20The%20lightweight%20PHP-Framework%20for%20high-performance%20projects%20%40phpfluesterer%20%23Doozr%20%23php%20https%3A%2F%2Fgithub.com%2Fclickalicious%2FDoozR&tw_p=tweetbutton" target="_blank">
+<a href="https://twitter.com/intent/tweet?hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&text=Doozr%20-%20The%20lightweight%20PHP-Framework%20for%20high-performance%20projects%20%40phpfluesterer%20%23Doozr%20%23php%20https%3A%2F%2Fgithub.com%2Fclickalicious%2FDoozr&tw_p=tweetbutton" target="_blank">
   <img src="http://jpillora.com/github-twitter-button/img/tweet.png"></img>
 </a>
 
