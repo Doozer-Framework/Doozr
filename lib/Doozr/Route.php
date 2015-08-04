@@ -204,8 +204,7 @@ final class Doozr_Route extends Doozr_Base_Class
     public function route(Request $request)
     {
         // Map the request states URL to a route (presenter:action)
-        // $uri = sprintf('%s', $request->getUri());
-        $uri = '' . $request->getUri();
+        $uri = ''.$request->getUri();
 
         $route = $this
             ->uuid(

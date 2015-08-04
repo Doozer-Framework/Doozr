@@ -160,7 +160,7 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
         );
 
         // prepare non-native request for global PHP like access
-        #$this->emulateRequest();
+        #$this->equalizeRequestArguments();
 
         // check automatic conversion of input
         #$this->arguments = $this->transformToRequestObject($this->getMethod());

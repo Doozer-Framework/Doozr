@@ -423,7 +423,7 @@ class Doozr_Http_State extends Doozr_Base_State
      * Getter for protocol version.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer|null The protocol version if set
+     * @return string|null The protocol version if set
      * @access public
      */
     public function getProtocolVersion()
@@ -434,7 +434,7 @@ class Doozr_Http_State extends Doozr_Base_State
     /**
      * Setter for protocol version.
      *
-     * @param int $protocolVersion The protocol version.
+     * @param string $protocolVersion The protocol version.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -448,7 +448,7 @@ class Doozr_Http_State extends Doozr_Base_State
     /**
      * Setter for protocol version.
      *
-     * @param int $protocolVersion The protocol version.
+     * @param string $protocolVersion The protocol version.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -462,7 +462,7 @@ class Doozr_Http_State extends Doozr_Base_State
     /**
      * Fluent: Setter for protocol version.
      *
-     * @param int $protocolVersion The protocol version.
+     * @param string $protocolVersion The protocol version.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -529,15 +529,15 @@ class Doozr_Http_State extends Doozr_Base_State
      * @param string $name The name of the shadow entry.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return mixed The value of the shadow entry
      * @access protected
-     * @throws Doozr_Http_Exception
+     * @throws Doozr_Exception_Http
      */
     protected function getShadow($name)
     {
         if (false === isset($this->shadow[$name])) {
-            throw new Doozr_Http_Exception(
-                sprintf('No shadow for "%s"', $name)
+            throw new Doozr_Exception_Http(
+                500, sprintf('No shadow entry for "%s"', $name)
             );
         }
 

@@ -94,24 +94,6 @@ if (!isset($_SERVER['REQUEST_URI']) || $_SERVER['REQUEST_URI'] === '') {
 $_DOOZR = get_defined_vars();
 
 /*----------------------------------------------------------------------------------------------------------------------
-| CONFIGURE LADYBUG
-+---------------------------------------------------------------------------------------------------------------------*/
-
-if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI === DOOZR_RUNTIME_ENVIRONMENT) {
-    if (function_exists('ladybug_set_format')) {
-        ladybug_set_format('text');
-    }
-
-} else {
-    if (function_exists('ladybug_set_theme')) {
-        ladybug_set_theme('modern');
-    }
-    if (function_exists('ladybug_set_format')) {
-        ladybug_set_format('html');
-    }
-}
-
-/*----------------------------------------------------------------------------------------------------------------------
 | PHP EXTENDING FUNCTIONS (WORKAROUNDS AND SMART-HACKS)
 +---------------------------------------------------------------------------------------------------------------------*/
 
@@ -620,11 +602,7 @@ if (false === function_exists('pre')) {
         $arguments = func_get_args();
 
         foreach ($arguments as $argument) {
-            if ('string' !== gettype($argument)) {
-                $argument = var_export($argument, true);
-            }
-
-            ladybug_dump($argument);
+            dump($argument);
         }
     }
 }

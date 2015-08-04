@@ -73,13 +73,12 @@ class Doozr_Exception_Service extends Doozr_Base_Exception
     /**
      * Constructor.
      *
-     * @param string  $message  The message of the exception
-     * @param int $code     The error-code of the exception
-     * @param object  $previous An previos throw exception which should be repacked
+     * @param string    $message  Message of exception
+     * @param int       $code     Error code of exception
+     * @param exception $previous Previous thrown exception
      *
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Exception_Service
-     * @access  public
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {

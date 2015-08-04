@@ -2,10 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Emulate - Linux
+ * Doozr - Request - File
  *
- * Linux.php - Extends PHP's functionality by emulating missing native functions available only to
- * Linux/Unix-based OS' like get_all_headers() - this is done by using plain vanilla PHP code.
+ * File.php - Doozr request file implementation for Web (HTTP) request(s).
  *
  * PHP versions 5.5
  *
@@ -44,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Emulate
- * @subpackage Doozr_Emulate_Linux
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Body
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,43 +52,25 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-/*----------------------------------------------------------------------------------------------------------------------
-| BEGIN EMULATING LINUX (UNIX) ONLY FUNCTIONALITY FOR OTHER OS'
-+---------------------------------------------------------------------------------------------------------------------*/
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
-if (!function_exists('getallheaders')) {
-    /**
-     * getallheaders  adds getallheader()-Support to Apache and other Webservers
-     * on Windows-based OS'. This method originally is only available on Unix/Linux-
-     * based OS'. To get all headers it iterates over all Request-Header and prepare
-     * them like the getallheaders()-function under Linux/Unix OS'.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array $headers All HTTP Headers of current Request
-     * @access public
-     */
-    function getallheaders()
-    {
-        // holds the headers to return
-        $headers = [];
+use Psr\Http\Message\StreamInterface;
 
-        // holds the result
-        $headerParsed = [];
-
-        // iterate over $_SERVER to parse header from there
-        foreach ($_SERVER as $header => $value) {
-            if (preg_match('/HTTP_(.+)/i', $header, $headerParsed)) {
-                $headers[$headerParsed[1]] = $value;
-            } elseif (preg_match('/CONTENT_TYPE/i', $header, $headerParsed)) {
-                $headers['CONTENT_TYPE'] = $value;
-            } elseif (preg_match('/CONTENT_LENGTH/i', $header, $headerParsed)) {
-                $headers['CONTENT_LENGTH'] = $value;
-            }
-        }
-
-        dump($headers);die;
-
-        // return the result
-        return $headers;
-    }
+/**
+ * Doozr - Request - Web
+ *
+ * Doozr request implementation for Web (HTTP) response(s).
+ *
+ * @category   Doozr
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_Web
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2015 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Git: $Id$
+ * @link       http://clickalicious.github.com/Doozr/
+ */
+class Doozr_Request_Body extends Doozr_Base_Class implements StreamInterface
+{
+    // withBody
 }

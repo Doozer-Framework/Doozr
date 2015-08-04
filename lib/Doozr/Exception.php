@@ -78,7 +78,6 @@ class Doozr_Exception extends Doozr_Base_Exception
      * @param Exception $previous Previous thrown exception which should be repacked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Exception
      * @access public
      */
     public function __construct($message = null, $code = 0, Exception $previous = null)

@@ -101,6 +101,14 @@ $_SERVER['QUERY_STRING'] = (
     '/Index/Index/' :
     $_SERVER['QUERY_STRING'];
 
+// Try to load .env file with environmental settings
+try {
+    $dotenv = new Dotenv\Dotenv(realpath(__DIR__ . '/..'));
+    $dotenv->load();
+
+} catch (InvalidArgumentException $exception) {}
+
+// Bootstrap
 require_once 'Doozr/Bootstrap.php';
 
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -110,7 +118,6 @@ use Relay\Runner;
 // Build queue for running middleware through relay
 $queue[] = function(Request $request, Response $response, callable $next) {
 
-    /* @var $app Doozr_Kernel_App Get kernel instance */
     $app = Doozr_Kernel_App::boot(
         DOOZR_APP_ENVIRONMENT,
         DOOZR_RUNTIME_ENVIRONMENT,

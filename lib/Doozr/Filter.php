@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - Exception - Abstract
+ * Doozr - Kernel - Filter
  *
- * Abstract.php - Abstract class for base exception of the Doozr Framework.
+ * Filter.php - Generic filter component of Doozr.
  *
  * PHP versions 5.5
  *
@@ -43,98 +43,126 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Exception
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Filter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
+
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 /**
- * Doozr - Base - Exception - Abstract
+ * Doozr - Kernel - Filter
  *
- * Abstract class for base exception of the Doozr Framework.
+ * Generic filter component of Doozr.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Exception
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Filter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Base_Exception_Generic_Abstract extends Exception
+class Doozr_Filter extends Doozr_Base_Class
 {
     /**
-     * Exception-message
+     * Base filter = no filter.
      *
-     * @var string
+     * @var array
      * @access protected
      */
-    protected $message = 'Doozr -> unknown exception';
+    protected $filters = [];
 
-    /**
-     * Exception error-code/nr/#
-     *
-     * @var int
-     * @access protected
-     */
-    protected $code = 0;
-
-    /**
-     * Filename of the file where the exception was initially thrown
-     *
-     * @var string
-     * @access protected
-     */
-    protected $file;
-
-    /**
-     * Line of the file where the exception was initially thrown
-     *
-     * @var int
-     * @access protected
-     */
-    protected $line;
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
-     * @param string    $message  Exceptions message
-     * @param int       $code     Code of the exception
-     * @param Exception $previous Previous exception thrown - AS_OF: PHP 5.3 introduced !
+     * @param array $filters The filter(s) to apply (search, replace)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Base_Exception_Generic_Abstract instance of this class
      * @access public
      */
-    public function __construct($message = null, $code = 0, $previous = null)
+    public function __construct(array $filters)
     {
-        // If no message set set default message!
-        if (null === $message) {
-            throw new $this(
-                sprintf('Exception "%s" without message!', get_class($this))
-            );
-        }
+        $this
+            ->filters($filters);
+    }
 
-        // Call parents constructor
-        parent::__construct($message, $code, $previous);
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for filters.
+     *
+     * @param array $filters The filter(s) to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setFilters(array $filters)
+    {
+        $this->filters = $filters;
     }
 
     /**
-     * Returns a string representation of this class content.
+     * Fluent: Setter for filters.
      *
-     * This method is intend to return a string representation of this class content
+     * @param array $filters The filter(s) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string A string representation of this class content
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function filters(array $filters)
+    {
+        $this->setFilters($filters);
+
+        return $this;
+    }
+
+    /**
+     * Getter for filters.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array The filter(s) defined
+     * @access protected
+     */
+    protected function getFilters()
+    {
+        return $this->filters;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Applies the stored set of filters (search, replace) and returns the result.
+     *
+     * @param string $target The target to apply filters to
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The result
      * @access public
      */
-    public function __toString()
+    public function apply($target)
     {
-        return get_class($this)." '{$this->message}' in {$this->file}({$this->line})\n"."{$this->getTraceAsString()}";
+        $filters = $this->getFilters();
+
+        foreach ($filters as $filter) {
+            $target = preg_replace($filter->search, $filter->replace, $target);
+        }
+
+        return $target;
     }
 }

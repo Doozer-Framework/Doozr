@@ -170,7 +170,7 @@ final class Doozr_Request_State extends Doozr_Http_State
     {
         if (false === $uri = Doozr_Http::getUrl()) {
             throw new Doozr_Request_Exception(
-                'Error retrieving URI for request analysis!'
+                'Error retrieving URI for further request analysis!'
             );
         }
 
@@ -179,6 +179,9 @@ final class Doozr_Request_State extends Doozr_Http_State
                 new Doozr_Request_Uri(
                     $uri
                 )
+            )
+            ->serverParams(
+                $_SERVER
             );
     }
 
@@ -456,16 +459,13 @@ final class Doozr_Request_State extends Doozr_Http_State
     /**
      * Retrieves the message's request target.
      *
-     * Retrieves the message's request-target either as it will appear (for
-     * clients), as it appeared at request (for servers), or as it was
-     * specified for the instance (see withRequestTarget()).
+     * Retrieves the message's request-target either as it will appear (for clients), as it appeared at request
+     * (for servers), or as it was specified for the instance (see withRequestTarget()).
      *
-     * In most cases, this will be the origin-form of the composed URI,
-     * unless a value was provided to the concrete implementation (see
-     * withRequestTarget() below).
+     * In most cases, this will be the origin-form of the composed URI, unless a value was provided to the concrete
+     * implementation (see withRequestTarget() below).
      *
-     * If no URI is available, and no request-target has been specifically
-     * provided, this method MUST return the string "/".
+     * If no URI is available, and no request-target has been spec. provided, this method MUST return the string "/".
      *
      * @return string
      */
@@ -486,14 +486,15 @@ final class Doozr_Request_State extends Doozr_Http_State
      * immutability of the message, and MUST return an instance that has the
      * changed request target.
      *
-     * @link http://tools.ietf.org/html/rfc7230#section-2.7 (for the various
-     *     request-target forms allowed in request messages)
+     * @link http://tools.ietf.org/html/rfc7230#section-2.7 (for the various request-target forms allowed in request)
      * @param mixed $requestTarget
      * @return self
      */
     public function withRequestTarget($requestTarget)
     {
         $this->setRequestTarget($requestTarget);
+
+        return $this;
     }
 
     /**
@@ -572,7 +573,37 @@ final class Doozr_Request_State extends Doozr_Http_State
      */
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
-        echo 'IMPLEMENT ME!';
+        if (false === $preserveHost) {
+            $host = $uri->getHost();
+
+            if (null !== $host) {
+                $this->withHeader('Host', $host);
+            }
+        } else {
+            $hostHeader = $this->getHeader('host');
+            if (null === $hostHeader) {
+                $host = $uri->getHost();
+                $this->withHeader('host', $host);
+            }
+        }
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Set server params.
+     *
+     * @param array $serverParams The server params to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function withServerParams(array $serverParams)
+    {
+        $this->setServerParams($serverParams);
     }
 
     /*------------------------------------------------------------------------------------------------------------------

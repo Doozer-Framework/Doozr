@@ -1798,15 +1798,13 @@ class Doozr_Http extends Doozr_Base_Class
     /**
      * Returns the current URL used for request.
      *
-     * @param bool $filter TRUE to filter Doozr's front-controllers from URL, FALSE to do not
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if header could be send, otherwise FALSE
      * @access public
      * @link http://stackoverflow.com/questions/176264/what-is-the-difference-between-a-uri-a-url-and-a-urn
      * @static
      */
-    public static function getUrl($filter = true)
+    public static function getUrl()
     {
         static $uri = null;
 
@@ -1819,12 +1817,6 @@ class Doozr_Http extends Doozr_Base_Class
             }
 
             $uri .= $_SERVER['REQUEST_URI'];
-
-            if (true === $filter) {
-                $uri = str_replace('/app.php', '', $uri);
-                $uri = str_replace('/app_dev.php', '', $uri);
-                $uri = str_replace('/app_httpd.php', '', $uri);
-            }
         }
 
         return $uri;
