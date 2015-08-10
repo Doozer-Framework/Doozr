@@ -53,8 +53,18 @@
  * @link       http://clickalicious.github.com/DoozR/
  */
 
+// Application in production environment
+define('DOOZR_APP_ENVIRONMENT', 'production');
+
 // We do need access to Composer libs
 require_once realpath( __DIR__ . '/../' ) . '/vendor/autoload.php';
+
+// Try to load .env file with environmental settings
+try {
+    $dotenv = new Dotenv\Dotenv(realpath(__DIR__ . '/..'));
+    $dotenv->load();
+
+} catch (InvalidArgumentException $exception) {}
 
 // Do the Bootstrap of Doozr
 require_once 'Doozr/Bootstrap.php';
@@ -71,7 +81,7 @@ $configuration = array(
     'cache' => array(
         'type'  => 'string',
         'value' => false,
-        'info'  => 'Commands for cache. [purge|warmup].',
+        'info'  => 'Commands for cache. [purge].',
     ),
     'interface' => array(
         'type'  => 'string',
@@ -114,7 +124,7 @@ $configuration = array(
 );
 
 // Additional security check - just to be sure ;)
-if (php_sapi_name() !== 'cli') {
+if ('cli' !== php_sapi_name()) {
     // We don't want to give more information about internals as required so we respond as this resource does not exist
     throw new Doozr_Exception(
         'Not Found',

@@ -71,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Request_Httpd extends Doozr_Base_Request
+class Doozr_Request_Httpd extends Doozr_Request
     implements
     Doozr_Request_Interface
 {
@@ -80,44 +80,45 @@ class Doozr_Request_Httpd extends Doozr_Base_Request
      * e.g. -- for other and / for windows
      *
      * @string
-     * @access private
+     * @access protected
      */
-    private $_commandMode;
+    protected $_commandMode;
 
     /**
      * holds the forced command-runtimeEnvironment
      * e.g. -- for other and / for windows
      *
      * @string
-     * @access private
+     * @access protected
      */
-    private $_forceCommandMode;
+    protected $_forceCommandMode;
 
     /**
-     * holds the list of possible commands seperator
+     * holds the list of possible commands separator
      * e.g. -- for other and / for windows
      *
      * @array
-     * @access private
+     * @access protected
      */
-    private $_commandSeps = array(
+    protected $_commandSeps = array(
         'win'   => '/',
         'other' => '--'
     );
 
     /**
-     * holds the current used commands seperator
+     * holds the current used commands separator
      *
      * @array
-     * @access private
+     * @access protected
      */
-    private $_commandSep;
+    protected $_commandSep;
 
     /**
-     * holds the own type of Request
+     * The own type of request.
      *
      * @var string
-     * @access const
+     * @access public
+     * @const
      */
     const TYPE = 'httpd';
 

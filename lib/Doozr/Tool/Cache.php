@@ -88,11 +88,12 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
 
    /**
     * Command purge.
+    * Purges all entries for passed scope.
     *
     * @var string
     * @access public
     */
-    const COMMAND_CLEAR = 'purge';
+    const COMMAND_PURGE = 'purge';
 
     /**
      * Command warmup.
@@ -114,7 +115,6 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
     const SCOPE_DOOZR_CONFIG  = 'doozr.cache.config';       // <= Configuration of Doozr
     const SCOPE_DOOZR_ROUTES  = 'doozr.cache.routes';       // <= Routes of the Doozr Installation
     const SCOPE_DOOZR_I18N    = 'doozr.cache.i18n';         // <= Translations
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | Internal helper
@@ -169,9 +169,11 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
             $this->showHelp();
 
         } else {
-            echo $this->colorize(
-                $injectedCommand.' ('.$result.' element'.(($result != 1) ? 's' : '').') successful!'.PHP_EOL, '%g'
-            );
+            $foo = $this->colorize($injectedCommand.' (%s element'.(($result != 1) ? 's' : '').'', '%y');
+            $bar = $this->colorize($result, '%w');
+            $foo = sprintf($foo, $bar);
+            echo $foo.$this->colorize(')', '%y');
+            echo $this->colorize(' successful!'.PHP_EOL, '%g');
         }
 
         return $result;
@@ -184,7 +186,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      * @param array  $argumentBag A collection of arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return mixed The result of the command.
      * @access protected
      */
     protected function dispatchCommand($command, array $argumentBag = [])
@@ -203,7 +205,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
         }
 
         switch ($command) {
-            case self::COMMAND_CLEAR:
+            case self::COMMAND_PURGE:
                 $result = $this->purge(
                     $arguments,
                     $argumentBag
@@ -228,34 +230,40 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
     /**
      * Purges content from cache.
      *
-     * @param string $namespace   The namespace to purge content for.
-     * @param array  $argumentBag The arguments bag
+     * @param array $namespaces  The namespace to purge content for.
+     * @param array $argumentBag The arguments bag
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|boolean A result in any form or FALSE on error.
+     * @return int The number of elements purged
      * @access protected
      * @throws Doozr_Exception
      */
     protected function purge(
-              $namespace   = self::SCOPE_EVERYTHING,
+        array $namespaces  = [self::SCOPE_EVERYTHING],
         array $argumentBag = []
     ) {
-        // Build namespace for cache
-        if (in_array($namespace, $this->validScopes) === false) {
-            throw new Doozr_Exception(
-                sprintf('Scope %s not allowed!', $namespace)
-            );
-        }
+        $result = 0;
 
-        /* @var Doozr_Cache_Service $cache */
-        $cache = Doozr_Loader_Serviceloader::load('cache', DOOZR_CACHE_CONTAINER, $namespace, [], DOOZR_UNIX);
+        // Iterate the namespaces passed ...
+        foreach ($namespaces as $namespace) {
 
-        // We can purge simply everything from passed namespace!
-        try {
-            $result = $cache->garbageCollection($namespace, -1, true);
+            // Build namespace for cache
+            if (false === in_array($namespace, $this->validScopes)) {
+                throw new Doozr_Exception(
+                    sprintf('Scope %s not allowed!', $namespace)
+                );
+            }
 
-        } catch (Exception $e) {
-            $result = false;
+            /* @var Doozr_Cache_Service $cache */
+            $cache = Doozr_Loader_Serviceloader::load('cache', DOOZR_CACHE_CONTAINER, $namespace, [], DOOZR_UNIX);
+
+            // We can purge simply everything from passed namespace!
+            try {
+                $result += $cache->garbageCollection($namespace, -1, true);
+
+            } catch (Exception $exception) {
+                break;
+            }
         }
 
         return $result;
@@ -275,7 +283,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
               $namespace   = self::SCOPE_EVERYTHING,
         array $argumentBag = []
     ) {
-        var_dump($namespace);
+        dump(__METHOD__);
         die;
     }
 }

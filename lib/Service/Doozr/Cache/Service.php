@@ -393,7 +393,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param bool   $force           TRUE to force a garbage collection run, otherwise FALSE (default) to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return int The number of elements collected in gc run
      * @access public
      */
     public function garbageCollection($namespace = null, $maximumLifetime = null, $force = false)

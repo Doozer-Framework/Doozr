@@ -87,8 +87,6 @@ if (!function_exists('getallheaders')) {
             }
         }
 
-        dump($headers);die;
-
         // return the result
         return $headers;
     }

@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Request_Cli extends Doozr_Base_Request
+class Doozr_Request_Cli extends Doozr_Request
     implements
     Doozr_Request_Interface
 {
@@ -147,7 +147,7 @@ class Doozr_Request_Cli extends Doozr_Base_Request
         );
 
         // init
-        $this->_init();
+        $this->init();
 
         // get securitylayer functionality (htmlpurifier + phpids)
         // sanitize global arrays, retrieve impacts and maybe cancle the whole request
@@ -161,10 +161,10 @@ class Doozr_Request_Cli extends Doozr_Base_Request
      * Initializes the main-settings.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool True if everything wents fine, otherwise false
-     * @access private
+     * @return bool TRUE if everything went fine, otherwise FALSE
+     * @access protected
      */
-    private function _init()
+    protected function init()
     {
         // we need the "global" array of arguments
         global $argv, $argc, $_CLI, $_REQUEST;
@@ -172,10 +172,9 @@ class Doozr_Request_Cli extends Doozr_Base_Request
         /**
          * check CLI overrides
          */
-
         // check for force-runtimeEnvironment
         for ($i = 0; $i < $argc; ++$i) {
-            if (stristr($argv[$i], 'force-runtimeEnvironment')) {
+            if (stristr($argv[$i], 'env') {
                 $this->_forceCommandMode = $argv[$i+1];
                 break;
             }

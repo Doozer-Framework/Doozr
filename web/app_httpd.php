@@ -98,7 +98,7 @@ $_SERVER['QUERY_STRING'] = (
     $_SERVER['QUERY_STRING'] === '/' ||
     $_SERVER['QUERY_STRING'] === ''
 ) ?
-    '/Index/Index/' :
+    '/' :
     $_SERVER['QUERY_STRING'];
 
 // Try to load .env file with environmental settings
