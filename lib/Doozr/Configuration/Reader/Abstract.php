@@ -499,7 +499,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @return null|string Filename if set, otherwise NULL
      * @access protected
      */
-    public function getFilename()
+    public function getClassFilename()
     {
         return $this->filename;
     }

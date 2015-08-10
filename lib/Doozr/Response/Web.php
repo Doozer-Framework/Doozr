@@ -77,9 +77,9 @@ class Doozr_Response_Web extends Doozr_Response
     ResponseInterface
 {
     /**
-     * Type of the Response
+     * Type of response.
      *
-     * @example Cli, Web, ...
+     * @example Httpd, Web, ...
      * @var string
      * @access protected
      */

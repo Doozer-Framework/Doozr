@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Exception - Service
+ * Doozr - Exception - Runtime
  *
- * Service.php - Generic Service Exception of Doozr Framework.
+ * Runtime.php - Runtime exception of Doozr.
  *
  * PHP versions 5.5
  *
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Exception
- * @subpackage Doozr_Exception_Service
+ * @subpackage Doozr_Exception_Runtime
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,36 +52,21 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
-
 /**
- * Doozr - Exception - Service
+ * Doozr - Exception - Runtime
  *
- * Generic Service Exception of Doozr Framework.
+ * Runtime exception of Doozr.
  *
  * @category   Doozr
  * @package    Doozr_Exception
- * @subpackage Doozr_Exception_Service
+ * @subpackage Doozr_Exception_Runtime
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Exception_Service extends Doozr_Base_Exception
+class Doozr_Exception_Runtime extends RuntimeException
 {
-    /**
-     * Constructor.
-     *
-     * @param string    $message  Message of exception
-     * @param int       $code     Error code of exception
-     * @param exception $previous Previous thrown exception
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
-     */
-    public function __construct($message = null, $code = 0, $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
+    // Just for namespace
 }

@@ -105,7 +105,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     public static $starttime = 0;
 
     /**
-     * Contains the execution-time of core (core is ready to use) for measurements
+     * Contains the execution time of core (core is ready to use) for measurements
      *
      * @var float
      * @access public
@@ -232,7 +232,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             $virtualized
         );
 
-        // Stop timer and store execution-time
+        // Stop timer and store execution time
         self::stopTimer();
     }
 
@@ -249,7 +249,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @param bool   $virtualized        TRUE to run Kernel virtualized, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Kernel|Doozr_Kernel_App The Doozr Kernel instance
+     * @return $this The Doozr Kernel instance
      * @access public
      */
     public static function boot(
@@ -968,7 +968,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$coreExecutionTime = self::getDateTime()->getMicrotimeDiff(self::$starttime);
 
         // log core execution time
-        self::$registry->logger->debug('Kernel execution-time: ' . self::$coreExecutionTime . ' seconds');
+        self::$registry->logger->debug('Kernel execution time: ' . self::$coreExecutionTime . ' seconds');
     }
 
     /**
@@ -1071,6 +1071,17 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $expose = false
     ) {
         try {
+            // Build Filter for URI and apply ...
+            $filter = new \Doozr_Filter(
+                (array)self::$registry->getConfiguration()->kernel->transmission->request->filter
+            );
+
+            $request->withUri(
+                $request->getUri()->withPath(
+                    $filter->apply($request->getUri()->getPath())
+                )
+            );
+
             /* @var $router Doozr_Route */
             $router  = self::$registry->getContainer()->build('Doozr_Route');
             $request = $router->route($request);

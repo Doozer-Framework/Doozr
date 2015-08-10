@@ -140,12 +140,13 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
      */
     public function __construct($message = null, $code = 0, Exception $previous = null)
     {
-        // if no message set set => throw us again
-        if (!$message) {
-            throw new $this('Exception => "' . get_class($this) . '" without message!');
+        // No message set set => throw us again
+        if (null === $message) {
+            throw new $this(
+                sprintf('Exception "%s" without message!', get_class($this))
+            );
         }
 
-        // call parents constructor
         parent::__construct($message, $code, $previous);
     }
 
