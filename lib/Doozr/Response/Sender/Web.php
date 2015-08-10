@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Response - Sender - Http
+ * Doozr - Response - Sender - Web
  *
  * Web.php - Sends a HTTP response to the client.
  *
@@ -58,7 +58,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamInterface as Stream;
 
 /**
- * Doozr - Response - Sender - Http
+ * Doozr - Response - Sender - Web
  *
  * Sends a HTTP response to the client.
  *
@@ -70,9 +70,8 @@ use Psr\Http\Message\StreamInterface as Stream;
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
- * @final
  */
-final class Doozr_Response_Sender_Web extends Doozr_Base_Class
+class Doozr_Response_Sender_Web extends Doozr_Base_Class
 {
     /**
      * Instance of Doozr_Response_X-Class compatible to PSR-7 Response
@@ -313,6 +312,3 @@ final class Doozr_Response_Sender_Web extends Doozr_Base_Class
         }
     }
 }
-
-
-

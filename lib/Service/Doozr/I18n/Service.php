@@ -802,8 +802,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @param string $locale The locale to return configuration for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Service_Config The instance of the configreader holding the object representation
-     *                                    of L10n configuration
+     * @return object The instance of the configreader holding the object representation of L10n configuration
      * @access protected
      * @throws Doozr_I18n_Service_Exception
      */

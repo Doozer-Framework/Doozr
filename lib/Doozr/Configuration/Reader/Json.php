@@ -87,7 +87,6 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
      */
     protected $decodedContent;
 
-
     /**
      * Here we proxy the call to parents generic reading and replacing functionality.
      * We do this to receive the processed result here in place to convert it to a real

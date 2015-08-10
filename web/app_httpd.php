@@ -145,7 +145,7 @@ $response = $runner(
 );
 
 // After running the whole queue send the response (HTTP way)
-$responseSender = new Doozr_Response_Sender_Web($response);
+$responseSender = new Doozr_Response_Sender_Httpd($response);
 $responseSender->send();
 
 /**
