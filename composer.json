@@ -16,7 +16,6 @@
     "doctrine/dbal": "~2.5.1",
     "doctrine/orm": "~2.5.0",
     "doctrine/annotations": "~1.2.6",
-    "raulfraile/ladybug": "~1.0.11",
     "maximebf/debugbar": "~1.10.4",
     "symfony/console": "~2.7.1",
     "firephp/firephp-core": "~0.4.0",
@@ -40,7 +39,8 @@
     "relay/relay": "1.*@dev",
     "relay/middleware": "1.*@dev",
     "vlucas/phpdotenv": "~2.0.1",
-    "friendsofphp/uprofiler": "dev-master"
+    "friendsofphp/uprofiler": "dev-master",
+    "symfony/var-dumper": "~2.7.2"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.7.6",

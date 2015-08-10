@@ -78,13 +78,6 @@ class Doozr_Tool_Cli extends Doozr_Tool_Abstract
     /**
      * Start the command processing.
      *
-     * Currently supported commands
-     *
-     * webserver=start
-     * webserver=stop
-     * webserver=restart
-     * webserver=status
-     *
      * @param string $injectedCommand An optional injected (and override) command.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -139,7 +132,7 @@ class Doozr_Tool_Cli extends Doozr_Tool_Abstract
                         break;
                 }
             } elseif ($value !== false && strlen($value) === 0) {
-                $error = 'Empty command. Please tell me what i should to do with "' . $name . '"';
+                $error = sprintf('Empty command. Please tell me what i should to do with "%s"', $name);
 
             }
         }

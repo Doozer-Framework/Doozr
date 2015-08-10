@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 // Check for execution from www or something!
-if (php_sapi_name() !== 'cli') {
+if ('cli' !== php_sapi_name()) {
     die('Please execute the installed from command line.');
 }
 
@@ -82,7 +82,7 @@ define('DOOZR_INSTALLER_VERSION', '$Id$');
 class Doozr_Installer_Framework extends Doozr_Installer_Base
 {
     /**
-     * Default folders we install.
+     * Default folders we install/copy.
      *
      * @var array
      * @access protected
@@ -93,7 +93,6 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
         'web',
         'bin',
     );
-
 
     /**
      * Installer process for Doozr's bootstrap project based on post install event hook on composer.

@@ -94,7 +94,7 @@ class Doozr_Base_Tools
      * @var string
      * @access protected
      */
-    protected $file;
+    protected $classFilename;
 
     /**
      * The path and the filename of the parent which extends this base
@@ -137,16 +137,16 @@ class Doozr_Base_Tools
      * @return string The filename of the parent class
      * @access public
      */
-    public function getFilename()
+    public function getClassFilename()
     {
-        if (is_null($this->file)) {
+        if (is_null($this->classFilename)) {
             if (is_null($this->backtrace)) {
                 $this->backtrace = debug_backtrace();
             }
-            $this->file = filename($this->backtrace[0]['file']);
+            $this->classFilename = filename($this->backtrace[0]['file']);
         }
 
-        return $this->file;
+        return $this->classFilename;
     }
 
     /**
@@ -161,7 +161,7 @@ class Doozr_Base_Tools
     public function getPathAndFile($resolveSymlinks = false)
     {
         if (is_null($this->pathAndFile)) {
-            $this->pathAndFile = $this->getPathToClass($resolveSymlinks) . $this->getFilename();
+            $this->pathAndFile = $this->getPathToClass($resolveSymlinks) . $this->getClassFilename();
         }
 
         return $this->pathAndFile;

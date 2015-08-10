@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Http - Exception
+ * Doozr - Exception - Http
  *
- * Exception.php - Http exception of Doozr.
+ * Http.php - Http exception of Doozr.
  *
  * PHP versions 5.5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Exception
+ * @package    Doozr_Exception
+ * @subpackage Doozr_Exception_Http
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,32 +55,32 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 
 /**
- * Doozr - Http - Exception
+ * Doozr - Exception - Http
  *
  * Http exception of Doozr.
  *
  * @category   Doozr
- * @package    Doozr_Http
- * @subpackage Doozr_Http_Exception
+ * @package    Doozr_Exception
+ * @subpackage Doozr_Exception_Http
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Http_Exception extends Doozr_Exception
+class Doozr_Exception_Http extends Doozr_Exception
 {
     /**
      * Constructor.
      *
-     * @param string    $message  Message of the exception
-     * @param int       $code     Error-code of the exception
-     * @param Exception $previous Previous thrown exception which should be repacked
+     * @param int            $code     HTTP response code
+     * @param string|null    $message  HTTP message of the exception
+     * @param Exception|null $previous Previous thrown exception (gets repacked)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
      */
-    public function __construct($message = null, $code = 0, Exception $previous = null)
+    public function __construct($code = 500, $message = null, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

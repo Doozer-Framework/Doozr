@@ -115,7 +115,7 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
             ->line($line);
 
         // Now dispatch the error processable and from userland catchable as Exception
-        throw new Doozr_Error_Exception($message, $number, $error);
+        #throw new Doozr_Error_Exception($message, $number, $error);
 
         // We return FALSE as signal that we handled the error - required by PHP >= 5.2
         return false;
@@ -180,16 +180,9 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
         // Check if can handle the error ...
         if (!empty($error) && self::isError($error) === true) {
             // Handle by default handler -> It seems that the types of error catched here cannot be processed like ...
-            #return self::handle($error['type'], $error['message'], $error['file'], $error['line']);
-
-            echo 'Benno:<br />';
-            var_dump($error);
-            die;
+            // Return FALSE to signalize PHP error handled: http://php.net/manual/en/function.set-error-handler.php
+            return self::handle($error['type'], $error['message'], $error['file'], $error['line']);
         }
-
-        // Return FALSE to signalize PHP error handled:
-        // http://php.net/manual/en/function.set-error-handler.php
-        return false;
     }
 
 

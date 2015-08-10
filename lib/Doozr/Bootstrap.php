@@ -238,7 +238,7 @@ if (false === defined('DOOZR_CACHING')) {
 
 // Try to include composer's autoloader to make all the composer stuff easy available
 if (false === composer_running()) {
-    include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
+    include_once DOOZR_DOCUMENT_ROOT . '../vendor/autoload.php';
 }
 
 /*----------------------------------------------------------------------------------------------------------------------

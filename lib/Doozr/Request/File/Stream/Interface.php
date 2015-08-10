@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Exception - Service
+ * Doozr - Request - File - Stream - Interface
  *
- * Service.php - Generic Service Exception of Doozr Framework.
+ * Interface.php - Contract for file streams.
  *
  * PHP versions 5.5
  *
@@ -43,45 +43,37 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Exception
- * @subpackage Doozr_Exception_Service
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_File
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
 
 /**
- * Doozr - Exception - Service
+ * Doozr - Request - File - Stream - Interface
  *
- * Generic Service Exception of Doozr Framework.
+ * Contract for file streams.
  *
  * @category   Doozr
- * @package    Doozr_Exception
- * @subpackage Doozr_Exception_Service
+ * @package    Doozr_Request
+ * @subpackage Doozr_Request_File
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Exception_Service extends Doozr_Base_Exception
+interface Doozr_Request_File_Stream_Interface
 {
     /**
-     * Constructor.
+     * Must return a resource handle (known by PHP) of the stream representation of uploaded file.
      *
-     * @param string    $message  Message of exception
-     * @param int       $code     Error code of exception
-     * @param exception $previous Previous thrown exception
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return resource The resource handle of the stream representation of uploaded file.
      * @access public
+     * @throws Doozr_Exception_Runtime
      */
-    public function __construct($message = null, $code = 0, $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
+    public function getHandle();
 }

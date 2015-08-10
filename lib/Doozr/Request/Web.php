@@ -4,7 +4,7 @@
 /**
  * Doozr - Request - Web
  *
- * Web.php - Doozr request implementation for Web (HTTP) response(s).
+ * Web.php - Handles requests arrived via a real webserver.
  *
  * PHP versions 5.5
  *
@@ -61,7 +61,7 @@ use Psr\Http\Message\UriInterface;
 /**
  * Doozr - Request - Web
  *
- * Doozr request implementation for Web (HTTP) response(s).
+ * Handles requests arrived via a real webserver.
  *
  * @category   Doozr
  * @package    Doozr_Request
@@ -77,9 +77,9 @@ class Doozr_Request_Web extends Doozr_Request
     ServerRequestInterface
 {
     /**
-     * Type of the Response
+     * Type of request.
      *
-     * @example Cli, Web, ...
+     * @example Httpd, Web, ...
      * @var string
      * @access protected
      */
@@ -97,7 +97,8 @@ class Doozr_Request_Web extends Doozr_Request
      * The type native for PHP request sources
      *
      * @var int
-     * @access const
+     * @access public
+     * @const
      */
     const NATIVE = 0;
 
@@ -105,7 +106,8 @@ class Doozr_Request_Web extends Doozr_Request
      * The type emulated for PHP request sources
      *
      * @var int
-     * @access const
+     * @access public
+     * @const
      */
     const EMULATED = 1;
 
@@ -131,11 +133,13 @@ class Doozr_Request_Web extends Doozr_Request
             )
         );
 
-        // Emulate the request in case of PUT ...
-        $this->emulateRequest($this->receiveMethod());
+        // HTTP Version of the request made
+        $protocolVersion = explode('/', $_SERVER['SERVER_PROTOCOL']);
 
-        // Store SAPI (CLI, HTTPD, APACHE ....)
-        #$this->setSapi($sapi);
+        // Store protocol version
+        $this->withProtocolVersion(
+            (true === isset($protocolVersion[1])) ? $protocolVersion[1] : '1.0'
+        );
 
         // Store headers normalized to prevent System/OS/PHP mismatches
         $headers = $this->normalizeHeaders(getallheaders());
@@ -143,10 +147,50 @@ class Doozr_Request_Web extends Doozr_Request
             $this->withHeader($header, $value);
         }
 
-        // Store query params as array
-        $this->withQueryParams(
-            $this->receiveQueryParams($this->getMethod())
+        // Receive and store request method (HTTP verb)
+        $this->withMethod(
+            $this->receiveMethod()
         );
+
+        // Emulate the request in case of PUT ...
+        $this->equalizeRequestArguments(
+            $this->getMethod(),
+            $headers
+        );
+
+        // Store cookies
+        $this->withCookieParams(
+            $_COOKIE
+        );
+
+        // Store file uploads ...
+        $files = [];
+        foreach ($_FILES as $file) {
+            $files[] = new Doozr_Request_File($file);
+        }
+        $this->withUploadedFiles(
+            $files
+        );
+
+        // Store query params as array
+        $queryArguments = [];
+        parse_str($_SERVER['QUERY_STRING'], $queryArguments);
+        $this->withQueryParams(
+            $queryArguments
+        );
+
+        // Detect if Ajax and set flag
+        $this->withAttribute('isAjax', $this->isAjax());
+
+        // Store body arguments (_POST _PUT ...) as parsed body representation
+        $this->withParsedBody(
+            $this->receiveArguments($this->getMethod())
+        );
+
+        // Set the request target!
+        $this->withRequestTarget($this->getUri()->getPath());
+
+        return true;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -198,6 +242,54 @@ class Doozr_Request_Web extends Doozr_Request
     /*------------------------------------------------------------------------------------------------------------------
     | INTERNAL API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns TRUE if the request is an Ajax request, FALSE if not.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if the request is an Ajax request, FALSE if not.
+     * @access protected
+     */
+    protected function isAjax()
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+    }
+
+    /**
+     * Extracts the arguments passed in body (PUT, DELETE) and inject them as global.
+     * We decided that we equalize the accessibility of arguments passed. To do so we extract the data from
+     * request body as single arguments instead of taking them as something completely different.
+     * So we also inject the values into global $_REQUEST.
+     *
+     * @param string $method The HTTP method used for request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function injectGlobals($method)
+    {
+        global $_PUT, $_DELETE, $_REQUEST;
+
+        $requestBody = file_get_contents('php://input');
+
+        // Check for empty request body
+        if (strlen($requestBody) > 0) {
+
+            // Automagically prepare data send in body (often JSON!) as object (auto extract)
+            $data = json_decode($requestBody, false);
+
+            // Check if response could be extracted (= JSON input) if not do conversion to stdClass now:
+            if (null === $data || JSON_ERROR_NONE !== json_last_error()) {
+                parse_str($requestBody, $data);
+            }
+
+            foreach ($data as $argument => $value) {
+                $GLOBALS['_' . $method][$argument] = $value;
+                $_REQUEST[$argument] = $value;
+            }
+        }
+    }
 
     /**
      * Normalizes headers so they are accessible on all OS' in the same way/naming ...
@@ -280,7 +372,7 @@ class Doozr_Request_Web extends Doozr_Request
      * @return array The query parameter
      * @access public
      */
-    protected function receiveQueryParams($method = Doozr_Http::REQUEST_METHOD_GET)
+    protected function receiveArguments($method = Doozr_Http::REQUEST_METHOD_GET)
     {
         global $_GET, $_POST, $_DELETE, $_PUT;
 
@@ -319,59 +411,29 @@ class Doozr_Request_Web extends Doozr_Request
      * So you can access PUT via $_PUT and DELETE via $_DELETE and so on ...
      *
      * @param string $method The active HTTP method
+     * @param array  $headers The headers to use for checking
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access protected
      */
-    protected function emulateRequest($method)
+    protected function equalizeRequestArguments($method, $headers)
     {
-        global $_PUT, $_DELETE, $_REQUEST;
-
-        $headers        = $this->getHeaders();
         $requestSources = $this->getRequestSources();
 
-        // Check if current request type must be emulated OR
-        // If we reach here cause of a POST request without header content-type application/x-www-form-urlencoded
+        // Check for emulation or if a POST without header content-type application/x-www-form-urlencoded arrived
         if (
             (self::EMULATED === $requestSources[$method]) ||
             (
                 Doozr_Http::REQUEST_METHOD_POST === $method &&
                 (
                     (isset($headers['CONTENT_TYPE']) === false) ||
-                    (stristr(strtolower($headers['CONTENT_TYPE']), 'application/x-www-form-urlencoded') === false)
+                    strpos(strtolower($headers['CONTENT_TYPE']), 'application/x-www-form-urlencoded') === false
                 )
             )
         ) {
-            echo 'EMULATED!!!!!!!!';die;
-            //$GLOBALS['_' . $method]['DOOZR_REQUEST_BODY'] = file_get_contents("php://input");
-            // So we @ Doozr decided that we equalize the accessibility of arguments passed to a PHP process.
-            // To do so we extract the data from request body as single arguments instead of taking them as something
-            // completely different. So we also inject the values into global $_REQUEST.
-            $requestBody = file_get_contents("php://input");
-
-            // Check for empty request body
-            if (strlen($requestBody) > 0) {
-
-                // Automagically prepare data send in body (often JSON!) as object (auto extract)- Why? Just to be nice :O
-                $data = json_decode($requestBody, false);
-
-                // Check if response could be extracted (= JSON input) if not do conversion to stdClass now:
-                if ($data === null) {
-                    $data  = new \stdClass();
-                    $input = explode('&', $requestBody);
-
-                    foreach ($input as $argumentSet) {
-                        $keyValue = explode('=', $argumentSet);
-                        $data->{$keyValue[0]} = isset($keyValue[1]) ? $keyValue[1] : null;
-                    }
-                }
-
-                foreach ($data as $argument => $value) {
-                    $GLOBALS['_' . $method][$argument] = $value;
-                    $_REQUEST[$argument] = $value;
-                }
-            }
+            // We inject globals for PUT, DELETE and POST's without proper "application/x-www-form-urlencoded"!
+            $this->injectGlobals($method);
         }
 
         return true;
@@ -403,6 +465,18 @@ class Doozr_Request_Web extends Doozr_Request
     public function getServerParams()
     {
         return $this->getStateObject()->getServerParams();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this Instance for chaining
+     */
+    public function withServerParams(array $server)
+    {
+        $this->getStateObject()->withServerParams($server);
+
+        return $this;
     }
 
     /**

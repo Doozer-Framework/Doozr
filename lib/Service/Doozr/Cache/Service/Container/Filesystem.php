@@ -489,16 +489,13 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool The result of the operation
+     * @return int The number of elements removed in run
      * @access public
      */
     public function garbageCollection($namespace, $lifetime)
     {
         // Clear file cache
         $this->clear();
-
-        // Run successful?
-        $result = true;
 
         // Get the directory to work on -> BUT don't create the structure if not exist
         $directory = $this->getDirectoryByNamespace($namespace, false);
@@ -518,7 +515,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param int    $lifetime  Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return int The number of elements collected and removed
      * @access protected
      * @throws Doozr_Cache_Service_Exception
      */
@@ -534,6 +531,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
                 sprintf('Can\'t write to directory "%s". Check permissions and path.', $directory)
             );
         }
+
+        // Assume we do not collect anything
+        $elementsCollected = 0;
 
         // Get files from directory ...
         while ($filename = readdir($directoryHandle)) {
@@ -555,11 +555,14 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
 
             // Checking last access is so much faster then reading from file so we try to exclude file read here!
             if ((time() - $lastAccess) > $lifetime) {
-                if (unlink($filename) === false) {
+                if (false === unlink($filename)) {
                     throw new Doozr_Cache_Service_Exception(
                         sprintf('Can\'t unlink cache file "%s", skipping. Check permissions and path.', $filename)
                     );
                     continue;
+
+                } else {
+                    $elementsCollected++;
                 }
 
             } else {
@@ -609,7 +612,6 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
 
         // Check the space used by the cache entries
         if ($this->getTotalSize() > $this->getHighwaterMarker()) {
-
             $entries = $this->getEntries();
             krsort($entries);
             reset($entries);
@@ -630,6 +632,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
             // Update
             $this->setEntries($entries);
         }
+
+        // Finally done -> seems to be a worth a true
+        return $elementsCollected;
     }
 
     /**

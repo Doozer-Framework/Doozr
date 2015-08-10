@@ -726,6 +726,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // check for redirect of current locale (e.g. from "en-gb" -> "en")
         try {
+            echo 1;die;
             $redirectLocale     = $config->redirect->target;
             $this->activeLocale = $redirectLocale;
 

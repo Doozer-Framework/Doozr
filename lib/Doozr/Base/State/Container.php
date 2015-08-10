@@ -78,7 +78,6 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
      */
     protected $stateObject;
 
-
     /**
      * Constructor.
      *

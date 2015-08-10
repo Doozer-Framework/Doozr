@@ -161,6 +161,20 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
+     * Start the command processing.
+     *
+     * @param string $injectedCommand An optional injected (and override) command.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed A result in any form.
+     * @access protected
+     */
+    protected function execute($injectedCommand = null)
+    {
+        return null;
+    }
+
+    /**
      * Configures.
      *
      * @param array $configuration The configuration for commands
