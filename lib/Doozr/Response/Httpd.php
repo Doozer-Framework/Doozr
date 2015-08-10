@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Request - File
+ * Doozr - Response - Httpd
  *
- * File.php - Doozr request file implementation for Web (HTTP) request(s).
+ * Httpd.php - Doozr response implementation for Httpd (HTTP) response(s).
  *
  * PHP versions 5.5
  *
@@ -43,8 +43,8 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Body
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response_Httpd
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,25 +52,31 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
-
-use Psr\Http\Message\StreamInterface;
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Response/Web.php';
 
 /**
- * Doozr - Request - Web
+ * Doozr - Response - Httpd
  *
- * Doozr request implementation for Web (HTTP) response(s).
+ * Doozr response implementation for Httpd (HTTP) response(s).
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Web
+ * @package    Doozr_Response
+ * @subpackage Doozr_Response_Httpd
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Request_Body extends Doozr_Base_Class implements StreamInterface
+class Doozr_Response_Httpd extends Doozr_Response_Web
 {
-    // withBody
+    /**
+     * Type of response.
+     *
+     * @example Httpd, Web, ...
+     * @var string
+     * @access protected
+     */
+    protected $type = Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD;
 }

@@ -136,10 +136,10 @@ $runner = new Runner($queue);
 
 // ... and run it with the queue defined above
 $response = $runner(
-    new \Doozr_Request_Web(
+    new \Doozr_Request_Httpd(
         new \Doozr_Request_State()
     ),
-    new \Doozr_Response_Web(
+    new \Doozr_Response_Httpd(
         new \Doozr_Response_State()
     )
 );

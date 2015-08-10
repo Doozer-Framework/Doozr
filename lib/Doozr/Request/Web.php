@@ -4,7 +4,7 @@
 /**
  * Doozr - Request - Web
  *
- * Web.php - Doozr request implementation for Web (HTTP) response(s).
+ * Web.php - Handles requests arrived via a real webserver.
  *
  * PHP versions 5.5
  *
@@ -61,7 +61,7 @@ use Psr\Http\Message\UriInterface;
 /**
  * Doozr - Request - Web
  *
- * Doozr request implementation for Web (HTTP) response(s).
+ * Handles requests arrived via a real webserver.
  *
  * @category   Doozr
  * @package    Doozr_Request
@@ -77,9 +77,9 @@ class Doozr_Request_Web extends Doozr_Request
     ServerRequestInterface
 {
     /**
-     * Type of the Response
+     * Type of request.
      *
-     * @example Cli, Web, ...
+     * @example Httpd, Web, ...
      * @var string
      * @access protected
      */
@@ -97,7 +97,8 @@ class Doozr_Request_Web extends Doozr_Request
      * The type native for PHP request sources
      *
      * @var int
-     * @access const
+     * @access public
+     * @const
      */
     const NATIVE = 0;
 
@@ -105,7 +106,8 @@ class Doozr_Request_Web extends Doozr_Request
      * The type emulated for PHP request sources
      *
      * @var int
-     * @access const
+     * @access public
+     * @const
      */
     const EMULATED = 1;
 
