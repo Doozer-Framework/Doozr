@@ -40,7 +40,8 @@
     "relay/middleware": "1.*@dev",
     "vlucas/phpdotenv": "~2.0.1",
     "friendsofphp/uprofiler": "dev-master",
-    "symfony/var-dumper": "~2.7.2"
+    "symfony/var-dumper": "~2.7.2",
+    "shrikeh/teapot": "~1.0.2"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.7.6",
