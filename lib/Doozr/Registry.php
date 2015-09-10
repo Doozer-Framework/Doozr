@@ -207,10 +207,14 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     {
         $result = null;
 
-        if ($identifier === null) {
+        if (null === $identifier) {
             $result = self::$lookup;
+
+        } elseif ('doozr.registry' === $identifier) {
+            $result = $this;
+
         } else {
-            if (isset(self::$lookup[$identifier])) {
+            if (true === isset(self::$lookup[$identifier])) {
                 $result = self::$references[self::$lookup[$identifier]];
             }
         }
@@ -218,9 +222,20 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
         return $result;
     }
 
+    /**
+     * Static generic instance fetcher. Prototype !!!
+     * @todo Proof if useful and conform
+     *
+     * @param string $name      Name of the "method" called -> will be used as property name
+     * @param array  $arguments Unused!
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed ...
+     * @access public
+     */
     public static function __callStatic($name, array $arguments)
     {
-        echo $name;die;
+        return (true === isset(self::$lookup[$name])) ? self::$references[self::$lookup[$name]] : null;
     }
 
     /**

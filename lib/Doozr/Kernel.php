@@ -96,7 +96,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     Doozr_Kernel_App_Interface
 {
     /**
-     * Contains the starttime (core instantiated) for measurements
+     * Starttime (core instantiated) for measurements
      *
      * @var float
      * @access public
@@ -105,7 +105,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     public static $starttime = 0;
 
     /**
-     * Contains the execution time of core (core is ready to use) for measurements
+     * Execution time of core (core is ready to use) for measurements
      *
      * @var float
      * @access public
@@ -114,7 +114,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     public static $coreExecutionTime = 0;
 
     /**
-     * An instance of module datetime
+     * Instance of service DateTime
      *
      * @var Doozr_Datetime_Service
      * @access protected
@@ -123,7 +123,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     protected static $dateTime;
 
     /**
-     * Contains the default configuration container used by Doozr (Kernel especially)
+     * Default configuration container used by Kernel
      *
      * @var string
      * @access const
@@ -191,12 +191,14 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is the constructor of the core class.
+     * Constructor.
      *
      * @param string $appEnvironment     Application environment of the app running this Kernel instance
      * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI)
+     * @param bool   $unix               TRUE when Doozr is running on Linux/Unix
      * @param bool   $debugging          TRUE to enable debugging, FALSE to disable
      * @param bool   $caching            TRUE to enable caching, FALSE to disable
+     * @param string $cacheContainer     Preferred container for caching
      * @param bool   $logging            TRUE to enable logging, FALSE to disable
      * @param string $documentRoot       The document root as string
      * @param string $appRoot            The app root as string
@@ -209,8 +211,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     protected function __construct(
         $appEnvironment,
         $runtimeEnvironment,
+        $unix,
         $debugging,
         $caching,
+        $cacheContainer,
         $logging,
         $documentRoot,
         $appRoot,
@@ -224,8 +228,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             true,
             $appEnvironment,
             $runtimeEnvironment,
+            $unix,
             $debugging,
             $caching,
+            $cacheContainer,
             $logging,
             $documentRoot,
             $appRoot,
@@ -241,8 +247,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      *
      * @param string $appEnvironment     Application environment of the app running this Kernel instance
      * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI)
+     * @param bool   $unix               TRUE when Doozr is running on Linux/Unix
      * @param bool   $debugging          TRUE to enable debugging, FALSE to disable
      * @param bool   $caching            TRUE to enable caching, FALSE to disable
+     * @param string $cacheContainer     Container to be used for caching (defaults to filesystem)
      * @param bool   $logging            TRUE to enable logging, FALSE to disable
      * @param string $documentRoot       The document root as string
      * @param string $appRoot            The app root as string
@@ -255,8 +263,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     public static function boot(
         $appEnvironment     = self::APP_ENVIRONMENT_PRODUCTION,
         $runtimeEnvironment = self::RUNTIME_ENVIRONMENT_WEB,
+        $unix               = true,
         $debugging          = false,
         $caching            = false,
+        $cacheContainer     = DOOZR_CACHE_CONTAINER,
         $logging            = true,
         $documentRoot       = null,
         $appRoot            = null,
@@ -265,8 +275,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         return Doozr_Kernel::getInstance(
             $appEnvironment,
             $runtimeEnvironment,
+            $unix,
             $debugging,
             $caching,
+            $cacheContainer,
             $logging,
             $documentRoot,
             $appRoot,
@@ -303,8 +315,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @param bool   $rerun              TRUE to rerun the bootstrap process, FALSE to keep state from last run
      * @param string $appEnvironment     Application environment of the app running this Kernel instance
      * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI)
+     * @param bool   $unix               TRUE if Doozr is running on Linux/Unix
      * @param bool   $debugging          TRUE to enable debugging, FALSE to disable
      * @param bool   $caching            TRUE to enable caching, FALSE to disable
+     * @param string $cacheContainer     Container used for caching
      * @param bool   $logging            TRUE to enable logging, FALSE to disable
      * @param string $documentRoot       The document root as string
      * @param string $appRoot            The app root as string
@@ -320,8 +334,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $rerun              = true,
         $appEnvironment     = self::APP_ENVIRONMENT_PRODUCTION,
         $runtimeEnvironment = self::RUNTIME_ENVIRONMENT_WEB,
+        $unix               = true,
         $debugging          = false,
         $caching            = false,
+        $cacheContainer     = DOOZR_CACHE_CONTAINER,
         $logging            = true,
         $documentRoot       = '',
         $appRoot            = '',
@@ -334,15 +350,17 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
                 (
                     self::initRegistry(
                         [
+                            'doozr.unix'                       => $unix,
+                            'doozr.app.root'                   => $appRoot,
+                            'doozr.app.environment'            => $appEnvironment,
+                            'doozr.document.root'              => $documentRoot,
                             'doozr.kernel.rerun'               => $rerun,
-                            'doozr.kernel.app.environment'     => $appEnvironment,
-                            'doozr.kernel.runtime.environment' => $runtimeEnvironment,
                             'doozr.kernel.debugging'           => $debugging,
                             'doozr.kernel.caching'             => $caching,
+                            'doozr.kernel.cachecontainer'      => $cacheContainer,
                             'doozr.kernel.logging'             => $logging,
                             'doozr.kernel.virtualized'         => $virtualized,
-                            'doozr.document.root'              => $documentRoot,
-                            'doozr.app.root'                   => $appRoot,
+                            'doozr.kernel.runtime.environment' => $runtimeEnvironment,
                         ]
                     ) &&
                     self::initDependencyInjection() &&
@@ -355,10 +373,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
                     (
                         self::$registry->getLogger()
                             ->debug(
-                                'Runtime environment: ' . $runtimeEnvironment
+                                'Runtime environment: '.$runtimeEnvironment
                             )
                             ->debug(
-                                'Bootstrapping of Doozr (v ' . DOOZR_VERSION . ')'
+                                'Bootstrapping of Doozr (v '.DOOZR_VERSION.')'
                             )
                     ) &&
                     self::initSystem() &&
@@ -375,11 +393,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             }
         }
     }
-
-/*
-->debug(
-'Bootstrapping of Doozr (v ' . DOOZR_VERSION . ')'
-)*/
 
     /**
      * Initializes the filesystem access.
@@ -413,11 +426,21 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     protected static function initCache()
     {
         // Build namespace for cache
-        $namespace = DOOZR_NAMESPACE_FLAT . '.cache';
+        $namespace = DOOZR_NAMESPACE_FLAT.'.cache';
+        $container = self::$registry->getParameter('doozr.kernel.cachecontainer');
+        $unix      = self::$registry->getParameter('doozr.unix');
+        $caching   = self::$registry->getParameter('doozr.kernel.caching');
 
         // Store cache ...
         self::$registry->setCache(
-            Doozr_Loader_Serviceloader::load('cache', DOOZR_CACHE_CONTAINER, $namespace, [], DOOZR_UNIX)
+            Doozr_Loader_Serviceloader::load(
+                'cache',
+                $container,
+                $namespace,
+                [],
+                $unix,
+                $caching
+            )
         );
 
         // Important for bootstrap result
@@ -441,17 +464,22 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
          */
         $collection = new Doozr_Di_Collection();
         $importer   = new Doozr_Di_Importer_Json();
-        $map        = new Doozr_Di_Map_Static($collection, $importer);
+        $dependency = new Doozr_Di_Dependency();
+        $map        = new Doozr_Di_Map_Static($collection, $importer, $dependency);
 
         // Generate map from static JSON map of Doozr
         $map->generate(DOOZR_DOCUMENT_ROOT . 'Data/Private/Config/.map.json');
 
-        // create
+        // Create container and set factory and map
         $container = Doozr_Di_Container::getInstance();
-        $container->setFactory(new Doozr_Di_Factory());
+        $container
+            ->factory(
+                new Doozr_Di_Factory(self::$registry)
+            )
+            ->map($map);
 
+        // Doozr's only Di container. We don't use any other. All Id's + instances shared static!
         self::$registry->setContainer($container);
-        self::$registry->setMap($map);
 
         // Important for bootstrap result
         return true;
@@ -491,23 +519,19 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initLogging()
     {
-        // Add additional/new dependencies
-        self::$registry->getMap()->wire(
-            Doozr_Di_Container::MODE_STATIC,
-            array(
-                'Doozr_Datetime_Service' => Doozr_Loader_Serviceloader::load('datetime')
-            )
+        // Wire the required datetime service ...
+        self::$registry->getContainer()->getMap()->wire(
+            [
+                'doozr.datetime.service' => Doozr_Loader_Serviceloader::load('datetime')
+            ]
         );
 
-        // Store map with fresh instances
-        self::$registry->getContainer()->setMap(self::$registry->getMap());
+        // Get logger ...
+        $logger = self::$registry->getContainer()->build('doozr.logging');
 
-        // Get logger
-        $logger = self::$registry->getContainer()->build('Doozr_Logging');
-
-        // And attach the Collecting Logger
+        // ... and attach the Collecting Logger
         $logger->attach(
-            self::$registry->getContainer()->build('Doozr_Logging_Collecting')
+            self::$registry->getContainer()->build('doozr.logging.collecting')
         );
 
         self::$registry->setLogger($logger);
@@ -544,29 +568,34 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initConfiguration()
     {
-        /* @var Doozr_Cache_Service $cache */
-        $cache   = self::getRegistry()->getCache();
-        $caching = self::$registry->getParameter('doozr.kernel.caching');
+        $caching   = self::$registry->getParameter('doozr.kernel.caching');
+        $namespace = DOOZR_NAMESPACE_FLAT.'.cache.configuration';
 
-        // Add additional/new dependencies
-        self::$registry->getMap()->wire(
-            Doozr_Di_Container::MODE_STATIC,
-            array(
-                'Doozr_Configuration_Reader_Json' => new Doozr_Configuration_Reader_Json(
+        /* @var Doozr_Cache_Service $cache */
+        $cache = Doozr_Loader_Serviceloader::load(
+            'cache',
+            DOOZR_CACHE_CONTAINER,
+            $namespace,
+            [],
+            DOOZR_UNIX,
+            DOOZR_CACHING
+        );
+
+        // Wire the required instances ...
+        self::$registry->getContainer()->getMap()->wire(
+            [
+                'doozr.configuration.reader.json' => new Doozr_Configuration_Reader_Json(
                     Doozr_Loader_Serviceloader::load('filesystem'),
                     $cache,
                     $caching
                 ),
-                'Doozr_Cache_Service' => $cache,
-            )
+                'doozr.cache.service' => $cache,
+            ]
         );
-
-        // Store map with fresh instances
-        self::$registry->getContainer()->setMap(self::$registry->getMap());
 
         /* @var Doozr_Configuration $config */
         $config = self::$registry->getContainer()->build(
-            'Doozr_Configuration',
+            'doozr.configuration',
             array(
                 $caching
             )
@@ -576,10 +605,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $config->read(
             self::$registry->getPath()->get('config') . '.config.json'
         );
-
-
-
-
 
 
 
@@ -622,7 +647,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
         $userlandConfigurationFile = self::$registry->getPath()->get(
             'app',
-            'Data\Private\Config\.config.' . self::$registry->getParameter('doozr.kernel.app.environment') . '.json'
+            'Data\Private\Config\.config.' . self::$registry->getParameter('doozr.app.environment') . '.json'
         );
 
         if (
@@ -666,7 +691,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             foreach (self::$registry->getConfiguration()->kernel->logging->logger as $logger) {
 
                 $loggerInstance = self::$registry->getContainer()->build(
-                    'Doozr_Logging_' . ucfirst(strtolower($logger->name)),
+                    'doozr.logging.' . strtolower($logger->name),
                     array((isset($logger->level)) ? $logger->level : self::$registry->getLogger()->getDefaultLoglevel())
                 );
 
@@ -731,21 +756,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initEncoding()
     {
-        // Define dependencies by it's identifier
-        self::$registry->getMap()->wire(
-            Doozr_Di_Container::MODE_STATIC,
-            array(
-                'Doozr_Configuration' => self::$registry->getConfiguration(),
-                'Doozr_Logging'       => self::$registry->getLogger()
-            )
-        );
-
-        // update map => intentionally this method is used for setting a new map but it
-        // does also work for our use-case ... to inject an updated map on each call
-        self::$registry->getContainer()->setMap(self::$registry->getMap());
-
         // Setup + store encoding in registry
-        self::$registry->setEncoding(self::$registry->getContainer()->build('Doozr_Encoding'));
+        self::$registry->setEncoding(
+            self::$registry->getContainer()->build('doozr.encoding')
+        );
 
         // Important for bootstrap result
         return true;
@@ -762,7 +776,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initLocale()
     {
-        self::$registry->setLocale(self::$registry->getContainer()->build('Doozr_Locale'));
+        self::$registry->setLocale(
+            self::$registry->getContainer()->build('doozr.locale')
+        );
 
         // Important for bootstrap result
         return true;
@@ -771,7 +787,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     /**
      * Configures the debug-behavior of PHP. I tries to runtime patch php.ini-settings
      * (ini_set) for error_reporting, display_errors, log_errors. If debug is enabled, the highest possible reporting
-     * level (inlcuding E_STRICT) is set. It also logs a warning-level message - if safe-runtimeEnvironment is detected and setup
+     * level (including E_STRICT) is set. It also logs a warning-level message - if safe-runtimeEnvironment is detected and setup
      * can't be done.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -782,10 +798,11 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     protected static function initDebugging()
     {
         if (true === self::$registry->getParameter('doozr.kernel.debugging')) {
+
             // Get debug manager
             self::$registry->setDebugging(
                 self::$registry->getContainer()->build(
-                    'Doozr_Debugging',
+                    'doozr.debugging',
                     array(
                         self::$registry->getParameter('doozr.kernel.debugging'),
                         DOOZR_PHP_VERSION,
@@ -913,17 +930,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             'docroot'   => $config->kernel->model->docroot
         );
 
-        // Define dependencies by it's identifier
-        self::$registry->getMap()->wire(
-            Doozr_Di_Container::MODE_STATIC,
-            array(
-                'Doozr_Path' => $path
-            )
+        self::$registry->setModel(
+            self::$registry->getContainer()->build('doozr.model', array($databaseConfiguration))
         );
-
-        // Update existing map with newly added dependencies
-        self::$registry->getContainer()->setMap(self::$registry->getMap());
-        self::$registry->setModel(self::$registry->getContainer()->build('Doozr_Model', array($databaseConfiguration)));
 
         // Important for bootstrap result
         return true;
@@ -968,7 +977,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$coreExecutionTime = self::getDateTime()->getMicrotimeDiff(self::$starttime);
 
         // log core execution time
-        self::$registry->logger->debug('Kernel execution time: ' . self::$coreExecutionTime . ' seconds');
+        self::$registry->getLogger()->debug('Kernel execution time: ' . self::$coreExecutionTime . ' seconds');
     }
 
     /**
@@ -979,7 +988,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @param bool   $fatal The type of core-error - if set to true the error becomes FATAL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool False always
+     * @return void
      * @access protected
      * @static
      * @throws Doozr_Kernel_Exception
@@ -998,9 +1007,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             $error,
             $type
         );
-
-        // Return FALSE so we can use the result of this method as return value for caller
-        return false;
     }
 
     /**
@@ -1083,11 +1089,11 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             );
 
             /* @var $router Doozr_Route */
-            $router  = self::$registry->getContainer()->build('Doozr_Route');
+            $router  = self::$registry->getContainer()->build('doozr.route');
             $request = $router->route($request);
 
             /* @var $responseResolver Doozr_Response_Resolver */
-            $responseResolver = self::$registry->getContainer()->build('Doozr_Response_Resolver');
+            $responseResolver = self::$registry->getContainer()->build('doozr.response.resolver');
 
             // Retrieving response by dispatching "request + route" to request dispatcher
             $response = $responseResolver->resolve($request, $response);

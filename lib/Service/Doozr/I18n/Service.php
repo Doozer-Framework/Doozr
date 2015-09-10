@@ -74,10 +74,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="Doozr_Registry",
- *     target="getInstance",
- *     type="constructor",
- *     position=1
+ *     link   = "doozr.registry",
+ *     type   = "constructor",
+ *     target = "getInstance"
  * )
  */
 class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
@@ -93,6 +92,14 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @access protected
      */
     protected $encoding;
+
+    /**
+     * The variables for I18n.
+     *
+     * @var array
+     * @access protected
+     */
+    protected $variables = [];
 
     /**
      * Contains the current active locale
@@ -224,7 +231,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     const ENCODING_ISO_8859_15 = 'ISO-8859-15';     // west european
     const ENCODING_ISO_8859_16 = 'ISO-8859-16';     // south european
 
-
     /**
      * Constructor for services.
      *
@@ -237,7 +243,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *                                         also used when setting locale in gettext interface (e.g. en_US.UTF-8)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean TRUE on success, otherwise FALSE
      * @access public
      */
     public function __tearup(Doozr_Configuration_Interface $config, $locale = null, $encoding = self::ENCODING_UTF_8)
@@ -502,7 +508,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * This method is intend to set the language used for translation.
      * In our I18n service its normally done by calling setActiveLocale()
-     * which is instrumentalized in this mehtod.
+     * which is instrumentalized in this method.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool|string Locale which was set on success, otherwise FALSE
@@ -605,39 +611,84 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         return true;
     }
 
-
-
     /**
-     * @var array
+     * Setter for variable.
+     *
+     * @param string $key   The key/name of the variable
+     * @param string $value The value of the variable
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
      */
-    protected $variables = [];
-
     public function setVariable($key, $value)
     {
         $this->variables[$key] = $value;
     }
 
+    /**
+     * Fluent: Setter for variable.
+     *
+     * @param string $key   The key/name of the variable
+     * @param string $value The value of the variable
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
     public function variable($key, $value)
     {
         $this->setVariable($key, $value);
+
         return $this;
     }
 
+    /**
+     * Getter for variable.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The value of the variable, NULL
+     * @access public
+     */
     public function getVariable($key)
     {
         return $this->variables[$key];
     }
 
+    /**
+     * Returns all defined variables.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Name of defined variables
+     * @access public
+     */
     public function getDefinedVariables()
     {
         return array_keys($this->variables);
     }
 
+    /**
+     * Getter for variables
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Name of defined variables
+     * @access public
+     */
     public function getVariables()
     {
         return $this->variables;
     }
 
+    /**
+     * Magic: Setter for variable
+     *
+     * @param string $key   The key/name of the variable
+     * @param string $value The value of the variable
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Name of defined variables
+     * @access public
+     */
     public function __set($key, $value)
     {
         $this->setVariable($key, $value);
@@ -655,9 +706,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         return $string;
     }
-
-
-
 
     /**
      * Translate a gettext key and interpolate variables.
@@ -840,17 +888,17 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     {
         // Add required dependencies
         self::$registry->getMap()->wire(
-            Doozr_Di_Container::MODE_STATIC,
-            array(
+            [
                 'Doozr_Filesystem_Service' => Doozr_Loader_Serviceloader::load('filesystem'),
                 'Doozr_Cache_Service'      => Doozr_Loader_Serviceloader::load(
                     'cache',
                     DOOZR_CACHE_CONTAINER,
                     DOOZR_NAMESPACE_FLAT . '.cache.i18n',
                     [],
-                    DOOZR_UNIX
+                    DOOZR_UNIX,
+                    DOOZR_CACHING
                 )
-            )
+            ]
         );
 
         // Store map with fresh instances

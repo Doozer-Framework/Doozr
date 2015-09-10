@@ -219,20 +219,22 @@ final class Doozr_Route extends Doozr_Base_Class
             case Doozr_Route_Resolver::NOT_FOUND:
                 throw new Doozr_Route_Exception(
                     sprintf('Route %s not found', $request->getUri()->getPath()),
-                    Doozr_Http::STATUS_404
+                    Doozr_Http::NOT_FOUND
                 );
                 break;
 
             case Doozr_Route_Resolver::METHOD_NOT_ALLOWED:
                 throw new Doozr_Route_Exception(
                     sprintf('Method no allowed. Allowed method(s): %s', $route[1]),
-                    Doozr_Http::STATUS_405
+                    Doozr_Http::METHOD_NOT_ALLOWED
                 );
                 break;
 
             case Doozr_Route_Resolver::FOUND:
                 // Store result of dispatch process - we wil use this later as identifier for status response dispatch
-                $request = $request->withAttribute('route', new Doozr_Request_Route_State($route[1][0], $route[1][1]));
+                $request = $request->withAttribute(
+                    'route', new Doozr_Request_Route_State($route[1][0], $route[1][1])
+                );
                 break;
         }
 
@@ -293,7 +295,7 @@ final class Doozr_Route extends Doozr_Base_Class
                         'No routes for HTTP-method "%s" found.',
                         $method
                     ),
-                    Doozr_Http::STATUS_405 // Method not allowed!
+                    Doozr_Http::METHOD_NOT_ALLOWED
                 );
             }
             $routes = $routes[$method];
@@ -459,7 +461,7 @@ final class Doozr_Route extends Doozr_Base_Class
         if (false === isset($routes[$method])) {
             throw new Doozr_Route_Exception(
                 Doozr_Http::REASONPHRASE_METHOD_NOT_ALLOWED,
-                Doozr_Http::STATUS_405
+                Doozr_Http::METHOD_NOT_ALLOWED
             );
         }
 

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Parser - Interface
+ * Doozr - Di - Dependency - Source - Interface
  *
  * Interface.php - Parser interface for all Parser of Di.
  *
@@ -53,7 +53,7 @@
  */
 
 /**
- * Doozr - Di - Parser - Interface
+ * Doozr - Di - Dependency - Source - Interface
  *
  * Parser interface for all Parser of Di.
  *
@@ -65,23 +65,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
  */
-interface Doozr_Di_Parser_Interface
+interface Doozr_Di_Dependency_Source_Interface
 {
-    /**
-     * Contract for setInput
-     *
-     * @param mixed $input The input to set
-     *
-     * @return void
-     * @access public
-     */
-    public function setInput($input);
-
-    /**
-     * Parses dependencies out of somewhere.
-     *
-     * @return mixed
-     * @access public
-     */
-    public function parse();
+    //
 }

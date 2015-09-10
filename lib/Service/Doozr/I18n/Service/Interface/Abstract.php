@@ -173,8 +173,15 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
                 $namespace = 'doozr.cache.i18n';
             }
 
-            // Get module cache
-            self::$cache = Doozr_Loader_Serviceloader::load('cache', $container, $namespace, [], DOOZR_UNIX);
+            // Get cache service
+            self::$cache = Doozr_Loader_Serviceloader::load(
+                'cache',
+                $container,
+                $namespace,
+                [],
+                DOOZR_UNIX,
+                DOOZR_CACHING
+            );
         }
     }
 

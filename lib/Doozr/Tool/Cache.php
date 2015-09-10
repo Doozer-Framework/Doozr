@@ -109,12 +109,12 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      * @var string
      * @access public
      */
-    const SCOPE_EVERYTHING    = '*';                        // <= Everything/Generic
-    const SCOPE_DOOZR         = 'doozr';                    // <= Doozr root namespace
-    const SCOPE_DOOZR_CACHE   = 'doozr.cache';              // <= Default caching namespace of Service Cache
-    const SCOPE_DOOZR_CONFIG  = 'doozr.cache.config';       // <= Configuration of Doozr
-    const SCOPE_DOOZR_ROUTES  = 'doozr.cache.routes';       // <= Routes of the Doozr Installation
-    const SCOPE_DOOZR_I18N    = 'doozr.cache.i18n';         // <= Translations
+    const SCOPE_EVERYTHING    = '*';                         // <= Everything/Generic
+    const SCOPE_DOOZR         = 'doozr';                     // <= Doozr root namespace
+    const SCOPE_DOOZR_CACHE   = 'doozr.cache';               // <= Default caching namespace of Service Cache
+    const SCOPE_DOOZR_CONFIG  = 'doozr.cache.configuration'; // <= Configuration of Doozr
+    const SCOPE_DOOZR_ROUTES  = 'doozr.cache.routes';        // <= Routes of the Doozr Installation
+    const SCOPE_DOOZR_I18N    = 'doozr.cache.i18n';          // <= Translations
 
     /*------------------------------------------------------------------------------------------------------------------
     | Internal helper
@@ -255,7 +255,14 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
             }
 
             /* @var Doozr_Cache_Service $cache */
-            $cache = Doozr_Loader_Serviceloader::load('cache', DOOZR_CACHE_CONTAINER, $namespace, [], DOOZR_UNIX);
+            $cache = Doozr_Loader_Serviceloader::load(
+                'cache',
+                DOOZR_CACHE_CONTAINER,
+                $namespace,
+                [],
+                DOOZR_UNIX,
+                DOOZR_CACHING
+            );
 
             // We can purge simply everything from passed namespace!
             try {

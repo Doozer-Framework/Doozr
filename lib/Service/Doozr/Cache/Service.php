@@ -76,10 +76,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @throws     Doozr_Cache_Service_Exception
  * @Inject(
- *     class="Doozr_Registry",
- *     target="getInstance",
- *     type="constructor",
- *     position=1
+ *     link   = "doozr.registry",
+ *     type   = "constructor",
+ *     target = "getInstance"
  * )
  */
 class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
@@ -110,6 +109,14 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @access protected
      */
     protected $unix;
+
+    /**
+     * Whether caching is disabled, or not.
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $enabled;
 
     /**
      * Garbage collector maximum lifetime of an element per default.
@@ -187,6 +194,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $namespace        Namespace to group saved/cached elements under
      * @param array  $containerOptions Configuration/options for the container instance
      * @param bool   $unix             TRUE if current OS is unix-type, FALSE if not
+     * @param bool   $enabled          Default state is enabled, FALSE to signalize that caching is disabled
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -196,12 +204,14 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
               $container,
               $namespace        = self::NAMESPACE_DEFAULT,
         array $containerOptions = [],
-              $unix             = true
+              $unix             = true,
+              $enabled          = true
     ) {
         $this
             ->namespace_($namespace)
             ->unix($unix)
-            ->container($container, $containerOptions);
+            ->container($container, $containerOptions)
+            ->enabled($enabled);
     }
 
     /**
@@ -566,11 +576,14 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      */
     public function __teardown()
     {
-        $this->garbageCollection(
-            $this->getNamespace(),         // Retrieve namespace from this service instance
-            $this->getGcMaximumLifetime(), // The lifetime used to check entries
-            false                          // At tear-down don't force
-        );
+        // Don't cleanup if cache is disabled! Disabled = meaning NEVER take action!
+        if (true === $this->isEnabled()) {
+            $this->garbageCollection(
+                $this->getNamespace(),         // Retrieve namespace from this service instance
+                $this->getGcMaximumLifetime(), // The lifetime used to check entries
+                false                          // At tear-down don't force
+            );
+        }
     }
 
     /**
@@ -677,6 +690,59 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     protected function getUnix()
     {
         return $this->unix;
+    }
+
+    /**
+     * Setter for enabled.
+     *
+     * @param bool $enabled The enabled to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
+
+    /**
+     * Fluent: Setter for enabled.
+     *
+     * @param bool $enabled The enabled to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function enabled($enabled)
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * Getter for enabled.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|bool Enabled if set, otherwise NULL
+     * @access protected
+     */
+    protected function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Boolean isser for enabled.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if enabled, otherwise FALSE
+     * @access protected
+     */
+    protected function isEnabled()
+    {
+        return (true === $this->enabled);
     }
 
     /**

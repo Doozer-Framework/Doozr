@@ -80,10 +80,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="Doozr_Registry",
- *     target="getInstance",
- *     type="constructor",
- *     position=1
+ *     link   = "doozr.registry",
+ *     type   = "constructor",
+ *     target = "getInstance"
  * )
  */
 class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
@@ -280,7 +279,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     {
         $container = ucfirst(strtolower($container));
         $class     = __CLASS__.'_Container_'.$container;
-        $file      = $this->registry->path->get('service') . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+        $file      = $this->getRegistry()->getPath()->get('service') . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
 
         // check if file exists
         if (!file_exists($file)) {

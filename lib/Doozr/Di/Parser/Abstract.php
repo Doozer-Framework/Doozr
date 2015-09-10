@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Parser - Abstract
  *
- * Abstract.php - Abstract base class for all Parser of the Di-Library
+ * Abstract.php - Abstract base class for all Parser of Di.
  *
  * PHP versions 5.5
  *
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser_Abstract
+ * @subpackage Doozr_Di_Parser
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,25 +52,24 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
-
 /**
  * Doozr - Di - Parser - Abstract
  *
- * Abstract base class for all Parser of the Di-Library
+ * Abstract base class for all Parser of Di.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser_Abstract
+ * @subpackage Doozr_Di_Parser
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
+ * @abstract
  */
 abstract class Doozr_Di_Parser_Abstract
 {
     /**
-     * Contains the input to parse content from
+     * Input to parse content from
      *
      * @var mixed
      * @access protected
@@ -78,7 +77,7 @@ abstract class Doozr_Di_Parser_Abstract
     protected $input;
 
     /**
-     * Contains the last result parsed
+     * Last result parsed
      *
      * @var array
      * @access protected
@@ -86,21 +85,19 @@ abstract class Doozr_Di_Parser_Abstract
     protected $lastResult;
 
     /**
-     * Contains the temporary data from parsing
+     * Temporary data from parsing
      *
      * @var array
      * @access protected
      */
     protected $data = [];
 
-
     /*------------------------------------------------------------------------------------------------------------------
     | PROTECTED API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Prepares input for later use (e.g. in parse())
-     *
+     * Prepares input for later use (e.g. in parse()).
      * This method is intend to prepare  input for later use (e.g. in parse()).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -110,24 +107,24 @@ abstract class Doozr_Di_Parser_Abstract
      */
     protected function prepareInput()
     {
-        $input = array(
-            'class'      => null,
-            'reflection' => null
-        );
+        $input = [
+            'classname'  => null,
+            'reflection' => null,
+        ];
 
         if (is_string($this->input)) {
-            $input['class'] = $this->input;
+            $input['classname'] = $this->input;
 
         } else {
             extract($this->input);
 
-            if (!isset($class)) {
+            if (!isset($classname)) {
                 throw new Doozr_Di_Exception(
-                    'Error preparing input. No class to parse defined!'
+                    'Error preparing input. No classname to parse defined!'
                 );
             }
 
-            $input['class'] = $class;
+            $input['classname'] = $classname;
 
             if (isset($file)) {
                 $this->loadFile($file);
@@ -143,8 +140,7 @@ abstract class Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Loads a file from filesystem
-     *
+     * Loads a file from filesystem.
      * This method is intend to load a file from filesystem.
      *
      * @param string $file The name (and path) of the file
@@ -169,29 +165,27 @@ abstract class Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Returns the default skeleton for storing a dependency
-     *
+     * Returns the default skeleton for storing a dependency.
      * This method returns the default skeleton for storing a dependency.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array An array containing the default skeleton
      * @access protected
      */
-    protected function getDefaultSekeleton()
+    protected function getDefaultSkeleton()
     {
-        return array(
-            'class'      => null,
-            'target'     => null,
-            'instance'   => null,
-            'type'       => null,
-            'value'      => null,
-            'position'   => 1
-        );
+        return [
+            'classname' => null,
+            'type'      => null,
+            'target'    => null,
+            'instance'  => null,
+            'value'     => null,
+            'position'  => 1,
+        ];
     }
 
     /**
-     * Returns all variables from global scope
-     *
+     * Returns all variables from global scope.
      * This method is intend to return all variables from PHP's global scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -200,7 +194,7 @@ abstract class Doozr_Di_Parser_Abstract
      */
     protected function retrieveGlobals()
     {
-        // retrieve globals and return them
+        // Retrieve globals and return them
         global $GLOBALS;
         return $GLOBALS;
     }
@@ -210,31 +204,39 @@ abstract class Doozr_Di_Parser_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for input to parse from
-     *
-     * This method is the setter for $input.
+     * Setter for input to parse from.
      *
      * @param string $input The input to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return $this Instance for chaining
      * @access public
      */
     public function setInput($input)
     {
         // reset on setting new input!
         $this->reset();
-
-        // store input
         $this->input = $input;
+    }
 
-        // fluent / chaining
+    /**
+     * Fluent: Setter for input to parse from.
+     *
+     * @param string $input The input to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function input($input)
+    {
+        $this->setInput($input);
+
         return $this;
     }
 
     /**
-     * Returns the input
-     *
+     * Returns the input.
      * This method is intend to return the input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -247,18 +249,17 @@ abstract class Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Resets the state of this instance
-     *
+     * Resets the state of this instance.
      * This method is intend to reset the state of this instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return $this Instance for chaining
      * @access public
      */
     public function reset()
     {
-        $this->input = null;
-        $this->data  = [];
+        $this->input      = null;
+        $this->data       = [];
         $this->lastResult = '';
 
         // fluent / chaining

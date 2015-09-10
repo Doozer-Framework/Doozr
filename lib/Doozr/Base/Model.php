@@ -344,6 +344,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     protected function action($action)
     {
         $this->setAction($action);
+
         return $this;
     }
 
@@ -541,7 +542,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param string $url  The URL used to extract breadcrumb from
      * @param string $home The crumb used for "Home" e.g. >> Home
      *
-     * @author Benjamin Carl <benjamin.carl@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The resulting breadcrumb structure
      * @access protected
      */

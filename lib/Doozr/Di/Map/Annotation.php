@@ -4,7 +4,9 @@
 /**
  * Doozr - Di - Map - Annotation
  *
- * Annotation.php - Annotation based map class of the Di-Library
+ * Annotation.php - Annotation based map representation of Di. This map is filled
+ * through an annotation reader instead like for example through a JSON importer
+ * like we did in our Static map.
  *
  * PHP versions 5.5
  *
@@ -44,7 +46,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Map_Annotation
+ * @subpackage Doozr_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -57,11 +59,13 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
 /**
  * Doozr - Di - Map - Annotation
  *
- * Annotation based map class of the Di-Library
+ * Annotation based map representation of Di. This map is filled
+ * through an annotation reader instead like for example through a JSON importer
+ * like we did in our Static map.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Map_Annotation
+ * @subpackage Doozr_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -70,27 +74,36 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
 class Doozr_Di_Map_Annotation extends Doozr_Di_Map
 {
     /**
+     * Annotation parser instance
+     *
+     * @var Doozr_Di_Parser_Interface
+     * @access protected
+     */
+    protected $parser;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
      * Constructor.
      *
-     * Constructor of this class
-     *
-     * @param Doozr_Di_Collection        $collection An instance of Doozr_Di_Collection to collect dependencies in
-     * @param Doozr_Di_Parser_Annotation $parser     An instance of Doozr_Di_Parser_Annotation to parse dependencies with
-     * @param Doozr_Di_Dependency        $dependency An instance of Doozr_Di_Dependency base object for cloning dependencies from
+     * @param Doozr_Di_Collection       $collection Doozr_Di_Collection to collect dependencies in.
+     * @param Doozr_Di_Parser_Interface $parser     Doozr_Di_Parser_Annotation to parse dependencies with.
+     * @param Doozr_Di_Dependency       $dependency Doozr_Di_Dependency base object for cloning dependencies from.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Di_Map_Annotation
      * @access public
      */
     public function __construct(
-        Doozr_Di_Collection        $collection,
-        Doozr_Di_Parser_Annotation $parser,
-        Doozr_Di_Dependency        $dependency
+        Doozr_Di_Collection       $collection,
+        Doozr_Di_Parser_Interface $parser,
+        Doozr_Di_Dependency       $dependency
     ) {
-        // store given instances
-        $this->collection = $collection;
-        $this->parser     = $parser;
-        $this->dependency = $dependency;
+        $this
+            ->collection($collection)
+            ->parser($parser)
+            ->dependency($dependency);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -98,27 +111,91 @@ class Doozr_Di_Map_Annotation extends Doozr_Di_Map
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Builds the collection from dependency parser result for given class
-     *
-     * This method is intend to build the collection from dependency parser result for given class.
+     * Builds the collection from dependency parser result for given class.
      *
      * @param string $classname The name of the class to parse dependencies for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Collection The build collection
+     * @return void
      * @access public
      */
     public function generate($classname)
     {
         // set input
-        $this->parser->setInput(
-            array('class' => $classname)
+        $this->getParser()->setInput(
+            ['classname' => $classname]
         );
 
-        // get raw dependencies
-        $rawDependencies = $this->parser->parse();
+        // Add these dependencies to collection
+        $this->addRawDependenciesToCollection($this->getParser()->parse(), $classname);
+    }
 
-        // add these dependencies to collection
-        $this->addRawDependenciesToCollection($classname, $rawDependencies);
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Adds the given raw dependencies (array) to the collection for given classname
+     * This method is intend to add the given raw dependencies (array) to the collection for given classname.
+     *
+     * @param array  $rawDependencies Dependencies as raw array.
+     * @param string $classname       Name of the class having the dependencies.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function addRawDependenciesToCollection(array $rawDependencies, $classname = '')
+    {
+        $rawDependencies = [
+            $classname => [
+                'classname'    => $classname,
+                'dependencies' => array_merge([], $rawDependencies)
+            ]
+        ];
+
+        parent::addRawDependenciesToCollection($rawDependencies);
+    }
+
+    /**
+     * Setter for parser.
+     *
+     * @param Doozr_Di_Parser_Interface $parser The parser of the parser.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setParser(Doozr_Di_Parser_Interface $parser)
+    {
+        $this->parser = $parser;
+    }
+
+    /**
+     * Fluent: Setter for parser.
+     *
+     * @param Doozr_Di_Parser_Interface $parser The parser of the parser.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function parser(Doozr_Di_Parser_Interface $parser)
+    {
+        $this->setParser($parser);
+
+        return $this;
+    }
+
+    /**
+     * Getter for Parser.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Di_Parser_Interface|null The Parser if set, otherwise NULL
+     * @access protected
+     */
+    protected function getParser()
+    {
+        return $this->parser;
     }
 }

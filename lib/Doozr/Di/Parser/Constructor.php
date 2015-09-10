@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Parser - Constructor
  *
- * Constructor.php - Constructor Parser of the Di-Library
+ * Constructor.php - Constructor Parser of the Di.
  *
  * PHP versions 5.5
  *
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser_Constructor
+ * @subpackage Doozr_Di_Parser
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,6 +52,7 @@
  * @link       https://github.com/clickalicious/Di
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
@@ -59,11 +60,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 /**
  * Doozr - Di - Parser - Constructor
  *
- * Constructor Parser of the Di-Library
+ * Constructor Parser of the Di.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser_Constructor
+ * @subpackage Doozr_Di_Parser
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -101,28 +102,28 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
         $this->prepareInput();
 
         // if called from outside we maybe need a new instance of reflection
-        if (!class_exists($this->input['class']) && !$this->input['reflection']) {
+        if (!class_exists($this->input['classname']) && !$this->input['reflection']) {
             throw new Doozr_Di_Exception(
-                'Could not parse constructor! Please define at least a "file" which contains the class '.
+                'Could not parse constructor! Please define at least a "file" which contains the classname '.
                 'or an existing ReflectionClass instance'
             );
         }
 
         // get reflection if not already passed to this method
         if (!$this->input['reflection']) {
-            $reflectionInstance = new ReflectionClass($this->input['class']);
+            $reflectionInstance = new ReflectionClass($this->input['classname']);
         } else {
             $reflectionInstance = $this->input['reflection'];
         }
 
-        // get filename of class
+        // get filename of classname
         if (!isset($this->input['file'])) {
             $this->input['file'] = $reflectionInstance->getFileName();
         }
 
         /* @var ReflectionInstance $reflectionInstance */
         if ($reflectionInstance->isInstantiable()) {
-            $constructor = '__construct';
+            $constructor = Doozr_Di_Constants::CONSTRUCTOR_METHOD;
 
         } else {
             // read the file as array
@@ -147,7 +148,7 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
 
                 // check for instantiation
                 if (strpos($methodSourcecode, 'new self(')
-                    || strpos($methodSourcecode, 'new ' . $this->input['class'] . '(')
+                    || strpos($methodSourcecode, 'new ' . $this->input['classname'] . '(')
                 ) {
                     $constructor = $possibleConstructor->name;
                     break;

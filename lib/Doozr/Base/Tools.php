@@ -240,7 +240,7 @@ class Doozr_Base_Tools
                     }
 
                     // check for instantiation
-                    if (strpos($methodSourcecode, 'new self(') || strpos($methodSourcecode, 'new '.$classname.'(')) {
+                    if (strpos($methodSourcecode, 'n' . 'e' . 'w self(') || strpos($methodSourcecode, 'n'.'e'.'w '.$classname.'(')) {
                         $constructor = $possibleConstructor->name;
                         break;
                     }

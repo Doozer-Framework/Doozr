@@ -4,7 +4,8 @@
 /**
  * Doozr - Di - Importer - Abstract
  *
- * Abstract.php - Abstract base class for all Importer of the Di-Library
+ * Abstract.php - Abstract base for importers of the Di Library. This base class
+ * provides functionality for ...
  *
  * PHP versions 5.5
  *
@@ -44,7 +45,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer_Abstract
+ * @subpackage Doozr_Di_Importer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,81 +53,92 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
-
 /**
  * Doozr - Di - Importer - Abstract
  *
- * Abstract base class for all Importer of the Di-Library
+ * Di abstract base class for importer.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer_Abstract
+ * @subpackage Doozr_Di_Importer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
+ * @abstract
  */
 abstract class Doozr_Di_Importer_Abstract
 {
     /**
-     * Contains all dependencies as Doozr_Di_Collection
-     *
-     * @var Doozr_Di_Collection
-     * @access protected
-     */
-    protected $collection;
-
-    /**
-     * Contains the input
+     * Input.
      *
      * @var mixed
      * @access protected
      */
     protected $input;
 
+    /**
+     * Content.
+     *
+     * @var mixed
+     * @access protected
+     */
+    protected $content;
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Sets the collection of the current instance
+     * Sets the content of the current instance
      *
-     * This method is intend to set the collection of dependencies of the current instance.
+     * This method is intend to set the content of dependencies of the current instance.
      *
-     * @param Doozr_Di_Collection $collection The collection to set
+     * @param mixed $content The content to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setCollection(Doozr_Di_Collection $collection)
+    public function setContent($content)
     {
-        $this->collection = $collection;
+        $this->content = $content;
+    }
 
-        // fluent / chaining
+    /**
+     * Fluent: Sets the content of the current instance
+     *
+     * This method is intend to set the content of dependencies of the current instance.
+     *
+     * @param mixed $content The content to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function content($content)
+    {
+        $this->setContent($content);
+
         return $this;
     }
 
     /**
-     * Returns the collection of the current instance
+     * Returns the content of the current instance
      *
-     * This method is intend to return the collection of dependencies of the current instance.
+     * This method is intend to return the content of dependencies of the current instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Collection The collection of dependencies
+     * @return mixed The content of dependencies
      * @access public
      */
-    public function getCollection()
+    public function getContent()
     {
-        return $this->collection;
+        return $this->content;
     }
 
     /**
-     * Sets the input
-     *
-     * This method is intend to set the input.
+     * Setter for input.
      *
      * @param mixed $input The input to set
      *
@@ -140,15 +152,26 @@ abstract class Doozr_Di_Importer_Abstract
         $this->reset();
 
         $this->input = $input;
+    }
 
-        // fluent / chaining
+    /**
+     * Fluent: Setter for input.
+     *
+     * @param mixed $input The input to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function input($input)
+    {
+        $this->setInput($input);
+
         return $this;
     }
 
     /**
-     * Returns the input
-     *
-     * This method is intend to return the input.
+     * Getter for input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The input
@@ -165,14 +188,14 @@ abstract class Doozr_Di_Importer_Abstract
      * This method is intend to reset the input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return $this Instance for chaining
      * @access public
      */
     public function reset()
     {
         $this->input = null;
 
-        // fluent / chaining
+        // Fluent / chaining
         return $this;
     }
 
@@ -188,17 +211,16 @@ abstract class Doozr_Di_Importer_Abstract
      * @param string $file The file to read from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return string The function returns the read data or false on failure.
      * @access protected
      * @throws Doozr_Di_Exception
      */
     protected function readFile($file)
     {
-        if (!file_exists($file) || !is_file($file)) {
+        if (false === file_exists($file) || false === is_file($file)) {
             throw new Doozr_Di_Exception(
                 sprintf(
-                    'Error reading file. File "%s" does not exist or is not a valid file',
-                    $file
+                    'Error reading file. File "%s" does not exist or is not a valid file', $file
                 )
             );
         }

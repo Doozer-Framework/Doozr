@@ -102,8 +102,10 @@ $queue[] = function(Request $request, Response $response, callable $next) {
     $app = Doozr_Kernel_App::boot(
         DOOZR_APP_ENVIRONMENT,
         DOOZR_RUNTIME_ENVIRONMENT,
+        DOOZR_UNIX,
         DOOZR_DEBUGGING,
         DOOZR_CACHING,
+        DOOZR_CACHE_CONTAINER,
         DOOZR_LOGGING,
         DOOZR_DOCUMENT_ROOT,
         DOOZR_APP_ROOT

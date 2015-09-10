@@ -4,7 +4,8 @@
 /**
  * Doozr - Di - Importer - Json
  *
- * Json.php - Importer (JSON-Localize) of the Di-Library
+ * Json.php - Di importer for static JSON-maps. This importer imports a map
+ * from a JSON-encoded file and adds them to a @see Doozr_Di_Collection.
  *
  * PHP versions 5.5
  *
@@ -44,7 +45,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer_Json
+ * @subpackage Doozr_Di_Importer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,20 +53,19 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 
 /**
  * Doozr - Di - Importer - Json
  *
- * Importer (JSON-Localize) of the Di-Library
+ * Di importer for static JSON-maps. This importer imports a map
+ * from a JSON-encoded file and adds them to a @see Doozr_Di_Collection.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer_Json
+ * @subpackage Doozr_Di_Importer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -80,86 +80,27 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Import content from JSON-File
-     *
-     * This method is intend to return the content of a JSON-Formatted file.
+     * Import dependencies from a static JSON Map (Filesystem) and adds them to @see Doozr_Di_Collection.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return array The imported map
      * @access public
      * @throws Doozr_Di_Exception
      */
     public function import()
     {
-        // check for collection
-        if (!$this->collection) {
-            throw new Doozr_Di_Exception(
-                'Could not import map. No collection set. Please set a collection first.'
-            );
-        }
-
-        // check for input
-        if (!$this->input) {
+        if (null === $this->getInput()) {
             throw new Doozr_Di_Exception(
                 'Could not import map. No input set. Please set input first.'
             );
         }
 
-        // get content from file
-        $content = $this->importMapFromFromJsonFile($this->input);
+        // Get content from map file
+        $this->setContent(
+            $this->importMapFromFromJsonFile($this->getInput())
+        );
 
-        // get object freezer
-        $freezer = new Object_Freezer();
-
-        // iterate over all dependencies defined -> here TARGET CLASSNAME
-        foreach ($content->map as $target) {
-            // iterate current stdClass to retrieve name of dependend class
-            foreach ($target as $classname => $configuration) {
-
-                // arguments for target set?
-                if (isset($configuration->arguments)) {
-                    $this->collection->addArguments($classname, $configuration->arguments);
-                }
-
-                // constructor (e.g. singleton static method ...)
-                if (isset($configuration->constructor)) {
-                    $this->collection->setConstructor($classname, $configuration->constructor);
-                }
-
-                // get defined dependencies
-                $dependencies = $configuration->dependencies;
-
-                // iterate all dependencies for target
-                foreach ($dependencies as $setup) {
-
-                    // create new Dependency Object
-                    $dependency = new Doozr_Di_Dependency($setup->classname);
-                    $dependency->setConfiguration((array) $setup->config);
-                    $dependency->setTarget($setup->target);
-
-                    // check for frozen instance and thaw it if found
-                    if ($setup->instance !== null) {
-                        $dependency->setInstance($freezer->thaw(unserialize($setup->instance)));
-                    }
-
-                    // store arguments
-                    if (isset($setup->arguments)) {
-                        $dependency->setArguments($setup->arguments);
-                    }
-
-                    // store constructor
-                    if (isset($setup->constructor)) {
-                        $dependency->setConstructor($setup->constructor);
-                    }
-
-                    // add the dependency object to our collection
-                    $this->collection->addDependency($classname, $dependency);
-                }
-            }
-        }
-
-        // success
-        return true;
+        return $this->getContent();
     }
 
     /**
@@ -173,7 +114,7 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
      */
     public function export()
     {
-        return $this->collection;
+        return $this->getContent();
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -181,14 +122,13 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the content of a JSON file as object
-     *
+     * Returns the content of a JSON file as object.
      * This method is intend to return the content of a JSON file as an object.
      *
      * @param string $file The JSON file to read from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return object Instance
      * @access protected
      * @throws Doozr_Di_Exception
      */
@@ -199,14 +139,19 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
             $this->readFile($file)
         );
 
-
         if (false === $content) {
             throw new Doozr_Di_Exception(
                 sprintf('Error while importing dependencies: "%s".', json_last_error_msg())
             );
         }
 
-        return $content;
+        if (false === isset($content['map'][0])) {
+            throw new Doozr_Di_Exception(
+                sprintf('Require key "%s" not found!', 'map')
+            );
+        }
+
+        return $content['map'][0];
     }
 
     /**
@@ -215,13 +160,13 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
      * @param string $input The input to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool|string FALSE on error, STRING with result on success
+     * @return bool|array FALSE on error, array containing content
      * @access protected
      */
     protected function validate($input)
     {
         if (true === is_string($input)) {
-            $input = @json_decode($input);
+            $input = @json_decode($input, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 $input = false;
             }

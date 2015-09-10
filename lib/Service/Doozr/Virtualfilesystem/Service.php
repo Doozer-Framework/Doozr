@@ -74,10 +74,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @link       http://clickalicious.github.com/Doozr/
  * @inject     Doozr_Registry:Doozr_Registry identifier:__construct type:constructor position:1
  * @Inject(
- *     class="Doozr_Registry",
- *     target="getInstance",
- *     type="constructor",
- *     position=1
+ *     link   = "doozr.registry",
+ *     type   = "constructor",
+ *     target = "getInstance"
  * )
  */
 class Doozr_Virtualfilesystem_Service extends Doozr_Base_Service_Multiple_Facade
@@ -85,7 +84,7 @@ class Doozr_Virtualfilesystem_Service extends Doozr_Base_Service_Multiple_Facade
     Doozr_Base_Service_Interface
 {
     /**
-     * Constructor of this class
+     * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object instance of this class
