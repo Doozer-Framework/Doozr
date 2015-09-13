@@ -257,7 +257,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
             /* @var Doozr_Cache_Service $cache */
             $cache = Doozr_Loader_Serviceloader::load(
                 'cache',
-                DOOZR_CACHE_CONTAINER,
+                DOOZR_CACHING_CONTAINER,
                 $namespace,
                 [],
                 DOOZR_UNIX,

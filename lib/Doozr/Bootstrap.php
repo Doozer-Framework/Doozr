@@ -4,8 +4,7 @@
 /**
  * Doozr - Bootstrap
  *
- * Bootstrap.php - The Bootstrapper of the Doozr-Framework.
- * Delegates important operations at startup of Doozr.
+ * Bootstrap.php - Bootstrapping important operations at startup of Doozr.
  *
  * PHP versions 5.5
  *
@@ -137,7 +136,7 @@ if (false === defined('DOOZR_APP_ROOT')) {
 /*----------------------------------------------------------------------------------------------------------------------
 | PATH FOR ALL TEMPORARY STUFF (FILESYSTEM)
 +---------------------------------------------------------------------------------------------------------------------*/
-define('DOOZR_SYSTEM_TEMP', sys_get_temp_dir() . DIRECTORY_SEPARATOR);
+define('DOOZR_DIRECTORY_TEMP', sys_get_temp_dir() . DIRECTORY_SEPARATOR);
 
 /*----------------------------------------------------------------------------------------------------------------------
 | RUNTIME ENVIRONMENT
@@ -160,17 +159,17 @@ if (false === defined('DOOZR_RUNTIME_ENVIRONMENT')) {
 | CACHE CONTAINER
 +---------------------------------------------------------------------------------------------------------------------*/
 
-// First we check for defined constant DOOZR_CACHE_CONTAINER ...
-if (false === defined('DOOZR_CACHE_CONTAINER')) {
+// First we check for defined constant DOOZR_CACHING_CONTAINER ...
+if (false === defined('DOOZR_CACHING_CONTAINER')) {
 
     // Then for environment variable
-    if (false === $doozrCacheContainer = getenv('DOOZR_CACHE_CONTAINER')) {
+    if (false === $doozrCacheContainer = getenv('DOOZR_CACHING_CONTAINER')) {
 
         // Default = Filesystem
         $doozrCacheContainer = 'filesystem';
     }
 
-    define('DOOZR_CACHE_CONTAINER', $doozrCacheContainer);
+    define('DOOZR_CACHING_CONTAINER', $doozrCacheContainer);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -196,7 +195,7 @@ if (false === defined('DOOZR_LOGGING')) {
 | DEBUGGING
 +---------------------------------------------------------------------------------------------------------------------*/
 
-// First we check for defined constant DOOZR_LOGGING ...
+// First we check for defined constant DOOZR_DEBUGGING ...
 if (false === defined('DOOZR_DEBUGGING')) {
 
     // Then for environment variable
@@ -215,7 +214,7 @@ if (false === defined('DOOZR_DEBUGGING')) {
 | CACHING
 +---------------------------------------------------------------------------------------------------------------------*/
 
-// First we check for defined constant DOOZR_LOGGING ...
+// First we check for defined constant DOOZR_CACHING ...
 if (false === defined('DOOZR_CACHING')) {
 
     // Then for environment variable
@@ -230,6 +229,27 @@ if (false === defined('DOOZR_CACHING')) {
     }
 
     define('DOOZR_CACHING', (bool)$doozrCaching);
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+| PROFILING
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_CACHING ...
+if (false === defined('DOOZR_PROFILING')) {
+
+    // Then for environment variable
+    if (false === $doozrProfiling = getenv('DOOZR_PROFILING')) {
+
+        // Default by app environment
+        if (DOOZR_APP_ENVIRONMENT  === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT) {
+            $doozrProfiling = true;
+        } else {
+            $doozrProfiling = DOOZR_DEBUGGING;
+        }
+    }
+
+    define('DOOZR_PROFILING', (bool)$doozrProfiling);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -294,11 +314,12 @@ Doozr_Loader_Autoloader_Spl_Facade::attach(
  | ERROR & EXCEPTION-HANDLING (HOOK)
  ---------------------------------------------------------------------------------------------------------------------*/
 
-// We install the generic handler here! This one is used if not development runtimeEnvironment is enabled
+// Install error handler which is used in case that DOOZR_APP_ENVIRONMENT is not development (= make use of Whoops)
+
 // ERROR-HANDLER: register error-handler
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Handler/Error.php';
 
-// Set the own exception_handler
+// Set own error_handler
 set_error_handler(
     array(
         'Doozr_Handler_Error',
@@ -324,6 +345,8 @@ set_exception_handler(
         'handle'
     )
 );
+
+error_reporting(0);
 
 /*----------------------------------------------------------------------------------------------------------------------
 | HELPER

@@ -134,6 +134,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @requires OS Linux
      */
     public function testTranslatorDoesNotAlterMissingTranslation()
     {
@@ -174,6 +175,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @requires OS Linux
      */
     public function testTranslatingTheKeyYes()
     {
@@ -194,6 +196,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @requires OS Linux
      */
     public function testTranslatingAKeyWithValuesInserted()
     {

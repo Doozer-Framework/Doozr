@@ -144,7 +144,7 @@ class Doozr_Form_Service_FormManager
     /**
      * META: The maximum allowed filesize. This can be set via
      * setter but should not be touched cause this is filled by
-     * the <input type="file" ...> class on instanciation with
+     * the <input type="file" ...> class on instantiation with
      * the value from PHP's ini.
      *
      * @var int

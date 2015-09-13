@@ -165,7 +165,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
      * matter how much parameters are passed to it. OK the maximum is 10 Parameter - but if you are running
      * in trouble using this class you should consider if you're doing things right.
      *
-     * @param string     $className The name of the class to create an instance of
+     * @param string     $classname The name of the class to create an instance of
      * @param null|array $arguments The arguments to pass to instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -173,36 +173,39 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
      * @access protected
      * @throws Exception
      */
-    protected static function genericInstantiate($className, $arguments = null)
+    protected static function genericInstantiate($classname, $arguments = null)
     {
+        #$test = new Doozr_Loader_Classloader();
+        #return $test->load($classname, $arguments);
+
         // check for parameter
         if (is_null($arguments)) {
             // with no parameter -> just return the instance
-            return new $className();
+            return new $classname();
 
         } else {
             // not so nice but the fastest solution i've found
             switch (count($arguments)) {
             case 1:
-                return new $className(
+                return new $classname(
                     $arguments[0]
                 );
                 break;
             case 2:
-                return new $className(
+                return new $classname(
                     $arguments[0],
                     $arguments[1]
                 );
                 break;
             case 3:
-                return new $className(
+                return new $classname(
                     $arguments[0],
                     $arguments[1],
                     $arguments[2]
                 );
                 break;
             case 4:
-                return new $className(
+                return new $classname(
                     $arguments[0],
                     $arguments[1],
                     $arguments[2],
@@ -210,7 +213,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
                 );
                 break;
             case 5:
-                return new $className(
+                return new $classname(
                     $arguments[0],
                     $arguments[1],
                     $arguments[2],
@@ -219,7 +222,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
                 );
                 break;
             case 6:
-                return new $className(
+                return new $classname(
                     $arguments[0],
                     $arguments[1],
                     $arguments[2],
@@ -229,7 +232,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
                 );
                 break;
             case 7:
-                return new $className(
+                return new $classname(
                     $arguments[0],
                     $arguments[1],
                     $arguments[2],
@@ -240,7 +243,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
                 );
                 break;
             case 8:
-                return new $className(
+                return new $classname(
                     $arguments[0],
                     $arguments[1],
                     $arguments[2],
@@ -252,7 +255,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
                 );
                 break;
             case 9:
-                return new $className(
+                return new $classname(
                     $arguments[0],
                     $arguments[1],
                     $arguments[2],
@@ -265,7 +268,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
                 );
                 break;
             case 10:
-                return new $className(
+                return new $classname(
                     $arguments[0],
                     $arguments[1],
                     $arguments[2],
@@ -278,9 +281,94 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
                     $arguments[9]
                 );
                 break;
+            case 11:
+                return new $classname(
+                    $arguments[0],
+                    $arguments[1],
+                    $arguments[2],
+                    $arguments[3],
+                    $arguments[4],
+                    $arguments[5],
+                    $arguments[6],
+                    $arguments[7],
+                    $arguments[8],
+                    $arguments[9],
+                    $arguments[10]
+                );
+                break;
+            case 12:
+                return new $classname(
+                    $arguments[0],
+                    $arguments[1],
+                    $arguments[2],
+                    $arguments[3],
+                    $arguments[4],
+                    $arguments[5],
+                    $arguments[6],
+                    $arguments[7],
+                    $arguments[8],
+                    $arguments[9],
+                    $arguments[10],
+                    $arguments[11]
+                );
+                break;
+            case 13:
+                return new $classname(
+                    $arguments[0],
+                    $arguments[1],
+                    $arguments[2],
+                    $arguments[3],
+                    $arguments[4],
+                    $arguments[5],
+                    $arguments[6],
+                    $arguments[7],
+                    $arguments[8],
+                    $arguments[9],
+                    $arguments[10],
+                    $arguments[11],
+                    $arguments[12]
+                );
+                break;
+            case 14:
+                return new $classname(
+                    $arguments[0],
+                    $arguments[1],
+                    $arguments[2],
+                    $arguments[3],
+                    $arguments[4],
+                    $arguments[5],
+                    $arguments[6],
+                    $arguments[7],
+                    $arguments[8],
+                    $arguments[9],
+                    $arguments[10],
+                    $arguments[11],
+                    $arguments[12],
+                    $arguments[13]
+                );
+                break;
+            case 15:
+                return new $classname(
+                    $arguments[0],
+                    $arguments[1],
+                    $arguments[2],
+                    $arguments[3],
+                    $arguments[4],
+                    $arguments[5],
+                    $arguments[6],
+                    $arguments[7],
+                    $arguments[8],
+                    $arguments[9],
+                    $arguments[10],
+                    $arguments[11],
+                    $arguments[12],
+                    $arguments[13],
+                    $arguments[14]
+                );
+                break;
             default:
                 // Failover
-                $reflection = new ReflectionClass($className);
+                $reflection = new ReflectionClass($classname);
                 return $reflection->newInstanceArgs($arguments);
             }
         }

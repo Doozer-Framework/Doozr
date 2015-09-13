@@ -175,6 +175,19 @@
             "classname": "Doozr_Registry"
           }
         ]
+      },
+      "doozr.configuration.reader.ini": {
+        "classname": "Doozr_Configuration_Reader_Ini",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.filesystem.service"
+          },
+          {
+            "type": "constructor",
+            "link": "doozr.cache.service"
+          }
+        ]
       }
     }
   ]

@@ -88,10 +88,14 @@ $queue[] = function(Request $request, Response $response, callable $next) {
         DOOZR_UNIX,
         DOOZR_DEBUGGING,
         DOOZR_CACHING,
-        DOOZR_CACHE_CONTAINER,
+        DOOZR_CACHING_CONTAINER,
         DOOZR_LOGGING,
+        DOOZR_PROFILING,
+        DOOZR_APP_ROOT,
+        DOOZR_DIRECTORY_TEMP,
         DOOZR_DOCUMENT_ROOT,
-        DOOZR_APP_ROOT
+        DOOZR_NAMESPACE,
+        DOOZR_NAMESPACE_FLAT
     );
 
     return $app->handle($request, $response, !DOOZR_DEBUGGING);

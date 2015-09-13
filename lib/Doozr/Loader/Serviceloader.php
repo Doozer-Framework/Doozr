@@ -56,6 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Factory/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Factory/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Interface.php';
 
 /**
  * Doozr - Loader - Serviceloader

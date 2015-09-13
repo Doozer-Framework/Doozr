@@ -226,7 +226,7 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
             // combine parts to transformation classname
             $transformerClass = 'Doodi_'.$vendor.'_Transformation';
 
-            // and instanciate the transformer
+            // and instantiate the transformer
             return new $transformerClass($this->_configuration);
 
         } else {

@@ -270,7 +270,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
         $variables = array(
             'DOOZR_APP_ROOT'       => str_replace('\\', '\\\\', DOOZR_APP_ROOT),
             'DOOZR_DOCUMENT_ROOT'  => str_replace('\\', '\\\\', DOOZR_DOCUMENT_ROOT),
-            'DOOZR_SYSTEM_TEMP'    => str_replace('\\', '\\\\', DOOZR_SYSTEM_TEMP),
+            'DOOZR_DIRECTORY_TEMP'    => str_replace('\\', '\\\\', DOOZR_DIRECTORY_TEMP),
             'DOOZR_NAMESPACE_FLAT' => DOOZR_NAMESPACE_FLAT,
         );
 

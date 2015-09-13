@@ -38,7 +38,7 @@ final class Model_Index extends Doozr_Base_Model
     protected function __data()
     {
         // Dummy array for iterated output
-        $people = [];
+        $people   = [];
         $people[] = 'John Do';
         $people[] = 'Jane Do';
         $people[] = 'Foo Bar';

@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Kernel - Test
+ * Doozr - Loader - Interface
  *
- * KernelTest.php - Tests for Doozr's kernel & core functionality (bootstrapping & boot).
+ * Interface.php - The minimum contract for loaders of Doozr.
  *
  * PHP versions 5.5
  *
@@ -43,53 +43,41 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
- * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Kernel - Test
+ * Doozr - Loader - Interface
  *
- * Tests for Doozr's core & core functionality (bootstrapping & boot).
+ * The minimum contract for loaders of Doozr.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Interface
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
- * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class KernelTest extends PHPUnit_Framework_TestCase
+interface Doozr_Loader_Interface
 {
     /**
-     * Test: Bootstrap Doozr.
+     * Loads a resource and returns a instance of it.
+     *
+     * @param string $identifier The identifier of the resource to load
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @return object|mixed|null An instance if it could be created, or a similar result or NULL in case of error
+     * @access public
+     * @static
+     * @throws RuntimeException
      */
-    public function testInit()
-    {
-        /* @var $app Doozr_Kernel_App Get kernel instance */
-        $app = Doozr_Kernel_App::boot(
-            DOOZR_APP_ENVIRONMENT,
-            DOOZR_RUNTIME_ENVIRONMENT,
-            DOOZR_UNIX,
-            DOOZR_DEBUGGING,
-            DOOZR_CACHING,
-            DOOZR_CACHING_CONTAINER,
-            DOOZR_LOGGING,
-            DOOZR_DOCUMENT_ROOT,
-            DOOZR_APP_ROOT
-        );
-
-        $this->assertInstanceOf('Doozr_Kernel', $app);
-    }
+    public static function load($identifier);
 }

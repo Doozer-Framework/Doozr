@@ -340,7 +340,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
 
         // create and return a fresh instance
         if ($arguments) {
-            return $this->instanciate($class, $arguments);
+            return self::instantiate($class, $arguments);
         } else {
             return new $class();
         }

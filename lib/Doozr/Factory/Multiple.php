@@ -74,11 +74,11 @@ class Doozr_Factory_Multiple
      * This method is intend to create instances of multi-instance-classes. You can
      * pass optional arguments to the factory for creating instance and passing arguments
      * to it. You can pass an optional already exisiting reflection instance of the class
-     * if one exist to speed up instanciation. If you don't use an autoloader the you must
+     * if one exist to speed up instantiation. If you don't use an autoloader the you must
      * include the file containing the class right before you call this method.
      *
-     * @param string $classname   The name of the class to instanciate
-     * @param mixed  $arguments   The arguments to pass to class for instanciation
+     * @param string $classname   The name of the class to instantiate
+     * @param mixed  $arguments   The arguments to pass to class for instantiation
      * @param string $constructor NOT USED but part of interface/contract
      * @param string $reflection  An optional already existing reflection of the class to create
      *

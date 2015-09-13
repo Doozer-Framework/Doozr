@@ -412,7 +412,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
             return $this->getLocalizer($type, $input['redirect']);
 
         } else {
-            return $this->instanciate(
+            return self::instantiate(
                 'Doozr_I18n_Service_Localize_'.$type,
                 array(
                     self::getRegistry(),
@@ -774,7 +774,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // check for redirect of current locale (e.g. from "en-gb" -> "en")
         try {
-            echo 1;die;
             $redirectLocale     = $config->redirect->target;
             $this->activeLocale = $redirectLocale;
 
@@ -880,20 +879,20 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * Returns an instance of Doozr's internal Config-Reader for reading INI-Configurations.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Configuration_Reader_Ini
+     * @return Doozr_Configuration_Reader_Ini
      * @access protected
-     * @throws \Doozr_Di_Exception
+     * @throws Doozr_Di_Exception
      */
     protected function getConfigurationReader()
     {
         // Add required dependencies
-        self::$registry->getMap()->wire(
+        self::$registry->getContainer()->getMap()->wire(
             [
-                'Doozr_Filesystem_Service' => Doozr_Loader_Serviceloader::load('filesystem'),
-                'Doozr_Cache_Service'      => Doozr_Loader_Serviceloader::load(
+                'doozr.filesystem.service' => Doozr_Loader_Serviceloader::load('filesystem'),
+                'doozr.cache.service'      => Doozr_Loader_Serviceloader::load(
                     'cache',
-                    DOOZR_CACHE_CONTAINER,
-                    DOOZR_NAMESPACE_FLAT . '.cache.i18n',
+                    DOOZR_CACHING_CONTAINER,
+                    DOOZR_NAMESPACE_FLAT.'.cache.i18n',
                     [],
                     DOOZR_UNIX,
                     DOOZR_CACHING
@@ -901,15 +900,12 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
             ]
         );
 
-        // Store map with fresh instances
-        self::$registry->getContainer()->setMap(self::$registry->getMap());
-
         /* @var Doozr_Configuration_Reader_Ini $config */
         $config = self::$registry->getContainer()->build(
-            'Doozr_Configuration_Reader_Ini',
-            array(
+            'doozr.configuration.reader.ini',
+            [
                 true
-            )
+            ]
         );
 
         return $config;

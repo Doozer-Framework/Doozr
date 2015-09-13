@@ -702,7 +702,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         // Check if requested layer file exists
         if ($this->getRegistry()->getFilesystem()->exists($classFileAndPath)) {
             include_once $classFileAndPath;
-            $instance = $this->instanciate($classname, $arguments);
+            $instance = self::instantiate($classname, $arguments);
         }
 
         return $instance;

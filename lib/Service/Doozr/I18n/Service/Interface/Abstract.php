@@ -166,7 +166,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
             if (true === isset($config->cache->container)) {
                 $container = $config->cache->container;
             } else {
-                $container = DOOZR_CACHE_CONTAINER;
+                $container = DOOZR_CACHING_CONTAINER;
             }
 
             if (false === isset($config->cache->namespace)) {

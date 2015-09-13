@@ -77,9 +77,9 @@ class Doozr_Factory_Singleton
      * pass optional arguments to the factory for creating instance and passing arguments
      * to it.
      *
-     * @param string $classname   The name of the class to instanciate
-     * @param mixed  $arguments   The arguments to pass to class for instanciation
-     * @param string $constructor Signature of the instanciation-method (constructor)
+     * @param string $classname   The name of the class to instantiate
+     * @param mixed  $arguments   The arguments to pass to class for instantiation
+     * @param string $constructor Signature of the instantiation-method (constructor)
      * @param string $reflection  NOT USED but part of interface/contract
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

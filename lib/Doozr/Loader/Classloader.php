@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Kernel - Test
+ * Doozr - Loader - Classloader
  *
- * KernelTest.php - Tests for Doozr's kernel & core functionality (bootstrapping & boot).
+ * Classloader.php - The Classloader is capable of loading any class requested.
  *
  * PHP versions 5.5
  *
@@ -43,53 +43,49 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Classloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
- * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ * @link       http://clickalicious.github.com/Doozr/
  */
+
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Interface.php';
 
 /**
- * Doozr - Kernel - Test
+ * Doozr - Loader - Classloader
  *
- * Tests for Doozr's core & core functionality (bootstrapping & boot).
+ * The Classloader is capable of loading any class requested.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ * @package    Doozr_Loader
+ * @subpackage Doozr_Loader_Classloader
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
- * @license    http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class KernelTest extends PHPUnit_Framework_TestCase
+class Doozr_Loader_Classloader extends Doozr_Base_Class implements Doozr_Loader_Interface
 {
     /**
-     * Test: Bootstrap Doozr.
+     * Returns an instance of any class requested.
+     *
+     * @param       $classname
+     * @param array $arguments
+     * @param null  $singleton
+     * @param null  $constructor
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @return object The instance created
+     * @access public
      */
-    public function testInit()
+    public static function load($classname, $arguments = null, $singleton = null, $constructor = null)
     {
-        /* @var $app Doozr_Kernel_App Get kernel instance */
-        $app = Doozr_Kernel_App::boot(
-            DOOZR_APP_ENVIRONMENT,
-            DOOZR_RUNTIME_ENVIRONMENT,
-            DOOZR_UNIX,
-            DOOZR_DEBUGGING,
-            DOOZR_CACHING,
-            DOOZR_CACHING_CONTAINER,
-            DOOZR_LOGGING,
-            DOOZR_DOCUMENT_ROOT,
-            DOOZR_APP_ROOT
-        );
-
-        $this->assertInstanceOf('Doozr_Kernel', $app);
+        // This call to the powerful and intelligent instantiation method
+        return self::instantiate($classname, $arguments, $constructor, $singleton);
     }
 }
