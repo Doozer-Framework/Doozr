@@ -102,7 +102,7 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
      */
     public static function handle($number = '', $message = '', $file = '', $line = 0, $context = [])
     {
-        // If we shouldn't care we don't
+        // If we shouldn't care we follow this rule!
         if (!($number & error_reporting())) {
             return true;
         }

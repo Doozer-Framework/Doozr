@@ -240,7 +240,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     const APP_ENVIRONMENT_STAGING = 'staging';
 
     /*------------------------------------------------------------------------------------------------------------------
-    | INTERNAL API
+    | INIT
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -306,6 +306,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         // Stop timer and store execution time
         self::stopTimer();
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Starts the timer for measurement.
@@ -454,8 +458,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
                     ) &&
                     self::initDependencyInjection() &&
                     self::initFilesystem($virtualized) &&
-                    self::initCache() &&
-                    self::initLogging() &&
+                    self::initCache() &&                        // @see https://doozr.readme.io/docs/basic-environment-control#doozr_app_environment
+                    self::initLogging() &&                      // @see https://doozr.readme.io/docs/basic-environment-control#doozr_app_environment
+                    self::initDebugging() &&                    // @see https://doozr.readme.io/docs/basic-environment-control#doozr_app_environment
                     self::initPath() &&
                     self::initConfiguration() &&
                     self::configureLogging() &&
@@ -471,7 +476,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
                     self::initSystem() &&
                     self::initEncoding() &&
                     self::initLocale() &&
-                    self::initDebugging() &&
                     self::initModel() &&
                     self::initServices()
                 )
@@ -555,15 +559,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $importer   = new Doozr_Di_Importer_Json();
         $dependency = new Doozr_Di_Dependency();
         $map        = new Doozr_Di_Map_Static($collection, $importer, $dependency);
-
-        /*
-        $test = new Doozr_Loader_Classloader();
-
-        $kernel = Doozr_Kernel::getInstance();
-
-        #$test->load($classname, $arguments);
-        die;
-*/
 
         // Generate map from static JSON map of Doozr
         $map->generate(self::$registry->getParameter('doozr.directory.root') . 'Data/Private/Config/.map.json');
@@ -897,6 +892,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function initDebugging()
     {
+        // Check for debugging status from parameter input
         if (true === self::$registry->getParameter('doozr.kernel.debugging')) {
 
             // Get debug manager
@@ -904,8 +900,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
                 self::$registry->getContainer()->build(
                     'doozr.debugging',
                     [
-                        self::$registry->getParameter('doozr.kernel.debugging'),
-                        DOOZR_PHP_VERSION,
                         (
                             self::RUNTIME_ENVIRONMENT_CLI === self::$registry->getParameter(
                                 'doozr.kernel.runtime.environment'
@@ -918,11 +912,14 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
             $debugbar = new StandardDebugBar();
             $debugbar['time']->startMeasure('request-cycle', 'Request cycle (Doozr)');
+
+            /*
             $debugbar->addCollector(
                 new DebugBar\DataCollector\ConfigCollector(
                     json_decode(json_encode(self::$registry->getConfiguration()->get()), true)
                 )
             );
+            */
 
             self::$registry->setDebugbar(
                 $debugbar
