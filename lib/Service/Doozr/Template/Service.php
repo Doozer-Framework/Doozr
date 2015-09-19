@@ -76,10 +76,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="Doozr_Registry",
- *     target="getInstance",
- *     type="constructor",
- *     position=1
+ *     link   = "doozr.registry",
+ *     type   = "constructor",
+ *     target = "getInstance"
  * )
  */
 class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
@@ -109,7 +108,6 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
      * @access protected
      */
     protected $path;
-
 
     /**
      * Fetches and optional returns the processed template
@@ -167,13 +165,11 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
     }
 
     /**
-     * Constructor of the class
-     *
-     * This method is the constructor of this class.
+     * Constructor.
      *
      * @param Doozr_Registry &$registry The instance of Doozr_Registry
-     * @param string $resource The resource to load
-     * @param array $config The resource to set as input (optional)
+     * @param string          $resource The resource to load
+     * @param array           $config   The resource to set as input (optional)
      *                                  defaults come from config
      *
      * @throws Doozr_Template_Service_Exception

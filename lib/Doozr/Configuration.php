@@ -150,8 +150,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Constructor.
      *
      * @param Doozr_Configuration_Reader_Interface $configReader A container e.g. Json or Ini
-     * @param Doozr_Cache_Service           $cacheService Doozr_Cache_Service Instance
-     * @param bool                          $cache        TRUE to enable caching, FALSE to do disable
+     * @param Doozr_Cache_Service                  $cacheService Doozr_Cache_Service Instance
+     * @param bool                                 $cache        TRUE to enable caching, FALSE to do disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Configuration
@@ -159,14 +159,14 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      */
     protected function __construct(
         Doozr_Configuration_Reader_Interface $configReader,
-        Doozr_Cache_Service           $cacheService = null,
-                                      $cache        = false
+        Doozr_Cache_Service                  $cacheService = null,
+                                             $cache        = false
     ) {
         $this
             ->configReader($configReader)
             ->cacheService($cacheService)
             ->configuration(new \stdClass())
-            ->namespace_(DOOZR_NAMESPACE_FLAT . '.cache.config')
+            ->namespace_(DOOZR_NAMESPACE_FLAT . '.cache.configuration')
             ->cache($cache);
     }
 

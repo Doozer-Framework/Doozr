@@ -81,7 +81,6 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
      */
     protected static $logUnclassified = null;
 
-
     /**
      * Replacement for PHP's default internal error handler.
      * All Errors are dispatched to this method - we decide
@@ -91,8 +90,8 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
      *
      * @param int|string $number  Number of Error (constant)
      * @param string     $message Error description as String
-     * @param string     $file    File in which the error occured
-     * @param int    $line    Line in which the error occured
+     * @param string     $file    File in which the error occurred
+     * @param int        $line    Line in which the error occurred
      * @param array      $context The variables with name and value from error context
      *
      * @throws Doozr_Error_Exception
@@ -103,6 +102,11 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
      */
     public static function handle($number = '', $message = '', $file = '', $line = 0, $context = [])
     {
+        // If we shouldn't care we follow this rule!
+        if (!($number & error_reporting())) {
+            return true;
+        }
+
         // get error type
         $type = self::getErrorType($number);
 
@@ -115,10 +119,10 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
             ->line($line);
 
         // Now dispatch the error processable and from userland catchable as Exception
-        #throw new Doozr_Error_Exception($message, $number, $error);
+        throw new Doozr_Error_Exception($message, $number, $error);
 
         // We return FALSE as signal that we handled the error - required by PHP >= 5.2
-        return false;
+        return true;
     }
 
     /**
@@ -127,10 +131,10 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
      * This method is intend to format messages (like warnings, errors ...).
      *
      * @param string $type    The type of the message
-     * @param mixed  $nr      The error-nummber (error-code)
+     * @param mixed  $nr      The error-number (error-code)
      * @param string $message The message
      * @param string $file    The filename
-     * @param mixed  $line    The linenummber
+     * @param mixed  $line    The line-number
      * @param array  $context The context variable and value from error context
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -139,19 +143,17 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
      * @static
      */
     protected static function formatMessage(
-        $type = 'N.A.',
-        $nr = null,
+        $type    = 'N.A.',
+        $nr      = null,
         $message = 'N.A.',
-        $file = 'N.A.',
-        $line = null,
+        $file    = 'N.A.',
+        $line    = null,
         $context = []
     ) {
         // Format message
-        $message  = 'TYPE: '.$type . PHP_EOL . 'NR: [' . $nr . ']' . PHP_EOL . 'MESSAGE: ' . wordwrap($message, 120) . PHP_EOL;
-        $message .= 'IN FILE: ' . $file . PHP_EOL . 'ON LINE: ' . $line . PHP_EOL;
-
-        // Add php-version and server-os
-        $message .= 'PHP-Version: ' . PHP_VERSION . ' (' . PHP_OS . ')';
+        $message  = 'TYPE: '.$type.PHP_EOL.'NR: ['.$nr.']'.PHP_EOL.'MESSAGE: '.wordwrap($message, 120).PHP_EOL;
+        $message .= 'IN FILE: '.$file.PHP_EOL.'ON LINE: '.$line.PHP_EOL;
+        $message .= 'PHP-Version: '.PHP_VERSION.' ('.PHP_OS.')';
 
         // finally return formatted message
         return $message;
@@ -212,33 +214,9 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
     }
 
     /**
-     * prints out or return a colorized output (no color in CLI-Mode)
+     * Returns the translation from php-errorcode to our internal types.
      *
-     * This method is intend to print out or return a colorized output (no color in CLI-Mode).
-     *
-     * @param mixed  $data   The data to show as colorized output
-     * @param mixed  $return Defines if the colorized data should be outputted or returned [optional]
-     * @param string $color  The color for Text in HEX-notation
-     * @param string $cursor The cursor (css) to use
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed True if $return = false and string with colorized html if $return = true
-     * @access public
-     * @static
-     */
-    public static function pre($data, $return = false, $color = '#EF4A4A', $cursor = 'crosshair')
-    {
-        // dispatch to pred() from Doozr.extend.php
-        pred($data, $return, $color, $cursor);
-    }
-
-    /**
-     * Returns the translation from php-errorcode to our internal types
-     *
-     * This method is intend to return the translation from php-errorcode
-     * to our internal types.
-     *
-     * @param int $error The PHP-type of the error (PHP constant)
+     * @param int $error The PHP-type of the error (PHP error constant value)
      *
      * @return string The translation type for input
      * @access public
@@ -247,85 +225,102 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
      */
     public static function getErrorType($error)
     {
-        // check for errortype
+        // Check for type of error
         switch ($error) {
-        case E_ERROR:                            // 1
-            // Fatal run-time errors. These indicate errors that can not be recovered from, such as a memory allocation
-            // problem. Execution of the script is halted.
-        case E_USER_ERROR:                       // 256
-            // User-generated error message. This is like an E_ERROR, except it is generated in PHP code by using the
-            // PHP function trigger_error() (since PHP 4).
-        return 'ERROR';
-        break;
-        case E_WARNING:                          // 2
-            // Run-time warnings (non-fatal errors). Execution of the script is not halted.
-        case E_USER_WARNING:                     // 512
-            // User-generated warning message. This is like an E_WARNING, except it is generated in PHP code by using
-            // the PHP function trigger_error() (since PHP 4).
-        return 'WARNING';
-        break;
-        case E_PARSE:                            // 4
-            // Compile-time parse errors. Parse errors should only be generated by the parser.
-        return 'PARSE';
-        break;
-        case E_NOTICE:                           // 8
-            // Run-time notices. Indicate that the script encountered something that could indicate an error, but could
-            // also happen in the normal course of running a script.
-        case E_USER_NOTICE:                      // 1024
-            // User-generated notice message. This is like an E_NOTICE, except it is generated in PHP code by using the
-            // PHP function trigger_error() (since PHP 4).
-        return 'NOTICE';
-        break;
-        case E_CORE_ERROR:                       // 16
-            // Fatal errors that occur during PHP's initial startup. This is like an E_ERROR, except it is generated by
-            // the core of PHP (since PHP 4).
-        return 'CORE-ERROR';
-        break;
-        case E_CORE_WARNING:                     // 32
-            // Warnings (non-fatal errors) that occur during PHP's initial startup. This is like an E_WARNING, except it
-            // is generated by the core of PHP (since PHP 4).
-        return 'CORE-WARNING';
-        break;
-        case E_COMPILE_ERROR:                    // 64
-            // Fatal compile-time errors. This is like an E_ERROR, except it is generated by the Zend Scripting Engine
-            // (since PHP 4).
-        return 'COMPILE-ERROR';
-        break;
-        case E_COMPILE_WARNING:                  // 128
-            // Compile-time warnings (non-fatal errors). This is like an E_WARNING, except it is generated by the Zend
-            // Scripting Engine.
-        return 'COMPILE-WARNING';
-        break;
-        case E_STRICT:                           // 2048
-            //case E_USER_STRICT:                // ?!?
-            // Enable to have PHP suggest changes to your code which will ensure the best interoperability and forward
-            // compatibility of your code (since PHP 5)
-        return 'STRICT';
-        case E_RECOVERABLE_ERROR:                // 4096
-            // Catchable fatal error. It indicates that a probably dangerous error occured, but did not leave the
-            // Engine in an unstable state. If the error is not caught by a user defined handle
-            // (see also set_error_handler()), the application aborts as it was an E_ERROR (since PHP 5.2.0).
-        return 'RECOVERABLE';
-        break;
-        case E_USER_EXCEPTION:                   // 23
-        case E_USER_CORE_EXCEPTION:              // 235
-            // Doozr custom Error-Type - Error of type exception.
-        return 'EXCEPTION';
-        break;
-        case E_USER_CORE_FATAL_EXCEPTION:        // 23523
-            // Doozr custom Error-Type - Fatal-Error of type exception.
-        return 'EXCEPTION';
-        break;
+            case E_ERROR:                            // 1
+                // Fatal run-time errors. These indicate errors that can not be recovered from,
+                // such as a memory allocation problem. Execution of the script is halted.
+            case E_USER_ERROR:                       // 256
+                // User-generated error message. This is like an E_ERROR, except it is generated in
+                // PHP code by using the PHP function trigger_error() (since PHP 4).
+                $type = 'ERROR';
+                break;
+
+            case E_WARNING:                          // 2
+                // Run-time warnings (non-fatal errors). Execution of the script is not halted.
+            case E_USER_WARNING:                     // 512
+                // User-generated warning message. This is like an E_WARNING, except it is generated in
+                // PHP code by using the PHP function trigger_error() (since PHP 4).
+                $type = 'WARNING';
+                break;
+
+            case E_PARSE:                            // 4
+                // Compile-time parse errors. Parse errors should only be generated by the parser.
+                $type = 'PARSE';
+                break;
+
+            case E_NOTICE:                           // 8
+                // Run-time notices. Indicate that the script encountered something that could indicate an
+                // error, but could also happen in the normal course of running a script.
+            case E_USER_NOTICE:                      // 1024
+                // User-generated notice message. This is like an E_NOTICE, except it is generated in PHP
+                // code by using the PHP function trigger_error() (since PHP 4).
+                $type = 'NOTICE';
+                break;
+
+            case E_CORE_ERROR:                       // 16
+                // Fatal errors that occur during PHP's initial startup. This is like an E_ERROR, except it
+                // is generated by the core of PHP (since PHP 4).
+                $type = 'CORE-ERROR';
+                break;
+
+            case E_CORE_WARNING:                     // 32
+                // Warnings (non-fatal errors) that occur during PHP's initial startup. This is like an
+                // E_WARNING, except it is generated by the core of PHP (since PHP 4).
+                $type = 'CORE-WARNING';
+                break;
+
+            case E_COMPILE_ERROR:                    // 64
+                // Fatal compile-time errors. This is like an E_ERROR, except it is generated by the Zend
+                // Scripting Engine (since PHP 4).
+                $type = 'COMPILE-ERROR';
+                break;
+
+            case E_COMPILE_WARNING:                  // 128
+                // Compile-time warnings (non-fatal errors). This is like an E_WARNING, except it is generated
+                // by the Zend Scripting Engine.
+                $type = 'COMPILE-WARNING';
+                break;
+
+            case E_STRICT:                           // 2048
+                //case E_USER_STRICT:                // ?!?
+                // Enable to have PHP suggest changes to your code which will ensure the best interoperability
+                // and forward compatibility of your code (since PHP 5)
+                $type = 'STRICT';
+                break;
+
+            case E_RECOVERABLE_ERROR:                // 4096
+                // Catchable fatal error. It indicates that a probably dangerous error occurred, but did not
+                // leave the Engine in an unstable state. If the error is not caught by a user defined handle
+                // (see also set_error_handler()), the application aborts as it was an E_ERROR (since PHP 5.2.0).
+                $type = 'RECOVERABLE';
+                break;
+
+            case E_DEPRECATED:                      // 8192
+                // Run-time notices. Enable this to receive warnings about code that will not work in future versions.
+            case E_USER_DEPRECATED:                 // 16384
+                // User-generated warning message. This is like an E_DEPRECATED, except it is generated in PHP code
+                // by using the PHP function trigger_error().
+                $type = 'DEPRECATED';
+                break;
+
+            case E_USER_EXCEPTION:                   // 23
+            case E_USER_CORE_EXCEPTION:              // 235
+                // Doozr custom Error-Type - Error of type exception.
+                $type = 'EXCEPTION';
+                break;
+
+            case E_USER_CORE_FATAL_EXCEPTION:        // 23523
+                // Doozr custom Error-Type - Fatal-Error of type exception.
+                $type = 'EXCEPTION';
+                break;
+
+            default:
+                // nothing matched?
+                $type = 'UNCLASSIFIED';
+                break;
         }
 
-        // new types in PHP > 5.3
-        if (phpversion() >= 5.3) {
-            if ($error == E_DEPRECATED || $error == E_USER_DEPRECATED) {
-                return 'DEPRECATED';
-            }
-        }
-
-        // nothing matched?
-        return 'UNCLASSIFIED';
+        return $type;
     }
 }

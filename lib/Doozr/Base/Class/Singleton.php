@@ -7,7 +7,7 @@
  * Singleton.php - Loose Base-Singleton-Class of the Doozr Framework
  * Loose stands for the difference to the strict Version of this class
  * (DoozrBaseSingletonStrict.php) which also use the given parameter at
- * instanciation to check for singleton instance
+ * instantiation to check for singleton instance
  *
  * PHP versions 5.5
  *
@@ -63,7 +63,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Generic.php';
  * Loose Base-Singleton-Class of the Doozr Framework
  * Loose stands for the difference to the strict Version of this class
  * (DoozrBaseSingletonStrict.php) which also use the given parameter at
- * instanciation to check for singleton instance
+ * instantiation to check for singleton instance
  *
  * @category   Doozr
  * @package    Doozr_Base
@@ -84,7 +84,6 @@ class Doozr_Base_Class_Singleton extends Doozr_Base_Class_Singleton_Generic
      * @static
      */
     protected static $instance;
-
 
     /**
      * Constructor for singleton pattern

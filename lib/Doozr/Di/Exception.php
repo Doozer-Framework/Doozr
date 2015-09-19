@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Exception
  *
- * Exception.php - Base Exception class of the Di-Library
+ * Exception.php - Di base exception.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 /**
  * Doozr - Di - Exception
  *
- * Base Exception class of the Di-Library
+ * Di base exception.
  *
  * @category   Doozr
  * @package    Doozr_Di
@@ -69,7 +69,5 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
  */
 class Doozr_Di_Exception extends Doozr_Exception
 {
-    /**
-     * Just used for namespacing issues
-     */
+    // Intentionally left empty. Just used for typehinting.
 }

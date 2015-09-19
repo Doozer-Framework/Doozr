@@ -54,6 +54,9 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 
+// Use
+use Psr\Log\LoggerInterface;
+
 /**
  * Doozr - Encoding
  *
@@ -71,48 +74,47 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 class Doozr_Encoding extends Doozr_Base_Class_Singleton
 {
     /**
-     * holds instance of config
+     * Instance of config
      *
-     * @var object
-     * @access private
+     * @var Doozr_Configuration_Interface
+     * @access protected
      */
-    private $_config;
+    protected $config;
 
     /**
-     * holds instance of logger
+     * Logger
      *
-     * @var object
-     * @access private
+     * @var Psr\Log\LoggerInterface
+     * @access protected
      */
-    private $_logger;
+    protected $logger;
 
     /**
-     * This method is the constructor
+     * Constructor.
      *
-     * @param object $config The config instance
-     * @param object $logger The logger instance
+     * @param Doozr_Configuration_Interface $config The config instance
+     * @param LoggerInterface               $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Encoding
      * @access protected
      */
     protected function __construct($config, $logger)
     {
-        $this->_config = $config;
-        $this->_logger = $logger;
+        $this->config = $config;
+        $this->logger = $logger;
 
-        // get encoding
+        // Get encoding
         $encoding = $config->kernel->localization->encoding;
         $mimetype = $config->kernel->localization->mimetype;
 
-        // begin configuration
-        $this->_setInternalEncoding($encoding);
-        $this->_setOutputEncoding($encoding);
-        $this->_setLanguage($encoding);
-        $this->_setRegexEncoding($encoding);
-        $this->_setDefaultCharset($encoding);
-        $this->_setDefaultMimeType($mimetype);
-        //$this->_setOutputHandler();
+        // Begin configuration
+        $this->setInternalEncoding($encoding);
+        $this->setOutputEncoding($encoding);
+        $this->setLanguage($encoding);
+        $this->setRegexEncoding($encoding);
+        $this->setDefaultCharset($encoding);
+        $this->setDefaultMimeType($mimetype);
+        //$this->setOutputHandler();
     }
 
     /**
@@ -122,9 +124,9 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _setInternalEncoding($encoding = 'UTF-8')
+    protected function setInternalEncoding($encoding = 'UTF-8')
     {
         // setup internal php
         mb_internal_encoding($encoding);
@@ -137,9 +139,9 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _setOutputEncoding($encoding = 'UTF-8')
+    protected function setOutputEncoding($encoding = 'UTF-8')
     {
         // setup output
         mb_http_output($encoding);
@@ -152,9 +154,9 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _setLanguage($encoding = 'UTF-8')
+    protected function setLanguage($encoding = 'UTF-8')
     {
         switch ($encoding) {
         case 'English':
@@ -176,9 +178,9 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _setRegexEncoding($encoding = 'UTF-8')
+    protected function setRegexEncoding($encoding = 'UTF-8')
     {
         // setup regex encoding
         mb_regex_encoding($encoding);
@@ -191,9 +193,9 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _setDefaultCharset($encoding = 'UTF-8')
+    protected function setDefaultCharset($encoding = 'UTF-8')
     {
         ini_set('default_charset', $encoding);
     }
@@ -206,9 +208,9 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _setDefaultMimeType($mimetype = 'text/html')
+    protected function setDefaultMimeType($mimetype = 'text/html')
     {
         ini_set('default_mimetype', $mimetype);
     }
@@ -220,9 +222,9 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _setOutputHandler($handler = 'mb_output_handler')
+    protected function setOutputHandler($handler = 'mb_output_handler')
     {
         ob_start($handler);
     }

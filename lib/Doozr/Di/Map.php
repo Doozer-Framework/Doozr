@@ -4,7 +4,9 @@
 /**
  * Doozr - Di - Map
  *
- * Map.php - Map class of the Di-Library
+ * Map.php - Abstract base for Di-Map implementations like Annotation, Static,
+ * Fluent, Typehint. The difference in implementation is how the maps are generated.
+ * So because of that this is just an abstract base.
  *
  * PHP versions 5.5
  *
@@ -52,12 +54,14 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
 
 /**
  * Doozr - Di - Map
  *
- * Map class of the Di-Library
+ * Abstract base for Di-Map implementations like Annotation, Static,
+ * Fluent, Typehint. The difference in implementation is how the maps are generated.
+ * So because of that this is just an abstract base.
  *
  * @category   Doozr
  * @package    Doozr_Di
@@ -66,19 +70,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @link       https://github.com/clickalicious/Di
+ * @abstract
  */
-class Doozr_Di_Map
+abstract class Doozr_Di_Map
 {
     /**
-     * The name/identifier of this map
-     *
-     * @var string
-     * @access protected
-     */
-    protected $namespace = self::DEFAULT_NAMESPACE;
-
-    /**
-     * Contains all dependencies as collection (array)
+     * Dependencies as collection (array)
      *
      * @var Doozr_Di_Collection
      * @access protected
@@ -86,45 +83,12 @@ class Doozr_Di_Map
     protected $collection;
 
     /**
-     * A Doozr_Di_Dependency instance to clone objects from
+     * Doozr_Di_Dependency instance to clone objects from
      *
      * @var Doozr_Di_Dependency
      * @access protected
      */
     protected $dependency;
-
-    /**
-     * A (*) parser instance
-     *
-     * @var Doozr_Di_Parser_Interface
-     * @access protected
-     */
-    protected $parser;
-
-    /**
-     * WIRE_MODE_MANUAL
-     * Wiring is done manually by you
-     *
-     * @var int
-     * @access public
-     */
-    const WIRE_MODE_MANUAL = 1;
-
-    /**
-     * WIRE_MODE_AUTOMATIC = Wiring is done automatically
-     *
-     * @var int
-     * @access public
-     */
-    const WIRE_MODE_AUTOMATIC = 2;
-
-    /**
-     * Default namespace
-     *
-     * @var string
-     * @access public
-     */
-    const DEFAULT_NAMESPACE = 'Di';
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
@@ -132,9 +96,7 @@ class Doozr_Di_Map
 
     /**
      * Sets the collection of the map instance
-     *
-     * This method is intend to set the collection (Doozr_Di_Collection) of
-     * this map instance.
+     * This method is intend to set the collection (Doozr_Di_Collection) of this map instance.
      *
      * @param Doozr_Di_Collection $collection The collection to set
      *
@@ -148,10 +110,24 @@ class Doozr_Di_Map
     }
 
     /**
-     * Returns the collection of the map instance
+     * Setter for collection.
      *
-     * This method is intend to return the collection (Doozr_Di_Collection) of
-     * this map instance.
+     * @param Doozr_Di_Collection $collection The collection of the collection.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function collection(Doozr_Di_Collection $collection)
+    {
+        $this->setCollection($collection);
+
+        return $this;
+    }
+
+    /**
+     * Returns the collection of the map instance
+     * This method is intend to return the collection (Doozr_Di_Collection) of this map instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Di_Collection if set otherwise NULL
@@ -163,49 +139,30 @@ class Doozr_Di_Map
     }
 
     /**
-     * Sets the identifier of the map instance
-     *
-     * This method is intend to set the identifier of the map instance.
-     *
-     * @param string $namespace The identifier to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setNamespace($namespace)
-    {
-        $this->namespace = $namespace;
-    }
-
-    /**
-     * Returns the identifier of the map instance
-     *
-     * This method is intend to return the identifier of the map instance.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The namespace of this instance
-     * @access public
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-
-    /**
      * Imports a collection of dependencies
-     *
      * This method is intend to import a collection of dependencies (Doozr_Di_Collection)
      *
      * @param Doozr_Di_Collection $collection An instance of
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool TRUE on success
      * @access public
      */
     public function import(Doozr_Di_Collection $collection)
     {
-        $this->collection = $collection;
+        foreach ($collection as $id => $dependencies) {
+
+            // Don't import duplicates!
+            if (null === $this->getCollection()->getDependencies($id)) {
+                foreach ($dependencies as $position => $dependency) {
+                    $classname   = $collection->getClassnameById($id);
+                    $constructor = $collection->getConstructorById($id);
+                    $this->getCollection()->addDependency($id, $classname, $constructor, $dependency);
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -219,28 +176,28 @@ class Doozr_Di_Map
      */
     public function export()
     {
-        return $this->collection;
+        return $this->getCollection();
     }
 
     /**
-     * Wires existing instances of classes
-     *
+     * Wires existing instances of classes.
      * This method is intend to connect existing instances from argument $matrix or retrieved from globals
-     * with the existing map. This connection is identified by the "id" in the map and the "key" in the
-     * array.
+     * with the existing map. This connection is identified by the "id" in the map and the "key" in the array.
      *
-     * @param int $mode   This can be either WIRE_MODE_MANUAL or WIRE_MODE_AUTOMATIC
-     * @param array   $matrix A matrix defining the relation between an Id and an Instance as key => value pair
+     * @param array $matrix A matrix defining the relation between an Id and an Instance as key => value pair
+     * @param int   $mode   This can be either WIRE_MODE_MANUAL or WIRE_MODE_AUTOMATIC
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Di_Exception
      */
-    public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = [])
+    public function wire(array $matrix = [], $mode = Doozr_Di_Constants::WIRE_MODE_AUTOMATIC)
     {
-        if ($mode === self::WIRE_MODE_AUTOMATIC) {
-            $matrix = $this->retrieveGlobals();
+        // If automatic mode is enabled
+        if (Doozr_Di_Constants::WIRE_MODE_AUTOMATIC === $mode) {
+            // @todo Retrieve also instances from di container for wiring!!!
+            $matrix = array_merge($this->retrieveGlobals(), $matrix);
         }
 
         if (empty($matrix)) {
@@ -249,8 +206,8 @@ class Doozr_Di_Map
             );
         }
 
-        // now we connect our map-setup with existing (real) instances
-        $this->wireClassWithDependencies($matrix);
+        // now we connect our map-recipe with existing (real) instances
+        $this->wireDependenciesWithInstances($matrix);
 
         // success
         return true;
@@ -258,16 +215,17 @@ class Doozr_Di_Map
 
     /**
      * Resets the state of this class
-     *
      * This method is intend to reset the state of this class. Currently only used for unit-testing.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return $this Instance for chaining
      * @access public
      */
     public function reset()
     {
-        $this->collection = null;
+        $this->getCollection()->reset();
+
+        return $this;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -276,78 +234,74 @@ class Doozr_Di_Map
 
     /**
      * Adds the given raw dependencies (array) to the collection for given classname
-     *
      * This method is intend to add the given raw dependencies (array) to the collection for given classname.
      *
-     * @param string $classname       The name of the class the dependencies belong to
-     * @param array  $rawDependencies The dependencies as raw array
+     * @param array $rawDependencies The dependencies as raw array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function addRawDependenciesToCollection($classname, array $rawDependencies)
+    protected function addRawDependenciesToCollection(array $rawDependencies)
     {
-        // iterate raw dependencies, convert to Doozr_Di_Dependency and add it to Doozr_Di_Collection
-        foreach ($rawDependencies as $target => $dependencies) {
-            foreach ($dependencies as $setup) {
+        // Iterate all dependencies ...
+        foreach ($rawDependencies as $id => $setup) {
 
-                if ($setup['type'] === 'constructor' && $target !== '__construct') {
-                    $this->getCollection()->setConstructor($classname, $target);
+            if (true === isset($setup['dependencies'])) {
+                // Iterate every dependency for current id
+                foreach ($setup['dependencies'] as $recipe) {
+
+                    // Clone base dependency object so we don't need a new operator here
+                    $dependency = clone $this->dependency;
+                    $dependency->import($recipe);
+                    $constructor = (true === isset($setup['constructor'])) ? $setup['constructor'] : null;
+                    $this->getCollection()->addDependency($id, $setup['classname'], $constructor, $dependency);
                 }
-
-                // tricky clone base dependency object so we don't need a new operator here
-                $dependency = clone $this->dependency;
-
-                $dependency->setClassname($setup['class']);
-                $dependency->setTarget($setup['target']);
-                $dependency->setConfiguration(
-                    array('type' => $setup['type'], 'value' => $setup['value'], 'position' => $setup['position'])
-                );
-
-                $this->getCollection()->addDependency($classname, $dependency);
+            } else {
+                // No dependencies? We will keep those classes loadable with default behavior!
+                $this->getCollection()->addMapping($id, $setup['classname']);
             }
         }
     }
 
     /**
      * Wires the map with given (existing) instances
+     * This method is used to wire the instances given via arguments $matrix with the corresponding Id's from
+     * the static map.
      *
-     * This method is used to wire the instances given via arguments $matrix with
-     * the corresponding Id's from the static map.
-     *
-     * @param array $matrix The matrix containing the instances for wiring (id => instance)
+     * @param array $matrix    The matrix containing the instances for wiring (id => instance)
+     * @param bool  $overwrite TRUE to overwrite previous instances, FALSE to do not (default).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success
      * @access protected
      */
-    protected function wireClassWithDependencies(array $matrix)
+    protected function wireDependenciesWithInstances(array $matrix, $overwrite = false)
     {
-        /* @var $this->collection Doozr_Di_Collection */
-        foreach ($this->collection as $dependencies) {
-
-            /* @var $dependency Doozr_Di_Dependency */
+        foreach ($this->getCollection() as $id => $dependencies) {
             foreach ($dependencies as $dependency) {
+                /* @var $dependency Doozr_Di_Dependency */
 
-                // if dependency is set to NULL set dependency retrieved from given matrix
-                if ($dependency->getInstance() === null) {
-                    if (isset($matrix[$dependency->getTarget()])) {
-                        $dependency->setInstance(
-                            $matrix[$dependency->getTarget()]
-                        );
+                // If dependency is set to NULL set dependency retrieved from given matrix
+                if (null === $dependency->getInstance() || true === $overwrite) {
+
+                    // Everything's getting wired need a link!
+                    if (null !== $dependency->getLink()) {
+                        if (true === isset($matrix[$dependency->getLink()])) {
+                            $dependency->setInstance(
+                                $matrix[$dependency->getLink()]
+                            );
+                        }
                     }
                 }
             }
         }
 
-        // Success
         return true;
     }
 
     /**
      * Returns all variables from global scope
-     *
      * This method is intend to return all variables from PHP's global scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -359,5 +313,47 @@ class Doozr_Di_Map
         // Retrieve globals and return them
         global $GLOBALS;
         return $GLOBALS;
+    }
+
+    /**
+     * Setter for dependency.
+     *
+     * @param string $dependency The dependency of the dependency.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setDependency($dependency)
+    {
+        $this->dependency = $dependency;
+    }
+
+    /**
+     * Setter for dependency.
+     *
+     * @param string $dependency The dependency of the dependency.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function dependency($dependency)
+    {
+        $this->setDependency($dependency);
+
+        return $this;
+    }
+
+    /**
+     * Getter for Dependency.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The Dependency if set, otherwise NULL
+     * @access protected
+     */
+    protected function getDependency()
+    {
+        return $this->dependency;
     }
 }

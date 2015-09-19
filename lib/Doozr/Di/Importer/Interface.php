@@ -4,7 +4,8 @@
 /**
  * Doozr - Di - Importer - Interface
  *
- * Interface.php - Interface class for all Importer of the Di-Library
+ * Interface.php - Contract for all Importers of the Di library. Every compatible
+ * Importer must implement this Interface.
  *
  * PHP versions 5.5
  *
@@ -44,7 +45,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer_Interface
+ * @subpackage Doozr_Di_Importer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,11 +56,12 @@
 /**
  * Doozr - Di - Importer - Interface
  *
- * Interface class for all Importer of the Di-Library
+ * Contract for all Importers of the Di library. Every compatible
+ * Importer must implement this Interface.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer_Interface
+ * @subpackage Doozr_Di_Importer
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -68,48 +70,36 @@
 interface Doozr_Di_Importer_Interface
 {
     /**
-     * Contract for import
+     * Imports.
      *
-     * @return bool TRUE on success, otherwise FALSE
+     * @return mixed Can be either bool signalize success or error, or even a result
+     * @access public
      */
     public function import();
 
     /**
-     * Contract for export
+     * Exports.
      *
-     * @return array An array containing a collection of Doozr_Di_Dependency instances
+     * @return mixed
+     * @access public
      */
     public function export();
 
     /**
-     * Contract for setCollection
-     *
-     * @param Doozr_Di_Collection $collection The collection to set as an Doozr_Di_Collection object
-     *
-     * @return void
-     */
-    public function setCollection(Doozr_Di_Collection $collection);
-
-    /**
-     * Contract for getCollection
-     *
-     * @return Doozr_Di_Collection The collection of dependencies in an Doozr_Di_Collection object
-     */
-    public function getCollection();
-
-    /**
-     * Contract for setInput
+     * Setter for input.
      *
      * @param mixed $input The input to set
      *
      * @return void
+     * @access public
      */
     public function setInput($input);
 
     /**
-     * Contract for getInput
+     * Getter for input.
      *
      * @return mixed The input set, otherwise NULL
+     * @access public
      */
     public function getInput();
 }

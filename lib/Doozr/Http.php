@@ -54,6 +54,9 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
+// Use statements
+use Teapot\StatusCode\Http;
+
 /**
  * Doozr - Http
  *
@@ -69,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
  * @link       http://clickalicious.github.com/Doozr/
  * @link       http://en.wikipedia.org/wiki/HTTP-Statuscode
  */
-class Doozr_Http extends Doozr_Base_Class
+class Doozr_Http extends Doozr_Base_Class implements Http
 {
     /*------------------------------------------------------------------------------------------------------------------
     | REQUEST METHODS / VERBS

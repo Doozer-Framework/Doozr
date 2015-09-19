@@ -55,8 +55,7 @@ namespace Psr\Cache;
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-#require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/CacheItemPoolInterface.php';
-#use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * Doozr - PSR - Cache - Interface

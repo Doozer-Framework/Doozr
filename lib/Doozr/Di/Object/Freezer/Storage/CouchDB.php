@@ -132,7 +132,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
      */
     protected function doStore(array $frozenObject)
     {
-        $payload = array('docs' => []);
+        $payload = ['docs' => []];
 
         foreach ($frozenObject['objects'] as $id => $object) {
             if ($object['isDirty'] !== FALSE) {
@@ -142,12 +142,12 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
                     $revision = $this->revisions[$id];
                 }
 
-                $data = array(
+                $data = [
                   '_id'   => $id,
                   '_rev'  => $revision,
                   'class' => $object['className'],
                   'state' => $object['state']
-                );
+                ];
 
                 if (!$data['_rev']) {
                     unset($data['_rev']);
@@ -218,11 +218,11 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
             $object = json_decode($response['body'], TRUE);
             $this->revisions[$object['_id']] = $object['_rev'];
 
-            $objects[$id] = array(
+            $objects[$id] = [
               'className' => $object['class'],
               'isDirty'   => FALSE,
               'state'     => $object['state']
-            );
+            ];
 
             if (!$this->lazyLoad) {
                 $this->fetchArray($object['state'], $objects);
@@ -230,7 +230,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
         }
 
         if ($isRoot) {
-            return array('root' => $id, 'objects' => $objects);
+            return ['root' => $id, 'objects' => $objects];
         }
     }
 
@@ -282,7 +282,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
 
         list($headers, $body) = explode("\r\n\r\n", $buffer);
 
-        return array('headers' => $headers, 'body' => $body);
+        return ['headers' => $headers, 'body' => $body];
     }
 
     /**

@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Exporter - Abstract
  *
- * Abstract.php - Abstract base class for all Exporter of the Di-Library
+ * Abstract.php - Abstract base class for exporter of Di.
  *
  * PHP versions 5.5
  *
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Exporter_Abstract
+ * @subpackage Doozr_Di_Exporter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,16 +52,14 @@
  * @link       https://github.com/clickalicious/Di
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
-
 /**
  * Doozr - Di - Exporter - Abstract
  *
- * Abstract base class for all Exporter of the Di-Library
+ * Abstract base class for exporter of Di.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Exporter_Abstract
+ * @subpackage Doozr_Di_Exporter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -84,7 +82,6 @@ abstract class Doozr_Di_Exporter_Abstract
      * @access protected
      */
     protected $output;
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API

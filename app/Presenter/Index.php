@@ -4,8 +4,7 @@
 /**
  * Doozr - Demonstration - Presenter
  *
- * Index.php - Base-Class for all classes of the Doozr Framework except
- * the classes following the singleton pattern.
+ * Index.php - Index-Presenter demonstration of Doozr's Presenter implementation.
  *
  * PHP versions 5.5
  *
@@ -15,8 +14,8 @@
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Class
+ * @package    Doozr_App
+ * @subpackage Doozr_App_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License

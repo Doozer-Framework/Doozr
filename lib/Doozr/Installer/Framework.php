@@ -91,7 +91,6 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
     protected static $folders = array(
         'app',
         'web',
-        'bin',
     );
 
     /**
@@ -167,7 +166,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
 
             } else {
 
-                // Ask if autodetected install path is ok ...
+                // Ask if auto detected install path is ok ...
                 $resolved = self::resolveChoice($menu2);
 
                 if ($resolved === 'y') {

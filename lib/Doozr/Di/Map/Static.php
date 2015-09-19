@@ -4,7 +4,8 @@
 /**
  * Doozr - Di - Map - Static
  *
- * Static.php - Static map class of the Di-Library
+ * Static.php - Static map of Di. This map makes use of an importer instance to import
+ * a dependency map from a "static" source like a file or something like this.
  *
  * PHP versions 5.5
  *
@@ -44,7 +45,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Map_Static
+ * @subpackage Doozr_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -57,11 +58,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
 /**
  * Doozr - Di - Map - Static
  *
- * Static map class of the Di-Library
+ * Static map of Di. This map makes use of an importer instance to import
+ * a dependency map from a "static" source like a file or something like this.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Map_Static
+ * @subpackage Doozr_Di_Map
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -70,33 +72,36 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
 class Doozr_Di_Map_Static extends Doozr_Di_Map
 {
     /**
-     * Instance of Doozr_Di_Importer_*
+     * Instance of Doozr_Di_Importer_Interface
      *
      * @var Doozr_Di_Importer_Interface
      * @access protected
      */
     protected $importer;
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
-     * Constructor of this class
-     *
-     * @param Doozr_Di_Collection         $collection An instance of Doozr_Di_Collection to collect dependencies in
-     * @param Doozr_Di_Importer_Interface $importer   An instance of Doozr_Di_Importer_Json to import dependencies with
+     * @param Doozr_Di_Collection         $collection Doozr_Di_Collection to collect dependencies in.
+     * @param Doozr_Di_Importer_Interface $importer   Doozr_Di_Importer_Json to import dependencies with.
+     * @param Doozr_Di_Dependency         $dependency Doozr_Di_Dependency for creating and storing dependencies.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Di_Map_Static
      * @access public
      */
-    public function __construct(Doozr_Di_Collection $collection, Doozr_Di_Importer_Interface $importer)
-    {
-        // store given instances
-        $this->collection = $collection;
-        $this->importer   = $importer;
-
-        $this->importer->setCollection($collection);
+    public function __construct(
+        Doozr_Di_Collection         $collection,
+        Doozr_Di_Importer_Interface $importer,
+        Doozr_Di_Dependency         $dependency
+    ) {
+        $this
+            ->collection($collection)
+            ->importer($importer)
+            ->dependency($dependency);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -114,7 +119,55 @@ class Doozr_Di_Map_Static extends Doozr_Di_Map
      */
     public function generate($filename)
     {
-        $this->importer->setInput($filename);
-        $this->importer->import();
+        $this->getImporter()->setInput($filename);
+
+        // Add these dependencies to collection
+        $this->addRawDependenciesToCollection($this->getImporter()->import());
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for importer.
+     *
+     * @param Doozr_Di_Importer_Interface $importer The importer of the importer.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setImporter(Doozr_Di_Importer_Interface $importer)
+    {
+        $this->importer = $importer;
+    }
+
+    /**
+     * Fluent: Setter for importer.
+     *
+     * @param Doozr_Di_Importer_Interface $importer The importer of the importer.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function importer(Doozr_Di_Importer_Interface $importer)
+    {
+        $this->setImporter($importer);
+
+        return $this;
+    }
+
+    /**
+     * Getter for Importer.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Di_Importer_Interface|null The Importer if set, otherwise NULL
+     * @access protected
+     */
+    protected function getImporter()
+    {
+        return $this->importer;
     }
 }

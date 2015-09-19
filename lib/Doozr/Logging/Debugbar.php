@@ -217,6 +217,15 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
             }
         }
 
+        /*
+        $messagesCollector = new \DebugBar\DataCollector\MessagesCollector('Uprofiler');
+        $messagesCollector->setDataFormatter(
+            new Doozr_Formatter_Default()
+        );
+        $messagesCollector->addMessage('<a href="/uprofiler/index.php">link</a>');
+        $debugBar->addCollector($messagesCollector);
+        */
+
         return $debugBar;
     }
 
