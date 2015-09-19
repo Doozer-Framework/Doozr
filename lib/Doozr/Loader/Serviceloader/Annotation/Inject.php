@@ -59,7 +59,7 @@ namespace Doozr\Loader\Serviceloader\Annotation;
  *
  * Inject Annotation for DI of Doozr.
  *
- * class           string      "Doozr_Registry" ASCII
+ * classname       string      "Doozr_Registry" ASCII
  * target          string      "__construct" ASCII
  * instance        null
  * type            string      "constructor" ASCII
@@ -79,22 +79,21 @@ namespace Doozr\Loader\Serviceloader\Annotation;
 class Inject
 {
     /**
-     * The class to inject (name required for automatching of
-     * position in arguments or for instanciating).
+     * The service Id.
+     * @example doozr.cache.service OR doozr.config OR doozr.registry
      *
      * @var string
      * @access public
      */
-    public $class;
+    public $id;
 
     /**
-     * The target for the injection (name of property,
-     * name of method like __construct or something like this).
+     * The class to inject (name required for auto-matching of position in arguments or for instantiating).
      *
      * @var string
      * @access public
      */
-    public $target = self::DEFAULT_TARGET;
+    public $classname;
 
     /**
      * The instance for an injection.
@@ -105,6 +104,40 @@ class Inject
     public $instance;
 
     /**
+     * The arguments for the dependency class.
+     *
+     * @var string
+     * @access public
+     */
+    public $arguments;
+
+    /**
+     * The constructor of the dependency class.
+     * It's not the constructor of the class where this dependency will be injected into.
+     * @see {$target}
+     *
+     * @var string
+     * @access public
+     */
+    public $constructor;
+
+    /**
+     * Link(Id) to another service.
+     *
+     * @var string
+     * @access public
+     */
+    public $link;
+
+    /**
+     * The target for the injection (name of property, name of method like __construct or something like this).
+     *
+     * @var string
+     * @access public
+     */
+    public $target = self::DEFAULT_TARGET;
+
+    /**
      * The type of an injection.
      *
      * @var string
@@ -113,28 +146,12 @@ class Inject
     public $type = self::DEFAULT_TYPE;
 
     /**
-     * The value for an injection.
-     *
-     * @var mixed
-     * @access public
-     */
-    public $value;
-
-    /**
      * The position for an injection.
      *
      * @var int
      * @access public
      */
-    public $position = self::DEFAULT_POSITION;
-
-    /**
-     * The default position for an injection.
-     *
-     * @var int
-     * @access public
-     */
-    const DEFAULT_POSITION = 1;
+    public $position;
 
     /**
      * The default type of an injection.
@@ -151,4 +168,47 @@ class Inject
      * @access public
      */
     const DEFAULT_TARGET = '__construct';
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructor.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access public
+     */
+    public function __construct()
+    {
+        $this->id = $this->getRandomId();
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Creates a random unique Id for this instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The random and unique Id
+     * @access protected
+     */
+    protected function getRandomId()
+    {
+        /*
+        try {
+            // Generate a version 1 (time-based) UUID object like e4eaaaf2-d142-11e1-b3e4-080027620cdd
+            $uuid1 = Uuid::uuid1();
+            $id = $uuid1->toString();
+
+        } catch (UnsatisfiedDependencyException $exception) {
+            $id = md5(microtime() . $this->getClassname());
+        }
+        */
+
+        $id = md5(microtime() . $this->classname);
+        return $id;
+    }
 }

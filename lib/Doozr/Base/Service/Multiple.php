@@ -92,7 +92,7 @@ class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container
     protected $name;
 
     /**
-     * The universal unique identifier for this reesource.
+     * The universal unique identifier for this resource.
      *
      * @var string
      * @access protected
@@ -125,7 +125,6 @@ class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Base_Service_Multiple
      * @access public
      */
     public function __construct()

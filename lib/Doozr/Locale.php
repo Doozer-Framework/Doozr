@@ -86,12 +86,15 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
      */
     protected $logger;
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
      * @param Doozr_Configuration $config The config instance
-     * @param Doozr_Logging $logger The logger instance
+     * @param Doozr_Logging       $logger The logger instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Locale

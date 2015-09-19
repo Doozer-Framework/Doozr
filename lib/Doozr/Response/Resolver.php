@@ -223,19 +223,19 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             $responseBody->write($data[Doozr_Base_Presenter::IDENTIFIER_VIEW]);
 
             $response = $response->withBody($responseBody);
-            $response = $response->withStatus(Doozr_Http::STATUS_200);
+            $response = $response->withStatus(Doozr_Http::OK);
 
         } else {
             // So if the Status is not TRUE (successful) it contains an integer for HTTP Response :)
             switch ($httpStatus) {
-                case Doozr_Http::STATUS_400:
+                case Doozr_Http::BAD_REQUEST:
                     $message = sprintf(
                         'No Presenter to execute route ("%s"). Sure it exists?',
                         $this->getRoute()
                     );
                     break;
 
-                case Doozr_Http::STATUS_404:
+                case Doozr_Http::NOT_FOUND:
                 default:
                     $message = sprintf(
                         'Method "%s()" of class "%s" not callable. Sure it exists and it\'s public?',
@@ -621,11 +621,11 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
 
         if (false === is_object($instance) || !$instance instanceof Doozr_Base_Presenter) {
             // No presenter instance = Bad Request = 400
-            $validity = Doozr_Http::STATUS_400;
+            $validity = Doozr_Http::BAD_REQUEST;
 
         } elseif (false === method_exists($instance, $method) || false === is_callable(array($instance, $method))) {
             // No action (method) to call on existing presenter = Not Found = 404
-            $validity = Doozr_Http::STATUS_404;
+            $validity = Doozr_Http::NOT_FOUND;
         }
 
         return $validity;
@@ -702,7 +702,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         // Check if requested layer file exists
         if ($this->getRegistry()->getFilesystem()->exists($classFileAndPath)) {
             include_once $classFileAndPath;
-            $instance = $this->instanciate($classname, $arguments);
+            $instance = self::instantiate($classname, $arguments);
         }
 
         return $instance;

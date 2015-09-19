@@ -4,7 +4,8 @@
 /**
  * Doozr - Di - Dependency
  *
- * Dependency.php - Dependency representation. Instances of this class representing a dependency with a configuration.
+ * Dependency.php - Dependency recipe representation. This class contains all information
+ * to create instances and handle them within the Di Library.
  *
  * PHP versions 5.5
  *
@@ -52,10 +53,23 @@
  * @link       https://github.com/clickalicious/Di
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
+
 /**
  * Doozr - Di - Dependency
  *
- * Dependency representation. Instances of this class representing a dependency with a configuration.
+ * Dependency recipe representation. This class contains all information to create instances
+ * and handle them within the Di Library.
+ *
+ * @example
+ * id              string       doozr.foo.bar   ASCII
+ * classname       string       Doozr_Registry  ASCII
+ * instance        null|object
+ * arguments       null|array
+ * constructor     null|string
+ * type            string       constructor     ASCII
+ * target          string       __construct     ASCII
+ * position        string       1
  *
  * @category   Doozr
  * @package    Doozr_Di
@@ -70,102 +84,171 @@ class Doozr_Di_Dependency
     ArrayAccess
 {
     /**
-     * The name of the class of a single dependency
+     * Id of this dependency instance.
      *
      * @var string
-     * @access protected
+     * @access public
      */
-    protected $classname;
+    public $id;
 
     /**
-     * An existing instance to use instead of creating a new one
+     * Name of the class.
+     *
+     * @var string
+     * @access public
+     */
+    public $classname;
+
+    /**
+     * Instance to use (instead of creating a new ones on request).
+     * If instance is wired then each request for a Di Id like foo.bar.baz
+     * will then return the wired one. If null then a fresh (or singleton)
+     * instance will be returned.
      *
      * @var object
-     * @access protected
+     * @access public
      */
-    protected $instance;
+    public $instance;
 
     /**
-     * The arguments which are passed to the constructor of $classname
-     * when creating a new instance.
+     * The arguments passed to the constructor of $classname when creating a new instance.
      *
      * @var array
-     * @access protected
+     * @access public
      */
-    protected $arguments;
+    public $arguments;
 
     /**
-     * The constructor for creating fresh instances of the dependency(class).
-     *
-     * @var string
-     * @access protected
-     */
-    protected $constructor;
-
-    /**
-     * The configuration of this dependency.
-     * Contains type of injection and the value
-     * (eg. type = method, value = setFoo)
-     *
-     * @var array
-     * @access protected
-     */
-    protected $configuration;
-
-    /**
-     * The target eg. used for wiring
-     *
-     * @var string
-     * @access protected
-     */
-    protected $target;
-
-    /**
-     * Dependency type: constructor
-     * Constructor injection
+     * The constructor of $classname (Speeds up creating fresh instances).
      *
      * @var string
      * @access public
      */
-    const TYPE_CONSTRUCTOR = 'constructor';
+    public $constructor;
 
     /**
-     * Dependency type: method
-     * Method injection
+     * The type of this dependency. Contains type of injection.
+     * Defaults to "constructor".
      *
      * @var string
      * @access public
      */
-    const TYPE_METHOD = 'method';
+    public $type = Doozr_Di_Constants::INJECTION_TYPE_CONSTRUCTOR;
 
     /**
-     * Dependency type: constructor
-     * Constructor injection
+     * The target used in combination with
      *
      * @var string
      * @access public
      */
-    const TYPE_PROPERTY = 'property';
+    public $target;
 
     /**
-     * Constructor
+     * The position where to inject this dependency into
      *
-     * This method is the constructor.
+     * @var int
+     * @access public
+     */
+    public $position;
+
+    /**
+     * The link to another existing Instance/Id.
+     * This will make instance become a reference.
      *
-     * @param string|null $classname The name of the class (the dependency)
+     * @var string
+     * @access public
+     */
+    public $link;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructor.
+     *
+     * @param array $recipe The recipe of this dependency.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access public
      */
-    public function __construct($classname = null)
+    public function __construct(array $recipe = null)
     {
-        $this
-            ->classname($classname);
+        if (null !== $recipe) {
+            $this->import($recipe);
+        }
     }
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Generic import for recipes.
+     *
+     * @param array $recipe The recipe to import.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     * @throws Doozr_Di_Exception
+     */
+    public function import(array $recipe)
+    {
+        foreach ($recipe as $key => $value) {
+            $method = 'set'.ucfirst($key);
+
+            if (false === is_callable([$this, $method])) {
+                throw new Doozr_Di_Exception(
+                    sprintf('Property not supported: "%s"', $key)
+                );
+            }
+
+            $this->{$method}($value);
+        }
+    }
+
+    /**
+     * Setter for id.
+     *
+     * @param string $id The id of the dependency.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Setter for id.
+     *
+     * @param string $id The id of the dependency.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function id($id)
+    {
+        $this->setId($id);
+
+        return $this;
+    }
+
+    /**
+     * Getter for Id.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The Id if set, otherwise NULL
+     * @access public
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Setter for classname.
@@ -193,9 +276,9 @@ class Doozr_Di_Dependency
     public function classname($classname)
     {
         $this->setClassname($classname);
+
         return $this;
     }
-
 
     /**
      * Returns the name of the class
@@ -231,19 +314,18 @@ class Doozr_Di_Dependency
      * @param object $instance The instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this instance for chaining
+     * @return $this Instance for chaining
      * @access public
      */
     public function instance($instance)
     {
         $this->setInstance($instance);
+
         return $this;
     }
 
     /**
-     * Returns the instance of the class
-     *
-     * This method is intend to return the instance of the class.
+     * Getter for instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object The instance of the dependency class
@@ -255,56 +337,15 @@ class Doozr_Di_Dependency
     }
 
     /**
-     * Setter for target.
-     *
-     * @param string $target The target to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function setTarget($target)
-    {
-        $this->target = $target;
-    }
-
-    /**
-     * Setter for target.
-     *
-     * @param string $target The target to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
-     * @access public
-     */
-    public function target($target)
-    {
-        $this->setTarget($target);
-        return $this;
-    }
-
-    /**
-     * Returns the target of the current instance.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The target of the instance
-     * @access public
-     */
-    public function getTarget()
-    {
-        return $this->target;
-    }
-
-    /**
      * Setter for arguments.
      *
-     * @param array $arguments The arguments to set
+     * @param string $arguments The arguments to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setArguments(array $arguments)
+    public function setArguments($arguments)
     {
         $this->arguments = $arguments;
     }
@@ -312,23 +353,26 @@ class Doozr_Di_Dependency
     /**
      * Setter for arguments.
      *
-     * @param array $arguments The arguments to set
+     * @param array $arguments The arguments to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    public function arguments(array $arguments)
+    public function arguments($arguments)
     {
         $this->setArguments($arguments);
+
         return $this;
     }
 
     /**
-     * Returns the arguments of the class.
+     * Returns the name of the class
+     *
+     * This method is intend to return the name of the class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Array containing arguments if set, otherwise NULL
+     * @return string The name of the dependency class
      * @access public
      */
     public function getArguments()
@@ -345,7 +389,7 @@ class Doozr_Di_Dependency
      */
     public function hasArguments()
     {
-        return isset($this->arguments);
+        return (true === isset($this->arguments) && count($this->arguments) > 0);
     }
 
     /**
@@ -374,6 +418,7 @@ class Doozr_Di_Dependency
     public function constructor($constructor)
     {
         $this->setConstructor($constructor);
+
         return $this;
     }
 
@@ -402,80 +447,203 @@ class Doozr_Di_Dependency
     }
 
     /**
-     * Sets the configuration of the class.
+     * Setter for type.
      *
-     * @param array $configuration The configuration to set
+     * @param string $type The type to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function setConfiguration(array $configuration)
+    public function setType($type)
     {
-        $this->configuration = $configuration;
+        $this->type = $type;
     }
 
     /**
-     * Sets the configuration of the class.
+     * Setter for type.
      *
-     * @param array $configuration The configuration to set
+     * @param string $type The type to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access public
      */
-    public function configuration(array $configuration)
+    public function type($type)
     {
-        $this->setConfiguration($configuration);
+        $this->setType($type);
+
         return $this;
     }
 
     /**
-     * Returns the configuration of the class
-     *
-     * This method is intend to return the configuration of the class.
-     * If not set the default return value is returned. The default is
-     * type => constructor.
+     * Getter for type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Array containing arguments if set, otherwise NULL
+     * @return string|null The type if set, otherwise NULL
      * @access public
      */
-    public function getConfiguration()
+    public function getType()
     {
-        return (!$this->configuration)
-            ? array('type' => 'constructor')
-            : $this->configuration;
+        return $this->type;
+    }
+
+    /**
+     * Setter for target.
+     *
+     * @param string $target The target to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+    }
+
+    /**
+     * Setter for target.
+     *
+     * @param string $target The target to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function target($target)
+    {
+        $this->setTarget($target);
+
+        return $this;
+    }
+
+    /**
+     * Returns the target of the current instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string The target of the instance
+     * @access public
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+
+    /**
+     * Setter for position.
+     *
+     * @param int $position The position to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
+
+    /**
+     * Setter for position.
+     *
+     * @param int $position The position to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function position($position)
+    {
+        $this->setPosition($position);
+
+        return $this;
+    }
+
+    /**
+     * Getter for position.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return int|null The position if set, otherwise NULL
+     * @access public
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Setter for link.
+     *
+     * @param string $link The link of the dependency.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string
+     * @access public
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+    }
+
+    /**
+     * Setter for link.
+     *
+     * @param string $link The link of the dependency.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function link($link)
+    {
+        $this->setLink($link);
+
+        return $this;
+    }
+
+    /**
+     * Getter for Link.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The Link if set, otherwise NULL
+     * @access public
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * Returns state either dependency has link.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if dependency has link, otherwise FALSE
+     * @access public
+     */
+    public function hasLink()
+    {
+        return (null !== $this->getLink());
     }
 
     /**
      * Returns the current dependency as array.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The dependency setup
+     * @return array The dependency recipe
      * @access public
      */
     public function asArray()
     {
-        return array(
-            'classname'     => $this->classname,
-            'instance'      => $this->instance,
-            'arguments'     => $this->arguments,
-            'configuration' => $this->configuration
-        );
-    }
-
-    /**
-     * Creates a random unique Id for this instance.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The random and unique Id
-     * @access public
-     */
-    public function getRandomId()
-    {
-        $generator = new Clickalicious\Rng\Generator();
-        return sha1($generator->generate(1, 999999) . microtime());
+        return [
+            'id'        => $this->getId(),
+            'classname' => $this->getClassname(),
+            'instance'  => $this->getInstance(),
+            'arguments' => $this->getArguments(),
+            'type'      => $this->getType(),
+            'target'    => $this->getTarget(),
+            'position'  => $this->getPosition(),
+        ];
     }
 
     /*------------------------------------------------------------------------------------------------------------------

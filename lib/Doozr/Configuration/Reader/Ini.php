@@ -220,18 +220,17 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
     public function get($node = null)
     {
         if ($node !== null) {
-            $nodes = explode(':', $node);
+            $nodes         = explode(':', $node);
             $configuration = $this->getDecodedContent();
 
             foreach ($nodes as $node) {
-                try {
-                    $configuration = $configuration->{$node};
-
-                } catch (Doozr_Error_Exception $e) {
+                if (false === isset($configuration->{$node})) {
                     throw new Doozr_Configuration_Reader_Exception(
                         sprintf('Configuration does not have a property: "%s" in configuration.', $node)
                     );
                 }
+
+                $configuration = $configuration->{$node};
             }
 
             return $configuration;

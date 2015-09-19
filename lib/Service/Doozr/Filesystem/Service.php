@@ -74,10 +74,10 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="Doozr_Registry",
- *     target="getInstance",
- *     type="constructor",
- *     position=1
+ *     id     = "bens.foo.bar",
+ *     link   = "doozr.registry",
+ *     type   = "constructor",
+ *     target = "getInstance"
  * )
  */
 class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
@@ -85,7 +85,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     Doozr_Base_Service_Interface
 {
     /**
-     * holds the status of "is-virtual" of this instance
+     * Status of "is-virtual" of this instance
      *
      * @var bool
      * @access protected
@@ -93,7 +93,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     protected $isVirtual = false;
 
     /**
-     * holds a reference of module virtualfilesystem
+     * Reference of module virtual-filesystem
      *
      * @var object
      * @access protected
@@ -101,7 +101,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     protected $vfs;
 
     /**
-     * contains the last used path of vfs
+     * Contains the last used path of vfs
      *
      * @var string
      * @access protected
@@ -109,7 +109,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     protected $vfsLastPath;
 
     /**
-     * holds the pattern to check NULL-Byte against
+     * Pattern to check NULL-Byte against
      *
      * @var string
      * @access protected
@@ -118,7 +118,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     protected static $nullBytePattern = "\0";
 
     /**
-     * holds data about the current resource
+     * Current resource
      *
      * @var array
      * @access protected
@@ -126,7 +126,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     protected $currentResourceInformation;
 
     /**
-     * Contains all open file-handles for persistent access
+     * Open file-handles for persistent access
      *
      * @see __teardown()
      * @var array
@@ -135,7 +135,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     protected $fileHandle = [];
 
     /**
-     * holds data about resources
+     * Resources info/data
      *
      * @var array
      * @access protected
@@ -143,7 +143,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     protected $resources = [];
 
     /**
-     * file runtimeEnvironment for reading
+     * File mode for reading
      *
      * @var string
      * @access const
@@ -151,7 +151,15 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     const FILE_MODE_READ = 'r';
 
     /**
-     * file runtimeEnvironment for reading and creating
+     * File mode for reading binary (forced)
+     *
+     * @var string
+     * @access const
+     */
+    const FILE_MODE_READ_BINARY = 'rb';
+
+    /**
+     * File mode for reading and creating
      *
      * @var string
      * @access const
@@ -159,7 +167,15 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     const FILE_MODE_READ_WRITE = 'r+';
 
     /**
-     * file runtimeEnvironment for writing
+     * File mode for reading and creating binary (forced)
+     *
+     * @var string
+     * @access const
+     */
+    const FILE_MODE_READ_WRITE_BINARY = 'rb+';
+
+    /**
+     * File mode for writing
      *
      * @var string
      * @access const
@@ -167,7 +183,15 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     const FILE_MODE_WRITE = 'w';
 
     /**
-     * file runtimeEnvironment for writing and creating
+     * File mode for writing binary (forced)
+     *
+     * @var string
+     * @access const
+     */
+    const FILE_MODE_WRITE_BINARY = 'wb';
+
+    /**
+     * File mode for writing and creating
      *
      * @var string
      * @access const
@@ -175,7 +199,15 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     const FILE_MODE_WRITE_READ = 'w+';
 
     /**
-     * file runtimeEnvironment for appending
+     * File mode for writing and creating binary (forced)
+     *
+     * @var string
+     * @access const
+     */
+    const FILE_MODE_WRITE_READ_BINARY = 'wb+';
+
+    /**
+     * File mode for appending
      *
      * @var string
      * @access const
@@ -183,7 +215,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     const FILE_MODE_WRITE_APPEND = 'a';
 
     /**
-     * file runtimeEnvironment for appending and creating
+     * file mode for appending and creating
      *
      * @var string
      * @access const
@@ -191,7 +223,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     const FILE_MODE_WRITE_READ_APPEND = 'a+';
 
     /**
-     * file runtimeEnvironment for binary operations
+     * File mode for binary operations
      *
      * @var int
      * @access const
@@ -199,7 +231,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     const FILE_BINARY = FILE_BINARY;
 
     /**
-     * file runtimeEnvironment for ascii operations
+     * file mode for ascii operations
      *
      * @var int
      * @access const
@@ -207,7 +239,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     const FILE_TEXT = FILE_TEXT;
 
     /**
-     * file runtimeEnvironment for append
+     * file mode for append
      *
      * @var int
      * @access const
@@ -215,7 +247,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     const FILE_APPEND = FILE_APPEND;
 
     /**
-     * lock runtimeEnvironment for exclusive locking
+     * lock mode for exclusive locking
      *
      * @var int
      * @access const
@@ -229,7 +261,6 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      * @access const
      */
     const PHP_STREAM_COPY_ALL = 2000000;
-
 
     /**
      * replacement for __construct
@@ -277,9 +308,9 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
         clearstatcache();
     }
 
-    /*******************************************************************************************************************
-     * // BEGIN PUBLIC API
-     ******************************************************************************************************************/
+    /*------------------------------------------------------------------------------------------------------------------
+    | BEGIN PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Writes a string of data to a file
@@ -309,7 +340,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
             );
         }
 
-        // decide which runtimeEnvironment
+        // Decide which mode
         if ($append) {
             $result = $this->_append($file, $data, $create);
         } else {
@@ -362,11 +393,11 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to write content to a file in persistent runtimeEnvironment.
      *
-     * @param string  $file        The file to write the content to
-     * @param string  $data        The content to write to the file
-     * @param bool $append      TRUE to append to, FALSE to rewrite the file
-     * @param bool $create      TRUE to create file if it not exist, FALSE to do not
-     * @param bool $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
+     * @param string $file        The file to write the content to
+     * @param string $data        The content to write to the file
+     * @param bool   $append      TRUE to append to, FALSE to rewrite the file
+     * @param bool   $create      TRUE to create file if it not exist, FALSE to do not
+     * @param bool   $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed TRUE/FALSE if runtimeEnvironment = bool, otherwise number of bytes written on success + false on failure
@@ -385,7 +416,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
             );
         }
 
-        // get hash (previously calculated)
+        // Get hash (previously calculated)
         $uid = $this->getCurrentResourceInformation('uid');
 
         // get handle and write data
@@ -408,11 +439,11 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to write binary-data to a file.
      *
-     * @param string  $file        The file to write the content to
-     * @param string  $data        The content to write to the file
-     * @param bool $create      TRUE to create file if it not exist, FALSE to do not
-     * @param bool $append      Controls if the content should be appended or rewrite the file
-     * @param bool $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
+     * @param string $file        The file to write the content to
+     * @param string $data        The content to write to the file
+     * @param bool   $create      TRUE to create file if it not exist, FALSE to do not
+     * @param bool   $append      Controls if the content should be appended or rewrite the file
+     * @param bool   $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
@@ -453,10 +484,10 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to append binary data to a file.
      *
-     * @param string  $file       The file to write the content to
-     * @param string  $data       The content to write to the file
-     * @param bool $create     TRUE to create file if it not exist, FALSE to do not
-     * @param bool $writecheck Controls if writecheck should be performed
+     * @param string $file       The file to write the content to
+     * @param string $data       The content to write to the file
+     * @param bool   $create     TRUE to create file if it not exist, FALSE to do not
+     * @param bool   $writecheck Controls if writecheck should be performed
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
@@ -483,12 +514,12 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     /**
      * appends a string to a file
      *
-     * This method is intend to append a string (or binary-data) to a filess
+     * This method is intend to append a string (or binary-data) to a file.
      *
-     * @param string  $file        The file to write the content to
-     * @param string  $data        The content to write to the file
-     * @param bool $create      TRUE to create file if it not exists, FALSE to do not
-     * @param bool $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
+     * @param string $file        The file to write the content to
+     * @param string $data        The content to write to the file
+     * @param bool   $create      TRUE to create file if it not exists, FALSE to do not
+     * @param bool   $modeBoolean TRUE to return result as bool, otherwise FALSE to return number of bytes written
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Number of bytes written if everything wents fine, otherwise false
@@ -532,11 +563,11 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to return the content of a file.
      *
-     * @param string  $file             File to read from
-     * @param int $maxlen           Number of bytes to read
-     * @param bool $use_include_path TRUE to search file in include path, otherwise FALSE to do not
-     * @param string  $context          Context for reading from file
-     * @param int $offset           The offset from which to start reading
+     * @param string $file             File to read from
+     * @param int    $maxlen           Number of bytes to read
+     * @param bool   $use_include_path TRUE to search file in include path, otherwise FALSE to do not
+     * @param string $context          Context for reading from file
+     * @param int    $offset           The offset from which to start reading
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The content of the file
@@ -708,9 +739,9 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to remove a resource from filesystem.
      *
-     * @param string  $resource  The resource to remove
-     * @param bool $recursive TRUE to remove content (if directory) recursive
-     * @param string  $context   The context
+     * @param string $resource  The resource to remove
+     * @param bool   $recursive TRUE to remove content (if directory) recursive
+     * @param string $context   The context
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if the resource was removed, FALSE otherwise.
@@ -736,9 +767,9 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to remove a resource from filesystem.
      *
-     * @param string  $resource  The resource to remove
-     * @param bool $recursive TRUE to remove content (if directory) recursive
-     * @param string  $context   The context
+     * @param string $resource  The resource to remove
+     * @param bool   $recursive TRUE to remove content (if directory) recursive
+     * @param string $context   The context
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if the resource was removed, FALSE otherwise.
@@ -785,7 +816,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     }
 
     /**
-     * Tells wether the resource is readable.
+     * Tells whether the resource is readable.
      *
      * @param string $resource The resource to check
      *
@@ -841,16 +872,8 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
         return $this->_is_dir($resource);
     }
 
-    /*******************************************************************************************************************
-     * \\ END API INTERFACES
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN VIRTUAL FILESYSTEM FUNCTIONS
-     ******************************************************************************************************************/
-
     /**
-     * returns the status of "is-virtual" of this instance
+     * Returns the status of "is-virtual" of this instance
      *
      * returns the status of "is-virtual" of this instance
      *
@@ -863,8 +886,12 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
         return $this->isVirtual;
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * corrects slashed in windows direction to make them compatible with vfsStream
+     * Corrects slashed in windows direction to make them compatible with vfsStream
      *
      * This method is intend as helper for making win-styled slashes vfsStream compatible.
      *
@@ -880,7 +907,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
     }
 
     /**
-     * prepares a resource for virtual filesystem
+     * Prepares a resource for virtual filesystem
      *
      * This method is intend to prepare a resource for virtual filesystem access.
      *
@@ -907,14 +934,6 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
         // wrap file
         return $this->vfs->url($resource);
     }
-
-    /*******************************************************************************************************************
-     * \\ END VIRTUAL FILESYSTEM FUNCTIONS
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN TOOLS + HELPER
-     ******************************************************************************************************************/
 
     /**
      * Stores information about the current resource
@@ -1230,14 +1249,6 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
         }
     }
 
-    /*******************************************************************************************************************
-     * \\ END TOOLS + HELPER
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN NATIVE PHP FILE FUNCTIONS WRAPPERS
-     ******************************************************************************************************************/
-
     /**
      * unlink - virtual-fs supporting wrapper
      *
@@ -1327,10 +1338,10 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to work as fopen - virtual-fs supporting wrapper.
      *
-     * @param string  $file             The file to open
-     * @param int $mode             The runtimeEnvironment to open file in
-     * @param bool $use_include_path TRUE to lookup in include path, otherwise FALSE to do not
-     * @param mixed   $context          The context to open file in
+     * @param string $file             The file to open
+     * @param int    $mode             The runtimeEnvironment to open file in
+     * @param bool   $use_include_path TRUE to lookup in include path, otherwise FALSE to do not
+     * @param mixed  $context          The context to open file in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Handle on file if exists, otherwise FALSE (on failure ...)
@@ -1352,8 +1363,8 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to work as fread - virtual-fs supporting wrapper.
      *
-     * @param mixed   $handle The handle to read from
-     * @param int $length The number of bytes to read
+     * @param mixed $handle The handle to read from
+     * @param int   $length The number of bytes to read
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Returns the read string or FALSE on failure.
@@ -1370,9 +1381,9 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to work as fwrite - virtual-fs supporting wrapper.
      *
-     * @param mixed   $handle The handle to write to
-     * @param string  $data   The data to write as string
-     * @param int $length The number of bytes to write
+     * @param mixed  $handle The handle to write to
+     * @param string $data   The data to write as string
+     * @param int    $length The number of bytes to write
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Returns the read string or FALSE on failure.
@@ -1487,7 +1498,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The function returns the read data or FALSE on failure.
      * @access protected
-     * @link    http://de.php.net/manual/en/function.file-get-contents.php
+     * @link   http://de.php.net/manual/en/function.file-get-contents.php
      */
     protected function _file_get_contents(
         $file,
@@ -1508,15 +1519,15 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to work as file_put_contents - virtual-fs supporting wrapper
      *
-     * @param string  $file    Path to the file where to write the data.
-     * @param mixed   $data    The data to write. Can be either a string, an array or a stream resource
-     * @param int $flags   The value of flags can be any combination joined with the binary OR (|) operator
-     * @param mixed   $context A valid context resource created with stream_context_create()
+     * @param string $file    Path to the file where to write the data.
+     * @param mixed  $data    The data to write. Can be either a string, an array or a stream resource
+     * @param int    $flags   The value of flags can be any combination joined with the binary OR (|) operator
+     * @param mixed  $context A valid context resource created with stream_context_create()
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The function returns the number of bytes that were written to the file, or FALSE on failure
      * @access protected
-     * @link    http://de.php.net/manual/en/function.file-put-contents.php
+     * @link   http://de.php.net/manual/en/function.file-put-contents.php
      */
     protected function _file_put_contents($file, $data, $flags = 0, $context = null)
     {
@@ -1528,13 +1539,6 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
         return file_put_contents($file, $data, $flags, $context);
     }
 
-    /*******************************************************************************************************************
-     * \\ END NATIVE PHP FILE FUNCTIONS WRAPPERS
-     ******************************************************************************************************************/
-
-    /*******************************************************************************************************************
-     * // BEGIN MAGIC METHODS
-     ******************************************************************************************************************/
     /**
      * reporting for not implemented methods
      *
@@ -1554,9 +1558,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
             'Method: '.$methodSignature.' isn\'t implemented yet. '
         );
     }
-    /*******************************************************************************************************************
-     * \\ END MAGIC METHODS
-     ******************************************************************************************************************/
+
     /**
      * Returns TRUE if the service is a singleton.
      *

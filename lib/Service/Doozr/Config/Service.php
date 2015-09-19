@@ -73,10 +73,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="Doozr_Registry",
- *     target="getInstance",
- *     type="constructor",
- *     position=1
+ *     link   = "doozr.registry",
+ *     type   = "constructor",
+ *     target = "getInstance"
  * )
  */
 class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
@@ -341,7 +340,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
 
         // create and return a fresh instance
         if ($arguments) {
-            return $this->instanciate($class, $arguments);
+            return self::instantiate($class, $arguments);
         } else {
             return new $class();
         }

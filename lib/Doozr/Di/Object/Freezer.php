@@ -86,7 +86,9 @@ class Object_Freezer
      * @param  Object_Freezer_HashGenerator $hashGenerator
      * @param  array                        $blacklist
      * @param  boolean                      $useAutoload
+     *
      * @throws InvalidArgumentException
+     * @access public
      */
     public function __construct(Object_Freezer_IdGenerator $idGenerator = NULL, Object_Freezer_HashGenerator $hashGenerator = NULL, array $blacklist = [], $useAutoload = TRUE)
     {
@@ -213,11 +215,11 @@ class Object_Freezer
         $uuid    = $object->__php_object_freezer_uuid;
 
         if (!isset($objects[$uuid])) {
-            $objects[$uuid] = array(
+            $objects[$uuid] = [
               'className' => get_class($object),
               'isDirty'   => $isDirty,
-              'state'     => []
-            );
+              'state'     => [],
+            ];
 
             // Iterate over the attributes of the object.
             foreach (Object_Freezer_Util::readAttributes($object) as $k => $v) {
@@ -246,7 +248,7 @@ class Object_Freezer
             }
         }
 
-        return array('root' => $uuid, 'objects' => $objects);
+        return ['root' => $uuid, 'objects' => $objects];
     }
 
     /**

@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Exporter - Interface
  *
- * Interface.php - Interface class for all Exporter of the Di-Library
+ * Interface.php - Interface class for exporter of Di.
  *
  * PHP versions 5.5
  *
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Exporter_Interface
+ * @subpackage Doozr_Di_Exporter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,11 +55,11 @@
 /**
  * Doozr - Di - Exporter - Interface
  *
- * Interface class for all Exporter of the Di-Library
+ * Interface class for exporter of Di.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Exporter_Interface
+ * @subpackage Doozr_Di_Exporter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -68,7 +68,9 @@
 interface Doozr_Di_Exporter_Interface
 {
     /**
-     * Contract for import
+     * Contract for importing @see Doozr_Di_Collection
+     *
+     * @param Doozr_Di_Collection $collection The @see Doozr_Di_Collection collection to import
      *
      * @return bool TRUE on success, otherwise FALSE
      */
@@ -77,7 +79,9 @@ interface Doozr_Di_Exporter_Interface
     /**
      * Contract for export
      *
-     * @return array An array containing a collection of Doozr_Di_Dependency instances
+     * @param bool $exportInstances TRUE to export instances, FALSE to do not
+     *
+     * @return Doozr_Di_Collection Dependencies
      */
     public function export($exportInstances = true);
 

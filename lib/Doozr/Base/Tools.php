@@ -181,6 +181,46 @@ class Doozr_Base_Tools
         return method_exists(get_class($this), $method);
     }
 
+
+
+    protected function parseConstructor($reflectionOfClass)
+    {
+        // Default constructor of singleton
+        $constructor          = 'getInstance';
+        $includeFile          = $reflectionOfClass->getFileName();
+        $sourcecode           = file($includeFile);
+        $possibleConstructors = $reflectionOfClass->getMethods(ReflectionMethod::IS_STATIC);
+
+        // Iterate over static methods and check for instantiation
+        foreach ($possibleConstructors as $possibleConstructor) {
+
+            $start            = $possibleConstructor->getStartLine() + 1;
+            $end              = $possibleConstructor->getEndline() - 1;
+            $methodSourcecode = '';
+
+            // concat sourcecode lines
+            for ($i = $start; $i < $end; ++$i) {
+                $methodSourcecode .= $sourcecode[$i];
+            }
+
+            // check for instantiation
+            if (
+                strpos(
+                    $methodSourcecode, 'n' . 'e' . 'w self('
+                ) ||
+                strpos(
+                    $methodSourcecode, 'n'.'e'.'w '.$classname.'('
+                )
+            ) {
+                $constructor = $possibleConstructor->name;
+                break;
+            }
+        }
+    }
+
+
+
+
     /**
      * This method is a generic instanciation method. It instanciates and returns any class requested.
      *
@@ -193,7 +233,7 @@ class Doozr_Base_Tools
      * @return object Instance of the class ($classname) requested
      * @access protected
      */
-    protected static function instanciate($classname, $arguments = null, $constructor = null, $includeFile = null)
+    protected static function instantiate($classname, $arguments = null, $constructor = null, $includeFile = null)
     {
         // include file given?
         if (!is_null($includeFile)) {
@@ -240,7 +280,7 @@ class Doozr_Base_Tools
                     }
 
                     // check for instantiation
-                    if (strpos($methodSourcecode, 'new self(') || strpos($methodSourcecode, 'new '.$classname.'(')) {
+                    if (strpos($methodSourcecode, 'n'.'e'.'w '.'s'.'elf(') || strpos($methodSourcecode, 'new '.$classname.'(')) {
                         $constructor = $possibleConstructor->name;
                         break;
                     }

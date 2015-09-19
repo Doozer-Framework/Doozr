@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Parser - Interface
  *
- * Interface.php - Parser interface for all Parser of the Di-Library
+ * Interface.php - Parser interface for all Parser of Di.
  *
  * PHP versions 5.5
  *
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser_Interface
+ * @subpackage Doozr_Di_Parser
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -55,11 +55,11 @@
 /**
  * Doozr - Di - Parser - Interface
  *
- * Parser interface for all Parser of the Di-Library
+ * Parser interface for all Parser of Di.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser_Interface
+ * @subpackage Doozr_Di_Parser
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -68,9 +68,20 @@
 interface Doozr_Di_Parser_Interface
 {
     /**
-     * Contract for Parser
+     * Contract for setInput
+     *
+     * @param mixed $input The input to set
+     *
+     * @return void
+     * @access public
+     */
+    public function setInput($input);
+
+    /**
+     * Parses dependencies out of somewhere.
      *
      * @return mixed
+     * @access public
      */
     public function parse();
 }

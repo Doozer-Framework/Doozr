@@ -74,10 +74,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     class="Doozr_Registry",
- *     target="getInstance",
- *     type="constructor",
- *     position=1
+ *     link   = "doozr.registry",
+ *     type   = "constructor",
+ *     target = "getInstance"
  * )
  */
 class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
@@ -395,7 +394,7 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     /**
      * Returns Form-Manager instance (yep i know damn name) to manage the form(s).
      *
-     * @author Benjamin Carl <benjamin.carl@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Form_Service_FormManager
      * @access public
      */

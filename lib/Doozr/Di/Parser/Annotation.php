@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Parser - Annotation
  *
- * Annotation.php - Annotation Parser of the Di-Library
+ * Annotation.php - Annotation Parser of the Di.
  *
  * PHP versions 5.5
  *
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser_Annotation
+ * @subpackage Doozr_Di_Parser
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -52,20 +52,20 @@
  * @link       https://github.com/clickalicious/Di
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
  * Doozr - Di - Parser - Annotation
  *
- * Annotation Parser of the Di-Library
+ * Annotation Parser of the Di.
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser_Annotation
+ * @subpackage Doozr_Di_Parser
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -165,18 +165,18 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
         $input = $this->getInput();
 
         // check if class is already in scope
-        if (!class_exists($input['class'])) {
+        if (!class_exists($input['classname'])) {
             if (!isset($input['file'])) {
                 throw new Doozr_Di_Exception(
-                    'Error parsing dependencies from class. Class not found in scope and no "file" defined!'
+                    'Error parsing dependencies from classname. Class not found in scope and no "file" defined!'
                 );
             }
 
             $this->loadFile($input['file']);
         }
 
-        // create a reflection instance of the class
-        $reflection = new ReflectionClass($input['class']);
+        // create a reflection instance of the classname
+        $reflection = new ReflectionClass($input['classname']);
 
         // parse annotation(s) from reflection and return result
         $this->lastResult = $this->parseFromReflectionByRange($reflection, $range);
@@ -240,7 +240,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * @param int $range The range to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array An raw array containing the dependencies indexed@access private
+     * @return array An raw array containing the dependencies indexed
      * @access protected
      * @throws Doozr_Di_Exception
      */
@@ -310,7 +310,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
                 $command = trim($command);
 
                 // get default dependencies (skeleton)
-                $tmp = $this->getDefaultSekeleton();
+                $tmp = $this->getDefaultSkeleton();
 
                 // split whole command into single arguments
                 $arguments = explode(' ', $command);
@@ -318,7 +318,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
                 // store target
                 if (stristr($arguments[0], ':')) {
                     $target = explode(':', $arguments[0]);
-                    $tmp['class']  = $target[0];
+                    $tmp['classname']  = $target[0];
                     $tmp['target'] = $target[1];
                 } else {
                     $tmp['target'] = $arguments[0];
@@ -362,59 +362,53 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Parses the dependencies from a given reflection out of the class' comment.
+     * Parses the dependencies from a given reflection out of the classname' comment.
+     *
+     * @param \ReflectionClass $reflection The reflection instance to parse from
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array An raw array containing the dependencies indexed
+     * @access protected
+     */
+    protected function parseFromClassComment(\ReflectionClass $reflection)
+    {
+        $result       = [];
+        $dependencies = self::getAnnotationReader()->getClassAnnotations($reflection);
+
+        // Iterate the dependencies found ...
+        /* @var $dependency \Doozr\Loader\Serviceloader\Annotation\Inject */
+        foreach ($dependencies as $key => $dependency) {
+            if (
+                $dependency->type   === Doozr_Di_Constants::INJECTION_TYPE_CONSTRUCTOR &&
+                $dependency->target !== Doozr_Di_Constants::CONSTRUCTOR_METHOD
+            ) {
+                $dependency->constructor = $dependency->target;
+            } else {
+                $dependency->constructor = Doozr_Di_Constants::CONSTRUCTOR_METHOD;
+            }
+
+            /*
+            if (false === isset($result[$dependency->id])) {
+                $result[$dependency->id] = [];
+            }
+
+            $result[$dependency->id][] = object_to_array($dependency);
+            */
+
+            $result[] = object_to_array($dependency);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Parses the dependencies from a given reflection out of the classname' methods.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array An raw array containing the dependencies indexed
      * @access protected
-     */
-    protected function parseFromClassComment(ReflectionClass $reflection)
-    {
-        $result = [];
-
-        $dependencies = self::getAnnotationReader()->getClassAnnotations($reflection);
-
-        foreach ($dependencies as $key => $dependency) {
-            if ($dependency->type === 'constructor' && $dependency->target !== '__construct') {
-                $dependency->constructor = $dependency->target;
-            } else {
-                $dependency->constructor = '__construct';
-            }
-
-            if (!isset($result[$dependency->target])) {
-                $result[$dependency->target] = [];
-            }
-
-            $result[$dependency->target][] = object_to_array($dependency);
-        }
-
-        return $result;
-
-        /*
-        $dependencies = $this->getAnnotationFromSource($reflection->getDocComment());
-
-        $type        = isset($dependencies[0]['type']) ? $dependencies[0]['type'] : null;
-        $target  = isset($dependencies[0]['target']) ? $dependencies[0]['target'] : null;
-
-        if ($type === 'constructor' && $target !== '__construct') {
-            $constructor = $target;
-        } else {
-            $constructor = '__construct';
-        }
-        return array($constructor => $dependencies);
-        */
-    }
-
-    /**
-     * Parses the dependencies from a given reflection out of the class' methods.
-     *
-     * @param ReflectionClass $reflection The reflection instance to parse from
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array An raw array containing the dependencies indexed
-     * @access private
      */
     protected function parseFromClassMethods(ReflectionClass $reflection)
     {
@@ -436,7 +430,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Parses the dependencies from a given reflection out of the class' properties.
+     * Parses the dependencies from a given reflection out of the classname' properties.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
      *
