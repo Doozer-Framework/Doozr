@@ -111,7 +111,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @access public
      * @static
      */
-    public static $coreExecutionTime = 0;
+    public static $kernelExecutionTime = 0;
 
     /**
      * Instance of service DateTime
@@ -1036,10 +1036,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     protected static function stopTimer()
     {
         // calculate and store core execution time
-        self::$coreExecutionTime = self::getDateTime()->getMicrotimeDiff(self::$starttime);
+        self::$kernelExecutionTime = self::getDateTime()->getMicrotimeDiff(self::$starttime);
 
         // log core execution time
-        self::$registry->getLogger()->debug('Kernel execution time: '.self::$coreExecutionTime.' seconds');
+        self::$registry->getLogger()->debug('Kernel execution time: '.self::$kernelExecutionTime.' seconds');
     }
 
     /**
@@ -1197,7 +1197,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     public static function getKernelExecutiontime()
     {
-        return self::$coreExecutionTime;
+        return self::$kernelExecutionTime;
     }
 
     /**

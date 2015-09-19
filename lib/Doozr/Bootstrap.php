@@ -315,36 +315,38 @@ Doozr_Loader_Autoloader_Spl_Facade::attach(
  ---------------------------------------------------------------------------------------------------------------------*/
 
 // Install error handler which is used in case that DOOZR_APP_ENVIRONMENT is not development (= make use of Whoops)
+if (Doozr_Kernel::APP_ENVIRONMENT_TESTING !== DOOZR_APP_ENVIRONMENT) {
 
-// ERROR-HANDLER: register error-handler
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Handler/Error.php';
+    // ERROR-HANDLER: register error-handler
+    require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Handler/Error.php';
 
-// Set own error_handler
-set_error_handler(
-    array(
-        'Doozr_Handler_Error',
-        'handle'
-    )
-);
+    // Set own error_handler
+    set_error_handler(
+        array(
+            'Doozr_Handler_Error',
+            'handle'
+        )
+    );
 
-// Hook for theoretically "unhandable error(s)" like E_PARSE (smart-hack)
-register_shutdown_function(
-    array(
-        'Doozr_Handler_Error',
-        'handleUnhandable'
-    )
-);
+    // Hook for theoretically "unhandable error(s)" like E_PARSE (smart-hack)
+    register_shutdown_function(
+        array(
+            'Doozr_Handler_Error',
+            'handleUnhandable'
+        )
+    );
 
-// EXCEPTION-HANDLER: register exception-handler
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Handler/Exception.php';
+    // EXCEPTION-HANDLER: register exception-handler
+    require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Handler/Exception.php';
 
-// Set own exception_handler
-set_exception_handler(
-    array(
-        'Doozr_Handler_Exception',
-        'handle'
-    )
-);
+    // Set own exception_handler
+    set_exception_handler(
+        array(
+            'Doozr_Handler_Exception',
+            'handle'
+        )
+    );
+}
 
 /*----------------------------------------------------------------------------------------------------------------------
 | HELPER

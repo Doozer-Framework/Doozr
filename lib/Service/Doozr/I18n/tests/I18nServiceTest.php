@@ -81,6 +81,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function setUp()
     {
         self::$serviceName = 'I18n';
+
         parent::setUp();
     }
 

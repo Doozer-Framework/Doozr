@@ -86,8 +86,12 @@ class KernelTest extends PHPUnit_Framework_TestCase
             DOOZR_CACHING,
             DOOZR_CACHING_CONTAINER,
             DOOZR_LOGGING,
+            DOOZR_PROFILING,
+            DOOZR_APP_ROOT,
+            DOOZR_DIRECTORY_TEMP,
             DOOZR_DOCUMENT_ROOT,
-            DOOZR_APP_ROOT
+            DOOZR_NAMESPACE,
+            DOOZR_NAMESPACE_FLAT
         );
 
         $this->assertInstanceOf('Doozr_Kernel', $app);
