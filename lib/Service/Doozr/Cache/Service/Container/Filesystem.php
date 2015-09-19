@@ -500,6 +500,8 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
         // Get the directory to work on -> BUT don't create the structure if not exist
         $directory = $this->getDirectoryByNamespace($namespace, false);
 
+        // Assume 0 removed elements
+        $result = 0;
         if (file_exists($directory) === true) {
             $result = $this->doGarbageCollection($directory, $lifetime);
         }

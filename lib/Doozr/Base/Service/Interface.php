@@ -71,7 +71,6 @@ interface Doozr_Base_Service_Interface
     /**
      * Returns TRUE if the service is a singleton.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if service is singleton, otherwise FALSE
      * @access public
      */
@@ -80,7 +79,6 @@ interface Doozr_Base_Service_Interface
     /**
      * Returns TRUE if the service is a multiple.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if service is multiple, otherwise FALSE
      * @access public
      */
@@ -89,9 +87,27 @@ interface Doozr_Base_Service_Interface
     /**
      * Returns name of the service.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The name of the service.
      * @access public
      */
     public function getName();
+
+    /**
+     * Setter for uuid.
+     *
+     * @param string $uuid The uuid of the instance.
+     *
+     * @return void
+     * @access public
+     */
+    public function setUuid($uuid);
+
+    /**
+     * Getter for uuid.
+     *
+     * @return string The uuid of the service.
+     * @access public
+     */
+    public function getUuid();
+
 }

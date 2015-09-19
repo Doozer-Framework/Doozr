@@ -5,7 +5,7 @@
       "container": "filesystem",
       "memcache": {},
       "filesystem": {
-        "directory": "{{DOOZR_SYSTEM_TEMP}}"
+        "directory": "{{DOOZR_DIRECTORY_TEMP}}"
       },
       "lifetime": 3600
     },
@@ -140,9 +140,9 @@
       },
       "directories": {
         "templates": "{{DOOZR_APP_ROOT}}Data/Private/Template/",
-        "compiled": "{{DOOZR_SYSTEM_TEMP}}",
+        "compiled": "{{DOOZR_DIRECTORY_TEMP}}",
         "config": "{{DOOZR_APP_ROOT}}Data/Private/Config/",
-        "cache": "{{DOOZR_SYSTEM_TEMP}}",
+        "cache": "{{DOOZR_DIRECTORY_TEMP}}",
         "plugins": "{{DOOZR_APP_ROOT}}Data/Private/Plugin/Phptal/"
       },
       "template": {

@@ -237,7 +237,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     protected $automaticOutput = true;
 
     /**
-     * This method is the constructor and responsible for building the instance.
+     * Constructor.
      *
      * @param Doozr_Datetime_Service $datetime    Instance of date/time service
      * @param int                    $level       The log-level of the logger extending this class

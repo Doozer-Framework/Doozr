@@ -66,7 +66,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Base_Exception_Generic_Abstract extends Exception
+abstract class Doozr_Base_Exception_Generic_Abstract extends RuntimeException
 {
     /**
      * Exception-message

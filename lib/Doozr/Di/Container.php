@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Container
  *
- * Container.php - Container class of the Di-Library
+ * Container.php - The Di Container is responsible for
  *
  * PHP versions 5.5
  *
@@ -52,15 +52,15 @@
  * @link       https://github.com/clickalicious/Di
  */
 
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 
 /**
  * Doozr - Di - Container
  *
- * Container class of the Di-Library
+ * Di container.
  *
  * @category   Doozr
  * @package    Doozr_Di
@@ -73,29 +73,31 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Exception.php';
 class Doozr_Di_Container
 {
     /**
-     * The namespace of this container instance
-     *
-     * @var string
-     * @access protected
-     */
-    protected $namespace;
-
-    /**
-     * The mode the instance operates in
-     *
-     * @var int
-     * @access protected
-     */
-    protected $mode;
-
-    /**
-     * Contains the dependency maps of all containers
+     * Static array of dependency maps. Cause it's static it contains the dependency
+     * maps of all containers across all instances.
      *
      * @var array
      * @access private
      * @static
      */
     private static $dependencyMaps = [];
+
+    /**
+     * The scope of this container instance
+     *
+     * @var string
+     * @access protected
+     */
+    protected $scope;
+
+    /**
+     * The mode the instance operates in.
+     * Can be either ...
+     *
+     * @var int
+     * @access protected
+     */
+    protected $mode;
 
     /**
      * Contains container instances
@@ -107,6 +109,16 @@ class Doozr_Di_Container
     private static $instances = [];
 
     /**
+     * Cache for instances created.
+     * Indexed by $id.
+     *
+     * @var array
+     * @access private
+     * @static
+     */
+    private static $cache = [];
+
+    /**
      * Instance of Doozr_Di_Factory for creating instances
      *
      * @var Doozr_Di_Factory
@@ -114,129 +126,57 @@ class Doozr_Di_Container
      */
     protected $factory;
 
-    /**
-     * Default namespace
-     *
-     * @var string
-     * @access public
-     */
-    const DEFAULT_NAMESPACE = 'Di';
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * The runtimeEnvironment used to handle maps
-     * STATIC = Used for static
+     * Constructor.
      *
-     * @var int
-     * @access public
+     * @param string $scope Scope used for handling resources, references and so on.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @access private
      */
-    const MODE_STATIC = 1;
+    private function __construct($scope)
+    {
+        $this
+            ->scope($scope);
+    }
 
     /**
-     * The runtimeEnvironment used to handle maps
-     * DYNAMIC = Used for dynamic creation of instances
+     * Singleton Constructor.
      *
-     * @var int
+     * This method is intend to construct and return a singleton instance of Doozr_Di_Container. Each container
+     * singleton is bound to a scope (eg. 'default'). By passing a scope through argument $scope you are able to
+     * create more than one instance of container if needed/required by your application.
+     *
+     * @param string $scope The scope of this instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Di_Container Instance
      * @access public
+     * @static
      */
-    const MODE_DYNAMIC = 2;
+    public static function getInstance($scope = Doozr_Di_Constants::DEFAULT_SCOPE)
+    {
+        // Check if instance exists ...
+        if (false === isset(self::$instances[$scope])) {
+            self::$instances[$scope] = new self(
+                $scope
+            );
+        }
+
+        // Return instance
+        return self::$instances[$scope];
+    }
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Adds a Doozr_Di_Map to an existing Map by merging it in
-     *
-     * This method is intend to merge a new Doozr_Di_Map with an existing one.
-     *
-     * @param Doozr_Di_Map  $map      The map to merge in
-     * @param bool $override TRUE to override the existing map, FALSE to merge the maps
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
-     * @access public
-     */
-    public function setMap(Doozr_Di_Map $map, $override = true)
-    {
-        if ($override === false) {
-            $existingMap = $this->getMap();
-
-            if ($existingMap) {
-                $map = $this->mergeMaps($existingMap, $map);
-            }
-        }
-
-        // store
-        self::$dependencyMaps[$this->namespace] = $map;
-
-        // success
-        return true;
-    }
-
-    /**
-     * Returns the dependency map of this container
-     *
-     * This method is intend to return the dependency map instance of this
-     * container instance.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Map The dependency map instance as Doozr_Di_Map if set, otherwise NULL
-     * @access public
-     */
-    public function getMap()
-    {
-        return (isset(self::$dependencyMaps[$this->namespace]))
-            ? self::$dependencyMaps[$this->namespace]
-            : null;
-    }
-
-    /**
-     * Returns the Dependency-Map from another namespace
-     *
-     * This method is intend to return the Dependency-Map of another namespace.
-     *
-     * @param string $namespace The namespace to load map from
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Map The dependency instance from another namespace
-     * @access public
-     * @throws Doozr_Di_Exception
-     */
-    public function getMapFromOtherNamespace($namespace)
-    {
-        if (!isset(self::$dependencyMaps[$namespace])) {
-            throw new Doozr_Di_Exception(
-                sprintf(
-                    'Dependency-Map could not be found. Dependency-Map with namespace "%s" does not exist.',
-                    $namespace
-                )
-            );
-        }
-
-        // return requested map
-        return self::$dependencyMaps[$namespace];
-    }
-
-    /**
-     * Imports a Dependency-Map from another namespace
-     *
-     * This method is intend to import a Dependency-Map from another namespace.
-     *
-     * @param string $namespace The namespace to load dependency map from
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function importMapFromOtherNamespace($namespace)
-    {
-        self::$dependencyMaps[$this->namespace] = $this->getMapFromOtherNamespace($namespace);
-    }
-
-    /**
-     * Setter for Factory
-     *
-     * This method is intend to set the instance of Doozr_Di_Factory
+     * Setter for Factory.
      *
      * @param Doozr_Di_Factory $factory The factory instance to set
      *
@@ -247,6 +187,22 @@ class Doozr_Di_Container
     public function setFactory(Doozr_Di_Factory $factory)
     {
         $this->factory = $factory;
+    }
+
+    /**
+     * Fluent: Setter for Factory
+     *
+     * @param Doozr_Di_Factory $factory The factory instance to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function factory(Doozr_Di_Factory $factory)
+    {
+        $this->setFactory($factory);
+
+        return $this;
     }
 
     /**
@@ -264,54 +220,163 @@ class Doozr_Di_Container
     }
 
     /**
-     * Constructs all single parts and returns a new instance
+     * Adds a Doozr_Di_Map to existing.
      *
-     * This method is intend to combine all defined dependencies and returns a
-     * instance of requested class.
+     * @param Doozr_Di_Map $map Map to merge in
      *
-     * @param string $classname The name of the class to build
-     * @param mixed  $arguments Arguments to pass to class (works only in dynamic runtimeEnvironment)
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE on success, otherwise FALSE
+     * @access public
+     */
+    public function addToMap(Doozr_Di_Map $map)
+    {
+        // Merge
+        $existingMap = $this->getMap();
+
+        if (null !== $existingMap) {
+            $map = $this->mergeMaps($existingMap, $map);
+        }
+
+        self::$dependencyMaps[$this->getScope()] = $map;
+    }
+
+    /**
+     * Setter for map.
+     *
+     * @param Doozr_Di_Map $map The map to merge in
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function setMap(Doozr_Di_Map $map)
+    {
+        self::$dependencyMaps[$this->getScope()] = $map;
+    }
+
+    /**
+     * Fluent: Setter for map.
+     *
+     * @param Doozr_Di_Map $map The map to merge in
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function map(Doozr_Di_Map $map)
+    {
+        $this->setMap($map);
+
+        return $this;
+    }
+
+    /**
+     * Returns the dependency map of this container
+     *
+     * This method is intend to return the dependency map instance of this
+     * container instance.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Di_Map The dependency map instance as Doozr_Di_Map if set, otherwise NULL
+     * @access public
+     */
+    public function getMap()
+    {
+        return (isset(self::$dependencyMaps[$this->getScope()])) ? self::$dependencyMaps[$this->getScope()] : null;
+    }
+
+    /**
+     * Returns the Dependency-Map from another scope
+     *
+     * This method is intend to return the Dependency-Map of another scope.
+     *
+     * @param string $scope The scope to load map from
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Di_Map The dependency instance from another scope
+     * @access public
+     * @throws Doozr_Di_Exception
+     */
+    public function getMapFromOtherScope($scope)
+    {
+        if (!isset(self::$dependencyMaps[$scope])) {
+            throw new Doozr_Di_Exception(
+                sprintf(
+                    'Dependency-Map could not be found. Dependency-Map with scope "%s" does not exist.',
+                    $scope
+                )
+            );
+        }
+
+        // return requested map
+        return self::$dependencyMaps[$scope];
+    }
+
+    /**
+     * Imports a Dependency-Map from another scope
+     *
+     * This method is intend to import a Dependency-Map from another scope.
+     *
+     * @param string $scope The scope to load dependency map from
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access public
+     */
+    public function importMapFromOtherScope($scope)
+    {
+        self::$dependencyMaps[$this->getScope()] = $this->getMapFromOtherScope($scope);
+    }
+
+    /**
+     * Builds an instance of requested Id with all dependencies from recipe in one single call.
+     *
+     * @param string $id        Id of class to build.
+     * @param mixed  $arguments Arguments to pass to class (works only in dynamic mode)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return object|mixed Instance of the given class
      * @access public
      * @throws Doozr_Di_Exception
      */
-    public function build($classname, $arguments = null)
+    public function build($id, $arguments = [])
     {
-        // Check if all required dependencies are set [Doozr_Di_Factory, Doozr_Di_Map, ...]
-        if (!$this->requirementsFulfilled()) {
-            throw new Doozr_Di_Exception(
-                'Error building an instance. Requirements not fulfilled. Provide all required dependencies.'
+        // Load a fresh instance of {id}
+        #if (false === $instance = self::loadFromCacheById($id)) {
+
+            // Check if all required dependencies are set [Doozr_Di_Factory, Doozr_Di_Map, ...]
+            if (!$this->requirementsFulfilled()) {
+                throw new Doozr_Di_Exception(
+                    'Error building an instance. Requirements not fulfilled. Provide all required dependencies.'
+                );
+            }
+
+            // Receive recipe for requested Id as well as name of class ...
+            $recipe = $this->getMap()->getCollection()->getRecipeById($id);
+
+            // Check if classname could be retrieved
+            if (null === $recipe['classname']) {
+                throw new Doozr_Di_Exception(
+                    sprintf(
+                        'Please provide a configuration for the Id "%s". Or did you mean: "%s"?',
+                        $id,
+                        $this->getSimilar($id)
+                    )
+                );
+            }
+
+            // Build the requested instance ...
+            $instance = $this->getFactory()->build(
+                $recipe,
+                $arguments
             );
-        }
 
-        // Get setup for static || dynamic
-        if ($this->mode === self::MODE_DYNAMIC) {
-            $setup = $this->getMap()->getCollection()->getSetup($classname);
+            // Store in cache!
+            #self::addInstanceToCache($id, $instance);
+        #}
 
-        } else {
-            $setup = $this->getMap()->getCollection()->getSetup($classname);
-
-        }
-
-        // Store arguments if given
-        if ($arguments !== null && is_array($arguments)) {
-            $setup['arguments'] = $arguments;
-        }
-
-        // Check if a setup exists
-        if ($setup['dependencies'] === null) {
-            throw new Doozr_Di_Exception(
-                'Error building instance. No recipe for class "' . $classname . '" found!'
-            );
-        }
-
-        // build and return the object
-        return $this->getFactory()->build(
-            $classname,
-            $setup
-        );
+        // ... and return it
+        return $instance;
     }
 
     /**
@@ -325,45 +390,58 @@ class Doozr_Di_Container
      */
     public function requirementsFulfilled()
     {
-        // get map
-        $map = $this->getMap();
-
-        // check map
-        if ($map && $map->getCollection()) {
+        // Check map = requirements fulfilled
+        if ($this->getMap() && $this->getMap()->getCollection()) {
             return true;
         }
 
-        // failed
         return false;
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * Singleton Constructor
+     * Setter for scope.
      *
-     * This method is intend to construct and return a singleton instance of
-     * Doozr_Di_Container. Each container singleton is bound to a namespace (eg. 'default').
-     * By passing a namespace through argument $namespace you are able to create
-     * more than one instance of container if needed/required by your application.
-     *
-     * @param string $namespace The namespace of the Doozr_Di_Container instance
-     * @param int    $mode      The mode used to handle maps
+     * @param string $scope The scope of the scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Container Instance
-     * @access public
-     * @static
+     * @return void
+     * @access protected
      */
-    public static function getInstance($namespace = self::DEFAULT_NAMESPACE, $mode = self::MODE_STATIC)
+    protected function setScope($scope)
     {
-        if (!isset(self::$instances[$namespace])) {
-            self::$instances[$namespace] = new self(
-                $namespace,
-                $mode
-            );
-        }
+        $this->scope = $scope;
+    }
 
-        // return instance
-        return self::$instances[$namespace];
+    /**
+     * Fluent: Setter for scope.
+     *
+     * @param string $scope The scope of the scope.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function scope($scope)
+    {
+        $this->setScope($scope);
+
+        return $this;
+    }
+
+    /**
+     * Getter for Scope.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return string|null The Scope if set, otherwise NULL
+     * @access protected
+     */
+    protected function getScope()
+    {
+        return $this->scope;
     }
 
     /**
@@ -378,33 +456,72 @@ class Doozr_Di_Container
      */
     protected function mergeMaps(Doozr_Di_Map $target, Doozr_Di_Map $source)
     {
-        // import of dependencies is built in functionality of map
+        // Import of dependencies is built in functionality of map
         $target->import(
             $source->export()
         );
 
-        // set state to state of source class
-        //$target->setLastProcessedClass($source->getLastProcessedClass());
-
-        // return the filled target
         return $target;
     }
 
     /**
-     * Constructor
+     * Try to give a hint for a misspelled configuration entry.
      *
-     * This method is the constructor.
-     *
-     * @param string  $namespace The namespace to operate
-     * @param int $mode      The runtimeEnvironment used to handle maps
+     * @param string $misspelled The misspelled id
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Container The current instance of the Container for chaining/fluent-interface
-     * @access private
+     * @return string The resulting comma seperated list of hints for possible entries
+     * @access protected
      */
-    private function __construct($namespace, $mode)
+    protected function getSimilar($misspelled)
     {
-        $this->namespace = $namespace;
-        $this->mode      = $mode;
+        $result            = [];
+        $soundexMisspelled = soundex($misspelled);
+
+        foreach ($this->getMap()->getCollection() as $id => $dependency) {
+            if ($soundexMisspelled === soundex($id)) {
+                $result[] = $id;
+            }
+        }
+
+        return implode(', ', $result);
+    }
+
+    /**
+     * Returns a previously created instance from runtime cache.
+     * To speedup execution and mapping of dependencies.
+     *
+     * @param string $id The Id to return dependencies for
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return object|bool The loaded instance on success, otherwise FALSE
+     * @access protected
+     * @static
+     */
+    protected static function loadFromCacheById($id)
+    {
+        $instance = false;
+
+        if (true === isset(self::$cache[$id])) {
+            $instance = self::$cache[$id];
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Stores a passed instance to local runtime cache.
+     *
+     * @param string $id       The Id to store instance under
+     * @param object $instance The instance to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     * @static
+     */
+    protected static function addInstanceToCache($id, $instance)
+    {
+        self::$cache[$id] = $instance;
     }
 }

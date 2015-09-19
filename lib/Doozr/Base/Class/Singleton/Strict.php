@@ -6,7 +6,7 @@
  *
  * Strict.php - Strict Base-Singleton-Class of the Doozr Framework
  * Strict stands for the difference to the loose Version of this class
- * (DoozrBaseSingleton.php) which do not use the given parameter at instanciation
+ * (DoozrBaseSingleton.php) which do not use the given parameter at instantiation
  * to check for singleton instance
  *
  * PHP versions 5.5
@@ -81,7 +81,6 @@ class Doozr_Base_Class_Singleton_Strict extends Doozr_Base_Class_Singleton_Gener
      * @static
      */
     protected static $instance;
-
 
     /**
      * Constructor for singleton pattern

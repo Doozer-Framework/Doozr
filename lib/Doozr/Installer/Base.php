@@ -376,8 +376,8 @@ class Doozr_Installer_Base
         \cli\line('    ServerName www.example.com:80');
         \cli\line('    ServerAlias example.com *.example.com');
         \cli\line('    ServerAdmin webmaster@example.com');
-        \cli\line('    DocumentRoot "' . $installPath . 'web"');
-        \cli\line('    <Directory "' . $installPath . 'web">');
+        \cli\line('    DocumentRoot "' . $installPath . DIRECTORY_SEPARATOR . 'web"');
+        \cli\line('    <Directory "' . $installPath . DIRECTORY_SEPARATOR . 'web">');
         \cli\line('        Options Indexes FollowSymLinks Includes ExecCGI');
         \cli\line('        AllowOverride All');
         \cli\line('        Order allow,deny');

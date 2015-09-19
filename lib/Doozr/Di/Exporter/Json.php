@@ -4,7 +4,7 @@
 /**
  * Doozr - Di - Exporter - Json
  *
- * Json.php - Exporter (JSON-Localize) of the Di-Library
+ * Json.php - Di exporter (JSON).
  *
  * PHP versions 5.5
  *
@@ -44,7 +44,7 @@
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Exporter_Json
+ * @subpackage Doozr_Di_Exporter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -61,11 +61,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer.php';
 /**
  * Doozr - Di - Exporter - Json
  *
- * Exporter (JSON-Localize) of the Di-Library
+ * Di exporter (JSON).
  *
  * @category   Doozr
  * @package    Doozr_Di
- * @subpackage Doozr_Di_Exporter_Json
+ * @subpackage Doozr_Di_Exporter
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -149,20 +149,22 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
         // the collection for export in correct JSON structure
         $collection = [];
 
-        // iterate over collection
-        foreach ($this->collection as $class => $dependencies) {
+        echo 'cid:37826d7s6da78s6d9sa';die;
 
-            // collect dependencies for $class in an array
-            $collection[$class] = new stdClass();
+        // iterate over collection
+        foreach ($this->collection as $classname => $dependencies) {
+
+            // collect dependencies for $classname in an array
+            $collection[$classname] = new stdClass();
 
             // check for arguments
-            ($this->collection->getArguments($class)) ?
-                $collection[$class]->arguments = $this->collection->getArguments($class) :
+            ($this->collection->getArguments($classname)) ?
+                $collection[$classname]->arguments = $this->collection->getArguments($classname) :
                 null;
 
             // check for custom arguments
-            ($this->collection->getConstructor($class)) ?
-                $collection[$class]->constructor = $this->collection->getConstructor($class) :
+            ($this->collection->getConstructor($classname)) ?
+                $collection[$classname]->constructor = $this->collection->getConstructor($classname) :
                 null;
 
             // iterate over existing dependencies, translate to JSON structure and store temporary in $collection[]
@@ -198,7 +200,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                 $tmp->config = $dependency->getConfiguration();
 
                 // store created object to $collection
-                $collection[$class]->dependencies[] = $tmp;
+                $collection[$classname]->dependencies[] = $tmp;
             }
         }
 
@@ -206,9 +208,9 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
         $output = new stdClass();
 
         // set collection as output for our map
-        $output->map = array(
+        $output->map = [
             $collection
-        );
+        ];
 
         // write content to file
         $this->writeFile(

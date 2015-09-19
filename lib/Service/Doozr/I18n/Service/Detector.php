@@ -718,7 +718,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     protected function detectByUserIp()
     {
-        // get ip
+        // Get ip
         $ip = $_SERVER['REMOTE_ADDR'];
 
         // hostname (dialin/dialup hostname e.g. PH-1511J-uBR10k-02-Te-1-2-0.bilk.unity-media.net)

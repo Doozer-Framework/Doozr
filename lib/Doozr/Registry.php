@@ -57,7 +57,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry/Interface.php';
 
 use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * Doozr - Registry
@@ -207,10 +206,14 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     {
         $result = null;
 
-        if ($identifier === null) {
+        if (null === $identifier) {
             $result = self::$lookup;
+
+        } elseif ('doozr.registry' === $identifier) {
+            $result = $this;
+
         } else {
-            if (isset(self::$lookup[$identifier])) {
+            if (true === isset(self::$lookup[$identifier])) {
                 $result = self::$references[self::$lookup[$identifier]];
             }
         }
@@ -218,9 +221,20 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
         return $result;
     }
 
+    /**
+     * Static generic instance fetcher. Prototype !!!
+     * @todo Proof if useful and conform
+     *
+     * @param string $name      Name of the "method" called -> will be used as property name
+     * @param array  $arguments Unused!
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed ...
+     * @access public
+     */
     public static function __callStatic($name, array $arguments)
     {
-        echo $name;die;
+        return (true === isset(self::$lookup[$name])) ? self::$references[self::$lookup[$name]] : null;
     }
 
     /**
@@ -248,12 +262,20 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The UUID
      * @access protected
+     * @throws Doozr_Registry_Exception
      */
     protected function calculateUuid()
     {
-        // Generate a version 4 (random) UUID object
-        $uuid4 = Uuid::uuid4();
-        return $uuid4->toString();
+        try {
+            // Generate a version 4 (random) UUID object
+            $uuid4 = Uuid::uuid4();
+            $uuid  = $uuid4->toString();
+
+        } catch (UnsatisfiedDependencyException $exception) {
+            throw new Doozr_Registry_Exception($exception->getMessage(), $exception->getCode(), $exception);
+        }
+
+        return $uuid;
     }
 
     /**
@@ -331,7 +353,9 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
         if (true === isset(self::$parameters[$key])) {
             $value = self::$parameters[$key];
         } else {
-            $value = null;
+            throw new Doozr_Registry_Exception(
+                sprintf('Key "%s" does not exist!', $key)
+            );
         }
 
         return $value;
@@ -645,7 +669,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Psr\Cache\CacheItemPoolInterface The cache instance
+     * @return Doozr_Cache_Service The cache instance
      * @access public
      */
     public function getCache()

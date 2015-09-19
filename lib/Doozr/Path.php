@@ -255,7 +255,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
         self::$path['auth'] = $this->combine($root, array('lib', 'Data', 'Private', 'Auth'));
 
         // path to cache
-        self::$path['cache'] = DOOZR_SYSTEM_TEMP;
+        self::$path['cache'] = DOOZR_DIRECTORY_TEMP;
 
         // path to config
         self::$path['config'] = $this->combine($root, array('lib', 'Data', 'Private', 'Config'));
@@ -265,10 +265,10 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
 
         // path to log
            //self::$_path['log'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Log'));
-        self::$path['log'] = DOOZR_SYSTEM_TEMP;
+        self::$path['log'] = DOOZR_DIRECTORY_TEMP;
 
         // path to temp
-        self::$path['temp'] = DOOZR_SYSTEM_TEMP;
+        self::$path['temp'] = DOOZR_DIRECTORY_TEMP;
 
         // path to data-public (APP)
         self::$path['data_public'] = $this->combine($pathToApplication, array('Data', 'Public'));

@@ -4,7 +4,8 @@
 /**
  * Doozr - Debugging
  *
- * Debugging.php - Configures some of PHP's runtime parameters for debugging.
+ * Debugging.php - Enables debugging by configuring PHP's error debugging
+ * level and some other settings.
  *
  * PHP versions 5.5
  *
@@ -61,7 +62,7 @@ use Whoops\Handler\PlainTextHandler;
 /**
  * Doozr - Debugging
  *
- * Configures PHP for debugging. Configures some of PHP's runtime parameters.
+ * Enables debugging by configuring PHP's error debugging level and some other settings.
  *
  * @category   Doozr
  * @package    Doozr_Kernel
@@ -80,7 +81,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * @var bool
      * @access protected
      */
-    protected $enabled = false;
+    protected $installed = false;
 
     /**
      * Instance of Doozr_Logging
@@ -91,14 +92,6 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
     protected $logger;
 
     /**
-     * The PHP Version Doozr is running on
-     *
-     * @var float
-     * @access protected
-     */
-    protected $phpVersion;
-
-    /**
      * CLI state.
      * TRUE = is Cli Environment | FALSE = not
      * Important for installing correct Whoops Handler
@@ -106,23 +99,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * @var bool
      * @access protected
      */
-    protected $isCli = false;
-
-    /**
-     * Minimum error value (to disable)
-     *
-     * @var int
-     * @access protected
-     */
-    protected $errorMinimum = 0;
-
-    /**
-     * Maximum error value (to enable very verbose)
-     *
-     * @var int
-     * @access protected
-     */
-    protected $errorMaximum;
+    protected $cli = false;
 
     /**
      * Instance of Whoops Error Handler
@@ -132,187 +109,453 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      */
     protected $whoops;
 
+    /**
+     * History for previously found values.
+     * Required to be able to unhook the systems debugging setup.
+     * We are able to install and uninstall in one execution.
+     *
+     * @var array
+     * @access protected
+     */
+    protected $history = [];
+
+    /**
+     * The ini values we operate on/with.
+     *
+     * @var array
+     * @access protected
+     */
+    protected $iniKeys = [
+        'error_reporting',
+        'display_errors',
+        'display_startup_errors',
+        'track_errors',
+        'log_errors',
+        'html_errors',
+    ];
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
      * @param Doozr_Logging_Interface $logger       Instance of Doozr_Logging
-     * @param bool                    $enabled      Defines it debugging mode is enabled or not
-     * @param float                   $phpVersion   Active PHP version Doozr running on
-     * @param bool                    $isCli        TRUE if Cli environment (other handlers), FALSE if not
-     * @param int                     $errorMaximum Maximum error integer for PHP
+     * @param bool                    $cli          TRUE if Cli environment (other handlers), FALSE if not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Debugging
      * @access protected
      */
     protected function __construct(
         Doozr_Logging_Interface $logger,
-                                $enabled,
-                                $phpVersion,
-                                $isCli,
-                                $errorMaximum
+                                $cli
     ) {
         $this
             ->logger($logger)
-            ->phpVersion($phpVersion)
-            ->isCli($isCli)
-            ->errorMaximum($errorMaximum)
-            ->whoops(new Run());
-
-        // Log debugging state
-        $this->logger->debug(
-            'Debugging Component ' . ((true === $enabled) ? 'en' : 'dis') . 'abled.'
-        );
-
-        // Check for initial trigger
-        if (true === $enabled) {
-            $this->enable();
-
-        } else {
-            $this->disable();
-        }
+            ->cli($cli)
+            ->install()
+            ->getLogger()
+                ->debug('Debugging Component installed.');
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | SETTER, GETTER, ISSER & HASSER
+    +-----------------------------------------------------------------------------------------------------------------*/
 
-
-    protected function setLogger(Doozr_Logging_Interface $logger)
+    /**
+     * Setter for iniKeys.
+     *
+     * @param array $iniKeys The ini keys to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setIniKeys(array $iniKeys)
     {
-        $this->logger = $logger;
-    }
-
-    protected function logger(Doozr_Logging_Interface $logger)
-    {
-        $this->setLogger($logger);
-        return $this;
-    }
-
-    protected function getLogger()
-    {
-        return $this->logger;
-    }
-
-
-    protected function setPhpVersion($phpVersion)
-    {
-        $this->phpVersion = $phpVersion;
+        $this->iniKeys = $iniKeys;
     }
 
     /**
-     * @param $phpVersion
+     * Fluent: Setter for iniKeys.
      *
-     * @return $this
+     * @param array $iniKeys The ini keys to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
      */
-    protected function phpVersion($phpVersion)
+    protected function iniKeys(array $iniKeys)
     {
-        $this->setPhpVersion($phpVersion);
+        $this->setIniKeys($iniKeys);
 
+        // Chaining
         return $this;
     }
 
-    protected function getPhpVersion()
+    /**
+     * Getter for iniKeys.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array|null iniKeys if set, otherwise NULL
+     * @access protected
+     */
+    protected function getIniKeys()
     {
-        return $this->phpVersion;
+        return $this->iniKeys;
     }
 
-
-    protected function setIsCli($isCli)
+    /**
+     * Setter for history.
+     *
+     * @param string $key   Key to use
+     * @param mixed  $value Value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setHistory($key, $value = null)
     {
-        $this->isCli = $isCli;
+        $this->history[$key] = $value;
     }
 
-    protected function isCli($isCli)
+    /**
+     * Fluent: Setter for history.
+     *
+     * @param string $key   Key to use
+     * @param mixed  $value Value to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function history($key, $value = null)
     {
-        $this->setIsCli($isCli);
+        $this->setHistory($key, $value);
 
+        // Chaining
         return $this;
     }
 
-    protected function getIsCli()
+    /**
+     * Getter for history.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return mixed|null The value if set, otherwise NULL
+     * @access protected
+     */
+    protected function getHistory($key = null)
     {
-        return $this->isCli;
+        return (true === isset($this->history[$key])) ? $this->history[$key] : null;
     }
 
-
-    protected function setErrorMaximum($errorMaximum)
-    {
-        $this->errorMaximum = $errorMaximum;
-    }
-
-    protected function errorMaximum($errorMaximum)
-    {
-        $this->setErrorMaximum($errorMaximum);
-        return $this;
-    }
-
-    protected function getErrorMaximum()
-    {
-        return $this->errorMaximum;
-    }
-
+    /**
+     * Setter for whoops.
+     *
+     * @param Run $whoops The whoops to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
     protected function setWhoops($whoops)
     {
         $this->whoops = $whoops;
     }
 
-    protected function whoops($whoops)
+    /**
+     * Fluent: Setter for whoops.
+     *
+     * @param Run $whoops The whoops to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function whoops(Run $whoops = null)
     {
         $this->setWhoops($whoops);
+
         return $this;
     }
 
+    /**
+     * Getter for whoops.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Run Instance of Whoops
+     * @access protected
+     */
     protected function getWhoops()
     {
         return $this->whoops;
     }
 
-
     /**
-     * Enables debugging.
+     * Setter for installed.
+     *
+     * @param bool $installed Value of installed.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access public
-     * @throws Doozr_Debugging_Exception
+     * @access protected
      */
-    public function enable()
+    protected function setInstalled($installed)
     {
-        if (true === $this->makeVerbose()) {
-            $this->enabled = true;
-            $this->installWhoops();
-            $this->logger->debug('Debugging tools installed.');
-
-        } else {
-            $this->enabled = false;
-
-            throw new Doozr_Debugging_Exception(
-                'Debugging could not be enabled! Your system seems not configurable at runtime.'
-            );
-        }
+        $this->installed = $installed;
     }
 
     /**
-     * Disables debugging.
+     * Fluent: Setter for installed.
      *
-     * This method is intend to disable debugging.
+     * @param bool $installed Value of installed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function installed($installed)
+    {
+        $this->setInstalled($installed);
+
+        return $this;
+    }
+
+    /**
+     * Getter for installed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool|null TRUE if installed, otherwise FALSE
+     * @access protected
+     */
+    protected function getInstalled()
+    {
+        return $this->installed;
+    }
+
+    /**
+     * Isser for installed.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if installed, otherwise FALSE
+     * @access protected
+     */
+    protected function isInstalled()
+    {
+        return (true === $this->getInstalled());
+    }
+
+    /**
+     * Setter for logger.
+     *
+     * @param Doozr_Logging_Interface $logger The logger to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
+     * @access protected
+     */
+    protected function setLogger(Doozr_Logging_Interface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Fluent: Setter for logger.
+     *
+     * @param Doozr_Logging_Interface $logger The logger to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function logger(Doozr_Logging_Interface $logger)
+    {
+        $this->setLogger($logger);
+
+        return $this;
+    }
+
+    /**
+     * Getter for logger.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Psr\Log\LoggerInterface Instance of logger
+     * @access protected
+     */
+    protected function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * Setter for cli.
+     *
+     * @param bool $cli The CLI status
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function setCli($cli)
+    {
+        $this->cli = $cli;
+    }
+
+    /**
+     * Fluent: Setter for cli.
+     *
+     * @param bool $cli The CLI status
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function cli($cli)
+    {
+        $this->setCli($cli);
+
+        return $this;
+    }
+
+    /**
+     * Getter for cli.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function getCli()
+    {
+        return $this->cli;
+    }
+
+    /**
+     * Returns cli status.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE if CLI, otherwise FALSE
+     * @access protected
+     */
+    protected function isCli()
+    {
+        return (true === $this->getCli());
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Dumps active debugging state of the current OS/System.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function dumpState()
+    {
+        // Store active error reporting
+        foreach ($this->getIniKeys() as $key) {
+            $this->setHistory($key, ini_get($key));
+        }
+
+        // For chaining
+        return $this;
+    }
+
+    /**
+     * Restores a state from array input.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access protected
+     */
+    protected function restoreState()
+    {
+        // Restores state
+        foreach ($this->getIniKeys() as $key) {
+            ini_set($key, $this->getHistory($key));
+        }
+
+        // For chaining
+        return $this;
+    }
+
+    /**
+     * Enables debugging by making the system verbose and by enabling PHP to fetch all errors, notice and so on.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     * @throws
+     */
+    public function install()
+    {
+        // Check if not installed ...
+        if (true !== $this->isInstalled()) {
+            try {
+                $this
+                    ->dumpState()                                   // Backup current state
+                    ->installed(true)                               // 1st mark that it installed
+                    ->makeVerbose()                                 // Enable the complete output of PHP's errors
+                    ->whoops(new Run())                             // Create a Whoops instance
+                    ->installWhoops()                               // Install Whoops Exception Handler
+                    ->getLogger()
+                        ->debug('Debugging tools installed.');
+
+            } catch (Doozr_Debugging_Exception $exception) {
+
+                $this
+                    ->installed(false)
+                    ->uninstallWhoops()
+                    ->restoreState();
+
+                throw new Doozr_Debugging_Exception(
+                    sprintf('Debugging could not be installed! Error: %s', $exception->getMessage())
+                );
+            }
+
+        } else {
+            throw new Doozr_Debugging_Exception(
+                'Debugging is already installed!'
+            );
+        }
+
+        // Enable chaining
+        return $this;
+    }
+
+    /**
+     * Uninstalls debugging handler.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
      * @access public
      * @throws Doozr_Debugging_Exception
      */
-    public function disable()
+    public function uninstall()
     {
-        if (true === $this->makeSilent()) {
-            $this->enabled = false;
-            $this->uninstallWhoops();
-            $this->logger->debug('Debugging successfully disabled.');
+        if (true === $this->isInstalled()) {
+            try {
+                $this
+                    ->installed(false)
+                    ->uninstallWhoops()
+                    ->whoops(null)
+                    ->restoreState()
+                    ->getLogger()
+                        ->debug('Debugging tools uninstalled.');
+
+            } catch (Doozr_Debugging_Exception $exception) {
+                throw new Doozr_Debugging_Exception(
+                    sprintf('Debugging could not be uninstalled! Error: %s', $exception->getMessage())
+                );
+            }
 
         } else {
-            $this->enabled = true;
-
             throw new Doozr_Debugging_Exception(
-                'Debugging could not be disabled!'
+                'Debugging could not be uninstalled. It\'s not installed!'
             );
         }
     }
@@ -321,24 +564,22 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * Installs whoops exception handler.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return $this Instance for chaining
      * @access protected
      */
     protected function installWhoops()
     {
         // Configure the page handler of Whoops
-        if (true === $this->isCli) {
+        if (true === $this->isCli()) {
             // Text for cli
             $exceptionHandler = new PlainTextHandler();
 
         } else {
             // Otherwise the pretty one
             $exceptionHandler = new PrettyPageHandler();
+            $constants        = get_defined_constants();
 
-            // Add some Doozr specific ingredients
             $exceptionHandler->setPageTitle('Doozr');
-
-            $constants = get_defined_constants();
 
             // Extract Doozr Constants as debugging information
             $data = [];
@@ -349,81 +590,51 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
             }
             ksort($data);
 
-            $exceptionHandler->addDataTable("Doozr runtime environment", $data);
+            $exceptionHandler->addDataTable('Doozr Environment', $data);
         }
 
-        $this->whoops->pushHandler($exceptionHandler);
-        $this->whoops->register();
+        $this->getWhoops()->pushHandler($exceptionHandler);
+        $this->getWhoops()->register();
+
+        // Chaining
+        return $this;
     }
 
     /**
      * Uninstalls whoops exception handler.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return $this Instance for chaining
      * @access protected
      */
     protected function uninstallWhoops()
     {
-        $this->whoops->unregister();
+        $this->getWhoops()->unregister();
+
+        // Chaining
+        return $this;
     }
 
     /**
      * Makes PHP verbose to get at much debugging output as possible.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE if debugging was successfully enabled, otherwise FALSE
-     * @access protected
-     */
-    protected function makeVerbose()
-    {
-        // Set error reporting to maximum output
-        error_reporting($this->errorMaximum);
-
-        // ini_set() can only be used if php version is >= 5.3 (cause from PHP 5.3 safemode
-        // is deprecated and from PHP 5.4 it is removed) or if safemode is Off.
-        if ($this->phpVersion >= 5.3 || !ini_get('safemode')) {
-            ini_set('display_errors',         1);
-            ini_set('display_startup_errors', 1);
-            ini_set('track_errors',           1);
-            ini_set('log_errors',             1);
-            ini_set('html_errors',            1);
-            $result = true;
-
-        } else {
-            $result = false;
-        }
-
-        return $result;
-    }
-
-    /**
-     * Makes PHP silent to get less output.
+     * @param int   $errorReporting Maximum error reporting value
+     * @param mixed $iniValue       Value for ini settings
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE if debugging could be disabled, otherwise FALSE
+     * @return $this Instance for chaining
      * @access protected
      */
-    protected function makeSilent()
+    protected function makeVerbose($errorReporting = PHP_INT_MAX, $iniValue = 1)
     {
-        // if debugging-mode is disabled we must hide all errors to prevent the app from information leakage.
-        // set error_reporting to null (0) to hide PHP's reports
-        error_reporting($this->errorMinimum);
+        // Set error reporting to maximum int ( = all bits set)
+        error_reporting($errorReporting);
 
-        // ini_set() can only be used if php version is >= 5.3 (cause from PHP 5.3 safemode
-        // is deprecated and from PHP 5.4 it is removed) or if safemode is Off.
-        if ($this->phpVersion >= 5.3 || !ini_get('safemode')) {
-            ini_set('display_errors',         0);
-            ini_set('display_startup_errors', 0);
-            ini_set('track_errors',           0);
-            ini_set('log_errors',             1);
-            ini_set('html_errors',            0);
-            $result = true;
-
-        } else {
-            $result = false;
+        foreach ($this->getIniKeys() as $key) {
+            ini_set($key, $iniValue);
         }
 
-        return $result;
+        // Chaining
+        return $this;
     }
 }

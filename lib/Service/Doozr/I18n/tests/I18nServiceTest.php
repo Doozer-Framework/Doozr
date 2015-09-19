@@ -81,6 +81,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function setUp()
     {
         self::$serviceName = 'I18n';
+
         parent::setUp();
     }
 
@@ -344,6 +345,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @requires OS Linux
      */
     public function testSettingAndGettingAnCustomEncoding()
     {
@@ -362,6 +364,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @requires OS Linux
      */
     public function testUsingDomainFromPhptalInterfaceImplementation()
     {
@@ -378,6 +381,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @requires OS Linux
      */
     public function testSettingVarFromPhptalInterfaceImplementation()
     {
@@ -395,6 +399,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @requires OS Linux
      */
     public function testTranslatingAnKeyToDefaultLocaleEnUs()
     {
@@ -412,6 +417,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
+     * @requires OS Linux
      */
     public function testSettingLanguageFromPhptalInterfaceImplementation()
     {
