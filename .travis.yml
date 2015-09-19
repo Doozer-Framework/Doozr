@@ -33,7 +33,7 @@ before_script:
   - mkdir -p ./build/logs
 
 script:
-  - phpunit -c tests/phpunit.xml --coverage-clover ./build/logs/clover.xml
+  - phpunit -c app/ --coverage-clover=./build/logs/clover.xml
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

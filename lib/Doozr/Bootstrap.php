@@ -242,7 +242,7 @@ if (false === defined('DOOZR_PROFILING')) {
     if (false === $doozrProfiling = getenv('DOOZR_PROFILING')) {
 
         // Default by app environment
-        if (DOOZR_APP_ENVIRONMENT  === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT) {
+        if (DOOZR_APP_ENVIRONMENT === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT) {
             $doozrProfiling = true;
         } else {
             $doozrProfiling = DOOZR_DEBUGGING;

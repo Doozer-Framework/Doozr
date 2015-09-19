@@ -467,10 +467,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
                     (
                         self::$registry->getLogger()
                             ->debug(
-                                'Runtime environment: '.$runtimeEnvironment
+                                'Running environment: '.$runtimeEnvironment
                             )
                             ->debug(
-                                'Bootstrapping of Doozr (v '.DOOZR_VERSION.')'
+                                'Bootstrapping Doozr (v '.DOOZR_VERSION.')'
                             )
                     ) &&
                     self::initSystem() &&
@@ -561,7 +561,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $map        = new Doozr_Di_Map_Static($collection, $importer, $dependency);
 
         // Generate map from static JSON map of Doozr
-        $map->generate(self::$registry->getParameter('doozr.directory.root') . 'Data/Private/Config/.map.json');
+        $map->generate(self::$registry->getParameter('doozr.directory.root').'Data/Private/Config/.map.json');
 
         // Create container and set factory and map
         $container = Doozr_Di_Container::getInstance();
@@ -664,14 +664,13 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $caching   = self::$registry->getParameter('doozr.kernel.caching');
         $namespace = self::$registry->getParameter('doozr.namespace.flat').'.cache.configuration';
 
-        /* @var Doozr_Cache_Service $cache */
         $cache = Doozr_Loader_Serviceloader::load(
             'cache',
             self::$registry->getParameter('doozr.kernel.caching.container'),
             $namespace,
             [],
             self::$registry->getParameter('doozr.unix'),
-            self::$registry->getParameter('doozr.caching')
+            $caching
         );
 
         // Wire the required instances ...
@@ -686,72 +685,45 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             ]
         );
 
-        /* @var Doozr_Configuration $config */
-        $config = self::$registry->getContainer()->build(
+        $configuration = self::$registry->getContainer()->build(
             'doozr.configuration',
             [
                 $caching
             ]
         );
 
-        // Read config of: Doozr - central core configuration from developer
-        $config->read(
-            self::$registry->getPath()->get('config') . '.config.json'
+        // Read Kernel config
+        $configuration->read(
+            self::$registry->getPath()->get('config').'.config.json'
         );
 
+        // Retrieve list of service configuration files and read them ...
+        $serviceConfigurationFiles = self::retrieveServiceConfigurationFiles();
 
-
-
-
-        /**
-         * READ CONFIG OF SERVICES
-         */
-        /*
-        if (true === $caching) {
-            // If caching is enabled we try to read service
-            #$content = self::$registry->getFilesystem()->('');
-            #$virtualFile = self::$registry->getPath()->get('config') . '.service.json';
-
-        } else {
-
-        }
-        */
-
-        $pattern = self::$registry->getPath()->get('service') . '*/*/.config.json';
-        $files   = glob($pattern, GLOB_NOSORT);
-
-        foreach ($files as $file) {
-            $config->read($file);
+        foreach ($serviceConfigurationFiles as $serviceConfigurationFile) {
+            $configuration->read($serviceConfigurationFile);
         }
 
-        /**
-         * END CONFIG OF SERVICES
-         */
+        // Retrieve list of userland configuration files and read them ...
+        $userlandConfigurationFiles = self::retrieveUserlandConfigurationFiles();
 
-
-
-
-
-
-
-
-
-
-
-        $userlandConfigurationFile = self::$registry->getPath()->get(
-            'app',
-            'Data\Private\Config\.config.' . self::$registry->getParameter('doozr.app.environment') . '.json'
-        );
-
-        if (
-            true === self::$registry->getFilesystem()->exists($userlandConfigurationFile) &&
-            true === self::$registry->getFilesystem()->readable($userlandConfigurationFile)
-        ) {
-            $config->read($userlandConfigurationFile);
+        foreach ($userlandConfigurationFiles as $userlandConfigurationFile) {
+            $configuration->read($userlandConfigurationFile);
         }
 
-        // Store config
-        self::$registry->setConfiguration($config);
+        // Store configuration
+        self::$registry->setConfiguration($configuration);
+
+        // Check if debugging is enabled ...
+        if (true === self::$registry->getParameter('doozr.kernel.debugging')) {
+
+            // Now add a collector for config
+            self::$registry->getDebugbar()->addCollector(
+                new DebugBar\DataCollector\ConfigCollector(
+                    json_decode(json_encode(self::$registry->getConfiguration()->get()), true)
+                )
+            );
+        }
 
         // Important for bootstrap result
         return true;
@@ -784,7 +756,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             foreach (self::$registry->getConfiguration()->kernel->logging->logger as $logger) {
 
                 $loggerInstance = self::$registry->getContainer()->build(
-                    'doozr.logging.' . strtolower($logger->name),
+                    'doozr.logging.'.strtolower($logger->name),
                     [
                         (isset($logger->level)) ? $logger->level : self::$registry->getLogger()->getDefaultLoglevel()
                     ]
@@ -912,18 +884,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
             $debugbar = new StandardDebugBar();
             $debugbar['time']->startMeasure('request-cycle', 'Request cycle (Doozr)');
-
-            /*
-            $debugbar->addCollector(
-                new DebugBar\DataCollector\ConfigCollector(
-                    json_decode(json_encode(self::$registry->getConfiguration()->get()), true)
-                )
-            );
-            */
-
-            self::$registry->setDebugbar(
-                $debugbar
-            );
+            self::$registry->setDebugbar($debugbar);
         }
 
         // Important for bootstrap result
@@ -1016,19 +977,19 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     protected static function initModel()
     {
         // Retrieve configuration
-        $config = self::$registry->getConfiguration();
+        $configuration = self::$registry->getConfiguration();
         $path   = self::$registry->getPath();
 
         // Build decorator config ...
         $databaseConfiguration = [
-            'name'      => $config->kernel->model->proxy,
-            'translate' => $config->kernel->model->oxm,
+            'name'      => $configuration->kernel->model->proxy,
+            'translate' => $configuration->kernel->model->oxm,
             'path'      => $path->get(
-                'model', 'Lib\\' . $config->kernel->model->oxm . '\\'
+                'model', 'Lib\\'.$configuration->kernel->model->oxm.'\\'
             ),
-            'bootstrap' => $config->kernel->model->bootstrap,
-            'route'     => $config->kernel->model->route,
-            'docroot'   => $config->kernel->model->docroot
+            'bootstrap' => $configuration->kernel->model->bootstrap,
+            'route'     => $configuration->kernel->model->route,
+            'docroot'   => $configuration->kernel->model->docroot
         ];
 
         self::$registry->setModel(
@@ -1078,7 +1039,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         self::$coreExecutionTime = self::getDateTime()->getMicrotimeDiff(self::$starttime);
 
         // log core execution time
-        self::$registry->getLogger()->debug('Kernel execution time: ' . self::$coreExecutionTime . ' seconds');
+        self::$registry->getLogger()->debug('Kernel execution time: '.self::$coreExecutionTime.' seconds');
     }
 
     /**
@@ -1125,6 +1086,90 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         }
 
         return self::$dateTime;
+    }
+
+    /**
+     * Returns a collection of service configuration files (including path).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Collection of files
+     * @access protected
+     * @static
+     */
+    protected static function retrieveServiceConfigurationFiles()
+    {
+        $virtualFile = self::$registry->getPath()->get('config').'.service.json';
+        $caching     = self::$registry->getParameter('doozr.kernel.caching');
+        $files       = null;
+
+        // Try to load service configurations from cache!
+        if (true === $caching) {
+            try {
+                $files = self::$registry->getCache()->read($virtualFile);
+
+            } catch (Doozr_Cache_Service_Exception $exception) {
+                // Intentionally left empty
+            }
+        }
+
+        // Could be loaded from cache? otherwise lookup here (PERFORMANCE:IMPACT:HIGH:FILESYSTEM)
+        if (null === $files) {
+            $pattern = self::$registry->getPath()->get('service').
+                       '*'.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.'.config.json';
+            $files   = glob($pattern, GLOB_NOSORT);
+        }
+
+        // Cache items found for reuse later
+        if (true === $caching) {
+            self::$registry->getCache()->create($virtualFile, $files);
+        }
+
+        // Return collection of service configuration files
+        return $files;
+    }
+
+    /**
+     * Returns a collection of userland configuration files (including path).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return array Collection of userland configuration files
+     * @access protected
+     * @static
+     */
+    protected static function retrieveUserlandConfigurationFiles()
+    {
+        $appEnvironment = self::$registry->getParameter('doozr.app.environment');
+        $caching        = self::$registry->getParameter('doozr.kernel.caching');
+        $exists         = null;
+        $file           = self::$registry->getPath()->get(
+            'app',
+            'Data\Private\Config\.config.'.$appEnvironment.'.json'
+        );
+
+        // Try to load information from cache!
+        if (true === $caching) {
+            try {
+                $exists = self::$registry->getCache()->read($file);
+
+            } catch (Doozr_Cache_Service_Exception $exception) {
+                // Intentionally left empty
+            }
+        }
+
+        if (null === $exists) {
+            $exists = (
+                true === self::$registry->getFilesystem()->exists($file) &&
+                true === self::$registry->getFilesystem()->readable($file)
+            );
+        }
+
+        // Cache items found for reuse later
+        if (true === $caching) {
+            self::$registry->getCache()->create($file, $exists);
+        }
+
+        // Return collection of service configuration files
+        return (true === $exists) ? [$file] : [];
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -1239,9 +1284,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
 
         // Do not expose secret information
         if (false === $expose) {
-            $statusMessage = constant('Doozr_Http::REASONPHRASE_' . $statusCode);
+            $statusMessage = constant('Doozr_Http::REASONPHRASE_'.$statusCode);
         }
-        $body->write('<h1>' . $statusMessage . '</h1>');
+        $body->write('<h1>'.$statusMessage.'</h1>');
 
         return $response
             ->withStatus($statusCode, $statusMessage)
@@ -1264,13 +1309,13 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         // Log request serving time -> but only if logger available!
         if (self::$registry instanceof Doozr_Registry && null !== self::$registry->getLogger()) {
             self::$registry->getLogger()->debug(
-                'Request cycle completed in: ' . self::getDateTime()->getMicrotimeDiff(self::$starttime) . ' seconds'
+                'Request cycle completed in: '.self::getDateTime()->getMicrotimeDiff(self::$starttime).' seconds'
             );
 
             // Log memory usage
             $memoryUsage = number_format(round(memory_get_peak_usage() / 1024 / 1024, 2), 2);
             self::$registry->getLogger()->debug(
-                'Total consumed memory: ' . $memoryUsage . ' MB'
+                'Total consumed memory: '.$memoryUsage.' MB'
             );
         }
 

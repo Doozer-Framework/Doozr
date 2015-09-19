@@ -57,7 +57,6 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry/Interface.php';
 
 use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * Doozr - Registry
@@ -263,12 +262,20 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The UUID
      * @access protected
+     * @throws Doozr_Registry_Exception
      */
     protected function calculateUuid()
     {
-        // Generate a version 4 (random) UUID object
-        $uuid4 = Uuid::uuid4();
-        return $uuid4->toString();
+        try {
+            // Generate a version 4 (random) UUID object
+            $uuid4 = Uuid::uuid4();
+            $uuid  = $uuid4->toString();
+
+        } catch (UnsatisfiedDependencyException $exception) {
+            throw new Doozr_Registry_Exception($exception->getMessage(), $exception->getCode(), $exception);
+        }
+
+        return $uuid;
     }
 
     /**
@@ -346,7 +353,9 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
         if (true === isset(self::$parameters[$key])) {
             $value = self::$parameters[$key];
         } else {
-            $value = null;
+            throw new Doozr_Registry_Exception(
+                sprintf('Key "%s" does not exist!', $key)
+            );
         }
 
         return $value;
@@ -660,7 +669,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Psr\Cache\CacheItemPoolInterface The cache instance
+     * @return Doozr_Cache_Service The cache instance
      * @access public
      */
     public function getCache()

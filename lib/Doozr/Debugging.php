@@ -577,8 +577,9 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
         } else {
             // Otherwise the pretty one
             $exceptionHandler = new PrettyPageHandler();
+            $constants        = get_defined_constants();
+
             $exceptionHandler->setPageTitle('Doozr');
-            $constants = get_defined_constants();
 
             // Extract Doozr Constants as debugging information
             $data = [];

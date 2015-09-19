@@ -109,7 +109,6 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
      */
     protected $path;
 
-
     /**
      * Fetches and optional returns the processed template
      * for further processing

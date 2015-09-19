@@ -316,25 +316,6 @@ class Doozr_Base_Tools
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Generic call methods (generic dynamic calling methods). This method is a generic dynamic
      * calling method. It calls dynamic build methods (by name) in already existing instances

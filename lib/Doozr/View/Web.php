@@ -123,7 +123,8 @@ class Doozr_View_Web extends Doozr_Base_View
         if (true === $this->getCaching()) {
             try {
                 $html = $this->cache->read($this->getFingerprint());
-            } catch (Doozr_Cache_Service_Exception $e) {
+
+            } catch (Doozr_Cache_Service_Exception $exception) {
                 $html = null;
             }
         }
@@ -142,6 +143,9 @@ class Doozr_View_Web extends Doozr_Base_View
 
             /* @var $template PHPTAL */
             $template = Doozr_Loader_Serviceloader::load('template', $templateFile);
+            $template->setForceReparse(true);
+            $template->setCacheLifetime(-1);
+
 
             // Set output runtimeEnvironment ...
             $template->setOutputMode($this->getOutputMode());
