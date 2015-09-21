@@ -34,8 +34,8 @@ script:
   - phpunit -c app/ --coverage-clover=coverage.clover
 
 after_script:
-  - if [ $(phpenv version-name) = "5.5" ] && [test $PREFER_LOWEST = "--prefer-lowest" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [ $(phpenv version-name) = "5.5" ] && [test $PREFER_LOWEST = "--prefer-lowest" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - if [ $(phpenv version-name) = "5.5" ] && [$PREFER_LOWEST = "--prefer-lowest" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ $(phpenv version-name) = "5.5" ] && [$PREFER_LOWEST = "--prefer-lowest" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
 after_success:
   # Push report to coveralls.io
