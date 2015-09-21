@@ -1,5 +1,4 @@
 # .scrutinizer.yml
 tools:
-  external_code_coverage:
-    runs: 8
-    timeout: 1210
+    external_code_coverage:
+        timeout: 600    # Timeout in seconds.
