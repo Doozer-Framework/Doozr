@@ -80,6 +80,7 @@ For a consistent versioning we decided to make use of `Semantic Versioning 2.0.0
 - [x] Bug hunt and quality offensive
 - [x] Documentation ([doozr.readme.io](https://doozr.readme.io))
 
+[![Throughput Graph](https://graphs.waffle.io/clickalicious/Doozr/throughput.svg)](https://waffle.io/clickalicious/Doozr/metrics)
 
 ## Security Issues
 

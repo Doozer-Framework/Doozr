@@ -4,7 +4,6 @@ php:
   - 5.5
   - 5.6
   - 7.0
-  - hhvm
 
 sudo: true
 
@@ -20,25 +19,23 @@ before_install:
   - sudo locale-gen de_DE
   - sudo locale-gen de_DE.UTF-8
   - sudo dpkg-reconfigure locales
-  - travis_retry composer selfupdate
-  - composer --version
+  - composer self-update --no-interaction
+  - composer --version --no-interaction
 
 env:
   - PREFER_LOWEST="--prefer-lowest"
   - PREFER_LOWEST=""
 
 before_script:
-  - travis_retry composer update --prefer-source $PREFER_LOWEST
-  - composer --optimize-autoloader
-  - mkdir -p ./build/logs
+  - composer update --prefer-source $PREFER_LOWEST
+  - composer --optimize-autoloader --no-interaction
 
 script:
-  - phpunit -c app/ --coverage-clover=./build/logs/clover.xml
+  - phpunit -c app/ --coverage-clover=coverage.clover
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml > /dev/null 2>&1
-# --access-token=$SCRUTINIZERKEY
+  - if [ $(phpenv version-name) == "5.5" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ $(phpenv version-name) == "5.5" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
 after_success:
   # Push report to coveralls.io
