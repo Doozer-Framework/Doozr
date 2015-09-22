@@ -1,6 +1,12 @@
 # .scrutinizer.yml
+before_commands:
+    - "composer update --prefer-source --no-interaction"
+
 filter:
-    excluded_paths: [tests/*]
+    excluded_paths:
+        - bin/*
+        - docs/*
+
 checks:
     php:
         code_rating: true
@@ -17,20 +23,64 @@ checks:
         fix_line_ending: true
         fix_identation_4spaces: true
         fix_doc_comments: true
+
 tools:
-    external_code_coverage:
-        timeout: 600    # Timeout in seconds.
-        runs: 1
-    php_analyzer: true
+    external_code_coverage: true
     php_code_coverage: false
     php_code_sniffer:
+        enabled: true
         config:
             standard: PSR2
         filter:
-            paths: ['src']
-    php_loc:
-        enabled: true
-        excluded_dirs: [vendor, tests]
+            paths:
+                - lib/*
+                - tests/*
+                - web/*
+                - app/*
+            excluded_paths:
+                - vendor/*
     php_cpd:
         enabled: true
-        excluded_dirs: [vendor, tests]
+        excluded_dirs:
+            - bin
+            - docs
+            - tests
+            - vendor
+    php_cs_fixer:
+        enabled: true
+        config:
+            level: all
+        filter:
+            paths:
+                - lib/*
+                - tests/*
+                - web/*
+                - app/*
+    php_loc:
+        enabled: true
+        excluded_dirs:
+            - bin
+            - docs
+            - vendor
+    php_mess_detector:
+        enabled: true
+        filter:
+            paths:
+                - lib/*
+                - tests/*
+                - web/*
+                - app/*
+    php_pdepend:
+        enabled: true
+        excluded_dirs:
+            - bin
+            - docs
+            - tests
+            - vendor
+    php_analyzer: true
+    php_analyzer:
+        filter:
+            paths:
+                - src/*
+                - tests/*
+    sensiolabs_security_checker: true
