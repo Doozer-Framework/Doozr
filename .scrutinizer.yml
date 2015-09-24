@@ -58,7 +58,8 @@ checks:
         avoid_unnecessary_concatenation: true
 
 tools:
-    external_code_coverage: true
+    external_code_coverage:
+        timeout: 600
     php_code_coverage: false
     php_code_sniffer:
         enabled: true
