@@ -39,8 +39,6 @@ after_script:
   - if [ $(phpenv version-name) == "5.5" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
 after_success:
-  # Push report to coveralls.io
-  - coveralls
   # Push coverage to github pages branch
   - chmod +x ./bin/update-gh-pages.sh
   - bash ./bin/update-gh-pages.sh
