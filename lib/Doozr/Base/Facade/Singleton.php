@@ -220,7 +220,7 @@ class Doozr_Base_Facade_Singleton extends Doozr_Base_Class_Singleton
      * @param $property The property being checked for existence
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE if isset, otherwise FALSE
+     * @return boolean|null TRUE if isset, otherwise FALSE
      * @access public
      */
     public function __isset($property)
