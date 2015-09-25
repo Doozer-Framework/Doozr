@@ -322,7 +322,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * Getter for model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Base_Model|null The model if set, otherwise NULL
+     * @return Doozr_Base_Model The model if set, otherwise NULL
      * @access protected
      */
     protected function getModel()
@@ -691,7 +691,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      *
      * @internal param mixed $variable A single argument required to execute the presenter or an array of arguments
      * @author   Benjamin Carl <opensource@clickalicious.de>
-     * @return   boolean True if everything wents fine, otherwise false
+     * @return   Doozr_Base_Presenter True if everything wents fine, otherwise false
      * @access   protected
      */
     protected function required($argument, $scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)
