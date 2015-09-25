@@ -309,7 +309,7 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
      * @param string $chainClassname The requested property
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object The current instance of this class
+     * @return Doozr_Base_Decorator_Singleton The current instance of this class
      * @access public
      */
     public function __get($chainClassname)
