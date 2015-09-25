@@ -66,7 +66,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Tools
+class Doozr_Base_Tools extends Doozr_Base_Development
 {
     /**
      * The backtrace information so we don't need to call this expensive
