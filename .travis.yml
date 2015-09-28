@@ -19,8 +19,8 @@ before_install:
   - sudo locale-gen de_DE
   - sudo locale-gen de_DE.UTF-8
   - sudo dpkg-reconfigure locales
-  - sudo composer self-update --no-interaction
-  - sudo composer --version --no-interaction
+  - composer self-update --no-interaction
+  - composer --version --no-interaction
 
 env:
   - PREFER_LOWEST="--prefer-lowest"
