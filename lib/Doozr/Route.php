@@ -591,6 +591,8 @@ final class Doozr_Route extends Doozr_Base_Class
             if ($matches > 0) {
                 // Use our selection from result
                 $classname = $classes[1];
+
+                $classname = 'App\\'.$classname;
                 $reflection = new ReflectionClass($classname);
 
                 // Extract the methods (potentially an ...Action())
@@ -758,7 +760,7 @@ final class Doozr_Route extends Doozr_Base_Class
         // Assume no routes
         $routes = [];
 
-        $directoryIterator = new RecursiveDirectoryIterator(DOOZR_APP_ROOT . 'Presenter');
+        $directoryIterator = new RecursiveDirectoryIterator(DOOZR_APP_ROOT . 'App/Presenter');
         $iteratorIterator  = new RecursiveIteratorIterator($directoryIterator);
         $regexIterator     = new RegexIterator($iteratorIterator, '/.*\.php/i', RecursiveRegexIterator::GET_MATCH);
 
