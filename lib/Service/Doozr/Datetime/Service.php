@@ -967,7 +967,7 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
      * @param string $year   The year
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string UNIX-Timestamp
+     * @return integer UNIX-Timestamp
      * @access protected
      */
     protected function _getTimestamp(

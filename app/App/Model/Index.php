@@ -33,8 +33,8 @@ final class Model_Index extends \Doozr_Base_Model
     /**
      * Magic & generic data delivery.
      *
-     * @author Benjamin Carl <benjamin.carl@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE (we need!!! this as signal from userland back to backend!)
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return boolean|null TRUE on success, otherwise FALSE (we need!!! this as signal from userland back to backend!)
      * @access protected
      */
     protected function __data()

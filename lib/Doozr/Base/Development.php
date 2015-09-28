@@ -211,7 +211,7 @@ class Doozr_Base_Development
      * @param bool $print True [default] to print/echo the profiling-details otherwise it returns the data
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed [optional] The result of the last profiling operation (only if $print = false)
+     * @return string|null [optional] The result of the last profiling operation (only if $print = false)
      * @access public
      */
     public function getProfilingDetails($print = true)
