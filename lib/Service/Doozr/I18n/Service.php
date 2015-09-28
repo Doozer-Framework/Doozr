@@ -412,6 +412,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
             return $this->getLocalizer($type, $input['redirect']);
 
         } else {
+
             return self::instantiate(
                 'Doozr_I18n_Service_Localize_'.$type,
                 array(

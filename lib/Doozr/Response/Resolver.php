@@ -693,7 +693,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         $instance = null;
 
         // Build classname
-        $classname = $layer . '_' . ucfirst($request);
+        $classname = 'App\\'.$layer . '_' . ucfirst($request);
 
         // Build location (path + filename)
         $classFileAndPath = $this->getRegistry()->getParameter('doozr.app.root') .

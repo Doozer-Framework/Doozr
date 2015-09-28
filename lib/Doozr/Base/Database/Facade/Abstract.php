@@ -166,7 +166,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * @param string $identifier The identifier to use for this instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return string TRUE on success, otherwise FALSE
      * @access public
      */
     public function setInstanceIdentifier($identifier)
@@ -322,7 +322,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * @param string $orm The name of the ORM to retrieve config for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Config retrieved by Doozr_Kernel::config()
+     * @return boolean Config retrieved by Doozr_Kernel::config()
      * @access protected
      * @throws Doozr_Exception
      */

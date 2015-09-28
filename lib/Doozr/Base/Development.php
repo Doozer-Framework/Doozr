@@ -92,17 +92,17 @@ class Doozr_Base_Development
      * Runs a method with the provided arguments, and returns details about how long it took.
      * Works with instance methods and static methods.
      *
-     * @param mixed $class The name of the class to profile or an existing instance
-     * @param string $methodname The name of the method to profile
-     * @param array $methodargs The arguments to pass to the function
-     * @param int $invocations The number of times to call the method
+     * @param mixed      $class           Name of the class to profile or an existing instance
+     * @param string     $methodname      Name of the method to profile
+     * @param array|null $methodarguments Arguments to pass to the function
+     * @param int        $invocations     Number of times to call the method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return float The average invocation duration in seconds
      * @access public
-     * @throws Exception
+     * @throws Doozr_Exception
      */
-    public function profile($class, $methodname, $methodargs = null, $invocations = 1)
+    public function profile($class, $methodname, array $methodarguments = null, $invocations = 1)
     {
         if (is_object($class)) {
             $classname = get_class($class);
@@ -111,7 +111,9 @@ class Doozr_Base_Development
         }
 
         if (!class_exists($classname)) {
-            throw new Exception("{$classname} doesn't exist");
+            throw new Doozr_Exception(
+                sprintf('%s does not exist.', $classname)
+            );
         }
 
         // reflect
@@ -133,10 +135,10 @@ class Doozr_Base_Development
 
         for ($i = 0; $i < $invocations; $i++) {
             $start = microtime(true);
-            if (is_null($methodargs)) {
+            if (is_null($methodarguments)) {
                 $method->invoke($instance);
             } else {
-                $method->invokeArgs($instance, $methodargs);
+                $method->invokeArgs($instance, $methodarguments);
             }
 
             $durations[] = microtime(true) - $start;
@@ -149,7 +151,7 @@ class Doozr_Base_Development
         $this->details = array(
             'class'       => $classname,
             'method'      => $methodname,
-            'arguments'   => $methodargs,
+            'arguments'   => $methodarguments,
             'duration'    => $duration,
             'invocations' => $invocations
         );
@@ -170,20 +172,35 @@ class Doozr_Base_Development
     private function _invokedMethod()
     {
         if (isset($this->details)) {
+
             if ($this->profileStatic) {
                 $scopeResolution = '::';
+
             } else {
                 $scopeResolution = '->';
             }
+
             if (!is_null($this->details['arguments'])) {
-                $args = join(", ", $this->details['arguments']);
+                $arguments = join(', ', $this->details['arguments']);
+
             } else {
-                $args = '';
+                $arguments = '';
             }
-            return "{$this->details['class']}{$scopeResolution}{$this->details['method']}(".$args.")";
+
+            $result = sprintf(
+                '%s%s%s("%s")',
+                $this->details['class'],
+                $scopeResolution,
+                $this->details['method'],
+                $arguments
+            );
+
         } else {
-            return null;
+            $result = null;
+
         }
+
+        return $result;
     }
 
     /**
@@ -194,7 +211,7 @@ class Doozr_Base_Development
      * @param bool $print True [default] to print/echo the profiling-details otherwise it returns the data
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed [optional] The result of the last profiling operation (only if $print = false)
+     * @return string|null [optional] The result of the last profiling operation (only if $print = false)
      * @access public
      */
     public function getProfilingDetails($print = true)
@@ -204,22 +221,29 @@ class Doozr_Base_Development
             $numInvoked   = $this->details['invocations'];
 
             if ($numInvoked == 1) {
-                $profilingDetails = "{$methodString} took {$this->details['duration']['average']}s\n";
+                $profilingDetails = sprintf(
+                    "%s took %ss\n",
+                    $methodString,
+                    $this->details['duration']['average']
+                );
             } else {
-                $profilingDetails = "{$methodString} was invoked {$numInvoked} times\n";
-                $profilingDetails .= "Total duration:   {$this->details['duration']['total']}s\n";
-                $profilingDetails .= "Average duration: {$this->details['duration']['average']}s\n";
-                $profilingDetails .= "Worst duration:   {$this->details['duration']['worst']}s\n";
+                $profilingDetails  = sprintf('%s was invoked %s times\n', $methodString, $numInvoked);
+                $profilingDetails .= sprintf('Total duration:   %ss\n', $this->details['duration']['total']);
+                $profilingDetails .= sprintf('Average duration: %ss\n', $this->details['duration']['average']);
+                $profilingDetails .= sprintf('Worst duration:   %ss\n', $this->details['duration']['worst']);
             }
 
+            $result = $profilingDetails;
+
             // echo or return
-            if ($print) {
-                echo $profilingDetails;
-            } else {
-                return $profilingDetails;
+            if (true === $print) {
+                echo $result;
             }
+
         } else {
-            return null;
+            $result = null;
         }
+
+        return $result;
     }
 }
