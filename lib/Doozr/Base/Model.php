@@ -123,7 +123,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      */
     protected $configuration;
 
-
     /**
      * Constructor.
      *
@@ -149,7 +148,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
-            $result = $this->__tearup($requestState->getRoute());
+            $result = $this->__tearup($requestState->getUri()->getPath());
 
             if ($result !== true) {
                 throw new Doozr_Base_Model_Exception(
@@ -394,11 +393,21 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
                 $arguments = func_get_args();
 
                 if (count($arguments) > 0) {
-                    call_user_func_array(array($this, $method), $arguments);
+                    $result = call_user_func_array(array($this, $method), $arguments);
 
                 } else {
-                    call_user_func(array($this, $method));
+                    $result = call_user_func(array($this, $method));
+                }
 
+                if (true !== $result) {
+                    throw new Doozr_Base_Model_Exception(
+                        sprintf(
+                            '%s() (if set) MUST return TRUE. %s() is set but it returned: "%s"',
+                            $method,
+                            $method,
+                            var_export($result, true)
+                        )
+                    );
                 }
             }
         }
