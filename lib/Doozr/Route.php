@@ -235,6 +235,10 @@ final class Doozr_Route extends Doozr_Base_Class
                 $request = $request->withAttribute(
                     'route', new Doozr_Request_Route_State($route[1][0], $route[1][1])
                 );
+
+                if (true === isset($route[2])) {
+                    $request = $request->withQueryParams($route[2]);
+                }
                 break;
         }
 
