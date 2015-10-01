@@ -327,7 +327,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         if ($includeWalltime) {
             self::$starttime = $_SERVER['REQUEST_TIME'];
         } else {
-            self::$starttime = microtime();
+            self::$starttime = microtime(true);
         }
     }
 
