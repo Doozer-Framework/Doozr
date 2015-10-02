@@ -87,7 +87,7 @@ final class Presenter_Test extends \Doozr_Base_Presenter
      * Constructor replacement.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean
      * @access protected
      */
     protected function __tearup()
