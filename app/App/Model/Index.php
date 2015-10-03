@@ -63,7 +63,7 @@ final class Model_Index extends \Doozr_Base_Model
      * Constructor replacement.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean
      * @access protected
      */
     protected function __tearup()
