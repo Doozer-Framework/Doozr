@@ -1,6 +1,8 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+namespace App;
+
 /**
  * Doozr - Demonstration - Model
  *
@@ -26,13 +28,13 @@
 /**
  * Demonstration Model for 'Hello World!'
  */
-final class Model_Index extends Doozr_Base_Model
+final class Model_Index extends \Doozr_Base_Model
 {
     /**
-     * Generic data retrieval.
+     * Magic & generic data delivery.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE (we need!!! this as signal from userland back to backend!)
+     * @return boolean|null TRUE on success, otherwise FALSE (we need!!! this as signal from userland back to backend!)
      * @access protected
      */
     protected function __data()
@@ -45,11 +47,11 @@ final class Model_Index extends Doozr_Base_Model
         $people[] = 'Bar Baz';
 
         // Data used as key => value pairs for template engine
-        $data = array(
+        $data = [
             'title'  => 'Doozr\'s bootstrap environment',
             'year'   => date('Y'),
             'people' => $people,
-        );
+        ];
 
         // Just store and trigger dispatch to view -> render by observer pattern
         $this->setData($data);
@@ -59,13 +61,16 @@ final class Model_Index extends Doozr_Base_Model
      * Constructor replacement.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean
      * @access protected
      */
     protected function __tearup()
     {
         // Intentionally left empty.
         // Here it's up to your imagination.
+
+        // Must return TRUE always!
+        return true;
     }
 
     /**

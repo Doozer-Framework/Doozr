@@ -166,16 +166,6 @@
           }
         ]
       },
-      "doozr.foo": {
-        "classname": "Doozr_Foo",
-        "dependencies": [
-          {
-            "type": "property",
-            "target": "reg",
-            "classname": "Doozr_Registry"
-          }
-        ]
-      },
       "doozr.configuration.reader.ini": {
         "classname": "Doozr_Configuration_Reader_Ini",
         "dependencies": [
