@@ -207,7 +207,7 @@ if (false === defined('DOOZR_DEBUGGING')) {
         }
     }
 
-    define('DOOZR_DEBUGGING', $doozrDebugging);
+    define('DOOZR_DEBUGGING', (bool)$doozrDebugging);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------

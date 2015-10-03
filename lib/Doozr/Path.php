@@ -399,20 +399,24 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      */
     public function get($identifier, $add = '', $trailingSlash = false)
     {
-        // Prepare which
+        // Prepare identifier for internal use (remove prefix!)
         $identifier = str_replace('doozr_', '', strtolower($identifier));
 
-        // return if exist - return false if not
-        if (isset(self::$path[$identifier])) {
-            // check for additional path add-on
-            if (strlen($add)) {
-                // if defined we add the correct slashed path
-                $add = self::correctPath($add);
-            }
-            return self::$path[$identifier] . $add . (($trailingSlash) ? DIRECTORY_SEPARATOR : '');
-        } else {
-            return false;
+        // Throw an exception if identifier not known
+        if (false === isset(self::$path[$identifier])) {
+            throw new Doozr_Path_Exception(
+                sprintf('There is no path entry for identifier: "%s"', $identifier)
+            );
+
         }
+
+        // Check for additional path add-on
+        if (strlen($add)) {
+            // if defined we add the correct slashed path
+            $add = self::correctPath($add);
+        }
+
+        return self::$path[$identifier] . $add . (($trailingSlash) ? DIRECTORY_SEPARATOR : '');
     }
 
     /**

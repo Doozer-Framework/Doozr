@@ -1,6 +1,8 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+namespace App;
+
 /**
  * Doozr - Demonstration - Presenter
  *
@@ -38,11 +40,15 @@ use Doozr\Route\Annotation\Route;
  *
  *     $this->setData($buffer);
  *
- * which will result in a rendering of the data if a view with rendering capabilities
- * was attached. If not (now view for example) it just will end up in a HTTP response
- * 200. Everything handled fine.
+ * This is our so called IPO Input Processing Output. The presenter is the processor
+ * in this construction. So it is responsible for manipulating values and stuff like
+ * that. This is done here. The presenter retrieves the data (buffer) from the model
+ * (optionally) and put it into render queue by calling setData($data). This will
+ * result in a rendering of the data if a view with rendering capabilities was
+ * attached. If not (now view for example) it just will end up in a HTTP response 200.
+ * Everything handled fine.
  */
-final class Presenter_Index extends Doozr_Base_Presenter
+final class Presenter_Index extends \Doozr_Base_Presenter
 {
     /**
      * Index-action.
@@ -55,14 +61,16 @@ final class Presenter_Index extends Doozr_Base_Presenter
      *     route="/index/index",
      *     methods="GET",
      *     presenter="index",
-     *     action="index"
+     *     action="index",
+     *     name="index"
      * )
      *
      * @Route(
      *     route="/",
      *     methods="GET",
      *     presenter="index",
-     *     action="index"
+     *     action="index",
+     *     name="root"
      * )
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -75,6 +83,38 @@ final class Presenter_Index extends Doozr_Base_Presenter
         $buffer = $this->getModel()->getData();
 
         // Set data to trigger events in view (and maybe also model [two way data binding])
-        return $this->setData($buffer);
+        $this->setData($buffer);
+
+        // Signal for success
+        return true;
+    }
+
+    /**
+     * Constructor replacement.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return bool TRUE always
+     * @access protected
+     */
+    protected function __tearup()
+    {
+        // Intentionally left empty.
+        // Here it's up to your imagination.
+
+        // Must return TRUE always!
+        return true;
+    }
+
+    /**
+     * Shutdown event.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return void
+     * @access protected
+     */
+    protected function __teardown()
+    {
+        // Intentionally left empty.
+        // Here it's up to your imagination.
     }
 }

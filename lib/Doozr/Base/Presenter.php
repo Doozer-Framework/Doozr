@@ -322,7 +322,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * Getter for model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Base_Model|null The model if set, otherwise NULL
+     * @return Doozr_Base_Model The model if set, otherwise NULL
      * @access protected
      */
     protected function getModel()
@@ -331,12 +331,12 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * This method (container) is intend to set the data for a requested runtimeEnvironment.
+     * This method (container) is intend to set the data for a requested mode.
      *
      * @param mixed $data The data (array preferred) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool True if everything wends fine, otherwise false
+     * @return mixed The data from view if view exist, otherwise NULL
      * @access public
      */
     public function setData($data)
@@ -345,8 +345,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
 
         // Notify observers about new data
         return $this->notify();
-
-        #return true;
     }
 
     /**
@@ -365,10 +363,10 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * This method (container) is intend to return the data for a requested runtimeEnvironment.
+     * This method (container) is intend to return the data for a requested mode.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data for the runtimeEnvironment requested
+     * @return mixed The data for the mode requested
      * @access public
      */
     public function getData()
@@ -691,7 +689,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      *
      * @internal param mixed $variable A single argument required to execute the presenter or an array of arguments
      * @author   Benjamin Carl <opensource@clickalicious.de>
-     * @return   boolean True if everything wents fine, otherwise false
+     * @return   Doozr_Base_Presenter True if everything wents fine, otherwise false
      * @access   protected
      */
     protected function required($argument, $scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)

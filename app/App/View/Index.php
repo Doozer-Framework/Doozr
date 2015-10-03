@@ -1,6 +1,8 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+namespace App;
+
 /**
  * Doozr - Demonstration - View
  *
@@ -26,7 +28,7 @@
 /**
  * Demonstration View for 'Hello World!'
  */
-final class View_Index extends Doozr_View_Web
+final class View_Index extends \Doozr_View_Web
 {
     /**
      * Renderer for Index
@@ -44,11 +46,13 @@ final class View_Index extends Doozr_View_Web
      */
     protected function __renderIndex(array $data)
     {
-        /* @var $session Doozr_Session_Service */
-        $session = Doozr_Loader_Serviceloader::load('session');
+        /* @var $session \Doozr_Session_Service */
+        $session = \Doozr_Loader_Serviceloader::load('session');
 
-        /* Use this as fingerprint only if you also use an unique session identifier for each user (Doozr default) */
-        // A user specific view would pass a user specific value in here // for group pages a group id ...
+        /**
+         * A user specific view would pass a user specific value in here for group pages a group id and so on ...
+         * Use this as fingerprint only if you also use an unique session identifier for each user (Doozr default).
+         */
         $fingerprint = $session->getIdentifier();
 
         // Render data from model
