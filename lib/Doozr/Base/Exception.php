@@ -309,7 +309,7 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
     /**
      * Setter for line.
      *
-     * @param int|string $line The line to set
+     * @param integer $line The line to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
