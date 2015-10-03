@@ -74,20 +74,23 @@ final class Presenter_Test extends \Doozr_Base_Presenter
      * )
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return bool TRUE always
      * @access public
      */
     public function indexAction()
     {
         // Set data to trigger events in view (and maybe also model)
-        return $this->setData(['title' => 'Doozr', 'hello' => 'Aloha']);
+        $this->setData(['title' => 'Doozr', 'hello' => 'Aloha']);
+
+        // Signal success
+        return true;
     }
 
     /**
      * Constructor replacement.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool TRUE always
      * @access protected
      */
     protected function __tearup()

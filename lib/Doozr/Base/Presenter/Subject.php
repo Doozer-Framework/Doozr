@@ -136,7 +136,7 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
             $this->storeData($observer->getIdentifier(), $observer->update($this));
         }
 
-        return $this->getStore(self::IDENTIFIER_VIEW);
+        return $this->getStoredData(self::IDENTIFIER_VIEW);
     }
 
     /**

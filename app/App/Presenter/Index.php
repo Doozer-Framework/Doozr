@@ -83,14 +83,17 @@ final class Presenter_Index extends \Doozr_Base_Presenter
         $buffer = $this->getModel()->getData();
 
         // Set data to trigger events in view (and maybe also model [two way data binding])
-        return $this->setData($buffer);
+        $this->setData($buffer);
+
+        // Signal for success
+        return true;
     }
 
     /**
      * Constructor replacement.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return bool TRUE always
      * @access protected
      */
     protected function __tearup()
@@ -99,7 +102,7 @@ final class Presenter_Index extends \Doozr_Base_Presenter
         // Here it's up to your imagination.
 
         // Must return TRUE always!
-        #return true;
+        return true;
     }
 
     /**

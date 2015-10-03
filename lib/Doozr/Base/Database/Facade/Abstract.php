@@ -133,18 +133,14 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      */
     protected $logger;
 
-
     /**
-     * constructs the class
+     * Constructor.
      *
-     * constructor builds the class
-     *
-     * @param Doozr_Path   $path   Instance of Doozr_Path manager for path'
+     * @param Doozr_Path          $path   Instance of Doozr_Path manager for path'
      * @param Doozr_Configuration $config Instance of Doozr_Configuration holding Doozr's config
-     * @param Doozr_Logging $logger Instance of Doozr_Logging
+     * @param Doozr_Logging       $logger Instance of Doozr_Logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
      * @access public
      */
     public function __construct(Doozr_Path $path, Doozr_Configuration $config, Doozr_Logging $logger)
@@ -153,9 +149,6 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
         $this->path   = $path;
         $this->config = $config;
         $this->logger = $logger;
-
-        // call parent's constructor
-        parent::__construct();
     }
 
     /**

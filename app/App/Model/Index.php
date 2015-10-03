@@ -34,7 +34,7 @@ final class Model_Index extends \Doozr_Base_Model
      * Magic & generic data delivery.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|null TRUE on success, otherwise FALSE (we need!!! this as signal from userland back to backend!)
+     * @return boolean TRUE on success, otherwise FALSE (we need!!! this as signal from userland back to backend!)
      * @access protected
      */
     protected function __data()
@@ -55,6 +55,8 @@ final class Model_Index extends \Doozr_Base_Model
 
         // Just store and trigger dispatch to view -> render by observer pattern
         $this->setData($data);
+
+        return true;
     }
 
     /**

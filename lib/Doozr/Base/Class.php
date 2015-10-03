@@ -73,14 +73,12 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Tools.php';
 class Doozr_Base_Class extends Doozr_Base_Tools
 {
     /**
-     * The registry instance injected in all core classes
-     * based on Doozr_Base_Class.
+     * The registry instance injected in all core classes based on Doozr_Base_Class.
      *
      * @var Doozr_Registry
      * @access protected
      */
     protected $registry;
-
 
     /**
      * Setter for registry

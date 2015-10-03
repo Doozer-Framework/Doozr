@@ -8,6 +8,7 @@ filter:
         - bin/*
         - docs/*
         - lib/Service/Doozr/Oauth2/Service/Lib
+        - lib/Service/Doozr/*
 
 checks:
     php:
@@ -75,6 +76,7 @@ tools:
             excluded_paths:
                 - vendor/*
                 - lib/Service/Doozr/Oauth2/Service/Lib/*
+                - lib/Service/Doozr/*
     php_cpd:
         enabled: true
         excluded_dirs:
@@ -99,6 +101,7 @@ tools:
             - docs
             - vendor
             - lib/Service/Doozr/Oauth2/Service/Lib/*
+            - lib/Service/Doozr/*
     php_mess_detector:
         enabled: true
         filter:
@@ -115,6 +118,7 @@ tools:
             - tests
             - vendor
             - lib/Service/Doozr/Oauth2/Service/Lib
+            - lib/Service/Doozr
     php_analyzer: true
     php_analyzer:
         filter:

@@ -331,12 +331,12 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * This method (container) is intend to set the data for a requested runtimeEnvironment.
+     * This method (container) is intend to set the data for a requested mode.
      *
      * @param mixed $data The data (array preferred) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool True if everything wends fine, otherwise false
+     * @return mixed The data from view if view exist, otherwise NULL
      * @access public
      */
     public function setData($data)
@@ -345,8 +345,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
 
         // Notify observers about new data
         return $this->notify();
-
-        #return true;
     }
 
     /**
@@ -365,10 +363,10 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * This method (container) is intend to return the data for a requested runtimeEnvironment.
+     * This method (container) is intend to return the data for a requested mode.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data for the runtimeEnvironment requested
+     * @return mixed The data for the mode requested
      * @access public
      */
     public function getData()
