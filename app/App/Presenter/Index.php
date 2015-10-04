@@ -74,7 +74,7 @@ final class Presenter_Index extends \Doozr_Base_Presenter
      * )
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return mixed The data from processing (result of all observers)
      * @access public
      */
     public function indexAction()
@@ -83,10 +83,7 @@ final class Presenter_Index extends \Doozr_Base_Presenter
         $buffer = $this->getModel()->getData();
 
         // Set data to trigger events in view (and maybe also model [two way data binding])
-        $this->setData($buffer);
-
-        // Signal for success
-        return true;
+        return $this->setData($buffer);
     }
 
     /**

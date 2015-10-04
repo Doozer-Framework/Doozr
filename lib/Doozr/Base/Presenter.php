@@ -336,7 +336,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param mixed $data The data (array preferred) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The data from view if view exist, otherwise NULL
+     * @return mixed The data from processing
      * @access public
      */
     public function setData($data)
@@ -359,6 +359,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     public function data($data)
     {
         $this->setData($data);
+
         return $this;
     }
 
@@ -400,6 +401,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     protected function ids(array $ids)
     {
         $this->setIds($ids);
+
         return $this;
     }
 
@@ -441,6 +443,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     protected function configuration(Doozr_Configuration_Interface $configuration)
     {
         $this->setConfiguration($configuration);
+
         return $this;
     }
 
@@ -465,6 +468,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     public function type($type)
     {
         $this->setType($type);
+
         return $this;
     }
 
@@ -472,7 +476,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     {
         return $this->type;
     }
-
 
     /**
      * Sets the count of root nodes for request.
@@ -538,12 +541,12 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
         // now configure a new autoloader spl config
         $autoloaderApp = new Doozr_Loader_Autoloader_Spl_Config();
         $autoloaderApp
-            ->setNamespace($app->namespace)
-            ->setNamespaceSeparator('_')
+            ->_namespace($app->namespace)
+            ->namespaceSeparator('_')
             ->addExtension('php')
-            ->setPath(substr($app->path, 0, -1))
-            ->setDescription('Autoloader for App classes with namespace: "' . $app->namespace . '"')
-            ->setPriority(0);
+            ->path(substr($app->path, 0, -1))
+            ->description('Autoloader for App classes with namespace: "' . $app->namespace . '"')
+            ->priority(0);
 
         Doozr_Loader_Autoloader_Spl_Facade::attach(array($autoloaderApp));
     }

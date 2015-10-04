@@ -278,24 +278,24 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Facade.php';
 // now configure a new autoloader spl config
 $autoloaderDoozr = new Doozr_Loader_Autoloader_Spl_Config();
 $autoloaderDoozr
-    ->setNamespace('Doozr')
-    ->setNamespaceSeparator('_')
+    ->_namespace('Doozr')
+    ->namespaceSeparator('_')
     ->addExtension('php')
-    ->setPath(substr(DOOZR_DOCUMENT_ROOT, 0, -1))
-    ->setDescription('Doozr\'s autoloader for loading classes of Doozr below "lib/".')
-    ->setPriority(0);
+    ->path(substr(DOOZR_DOCUMENT_ROOT, 0, -1))
+    ->description('Doozr\'s autoloader for loading classes of Doozr below "lib/".')
+    ->priority(0);
 
 /**
  * Autoloader for Doozr - Services (native)
  */
 $autoloaderService = new Doozr_Loader_Autoloader_Spl_Config();
 $autoloaderService
-    ->setNamespace('Doozr')
-    ->setNamespaceSeparator('_')
+    ->_namespace('Doozr')
+    ->namespaceSeparator('_')
     ->addExtension('php')
-    ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
-    ->setDescription('Doozr\'s autoloader for loading Services of Doozr below "lib/Service".')
-    ->setPriority(1);
+    ->path(DOOZR_DOCUMENT_ROOT . 'Service')
+    ->description('Doozr\'s autoloader for loading Services of Doozr below "lib/Service".')
+    ->priority(1);
 
 /**
  * The facade itself is auto instanciating singleton within the
