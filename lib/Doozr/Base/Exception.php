@@ -157,7 +157,7 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
      * @param int $code The error-code of the exception
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer An unique error-code
+     * @return string An unique error-code
      * @access protected
      */
     protected function generateUniqueCode($file, $code)
@@ -178,7 +178,7 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
      * @param string $string The data as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The calculated checksum
+     * @return integer The calculated checksum
      * @access protected
      */
     protected function getChecksum($string)
@@ -199,7 +199,7 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
      * @param string $file The file to return nesting level for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The nesting level of file
+     * @return integer The nesting level of file
      * @access protected
      */
     protected function getFileNestingLevel($file)
@@ -240,7 +240,7 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
      * Getter for type
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The type
+     * @return string The type
      * @access public
      */
     public function getType()
@@ -309,7 +309,7 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
     /**
      * Setter for line.
      *
-     * @param int|string $line The line to set
+     * @param integer $line The line to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -323,7 +323,7 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
     /**
      * Setter for line.
      *
-     * @param int|string $line The line to set
+     * @param integer $line The line to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Base_Exception

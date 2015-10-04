@@ -218,6 +218,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             // Call the requested Action on requested Presenter (Presenter:Action)
             $data = $presenter->{$method}();
 
+            #dump('FEHLER HIER DRÜBER!');die;
+
             // Create a response body with write access
             $responseBody = new Doozr_Response_Body('php://memory', 'w');
             $responseBody->write($data[Doozr_Base_Presenter::IDENTIFIER_VIEW]);
@@ -693,7 +695,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         $instance = null;
 
         // Build classname
-        $classname = $layer . '_' . ucfirst($request);
+        $classname = 'App\\'.$layer . '_' . ucfirst($request);
 
         // Build location (path + filename)
         $classFileAndPath = $this->getRegistry()->getParameter('doozr.app.root') .
