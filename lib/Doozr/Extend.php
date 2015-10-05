@@ -331,7 +331,7 @@ function removeLastElementIfSame(array &$array, $reference)
  * Iterator for recursive array check.
  *
  * @param array $array     The array to check
- * @param mixed $reference The variable to check against
+ * @param stdClass $reference The variable to check against
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return bool TRUE if is recursive, otherwise FALSE
@@ -568,7 +568,7 @@ if (false === function_exists('is_ip')) {
  * Generic checksum function creates a checksum of any given input (generic).
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
- * @return string The crc32 checksum of input
+ * @return integer The crc32 checksum of input
  */
 function checksum()
 {
@@ -779,7 +779,7 @@ function explodeTree($array, $delimiter = '_', $baseval = false)
  * @param mixed $nl   The new-line operator (control-char) to use for banner
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
- * @return mixed True if $return = false and string with colorized html if $return = true
+ * @return string True if $return = false and string with colorized html if $return = true
  */
 function banner($data = '', $nl = PHP_EOL)
 {
@@ -860,7 +860,7 @@ if (false === function_exists('is_ssl')) {
      * Checks if the current connection is SSL secured.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE if connection is SSL secured, otherwise FALSE
+     * @return null|boolean TRUE if connection is SSL secured, otherwise FALSE
      */
     function is_ssl()
     {

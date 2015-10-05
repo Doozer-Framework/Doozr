@@ -349,7 +349,7 @@ abstract class Doozr_Di_Map
      * Getter for Dependency.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The Dependency if set, otherwise NULL
+     * @return Doozr_Di_Dependency The Dependency if set, otherwise NULL
      * @access protected
      */
     protected function getDependency()

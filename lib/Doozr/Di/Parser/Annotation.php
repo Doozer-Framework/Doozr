@@ -190,7 +190,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * This method is intend to check if a given string contains a Inject command.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Containing the dependencies build from annotations
+     * @return boolean Containing the dependencies build from annotations
      * @access public
      */
     public function hasCommand()

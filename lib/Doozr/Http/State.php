@@ -252,7 +252,7 @@ class Doozr_Http_State extends Doozr_Base_State
      * @param string $name The name of the heade to return line for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The header line if set
+     * @return string The header line if set
      * @access public
      */
     public function getHeaderLine($name)
@@ -411,7 +411,7 @@ class Doozr_Http_State extends Doozr_Base_State
      * Getter for data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Data stored
+     * @return Doozr_Response_Body Data stored
      * @access public
      */
     public function getData()
@@ -423,7 +423,7 @@ class Doozr_Http_State extends Doozr_Base_State
      * Getter for protocol version.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The protocol version if set
+     * @return string The protocol version if set
      * @access public
      */
     public function getProtocolVersion()

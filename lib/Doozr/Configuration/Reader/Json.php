@@ -95,7 +95,7 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
      * @param string $filename The filename to read.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \stdClass The configuration as object representation
+     * @return boolean|string The configuration as object representation
      * @access public
      * @throws Doozr_Configuration_Reader_Exception
      */
@@ -230,7 +230,7 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
      * @param string $property The property to read from config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the request
+     * @return stdClass The result of the request
      * @access public
      */
     public function __get($property)
@@ -292,7 +292,7 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
      * Getter for decoded content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \stdClass|null The configuration if set, otherwise NULL
+     * @return stdClass The configuration if set, otherwise NULL
      * @access protected
      */
     protected function getDecodedContent()

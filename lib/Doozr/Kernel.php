@@ -74,8 +74,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Arguments.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Exception.php';
 
 use DebugBar\StandardDebugBar;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * Doozr - Kernel

@@ -179,7 +179,7 @@ class Doozr_Base_Response_Rest extends Doozr_Base_Class
      * Getter for status.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The HTTP Status of current operation
+     * @return string The HTTP Status of current operation
      * @access public
      */
     public function getStatus()
@@ -245,7 +245,7 @@ class Doozr_Base_Response_Rest extends Doozr_Base_Class
     /**
      * Setter for message.
      *
-     * @param array $message The message to set.
+     * @param string $message The message to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -261,7 +261,7 @@ class Doozr_Base_Response_Rest extends Doozr_Base_Class
      * Getter for message.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null Message
+     * @return string Message
      * @access public
      */
     public function getMessage()
@@ -302,7 +302,7 @@ class Doozr_Base_Response_Rest extends Doozr_Base_Class
      * Getter for code.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null Code
+     * @return string Code
      * @access public
      */
     public function getCode()
