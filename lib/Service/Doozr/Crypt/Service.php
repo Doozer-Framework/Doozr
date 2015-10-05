@@ -85,12 +85,10 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
-    implements
-    Doozr_Base_Service_Interface
+class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
 {
     /**
-     * holds the AES-cipher object
+     * AES-cipher object
      *
      * @var object
      * @access protected
@@ -98,7 +96,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     protected $container;
 
     /**
-     * holds the private key
+     * Private key
      *
      * @var string
      * @access protected
@@ -106,7 +104,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     protected $privateKey;
 
     /**
-     * Contains the name of currently active cipher
+     * Currently active cipher
      *
      * @var string
      * @access protected
@@ -114,7 +112,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     protected $activeCipher;
 
     /**
-     * Contains container encoding
+     * Container encoding
      *
      * @var string
      * @access protected
@@ -122,7 +120,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     protected $containerEncoding = 'base64';
 
     /**
-     * Contains the valid encodings including the encode + decode function reference
+     * Valid encodings including the encode + decode function reference
      *
      * @var array
      * @access protected
@@ -137,7 +135,6 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
             '_decode' => 'convert_uudecode'
         )
     );
-
 
     /**
      * This method is intend to act as constructor.
@@ -319,14 +316,14 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     }
 
     /**
-     * decrypt a crypted string of data
+     * Decrypts an encrypted string.
      *
-     * @param string  $data   The data to decrypt
-     * @param mixed   $key    The key to use for decryption
-     * @param bool $decode TRUE to decode the data, otherwise FALSE to do not
+     * @param string $data   The data to decrypt
+     * @param mixed  $key    The key to use for decryption
+     * @param bool   $decode TRUE to decode the data, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The decrypted $data
+     * @return string The decrypted string
      * @access public
      */
     public function decrypt($data, $key = null, $decode = true)

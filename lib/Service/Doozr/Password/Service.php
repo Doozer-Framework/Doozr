@@ -76,9 +76,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade
-    implements
-    Doozr_Base_Service_Interface
+class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
 {
     /**
      * type of userfriendly (speakable) passwords like

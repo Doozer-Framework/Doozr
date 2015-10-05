@@ -70,5 +70,5 @@
  */
 interface Doozr_Session_Service_Interface
 {
-    /* intentionally left blank */
+    /* Intentionally left blank */
 }

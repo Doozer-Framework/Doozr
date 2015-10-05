@@ -153,7 +153,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *                              as an array with additional namespace like: array('namespace', 'service')
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Filesystem_Service|object An/the instance of the requested service
+     * @return Doozr_Filesystem_Service|Doozr_Datetime_Service|object An/the instance of the requested service
      * @access public
      * @static
      */

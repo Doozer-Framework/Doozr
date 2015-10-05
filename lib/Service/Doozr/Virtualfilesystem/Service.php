@@ -79,9 +79,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Virtualfilesystem_Service extends Doozr_Base_Service_Multiple_Facade
-    implements
-    Doozr_Base_Service_Interface
+class Doozr_Virtualfilesystem_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
 {
     /**
      * Constructor.
