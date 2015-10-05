@@ -161,7 +161,7 @@ class Doozr_Di_Map_Typehint extends Doozr_Di_Map
      * Getter for Parser.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Parser_Interface|null The Parser if set, otherwise NULL
+     * @return Doozr_Di_Parser_Interface The Parser if set, otherwise NULL
      * @access protected
      */
     protected function getParser()

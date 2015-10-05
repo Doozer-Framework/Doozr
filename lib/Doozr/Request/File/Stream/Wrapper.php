@@ -143,7 +143,7 @@ final class Doozr_Request_File_Stream_Wrapper extends Doozr_Base_Class
      * Registers the custom protocol so everything is available to PHP's native stream handlers.
      *
      * @param string $protocol The protocol
-     * @param $class
+     * @param string $class
      *
      * @access private
      */

@@ -287,7 +287,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
      * This method is intend to return a combined path based on input.
      *
      * @param string $base          The base path for combine operation
-     * @param array  $relativePaths The path parts as array to add
+     * @param string[]  $relativePaths The path parts as array to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return String The new combined path

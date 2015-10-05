@@ -170,7 +170,7 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
      * raised in the file where set_error_handler() is called.).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool True always
+     * @return boolean|null True always
      * @access public
      * @static
      */
