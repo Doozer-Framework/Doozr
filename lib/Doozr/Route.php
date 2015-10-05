@@ -58,9 +58,9 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Rhumsaa\Uuid\Uuid;
-use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+use Rhumsaa\Uuid\Uuid;
 
 /**
  * Doozr - Route
@@ -435,7 +435,7 @@ final class Doozr_Route extends Doozr_Base_Class
      * Getter for namespace.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The namspace if set, otherwise NULL
+     * @return string The namspace if set, otherwise NULL
      * @access protected
      */
     protected function getNamespace()
@@ -798,7 +798,7 @@ final class Doozr_Route extends Doozr_Base_Class
      * @param string $node2 The second node part of the route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The resulting array containing two nodes "object" and "action" of target route
+     * @return string[] The resulting array containing two nodes "object" and "action" of target route
      * @access protected
      */
     protected function buildRoutingProfile($node1 = null, $node2 = null)

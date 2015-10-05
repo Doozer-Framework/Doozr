@@ -120,7 +120,7 @@ class Doozr_Response extends Doozr_Base_Response
      * Getter for data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|string The data if set, otherwise NULL
+     * @return Doozr_Response_Body The data if set, otherwise NULL
      * @access public
      */
     public function getData()

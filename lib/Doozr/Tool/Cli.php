@@ -81,7 +81,7 @@ class Doozr_Tool_Cli extends Doozr_Tool_Abstract
      * @param string $injectedCommand An optional injected (and override) command.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed A result in any form.
+     * @return null|boolean A result in any form.
      * @access protected
      */
     protected function execute($injectedCommand = null)
