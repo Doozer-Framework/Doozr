@@ -97,7 +97,7 @@ class Doozr_Response_Body extends Doozr_Base_Class
     /**
      * Constructor.
      *
-     * @param string|resource $stream The stream (name) we will work on
+     * @param string $stream The stream (name) we will work on
      * @param string          $mode   Mode with which to open stream
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

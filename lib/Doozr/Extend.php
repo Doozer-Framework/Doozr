@@ -313,8 +313,8 @@ function array_remove_value(array $array, $value = '', $preserve_keys = true)
 /**
  * Removes the last element of an array.
  *
- * @param array $array     The array to remove element from
- * @param mixed $reference The variable to check against
+ * @param stdClass[] $array     The array to remove element from
+ * @param stdClass $reference The variable to check against
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
  * @return void

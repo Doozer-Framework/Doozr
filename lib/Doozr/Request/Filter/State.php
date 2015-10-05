@@ -357,7 +357,7 @@ class Doozr_Request_Filter_State extends Doozr_Base_State
      * Getter for offset.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return int|null The offset if set, otherwise NULL
+     * @return integer The offset if set, otherwise NULL
      * @access public
      */
     public function getOffset()
@@ -399,7 +399,7 @@ class Doozr_Request_Filter_State extends Doozr_Base_State
      * Getter for limit.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|int The limit if set, otherwise NULL (no limit)
+     * @return integer The limit if set, otherwise NULL (no limit)
      * @access public
      */
     public function getLimit()
@@ -441,7 +441,7 @@ class Doozr_Request_Filter_State extends Doozr_Base_State
      * Getter for path.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The path if set, otherwise NULL
+     * @return string The path if set, otherwise NULL
      * @access public
      */
     public function getPath()
@@ -483,7 +483,7 @@ class Doozr_Request_Filter_State extends Doozr_Base_State
      * Getter for query.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The query if set, otherwise NULL
+     * @return string The query if set, otherwise NULL
      * @access public
      */
     public function getQuery()

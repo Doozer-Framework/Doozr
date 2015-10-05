@@ -530,7 +530,7 @@ class Doozr_Request_Web extends Doozr_Request
     /**
      * {@inheritdoc}
      *
-     * @return $this Instance for chaining
+     * @return Doozr_Request_State|null Instance for chaining
      */
     public function withUploadedFiles(array $uploadedFiles)
     {
@@ -600,7 +600,7 @@ class Doozr_Request_Web extends Doozr_Request
     /**
      * {@inheritdoc}
      *
-     * @return $this Instance for chaining
+     * @return null|string Instance for chaining
      */
     public function getRequestTarget()
     {
