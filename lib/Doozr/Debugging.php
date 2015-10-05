@@ -55,9 +55,9 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
 
-use Whoops\Run;
-use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\PlainTextHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 /**
  * Doozr - Debugging
@@ -243,7 +243,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * Getter for history.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The value if set, otherwise NULL
+     * @return string The value if set, otherwise NULL
      * @access protected
      */
     protected function getHistory($key = null)
@@ -327,7 +327,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * Getter for installed.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool|null TRUE if installed, otherwise FALSE
+     * @return boolean TRUE if installed, otherwise FALSE
      * @access protected
      */
     protected function getInstalled()
@@ -381,7 +381,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * Getter for logger.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Psr\Log\LoggerInterface Instance of logger
+     * @return Doozr_Logging Instance of logger
      * @access protected
      */
     protected function getLogger()
@@ -423,7 +423,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * Getter for cli.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
+     * @return boolean Instance for chaining
      * @access protected
      */
     protected function getCli()
@@ -619,7 +619,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
      * Makes PHP verbose to get at much debugging output as possible.
      *
      * @param int   $errorReporting Maximum error reporting value
-     * @param mixed $iniValue       Value for ini settings
+     * @param integer $iniValue       Value for ini settings
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining

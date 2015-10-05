@@ -83,6 +83,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  */
 class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     implements
+    Doozr_Base_Service_Interface,
     Doozr_Psr_Cache_Interface,
     Doozr_Base_Crud_Interface
 {

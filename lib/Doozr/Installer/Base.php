@@ -206,7 +206,7 @@ class Doozr_Installer_Base
      *
      * @param string $source      Source path
      * @param string $destination Destination path
-     * @param mixed  $permissions New folder creation permissions
+     * @param integer  $permissions New folder creation permissions
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool Returns true on success, false on failure
@@ -254,7 +254,7 @@ class Doozr_Installer_Base
      * Detect and return source path containing the bootstrap project structure.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool Returns true on success, false on failure
+     * @return string Returns true on success, false on failure
      * @access protected
      */
     protected static function getSourcePath()
@@ -290,7 +290,7 @@ class Doozr_Installer_Base
      * @param CommandEvent $event The Composer event fired to retrieve arguments from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return boolean|null TRUE on success, otherwise FALSE
      * @access protected
      * @static
      */
@@ -393,7 +393,7 @@ class Doozr_Installer_Base
      * @param string $path The path to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE if path is valid, otherwise FALSE
+     * @return string TRUE if path is valid, otherwise FALSE
      * @access protected
      * @throws Exception
      */

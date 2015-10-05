@@ -173,26 +173,43 @@ class Doozr_Loader_Autoloader_Spl_Config
 
 
     /**
-     * Setter for $namespaceSeparator
+     * Setter for namespaceSeparator
      *
-     * This method is intend as Setter for $namespaceSeparator.
+     * This method is intend as Setter for namespaceSeparator.
      *
      * @param string $namespace The namespace of the loader
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config
+     * @return void
      * @access public
      */
     public function setNamespaceSeparator($namespace)
     {
         $this->namespaceSeparator = $namespace;
+    }
+
+    /**
+     * Setter for namespaceSeparator
+     *
+     * This method is intend as Setter for namespaceSeparator.
+     *
+     * @param string $namespace The namespace of the loader
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function namespaceSeparator($namespace)
+    {
+        $this->setNamespaceSeparator($namespace);
+
         return $this;
     }
 
     /**
-     * Getter for $namespaceSeparator
+     * Getter for namespaceSeparator
      *
-     * This method is intend as Getter for $uid.
+     * This method is intend as Getter for uid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted unique-Id of the Autoloader
@@ -204,29 +221,47 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Setter for $uid
+     * Setter for uid
      *
-     * This method is intend as Setter for $uid.
+     * This method is intend as Setter for uid.
      *
-     * @param string $uId An unique-Id to identify the Autoloader later from outside the SPL-Facade.
+     * @param string $uid An unique-Id to identify the Autoloader later from outside the SPL-Facade.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
+     * @return void
      * @access public
      */
-    public function setUid($uId)
+    public function setUid($uid)
     {
-        $this->uid = $uId;
+        $this->uid = $uid;
+    }
+
+    /**
+     * Fluent: Setter for uid
+     *
+     * This method is intend as Setter for uid.
+     *
+     * @param string $uid An unique-Id to identify the Autoloader later from outside the SPL-Facade.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function uid($uid)
+    {
+        $this->setUid($uid);
+
+        // Chaining
         return $this;
     }
 
     /**
-     * Getter for $uid
+     * Getter for uid
      *
-     * This method is intend as Getter for $uid.
+     * This method is intend as Getter for uid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The previous setted unique-Id of the Autoloader
+     * @return string The previously set unique-Id of the Autoloader
      * @access public
      */
     public function getUid()
@@ -235,28 +270,45 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Setter for $namespace
+     * Setter for namespace
      *
-     * This method is intend as Setter for $namespace.
+     * This method is intend as Setter for namespace.
      *
      * @param string $namespace A namespace for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
+     * @return void
      * @access public
      */
     public function setNamespace($namespace)
     {
         $this->namespace = $namespace;
         $this->setUid(md5($namespace.microtime()));
+    }
 
+    /**
+     * Fluent: Setter for namespace
+     *
+     * This method is intend as Setter for namespace.
+     *
+     * @param string $namespace A namespace for the Autoloader.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function _namespace($namespace)
+    {
+        $this->setNamespace($namespace);
+
+        // Chaining
         return $this;
     }
 
     /**
-     * Getter for $namespace
+     * Getter for namespace
      *
-     * This method is intend as Getter for $namespace.
+     * This method is intend as Getter for namespace.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted name of the Autoloader
@@ -268,26 +320,44 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Setter for $priority
+     * Setter for priority
      *
-     * This method is intend as Setter for $priority.
+     * This method is intend as Setter for priority.
      *
      * @param int $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
+     * @return void
      * @access public
      */
     public function setPriority($priority)
     {
         $this->priority = $priority;
+    }
+
+    /**
+     * Fluent: Setter for priority
+     *
+     * This method is intend as Setter for priority.
+     *
+     * @param int $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function priority($priority)
+    {
+        $this->setPriority($priority);
+
+        // Chaining
         return $this;
     }
 
     /**
-     * Getter for $priority
+     * Getter for priority
      *
-     * This method is intend as Getter for $priority.
+     * This method is intend as Getter for priority.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The previous setted priority of the Autoloader
@@ -299,26 +369,43 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Setter for $description
+     * Setter for description
      *
-     * This method is intend as Setter for $description.
+     * This method is intend as Setter for description.
      *
      * @param string $description A description for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
+     * @return void
      * @access public
      */
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    /**
+     * Fluent: Setter for description
+     *
+     * This method is intend as Setter for description.
+     *
+     * @param string $description A description for the Autoloader.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function description($description)
+    {
+        $this->setDescription($description);
+
         return $this;
     }
 
     /**
-     * Getter for $description
+     * Getter for description
      *
-     * This method is intend as Getter for $description.
+     * This method is intend as Getter for description.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted description of the Autoloader
@@ -383,9 +470,9 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Getter for $extension
+     * Getter for extension
      *
-     * This method is intend as Getter for $extension.
+     * This method is intend as Getter for extension.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The previous setted extension(s) used by the Autoloader
@@ -397,14 +484,14 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Setter for $class
+     * Setter for class
      *
      * This method is intend as Setter for a class containing the Autoloader-Method (Function).
      *
      * @param string $class A name of a class containing the Autoloader-Method used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
+     * @return void
      * @access public
      */
     public function setClass($class)
@@ -415,15 +502,31 @@ class Doozr_Loader_Autoloader_Spl_Config
 
         // store classname
         $this->class = $class;
+    }
+
+    /**
+     * Fluent: Setter for class
+     *
+     * This method is intend as Setter for a class containing the Autoloader-Method (Function).
+     *
+     * @param string $class A name of a class containing the Autoloader-Method used by the Autoloader.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function _class($class)
+    {
+        $this->setClass($class);
 
         // for chaining
         return $this;
     }
 
     /**
-     * Getter for $class
+     * Getter for class
      *
-     * This method is intend as Getter for $class.
+     * This method is intend as Getter for class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted class used by the Autoloader
@@ -449,14 +552,14 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Setter for $method
+     * Setter for method
      *
      * This method is intend as Setter for a method (function) used as "loader" by the Autoloader.
      *
      * @param string $method A method-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
+     * @return void
      * @access public
      */
     public function setMethod($method)
@@ -466,15 +569,31 @@ class Doozr_Loader_Autoloader_Spl_Config
 
         // store method
         $this->method = $method;
+    }
+
+    /**
+     * Fluent: Setter for method
+     *
+     * This method is intend as Setter for a method (function) used as "loader" by the Autoloader.
+     *
+     * @param string $method A method-name used by the Autoloader.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function method($method)
+    {
+        $this->setMethod($method);
 
         // for chaining
         return $this;
     }
 
     /**
-     * Getter for $method
+     * Getter for method
      *
-     * This method is intend as Getter for $method.
+     * This method is intend as Getter for method.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted method used by the Autoloader
@@ -486,26 +605,43 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Setter for $method (alias for setMethod())
+     * Setter for method (alias for setMethod())
      *
      * This method is intend as Setter for a method (function) used as "loader" by the Autoloader.
      *
      * @param string $function A function-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Loader_Autoloader_Spl_Config Instance for chaining
+     * @return void
      * @access public
      */
     public function setFunction($function)
     {
         $this->setMethod($function);
+    }
+
+    /**
+     * Fluent: Setter for method (alias for setMethod())
+     *
+     * This method is intend as Setter for a method (function) used as "loader" by the Autoloader.
+     *
+     * @param string $function A function-name used by the Autoloader.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function _function($function)
+    {
+        $this->setFunction($function);
+
         return $this;
     }
 
     /**
-     * Getter for $method (alias for getMethod())
+     * Getter for method (alias for getMethod())
      *
-     * This method is intend as Getter for $method.
+     * This method is intend as Getter for method.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted method used by the Autoloader
@@ -517,14 +653,14 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Setter for $path
+     * Setter for path
      *
      * This method is intend as Setter for a path or a list of (array) paths used for lookup by the Autoloader.
      *
      * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
+     * @return void
      * @access public
      */
     public function setPath($path)
@@ -535,13 +671,29 @@ class Doozr_Loader_Autoloader_Spl_Config
         } else {
             $this->path = array($path);
         }
+    }
+
+    /**
+     * Fluent: Setter for path
+     *
+     * This method is intend as Setter for a path or a list of (array) paths used for lookup by the Autoloader.
+     *
+     * @param string $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return $this Instance for chaining
+     * @access public
+     */
+    public function path($path)
+    {
+        $this->setPath($path);
 
         // for chaining
         return $this;
     }
 
     /**
-     * Setter for $path
+     * Setter for path
      *
      * This method is intend as Setter for a path. It adds a single path or a list of (array) paths to the already
      * exiting path(s).
@@ -568,9 +720,9 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * Getter for $path
+     * Getter for path
      *
-     * This method is intend as Getter for $path.
+     * This method is intend as Getter for path.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The previous setted path(s) used by the Autoloader

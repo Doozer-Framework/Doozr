@@ -185,7 +185,7 @@ final class Doozr_Di_Factory
      * Getter for registry.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Registry_Interface|Doozr_Registry|null Registry if set, otherwise NULL
+     * @return Doozr_Registry_Interface Registry if set, otherwise NULL
      * @access protected
      */
     protected function getRegistry()
@@ -227,7 +227,7 @@ final class Doozr_Di_Factory
      * Getter for instantiable.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool|null Instantiable if set, otherwise NULL
+     * @return boolean Instantiable if set, otherwise NULL
      * @access protected
      */
     protected function getInstantiable()

@@ -7,6 +7,8 @@ filter:
     excluded_paths:
         - bin/*
         - docs/*
+        - lib/Service/Doozr/Oauth2/Service/Lib
+        - lib/Service/Doozr/*
 
 checks:
     php:
@@ -73,6 +75,8 @@ tools:
                 - app/*
             excluded_paths:
                 - vendor/*
+                - lib/Service/Doozr/Oauth2/Service/Lib/*
+                - lib/Service/Doozr/*
     php_cpd:
         enabled: true
         excluded_dirs:
@@ -96,6 +100,8 @@ tools:
             - bin
             - docs
             - vendor
+            - lib/Service/Doozr/Oauth2/Service/Lib/*
+            - lib/Service/Doozr/*
     php_mess_detector:
         enabled: true
         filter:
@@ -111,10 +117,12 @@ tools:
             - docs
             - tests
             - vendor
+            - lib/Service/Doozr/Oauth2/Service/Lib
+            - lib/Service/Doozr
     php_analyzer: true
     php_analyzer:
         filter:
             paths:
-                - src/*
+                - lib/*
                 - tests/*
     sensiolabs_security_checker: true

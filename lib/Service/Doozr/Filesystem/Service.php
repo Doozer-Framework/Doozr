@@ -54,8 +54,8 @@
  */
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
@@ -80,9 +80,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple
-    implements
-    Doozr_Base_Service_Interface
+class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
 {
     /**
      * Status of "is-virtual" of this instance

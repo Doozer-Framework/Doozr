@@ -58,6 +58,7 @@
 
 // Application in production environment
 define('DOOZR_APP_ENVIRONMENT', 'production');
+//define('DOOZR_APP_NAMESPACE', 'App');
 //define('DOOZR_DEBUGGING', false);
 //define('DOOZR_LOGGING', false);
 //define('DOOZR_PROFILING', false);
@@ -92,6 +93,7 @@ $queue[] = function(Request $request, Response $response, callable $next) {
         DOOZR_LOGGING,
         DOOZR_PROFILING,
         DOOZR_APP_ROOT,
+        DOOZR_APP_NAMESPACE,
         DOOZR_DIRECTORY_TEMP,
         DOOZR_DOCUMENT_ROOT,
         DOOZR_NAMESPACE,

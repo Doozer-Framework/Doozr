@@ -163,7 +163,7 @@ class Doozr_Di_Map_Static extends Doozr_Di_Map
      * Getter for Importer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Importer_Interface|null The Importer if set, otherwise NULL
+     * @return Doozr_Di_Importer_Interface The Importer if set, otherwise NULL
      * @access protected
      */
     protected function getImporter()

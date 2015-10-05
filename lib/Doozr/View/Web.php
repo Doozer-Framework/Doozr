@@ -91,24 +91,24 @@ class Doozr_View_Web extends Doozr_Base_View
      * template engine, and html5 template files. If you need another output or something like this, you must
      * overwrite this method.
      *
-     * @param array                     $data        The data as override for internal stored data
-     * @param string                    $fingerprint Optional fingerprint used as cache identifier for front- and
-     *                                               backend! Hint: Rendering user specific data an user identifier
-     *                                               MUST be used as salt when generating the fingerprint!!!
-     *                                               Otherwise user specific data can and will be sent to another
-     *                                               user!. So the following rule should be followed:
-     *                                                - generic view/template no user data = fingerprint by
-     *                                                  content/path/url
-     *                                                - user specific view/template with user data = use
-     *                                                  session-id or user-id!
-     * @param PHPTAL_TranslationService $i18n        An instance of a Doozr I18n service
+     * @param array                        $data        The data as override for internal stored data
+     * @param string                       $fingerprint Optional fingerprint used as cache identifier for front- and
+     *                                                  backend! Hint: Rendering user specific data an user identifier
+     *                                                  MUST be used as salt when generating the fingerprint!!!
+     *                                                  Otherwise user specific data can and will be sent to another
+     *                                                  user!. So the following rule should be followed:
+     *                                                  - generic view/template no user data = fingerprint by
+     *                                                    content/path/url
+     *                                                  - user specific view/template with user data = use
+     *                                                    session-id or user-id!
+     * @param Doozr_I18n_Service_Interface $i18n        An instance of a Doozr I18n service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if successful, otherwise FALSE
      * @access protected
      * @throws \Doozr_Base_View_Exception
      */
-    protected function render(array $data = [], $fingerprint = null, PHPTAL_TranslationService $i18n = null)
+    protected function render(array $data = [], $fingerprint = null, Doozr_I18n_Service_Interface $i18n = null)
     {
         $this->setFingerprint(
             $this->generateFingerprint(

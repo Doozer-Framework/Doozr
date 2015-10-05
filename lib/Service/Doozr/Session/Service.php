@@ -86,9 +86,9 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  */
 class Doozr_Session_Service extends Doozr_Base_Service_Singleton
     implements
+    Doozr_Base_Service_Interface,
     Doozr_Base_Crud_Interface,
-    Doozr_Session_Service_Interface,
-    Doozr_Base_Service_Interface
+    Doozr_Session_Service_Interface
 {
     /**
      * Instance of Doozr_Crypt
