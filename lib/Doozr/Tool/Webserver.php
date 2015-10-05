@@ -54,8 +54,6 @@
 
 require_once 'Doozr/Tool/Abstract.php';
 
-use donatj\Flags;
-
 /**
  * Doozr - Tool - Webserver
  *
@@ -301,7 +299,7 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      * Starts PHP's internal webserver and give us some control of it.
      *
      * @param string $interface    The interface to listen on (e.g. 0.0.0.0 or 127.0.0.1 or localhost ...)
-     * @param string $port         The port to listen on (e.g. HTTP default 80)
+     * @param integer $port         The port to listen on (e.g. HTTP default 80)
      * @param string $documentRoot The document root to serve from
      * @param string $router       The router script (replacement for mod_rewrite)
      *

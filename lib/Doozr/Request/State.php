@@ -397,7 +397,7 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @see getAttributes()
      * @param string $name The attribute name.
      * @param mixed $default Default value to return if the attribute does not exist.
-     * @return mixed
+     * @return Doozr_Request_Route_State
      */
     public function getAttribute($name, $default = null)
     {

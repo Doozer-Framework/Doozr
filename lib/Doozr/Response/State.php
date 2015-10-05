@@ -124,7 +124,7 @@ class Doozr_Response_State extends Doozr_Http_State
      * Getter for reason phrase.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer|null The reason phrase if set
+     * @return string The reason phrase if set
      * @access public
      */
     public function getReasonPhrase()
@@ -166,7 +166,7 @@ class Doozr_Response_State extends Doozr_Http_State
      * Getter for status code.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer|null The status code if set
+     * @return integer The status code if set
      * @access public
      */
     public function getStatusCode()

@@ -657,7 +657,7 @@ class Doozr_Loader_Autoloader_Spl_Config
      *
      * This method is intend as Setter for a path or a list of (array) paths used for lookup by the Autoloader.
      *
-     * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
+     * @param string $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
