@@ -345,7 +345,7 @@ final class Doozr_Request_File_Stream extends Doozr_Base_Class
      * Getter for readable.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
+     * @return boolean Instance for chaining
      * @access private
      */
     private function getReadable()
@@ -459,7 +459,7 @@ final class Doozr_Request_File_Stream extends Doozr_Base_Class
      * After the stream has been detached, the stream is in an unusable state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return resource|null Underlying PHP stream, if any
+     * @return resource Underlying PHP stream, if any
      * @access public
      */
     public function detach()
@@ -566,7 +566,7 @@ final class Doozr_Request_File_Stream extends Doozr_Base_Class
      * Get the size of the stream if known.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return int|null Returns the size in bytes if known, or null if unknown.
+     * @return integer Returns the size in bytes if known, or null if unknown.
      * @access public
      */
     public function getSize()

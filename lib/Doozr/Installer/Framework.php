@@ -99,7 +99,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * @param CommandEvent $event The event passed in by Composer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE (signal for Composer to resolve with error)
+     * @return boolean|null TRUE on success, otherwise FALSE (signal for Composer to resolve with error)
      * @access public
      * @static
      */
@@ -129,7 +129,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * Handles a received event - dispatcher.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return boolean|null TRUE on success, otherwise FALSE
      * @access protected
      */
     protected static function handleEvent(CommandEvent $event)
@@ -221,6 +221,9 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
         return false;
     }
 
+    /**
+     * @param string $menu
+     */
     protected static function askAlternatePath($menu)
     {
         $valid = false;
@@ -244,7 +247,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * Shows the success message after install was successful.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return boolean
      * @access protected
      * @static
      */
@@ -258,6 +261,9 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
         return true;
     }
 
+    /**
+     * @param string $message
+     */
     protected static function showError($message)
     {
         \cli\line();
@@ -268,6 +274,9 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
         return false;
     }
 
+    /**
+     * @param string $menu
+     */
     protected static function resolveChoice($menu, $choices = 'yn', $default = 'y')
     {
         $choice = false;
@@ -403,7 +412,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * @param string $path The path to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE if path is valid, otherwise FALSE
+     * @return string TRUE if path is valid, otherwise FALSE
      * @access protected
      * @throws Exception
      */

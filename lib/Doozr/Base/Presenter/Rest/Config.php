@@ -390,7 +390,7 @@ class Doozr_Base_Presenter_Rest_Config
      * @param string $verb The verb to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return booelan TRUE if verb is allowed, otherwise FALSE
+     * @return boolean TRUE if verb is allowed, otherwise FALSE
      * @access public
      */
     public function isAllowed($verb)
@@ -472,7 +472,7 @@ class Doozr_Base_Presenter_Rest_Config
      * Getter for URL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer Count of nodes
+     * @return string Count of nodes
      * @access public
      */
     public function getUrl()

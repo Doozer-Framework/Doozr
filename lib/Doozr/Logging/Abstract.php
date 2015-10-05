@@ -239,7 +239,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     /**
      * Constructor.
      *
-     * @param Doozr_Datetime_Service $datetime    Instance of date/time service
+     * @param null|Doozr_Datetime_Service $datetime    Instance of date/time service
      * @param int                    $level       The log-level of the logger extending this class
      * @param string                 $fingerprint The fingerprint of the client
      *
@@ -753,7 +753,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Takes the passed content and return it as string.
      * This method instrumentalizes the var_export PHP function.
      *
-     * @param mixed|array|object $content The content to convert
+     * @param string $content The content to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string serialized The result as string
@@ -872,7 +872,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return string TRUE on success, otherwise FALSE
      * @access protected
      */
     protected function interpolate($message, array $context = [])
@@ -1043,7 +1043,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Returns the count of elements in registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return integer The result of the operation
      * @access public
      */
     public function count()

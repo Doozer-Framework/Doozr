@@ -407,7 +407,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Getter for route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_Route_State|null The route stored, otherwise NULL
+     * @return Doozr_Request_Route_State The route stored, otherwise NULL
      * @access protected
      */
     protected function getRoute()
@@ -575,7 +575,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Getter for request state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array Request state
+     * @return Doozr_Base_State_Interface Request state
      * @access protected
      */
     protected function getRequestState()
@@ -714,7 +714,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Getter for fingerprint.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null Fingerprint if set, otherwise NULL
+     * @return string Fingerprint if set, otherwise NULL
      * @access protected
      */
     protected function getFingerprint()
@@ -756,7 +756,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Getter for output runtimeEnvironment.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return int|null Output runtimeEnvironment if set, otherwise NULL
+     * @return integer Output runtimeEnvironment if set, otherwise NULL
      * @access public
      */
     public function getOutputMode()

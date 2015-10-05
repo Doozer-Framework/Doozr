@@ -423,7 +423,7 @@ final class Doozr_Request_File extends Doozr_Base_Class implements UploadedFileI
      * If the moveTo() method has been called previously, this method MUST raise
      * an exception.
      *
-     * @return \Psr\Http\Message\StreamInterface Stream representation of the uploaded file.
+     * @return resource Stream representation of the uploaded file.
      * @throws \RuntimeException in cases when no stream is available or can be created.
      */
     public function getStream()

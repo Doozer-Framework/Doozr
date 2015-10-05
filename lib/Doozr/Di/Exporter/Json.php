@@ -87,7 +87,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
      * @param bool $exportInstances TRUE to export instances as well, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return null|boolean TRUE on success, otherwise FALSE
      * @access public
      * @throws Doozr_Di_Exception
      */

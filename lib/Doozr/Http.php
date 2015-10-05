@@ -1802,7 +1802,7 @@ class Doozr_Http extends Doozr_Base_Class implements Http
      * Returns the current URL used for request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE if header could be send, otherwise FALSE
+     * @return string|null TRUE if header could be send, otherwise FALSE
      * @access public
      * @link http://stackoverflow.com/questions/176264/what-is-the-difference-between-a-uri-a-url-and-a-urn
      * @static

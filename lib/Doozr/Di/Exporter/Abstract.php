@@ -95,7 +95,7 @@ abstract class Doozr_Di_Exporter_Abstract
      * @param Doozr_Di_Collection $collection The collection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return Doozr_Di_Exporter_Abstract
      * @access public
      */
     public function setCollection(Doozr_Di_Collection $collection)
@@ -128,7 +128,7 @@ abstract class Doozr_Di_Exporter_Abstract
      * @param mixed $output The output to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return Doozr_Di_Exporter_Abstract
      * @access public
      */
     public function setOutput($output)
@@ -162,7 +162,7 @@ abstract class Doozr_Di_Exporter_Abstract
      * This method is intend to reset the output.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return Doozr_Di_Exporter_Abstract
      * @access public
      */
     public function reset()
@@ -183,6 +183,7 @@ abstract class Doozr_Di_Exporter_Abstract
      * This method is intend to write content to a given file
      *
      * @param string $file The file to read from
+     * @param string $data
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return int Bytes written, FALSE on failure

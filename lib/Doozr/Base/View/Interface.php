@@ -68,5 +68,8 @@
  */
 interface Doozr_Base_View_Interface
 {
+    /**
+     * @return boolean
+     */
     public function setData($data = null);
 }

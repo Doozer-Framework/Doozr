@@ -55,8 +55,8 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
-use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+use Rhumsaa\Uuid\Uuid;
 
 /**
  * Doozr - Configuration - Reader - Abstract
@@ -400,7 +400,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * Getter for uuid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|string Uuid if set, otherwise NULL
+     * @return string Uuid if set, otherwise NULL
      * @access protected
      */
     public function getUuid()
@@ -496,7 +496,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * Getter for filename.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|string Filename if set, otherwise NULL
+     * @return string Filename if set, otherwise NULL
      * @access protected
      */
     public function getClassFilename()
@@ -563,7 +563,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     /**
      * Fluent setter for cache service.
      *
-     * @param Doozr_Cache_Service $cacheService
+     * @param null|Doozr_Cache_Service $cacheService
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance of this class for chaining (fluent interface pattern)
