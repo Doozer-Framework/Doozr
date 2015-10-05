@@ -68,7 +68,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_I18n_Service_Interface
+interface Doozr_I18n_Service_Interface extends PHPTAL_TranslationService
 {
-    /* intentionally left blank */
+    /* Intentionally left blank */
 }

@@ -69,46 +69,46 @@
 interface Doozr_Autoload_Spl_Config_Interface
 {
     /**
-     * Setter for $_uId
+     * Setter for uid
      *
-     * This method is intend as setter for $_uId.
+     * This method is intend as setter for uid.
      *
-     * @param string $uId An unique-Id to identify the Autoloader later from outside the SPL-Facade.
+     * @param string $uid An unique-Id to identify the Autoloader later from outside the SPL-Facade.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool true if setting was successful, otherwise false
+     * @return void
      * @access public
      */
-    public function setUid($uId);
+    public function setUid($uid);
 
     /**
-     * Getter for $_uId
+     * Getter for $uid
      *
-     * This method is intend as getter for $_uId.
+     * This method is intend as getter for $uid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The previous setted unique-Id of the Autoloader
+     * @return string The previously set unique-Id of the Autoloader
      * @access public
      */
     public function getUid();
 
     /**
-     * Setter for $_namespace
+     * Setter for namespace
      *
-     * This method is intend as setter for $_namespace.
+     * This method is intend as setter for namespace.
      *
      * @param string $namespace A namespace for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool true if setting was successful, otherwise false
+     * @return void
      * @access public
      */
     public function setNamespace($namespace);
 
     /**
-     * Getter for $_namespace
+     * Getter for namespace
      *
-     * This method is intend as getter for $_namespace.
+     * This method is intend as getter for namespace.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted namespace of the Autoloader
@@ -117,22 +117,22 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function getNamespace();
 
     /**
-     * Setter for $_priority
+     * Setter for priority
      *
-     * This method is intend as setter for $_priority.
+     * This method is intend as setter for priority.
      *
      * @param int $priority A priority for the Autoloader. An integer between 0 and X (0 = highest priority).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool true if setting was successful, otherwise false
+     * @return void
      * @access public
      */
     public function setPriority($priority);
 
     /**
-     * Getter for $_priority
+     * Getter for priority
      *
-     * This method is intend as getter for $_priority.
+     * This method is intend as getter for priority.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return integer The previous setted priority of the Autoloader
@@ -141,22 +141,22 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function getPriority();
 
     /**
-     * Setter for $_description
+     * Setter for description
      *
-     * This method is intend as setter for $_description.
+     * This method is intend as setter for description.
      *
      * @param string $description A description for the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool true if setting was successful, otherwise false
+     * @return void
      * @access public
      */
     public function setDescription($description);
 
     /**
-     * Getter for $_description
+     * Getter for description
      *
-     * This method is intend as getter for $_description.
+     * This method is intend as getter for description.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted description of the Autoloader
@@ -165,9 +165,9 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function getDescription();
 
     /**
-     * Setter for a single file-extension (added to $_extension)
+     * Setter for a single file-extension (added to extension)
      *
-     * This method is intend as setter for a single file-extension (added to $_extension).
+     * This method is intend as setter for a single file-extension (added to extension).
      *
      * @param string $extension A file-extension used by the Autoloader.
      *
@@ -178,9 +178,9 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function addExtension($extension);
 
     /**
-     * Setter for a list of (array) file-extensions (added to $_extension)
+     * Setter for a list of (array) file-extensions (added to extension)
      *
-     * This method is intend as setter for a list of (array) file-extensions (added to $_extension).
+     * This method is intend as setter for a list of (array) file-extensions (added to extension).
      *
      * @param array $extensions A list of file-extensions used by the Autoloader.
      *
@@ -191,9 +191,9 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function addExtensions(array $extensions);
 
     /**
-     * Getter for $_extension
+     * Getter for extension
      *
-     * This method is intend as getter for $_extension.
+     * This method is intend as getter for extension.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The previous setted extension(s) used by the Autoloader
@@ -202,22 +202,22 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function getExtension();
 
     /**
-     * Setter for $_class
+     * Setter for class
      *
      * This method is intend as setter for a class containing the Autoloader-Method (Function).
      *
      * @param string $class A name of a class containing the Autoloader-Method used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool true if setting was successful, otherwise false
+     * @return void
      * @access public
      */
     public function setClass($class);
 
     /**
-     * Getter for $_class
+     * Getter for class
      *
-     * This method is intend as getter for $_class.
+     * This method is intend as getter for class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted class used by the Autoloader
@@ -237,22 +237,22 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function isClass();
 
     /**
-     * Setter for $_method
+     * Setter for method
      *
      * This method is intend as setter for a method (function) used as "loader" by the Autoloader.
      *
      * @param string $method A method-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool true if setting was successful, otherwise false
+     * @return void
      * @access public
      */
     public function setMethod($method);
 
     /**
-     * Getter for $_method
+     * Getter for method
      *
-     * This method is intend as getter for $_method.
+     * This method is intend as getter for method.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted method used by the Autoloader
@@ -261,22 +261,22 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function getMethod();
 
     /**
-     * Setter for $_method (alias for setMethod())
+     * Setter for method (alias for setMethod())
      *
      * This method is intend as setter for a method (function) used as "loader" by the Autoloader.
      *
      * @param string $function A function-name used by the Autoloader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool true if setting was successful, otherwise false
+     * @return void
      * @access public
      */
     public function setFunction($function);
 
     /**
-     * Getter for $_method (alias for getMethod())
+     * Getter for method (alias for getMethod())
      *
-     * This method is intend as getter for $_method.
+     * This method is intend as getter for method.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The previous setted method used by the Autoloader
@@ -285,20 +285,20 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function getFunction();
 
     /**
-     * Setter for $_path
+     * Setter for path
      *
      * This method is intend as setter for a path or a list of (array) paths used for lookup by the Autoloader.
      *
      * @param mixed $path A single path (string) or a list of paths (array) used by the Autoloader for lookup for files.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool true if setting was successful, otherwise false
+     * @return void
      * @access public
      */
     public function setPath($path);
 
     /**
-     * Alias to Setter for $_path
+     * Alias to Setter for path
      *
      * This method is intend as setter for a path. It adds a single path or a list of (array) paths to the already
      * exiting path(s).
@@ -312,9 +312,9 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function addPath($path);
 
     /**
-     * Getter for $_path
+     * Getter for path
      *
-     * This method is intend as getter for $_path.
+     * This method is intend as getter for path.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return array The previous setted path(s) used by the Autoloader

@@ -71,6 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Debugging.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Security.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Model.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Arguments.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Exception.php';
 
 use DebugBar\StandardDebugBar;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -327,7 +328,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         if ($includeWalltime) {
             self::$starttime = $_SERVER['REQUEST_TIME'];
         } else {
-            self::$starttime = microtime();
+            self::$starttime = microtime(true);
         }
     }
 
@@ -1081,7 +1082,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function getDateTime()
     {
-        if (!self::$dateTime) {
+        // Lazyload
+        if (null === self::$dateTime) {
+            /* @var Doozr_Datetime_Service self::$dateTime */
             self::$dateTime = Doozr_Loader_Serviceloader::load('datetime');
         }
 

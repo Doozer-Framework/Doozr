@@ -201,11 +201,11 @@ class Doozr_Base_Service_Singleton_Strict extends Doozr_Base_Class_Singleton_Str
         // Register services custom autoloader
         $autoloaderService = new Doozr_Loader_Autoloader_Spl_Config();
         $autoloaderService
-            ->setNamespace('Doozr_' . $service)
-            ->setNamespaceSeparator('_')
+            ->_namespace('Doozr_' . $service)
+            ->namespaceSeparator('_')
             ->addExtension('php')
-            ->setPath(DOOZR_DOCUMENT_ROOT . 'Service')
-            ->setDescription('Doozr\'s ' . $service . ' service autoloader. Timestamp: ' . time());
+            ->path(DOOZR_DOCUMENT_ROOT . 'Service')
+            ->description('Doozr\'s ' . $service . ' service autoloader. Timestamp: ' . time());
 
         // Add to SPL through facade
         $this->autoloader = Doozr_Loader_Autoloader_Spl_Facade::attach(

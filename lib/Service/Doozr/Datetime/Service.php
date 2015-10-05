@@ -809,8 +809,8 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to calculate the difference between two given microtime(s).
      *
-     * @param float $microtimeStart The microtime-value as start
-     * @param float $microtimeEnd   The microtime-value as end
+     * @param float      $microtimeStart The microtime-value as start
+     * @param float|bool $microtimeEnd   The microtime-value as end
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return float The difference
@@ -823,7 +823,10 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
         list($microtimeStart_dec, $microtimeStart_sec) = explode(' ', $microtimeStart);
         list($microtimeEnd_dec, $microtimeEnd_sec) = explode(' ', $microtimeEnd);
 
-        return sprintf("%0.12f", ($microtimeEnd_sec - $microtimeStart_sec + $microtimeEnd_dec - $microtimeStart_dec));
+        return (float)sprintf(
+            '%0.12f',
+            ($microtimeEnd_sec - $microtimeStart_sec + $microtimeEnd_dec - $microtimeStart_dec)
+        );
     }
 
     /**
@@ -964,7 +967,7 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
      * @param string $year   The year
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string UNIX-Timestamp
+     * @return integer UNIX-Timestamp
      * @access protected
      */
     protected function _getTimestamp(

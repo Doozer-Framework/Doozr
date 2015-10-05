@@ -81,7 +81,6 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  */
 class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     implements
-    PHPTAL_TranslationService,
     Doozr_I18n_Service_Interface,
     Doozr_Base_Service_Interface
 {
@@ -412,6 +411,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
             return $this->getLocalizer($type, $input['redirect']);
 
         } else {
+
             return self::instantiate(
                 'Doozr_I18n_Service_Localize_'.$type,
                 array(
