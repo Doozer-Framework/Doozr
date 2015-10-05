@@ -90,6 +90,7 @@ class KernelTest extends PHPUnit_Framework_TestCase
             DOOZR_LOGGING,
             DOOZR_PROFILING,
             DOOZR_APP_ROOT,
+            DOOZR_APP_NAMESPACE,
             DOOZR_DIRECTORY_TEMP,
             DOOZR_DOCUMENT_ROOT,
             DOOZR_NAMESPACE,

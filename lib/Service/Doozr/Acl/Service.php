@@ -77,9 +77,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Acl_Service extends Doozr_Base_Service_Multiple
-    implements
-    Doozr_Base_Service_Interface
+class Doozr_Acl_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
 {
     /**
      * The actions supported by this ACL

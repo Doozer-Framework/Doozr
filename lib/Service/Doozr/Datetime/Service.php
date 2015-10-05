@@ -77,8 +77,6 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * )
  */
 class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
-    implements
-    Doozr_Base_Service_Interface
 {
     /**
      * Holds the DateTime-Instance of this instance
@@ -87,7 +85,6 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
      * @access protected
      */
     protected $dateTime;
-
 
     /**
      * Replacement for __construct

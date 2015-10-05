@@ -252,6 +252,24 @@ if (false === defined('DOOZR_PROFILING')) {
     define('DOOZR_PROFILING', (bool)$doozrProfiling);
 }
 
+
+/*----------------------------------------------------------------------------------------------------------------------
+| APPLICATIONS NAMESPACE
++---------------------------------------------------------------------------------------------------------------------*/
+
+// First we check for defined constant DOOZR_APP_NAMESPACE ...
+if (false === defined('DOOZR_APP_NAMESPACE')) {
+
+    // Then for environment variable
+    if (false === $doozrAppNamespace = getenv('DOOZR_APP_NAMESPACE')) {
+
+        // Default = App\*
+        $doozrAppNamespace = 'App';
+    }
+
+    define('DOOZR_APP_NAMESPACE', $doozrAppNamespace);
+}
+
 /*----------------------------------------------------------------------------------------------------------------------
 | COMPOSER INTEGRATION
 +---------------------------------------------------------------------------------------------------------------------*/
