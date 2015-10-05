@@ -55,8 +55,8 @@
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry/Interface.php';
 
-use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+use Rhumsaa\Uuid\Uuid;
 
 /**
  * Doozr - Registry
@@ -240,8 +240,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Adds an multi element like a multi instance service to registry by generating UUID for instances.
      *
-     * @param $variable
-     * @param null $identifier
+     * @param Doozr_Base_Service_Interface $variable
+     * @param string $identifier
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string
@@ -285,7 +285,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param mixed  $value      The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return string The result of the operation
      * @access public
      */
     public function __set($identifier, $value)
@@ -586,7 +586,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for filesystem.
      *
-     * @param Doozr_Filesystem_Service $filesystem The filesystem instance to store
+     * @param Doozr_Base_Service_Interface $filesystem The filesystem instance to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -697,7 +697,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Path $path Instance of path
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return Doozr_Registry
      * @access public
      */
     public function path(Doozr_Path $path)
@@ -901,7 +901,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param mixed $offset The offset to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return boolean The result of the operation
      * @access public
      */
     public function offsetExists($offset)
@@ -987,7 +987,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Checks if current position is still valid
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return boolean The result of the operation
      * @access public
      */
     public function valid()
@@ -999,7 +999,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Returns the key for the current position
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return integer The result of the operation
      * @access public
      */
     public function key()
@@ -1039,7 +1039,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Returns the count of elements in registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return integer The result of the operation
      * @access public
      */
     public function count()

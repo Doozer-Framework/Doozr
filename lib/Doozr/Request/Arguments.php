@@ -575,7 +575,7 @@ class Doozr_Request_Arguments extends Doozr_Base_Class
      * and the Arguments way of serving objects instead of arrays the value
      * needs to be transformed once set.
      *
-     * @param $key   The name of the property
+     * @param string $key   The name of the property
      * @param $value The value of the property
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

@@ -123,7 +123,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      */
     protected $configuration;
 
-
     /**
      * Constructor.
      *
@@ -149,7 +148,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
-            $result = $this->__tearup($requestState->getRoute());
+            $result = $this->__tearup($requestState->getUri()->getPath());
 
             if ($result !== true) {
                 throw new Doozr_Base_Model_Exception(
@@ -196,7 +195,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_Route_State|null The route stored, otherwise NULL
+     * @return Doozr_Request_Route_State The route stored, otherwise NULL
      * @access protected
      */
     protected function getRoute()
@@ -238,7 +237,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for requestState.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Request_State|null The requestState stored, otherwise NULL
+     * @return Doozr_Request_State The requestState stored, otherwise NULL
      * @access protected
      */
     protected function getRequestState()
@@ -280,7 +279,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return CacheItemPoolInterface|null The cache service instance stored, otherwise NULL
+     * @return Doozr_Cache_Service The cache service instance stored, otherwise NULL
      * @access protected
      */
     protected function getCache()
@@ -352,7 +351,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for action.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The last action processed, otherwise NULL in clean state
+     * @return string The last action processed, otherwise NULL in clean state
      * @access protected
      */
     protected function getAction()
@@ -394,11 +393,21 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
                 $arguments = func_get_args();
 
                 if (count($arguments) > 0) {
-                    call_user_func_array(array($this, $method), $arguments);
+                    $result = call_user_func_array(array($this, $method), $arguments);
 
                 } else {
-                    call_user_func(array($this, $method));
+                    $result = call_user_func(array($this, $method));
+                }
 
+                if (true !== $result) {
+                    throw new Doozr_Base_Model_Exception(
+                        sprintf(
+                            '%s() (if set) MUST return TRUE. %s() is set but it returned: "%s"',
+                            $method,
+                            $method,
+                            var_export($result, true)
+                        )
+                    );
                 }
             }
         }

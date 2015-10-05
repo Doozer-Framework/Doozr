@@ -54,8 +54,6 @@
 
 require_once 'Doozr/Tool/Abstract.php';
 
-use donatj\Flags;
-
 /**
  * Doozr - Tool - Cache
  *
@@ -186,7 +184,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      * @param array  $argumentBag A collection of arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the command.
+     * @return string The result of the command.
      * @access protected
      */
     protected function dispatchCommand($command, array $argumentBag = [])

@@ -225,7 +225,7 @@ class Doozr_Di_Container
      * @param Doozr_Di_Map $map Map to merge in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
+     * @return boolean|null TRUE on success, otherwise FALSE
      * @access public
      */
     public function addToMap(Doozr_Di_Map $map)
@@ -436,7 +436,7 @@ class Doozr_Di_Container
      * Getter for Scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The Scope if set, otherwise NULL
+     * @return string The Scope if set, otherwise NULL
      * @access protected
      */
     protected function getScope()
@@ -451,7 +451,7 @@ class Doozr_Di_Container
      * @param Doozr_Di_Map $source The map which is merged into $target
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Container The current instance of the Container for chaining/fluent-interface
+     * @return Doozr_Di_Map The current instance of the Container for chaining/fluent-interface
      * @access protected
      */
     protected function mergeMaps(Doozr_Di_Map $target, Doozr_Di_Map $source)

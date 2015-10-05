@@ -16,7 +16,7 @@
     >
     <testsuites>
         <testsuite name="Doozr">
-            <directory>.</directory>
+            <directory>../tests/</directory>
         </testsuite>
         <testsuite name="Doozr_I18n_Service">
             <directory>../lib/Service/Doozr/I18n/tests/</directory>

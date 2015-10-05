@@ -426,7 +426,7 @@ final class Doozr_Request_Uri extends Doozr_Base_Class
      * If no port is present, but a scheme is present, this method MAY return
      * the standard port for that scheme, but SHOULD return null.
      *
-     * @return null|int The URI port.
+     * @return string The URI port.
      */
     public function getPort()
     {

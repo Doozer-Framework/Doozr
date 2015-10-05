@@ -77,9 +77,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Oauth2_Service extends Doozr_Base_Service_Multiple_Facade
-    implements
-    Doozr_Base_Service_Interface
+class Doozr_Oauth2_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
 {
     /**
      * Mode CLIENT

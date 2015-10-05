@@ -62,8 +62,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
 
-use Psr\Log\LoggerInterface;
 use DebugBar\DebugBar;
+use Psr\Log\LoggerInterface;
 
 /**
  * Doozr - Logging - Debugbar
@@ -234,7 +234,7 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
      * We need this method cause it differs here from abstract default.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return string
      * @access protected
      */
     protected function output()

@@ -69,20 +69,36 @@
 interface Doozr_Base_Exception_Generic_Interface
 {
     // returns exception message
+
+    /**
+     * @return string
+     */
     public function getMessage();
 
     // returns exception code
     public function getCode();
 
     // returns the name of the file where the exception was initially thrown
+
+    /**
+     * @return string
+     */
     public function getFile();
 
     // returns the line number where the exception was initially thrown
+
+    /**
+     * @return integer
+     */
     public function getLine();
 
     // returns the trace of the exception (array)
     public function getTrace();
 
     // returns the trace of the exception (string)
+
+    /**
+     * @return string
+     */
     public function getTraceAsString();
 }

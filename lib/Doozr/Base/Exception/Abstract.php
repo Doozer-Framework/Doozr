@@ -135,6 +135,15 @@ abstract class Doozr_Base_Exception_Generic_Abstract extends RuntimeException
      */
     public function __toString()
     {
-        return get_class($this)." '{$this->message}' in {$this->file}({$this->line})\n"."{$this->getTraceAsString()}";
+        $classname = get_class($this);
+        $error     = sprintf(
+            ' %s in %s(%s)\n%s',
+            $this->getMessage(),
+            $this->getFile(),
+            $this->getLine(),
+            $this->getTraceAsString()
+        );
+
+        return $classname.$error;
     }
 }

@@ -175,9 +175,6 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
      */
     protected static function genericInstantiate($classname, $arguments = null)
     {
-        #$test = new Doozr_Loader_Classloader();
-        #return $test->load($classname, $arguments);
-
         // check for parameter
         if (is_null($arguments)) {
             // with no parameter -> just return the instance
@@ -401,6 +398,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
     protected function registry(Doozr_Registry $registry)
     {
         self::setRegistry($registry);
+
         return $this;
     }
 

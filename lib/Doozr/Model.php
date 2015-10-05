@@ -334,7 +334,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
      * Getter for decorator configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array The configuration.
+     * @return Doozr_Configuration The configuration.
      * @access protected
      */
     protected function getDecoratorConfiguration()
