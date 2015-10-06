@@ -54,8 +54,8 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
 
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * Doozr - Request - Dispatcher
@@ -168,7 +168,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Response $response The response to use as base.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
+     * @return Doozr_Response_Interface Instance for chaining
      * @access public
      */
     public function resolve(Request $request, Response $response)
@@ -217,6 +217,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
 
             // Call the requested Action on requested Presenter (Presenter:Action)
             $data = $presenter->{$method}();
+
+            #dump('FEHLER HIER DRÜBER!');die;
 
             // Create a response body with write access
             $responseBody = new Doozr_Response_Body('php://memory', 'w');
@@ -293,7 +295,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for classname.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The classname if set, otherwise NULL
+     * @return string The classname if set, otherwise NULL
      * @access protected
      */
     protected function getClassname()
@@ -377,7 +379,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for action.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The action if set, otherwise NULL
+     * @return string The action if set, otherwise NULL
      * @access protected
      */
     protected function getAction()
@@ -419,7 +421,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for presenter.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Base_Presenter|null Doozr_Base_Presenter_Interface if set, otherwise NULL
+     * @return Doozr_Base_Presenter Doozr_Base_Presenter_Interface if set, otherwise NULL
      * @access protected
      */
     protected function getPresenter()
@@ -503,7 +505,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for view.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Base_View_Interface|null The view if set, otherwise NULL
+     * @return SplObserver The view if set, otherwise NULL
      * @access protected
      */
     protected function getView()
@@ -544,7 +546,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for response.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Response_Interface|null The response if set, otherwise NULL
+     * @return Doozr_Response_Interface The response if set, otherwise NULL
      * @access protected
      */
     protected function getResponse()
@@ -693,7 +695,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         $instance = null;
 
         // Build classname
-        $classname = $layer . '_' . ucfirst($request);
+        $classname = 'App\\'.$layer . '_' . ucfirst($request);
 
         // Build location (path + filename)
         $classFileAndPath = $this->getRegistry()->getParameter('doozr.app.root') .

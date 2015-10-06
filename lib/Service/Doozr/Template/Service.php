@@ -81,9 +81,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Template_Service extends Doozr_Base_Facade_Singleton
-    implements
-    Doozr_Base_Service_Interface
+class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Doozr_Base_Service_Interface
 {
     /**
      * The resource to process

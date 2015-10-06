@@ -79,7 +79,6 @@ class Doozr_Base_Service_Multiple_Facade extends Doozr_Base_Service_Multiple
      */
     private static $_realObject;
 
-
     /**
      * setter for decorated object
      *

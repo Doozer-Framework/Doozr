@@ -382,7 +382,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param mixed $offset The offset to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return boolean The result of the operation
      * @access public
      */
     public function offsetExists($offset)
@@ -475,7 +475,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * Checks if current position is still valid
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return boolean The result of the operation
      * @access public
      */
     public function valid()
@@ -487,7 +487,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * Returns the key for the current position
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return integer The result of the operation
      * @access public
      */
     public function key()
@@ -534,7 +534,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * Returns the count of elements in registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the operation
+     * @return integer The result of the operation
      * @access public
      */
     public function count()

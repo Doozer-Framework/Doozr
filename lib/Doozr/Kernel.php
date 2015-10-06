@@ -71,10 +71,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Debugging.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Security.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Model.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Arguments.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Exception.php';
 
 use DebugBar\StandardDebugBar;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * Doozr - Kernel
@@ -177,6 +178,15 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     const DEFAULT_NAMESPACE_FLAT = 'doozr';
 
     /**
+     * Default namespace for the App running on Doozr
+     *
+     * @var string
+     * @access public
+     * @const
+     */
+    const DEFAULT_APP_NAMESPACE = 'App';
+
+    /**
      * CLI running runtimeEnvironment
      *
      * @var string
@@ -254,7 +264,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @param string $cachingContainer   Preferred container for caching
      * @param bool   $logging            TRUE to enable logging, FALSE to disable
      * @param bool   $profiling          TRUE if profiler is running, FALSE if not
-     * @param string $appRoot            The app root as string
+     * @param string $appRoot            The applications root directory
+     * @param string $appNamespace       The applications namespace (defaults to "App")
      * @param string $directoryTemp      Systems temporary directory
      * @param string $directoryRoot      The document root as string
      * @param string $namespace          Doozr namespace
@@ -275,6 +286,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $logging,
         $profiling,
         $appRoot,
+        $appNamespace,
         $directoryTemp,
         $directoryRoot,
         $namespace,
@@ -296,6 +308,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             $logging,
             $profiling,
             $appRoot,
+            $appNamespace,
             $directoryTemp,
             $directoryRoot,
             $namespace,
@@ -327,7 +340,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         if ($includeWalltime) {
             self::$starttime = $_SERVER['REQUEST_TIME'];
         } else {
-            self::$starttime = microtime();
+            self::$starttime = microtime(true);
         }
     }
 
@@ -343,6 +356,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @param bool   $logging            TRUE to enable logging, FALSE to disable
      * @param bool   $profiling          TRUE if profiler is running, FALSE if not
      * @param string $appRoot            App root as string
+     * @param string $appNamespace       Applications namespace
      * @param string $directoryTemp      Systems temporary directory
      * @param string $directoryRoot      Document root as string
      * @param string $namespace          Doozr namespace
@@ -363,6 +377,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $logging            = true,
         $profiling          = false,
         $appRoot            = '',
+        $appNamespace       = self::DEFAULT_APP_NAMESPACE,
         $directoryTemp      = self::DEFAULT_DIRECTORY_TEMP,
         $directoryRoot      = self::DEFAULT_DIRECTORY_ROOT,
         $namespace          = self::DEFAULT_NAMESPACE,
@@ -379,6 +394,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
             $logging,
             $profiling,
             $appRoot,
+            $appNamespace,
             $directoryTemp,
             $directoryRoot,
             $namespace,
@@ -403,6 +419,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @param bool   $logging            TRUE to enable logging, FALSE to disable
      * @param bool   $profiling          TRUE if profiler is running, FALSE if not
      * @param string $appRoot            Application root as string
+     * @param string $appNamespace       Applications namespace (defaults to "App")
      * @param string $directoryTemp      Systems temporary directory
      * @param string $directoryRoot      Document root as string
      * @param string $namespace          Doozr namespace
@@ -426,6 +443,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
         $logging            = true,
         $profiling          = false,
         $appRoot            = '',
+        $appNamespace       = self::DEFAULT_APP_NAMESPACE,
         $directoryTemp      = self::DEFAULT_DIRECTORY_TEMP,
         $directoryRoot      = self::DEFAULT_DIRECTORY_ROOT,
         $namespace          = self::DEFAULT_NAMESPACE,
@@ -449,6 +467,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
                             'doozr.kernel.logging'             => $logging,
                             'doozr.kernel.profiling'           => $profiling,
                             'doozr.app.root'                   => $appRoot,
+                            'doozr.app.namespace'              => $appNamespace,
                             'doozr.kernel.virtualized'         => $virtualized,
                             'doozr.directory.temp'             => $directoryTemp,
                             'doozr.directory.root'             => $directoryRoot,
@@ -1081,7 +1100,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      */
     protected static function getDateTime()
     {
-        if (!self::$dateTime) {
+        // Lazyload
+        if (null === self::$dateTime) {
+            /* @var Doozr_Datetime_Service self::$dateTime */
             self::$dateTime = Doozr_Loader_Serviceloader::load('datetime');
         }
 

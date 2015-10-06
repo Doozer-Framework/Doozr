@@ -134,7 +134,7 @@ abstract class Doozr_Base_View_Observer extends Doozr_Base_Class
      * Getter for identifier.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
+     * @return string Instance for chaining
      * @access public
      */
     public function getIdentifier()

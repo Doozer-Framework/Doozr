@@ -327,7 +327,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for uuid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|string Uuid if set, otherwise NULL
+     * @return string Uuid if set, otherwise NULL
      * @access protected
      */
     public function getUuid()
@@ -368,7 +368,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for namespace.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null Namespace if set, otherwise NULL
+     * @return string Namespace if set, otherwise NULL
      * @access protected
      */
     public function getNamespace()
@@ -409,7 +409,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|bool Cache if set, otherwise NULL
+     * @return boolean Cache if set, otherwise NULL
      * @access protected
      */
     public function getCache()
@@ -434,7 +434,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     /**
      * Fluent setter for cache service.
      *
-     * @param Doozr_Cache_Service $cacheService
+     * @param null|Doozr_Cache_Service $cacheService
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance of this class for chaining (fluent interface pattern)
@@ -491,7 +491,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for configReader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null|Doozr_Configuration_Reader_Interface Instance of a config reader if set, otherwise NULL
+     * @return Doozr_Configuration_Reader_Interface Instance of a config reader if set, otherwise NULL
      * @access protected
      */
     protected function getConfigReader()
@@ -532,7 +532,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \stdClass|null The configuration if set, otherwise NULL
+     * @return stdClass The configuration if set, otherwise NULL
      * @access protected
      */
     protected function getConfiguration()
