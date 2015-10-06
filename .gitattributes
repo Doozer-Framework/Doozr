@@ -1,3 +1,4 @@
+*             eol=lf    text=auto
 *.java        eol=lf    text       ident  diff=java
 *.c           eol=lf    text       ident  diff=cpp
 *.h           eol=lf    text       ident  diff=cpp
@@ -15,7 +16,13 @@
 *.cmd         eol=crlf  text       ident
 *.vcproj      eol=crlf  text       ident
 *.md          eol=lf    text       ident  diff=html
+*.gif                   binary
 *.png                   binary
 *.jpg                   binary
-*.gif                   binary
-*             eol=lf    text=auto
+*.jar                   binary
+*.class                 binary
+*.gz                    binary
+*.tar                   binary
+*.dll                   binary
+*.exe                   binary
+*.zip                   binary
