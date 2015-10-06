@@ -76,9 +76,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Http_Service extends Doozr_Base_Service_Multiple
-    implements
-    Doozr_Base_Service_Interface
+class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
 {
     /**
      * The curl sessions/references/handles

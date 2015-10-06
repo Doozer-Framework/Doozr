@@ -132,6 +132,9 @@ class Doozr_Request_Filter extends Doozr_Base_State_Container
         return (stristr($string, self::URL_ARGUMENT_ENTRY) !== false);
     }
 
+    /**
+     * @param string $argument
+     */
     protected function isCommand($argument)
     {
         return in_array($argument, $this->commands);

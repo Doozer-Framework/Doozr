@@ -209,7 +209,7 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
      * Getter for identifier.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this Instance for chaining
+     * @return string Instance for chaining
      * @access public
      */
     public function getIdentifier()

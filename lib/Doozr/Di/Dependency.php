@@ -242,7 +242,7 @@ class Doozr_Di_Dependency
      * Getter for Id.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The Id if set, otherwise NULL
+     * @return string The Id if set, otherwise NULL
      * @access public
      */
     public function getId()
@@ -426,7 +426,7 @@ class Doozr_Di_Dependency
      * Returns the constructor of the dependency class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed String containing the signature of the constructor if set, otherwise NULL
+     * @return string String containing the signature of the constructor if set, otherwise NULL
      * @access public
      */
     public function getConstructor()
@@ -480,7 +480,7 @@ class Doozr_Di_Dependency
      * Getter for type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The type if set, otherwise NULL
+     * @return string The type if set, otherwise NULL
      * @access public
      */
     public function getType()
@@ -564,7 +564,7 @@ class Doozr_Di_Dependency
      * Getter for position.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return int|null The position if set, otherwise NULL
+     * @return integer The position if set, otherwise NULL
      * @access public
      */
     public function getPosition()
@@ -606,7 +606,7 @@ class Doozr_Di_Dependency
      * Getter for Link.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The Link if set, otherwise NULL
+     * @return string The Link if set, otherwise NULL
      * @access public
      */
     public function getLink()

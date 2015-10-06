@@ -246,7 +246,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * @param string $property The property to read from config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the request
+     * @return stdClass The result of the request
      * @access public
      */
     public function __get($property)
@@ -261,7 +261,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * @param bool   $processSections TRUE to process sections, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool|string FALSE on error, STRING with result on success
+     * @return stdClass FALSE on error, STRING with result on success
      * @access protected
      */
     protected function validate($input, $processSections = self::PHP_INI_PARSER_PROCESS_SECTIONS)
@@ -310,7 +310,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * Getter for decoded content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \stdClass|null The configuration if set, otherwise NULL
+     * @return stdClass The configuration if set, otherwise NULL
      * @access protected
      */
     protected function getDecodedContent()

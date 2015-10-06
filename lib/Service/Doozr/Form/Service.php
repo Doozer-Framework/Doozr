@@ -79,9 +79,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
-    implements
-    Doozr_Base_Service_Interface
+class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements Doozr_Base_Service_Interface
 {
     /**
      * Name of token field.

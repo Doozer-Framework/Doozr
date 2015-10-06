@@ -697,7 +697,6 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         // Store the default and active timeset
         $this->_timeset = $configL10n->datetime->default_timeset;
 
-
         // Call parents constructor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
     }

@@ -222,7 +222,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * Getter for logfile.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null The name of the logfile if set, otherwise NULL
+     * @return string The name of the logfile if set, otherwise NULL
      * @access public
      */
     public function getLogfile()
@@ -233,7 +233,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     /**
      * Setter for filesystem.
      *
-     * @param Doozr_Filesystem_Service $filesystem The filesystem instance
+     * @param Doozr_Base_Service_Interface $filesystem The filesystem instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void

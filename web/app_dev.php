@@ -72,6 +72,7 @@ if (
 
 // App in development environment
 define('DOOZR_APP_ENVIRONMENT', 'development');
+//define('DOOZR_APP_NAMESPACE', 'App');
 //define('DOOZR_DEBUGGING', true);
 //define('DOOZR_LOGGING', true);
 //define('DOOZR_PROFILING', true); <-- NOT KERNEL => MORE FOR APP OF THE DEVELOPER USING DOOZR
@@ -92,8 +93,8 @@ try {
 // Bootstrap
 require_once 'Doozr/Bootstrap.php';
 
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Relay\Runner;
 
 // Build queue for running middleware through relay
@@ -109,6 +110,7 @@ $queue[] = function(Request $request, Response $response, callable $next) {
         DOOZR_LOGGING,
         DOOZR_PROFILING,
         DOOZR_APP_ROOT,
+        DOOZR_APP_NAMESPACE,
         DOOZR_DIRECTORY_TEMP,
         DOOZR_DOCUMENT_ROOT,
         DOOZR_NAMESPACE,

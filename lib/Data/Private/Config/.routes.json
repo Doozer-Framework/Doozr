@@ -1,5 +1,5 @@
 {
-    "/foo/bar/:id": {
+    "/foo/bar/{id:\\d+}": {
         "methods": "GET,POST",
         "presenter": "index",
         "action": "index"
