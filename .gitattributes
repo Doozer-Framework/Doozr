@@ -15,4 +15,7 @@
 *.cmd         eol=crlf  text       ident
 *.vcproj      eol=crlf  text       ident
 *.md          eol=lf    text       ident  diff=html
+*.png                   binary
+*.jpg                   binary
+*.gif                   binary
 *             eol=lf    text=auto
