@@ -54,8 +54,8 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Config/Service/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Configuration/Service/Exception.php';
 
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
@@ -129,7 +129,6 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
         'path',
         'logger'
     );
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | TEARUP
