@@ -202,7 +202,7 @@ abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
                                  $this->type . '.ini';
 
             // get configreader
-            $config = Doozr_Loader_Serviceloader::load('Config', 'Ini');
+            $config = Doozr_Loader_Serviceloader::load('Configuration', 'Ini');
 
             // read config
             $this->config = $config->read($configurationFile);
