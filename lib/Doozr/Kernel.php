@@ -91,8 +91,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Kernel extends Doozr_Base_Class_Singleton
-    implements
+class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     Doozr_Kernel_Interface,
     Doozr_Kernel_App_Interface
 {
@@ -256,24 +255,23 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param string $appEnvironment     Application environment of the app running this Kernel instance
-     * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI)
-     * @param bool   $unix               TRUE when Doozr is running on Linux/Unix
-     * @param bool   $debugging          TRUE to enable debugging, FALSE to disable
-     * @param bool   $caching            TRUE to enable caching, FALSE to disable
-     * @param string $cachingContainer   Preferred container for caching
-     * @param bool   $logging            TRUE to enable logging, FALSE to disable
-     * @param bool   $profiling          TRUE if profiler is running, FALSE if not
-     * @param string $appRoot            The applications root directory
-     * @param string $appNamespace       The applications namespace (defaults to "App")
+     * @param string $appEnvironment     Applications environment - Environment of the app running this Kernel instance
+     * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI) Something like CLI, WEB, ...
+     * @param bool   $unix               Controls some OS dependant behavior of Doozr
+     * @param bool   $debugging          Controls the debugging behavior of Doozr (TRUE enable, FALSE disable)
+     * @param bool   $caching            Controls the caching behavior of Doozr (TRUE enable, FALSE disable)
+     * @param string $cachingContainer   Caching container
+     * @param bool   $logging            Controls the logging behavior of Doozr (TRUE enable, FALSE disable)
+     * @param bool   $profiling          Controls the profiling behavior of Doozr (TRUE profiler is running, FALSE not)
+     * @param string $appRoot            Applications root directory
+     * @param string $appNamespace       Applications namespace (defaults to "App")
      * @param string $directoryTemp      Systems temporary directory
-     * @param string $directoryRoot      The document root as string
+     * @param string $directoryRoot      The document root directory
      * @param string $namespace          Doozr namespace
      * @param string $namespaceFlat      Doozr namespace in lowercase writing
-     * @param bool   $virtualized        TRUE to run Kernel virtualized, otherwise FALSE
+     * @param bool   $virtualized        Controls virtualization behavior (TRUE to run Kernel virtualized, FALSE not)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Kernel
      * @access protected
      */
     protected function __construct(
@@ -410,21 +408,21 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton
      * @link http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
      *
      * @param bool   $rerun              TRUE to rerun the bootstrap process, FALSE to keep state from last run
-     * @param string $appEnvironment     Application environment of the app running this Kernel instance
-     * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI)
-     * @param bool   $unix               TRUE if Doozr is running on Linux/Unix
-     * @param bool   $debugging          TRUE to enable debugging, FALSE to disable
-     * @param bool   $caching            TRUE to enable caching, FALSE to disable
-     * @param string $cachingContainer   Container used for caching
-     * @param bool   $logging            TRUE to enable logging, FALSE to disable
-     * @param bool   $profiling          TRUE if profiler is running, FALSE if not
-     * @param string $appRoot            Application root as string
+     * @param string $appEnvironment     Applications environment - Environment of the app running this Kernel instance
+     * @param string $runtimeEnvironment Runtime environment of Doozr (PHP SAPI) Something like CLI, WEB, ...
+     * @param bool   $unix               Controls some OS dependant behavior of Doozr
+     * @param bool   $debugging          Controls the debugging behavior of Doozr (TRUE enable, FALSE disable)
+     * @param bool   $caching            Controls the caching behavior of Doozr (TRUE enable, FALSE disable)
+     * @param string $cachingContainer   Caching container
+     * @param bool   $logging            Controls the logging behavior of Doozr (TRUE enable, FALSE disable)
+     * @param bool   $profiling          Controls the profiling behavior of Doozr (TRUE profiler is running, FALSE not)
+     * @param string $appRoot            Applications root directory
      * @param string $appNamespace       Applications namespace (defaults to "App")
      * @param string $directoryTemp      Systems temporary directory
-     * @param string $directoryRoot      Document root as string
+     * @param string $directoryRoot      The document root directory
      * @param string $namespace          Doozr namespace
      * @param string $namespaceFlat      Doozr namespace in lowercase writing
-     * @param bool   $virtualized        TRUE to run Kernel virtualized, otherwise FALSE
+     * @param bool   $virtualized        Controls virtualization behavior (TRUE to run Kernel virtualized, FALSE not)
      *
      * @throws Doozr_Kernel_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
