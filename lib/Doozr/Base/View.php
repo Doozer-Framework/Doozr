@@ -89,7 +89,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected $debugging;
 
     /**
-     * Cahcing state of this class' instance
+     * Caching state of this class' instance
      *
      * @var bool
      * @access protected
@@ -282,7 +282,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Fluent: Setter for debugging.
      *
-     * @param string $templateExtension The templates extension
+     * @param bool $debugging TRUE enable debugging, otherwise FALSE to disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -790,9 +790,6 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      */
     protected function render(array $data = [], $fingerprint = null, Doozr_I18n_Service_Interface $i18n = null)
     {
-        echo '475438f54n5894jf8j487f5834';
-        var_dump($data);die;
-
         $this->setFingerprint(
             $this->generateFingerprint(
                 $fingerprint,

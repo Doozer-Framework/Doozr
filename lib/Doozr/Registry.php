@@ -638,7 +638,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for cache.
      *
-     * @param CacheItemPoolInterface $cache Instance of cache
+     * @param Doozr_Cache_Service $cache Instance of cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
