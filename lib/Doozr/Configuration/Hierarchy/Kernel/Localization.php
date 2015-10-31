@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Kernel - Test
+ * Doozr - Configuration - Hierarchy - Kernel - Localization
  *
- * KernelTest.php - Tests for Doozr's kernel & core functionality (bootstrapping & boot).
+ * Localization.php - The "localization" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -43,60 +43,84 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Hierarchy
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
-
-
 /**
- * Doozr - Kernel - Test
+ * Doozr - Configuration - Hierarchy - Kernel - Localization
  *
- * Tests for Doozr's core & core functionality (bootstrapping & boot).
+ * The "localization" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
  * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ * @subpackage Doozr_Kernel_Configuration
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class KernelTest extends PHPUnit_Framework_TestCase
+class Doozr_Base_Configuration_Hierarchy_Kernel_Localization
 {
     /**
-     * Test: Bootstrap Doozr.
+     * The character-set used as default (e.g. "unicode").
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @var string
+     * @access public
      */
-    public function testInit()
-    {
-        /* @var $app Doozr_Kernel_App Get kernel instance */
-        $app = Doozr_Kernel_App::boot(
-            DOOZR_APP_ENVIRONMENT,
-            DOOZR_RUNTIME_ENVIRONMENT,
-            DOOZR_UNIX,
-            DOOZR_DEBUGGING,
-            DOOZR_CACHING,
-            DOOZR_CACHING_CONTAINER,
-            DOOZR_LOGGING,
-            DOOZR_PROFILING,
-            DOOZR_APP_ROOT,
-            DOOZR_APP_NAMESPACE,
-            DOOZR_DIRECTORY_TEMP,
-            DOOZR_DOCUMENT_ROOT,
-            DOOZR_NAMESPACE,
-            DOOZR_NAMESPACE_FLAT
-        );
+    public $charset = 'unicode';
 
-        $this->assertInstanceOf('Doozr_Kernel', $app);
-    }
+    /**
+     * The encoding used as default (e.g. "UTF-8").
+     *
+     * @var string
+     * @access public
+     */
+    public $encoding = 'UTF-8';
+
+    /**
+     * The language used as default (e.g. "en").
+     *
+     * @var string
+     * @access public
+     */
+    public $language = 'en';
+
+    /**
+     * The country used as default (e.g. "us").
+     *
+     * @var string
+     * @access public
+     */
+    public $country = 'us';
+
+    /**
+     * The locale used as default (e.g. "en-us").
+     *
+     * @var string
+     * @access public
+     */
+    public $locale = 'en-us';
+
+    /**
+     * The mimetype used as default (e.g. "text/html").
+     *
+     * @var string
+     * @access public
+     */
+    public $mimetype = 'text/html';
+
+    /**
+     * The timezone used as default (e.g. "UTC").
+     *
+     * @var string
+     * @access public
+     */
+    public $timezone = 'UTC';
 }
