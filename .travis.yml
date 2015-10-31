@@ -55,3 +55,6 @@ after_success:
 branches:
   except:
     - /^build-[0-9a-z\-]*/
+
+notifications:
+  slack: clickalicious:$SLACKKEY

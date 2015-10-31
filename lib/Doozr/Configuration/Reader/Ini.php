@@ -178,9 +178,6 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
 
     public function set($node, $value = null)
     {
-        echo 13;
-        die;
-
         if ($node !== null) {
             $nodes = explode(':', $node);
             $configuration = $this->getDecodedContent();
