@@ -66,7 +66,7 @@ tools:
     php_code_sniffer:
         enabled: true
         config:
-            standard: PSR2
+            standard: "PSR2"
         filter:
             paths:
                 - lib/*

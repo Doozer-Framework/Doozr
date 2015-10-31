@@ -871,8 +871,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     /**
      * Configures the debug-behavior of PHP. I tries to runtime patch php.ini-settings
      * (ini_set) for error_reporting, display_errors, log_errors. If debug is enabled, the highest possible reporting
-     * level (including E_STRICT) is set. It also logs a warning-level message - if safe-runtimeEnvironment is detected and setup
-     * can't be done.
+     * level (including E_STRICT) is set. It also logs a warning-level message - if safe-runtimeEnvironment is detected
+     * and setup can't be done.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success
@@ -1067,7 +1067,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @param bool   $fatal The type of core-error - if set to true the error becomes FATAL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
      * @access protected
      * @static
      * @throws Doozr_Kernel_Exception

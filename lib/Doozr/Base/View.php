@@ -474,13 +474,13 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Setter for configuration with fluent API support for chaining calls to this class.
      *
-     * @param Doozr_Configuration_Interface $configuration The
+     * @param Doozr_Configuration $configuration The
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function configuration(Doozr_Configuration_Interface $configuration)
+    protected function configuration(Doozr_Configuration $configuration)
     {
         $this->setConfiguration($configuration);
 
@@ -491,7 +491,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Configuration_Interface The configuration stored
+     * @return Doozr_Configuration The configuration stored
      * @access protected
      */
     protected function getConfiguration()
@@ -799,7 +799,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
 
         $html = null;
 
-        if (false === $this->getConfiguration()->kernel->debug->enabled) {
+        if (false === $this->getConfiguration()->kernel->debugging->enabled) {
 
             // We try to receive data for rendering from cache :) this is much faster
             try {

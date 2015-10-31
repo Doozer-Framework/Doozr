@@ -100,6 +100,10 @@ $queue[] = function(Request $request, Response $response, callable $next) {
         DOOZR_NAMESPACE_FLAT
     );
 
+    // Invoke the $next middleware and get back a new response
+    $response = $next($request, $response);
+
+    // Modify the Response cause required
     return $app->handle($request, $response, !DOOZR_DEBUGGING);
 };
 

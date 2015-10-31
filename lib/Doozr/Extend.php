@@ -149,12 +149,15 @@ function merge_array(array $array_1, array $array_2)
 function array_change_key_case_recursive($input, $case = CASE_LOWER)
 {
     if (!is_array($input)) {
-        trigger_error("Invalid input array '{$input}'", E_USER_NOTICE);
+        trigger_error(
+            sprintf('Invalid input array "%s"', $input),
+            E_USER_NOTICE
+        );
         exit;
     }
 
     // CASE_UPPER|CASE_LOWER
-    if (!in_array($case, array(CASE_UPPER, CASE_LOWER))) {
+    if (!in_array($case, [CASE_UPPER, CASE_LOWER])) {
         trigger_error("Case parameter '{$case}' is invalid.", E_USER_NOTICE);
         exit;
     }
@@ -637,14 +640,14 @@ if (false === function_exists('json_last_error_msg')) {
      * @return string The last JSON error as string
      */
     function json_last_error_msg() {
-        static $errors = array(
+        static $errors = [
             JSON_ERROR_NONE             => null,
             JSON_ERROR_DEPTH            => 'Maximum stack depth exceeded',
             JSON_ERROR_STATE_MISMATCH   => 'Underflow or the modes mismatch',
             JSON_ERROR_CTRL_CHAR        => 'Unexpected control character found',
             JSON_ERROR_SYNTAX           => 'Syntax error, malformed JSON',
             JSON_ERROR_UTF8             => 'Malformed UTF-8 characters, possibly incorrectly encoded'
-        );
+        ];
         $error = json_last_error();
         return array_key_exists($error, $errors) ? $errors[$error] : "Unknown error ({$error})";
     }
@@ -752,7 +755,7 @@ function explodeTree($array, $delimiter = '_', $baseval = false)
 
             } elseif (false === is_array($parentArr[$part])) {
                 if ($baseval) {
-                    $parentArr[$part] = array('__base_val' => $parentArr[$part]);
+                    $parentArr[$part] = ['__base_val' => $parentArr[$part]];
                 } else {
                     $parentArr[$part] = [];
                 }

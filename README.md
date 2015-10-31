@@ -1,9 +1,9 @@
 <img src="https://avatars2.githubusercontent.com/u/514566?v=3&u=4615dfc4970d93dea5d3eaf996b7903ee6e24e20&s=140" align="right" />
 ---
-![Logo of Doozr](docs/logo-large.png)  
-The **lightweight** PHP-Framework for **high-performance** websites.  
+![Logo of Doozr](docs/logo-large.png)
+The **lightweight** PHP-Framework for **high-performance** websites.
 
-| [![Build Status](https://img.shields.io/travis/clickalicious/Doozr.svg)](https://travis-ci.org/clickalicious/Doozr) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Doozr.svg)](https://scrutinizer-ci.com/g/clickalicious/Doozr/) 	| [![Code Coverage](https://scrutinizer-ci.com/g/clickalicious/Doozr/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clickalicious/Doozr/?branch=master) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/Doozr.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause) 	|
+| [![Build Status](https://img.shields.io/travis/clickalicious/Doozr.svg)](https://travis-ci.org/clickalicious/Doozr) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Doozr.svg)](https://scrutinizer-ci.com/g/clickalicious/Doozr/) 	| [![Code Coverage](https://scrutinizer-ci.com/g/clickalicious/Doozr/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clickalicious/Doozr/?branch=master) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/Doozr.svg?style=flat)](http://opensource.org/licenses/BSD-2-Clause) 	|
 |---	|---	|---	|---	|
 | [![GitHub issues](https://img.shields.io/github/issues/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/issues) 	| [![Stories in Ready](https://badge.waffle.io/clickalicious/Doozr.png?label=ready&title=Ready)](https://waffle.io/clickalicious/Doozr)  	| [![GitHub release](https://img.shields.io/github/release/clickalicious/Doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/releases) 	| [![Analytics](https://ga-beacon.appspot.com/UA-905793-10/clickalicious/readme?flat)](https://doozr.readme.io/docs)  	|
 
@@ -61,9 +61,9 @@ The **lightweight** PHP-Framework for **high-performance** websites.
  - `Session` (Secure and OO Session interface)
  - `Template` (Interface to PHPTal)
 
-100% `composer` support. For any missing features we can make use of [packagist.org][1]. So just put the required package(s) in your `composer.json` and use them right after installation without need to include `.../vendor/autoload.php` manually. `Doozr` detects the `composer` packages and includes the autoloader of `composer`. 
+100% `composer` support. For any missing features we can make use of [packagist.org][1]. So just put the required package(s) in your `composer.json` and use them right after installation without need to include `.../vendor/autoload.php` manually. `Doozr` detects the `composer` packages and includes the autoloader of `composer`.
 
-This mechanism is our pragmatic approach as bridge to all the software & libraries out there. Of course you can build your very own *Services* and load them the same way as you would load a `Doozr` *Service* - but you are not required to do so. In other words: If you just want to use some smart library then pick it by using `composer` - but if you want to build your own piece of library then you should build a `Doozr` *Service* (which itself can use Composer as well). 
+This mechanism is our pragmatic approach as bridge to all the software & libraries out there. Of course you can build your very own *Services* and load them the same way as you would load a `Doozr` *Service* - but you are not required to do so. In other words: If you just want to use some smart library then pick it by using `composer` - but if you want to build your own piece of library then you should build a `Doozr` *Service* (which itself can use Composer as well).
 
 
 ## Versioning
@@ -73,12 +73,13 @@ For a consistent versioning we decided to make use of `Semantic Versioning 2.0.0
 
 ## Roadmap
 
-- [ ] Target stable release 1.0.0 (The Rock)
-- [ ] 75 - 90% Test Coverage
+- [x] Bug hunt and quality offensive
 - [x] Travis implementation ([travis-ci.org](https://travis-ci.org/clickalicious/Doozr))
 - [x] Scrutinizer ([scrutinizer-ci.com](https://scrutinizer-ci.com/g/clickalicious/Doozr/))
-- [x] Bug hunt and quality offensive
 - [x] Documentation ([doozr.readme.io](https://doozr.readme.io))
+- [ ] 75 - 90% Test Coverage
+- [ ] Target stable release 1.0.0 (The Rock)
+
 
 [![Throughput Graph](https://graphs.waffle.io/clickalicious/Doozr/throughput.svg)](https://waffle.io/clickalicious/Doozr/metrics)
 
@@ -96,7 +97,7 @@ If you encounter a (potential) security issue don't hesitate to get in contact w
 
 ## Sponsors
 
-Thanks to our sponsors and supporters:  
+Thanks to our sponsors and supporters:
 
 | JetBrains | Navicat |
 |---|---|
