@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Kernel - Test
+ * Doozr - Configuration - Hierarchy - Kernel - Path.
  *
- * KernelTest.php - Tests for Doozr's kernel & core functionality (bootstrapping & boot).
+ * Path.php - The "path" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -43,60 +44,51 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ *
+ * @link       http://clickalicious.github.com/Doozr/
  */
-
-
 
 /**
- * Doozr - Kernel - Test
+ * Doozr - Configuration - Hierarchy - Kernel - Path.
  *
- * Tests for Doozr's core & core functionality (bootstrapping & boot).
+ * The "path" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ *
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class KernelTest extends PHPUnit_Framework_TestCase
+class Doozr_Base_Configuration_Hierarchy_Kernel_Path
 {
     /**
-     * Test: Bootstrap Doozr.
+     * The document root as default (e.g. "{{DOOZR_DOCUMENT_ROOT}}").
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @var string
      */
-    public function testInit()
-    {
-        /* @var $app Doozr_Kernel_App Get kernel instance */
-        $app = Doozr_Kernel_App::boot(
-            DOOZR_APP_ENVIRONMENT,
-            DOOZR_RUNTIME_ENVIRONMENT,
-            DOOZR_UNIX,
-            DOOZR_DEBUGGING,
-            DOOZR_CACHING,
-            DOOZR_CACHING_CONTAINER,
-            DOOZR_LOGGING,
-            DOOZR_PROFILING,
-            DOOZR_APP_ROOT,
-            DOOZR_APP_NAMESPACE,
-            DOOZR_DIRECTORY_TEMP,
-            DOOZR_DOCUMENT_ROOT,
-            DOOZR_NAMESPACE,
-            DOOZR_NAMESPACE_FLAT
-        );
+    public $root = '{{DOOZR_DOCUMENT_ROOT}}';
 
-        $this->assertInstanceOf('Doozr_Kernel', $app);
-    }
+    /**
+     * The app root as default (e.g. "{{DOOZR_APP_ROOT}}").
+     *
+     * @var string
+     */
+    public $app = '{{DOOZR_APP_ROOT}}';
+
+    /**
+     * The upload root as default (e.g. "{{DOOZR_APP_ROOT}}Data/Private/Upload/").
+     *
+     * @var string
+     */
+    public $upload = '{{DOOZR_APP_ROOT}}Data/Private/Upload/';
 }

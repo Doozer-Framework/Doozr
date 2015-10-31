@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Kernel - Test
+ * Doozr - Configuration - Hierarchy - Kernel - Transmission - Request.
  *
- * KernelTest.php - Tests for Doozr's kernel & core functionality (bootstrapping & boot).
+ * Request.php - The "request" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -43,60 +44,48 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ *
+ * @link       http://clickalicious.github.com/Doozr/
  */
-
-
 
 /**
- * Doozr - Kernel - Test
+ * Doozr - Configuration - Hierarchy - Kernel - Transmission - Request.
  *
- * Tests for Doozr's core & core functionality (bootstrapping & boot).
+ * The "request" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Test
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
- * @link       https://github.com/clickalicious/Memcached.php
+ *
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class KernelTest extends PHPUnit_Framework_TestCase
+class Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Request
 {
     /**
-     * Test: Bootstrap Doozr.
+     * Configuration for redirects.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect
      */
-    public function testInit()
-    {
-        /* @var $app Doozr_Kernel_App Get kernel instance */
-        $app = Doozr_Kernel_App::boot(
-            DOOZR_APP_ENVIRONMENT,
-            DOOZR_RUNTIME_ENVIRONMENT,
-            DOOZR_UNIX,
-            DOOZR_DEBUGGING,
-            DOOZR_CACHING,
-            DOOZR_CACHING_CONTAINER,
-            DOOZR_LOGGING,
-            DOOZR_PROFILING,
-            DOOZR_APP_ROOT,
-            DOOZR_APP_NAMESPACE,
-            DOOZR_DIRECTORY_TEMP,
-            DOOZR_DOCUMENT_ROOT,
-            DOOZR_NAMESPACE,
-            DOOZR_NAMESPACE_FLAT
-        );
+    public $redirect;
 
-        $this->assertInstanceOf('Doozr_Kernel', $app);
-    }
+    /**
+     * An array of objects like
+     * {
+     *   "search": "/(\\/app_dev.php)/u",
+     *   "replace": ""
+     * }
+     *
+     * @var array
+     */
+    public $filter;
 }

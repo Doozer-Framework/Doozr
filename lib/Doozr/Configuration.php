@@ -75,6 +75,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
+ * @property   Doozr_Base_Configuration_Hierarchy_Kernel $kernel
  */
 class Doozr_Configuration extends Doozr_Base_Class_Singleton
     implements
