@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Kernel
+ * Doozr - Kernel.
  *
  * Kernel.php - Kernel of the Doozr Framework.
  *
@@ -43,52 +44,53 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Component
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/App/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Json.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map/Static.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Serviceloader.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Encoding.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Locale.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Debugging.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Security.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Model.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Arguments.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Kernel/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Kernel/App/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Registry.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Importer/Json.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map/Static.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Factory.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Serviceloader.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Path.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Encoding.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Locale.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Debugging.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Security.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Model.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Arguments.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Cache/Service/Exception.php';
 
 use DebugBar\StandardDebugBar;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Doozr - Kernel
+ * Doozr - Kernel.
  *
  * Kernel of the Doozr Framework.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Component
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
@@ -96,46 +98,41 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     Doozr_Kernel_App_Interface
 {
     /**
-     * Starttime (core instantiated) for measurements
+     * Starttime (core instantiated) for measurements.
      *
      * @var float
-     * @access public
      * @static
      */
     public static $starttime = 0;
 
     /**
-     * Execution time of core (core is ready to use) for measurements
+     * Execution time of core (core is ready to use) for measurements.
      *
      * @var float
-     * @access public
      * @static
      */
     public static $kernelExecutionTime = 0;
 
     /**
-     * Instance of service DateTime
+     * Instance of service DateTime.
      *
      * @var Doozr_Datetime_Service
-     * @access protected
      * @static
      */
     protected static $dateTime;
 
     /**
-     * Default configuration container used by Kernel
+     * Default configuration container used by Kernel.
      *
      * @var string
-     * @access public
      * @const
      */
     const DEFAULT_CONFIG_CONTAINER = 'Json';
 
     /**
-     * Default caching container used by Kernel
+     * Default caching container used by Kernel.
      *
      * @var string
-     * @access public
      * @const
      */
     const DEFAULT_CACHING_CONTAINER = 'filesystem';
@@ -144,7 +141,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Default temporary directory.
      *
      * @var string
-     * @access public
      * @const
      */
     const DEFAULT_DIRECTORY_TEMP = '';
@@ -153,7 +149,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Default root directory.
      *
      * @var string
-     * @access public
      * @const
      */
     const DEFAULT_DIRECTORY_ROOT = DOOZR_DOCUMENT_ROOT;
@@ -162,7 +157,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Default namespace.
      *
      * @var string
-     * @access public
      * @const
      */
     const DEFAULT_NAMESPACE = 'Doozr';
@@ -171,79 +165,70 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Default namespace flat.
      *
      * @var string
-     * @access public
      * @const
      */
     const DEFAULT_NAMESPACE_FLAT = 'doozr';
 
     /**
-     * Default namespace for the App running on Doozr
+     * Default namespace for the App running on Doozr.
      *
      * @var string
-     * @access public
      * @const
      */
     const DEFAULT_APP_NAMESPACE = 'App';
 
     /**
-     * CLI running runtimeEnvironment
+     * CLI running runtimeEnvironment.
      *
      * @var string
-     * @access public
      * @const
      */
     const RUNTIME_ENVIRONMENT_CLI = 'Cli';
 
     /**
-     * WEB running runtimeEnvironment
+     * WEB running runtimeEnvironment.
      *
      * @var string
-     * @access public
      * @const
      */
     const RUNTIME_ENVIRONMENT_WEB = 'Web';
 
     /**
-     * HTTPD running runtimeEnvironment
+     * HTTPD running runtimeEnvironment.
      *
      * @var string
-     * @access public
      * @const
      */
     const RUNTIME_ENVIRONMENT_HTTPD = 'Httpd';
 
     /**
-     * Applications environment for Testing
+     * Applications environment for Testing.
      *
      * @var string
-     * @access public
      * @const
      */
     const APP_ENVIRONMENT_TESTING = 'testing';
 
     /**
-     * Applications environment for Production
+     * Applications environment for Production.
      *
      * @var string
-     * @access public
      * @const
      */
     const APP_ENVIRONMENT_PRODUCTION = 'production';
 
     /**
-     * Applications environment for Development
+     * Applications environment for Development.
      *
      * @var string
-     * @access public
      * @const
      */
     const APP_ENVIRONMENT_DEVELOPMENT = 'development';
 
     /**
-     * Applications environment for Staging
+     * Applications environment for Staging.
      *
      * @var string
-     * @access public
      * @const
      */
     const APP_ENVIRONMENT_STAGING = 'staging';
@@ -272,7 +257,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @param bool   $virtualized        Controls virtualization behavior (TRUE to run Kernel virtualized, FALSE not)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access protected
      */
     protected function __construct(
         $appEnvironment,
@@ -328,8 +312,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @param bool $includeWalltime TRUE to start timer including time from routing (absolute request time)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      * @static
      */
     protected static function startTimer($includeWalltime = true)
@@ -362,27 +344,27 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @param bool   $virtualized        TRUE to run Kernel virtualized, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Kernel_App The Doozr Kernel instance
-     * @access public
      */
     public static function boot(
-        $appEnvironment     = self::APP_ENVIRONMENT_PRODUCTION,
+        $appEnvironment = self::APP_ENVIRONMENT_PRODUCTION,
         $runtimeEnvironment = self::RUNTIME_ENVIRONMENT_WEB,
-        $unix               = true,
-        $debugging          = false,
-        $caching            = false,
-        $cachingContainer   = self::DEFAULT_CACHING_CONTAINER,
-        $logging            = true,
-        $profiling          = false,
-        $appRoot            = '',
-        $appNamespace       = self::DEFAULT_APP_NAMESPACE,
-        $directoryTemp      = self::DEFAULT_DIRECTORY_TEMP,
-        $directoryRoot      = self::DEFAULT_DIRECTORY_ROOT,
-        $namespace          = self::DEFAULT_NAMESPACE,
-        $namespaceFlat      = self::DEFAULT_NAMESPACE_FLAT,
-        $virtualized        = false
+        $unix = true,
+        $debugging = false,
+        $caching = false,
+        $cachingContainer = self::DEFAULT_CACHING_CONTAINER,
+        $logging = true,
+        $profiling = false,
+        $appRoot = '',
+        $appNamespace = self::DEFAULT_APP_NAMESPACE,
+        $directoryTemp = self::DEFAULT_DIRECTORY_TEMP,
+        $directoryRoot = self::DEFAULT_DIRECTORY_ROOT,
+        $namespace = self::DEFAULT_NAMESPACE,
+        $namespaceFlat = self::DEFAULT_NAMESPACE_FLAT,
+        $virtualized = false
     ) {
-        return Doozr_Kernel::getInstance(
+        return self::getInstance(
             $appEnvironment,
             $runtimeEnvironment,
             $unix,
@@ -404,7 +386,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     /**
      * Starts the bootstrapping process. It enables you to rerun the whole bootstrapping process from outside
      * by implementing this method as public. So you are able to unit-test your application with a fresh bootstrapped
-     * core on each run. Able to  rerun (e.g. to support unit-testing on each run with fresh bootstrap!)
+     * core on each run. Able to  rerun (e.g. to support unit-testing on each run with fresh bootstrap!).
+     *
      * @link http://it-republik.de/php/news/Die-Framework-Falle-und-Wege-daraus-059217.html
      *
      * @param bool   $rerun              TRUE to rerun the bootstrap process, FALSE to keep state from last run
@@ -425,52 +408,50 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @param bool   $virtualized        Controls virtualization behavior (TRUE to run Kernel virtualized, FALSE not)
      *
      * @throws Doozr_Kernel_Exception
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @static
      */
     public static function bootstrap(
-        $rerun              = true,
-        $appEnvironment     = self::APP_ENVIRONMENT_PRODUCTION,
+        $rerun = true,
+        $appEnvironment = self::APP_ENVIRONMENT_PRODUCTION,
         $runtimeEnvironment = self::RUNTIME_ENVIRONMENT_WEB,
-        $unix               = true,
-        $debugging          = false,
-        $caching            = false,
-        $cachingContainer   = self::DEFAULT_CACHING_CONTAINER,
-        $logging            = true,
-        $profiling          = false,
-        $appRoot            = '',
-        $appNamespace       = self::DEFAULT_APP_NAMESPACE,
-        $directoryTemp      = self::DEFAULT_DIRECTORY_TEMP,
-        $directoryRoot      = self::DEFAULT_DIRECTORY_ROOT,
-        $namespace          = self::DEFAULT_NAMESPACE,
-        $namespaceFlat      = self::DEFAULT_NAMESPACE_FLAT,
-        $virtualized        = false
+        $unix = true,
+        $debugging = false,
+        $caching = false,
+        $cachingContainer = self::DEFAULT_CACHING_CONTAINER,
+        $logging = true,
+        $profiling = false,
+        $appRoot = '',
+        $appNamespace = self::DEFAULT_APP_NAMESPACE,
+        $directoryTemp = self::DEFAULT_DIRECTORY_TEMP,
+        $directoryRoot = self::DEFAULT_DIRECTORY_ROOT,
+        $namespace = self::DEFAULT_NAMESPACE,
+        $namespaceFlat = self::DEFAULT_NAMESPACE_FLAT,
+        $virtualized = false
     ) {
         // Check for requested rerun. Prevent duplicate init. But enable to do.
         if (true === $rerun) {
             // Start init-stack ...
-            if (!
-                (
+            if (!(
                     self::initRegistry(
                         [
-                            'doozr.kernel.rerun'               => $rerun,
-                            'doozr.app.environment'            => $appEnvironment,
+                            'doozr.kernel.rerun' => $rerun,
+                            'doozr.app.environment' => $appEnvironment,
                             'doozr.kernel.runtime.environment' => $runtimeEnvironment,
-                            'doozr.unix'                       => $unix,
-                            'doozr.kernel.debugging'           => $debugging,
-                            'doozr.kernel.caching'             => $caching,
-                            'doozr.kernel.caching.container'   => $cachingContainer,
-                            'doozr.kernel.logging'             => $logging,
-                            'doozr.kernel.profiling'           => $profiling,
-                            'doozr.app.root'                   => $appRoot,
-                            'doozr.app.namespace'              => $appNamespace,
-                            'doozr.kernel.virtualized'         => $virtualized,
-                            'doozr.directory.temp'             => $directoryTemp,
-                            'doozr.directory.root'             => $directoryRoot,
-                            'doozr.namespace'                  => $namespace,
-                            'doozr.namespace.flat'             => $namespaceFlat,
+                            'doozr.unix' => $unix,
+                            'doozr.kernel.debugging' => $debugging,
+                            'doozr.kernel.caching' => $caching,
+                            'doozr.kernel.caching.container' => $cachingContainer,
+                            'doozr.kernel.logging' => $logging,
+                            'doozr.kernel.profiling' => $profiling,
+                            'doozr.app.root' => $appRoot,
+                            'doozr.app.namespace' => $appNamespace,
+                            'doozr.kernel.virtualized' => $virtualized,
+                            'doozr.directory.temp' => $directoryTemp,
+                            'doozr.directory.root' => $directoryRoot,
+                            'doozr.namespace' => $namespace,
+                            'doozr.namespace.flat' => $namespaceFlat,
                         ]
                     ) &&
                     self::initDependencyInjection() &&
@@ -510,8 +491,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @param bool $virtualized TRUE to run filesystem virtualized, otherwise FALSE to run real
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initFilesystem($virtualized = false)
@@ -529,8 +510,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Initializes the cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initCache()
@@ -538,8 +519,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // Build namespace for cache
         $namespace = self::$registry->getParameter('doozr.namespace.flat').'.cache';
         $container = self::$registry->getParameter('doozr.kernel.caching.container');
-        $unix      = self::$registry->getParameter('doozr.unix');
-        $caching   = self::$registry->getParameter('doozr.kernel.caching');
+        $unix = self::$registry->getParameter('doozr.unix');
+        $caching = self::$registry->getParameter('doozr.kernel.caching');
 
         // Store cache ...
         self::$registry->setCache(
@@ -561,21 +542,21 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Initialize the Dependency-Injection container and load the map for wiring from a static JSON-representation.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initDependencyInjection()
     {
-        /**
+        /*
          * Create instances of required classes
          * Create instance of Doozr_Di_Map_Static and pass required classes as arguments to constructor
          * The Di-Map builder requires two objects Collection + Importer
          */
         $collection = new Doozr_Di_Collection();
-        $importer   = new Doozr_Di_Importer_Json();
+        $importer = new Doozr_Di_Importer_Json();
         $dependency = new Doozr_Di_Dependency();
-        $map        = new Doozr_Di_Map_Static($collection, $importer, $dependency);
+        $map = new Doozr_Di_Map_Static($collection, $importer, $dependency);
 
         // Generate map from static JSON map of Doozr
         $map->generate(self::$registry->getParameter('doozr.directory.root').'Data/Private/Config/.map.json');
@@ -605,8 +586,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @param array $parameters The parameters to store in parameter bag.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initRegistry(array $parameters = [])
@@ -623,8 +604,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * configured loggers are attached.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initLogging()
@@ -632,7 +613,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // Wire the required datetime service ...
         self::$registry->getContainer()->getMap()->wire(
             [
-                'doozr.datetime.service' => Doozr_Loader_Serviceloader::load('datetime')
+                'doozr.datetime.service' => Doozr_Loader_Serviceloader::load('datetime'),
             ]
         );
 
@@ -656,8 +637,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * in correct slashed writing.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initPath()
@@ -672,13 +653,13 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Initialize and prepare the config used for running the framework and the app.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initConfiguration()
     {
-        $caching   = self::$registry->getParameter('doozr.kernel.caching');
+        $caching = self::$registry->getParameter('doozr.kernel.caching');
         $namespace = self::$registry->getParameter('doozr.namespace.flat').'.cache.configuration';
 
         $cache = Doozr_Loader_Serviceloader::load(
@@ -705,7 +686,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         $configuration = self::$registry->getContainer()->build(
             'doozr.configuration',
             [
-                $caching
+                $caching,
             ]
         );
 
@@ -751,8 +732,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * the collecting logger. This method also injects the collected entries into the new attached loggers.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function configureLogging()
@@ -771,11 +752,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
             // Iterate and attach to subsystem
             foreach (self::$registry->getConfiguration()->kernel->logging->logger as $logger) {
-
                 $loggerInstance = self::$registry->getContainer()->build(
                     'doozr.logging.'.strtolower($logger->name),
                     [
-                        (isset($logger->level)) ? $logger->level : self::$registry->getLogger()->getDefaultLoglevel()
+                        (isset($logger->level)) ? $logger->level : self::$registry->getLogger()->getDefaultLoglevel(),
                     ]
                 );
 
@@ -793,7 +773,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
                     $entry['separator']
                 );
             }
-
         } else {
             // Disable logging (+ dispatching ...)
             /* @todo CHECK disable() useful? makes sense? */
@@ -809,14 +788,15 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Initializes the system settings of/for PHP.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, FALSE on failure
-     * @access protected
      * @static
+     *
      * @throws Doozr_Kernel_Exception
      */
     protected static function initSystem()
     {
-        $result      = true;
+        $result = true;
         $phpSettings = self::getRegistry()->getConfiguration()->kernel->system->php;
 
         foreach ($phpSettings as $iniKey => $value) {
@@ -831,11 +811,11 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     }
 
     /**
-     * Initializes the encoding used internal and external (e.g. output)
+     * Initializes the encoding used internal and external (e.g. output).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initEncoding()
@@ -853,8 +833,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Initializes the locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success.
-     * @access protected
+     *
      * @link   http://de.wikipedia.org/wiki/Locale
      * @static
      */
@@ -875,8 +856,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * and setup can't be done.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initDebugging()
@@ -913,8 +894,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * protects the framework and handles security related operations like en- / decryption ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initSecurity()
@@ -930,8 +911,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Initialize the request state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initRequest()
@@ -958,8 +939,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Initialize the response state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initResponse()
@@ -984,29 +965,29 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
     /**
      * Initializes the model layer. It provides access to a database through a
-     * ORM (Object-Relational-Mapper) like Doctrine, ... or a ODM (like PHPillow)
+     * ORM (Object-Relational-Mapper) like Doctrine, ... or a ODM (like PHPillow).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initModel()
     {
         // Retrieve configuration
         $configuration = self::$registry->getConfiguration();
-        $path   = self::$registry->getPath();
+        $path = self::$registry->getPath();
 
         // Build decorator config ...
         $databaseConfiguration = [
-            'name'      => $configuration->kernel->model->proxy,
+            'name' => $configuration->kernel->model->proxy,
             'translate' => $configuration->kernel->model->oxm,
-            'path'      => $path->get(
+            'path' => $path->get(
                 'model', 'Lib\\'.$configuration->kernel->model->oxm.'\\'
             ),
             'bootstrap' => $configuration->kernel->model->bootstrap,
-            'route'     => $configuration->kernel->model->route,
-            'docroot'   => $configuration->kernel->model->docroot
+            'route' => $configuration->kernel->model->route,
+            'docroot' => $configuration->kernel->model->docroot,
         ];
 
         self::$registry->setModel(
@@ -1022,8 +1003,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Running runtimeEnvironment depends on used interface. It can be either CLI (Console) or WEB (Browser).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success
-     * @access protected
      * @static
      */
     protected static function initServices()
@@ -1046,8 +1027,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Stops the timer for measurements and log the core-execution time.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      * @static
      */
     protected static function stopTimer()
@@ -1061,14 +1040,14 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
     /**
      * This method triggers an error (delegate as exception). in default it throws an
-     * E_USER_CORE_EXCEPTION if $fatal set to true it will throw an E_USER_CORE_FATAL_EXCEPTION
+     * E_USER_CORE_EXCEPTION if $fatal set to true it will throw an E_USER_CORE_FATAL_EXCEPTION.
      *
      * @param string $error The error-message to throw as core-error
      * @param bool   $fatal The type of core-error - if set to true the error becomes FATAL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access protected
      * @static
+     *
      * @throws Doozr_Kernel_Exception
      */
     protected static function coreError($error, $fatal = true)
@@ -1088,11 +1067,11 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     }
 
     /**
-     * Returns instance of Datetime module
+     * Returns instance of Datetime module.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Datetime_Service An instance of module Datetime
-     * @access protected
      * @static
      */
     protected static function getDateTime()
@@ -1110,21 +1089,20 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Returns a collection of service configuration files (including path).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Collection of files
-     * @access protected
      * @static
      */
     protected static function retrieveServiceConfigurationFiles()
     {
         $virtualFile = self::$registry->getPath()->get('config').'.service.json';
-        $caching     = self::$registry->getParameter('doozr.kernel.caching');
-        $files       = null;
+        $caching = self::$registry->getParameter('doozr.kernel.caching');
+        $files = null;
 
         // Try to load service configurations from cache!
         if (true === $caching) {
             try {
                 $files = self::$registry->getCache()->read($virtualFile);
-
             } catch (Doozr_Cache_Service_Exception $exception) {
                 // Intentionally left empty
             }
@@ -1134,7 +1112,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         if (null === $files) {
             $pattern = self::$registry->getPath()->get('service').
                        '*'.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.'.config.json';
-            $files   = glob($pattern, GLOB_NOSORT);
+            $files = glob($pattern, GLOB_NOSORT);
         }
 
         // Cache items found for reuse later
@@ -1150,16 +1128,16 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Returns a collection of userland configuration files (including path).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Collection of userland configuration files
-     * @access protected
      * @static
      */
     protected static function retrieveUserlandConfigurationFiles()
     {
         $appEnvironment = self::$registry->getParameter('doozr.app.environment');
-        $caching        = self::$registry->getParameter('doozr.kernel.caching');
-        $exists         = null;
-        $file           = self::$registry->getPath()->get(
+        $caching = self::$registry->getParameter('doozr.kernel.caching');
+        $exists = null;
+        $file = self::$registry->getPath()->get(
             'app',
             'Data\Private\Config\.config.'.$appEnvironment.'.json'
         );
@@ -1168,7 +1146,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         if (true === $caching) {
             try {
                 $exists = self::$registry->getCache()->read($file);
-
             } catch (Doozr_Cache_Service_Exception $exception) {
                 // Intentionally left empty
             }
@@ -1198,8 +1175,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Returns the starttime of core execution.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return float Microtime
-     * @access public
      */
     public static function getKernelStarttime()
     {
@@ -1210,8 +1187,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Returns the total-time of core execution.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return float Microtime
-     * @access public
      */
     public static function getKernelExecutiontime()
     {
@@ -1227,8 +1204,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @param bool     $expose        Controls whether the real information will be send or the default HTTP one
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Response The modified response instance
-     * @access protected
      */
     protected function buildErrorResponse(Response $response, $statusCode, $statusMessage, $expose = false)
     {
@@ -1258,8 +1235,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * On destruction of class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function __destruct()
     {
@@ -1290,6 +1265,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return Response
+     *
      * @throws \Exception
      */
     public function __invoke(Request $request, Response $response, callable $next)
@@ -1299,7 +1275,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         try {
             // Build Filter for URI and apply ...
             $filter = new \Doozr_Filter(
-                (array)self::$registry->getConfiguration()->kernel->transmission->request->filter
+                (array) self::$registry->getConfiguration()->kernel->transmission->request->filter
             );
 
             $request->withUri(
@@ -1309,7 +1285,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
             );
 
             /* @var $router Doozr_Route */
-            $router  = self::$registry->getContainer()->build('doozr.route');
+            $router = self::$registry->getContainer()->build('doozr.route');
             $request = $router->route($request);
 
             /* @var $responseResolver Doozr_Response_Resolver */
@@ -1317,7 +1293,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
             // Retrieving response by dispatching "request + route" to request dispatcher
             $response = $responseResolver->resolve($request, $response);
-
         } catch (\Exception $exception) {
             if (true === !$debugging) {
                 $response = $this->buildErrorResponse(
@@ -1326,7 +1301,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
                     $response,
                     $debugging
                 );
-
             } else {
                 throw $exception;
             }
