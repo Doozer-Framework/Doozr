@@ -74,22 +74,17 @@ interface Doozr_Kernel_App_Interface
     /**
      * Handles a Request to convert it to a Response.
      *
-     * When $catch is true, the implementation must catch all exceptions and do its best to convert them to a Response
-     * instance.
-     *
-     * @param Request  $request  Request compatible instance
-     * @param Response $response Response compatible instance
-     * @param bool     $catch    Whether to catch exceptions or not
-     * @param bool     $expose   Whether to expose sensitive information or not
+     * @param Request  $request  The request to handle
+     * @param Response $response The response to send
+     * @param callable $next     The next callable middleware implementation
      *
      * @return Doozr_Response A Response instance
      *
      * @throws \Exception When an Exception occurs during processing
      */
-    public function handle(
+    public function __invoke(
         Request $request,
         Response $response,
-        $catch = true,
-        $expose = false
+        callable $next
     );
 }
