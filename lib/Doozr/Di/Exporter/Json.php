@@ -149,8 +149,6 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
         // the collection for export in correct JSON structure
         $collection = [];
 
-        echo 'cid:37826d7s6da78s6d9sa';die;
-
         // iterate over collection
         foreach ($this->collection as $classname => $dependencies) {
 

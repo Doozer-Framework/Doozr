@@ -362,7 +362,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * @param bool   $virtualized        TRUE to run Kernel virtualized, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return $this The Doozr Kernel instance
+     * @return Doozr_Kernel_App The Doozr Kernel instance
      * @access public
      */
     public static function boot(
@@ -1219,67 +1219,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     }
 
     /**
-     * Handles a Request to convert it to a Response.
-     *
-     * When $catch is true, the implementation must catch all exceptions and do its best to convert them to a Response
-     * instance.
-     *
-     * @param Request  $request  Request instance
-     * @param Response $response Response instance
-     * @param bool     $catch    Whether to catch exceptions or not
-     * @param bool     $expose   Whether to expose sensitive information or not
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Response A Response instance
-     * @access public
-     * @throws \Exception When an Exception occurs during processing
-     */
-    public function handle(
-        Request $request,
-        Response $response,
-        $catch = true,
-        $expose = false
-    ) {
-        try {
-            // Build Filter for URI and apply ...
-            $filter = new \Doozr_Filter(
-                (array)self::$registry->getConfiguration()->kernel->transmission->request->filter
-            );
-
-            $request->withUri(
-                $request->getUri()->withPath(
-                    $filter->apply($request->getUri()->getPath())
-                )
-            );
-
-            /* @var $router Doozr_Route */
-            $router  = self::$registry->getContainer()->build('doozr.route');
-            $request = $router->route($request);
-
-            /* @var $responseResolver Doozr_Response_Resolver */
-            $responseResolver = self::$registry->getContainer()->build('doozr.response.resolver');
-
-            // Retrieving response by dispatching "request + route" to request dispatcher
-            $response = $responseResolver->resolve($request, $response);
-
-        } catch (\Exception $exception) {
-            if (true === $catch) {
-                $response = $this->buildErrorResponse(
-                    $exception->getCode(),
-                    $exception->getMessage(),
-                    $response,
-                    $expose
-                );
-
-            } else {
-                throw $exception;
-            }
-        }
-
-        return $response;
-    }
-
-    /**
      * Returns a prepared response with error message and HTTP status code set.
      *
      * @param Response $response      The response instance
@@ -1339,5 +1278,63 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
         // Save session
         session_write_close();
+    }
+
+    /**
+     * Invoke execution is part of Middleware implementation (PSR-7).
+     *
+     * @param Request  $request  The request to handle
+     * @param Response $response The response to send
+     * @param callable $next     The next callable middleware implementation
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function __invoke(Request $request, Response $response, callable $next)
+    {
+        $debugging = self::$registry->getParameter('doozr.kernel.debugging');
+
+        try {
+            // Build Filter for URI and apply ...
+            $filter = new \Doozr_Filter(
+                (array)self::$registry->getConfiguration()->kernel->transmission->request->filter
+            );
+
+            $request->withUri(
+                $request->getUri()->withPath(
+                    $filter->apply($request->getUri()->getPath())
+                )
+            );
+
+            /* @var $router Doozr_Route */
+            $router  = self::$registry->getContainer()->build('doozr.route');
+            $request = $router->route($request);
+
+            /* @var $responseResolver Doozr_Response_Resolver */
+            $responseResolver = self::$registry->getContainer()->build('doozr.response.resolver');
+
+            // Retrieving response by dispatching "request + route" to request dispatcher
+            $response = $responseResolver->resolve($request, $response);
+
+        } catch (\Exception $exception) {
+            if (true === !$debugging) {
+                $response = $this->buildErrorResponse(
+                    $exception->getCode(),
+                    $exception->getMessage(),
+                    $response,
+                    $debugging
+                );
+
+            } else {
+                throw $exception;
+            }
+        }
+
+        // Invoke the $next middleware and get back a new response
+        $response = $next($request, $response);
+
+        return $response;
     }
 }

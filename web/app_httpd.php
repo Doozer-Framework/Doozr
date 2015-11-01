@@ -119,6 +119,7 @@ use Relay\Runner;
 // Build queue for running middleware through relay
 $queue[] = function(Request $request, Response $response, callable $next) {
 
+    // Boot the App kernel
     $app = Doozr_Kernel_App::boot(
         DOOZR_APP_ENVIRONMENT,
         DOOZR_RUNTIME_ENVIRONMENT,
@@ -136,7 +137,8 @@ $queue[] = function(Request $request, Response $response, callable $next) {
         DOOZR_NAMESPACE_FLAT
     );
 
-    return $app->handle($request, $response, !DOOZR_DEBUGGING);
+    // Invoke Middleware
+    return $app($request, $response, $next);
 };
 
 // Create a Relay Runner instance ...
