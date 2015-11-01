@@ -71,5 +71,5 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
  */
 final class Doozr_Kernel_App extends Doozr_Kernel
 {
-    // Just used for namespace.
+    // Intentionally left empty
 }

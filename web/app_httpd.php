@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - The PHP-Framework
+ * Doozr - The PHP-Framework.
  *
  * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
  *
@@ -42,7 +43,7 @@ if (
     isset($_SERVER['HTTP_CLIENT_IP']) ||
     isset($_SERVER['HTTP_X_FORWARDED_FOR']) ||
     (
-        !preg_match("/^192/", @$_SERVER['REMOTE_ADDR']) &&
+        !preg_match('/^192/', @$_SERVER['REMOTE_ADDR']) &&
         !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1'))
     )
 ) {
@@ -50,8 +51,7 @@ if (
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
 
-
-/**
+/*
  * ENVIRONMENT:
  * You can override the default environment by a defined constant:
  * define('DOOZR_APP_ENVIRONMENT', 'development|testing|staging|production');
@@ -81,14 +81,14 @@ define('DOOZR_APP_ENVIRONMENT', 'development');
 /**
  * Get composer and bootstrap Doozr ...
  */
-require_once realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php');
+require_once realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'../vendor/autoload.php');
 
-/**
+/*
  * Check for internal webserver request for real file ...
  */
 if (
     PHP_SAPI === 'cli-server' &&
-    file_exists(realpath($_SERVER['DOCUMENT_ROOT'] . parse_url($_SERVER['REQUEST_URI'])['path']))
+    file_exists(realpath($_SERVER['DOCUMENT_ROOT'].parse_url($_SERVER['REQUEST_URI'])['path']))
 ) {
     return false;
 }
@@ -104,10 +104,10 @@ $_SERVER['QUERY_STRING'] = (
 
 // Try to load .env file with environmental settings
 try {
-    $dotenv = new Dotenv\Dotenv(realpath(__DIR__ . '/..'));
+    $dotenv = new Dotenv\Dotenv(realpath(__DIR__.'/..'));
     $dotenv->load();
-
-} catch (InvalidArgumentException $exception) {}
+} catch (InvalidArgumentException $exception) {
+}
 
 // Bootstrap
 require_once 'Doozr/Bootstrap.php';
@@ -117,8 +117,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Relay\Runner;
 
 // Build queue for running middleware through relay
-$queue[] = function(Request $request, Response $response, callable $next) {
+$queue[] = function (Request $request, Response $response, callable $next) {
 
+    // Boot the App kernel
     $app = Doozr_Kernel_App::boot(
         DOOZR_APP_ENVIRONMENT,
         DOOZR_RUNTIME_ENVIRONMENT,
@@ -136,7 +137,8 @@ $queue[] = function(Request $request, Response $response, callable $next) {
         DOOZR_NAMESPACE_FLAT
     );
 
-    return $app->handle($request, $response, !DOOZR_DEBUGGING);
+    // Invoke Middleware
+    return $app($request, $response, $next);
 };
 
 // Create a Relay Runner instance ...
@@ -156,6 +158,6 @@ $response = $runner(
 $responseSender = new Doozr_Response_Sender_Httpd($response);
 $responseSender->send();
 
-/**
+/*
  * If you want to call normal files within this directory feel free to :)
  */
