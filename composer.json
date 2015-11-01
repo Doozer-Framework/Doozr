@@ -81,7 +81,7 @@
   ],
   "config": {
     "bin-dir": "bin",
-    "preferred-install": "source"
+    "preferred-install": "dist"
   },
   "extra": {
     "doozr-app-dir": "app",

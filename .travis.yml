@@ -57,4 +57,9 @@ branches:
     - /^build-[0-9a-z\-]*/
 
 notifications:
+  email:
+    recipients:
+      - opensource@clickalicious.de
+    on_success: always
+    on_failure: change
   slack: clickalicious:$SLACKKEY
