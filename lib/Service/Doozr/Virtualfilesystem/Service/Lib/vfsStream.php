@@ -371,4 +371,3 @@ class vfsStream
         return $visitor->visitDirectory($root);
     }
 }
-?>
