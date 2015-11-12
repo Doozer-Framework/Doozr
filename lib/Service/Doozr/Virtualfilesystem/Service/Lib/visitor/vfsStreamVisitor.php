@@ -44,4 +44,3 @@ interface vfsStreamVisitor
      */
     public function visitDirectory(vfsStreamDirectory $dir);
 }
-?>

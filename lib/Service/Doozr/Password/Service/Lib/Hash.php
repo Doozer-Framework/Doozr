@@ -248,5 +248,3 @@ class Doozr_Password_Service_Hash {
         return $hash == $stored_hash;
     }
 }
-
-?>

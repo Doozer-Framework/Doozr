@@ -304,4 +304,3 @@ class vfsStreamFile extends vfsStreamAbstractContent
         return (LOCK_EX === $this->lock);
     }
 }
-?>
