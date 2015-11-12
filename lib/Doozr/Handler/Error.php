@@ -120,9 +120,6 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
 
         // Now dispatch the error processable and from userland catchable as Exception
         throw new Doozr_Error_Exception($message, $number, $error);
-
-        // We return FALSE as signal that we handled the error - required by PHP >= 5.2
-        return true;
     }
 
     /**

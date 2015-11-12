@@ -186,8 +186,6 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
                 'Error reading currency code from L10N config.', null, $e
             );
         }
-
-        return null;
     }
 
     /*------------------------------------------------------------------------------------------------------------------

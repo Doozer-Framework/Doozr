@@ -236,8 +236,6 @@ class vfsStreamFile extends vfsStreamAbstractContent
             default:
                 return false;
         }
-
-        return false;
     }
 
     /**
