@@ -366,7 +366,6 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple implements Doozr_Bas
 
         } else {
             throw new Doozr_Exception_Service('Action "' . $action . '" does not exist!');
-            $result = false;
         }
 
         return $result;
