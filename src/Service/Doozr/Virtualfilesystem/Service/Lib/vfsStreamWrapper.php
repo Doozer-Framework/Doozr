@@ -762,4 +762,3 @@ class vfsStreamWrapper
         return array_merge(array_values($fileStat), $fileStat);
     }
 }
-?>

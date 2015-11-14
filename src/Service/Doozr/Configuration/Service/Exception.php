@@ -96,5 +96,3 @@ class Doozr_Config_Service_Exception extends Doozr_Exception
         parent::__construct($message, $code, $previous);
     }
 }
-
-?>

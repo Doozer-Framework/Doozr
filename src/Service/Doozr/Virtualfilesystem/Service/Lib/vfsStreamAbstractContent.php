@@ -374,4 +374,3 @@ abstract class vfsStreamAbstractContent implements vfsStreamContent
         return $this->group;
     }
 }
-?>

@@ -181,4 +181,3 @@ interface vfsStreamContent
      */
     public function getGroup();
 }
-?>

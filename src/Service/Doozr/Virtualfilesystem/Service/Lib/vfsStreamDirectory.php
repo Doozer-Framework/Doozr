@@ -231,4 +231,3 @@ class vfsStreamDirectory extends vfsStreamAbstractContent implements vfsStreamCo
         return new vfsStreamContainerIterator($this->children);
     }
 }
-?>

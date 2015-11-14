@@ -89,4 +89,3 @@ class vfsStreamPrintVisitor extends vfsStreamAbstractVisitor
         fwrite($this->out, str_repeat('  ', $this->depth) . '- ' . $content->getName() . "\n");
     }
 }
-?>

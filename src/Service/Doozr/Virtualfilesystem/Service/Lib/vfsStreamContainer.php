@@ -57,4 +57,3 @@ interface vfsStreamContainer extends IteratorAggregate
      */
     public function getChildren();
 }
-?>
