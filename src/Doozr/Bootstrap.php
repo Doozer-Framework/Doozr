@@ -300,7 +300,7 @@ $autoloaderDoozr
     ->namespaceSeparator('_')
     ->addExtension('php')
     ->path(substr(DOOZR_DOCUMENT_ROOT, 0, -1))
-    ->description('Doozr\'s autoloader for loading classes of Doozr below "lib/".')
+    ->description('Doozr\'s autoloader for loading classes of Doozr below "src/".')
     ->priority(0);
 
 /**
@@ -312,7 +312,7 @@ $autoloaderService
     ->namespaceSeparator('_')
     ->addExtension('php')
     ->path(DOOZR_DOCUMENT_ROOT . 'Service')
-    ->description('Doozr\'s autoloader for loading Services of Doozr below "lib/Service".')
+    ->description('Doozr\'s autoloader for loading Services of Doozr below "src/Service".')
     ->priority(1);
 
 /**

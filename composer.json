@@ -49,11 +49,11 @@
   },
   "autoload": {
     "psr-0": {
-      "Doozr": "lib/"
+      "Doozr": "src/"
     }
   },
   "include-path": [
-    "lib/"
+    "src/"
   ],
   "minimum-stability": "dev",
   "keywords": [

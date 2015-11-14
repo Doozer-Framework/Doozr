@@ -224,47 +224,46 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
         // get absolute root
         $root = $this->up($pathToRoot, 1, true);
 
-        // real root (without "lib" directory)
+        // real root (without "src" directory)
         self::$path['document_root'] = $root;
 
         // path to core
-        self::$path['core'] = $this->combine($root, array('lib', 'Doozr'));
+        self::$path['core'] = $this->combine($root, array('src', 'Doozr'));
 
         // path to framework
-        self::$path['framework'] = $this->combine($root, array('lib'));
+        self::$path['framework'] = $this->combine($root, array('src'));
 
         // path to app
         self::$path['app'] = $pathToApplication;
 
         // path to model
-        self::$path['model'] = $this->combine($root, array('lib', 'Model'));
+        self::$path['model'] = $this->combine($root, array('src', 'Model'));
 
         // path to services
-        self::$path['service'] = $this->combine($root, array('lib', 'Service'));
+        self::$path['service'] = $this->combine($root, array('src', 'Service'));
 
         // path to controller
-        self::$path['controller'] = $this->combine($root, array('lib', 'Doozr', 'Controller'));
+        self::$path['controller'] = $this->combine($root, array('src', 'Doozr', 'Controller'));
 
         // path to data
-        self::$path['data'] = $this->combine($root, array('lib', 'Data'));
+        self::$path['data'] = $this->combine($root, array('src', 'Data'));
 
         // path to data-private
-        self::$path['data_private'] = $this->combine($root, array('lib', 'Data', 'Private'));
+        self::$path['data_private'] = $this->combine($root, array('src', 'Data', 'Private'));
 
         // path to auth
-        self::$path['auth'] = $this->combine($root, array('lib', 'Data', 'Private', 'Auth'));
+        self::$path['auth'] = $this->combine($root, array('src', 'Data', 'Private', 'Auth'));
 
         // path to cache
         self::$path['cache'] = DOOZR_DIRECTORY_TEMP;
 
         // path to config
-        self::$path['config'] = $this->combine($root, array('lib', 'Data', 'Private', 'Config'));
+        self::$path['config'] = $this->combine($root, array('src', 'Data', 'Private', 'Config'));
 
         // path to font
-        self::$path['font'] = $this->combine($root, array('lib', 'Data', 'Private', 'Font'));
+        self::$path['font'] = $this->combine($root, array('src', 'Data', 'Private', 'Font'));
 
         // path to log
-           //self::$_path['log'] = $this->_combine($root, array('lib', 'Data', 'Private', 'Log'));
         self::$path['log'] = DOOZR_DIRECTORY_TEMP;
 
         // path to temp
