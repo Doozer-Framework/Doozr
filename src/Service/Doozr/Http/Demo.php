@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once '../../../../lib/Doozr/Bootstrap.php';
+require_once '../../../../src/Doozr/Bootstrap.php';
 
 /* @var $http Doozr_Http_Service */
 $http = Doozr_Loader_Serviceloader::load('http');

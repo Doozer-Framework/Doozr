@@ -3,7 +3,7 @@
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
     backupGlobals="true"
     backupStaticAttributes="false"
-    bootstrap="../lib/Doozr/Bootstrap.php"
+    bootstrap="../src/Doozr/Bootstrap.php"
     cacheTokens="false"
     colors="true"
     stopOnError="true"
@@ -19,10 +19,10 @@
             <directory>../tests/</directory>
         </testsuite>
         <testsuite name="Doozr_I18n_Service">
-            <directory>../lib/Service/Doozr/I18n/tests/</directory>
+            <directory>../src/Service/Doozr/I18n/tests/</directory>
         </testsuite>
         <testsuite name="Doozr_Http_Service">
-            <directory>../lib/Service/Doozr/Http/tests/</directory>
+            <directory>../src/Service/Doozr/Http/tests/</directory>
         </testsuite>
     </testsuites>
 
@@ -43,7 +43,7 @@
     <php>
         <const name="DOOZR_APP_ENVIRONMENT" value="testing" />
         <includePath>.</includePath>
-        <includePath>../lib</includePath>
+        <includePath>../src</includePath>
         <ini name="max_execution_time" value="600" />
     </php>
 </phpunit>
