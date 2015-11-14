@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Container.php';
 /**
  * TEMPORARY SOLUTION
  */
-require_once 'C:\\Development\\Web\\xampp\\vhosts\\doozr.local\\vendor\\clickalicious\\doozr\\__material\\Temp\\lib\\Clickalicious\\Memcached\\Client.php';
+require_once 'Clickalicious\\Memcached\\Client.php';
 
 // Use
 use Clickalicious\Memcached\Client;
