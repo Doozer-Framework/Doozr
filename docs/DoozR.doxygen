@@ -580,7 +580,7 @@ WARN_LOGFILE           = Doozr_documentation_error.log
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = ../lib
+INPUT                  = ../src
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
@@ -624,21 +624,21 @@ EXCLUDE_SYMLINKS       = NO
 # for example use the pattern */test/*
 
 EXCLUDE_PATTERNS       = */Smarty/* \
-                         */doozR_Smarty/* \
+                         */Doozr_Smarty/* \
                          */htmlpurifier/* \
                          */HTMLPurifier/* \
                          */WURFL/* \
                          */geshi/* \
-                         */doozR_Purifier/* \
-                         */doozR_Ids/* \
-                         */doozR_Deshi/* \
-                         */doozR_Mailer/* \
-                         */doozR_Pdf/* \
+                         */DoozR_Purifier/* \
+                         */Doozr_Ids/* \
+                         */Doozr_Deshi/* \
+                         */Doozr_Mailer/* \
+                         */Doozr_Pdf/* \
                          */Datetime/* \
                          */Pear/* \
                          */IDS/* \
                          */PEAR/* \
-                         */doozR_Pear/* \
+                         */Doozr_Pear/* \
                          */Firephp/Lib/* \
                          */Cpuinfo/Lib/* \
                          */Smarty/* \

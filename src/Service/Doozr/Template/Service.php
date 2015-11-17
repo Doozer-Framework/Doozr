@@ -149,7 +149,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
      *
      * This method is intend to set the template input also
      * known as resource. It can be whatever resource your
-     * choosen lib (engine like PHPTAL, Smarty) supports.
+     * chosen lib (engine like PHPTAL, Smarty) supports.
      *
      * @param mixed $resource The resource used as input for template engine library
      *
