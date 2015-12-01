@@ -26,25 +26,25 @@
     "maximebf/debugbar": "~1.10.4",
     "firephp/firephp-core": "~0.4.0",
     "filp/whoops": "~1.1.7",
-    "ramsey/uuid": "~2.8.1",
+    "ramsey/uuid": "~3.0.1",
     "moontoast/math": "~1.1.0",
     "phptal/phptal": "~1.3.0",
     "mrclay/minify": "~2.2.1",
     "sepia/po-parser": "~4.2.1",
     "psr/http-message": "~1.0.0",
     "psr/log": "~1.0.0",
-    "lusitanian/oauth": "~0.3.5",
-    "nesbot/carbon": "~1.20.0",
-    "enygma/expose": "~2.3.0",
+    "lusitanian/oauth": "~0.8.3",
+    "nesbot/carbon": "~1.21.0",
+    "enygma/expose": "~2.4.0",
     "ircmaxell/password-compat": "~1.0.4",
     "relay/relay": "1.*@dev",
     "relay/middleware": "1.*@dev",
-    "vlucas/phpdotenv": "~2.0.1",
+    "vlucas/phpdotenv": "~2.1.0",
     "friendsofphp/uprofiler": "dev-master as 1.0.x-dev",
     "shrikeh/teapot": "~1.0.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.8.9",
+    "phpunit/phpunit": "~5.0.9",
     "satooshi/php-coveralls": "dev-master as 1.0.x-dev"
   },
   "autoload": {
@@ -66,7 +66,7 @@
   ],
   "homepage": "https://www.clickalicious.de/",
   "license": [
-    "BSD-2-Clause"
+    "BSD-2.0"
   ],
   "support": {
     "email": "opensource@clickalicious.de",
@@ -81,7 +81,10 @@
   ],
   "config": {
     "bin-dir": "bin",
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "platform": {
+      "php": "5.6"
+    }
   },
   "extra": {
     "doozr-app-dir": "app",

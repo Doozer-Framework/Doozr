@@ -59,8 +59,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
-use Rhumsaa\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Doozr - Route
