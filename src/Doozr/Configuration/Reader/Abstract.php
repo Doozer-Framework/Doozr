@@ -55,8 +55,8 @@
 
 require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
 
-use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
-use Rhumsaa\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Doozr - Configuration - Reader - Abstract
