@@ -261,7 +261,8 @@ class Doozr_Base_Service_Singleton extends Doozr_Base_Class_Singleton
     protected function name($name)
     {
         $this->name = $name;
-        return $name;
+
+        return $this;
     }
 
     /**

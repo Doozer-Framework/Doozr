@@ -256,7 +256,8 @@ class Doozr_Base_Service_Multiple extends Doozr_Base_State_Container
     protected function name($name)
     {
         $this->name = $name;
-        return $name;
+
+        return $this;
     }
 
     /**
