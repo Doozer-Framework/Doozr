@@ -56,6 +56,6 @@ final class View_Index extends \Doozr_View_Web
         $fingerprint = $session->getIdentifier();
 
         // Render data from model
-        return parent::render($data, $fingerprint);
+        return $this->render($data, $fingerprint);
     }
 }

@@ -134,18 +134,18 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     /**
      * Constructor.
      *
-     * @param Doozr_Filesystem_Service $filesystem   Instance of filesystem service
-     * @param Doozr_Cache_Service      $cacheService Instance of cache service
-     * @param bool                     $enableCache  TRUE to enable caching, FALSE to disable
+     * @param Doozr_Base_Service_Interface $filesystem   Instance of filesystem service
+     * @param Doozr_Cache_Service          $cacheService Instance of cache service
+     * @param bool                         $enableCache  TRUE to enable caching, FALSE to disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Configuration_Reader_Abstract
      * @access public
      */
     public function __construct(
-        Doozr_Filesystem_Service $filesystem,
-        Doozr_Cache_Service      $cacheService = null,
-                                 $enableCache  = false
+        Doozr_Base_Service_Interface $filesystem,
+        Doozr_Cache_Service          $cacheService = null,
+                                     $enableCache  = false
     ) {
         $this
             ->filesystem($filesystem)
@@ -521,13 +521,13 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     /**
      * Fluent setter for filesystem service.
      *
-     * @param Doozr_Filesystem_Service $filesystem
+     * @param Doozr_Base_Service_Interface $filesystem
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance of this class for chaining (fluent interface pattern)
      * @access protected
      */
-    protected function filesystem(Doozr_Filesystem_Service $filesystem)
+    protected function filesystem(Doozr_Base_Service_Interface $filesystem)
     {
         $this->filesystem = $filesystem;
 

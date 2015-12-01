@@ -258,7 +258,8 @@ class Doozr_Base_Service_Singleton_Strict extends Doozr_Base_Class_Singleton_Str
     protected function name($name)
     {
         $this->name = $name;
-        return $name;
+
+        return $this;
     }
 
     /**
@@ -302,6 +303,7 @@ class Doozr_Base_Service_Singleton_Strict extends Doozr_Base_Class_Singleton_Str
     public function uuid($uuid)
     {
         $this->setUuid($uuid);
+
         return $this;
     }
 

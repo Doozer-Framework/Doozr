@@ -74,7 +74,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
 class Doozr_Di_Map_Fluent extends Doozr_Di_Map
 {
     /**
-     * The current active classname to add dependencies for
+     * Current active classname to add dependencies for
      *
      * @var string
      * @access protected
@@ -82,7 +82,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     protected $classname;
 
     /**
-     * The last active classname
+     * Last active classname
      *
      * @var string
      * @access protected
@@ -90,7 +90,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     protected $lastClassname;
 
     /**
-     * The base dependency object
+     * Base dependency object
      *
      * @var Doozr_Di_Dependency
      * @access protected
@@ -98,7 +98,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     protected $dependency;
 
     /**
-     * The current active dependency
+     * Current active dependency
      *
      * @var Doozr_Di_Dependency
      * @access protected
@@ -206,7 +206,6 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
 
         $this->currentDependency->setClassname($classname);
 
-        // fluent interface
         return $this;
     }
 
@@ -267,26 +266,6 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Setter for the configuration of the dependency class
-     *
-     * This method is intend to set the configuration of the dependency class.
-     *
-     * @param array $configuration The configuration to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
-     * @access public
-     */
-    public function configuration(array $configuration)
-    {
-        /* @var $this->currentDependency Doozr_Di_Dependency */
-        $this->currentDependency->setConfiguration($configuration);
-
-        // fluent interface
-        return $this;
-    }
-
-    /**
      * Setter for the arguments of the dependency class
      *
      * This method is intend to set the arguments of the dependency class.
@@ -294,7 +273,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * @param array $arguments The arguments to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
+     * @return $this Instance of this class (for method chaining)
      * @access public
      */
     public function arguments(array $arguments)
@@ -302,7 +281,6 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
         /* @var $this->currentDependency Doozr_Di_Dependency */
         $this->currentDependency->setArguments($arguments);
 
-        // fluent interface
         return $this;
     }
 
@@ -346,7 +324,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      * @access public
      */
-    public function wire($mode = self::WIRE_MODE_AUTOMATIC, array $matrix = [])
+    public function wire($mode = Doozr_Di_Constants::WIRE_MODE_AUTOMATIC, array $matrix = [])
     {
         // flush maybe existing temporary content
         $this->flush();
@@ -403,7 +381,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
         $classname = ($classname) ? $classname : $this->classname;
 
         if ($wire) {
-            $this->wire(Doozr_Di_Map::WIRE_MODE_AUTOMATIC);
+            $this->wire(Doozr_Di_Constants::WIRE_MODE_AUTOMATIC);
         }
 
         return $this->store()->build($classname, $arguments);

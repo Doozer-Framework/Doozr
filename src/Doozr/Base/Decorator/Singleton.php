@@ -186,8 +186,8 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
     {
         if (!self::$transformer) {
             self::$transformer = $this->_initTransformer(
-                $this->decoratorConfiguration['docroot'],
-                $this->decoratorConfiguration['name']
+                $this->configuration['docroot'],
+                $this->configuration['name']
             );
         };
 
@@ -198,8 +198,11 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
     /**
      * This method is intend to initialize the transformer-class if exists
      *
+     * @param string $docroot Document root
+     * @param string $vendor  Vendor name
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
+     * @return object Instance of transformer
      * @access private
      * @throws Exception
      */
