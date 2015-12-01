@@ -27,7 +27,7 @@ env:
   - PREFER_LOWEST=""
 
 before_script:
-  - composer update --prefer-source $PREFER_LOWEST
+  - composer update --prefer-dist $PREFER_LOWEST
   - composer --optimize-autoloader --no-interaction
 
 script:
