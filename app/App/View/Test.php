@@ -47,6 +47,6 @@ final class View_Test extends \Doozr_View_Web
     protected function __renderTest(array $data)
     {
         // Render data from model
-        return parent::render($data);
+        return $this->render($data);
     }
 }
