@@ -59,7 +59,7 @@ If you choose *Text* as interface to translations then you need to create a dire
             Text\
                 de_DE\            (Locale[lowercase]_Countrycode[uppercase])
                     LC_MESSAGES\
-                        *.ini     (Textdomain[namespace].po file(s))
+                        *.po      (Textdomain[namespace].po file(s))
  
 Also no magic. The Text runtimeEnvironment is based on ini-Files which can be handled fast and with good performance with native PHP and caching of contents is also not that difficult. We used this way a long time and currently evaluating to migrate over to gettext cause it is easier for translators to handle.
 

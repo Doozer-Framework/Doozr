@@ -1,11 +1,10 @@
 <?php
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Interface.
+ * Doozr - Configuration - Hierarchy - I18n - Translator
  *
- * Interface.php - Configuration Interface of the Doozr Framework
+ * Translator.php - The "Translator" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -44,52 +43,36 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- *
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Hierarchy
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- *
  * @version    Git: $Id$
- *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Reader/Interface.php';
 
 /**
- * Doozr - Configuration - Interface.
+ * Doozr - Configuration - Hierarchy - I18n - Translator
  *
- * Configuration Interface of the Doozr Framework
+ * Translator.php - The "Translator" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
- *
+ * @package    Doozr_I18n
+ * @subpackage Doozr_I18n_Configuration
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- *
  * @version    Git: $Id$
- *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Configuration_Interface extends Doozr_Configuration_Reader_Interface
+class Doozr_Base_Configuration_Hierarchy_I18n_Translator
 {
     /**
-     * Setter for key => value pairs of config.
+     * Interface used for translation (e.g. "Gettext" [default])
      *
-     * @param string $node  The key used for entry
-     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @var string
+     * @access public
      */
-    public function set($node, $value);
-
-    /**
-     * Getter for value of passed key.
-     *
-     * @param string $node The key used for value lookup.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return mixed|null The value if set, otherwise NULL
-     */
-    public function get($node);
+    public $interface;
 }

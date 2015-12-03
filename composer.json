@@ -81,6 +81,7 @@
   ],
   "config": {
     "bin-dir": "bin",
+    "use-include-path": true,
     "preferred-install": "dist",
     "platform": {
       "php": "5.6"

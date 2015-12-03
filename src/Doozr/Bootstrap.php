@@ -221,8 +221,11 @@ if (false === defined('DOOZR_CACHING')) {
     if (false === $doozrCaching = getenv('DOOZR_CACHING')) {
 
         // Default by app environment
-        if (DOOZR_APP_ENVIRONMENT  === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT) {
+        if (DOOZR_APP_ENVIRONMENT === Doozr_Kernel::APP_ENVIRONMENT_DEVELOPMENT ||
+            DOOZR_APP_ENVIRONMENT === Doozr_Kernel::APP_ENVIRONMENT_TESTING
+        ) {
             $doozrCaching = false;
+
         } else {
             $doozrCaching = !DOOZR_DEBUGGING;
         }

@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Interface.
+ * Doozr - Configuration - Hierarchy - I18n - Default.
  *
- * Interface.php - Configuration Interface of the Doozr Framework
+ * Default.php - The "Default" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -53,12 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Reader/Interface.php';
 
 /**
- * Doozr - Configuration - Interface.
+ * Doozr - Configuration - Hierarchy - I18n - Default.
  *
- * Configuration Interface of the Doozr Framework
+ * Default.php - The "Default" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -70,26 +69,51 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Reader/Interface.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Configuration_Interface extends Doozr_Configuration_Reader_Interface
+class Doozr_Base_Configuration_Hierarchy_I18n_Default
 {
     /**
-     * Setter for key => value pairs of config.
+     * Default locale for translations (e.g. "en-us" [default]).
      *
-     * @param string $node  The key used for entry
-     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @var string
      */
-    public function set($node, $value);
+    public $locale = 'en-us';
 
     /**
-     * Getter for value of passed key.
+     * Default language for translations (e.g. "en" [default]).
      *
-     * @param string $node The key used for value lookup.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return mixed|null The value if set, otherwise NULL
+     * @var string
      */
-    public function get($node);
+    public $language = 'en';
+
+    /**
+     * Default country for translations (e.g. "us" [default]).
+     *
+     * @var string
+     */
+    public $country = 'us';
+
+    /**
+     * Default weight for translation set (e.g. "1" [default]).
+     *
+     * @var int
+     */
+    public $weight = 1;
+
+    /**
+     * Default available locales for translation set (e.g. "[de-de, en-gb, en-us]" [default]).
+     *
+     * @var array
+     */
+    public $available = [
+        'de-de',
+        'en-gb',
+        'en-us',
+    ];
+
+    /**
+     * Default namespace for translations (e.g. "default" [default]).
+     *
+     * @var string
+     */
+    public $namespace = 'default';
 }

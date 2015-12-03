@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Interface
+ * Doozr - I18n - Service - Interface - Interface.
  *
  * Interface.php - I18n Translation Base Interface
  *
@@ -43,30 +44,43 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - I18n - Service - Interface - Base
+ * Doozr - I18n - Service - Interface - Base.
  *
  * I18n Translation Base Interface
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_I18n_Service_Interface_Interface
 {
-    // Intentionally left blank. Just used for namespace.
+    /**
+     * This method is intend to look-up the translation of the given combination of values.
+     *
+     * @param string $string    The string to translate
+     * @param string $uuid      The uuid of the translation-table
+     * @param mixed  $arguments The arguments for inserting values into translation (vsprintf) or null
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string The translation of the input or the input string on failure
+     */
+    public function lookup($string, $uuid = null, $arguments = null);
 }
