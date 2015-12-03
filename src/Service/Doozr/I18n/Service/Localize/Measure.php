@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Measure
+ * Doozr - I18n - Service - Localize - Measure.
  *
  * Measure.php - Measurement formatter
  *
@@ -43,76 +44,71 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Localize/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * Doozr - I18n - Service - Localize - Measure
+ * Doozr - I18n - Service - Localize - Measure.
  *
  * Measurement formatter
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Abstract
 {
     /**
-     * Available measuring systems
+     * Available measuring systems.
      *
      * @var array
-     * @access private
      */
-    private $_validSystems = array(
+    private $_validSystems = [
         'si',
-        'uscs'
-    );
+        'uscs',
+    ];
 
     /**
-     * Format which is displayed to user
+     * Format which is displayed to user.
      *
      * @var string
-     * @access private
      */
     private $_displayLocalize;
 
     /**
-     * Default measuring-system
+     * Default measuring-system.
      *
      * @var string
-     * @access private
      */
     private $_defaultMeasureSystem = 'si';
 
     /**
-     * Measuring-system of input
+     * Measuring-system of input.
      *
      * @var string
-     * @access private
      */
     private $_input;
 
     /**
-     * Measuring-system of output
+     * Measuring-system of output.
      *
      * @var string
-     * @access private
      */
     private $_output;
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
@@ -129,12 +125,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct(
-        Doozr_Registry_Interface $registry   = null,
-                                 $locale     = null,
-                                 $namespace  = null,
+        Doozr_Registry_Interface $registry = null,
+                                 $locale = null,
+                                 $namespace = null,
                                  $configI18n = null,
                                  $configL10n = null,
                                  $translator = null
@@ -160,8 +155,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param string $system The system used for input
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
     public function setInputMeasureSystem($system = null)
     {
@@ -178,8 +173,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * This method is intend to return the measure system for input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The measure system used for input
-     * @access public
      */
     public function getInputMeasureSystem()
     {
@@ -192,8 +187,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param string $system The system used for output
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
     public function setOutputMeasureSystem($system = null)
     {
@@ -210,8 +205,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * This method is intend to return the measure system for output.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The measure system used for output
-     * @access public
      */
     public function getOutputMeasureSystem()
     {
@@ -224,8 +219,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param string $system A measure system to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if given measure system is valid, otherwise FALSE
-     * @access public
      */
     public function isValidMeasureSystem($system = null)
     {
@@ -236,8 +231,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * This method is intend to return a list of available measure systems.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array A list (collection) of available measure systems
-     * @access public
      */
     public function getAvailableSystems()
     {
@@ -251,8 +246,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param int $format       The format (choice) of user
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The given input if valid, otherwise 0
-     * @access public
+     *
+     * @return int The given input if valid, otherwise 0
      */
     public function validunit($countChoices, $format)
     {
@@ -285,8 +280,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * 7: hl|barrel
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return double The result of the conversion
-     * @access public
+     *
+     * @return float The result of the conversion
      */
     public function liquid($input = 0, $inputFormat = 0, $outputFormat = 0)
     {
@@ -294,12 +289,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
         $format = (int) $this->validunit(7, $outputFormat);
 
         if ($this->_input == 'si' && $this->_output == 'si') {
-            $formats = array('ml', 'cl', 'dl', 'l', 'dal', 'hl', 'hl', 'hl');
-            $div     = array(1, 10, 100, 1000, 10000, 100000, 100000, 100000);
-
+            $formats = ['ml', 'cl', 'dl', 'l', 'dal', 'hl', 'hl', 'hl'];
+            $div = [1, 10, 100, 1000, 10000, 100000, 100000, 100000];
         } elseif ($this->_input == 'si' && $this->_output == 'uscs') {
-            $formats = array('min', 'fldr', 'floz', 'gi', 'pt', 'qt', 'gal', 'barrel');
-            $div     = array(
+            $formats = ['min', 'fldr', 'floz', 'gi', 'pt', 'qt', 'gal', 'barrel'];
+            $div = [
                     0.00048133998891762809516053073702394,
                     3.6966912,
                     29.57353,
@@ -307,21 +301,19 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
                     473.17647,
                     946.35295,
                     3785.4118,
-                    158987.29
-                );
-
+                    158987.29,
+                ];
         } elseif ($this->_input == 'uscs' && $this->_output == 'si') {
-            $formats = array('ml', 'cl', 'dl', 'l', 'dal', 'hl', 'hl', 'hl');
-            $div     = array(2077.5336, 20775.336, 207753.36, 2077533.6, 20775336, 207753360, 207753360, 207753360);
-
+            $formats = ['ml', 'cl', 'dl', 'l', 'dal', 'hl', 'hl', 'hl'];
+            $div = [2077.5336, 20775.336, 207753.36, 2077533.6, 20775336, 207753360, 207753360, 207753360];
         } elseif ($this->_input == 'uscs' && $this->_output == 'uscs') {
-            $formats = array('min', 'fldr', 'floz', 'gi', 'pt', 'qt', 'gal', 'barrel');
-            $div     = array(1, 7680, 61440, 245760, 983040, 1966080, 7864320, 330301440);
+            $formats = ['min', 'fldr', 'floz', 'gi', 'pt', 'qt', 'gal', 'barrel'];
+            $div = [1, 7680, 61440, 245760, 983040, 1966080, 7864320, 330301440];
         }
 
         $this->_displayFormat = (string) $formats[$format];
 
-        return (float) $input/$div[$format];
+        return (float) $input / $div[$format];
     }
 
     /**
@@ -340,8 +332,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * 4: km|mi,
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return double The result of the conversion
-     * @access public
+     *
+     * @return float The result of the conversion
      */
     public function linear($input = 0, $inputFormat = 0, $outputFormat = 0)
     {
@@ -349,23 +341,21 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
         $format = (int) $this->validunit(4, $outputFormat);
 
         if ($this->_input == 'si' && $this->_output == 'si') {
-            $formats    = array('mm', 'cm', 'dm', 'm', 'km');
-            $div        = array(1, 10, 100, 1000, 1000000);
-            $output     = (float) $input/$div[$format];
-
+            $formats = ['mm', 'cm', 'dm', 'm', 'km'];
+            $div = [1, 10, 100, 1000, 1000000];
+            $output = (float) $input / $div[$format];
         } elseif ($this->_input == 'si' && $this->_output == 'uscs') {
-            $formats    = array('in', 'ft', 'yd', 'fur', 'mi');
-            $div        = array(25.4, 304.8, 914.4, 201168, 1609344);
-            $output     = (float) $input/$div[$format];
-
+            $formats = ['in', 'ft', 'yd', 'fur', 'mi'];
+            $div = [25.4, 304.8, 914.4, 201168, 1609344];
+            $output = (float) $input / $div[$format];
         } elseif ($this->_input == 'uscs' && $this->_output == 'si') {
-            $formats    = array('mm', 'cm', 'dm', 'm', 'km');
-            $div        = array(25.4, 2.54, 0.254, 0.0254, 0.0000254);
-            $output     = (float) $input*$div[$format];
+            $formats = ['mm', 'cm', 'dm', 'm', 'km'];
+            $div = [25.4, 2.54, 0.254, 0.0254, 0.0000254];
+            $output = (float) $input * $div[$format];
         } elseif ($this->_input == 'uscs' && $this->_output == 'uscs') {
-            $formats    = array('in', 'ft', 'yd', 'fur', 'mi');
-            $div        = array(1, 12, 36, 7920, 63360);
-            $output     = (float) $input/$div[$format];
+            $formats = ['in', 'ft', 'yd', 'fur', 'mi'];
+            $div = [1, 12, 36, 7920, 63360];
+            $output = (float) $input / $div[$format];
         }
 
         $this->display_format = (string) $formats[$format];
@@ -379,8 +369,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param int $input The input
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return double The result of the conversion
-     * @access public
+     *
+     * @return float The result of the conversion
      */
     public function temperature($input = 0)
     {
@@ -389,15 +379,12 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
         if ($this->_input == 'si' && $this->_output == 'si') {
             $this->_displayFormat = 'C';
             $output = (float) $input;
-
         } elseif ($this->_input == 'si' && $this->_output == 'uscs') {
             $this->_displayFormat = 'F';
-            $output = (float) ((($input/5)*9)+32);
-
+            $output = (float) ((($input / 5) * 9) + 32);
         } elseif ($this->_input == 'uscs' && $this->_output == 'si') {
             $this->_displayFormat = 'C';
-            $output = (float) ((($input-32)/9)*5);
-
+            $output = (float) ((($input - 32) / 9) * 5);
         } elseif ($this->_input == 'uscs' && $this->_output == 'uscs') {
             $this->_displayFormat = 'F';
             $output = (float) $input;
@@ -412,8 +399,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param int $type The type to use for retrieving the unit (1 = short, 2 = long, 3 = abbr long)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The requested unit
-     * @access public
      */
     public function unit($type = 3)
     {
@@ -424,15 +411,13 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
 
         // check for requested type
         if ($type == 1) {
-            $unit = $this->translator->_($this->_displayFormat . '_short');
-
+            $unit = $this->translator->_($this->_displayFormat.'_short');
         } elseif ($type == 2) {
-            $unit = $this->translator->_($this->_displayFormat . '_long');
-
+            $unit = $this->translator->_($this->_displayFormat.'_long');
         } else {
             $unit = '<abbr title="'.
-                $this->translator->_($this->_displayFormat.'_long') . '" xml:lang="' . $this->locale . '">'.
-                $this->translator->_($this->_displayFormat . '_short') . '</abbr>';
+                $this->translator->_($this->_displayFormat.'_long').'" xml:lang="'.$this->locale.'">'.
+                $this->translator->_($this->_displayFormat.'_short').'</abbr>';
         }
 
         // return complete constructed unit-string
@@ -456,20 +441,20 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * 2: tablespoon (is)|cup
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return double The converted result
-     * @access private
+     *
+     * @return float The converted result
      */
     private function _cookingDownsize($input = 0, $format = 0)
     {
         $format = (int) $this->validunit(2, $format);
 
         if ($this->_input == 'si') {
-            $div = array(1, 3, 3);
+            $div = [1, 3, 3];
         } else {
-            $div = array(1, 3, 48);
+            $div = [1, 3, 48];
         }
 
-        return (float) $input*$div[$format];
+        return (float) $input * $div[$format];
     }
 
     /**
@@ -487,24 +472,24 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * 4: km�|cu mi
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return double The converted result
-     * @access private
+     *
+     * @return float The converted result
      */
     private function _capacityDownsize($input = 0, $format = 0)
     {
         $format = (int) $this->validunit(4, $format);
 
         if ($this->_input == 'si') {
-            $div = array(1, 1000, 1000000, 1000000000, 1000000000000);
+            $div = [1, 1000, 1000000, 1000000000, 1000000000000];
         } else {
-            $div = array(1, 1728, 46656, 75271680, 254358061056000);
+            $div = [1, 1728, 46656, 75271680, 254358061056000];
         }
 
-        return (float) $input*$div[$format];
+        return (float) $input * $div[$format];
     }
 
     /**
-     * This method is intend to convert a linear value to mm|in
+     * This method is intend to convert a linear value to mm|in.
      *
      * @param int $input  The input to convert
      * @param int $format The format to use for conversion
@@ -518,24 +503,24 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * 4: km|mi
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return double The converted result
-     * @access private
+     *
+     * @return float The converted result
      */
     private function _linearDownsize($input = 0, $format = 0)
     {
         $format = (int) $this->validunit(4, $format);
 
         if ($this->_input == 'si') {
-            $div = array(1, 10, 100, 1000, 1000000);
+            $div = [1, 10, 100, 1000, 1000000];
         } else {
-            $div = array(1, 12, 36, 7920, 63360);
+            $div = [1, 12, 36, 7920, 63360];
         }
 
-        return (float) $input*$div[$format];
+        return (float) $input * $div[$format];
     }
 
     /**
-     * This method is intend to convert a surface value to mm�|sq in
+     * This method is intend to convert a surface value to mm�|sq in.
      *
      * @param int $input  The input to convert
      * @param int $format The format to use for conversion
@@ -551,8 +536,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * 6: km�|sq mi
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return double The converted result
-     * @access private
+     *
+     * @return float The converted result
      */
     private function _surfaceDownsize($input = 0, $format = 0)
     {
@@ -560,12 +545,12 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
 
         // check direction of converting si <-> uscs
         if ($this->_input == 'si') {
-            $div = array(1, 100, 10000, 1000000, 100000000, 10000000000, 1000000000000);
+            $div = [1, 100, 10000, 1000000, 100000000, 10000000000, 1000000000000];
         } else {
-            $div = array(1, 12, 36, 7920, 63360, 63360, 63360);
+            $div = [1, 12, 36, 7920, 63360, 63360, 63360];
         }
 
-        return (float) $input*$div[$format];
+        return (float) $input * $div[$format];
     }
 
     /**
@@ -585,20 +570,20 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * 6: ton_is|ton_us
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return double The converted result
-     * @access private
+     *
+     * @return float The converted result
      */
     private function _weightDownsize($input = 0, $format = 0)
     {
         $format = (int) $this->validunit(6, $format);
 
         if ($this->_input == 'si') {
-            $div = array(1, 10, 100, 1000, 10000, 1000000, 1000000000);
+            $div = [1, 10, 100, 1000, 10000, 1000000, 1000000000];
         } else {
-            $div = array(1, 27.34375, 437.5, 7000, 98000, 700000, 14000000);
+            $div = [1, 27.34375, 437.5, 7000, 98000, 700000, 14000000];
         }
 
-        return (float) $input*$div[$format];
+        return (float) $input * $div[$format];
     }
 
     /**
@@ -619,19 +604,19 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * 7: hl|barrel
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return double The converted result
-     * @access private
+     *
+     * @return float The converted result
      */
     private function _liquidDownsize($input = 0, $format = 0)
     {
         $format = (int) $this->validunit(7, $format);
 
         if ($this->_input == 'si') {
-            $div = array(1, 10, 100, 1000, 10000, 100000, 100000, 100000);
+            $div = [1, 10, 100, 1000, 10000, 100000, 100000, 100000];
         } else {
-            $div = array(1, 7680, 61440, 245760, 983040, 1966080, 7864320, 330301440);
+            $div = [1, 7680, 61440, 245760, 983040, 1966080, 7864320, 330301440];
         }
 
-        return (float) $input*$div[$format];
+        return (float) $input * $div[$format];
     }
 }

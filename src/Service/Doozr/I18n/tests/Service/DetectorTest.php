@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n - Test - Detector
+ * Doozr - Service - I18n - Test - Detector.
  *
  * DetectorTest.php - Tests for Detector of the Doozr I18n Service.
  *
@@ -43,39 +44,37 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/Resource/Fixture.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/tests/Resource/Fixture.php';
 
 /**
- * Doozr - Service - I18n - Test - Detector
+ * Doozr - Service - I18n - Test - Detector.
  *
  * Tests for Detector of the Doozr I18n Service.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class DetectorTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
-     * Prepares setup for Tests of "I18n"
+     * Prepares setup for Tests of "I18n".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setUp()
     {
@@ -87,8 +86,6 @@ class DetectorTest extends Doozr_Base_Service_Test_Abstract
      * Test: If the service returns a valid detector instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testRetrievingDetectorInstanceFromService()
     {
@@ -106,8 +103,6 @@ class DetectorTest extends Doozr_Base_Service_Test_Abstract
      * invalid locale strings.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testLocaleValidationAlgorithm()
     {
@@ -132,8 +127,6 @@ class DetectorTest extends Doozr_Base_Service_Test_Abstract
      * clients preferred locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testDetectingPreferredLocaleOfClient()
     {
@@ -152,13 +145,11 @@ class DetectorTest extends Doozr_Base_Service_Test_Abstract
      * clients preferred locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingDetectedLocalePreferences()
     {
         // Prepare
-        $detector    = self::$service->getDetector();
+        $detector = self::$service->getDetector();
         $preferences = $detector->getLocalePreferences();
 
         // Assertion(s)

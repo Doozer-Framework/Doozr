@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Interface.
+ * Doozr - Configuration - Hierarchy - I18n.
  *
- * Interface.php - Configuration Interface of the Doozr Framework
+ * I18n.php - The "i18n" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -53,12 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Reader/Interface.php';
 
 /**
- * Doozr - Configuration - Interface.
+ * Doozr - Configuration - Hierarchy - I18n.
  *
- * Configuration Interface of the Doozr Framework
+ * The "kernel" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
  *
@@ -70,26 +69,40 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Reader/Interface.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Configuration_Interface extends Doozr_Configuration_Reader_Interface
+class Doozr_Base_Configuration_Hierarchy_I18n
 {
     /**
-     * Setter for key => value pairs of config.
+     * The caching node of the configuration.
      *
-     * @param string $node  The key used for entry
-     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @var Doozr_Base_Configuration_Hierarchy_I18n_Cache
      */
-    public function set($node, $value);
+    public $cache;
 
     /**
-     * Getter for value of passed key.
+     * The debugging node of the configuration.
      *
-     * @param string $node The key used for value lookup.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return mixed|null The value if set, otherwise NULL
+     * @var Doozr_Base_Configuration_Hierarchy_I18n_Default
      */
-    public function get($node);
+    public $default;
+
+    /**
+     * Path to translation files.
+     *
+     * @var string
+     */
+    public $path;
+
+    /**
+     * Translator configuration.
+     *
+     * @var Doozr_Base_Configuration_Hierarchy_I18n_Translator
+     */
+    public $translator;
+
+    /**
+     * User configuration for preferences.
+     *
+     * @var Doozr_Base_Configuration_Hierarchy_I18n_User
+     */
+    public $user;
 }

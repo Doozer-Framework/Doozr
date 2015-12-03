@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Datetime
+ * Doozr - I18n - Service - Localize - Datetime.
  *
  * Datetime.php - Datetime formatter
  *
@@ -43,29 +44,30 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Localize/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * Doozr - I18n - Service - Localize - Datetime
+ * Doozr - I18n - Service - Localize - Datetime.
  *
  * Datetime formatter
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_Abstract
@@ -74,28 +76,25 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * holds the active timeformat
      * 0 = standard format
      * 1 = iso date
-     * 2 = swatch date
+     * 2 = swatch date.
      *
      * @var int
-     * @access private
      */
     private $_timeset;
 
     /**
-     * the localized name representation of the timesets
+     * the localized name representation of the timesets.
      *
      * @var array
-     * @access private
      */
     private static $_timesetNames;
 
     /**
-     * the exisiting month in correct order
+     * the exisiting month in correct order.
      *
      * @var array
-     * @access private
      */
-    private $_month = array(
+    private $_month = [
         'january',
         'february',
         'march',
@@ -107,24 +106,23 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         'september',
         'october',
         'november',
-        'december'
-    );
+        'december',
+    ];
 
     /**
-     * the exisiting days in correct order
+     * the exisiting days in correct order.
      *
      * @var array
-     * @access private
      */
-    private $_day = array(
+    private $_day = [
         'sunday',
         'monday',
         'tuesday',
         'wednesday',
         'thursday',
         'friday',
-        'saturday'
-    );
+        'saturday',
+    ];
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
@@ -136,8 +134,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timecode The timecode to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if valid, otherwise FALSE
-     * @access public
      */
     public function isValidTimeCode($timecode = 0)
     {
@@ -150,8 +148,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param string $date The date to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if valid, otherwise FALSE
-     * @access public
      */
     public function isValidIsoDate($date)
     {
@@ -164,8 +162,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param string $date The date to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if valid, otherwise FALSE
-     * @access public
      */
     public function isValidIsoDatetime($date)
     {
@@ -178,8 +176,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if valid, otherwise FALSE
-     * @access public
      */
     public function isValidUnixTimestamp($timestamp)
     {
@@ -192,8 +190,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param string $date The date to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The resulting unix-timestamp
-     * @access public
+     *
+     * @return int The resulting unix-timestamp
      */
     public function isoDateToUnixTimestamp($date = '1900-01-01')
     {
@@ -206,8 +204,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param string $date The datetime to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The resulting unix-timestamp
-     * @access public
+     *
+     * @return int The resulting unix-timestamp
      */
     public function isoDatetimeToUnixTimestamp($date = '1900-01-01 00:00:00')
     {
@@ -215,15 +213,15 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     }
 
     /**
-     * converts a timestamp to an iso-date
+     * converts a timestamp to an iso-date.
      *
      * This method is intend to convert a timestamp to an iso-date.
      *
      * @param int $timestamp The timestamp to convert to an iso-date
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting iso-date
-     * @access public
      */
     public function unixTimestampToIsodate($timestamp = 0)
     {
@@ -236,8 +234,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert to an iso-time
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting iso-time
-     * @access public
      */
     public function unixTimestampToIsoTime($timestamp = 0)
     {
@@ -250,8 +248,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert to an iso-datetime
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting iso-datetime
-     * @access public
      */
     public function unixTimestampToIsoDatetime($timestamp = 0)
     {
@@ -264,8 +262,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting short-date
-     * @access public
      */
     public function shortDate($timestamp = 0)
     {
@@ -273,14 +271,14 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     }
 
     /**
-     * converts a timestamp to a middle-date
+     * converts a timestamp to a middle-date.
      *
      * This method is intend to convert a timestamp to a middle-date.
      *
      * @param int $timestamp The timestamp to convert
      *
-     * @return  string The resulting middle-date
-     * @access  public
+     * @return string The resulting middle-date
+     *
      * @author  Benjamin Carl <opensource@clickalicious.de>
      */
     public function middleDate($timestamp = 0)
@@ -294,8 +292,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting long-date
-     * @access public
      */
     public function longDate($timestamp = 0)
     {
@@ -308,8 +306,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting short-time
-     * @access public
      */
     public function shorttime($timestamp = 0)
     {
@@ -322,8 +320,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting middle-time
-     * @access public
      */
     public function middleTime($timestamp = 0)
     {
@@ -336,8 +334,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting long-time
-     * @access public
      */
     public function longTime($timestamp = 0)
     {
@@ -350,8 +348,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting short-Datetime
-     * @access public
      */
     public function shortDateTime($timestamp = 0)
     {
@@ -364,8 +362,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting middle-Datetime
-     * @access public
      */
     public function middleDateTime($timestamp = 0)
     {
@@ -378,8 +376,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting long-Datetime
-     * @access public
      */
     public function longDateTime($timestamp = 0)
     {
@@ -392,13 +390,13 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting month name
-     * @access public
      */
     public function monthname($timestamp = 0)
     {
         // get month from timestamp
-        $month = (int)date('n', $timestamp) - 1;
+        $month = (int) date('n', $timestamp) - 1;
 
         // return translated (localized) month-name
         return $this->translator->_($this->_month[$month]);
@@ -410,12 +408,12 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting day name
-     * @access public
      */
     public function dayname($timestamp = 0)
     {
-        $day = (int)date('w', $timestamp);
+        $day = (int) date('w', $timestamp);
 
         return $this->getConfig()->datetime->{$this->_day[$day]};
         //return $this->translator->_($this->_day[$day]);
@@ -425,18 +423,18 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * This method is intend to return a list of available timesets.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array List/collection of available timesets
-     * @access public
      */
     public function getAvailableTimesets()
     {
         // build array with localized names
         if (!isset(self::$_timesetNames)) {
-            self::$_timesetNames = array(
+            self::$_timesetNames = [
                 $this->translator->_('standard_time'),
                 $this->translator->_('swatch_time'),
-                $this->translator->_('ISO_time')
-            );
+                $this->translator->_('ISO_time'),
+            ];
         }
 
         // return the names of the timesets
@@ -447,8 +445,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * This method is intend to return the active timeset.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The currently active timeset
-     * @access public
      */
     public function getTimeset()
     {
@@ -463,8 +461,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timeset The timeset to set active
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
     public function setTimeset($timeset = 0)
     {
@@ -477,8 +475,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert to swatch-time
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Beats of swatch-time for given timestamp
-     * @access public
      */
     public function swatchTime($timestamp = 0)
     {
@@ -491,12 +489,12 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param int $timestamp The timestamp to convert to swatch-time
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Swatch-date for given timestamp
-     * @access public
      */
     public function swatchDate($timestamp = 0)
     {
-        return '@d' . Date('d.m.y', $timestamp);
+        return '@d'.Date('d.m.y', $timestamp);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -506,19 +504,19 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     /**
      * This method is intend to act as format-dispatcher.
      *
-     * @param int $timestamp The timestamp to format
-     * @param string  $format    The format to use for formatting input
+     * @param int    $timestamp The timestamp to format
+     * @param string $format    The format to use for formatting input
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Result of request
-     * @access private
      */
     private function _formatDate($timestamp = 0, $format = '')
     {
         switch ($this->_timeset) {
         case 1:
             // swatch date
-        return $this->swatchDate($timestamp) . ' � ' . $this->swatchTime($timestamp);
+        return $this->swatchDate($timestamp).' � '.$this->swatchTime($timestamp);
         break;
         case 2:
             // iso date
@@ -534,12 +532,12 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     /**
      * This method is intend to act as format-dispatcher.
      *
-     * @param int $timestamp The timestamp to format
-     * @param string  $format    The format to use for formatting input
+     * @param int    $timestamp The timestamp to format
+     * @param string $format    The format to use for formatting input
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Result of request
-     * @access private
      */
     private function _formatTime($timestamp = 0, $format = '')
     {
@@ -562,11 +560,10 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     /**
      * This method is intend to act as format-dispatcher.
      *
-     * @param int $timestamp The timestamp to format
-     * @param string  $format    The format to use for formatting input
+     * @param int    $timestamp The timestamp to format
+     * @param string $format    The format to use for formatting input
      *
      * @return mixed Result of request
-     * @access private
      */
     private function _formatDatetime($timestamp = 0, $format = '')
     {
@@ -592,8 +589,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param string $string The string to encode
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The encoded string
-     * @access private
      */
     private function _encodeDate($string = '')
     {
@@ -601,8 +598,8 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         $length = strlen($string);
         $encodedString = '';
 
-        for ($i = 0; $i < $length; $i++) {
-            $encodedString .= '\\' . $string[$i];
+        for ($i = 0; $i < $length; ++$i) {
+            $encodedString .= '\\'.$string[$i];
         }
 
         // return encoded string
@@ -612,12 +609,12 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     /**
      * This method is intend to encode a datestring.
      *
-     * @param string  $format    The format to use for formatting timestamp
-     * @param int $timestamp The timestamp to convert/format
+     * @param string $format    The format to use for formatting timestamp
+     * @param int    $timestamp The timestamp to convert/format
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Result of request
-     * @access private
      */
     private function _dateFilter($format = '', $timestamp = 0)
     {
@@ -680,15 +677,15 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      * @param Doozr_I18n_Service_Translator $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_I18n_Service_Localize_Datetime Instance of this class
-     * @access public
      */
     public function __construct(
-        Doozr_Registry_Interface $registry        = null,
-        $locale                                   = null,
-        $namespace                                = null,
-        $configI18n                               = null, // Config of Doozr (main .config.json) including "I18n"
-        $configL10n                               = null, // Config I18n/L10n configuration of the current active locale
+        Doozr_Registry_Interface $registry = null,
+        $locale = null,
+        $namespace = null,
+        $configI18n = null, // Config of Doozr (main .config.json) including "I18n"
+        $configL10n = null, // Config I18n/L10n configuration of the current active locale
         Doozr_I18n_Service_Translator $translator = null
     ) {
         // Set type of format-class

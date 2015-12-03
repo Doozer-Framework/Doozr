@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Interface.
+ * Doozr - Configuration - Hierarchy - I18n - Cache.
  *
- * Interface.php - Configuration Interface of the Doozr Framework
+ * Cache.php - The "Cache" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -53,12 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Reader/Interface.php';
 
 /**
- * Doozr - Configuration - Interface.
+ * Doozr - Configuration - Hierarchy - I18n - Cache.
  *
- * Configuration Interface of the Doozr Framework
+ * Cache.php - The "Cache" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -70,26 +69,12 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Reader/Interface.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Configuration_Interface extends Doozr_Configuration_Reader_Interface
+class Doozr_Base_Configuration_Hierarchy_I18n_Cache
 {
     /**
-     * Setter for key => value pairs of config.
+     * Default namespace for caching (e.g. "{{DOOZR_NAMESPACE_FLAT}}.cache.i18n" [default]).
      *
-     * @param string $node  The key used for entry
-     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @var string
      */
-    public function set($node, $value);
-
-    /**
-     * Getter for value of passed key.
-     *
-     * @param string $node The key used for value lookup.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return mixed|null The value if set, otherwise NULL
-     */
-    public function get($node);
+    public $namespace = '{{DOOZR_NAMESPACE_FLAT}}.cache.i18n';
 }

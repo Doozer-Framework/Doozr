@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Registry
+ * Doozr - Registry.
  *
  * Registry.php - Registry of the Doozr framework.
  *
@@ -43,33 +44,34 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Registry
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Registry/Interface.php';
 
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Doozr - Registry
+ * Doozr - Registry.
  *
  * Registry of the Doozr framework.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Registry
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Registry extends Doozr_Base_Class_Singleton
@@ -82,20 +84,18 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * To be more flexible we use an array for storing properties
      * which are passed via __set and set()
-     * key = property-name
+     * key = property-name.
      *
      * @var array
-     * @access protected
      * @static
      */
     protected static $lookup = [];
 
     /**
      * To be more flexible for a reverse lookup
-     * key = index (numeric)
+     * key = index (numeric).
      *
      * @var array
-     * @access protected
      * @static
      */
     protected static $reverseLookup = [];
@@ -103,10 +103,9 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Lookup matrix for implementation of ArrayAccess
      * Those lookup matrix is used to retrieve the relation
-     * between an identifier and a numeric index
+     * between an identifier and a numeric index.
      *
      * @var array
-     * @access protected
      * @static
      */
     protected static $references = [];
@@ -116,7 +115,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * elements.
      *
      * @var int
-     * @access protected
      * @static
      */
     protected static $position = 0;
@@ -125,7 +123,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * The count of elements peculated for countable interface.
      *
      * @var int
-     * @access protected
      * @static
      */
     protected static $count = 0;
@@ -134,7 +131,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Parameter bag for environment variables and so on.
      *
      * @var array
-     * @access protected
      * @static
      */
     protected static $parameters = [];
@@ -145,8 +141,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param array $parameters The parameters to store.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Registry The registry
-     * @access public
      */
     /*
     public static function getInstance(array $parameters = [])
@@ -155,12 +151,10 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
     */
 
-
     protected function __construct(array $parameters = [])
     {
         self::setParameters($parameters);
     }
-
 
     /**
      * This method stores an element in the registry under the passed key.
@@ -170,8 +164,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      *                           If not passed a UUID is calculated and returned
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The identifier for reading the stored variable
-     * @access public
      */
     public function set(&$variable, $identifier = null)
     {
@@ -181,9 +175,9 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
         }
 
         // store the variable as reference
-        self::$references[]          = $variable;
-        $index                        = count(self::$references)-1;
-        self::$lookup[$identifier]   = $index;
+        self::$references[] = $variable;
+        $index = count(self::$references) - 1;
+        self::$lookup[$identifier] = $index;
         self::$reverseLookup[$index] = $identifier;
 
         // store count of elements
@@ -194,13 +188,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method returns a previously stored element from the registry
+     * This method returns a previously stored element from the registry.
      *
      * @param string $identifier The identifier of the stored object, class ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The stored variable if exist
-     * @access public
      */
     public function get($identifier = null)
     {
@@ -208,10 +202,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
 
         if (null === $identifier) {
             $result = self::$lookup;
-
         } elseif ('doozr.registry' === $identifier) {
             $result = $this;
-
         } else {
             if (true === isset(self::$lookup[$identifier])) {
                 $result = self::$references[self::$lookup[$identifier]];
@@ -223,14 +215,15 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
 
     /**
      * Static generic instance fetcher. Prototype !!!
+     *
      * @todo Proof if useful and conform
      *
      * @param string $name      Name of the "method" called -> will be used as property name
      * @param array  $arguments Unused!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed ...
-     * @access public
      */
     public static function __callStatic($name, array $arguments)
     {
@@ -241,11 +234,11 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Adds an multi element like a multi instance service to registry by generating UUID for instances.
      *
      * @param Doozr_Base_Service_Interface $variable
-     * @param string $identifier
+     * @param string                       $identifier
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string
-     * @access public
      */
     public function add(&$variable, $identifier = null)
     {
@@ -260,8 +253,9 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Calculates a random UUID.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The UUID
-     * @access protected
+     *
      * @throws Doozr_Registry_Exception
      */
     protected function calculateUuid()
@@ -269,8 +263,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
         try {
             // Generate a version 4 (random) UUID object
             $uuid4 = Uuid::uuid4();
-            $uuid  = $uuid4->toString();
-
+            $uuid = $uuid4->toString();
         } catch (UnsatisfiedDependencyException $exception) {
             throw new Doozr_Registry_Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
@@ -279,14 +272,14 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is a shortcut wrapper to set()
+     * This method is a shortcut wrapper to set().
      *
      * @param string $identifier The identifier of the property
      * @param mixed  $value      The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The result of the operation
-     * @access public
      */
     public function __set($identifier, $value)
     {
@@ -294,13 +287,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is a shortcut wrapper to get()
+     * This method is a shortcut wrapper to get().
      *
      * @param string $identifier The identifier of the property
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The value of the property if exist
-     * @access public
      */
     public function __get($identifier)
     {
@@ -314,8 +307,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setParameter($key, $value)
     {
@@ -329,8 +320,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function parameter($key, $value)
     {
@@ -345,8 +336,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param string $key The key or name of the parameter to return value for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Value for key if set, otherwise NULL
-     * @access public
      */
     public function getParameter($key)
     {
@@ -367,8 +358,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param array $parameters The parameters to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @static
      */
     public static function setParameters(array $parameters)
@@ -380,8 +369,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for parameters.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The collection of arguments
-     * @access public
      * @static
      */
     public static function getParameters()
@@ -395,8 +384,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Di_Container $container The DI container to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setContainer(Doozr_Di_Container $container)
     {
@@ -409,8 +396,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Di_Container $container The DI container to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function container(Doozr_Di_Container $container)
     {
@@ -423,8 +410,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for Doozr DI Container.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Container Container instance
-     * @access public
      */
     public function getContainer()
     {
@@ -437,8 +424,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Request $request The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setRequest(Doozr_Request $request)
     {
@@ -451,8 +436,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Request $request The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function request(Doozr_Request $request)
     {
@@ -465,8 +450,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for request (state).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Request_Web The request state
-     * @access public
      */
     public function getRequest()
     {
@@ -479,8 +464,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Response_Interface $response The response state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setResponse(Doozr_Response_Interface $response)
     {
@@ -493,8 +476,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Response_Interface $response The response state
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function response(Doozr_Response_Interface $response)
     {
@@ -507,8 +490,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for response (state).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Response_Web The response state
-     * @access public
      */
     public function getResponse()
     {
@@ -521,8 +504,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Di_Map $map The map to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMap(Doozr_Di_Map $map)
     {
@@ -535,8 +516,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Di_Map $map The map to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function map(Doozr_Di_Map $map)
     {
@@ -549,8 +530,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for map.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map The Di Map instance
-     * @access public
      */
     public function getMap()
     {
@@ -563,8 +544,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Logging_Interface $logger The logger to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setLogger(Doozr_Logging_Interface $logger)
     {
@@ -575,8 +554,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for logger.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Logging The logger instance
-     * @access public
      */
     public function getLogger()
     {
@@ -589,8 +568,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Base_Service_Interface $filesystem The filesystem instance to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFilesystem(Doozr_Filesystem_Service $filesystem)
     {
@@ -601,8 +578,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for filesystem.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Filesystem_Service The filesystem instance
-     * @access public
      */
     public function getFilesystem()
     {
@@ -615,8 +592,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Configuration $configuration Instance of configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setConfiguration(Doozr_Configuration $configuration)
     {
@@ -627,8 +602,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Configuration The configuration instance
-     * @access public
      */
     public function getConfiguration()
     {
@@ -641,8 +616,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Cache_Service $cache Instance of cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setCache($cache)
     {
@@ -655,8 +628,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param CacheItemPoolInterface $cache Instance of cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function cache($cache)
     {
@@ -669,8 +642,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Cache_Service The cache instance
-     * @access public
      */
     public function getCache()
     {
@@ -683,8 +656,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Path $path Instance of path
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setPath(Doozr_Path $path)
     {
@@ -697,8 +668,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Path $path Instance of path
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Registry
-     * @access public
      */
     public function path(Doozr_Path $path)
     {
@@ -711,8 +682,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for path.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Path The path instance
-     * @access public
      */
     public function getPath()
     {
@@ -725,8 +696,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Encoding $encoding Instance of encoding
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setEncoding(Doozr_Encoding $encoding)
     {
@@ -739,8 +708,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Encoding $encoding Instance of encoding
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function encoding(Doozr_Encoding $encoding)
     {
@@ -753,8 +722,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for encoding.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Encoding The instance of encoding
-     * @access public
      */
     public function getEncoding()
     {
@@ -767,8 +736,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Locale $locale Instance of locale
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setLocale(Doozr_Locale $locale)
     {
@@ -779,8 +746,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Locale Instance of locale
-     * @access public
      */
     public function getLocale()
     {
@@ -793,8 +760,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Debugging $debugging Instance of debugging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDebugging(Doozr_Debugging $debugging)
     {
@@ -805,8 +770,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for debugging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Debugging Instance of debugging
-     * @access public
      */
     public function getDebugging()
     {
@@ -819,8 +784,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Security $security Instance of security
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setSecurity(Doozr_Security $security)
     {
@@ -831,8 +794,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for security.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Security Instance of security
-     * @access public
      */
     public function getSecurity()
     {
@@ -845,8 +808,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param Doozr_Model $model Instance of model
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setModel(Doozr_Model $model)
     {
@@ -857,8 +818,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Model Instance of model
-     * @access public
      */
     public function getModel()
     {
@@ -871,8 +832,6 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param DebugBar\StandardDebugBar $debugBar Instance of $debugbar
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDebugbar(DebugBar\StandardDebugBar $debugBar)
     {
@@ -883,8 +842,8 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * Getter for debugbar.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return DebugBar\StandardDebugBar Instance of StandardDebugBar
-     * @access public
      */
     public function getDebugbar()
     {
@@ -896,13 +855,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the TRUE if the passed offset exists otherwise FALSE
+     * Returns the TRUE if the passed offset exists otherwise FALSE.
      *
      * @param mixed $offset The offset to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean The result of the operation
-     * @access public
+     *
+     * @return bool The result of the operation
      */
     public function offsetExists($offset)
     {
@@ -914,13 +873,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Returns the value for the passed offset
+     * Returns the value for the passed offset.
      *
      * @param mixed $offset The offset to return value for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function offsetGet($offset)
     {
@@ -932,14 +891,14 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Sets the value for the passed offset
+     * Sets the value for the passed offset.
      *
-     * @param int $offset The offset to set value for
-     * @param mixed   $value  The value to write
+     * @param int   $offset The offset to set value for
+     * @param mixed $value  The value to write
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function offsetSet($offset, $value)
     {
@@ -951,13 +910,13 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Unsets an offset
+     * Unsets an offset.
      *
      * @param mixed $offset The offset to unset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function offsetUnset($offset)
     {
@@ -972,11 +931,11 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Rewinds the position to 0
+     * Rewinds the position to 0.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function rewind()
     {
@@ -984,11 +943,11 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Checks if current position is still valid
+     * Checks if current position is still valid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean The result of the operation
-     * @access public
+     *
+     * @return bool The result of the operation
      */
     public function valid()
     {
@@ -996,11 +955,11 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Returns the key for the current position
+     * Returns the key for the current position.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The result of the operation
-     * @access public
+     *
+     * @return int The result of the operation
      */
     public function key()
     {
@@ -1008,11 +967,11 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Returns the current element
+     * Returns the current element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function current()
     {
@@ -1020,15 +979,15 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Goes to next element
+     * Goes to next element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function next()
     {
-        self::$position++;
+        ++self::$position;
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -1036,11 +995,11 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the count of elements in registry
+     * Returns the count of elements in registry.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The result of the operation
-     * @access public
+     *
+     * @return int The result of the operation
      */
     public function count()
     {
