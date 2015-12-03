@@ -237,7 +237,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // Check if requirements fulfilled
         self::checkRequirements();
 
-        // store config passed to this instance
+        // Store config passed to this instance
         self::$config = $config;
 
         // If no locale was passed then we try to read the preferred locale from client
@@ -245,11 +245,8 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
             $locale = $this->getClientPreferredLocale();
         }
 
-        // store the given locale
-        $this->activeLocale = $locale;
-        $this->encoding = $encoding;
-        #$this->setActiveLocale($locale);
-        #$this->setEncoding($encoding);
+        $this->setActiveLocale($locale);
+        $this->setEncoding($encoding);
 
         // Must return true
         return true;

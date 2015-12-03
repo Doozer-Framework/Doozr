@@ -401,8 +401,14 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
         try {
             $result = self::$service->install();
             $this->assertTrue($result);
+
         } catch (Exception $e) {
             $this->assertInstanceOf('Doozr_I18n_Service_Exception', $e);
         }
+    }
+
+    public function testGetOtherInterface()
+    {
+        #$this->assertTrue(false);
     }
 }

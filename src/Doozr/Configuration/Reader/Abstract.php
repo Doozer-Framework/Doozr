@@ -78,7 +78,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     /**
      * Instance of filesystem service.
      *
-     * @var Doozr_Filesystem_Service
+     * @var Doozr_Filesystem_Service|Doozr_Base_Service_Interface
      * @access protected
      */
     protected $filesystem;

@@ -17,7 +17,7 @@
     },
     "path": "{{DOOZR_APP_ROOT}}Data/Private/I18n/",
     "translator": {
-      "interface": "Text"
+      "interface": "Gettext"
     },
     "user": {
       "stores": [
