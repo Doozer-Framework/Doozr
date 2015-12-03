@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Test - Fixtures
+ * Doozr - I18n - Service - Test - Fixtures.
  *
  * Fixtures.php - Fixtures for tests of Doozr I18n Service.
  *
@@ -43,69 +44,91 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Service - I18n - Test - Fixtures
+ * Doozr - Service - I18n - Test - Fixtures.
  *
  * Fixture for tests of Doozr I18n Service.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Resource_Fixture
 {
     /**
-     * Available locales
+     * Available locales.
      *
      * @var array
-     * @access public
      * @static
      */
-    public static $localesAvailable = array(
+    public static $localesAvailable = [
         'de-de',
         'en-gb',
         'en-us',
-    );
+    ];
 
     /**
-     * Available localizer
+     * Available localizer.
      *
      * @var array
-     * @access public
      * @static
      */
-    public static $localizerAvailable = array(
+    public static $localizerAvailable = [
         'Currency',
         'Datetime',
         'Measure',
         'Number',
         'String',
-    );
+    ];
 
     /**
-     * Test locales which need to be installed on target OS for testing.
+     * Default locale for testing.
      *
      * @var string
-     * @access public
      */
     const LOCALE_DEFAULT = 'en-us';
-    const LOCALE_VALID   = 'de-de';
+
+    /**
+     * Valid locale for testing.
+     *
+     * @var string
+     */
+    const LOCALE_VALID = 'de-de';
+
+    /**
+     * Invalid locale for testing.
+     *
+     * @var string
+     */
     const LOCALE_INVALID = 'de-11111de-de-de';
 
-    const KEY_EXIST   = 'no_records_found';
+    /**
+     * Existing dummy key for translation.
+     *
+     * @var string
+     */
+    const KEY_EXIST = 'no_records_found';
+
+    /**
+     * Non-existing dummy key for translation fail.
+     *
+     * @var string
+     */
     const KEY_MISSING = 'This is a not translated string.';
 }

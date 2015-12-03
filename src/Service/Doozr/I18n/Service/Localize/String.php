@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - String
+ * Doozr - I18n - Service - Localize - String.
  *
  * String.php - String formatter
  *
@@ -43,73 +44,69 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Localize/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * Doozr - I18n - Service - Localize - String
+ * Doozr - I18n - Service - Localize - String.
  *
  * String formatter
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abstract
 {
     /**
-     * The bad-word-table
+     * The bad-word-table.
      *
      * @var array
-     * @access private
      */
     private $_badWordTable;
 
     /**
-     * The special-word-table
+     * The special-word-table.
      *
      * @var array
-     * @access private
      */
     private $_specialWordTable;
 
     /**
-     * The tags for special-word replacement
+     * The tags for special-word replacement.
      *
      * @var array
-     * @access private
      */
-    private $_tags = array(
+    private $_tags = [
         'acronym',
         'dfn',
-        'abbr'
-    );
+        'abbr',
+    ];
 
     /**
-     * The code templates used by highlightSpecialWords()
+     * The code templates used by highlightSpecialWords().
      *
      * @var array
-     * @access private
      */
-    private $_templates = array(
-        'abbr'    => '<abbr title="{$DESC}">{$WORD}</abbr>',
+    private $_templates = [
+        'abbr' => '<abbr title="{$DESC}">{$WORD}</abbr>',
         'acronym' => '<acronym title="{$DESC}">{$WORD}</acronym>',
-        'dfn'     => '<dfn>{$WORD}</dfn> {$DESC}'
-    );
-
+        'dfn' => '<dfn>{$WORD}</dfn> {$DESC}',
+    ];
 
     /*------------------------------------------------------------------------------------------------------------------
      | PUBLIC API
@@ -121,8 +118,8 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
      * @param string $string The string to highlight words in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The processed string
-     * @access public
      */
     public function highlightSpecialWords($string)
     {
@@ -162,8 +159,8 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
      * @param string $string The string to check for containing bad-word
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The replaced value if bad-word found, otherwise the original-input
-     * @access public
      */
     public function removeBadWords($string)
     {
@@ -186,13 +183,13 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
         foreach ($words as $key => $word) {
 
             // clean word from special chars
-            $word = preg_replace("/[^a-zA-Z0-9]+/", "", $word);
+            $word = preg_replace('/[^a-zA-Z0-9]+/', '', $word);
 
             foreach ($this->_badWordTable as $badWord) {
-                if (preg_match('/^' . $badWord . '/im', $word)) {
+                if (preg_match('/^'.$badWord.'/im', $word)) {
                     #$words[$key] = str_replace($badWord, str_repeat($replacecharacter, mb_strlen($badWord)), $word);
                     $words[$key] = preg_replace(
-                        '/^' . $badWord . '+/im',
+                        '/^'.$badWord.'+/im',
                         str_repeat($replacecharacter, mb_strlen($badWord)),
                         $word
                     );
@@ -207,17 +204,14 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
         return $result;
     }
 
-
     /*------------------------------------------------------------------------------------------------------------------
      | TOOLS & HELPER
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to create the special-word table
+     * This method is intend to create the special-word table.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
      */
     private function _createSpecialWordTable()
     {
@@ -235,11 +229,9 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
     }
 
     /**
-     * This method is intend to create the bad-word table
+     * This method is intend to create the bad-word table.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
      */
     private function _createBadWordTable()
     {
@@ -258,7 +250,6 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
         }
     }
 
-
     /*------------------------------------------------------------------------------------------------------------------
      | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
      +----------------------------------------------------------------------------------------------------------------*/
@@ -266,23 +257,22 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
     /**
      * This method is intend to act as constructor.
      *
-     * @param Doozr_Registry_Interface $registry The Doozr_Registry instance
-     * @param string $locale The locale this instance is working with
-     * @param string $namespace The active namespace of this format-class
-     * @param object $configI18n An instance of Doozr_Config_Ini holding the I18n-config
-     * @param object $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
-     * @param object $translator An instance of a translator (for locale)
+     * @param Doozr_Registry_Interface $registry   The Doozr_Registry instance
+     * @param string                   $locale     The locale this instance is working with
+     * @param string                   $namespace  The active namespace of this format-class
+     * @param object                   $configI18n An instance of Doozr_Config_Ini holding the I18n-config
+     * @param object                   $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct(
         Doozr_Registry_Interface $registry = null,
-        $locale                            = null,
-        $namespace                         = null,
-        $configI18n                        = null,
-        $configL10n                        = null,
-        $translator                        = null
+        $locale = null,
+        $namespace = null,
+        $configI18n = null,
+        $configL10n = null,
+        $translator = null
     ) {
         // Set type of format-class
         $this->type = 'String';

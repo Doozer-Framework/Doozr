@@ -1,0 +1,17 @@
+Yes = Yes
+No = No
+hour = hour
+timezone_is = timezone:
+time = time
+switch_to = switch to
+de-at = austrian
+de = german
+en = english
+es = spanish
+fr = french
+it = italian
+en-gb = english (UK)
+ru = russian
+ar = arabic
+no_records_found = no records found
+x_books_in_my_y_shelves = I have %1$s books in my %2$s shelves.

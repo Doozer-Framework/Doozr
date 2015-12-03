@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Gettext
+ * Doozr - I18n - Service - Interface - Gettext.
  *
  * Gettext.php - Translation interface to => gettext™
  *
@@ -43,58 +44,37 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Interface.php';
 
 /**
- * Doozr - I18n - Service - Interface - Gettext
+ * Doozr - I18n - Service - Interface - Gettext.
  *
  * Gettext.php - Translation interface to => gettext™
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_Abstract
     implements
     Doozr_I18n_Service_Interface_Interface
 {
-    /*------------------------------------------------------------------------------------------------------------------
-    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Constructor.
-     *
-     * @param \stdClass $config The config for this type of interface
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_I18n_Service_Interface_Gettext Instance of this class
-     * @access protected
-     */
-    protected function __construct(\stdClass $config)
-    {
-        // Override simple by setter
-        $this->setCacheEnabled(false);
-
-        // Call parents constructor
-        parent::__construct($config);
-    }
-
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -107,8 +87,8 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * @param mixed  $arguments The arguments for inserting values into translation (vsprintf) or null
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The translation of the input or the input string on failure
-     * @access public
      */
     public function lookup($string, $uuid = null, $arguments = null)
     {
@@ -140,8 +120,8 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * @param array  $namespaces The namespace(s) of the table get build for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Key value based (key[locale] => value[os/system locale])
-     * @access protected
      */
     protected function buildTranslationtable($locale, array $namespaces)
     {
@@ -149,14 +129,14 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
         $namespace = $namespaces[0];
 
         // Wrap result into array by locale indexed
-        return array(
+        return [
             $locale => $this->initI18n(
                 $locale,
                 $this->getEncoding(),
                 $namespace,
                 $this->getPath()
-            )
-        );
+            ),
+        ];
     }
 
     /**
@@ -171,29 +151,30 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * @param string $path      A valid path to the *.mo files to make them known to gettext™
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool|array An array with files/namespaces found for current locale, otherwise FALSE on failure
-     * @access protected
+     *
      * @throws Doozr_I18n_Service_Exception
      */
     protected function initI18n($locale, $encoding, $namespace, $path)
     {
         // Make it possible to build a valid locale like: en_US.utf8
-        $path            .= $locale . DIRECTORY_SEPARATOR . 'Gettext';
-        $gettextLocale    = $this->normalizeLocale($locale);                                     // e.g. en-us => en_US
-        $gettextLanguage  = $this->getLanguageByLocale($gettextLocale);                          // e.g. en_US => en
-        $gettextEncoding  = $this->normalizeEncoding($encoding);                                 // e.g. UTF-8 => utf8
+        $path           .= $locale.DIRECTORY_SEPARATOR.'Gettext';
+        $gettextLocale   = $this->normalizeLocale($locale);                                     // e.g. en-us => en_US
+        $gettextLanguage = $this->getLanguageByLocale($gettextLocale);                          // e.g. en_US => en
+        $gettextEncoding = $this->normalizeEncoding($encoding);                                 // e.g. UTF-8 => utf8
 
         // Setup environment variables mainly required by gettext™
-        putenv('LANG='        . $gettextLanguage);
-        putenv('LC_ALL='      . $gettextLocale);
-        putenv('LC_MESSAGES=' . $gettextLocale);
+        putenv('LANG='.$gettextLanguage);
+        putenv('LC_ALL='.$gettextLocale);
+        putenv('LC_MESSAGES='.$gettextLocale);
 
         // We provide the system/OS a prioritized variety of dialects to choose from - for the locale built above
-        $fullQualifiedLocales = array(
-            $gettextLocale . $gettextEncoding,
-            $gettextLocale . '.' . $encoding,
+        $fullQualifiedLocales = [
+            $gettextLocale.$gettextEncoding,
+            $gettextLocale.'.'.$encoding,
             $gettextLocale,
-        );
+        ];
 
         $result = setlocale(LC_ALL, $fullQualifiedLocales);
         if ($result === null || $result === false) {
@@ -217,8 +198,8 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * @param string $encoding The encoding to be normalized
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The normalized encoding
-     * @access protected
      */
     protected function normalizeEncoding($encoding)
     {
@@ -230,30 +211,7 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
             return $encoding;
         }
 
-        return '.' . strtolower(str_replace('-', '', $encoding));
-    }
-
-    /**
-     * Normalizes a locale to a full qualified locale. For example: If u would pass "de" into it everybody
-     * would know - a yeah it's "de_DE" and exactly this is done here.
-     *
-     * @param string $locale The locale to normalize
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The normalized locale
-     * @access protected
-     */
-    protected function normalizeLocale($locale)
-    {
-        $locale = explode('-', $locale);
-
-        foreach ($locale as $key => &$part) {
-            if ($key > 0) {
-                $part = strtoupper($part);
-            }
-        }
-
-        return implode('_', $locale);
+        return '.'.strtolower(str_replace('-', '', $encoding));
     }
 
     /**
@@ -262,12 +220,13 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * @param string $locale The locale to return language from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The extracted locale
-     * @access protected
      */
     protected function getLanguageByLocale($locale)
     {
         $language = explode('_', $locale);
+
         return $language[0];
     }
 
@@ -276,9 +235,10 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
      * For example it checks if a required extension is loaded or not and so on.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      * @static
+     *
      * @throws Doozr_I18n_Service_Exception
      */
     protected static function checkRequirements()

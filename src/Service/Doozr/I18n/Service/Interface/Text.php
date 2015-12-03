@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Text
+ * Doozr - I18n - Service - Interface - Text.
  *
  * Text.php - Translation-Interface to text
  *
@@ -43,30 +44,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Interface/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Interface.php';
 
 /**
- * Doozr - I18n - Service - Interface - Text
+ * Doozr - I18n - Service - Interface - Text.
  *
  * Translation-Interface to text
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abstract
@@ -75,11 +77,11 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
 {
     /**
      * Name of the directory containing the LC_MESSAGES directory.
+     *
      * @example If the path to LC_MESSAGES is /var/foo/locales/en_US/Text/LC_MESSAGES then the value of
      *          TRANSLATION_FILES_DIRECTORY must be "Text" without the quotation marks.
      *
      * @var string
-     * @access public
      */
     const TRANSLATION_FILES_DIRECTORY = 'Text';
 
@@ -87,46 +89,23 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
      * Extension of translation files of this interface.
      *
      * @var string
-     * @access public
      */
-    const TRANSLATION_FILES_EXTENSION = 'ini';
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Constructor.
-     *
-     * @param array $config The config for this type of interface
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access protected
-     */
-    protected function __construct(array $config)
-    {
-        /* @todo Remove constructor! */
-        // Override simple by setter
-        $this->setCacheEnabled(true);
-
-        // Call parents constructor
-        parent::__construct($config);
-    }
+    const TRANSLATION_FILES_EXTENSION = 'mo';
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Looks for the passed looks up the translation of the given combination of values
+     * Looks for the passed looks up the translation of the given combination of values.
      *
      * @param string $string    The string to translate
      * @param string $uuid      The uuid of the translation-table
      * @param mixed  $arguments The arguments for inserting values into translation (vsprintf) or null
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The translation of the input or the input string on failure
-     * @access public
      */
     public function lookup($string, $uuid = null, $arguments = null)
     {
@@ -149,7 +128,7 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * builds a translation-tables for giving locale and namespace
+     * builds a translation-tables for giving locale and namespace.
      *
      * This method is intend to build a translation-tables for giving locale and namespace.
      *
@@ -157,8 +136,8 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
      * @param array  $namespaces The namespace(s) of the table get build for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The final translationtable for given locale + namespace
-     * @access protected
      */
     protected function buildTranslationtable($locale, array $namespaces)
     {
@@ -181,12 +160,13 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
                 // we can reuse the existing
                 $result = array_merge($result, self::$translations[$locale][$namespace]);
             } else {
-                // load fresh from file
-                $translationFile = $this->path . $locale . DIRECTORY_SEPARATOR . self::TRANSLATION_FILES_DIRECTORY .
-                                   DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . $namespace . '.' .
-                                   self::TRANSLATION_FILES_EXTENSION;
+                // Load fresh from file
+                $translationFile = $this->path.$locale.DIRECTORY_SEPARATOR.self::TRANSLATION_FILES_DIRECTORY.
+                                   DIRECTORY_SEPARATOR.$this->normalizeLocale($locale).DIRECTORY_SEPARATOR.
+                                   'LC_MESSAGES'.DIRECTORY_SEPARATOR.
+                                   $namespace.'.'.self::TRANSLATION_FILES_EXTENSION;
 
-                $result = array_merge($result, $this->_parseTranslationfile($translationFile));
+                $result = array_merge($result, $this->parseTranslationfile($translationFile));
             }
         }
 
@@ -195,18 +175,19 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
     }
 
     /**
-     * Parses a translationfile
+     * Parses a translationfile.
      *
      * This method is intend to parse a translationfile and return the result as array.
      *
      * @param string $filename The name of the file to parse
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The content of the given file
-     * @access private
+     *
      * @throws Doozr_I18n_Service_Exception
      */
-    private function _parseTranslationfile($filename)
+    protected function parseTranslationfile($filename)
     {
         if (!file_exists($filename) || !is_readable($filename)) {
             throw new Doozr_I18n_Service_Exception(

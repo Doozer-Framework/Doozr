@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n - Test
+ * Doozr - Service - I18n - Test.
  *
  * I18nServiceTest.php - Tests for Service instance of Doozr I18n Service.
  *
@@ -43,40 +44,39 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/Resource/Fixture.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/tests/Resource/Fixture.php';
 
 /**
- * Doozr - Service - I18n - Test
+ * Doozr - Service - I18n - Test.
  *
  * Tests for Service instance of Doozr I18n Service.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
-     * Prepares setup for Tests of "I18n"
+     * Prepares setup for Tests of "I18n".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setUp()
     {
@@ -86,11 +86,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the default locale is returned correctly if no locale was passed to I18n service instance
+     * Test: If the default locale is returned correctly if no locale was passed to I18n service instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testRetrievingExpectedDefaultLocale()
     {
@@ -99,11 +97,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If it is possible to set a locale
+     * Test: If it is possible to set a locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testSettingACustomLocale()
     {
@@ -116,11 +112,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the service throws an exception if someone tries to set an invalid locale
+     * Test: If the service throws an exception if someone tries to set an invalid locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      *
      * @expectedException Doozr_I18n_Service_Exception
      */
@@ -134,11 +128,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the service returns an valid detector instance
+     * Test: If the service returns an valid detector instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingDetectorInstanceFromService()
     {
@@ -147,11 +139,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the service returns the correct detected locale
+     * Test: If the service returns the correct detected locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testRetrievingClientsPreferredLocale()
     {
@@ -163,11 +153,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the service returns the correct currency localizer
+     * Test: If the service returns the correct currency localizer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingCurrencyLocalizerFromService()
     {
@@ -186,11 +174,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the service returns the correct datetime localizer
+     * Test: If the service returns the correct datetime localizer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingDatetimeLocalizerFromService()
     {
@@ -209,11 +195,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the service returns the correct measure localizer
+     * Test: If the service returns the correct measure localizer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingMeasureLocalizerFromService()
     {
@@ -232,11 +216,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the service returns the correct number localizer
+     * Test: If the service returns the correct number localizer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingNumberLocalizerFromService()
     {
@@ -255,11 +237,9 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the service returns the correct string localizer
+     * Test: If the service returns the correct string localizer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingStringLocalizerFromService()
     {
@@ -279,12 +259,11 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
 
     /**
      * Test: If the service returns the correct string localizer for redirect locale.
+     *
      * @example If the locale detected is "en-gb" which is redirected to "en-us" then all localizer will be redirected
      *          too! This test ensures that it works as expected.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingLocalizerForARedirectLocale()
     {
@@ -306,8 +285,6 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * Test: If the service returns the correct string localizer for redirect locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingAvailableLocales()
     {
@@ -318,20 +295,18 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: Add an locale to collection of available locales
+     * Test: Add an locale to collection of available locales.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * @depends testGettingAvailableLocales
      */
     public function testSettingAvailableLocales()
     {
         $locales = Resource_Fixture::$localesAvailable;
         $locales[] = 'nl';
 
-        $this->assertEquals(
-            $locales, self::$service->setAvailableLocales($locales)
-        );
+        // Set the value we're going to test in next step
+        self::$service->setAvailableLocales($locales);
 
         $this->assertEquals(
             object_to_array(self::$service->getAvailableLocales()),
@@ -343,18 +318,16 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * Test: Set an encoding and retrieve it back.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @requires OS Linux
      */
     public function testSettingAndGettingAnCustomEncoding()
     {
         $encoding = Doozr_I18n_Service::ENCODING_ISO_8859_1;
-        $this->assertTrue(self::$service->setEncoding($encoding));
+        self::$service->setEncoding($encoding);
         $this->assertEquals($encoding, self::$service->getEncoding());
 
         $encoding = Doozr_I18n_Service::ENCODING_UTF_8;
-        $this->assertTrue(self::$service->setEncoding($encoding));
+        self::$service->setEncoding($encoding);
         $this->assertEquals($encoding, self::$service->getEncoding());
     }
 
@@ -362,14 +335,12 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * Test: Set a domain.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @requires OS Linux
      */
     public function testUsingDomainFromPhptalInterfaceImplementation()
     {
         // Prepare
-        $domain = 'foo';
+        $domain = 'default';
 
         // Assertion(s)
         $this->assertEquals(array($domain), self::$service->useDomain($domain));
@@ -379,14 +350,12 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * Test: If setting a key value pair works.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @requires OS Linux
      */
     public function testSettingVarFromPhptalInterfaceImplementation()
     {
         // Prepare
-        $key   = 'Foo';
+        $key = 'Foo';
         $value = 'Bar';
 
         // Assertion(s)
@@ -397,8 +366,6 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * Test: If translation works as expected. One time with html encoding one time without.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @requires OS Linux
      */
     public function testTranslatingAnKeyToDefaultLocaleEnUs()
@@ -415,8 +382,6 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * Test: If setting language works.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @requires OS Linux
      */
     public function testSettingLanguageFromPhptalInterfaceImplementation()
@@ -429,8 +394,6 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
      * Test: If the install routine is functional.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @covers Doozr_I18n_Service::install()
      */
     public function testInstallRoutineForTranslationShortcuts()
@@ -441,7 +404,11 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
 
         } catch (Exception $e) {
             $this->assertInstanceOf('Doozr_I18n_Service_Exception', $e);
-
         }
+    }
+
+    public function testGetOtherInterface()
+    {
+        #$this->assertTrue(false);
     }
 }

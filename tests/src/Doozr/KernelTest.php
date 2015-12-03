@@ -52,8 +52,6 @@
  * @link       https://github.com/clickalicious/Memcached.php
  */
 
-
-
 /**
  * Doozr - Kernel - Test
  *

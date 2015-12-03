@@ -3,7 +3,7 @@
     "cache": {
       "namespace": "{{DOOZR_NAMESPACE_FLAT}}.cache.i18n"
     },
-    "defaults": {
+    "default": {
       "locale": "en-us",
       "language": "en",
       "country": "us",

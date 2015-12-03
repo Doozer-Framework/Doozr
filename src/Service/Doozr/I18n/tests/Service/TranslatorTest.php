@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n - Test - Translator
+ * Doozr - Service - I18n - Test - Translator.
  *
  * TranslatorTest.php - Tests for Translator of the Doozr I18n Service.
  *
@@ -43,39 +44,37 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/tests/Resource/Fixture.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/tests/Resource/Fixture.php';
 
 /**
- * Doozr - Service - I18n - Test
+ * Doozr - Service - I18n - Test.
  *
  * Tests for Translator of the Doozr I18n Service.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class TranslatorTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
-     * Prepares setup for Tests of "I18n"
+     * Prepares setup for Tests of "I18n".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setUp()
     {
@@ -84,11 +83,9 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the service returns the correct translator
+     * Test: If the service returns the correct translator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingTranslatorInstanceFromService()
     {
@@ -111,8 +108,6 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
      * Test: If the service returns the correct translator if a locale with redirect was passed.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testGettingTranslatorForRedirectLocale()
     {
@@ -132,8 +127,6 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
      * Test: That a passed string isn't altered by translator if the string isn't translated yet.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @requires OS Linux
      */
     public function testTranslatorDoesNotAlterMissingTranslation()
@@ -153,11 +146,9 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
 
     /**
      * Test: If the try to translate a string without setting a namespace first will throw an exception as warning for
-     * the developer
+     * the developer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @expectedException Doozr_I18n_Service_Exception
      */
     public function testTranslatingWithoutNamespaceThrowsException()
@@ -170,11 +161,9 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If simple translation will be successful
+     * Test: If simple translation will be successful.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @requires OS Linux
      */
     public function testTranslatingTheKeyYes()
@@ -191,11 +180,28 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If a more complex translation will be successful
+     * Test: If simple translation will be successful.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * @requires OS Linux
+     */
+    public function testTranslatingTheKeyNo()
+    {
+        // Prepare
+        $locale = Resource_Fixture::LOCALE_VALID;
+        self::$service->setActiveLocale($locale);
+
+        $translator = self::$service->getTranslator();
+        $translator->setNamespace('default');
+
+        // Assertion(s)
+        $this->assertEquals('Nein', $translator->_('No'));
+    }
+
+    /**
+     * Test: If a more complex translation will be successful.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @requires OS Linux
      */
     public function testTranslatingAKeyWithValuesInserted()

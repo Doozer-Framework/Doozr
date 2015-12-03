@@ -1,9 +1,0 @@
-UNKNOWN_ERROR = UNKNOWN_ERROR
-doozr_form_module_error_required = Diese Angabe wird benötigt.
-THIS_FIELD_MUST_NOT_BE_EMPTY. = Dieses Feld darf nicht leer sein.
-doozr_form_module_error_email = Diese E-Mail-Adresse scheint ungültig zu sein.
-doozr_form_module_error_link = Dieses Eingabe stimmt nicht mit %s überein.
-doozr_form_module_error_emailauth = Diese Emailadresse existiert nicht.
-doozr_form_module_error_invalid = Diese Eingabe ist ungültig!
-doozr_form_module_error_minlength = Die minimale Länge für dieses Feld beträgt %1$s Zeichen
-doozr_form_module_error_maxlength = Die maximale Länge für dieses Feld beträgt %1$s Zeichen
