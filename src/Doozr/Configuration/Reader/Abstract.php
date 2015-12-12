@@ -569,7 +569,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @return $this Instance of this class for chaining (fluent interface pattern)
      * @access protected
      */
-    protected function cacheService(Doozr_Cache_Service $cacheService)
+    protected function cacheService(Doozr_Cache_Service $cacheService = null)
     {
         $this->cacheService = $cacheService;
 

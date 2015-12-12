@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Path
+class Doozr_Configuration_Hierarchy_Kernel_Path
 {
     /**
      * The document root as default (e.g. "{{DOOZR_DOCUMENT_ROOT}}").

@@ -69,12 +69,12 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Request
+class Doozr_Configuration_Hierarchy_Kernel_Transmission_Request
 {
     /**
      * Configuration for redirects.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect
+     * @var Doozr_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect
      */
     public $redirect;
 

@@ -625,6 +625,6 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
     {
         $method = 'buildTranslationtable';
 
-        return (method_exists($instance, $method) && is_callable(array($instance, $method)));
+        return (method_exists($instance, $method) && is_callable([$instance, $method]));
     }
 }

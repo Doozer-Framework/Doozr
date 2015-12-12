@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_I18n_Cache
+class Doozr_Configuration_Hierarchy_I18n_Cache
 {
     /**
      * Default namespace for caching (e.g. "{{DOOZR_NAMESPACE_FLAT}}.cache.i18n" [default]).

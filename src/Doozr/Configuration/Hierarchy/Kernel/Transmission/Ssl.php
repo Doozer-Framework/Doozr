@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Ssl
+class Doozr_Configuration_Hierarchy_Kernel_Transmission_Ssl
 {
     /**
      * Whether SSL is enabled as default (e.g. "false").

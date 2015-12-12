@@ -160,7 +160,7 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
     {
         // Make it possible to build a valid locale like: en_US.utf8
         $path           .= $locale.DIRECTORY_SEPARATOR.'Gettext';
-        $gettextLocale   = $this->normalizeLocale($locale);                                     // e.g. en-us => en_US
+        $gettextLocale = $this->normalizeLocale($locale);                                     // e.g. en-us => en_US
         $gettextLanguage = $this->getLanguageByLocale($gettextLocale);                          // e.g. en_US => en
         $gettextEncoding = $this->normalizeEncoding($encoding);                                 // e.g. UTF-8 => utf8
 
@@ -177,6 +177,7 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
         ];
 
         $result = setlocale(LC_ALL, $fullQualifiedLocales);
+
         if ($result === null || $result === false) {
             $locale = var_export($fullQualifiedLocales, true);
             throw new Doozr_I18n_Service_Exception(

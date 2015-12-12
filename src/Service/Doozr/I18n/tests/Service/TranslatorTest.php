@@ -213,7 +213,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
         /* @var Doozr_I18n_Service_Translator $translator*/
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
-        $translation = $translator->_('x_books_in_my_y_shelves', array(5, 23));
+        $translation = $translator->_('x_books_in_my_y_shelves', [5, 23]);
 
         // Assertion(s)
         $this->assertContains('5', $translation);
