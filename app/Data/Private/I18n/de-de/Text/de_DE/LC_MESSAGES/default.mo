@@ -1,3 +1,4 @@
+Welcome = Willkommen
 Yes = Ja
 No = Nein
 hour = Uhr

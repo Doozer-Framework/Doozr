@@ -55,7 +55,10 @@ final class View_Index extends \Doozr_View_Web
          */
         $fingerprint = $session->getIdentifier();
 
+        // Get I18n service instance
+        $i18nService = \Doozr_Loader_Serviceloader::load('i18n', $this->getRegistry()->getConfiguration());
+
         // Render data from model
-        return $this->render($data, $fingerprint);
+        return $this->render($data, $fingerprint, $i18nService);
     }
 }

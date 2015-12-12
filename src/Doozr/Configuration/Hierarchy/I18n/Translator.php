@@ -66,7 +66,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_I18n_Translator
+class Doozr_Configuration_Hierarchy_I18n_Translator
 {
     /**
      * Interface used for translation (e.g. "Gettext" [default])

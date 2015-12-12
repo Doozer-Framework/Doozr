@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_I18n_User
+class Doozr_Configuration_Hierarchy_I18n_User
 {
     /**
      * Stores of user preferences.

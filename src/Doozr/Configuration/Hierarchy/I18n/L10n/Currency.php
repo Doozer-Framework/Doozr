@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n - Currency.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * Currency.php - The "Currency" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n - Currency.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * Currency.php - The "Currency" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -69,51 +69,48 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_I18n_Default
+class Doozr_Configuration_Hierarchy_I18n_L10n_Currency
 {
     /**
-     * Default locale for translations (e.g. "en-us" [default]).
-     *
-     * @var string
-     */
-    public $locale = 'en-us';
-
-    /**
-     * Default language for translations (e.g. "en" [default]).
-     *
-     * @var string
-     */
-    public $language = 'en';
-
-    /**
-     * Default country for translations (e.g. "us" [default]).
-     *
-     * @var string
-     */
-    public $country = 'us';
-
-    /**
-     * Default weight for translation set (e.g. "1" [default]).
+     * The currency's ISO code.
+     * https://de.wikipedia.org/wiki/ISO_4217
      *
      * @var int
      */
-    public $weight = 1;
+    public $code = 978;
 
     /**
-     * Default available locales for translation set (e.g. "[de-de, en-gb, en-us]" [default]).
-     *
-     * @var array
-     */
-    public $available = [
-        'de-de',
-        'en-gb',
-        'en-us',
-    ];
-
-    /**
-     * Default namespace for translations (e.g. "default" [default]).
+     * Where to place currency symbol (e.g. left for japanese).
      *
      * @var string
      */
-    public $namespace = 'default';
+    public $symbol_position = 'r';
+
+    /**
+     * Whitespace between currency and currency symbol.
+     *
+     * @var string
+     */
+    public $notation_space = '&nbsp;';
+
+    /**
+     * Number of decimal places.
+     *
+     * @var int
+     */
+    public $minor_unit = 2;
+
+    /**
+     * Decimal point (e.g. , = 1,99 // . = 1.99).
+     *
+     * @var string
+     */
+    public $decimal_point = ',';
+
+    /**
+     * Thousands separator (e.g. , = 1,000 // . = 1.000).
+     *
+     * @var string
+     */
+    public $thousands_separator = '.';
 }

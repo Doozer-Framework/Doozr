@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect_Pattern
+class Doozr_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect_Pattern
 {
     /**
      * The pattern we match with default (e.g. "/[^\\/]{{EXCLUDE}}[a-zA-Z0-9_\\-]+/i").

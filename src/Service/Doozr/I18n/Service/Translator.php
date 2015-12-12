@@ -885,7 +885,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     protected function namespaceChanged()
     {
         // Get locale we target (performance)
-        $encoding       = $this->getEncoding();
+        $encoding = $this->getEncoding();
         $redirectLocale = $this->getRedirectLocale();
 
         // Init interface for translation
@@ -918,11 +918,11 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     protected function translatorInterfaceFactory()
     {
         // Combine some parts to a config for the interface
-        $config                  = $this->getConfigI18n()->i18n;
-        $config->path            = $this->getPathToTranslations();
-        $config->cache->enabled  = $this->getCacheEnabled();
+        $config = $this->getConfigI18n()->i18n;
+        $config->path = $this->getPathToTranslations();
+        $config->cache->enabled = $this->getCacheEnabled();
         $config->cache->lifetime = $this->getCacheLifetime();
-        $config->encoding        = $this->getEncoding();
+        $config->encoding = $this->getEncoding();
 
         // Include required file -> NO autoloading -> cause of performance!
         include_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/'.

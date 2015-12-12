@@ -1274,8 +1274,15 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
         try {
             // Build Filter for URI and apply ...
+            $a = self::$registry->getConfiguration()->kernel->transmission->request->filter;
+
+            $filters =  [];
+            foreach ($a as $filter) {
+                $filters[] = $filter;
+            }
+
             $filter = new \Doozr_Filter(
-                (array) self::$registry->getConfiguration()->kernel->transmission->request->filter
+                $filters
             );
 
             $request->withUri(
@@ -1293,6 +1300,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
             // Retrieving response by dispatching "request + route" to request dispatcher
             $response = $responseResolver->resolve($request, $response);
+
         } catch (\Exception $exception) {
             if (true === !$debugging) {
                 $response = $this->buildErrorResponse(

@@ -910,8 +910,8 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      */
     protected function translateToTextdomain()
     {
-        echo 'FIX REQUIRED!';die;
-        return strtolower($this->route[$this->translation[0]]);
+        // Try to load textdomain from system ...
+        return strtolower($this->getRoute()->getPresenter().$this->getRoute()->getAction());
     }
 
     /**

@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.p
 /**
  * Doozr - I18n - Service - Localize - Measure.
  *
- * Measurement formatter
+ * Measurement formatter.
  *
  * @category   Doozr
  *
@@ -77,38 +77,38 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      *
      * @var array
      */
-    private $_validSystems = [
+    protected $validSystems = [
         'si',
         'uscs',
     ];
 
     /**
-     * Format which is displayed to user.
+     * Display format.
      *
      * @var string
      */
-    private $_displayLocalize;
+    protected $displayFormat;
 
     /**
      * Default measuring-system.
      *
      * @var string
      */
-    private $_defaultMeasureSystem = 'si';
+    protected $defaultMeasureSystem = 'si';
 
     /**
      * Measuring-system of input.
      *
      * @var string
      */
-    private $_input;
+    protected $input;
 
     /**
      * Measuring-system of output.
      *
      * @var string
      */
-    private $_output;
+    protected $output;
 
     /*------------------------------------------------------------------------------------------------------------------
     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
@@ -138,8 +138,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
         $this->type = 'Measure';
 
         // Setup default in- and output format (measure-system)
-        $this->setInputMeasureSystem($this->_defaultMeasureSystem);
-        $this->setOutputMeasureSystem($this->_defaultMeasureSystem);
+        $this->setInputMeasureSystem($this->defaultMeasureSystem);
+        $this->setOutputMeasureSystem($this->defaultMeasureSystem);
 
         // Call parents constructor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);
@@ -162,11 +162,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
     {
         // set if given system is valid
         if ($this->isValidMeasureSystem($system) === true) {
-            return ($this->_input = $system);
+            return ($this->input = $system);
         }
 
         // otherwise set default measure-system of I10n
-        return ($this->_input = $this->configL10n->measure->measure_system);
+        return ($this->input = $this->getConfiguration()->measure->measure_system);
     }
 
     /**
@@ -178,7 +178,7 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      */
     public function getInputMeasureSystem()
     {
-        return $this->_input;
+        return $this->input;
     }
 
     /**
@@ -194,11 +194,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
     {
         // set if given system is valid
         if ($this->isValidMeasureSystem($system) === true) {
-            return ($this->_output = $system);
+            return ($this->output = $system);
         }
 
         // otherwise set default measure-system of I10n
-        return ($this->_output = $this->configL10n->measure->measure_system);
+        return ($this->output = $this->getConfiguration()->measure->measure_system);
     }
 
     /**
@@ -210,7 +210,7 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      */
     public function getOutputMeasureSystem()
     {
-        return $this->_output;
+        return $this->output;
     }
 
     /**
@@ -224,7 +224,7 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      */
     public function isValidMeasureSystem($system = null)
     {
-        return in_array($system, $this->_validSystems);
+        return in_array($system, $this->validSystems);
     }
 
     /**
@@ -236,7 +236,7 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      */
     public function getAvailableSystems()
     {
-        return $this->_validSystems;
+        return $this->validSystems;
     }
 
     /**
@@ -249,7 +249,7 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      *
      * @return int The given input if valid, otherwise 0
      */
-    public function validunit($countChoices, $format)
+    public function validUnit($countChoices, $format)
     {
         // checks if format is smaller 0 (invalid) or greater then given count of choices
         if ($format < 0 || $format > $countChoices) {
@@ -285,13 +285,13 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      */
     public function liquid($input = 0, $inputFormat = 0, $outputFormat = 0)
     {
-        $input = (float) $this->_liquidDownsize($input, $inputFormat);
-        $format = (int) $this->validunit(7, $outputFormat);
+        $input = (float) $this->liquidDownsize($input, $inputFormat);
+        $format = (int) $this->validUnit(7, $outputFormat);
 
-        if ($this->_input == 'si' && $this->_output == 'si') {
+        if ($this->input == 'si' && $this->output == 'si') {
             $formats = ['ml', 'cl', 'dl', 'l', 'dal', 'hl', 'hl', 'hl'];
             $div = [1, 10, 100, 1000, 10000, 100000, 100000, 100000];
-        } elseif ($this->_input == 'si' && $this->_output == 'uscs') {
+        } elseif ($this->input == 'si' && $this->output == 'uscs') {
             $formats = ['min', 'fldr', 'floz', 'gi', 'pt', 'qt', 'gal', 'barrel'];
             $div = [
                     0.00048133998891762809516053073702394,
@@ -303,15 +303,15 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
                     3785.4118,
                     158987.29,
                 ];
-        } elseif ($this->_input == 'uscs' && $this->_output == 'si') {
+        } elseif ($this->input == 'uscs' && $this->output == 'si') {
             $formats = ['ml', 'cl', 'dl', 'l', 'dal', 'hl', 'hl', 'hl'];
             $div = [2077.5336, 20775.336, 207753.36, 2077533.6, 20775336, 207753360, 207753360, 207753360];
-        } elseif ($this->_input == 'uscs' && $this->_output == 'uscs') {
+        } elseif ($this->input == 'uscs' && $this->output == 'uscs') {
             $formats = ['min', 'fldr', 'floz', 'gi', 'pt', 'qt', 'gal', 'barrel'];
             $div = [1, 7680, 61440, 245760, 983040, 1966080, 7864320, 330301440];
         }
 
-        $this->_displayFormat = (string) $formats[$format];
+        $this->displayFormat = (string) $formats[$format];
 
         return (float) $input / $div[$format];
     }
@@ -337,28 +337,28 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      */
     public function linear($input = 0, $inputFormat = 0, $outputFormat = 0)
     {
-        $input = (float) $this->_linearDownsize($input, $inputFormat);
-        $format = (int) $this->validunit(4, $outputFormat);
+        $input = (float) $this->linearDownsize($input, $inputFormat);
+        $format = (int) $this->validUnit(4, $outputFormat);
 
-        if ($this->_input == 'si' && $this->_output == 'si') {
+        if ($this->input == 'si' && $this->output == 'si') {
             $formats = ['mm', 'cm', 'dm', 'm', 'km'];
             $div = [1, 10, 100, 1000, 1000000];
             $output = (float) $input / $div[$format];
-        } elseif ($this->_input == 'si' && $this->_output == 'uscs') {
+        } elseif ($this->input == 'si' && $this->output == 'uscs') {
             $formats = ['in', 'ft', 'yd', 'fur', 'mi'];
             $div = [25.4, 304.8, 914.4, 201168, 1609344];
             $output = (float) $input / $div[$format];
-        } elseif ($this->_input == 'uscs' && $this->_output == 'si') {
+        } elseif ($this->input == 'uscs' && $this->output == 'si') {
             $formats = ['mm', 'cm', 'dm', 'm', 'km'];
             $div = [25.4, 2.54, 0.254, 0.0254, 0.0000254];
             $output = (float) $input * $div[$format];
-        } elseif ($this->_input == 'uscs' && $this->_output == 'uscs') {
+        } elseif ($this->input == 'uscs' && $this->output == 'uscs') {
             $formats = ['in', 'ft', 'yd', 'fur', 'mi'];
             $div = [1, 12, 36, 7920, 63360];
             $output = (float) $input / $div[$format];
         }
 
-        $this->display_format = (string) $formats[$format];
+        $this->displayFormat = (string) $formats[$format];
 
         return (float) $output;
     }
@@ -376,17 +376,17 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
     {
         $input = (float) $input;
 
-        if ($this->_input == 'si' && $this->_output == 'si') {
-            $this->_displayFormat = 'C';
+        if ($this->input == 'si' && $this->output == 'si') {
+            $this->displayFormat = 'C';
             $output = (float) $input;
-        } elseif ($this->_input == 'si' && $this->_output == 'uscs') {
-            $this->_displayFormat = 'F';
+        } elseif ($this->input == 'si' && $this->output == 'uscs') {
+            $this->displayFormat = 'F';
             $output = (float) ((($input / 5) * 9) + 32);
-        } elseif ($this->_input == 'uscs' && $this->_output == 'si') {
-            $this->_displayFormat = 'C';
+        } elseif ($this->input == 'uscs' && $this->output == 'si') {
+            $this->displayFormat = 'C';
             $output = (float) ((($input - 32) / 9) * 5);
-        } elseif ($this->_input == 'uscs' && $this->_output == 'uscs') {
-            $this->_displayFormat = 'F';
+        } elseif ($this->input == 'uscs' && $this->output == 'uscs') {
+            $this->displayFormat = 'F';
             $output = (float) $input;
         }
 
@@ -411,13 +411,13 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
 
         // check for requested type
         if ($type == 1) {
-            $unit = $this->translator->_($this->_displayFormat.'_short');
+            $unit = $this->translator->_($this->displayFormat.'_short');
         } elseif ($type == 2) {
-            $unit = $this->translator->_($this->_displayFormat.'_long');
+            $unit = $this->translator->_($this->displayFormat.'_long');
         } else {
             $unit = '<abbr title="'.
-                $this->translator->_($this->_displayFormat.'_long').'" xml:lang="'.$this->locale.'">'.
-                $this->translator->_($this->_displayFormat.'_short').'</abbr>';
+                $this->translator->_($this->displayFormat.'_long').'" xml:lang="'.$this->locale.'">'.
+                $this->translator->_($this->displayFormat.'_short').'</abbr>';
         }
 
         // return complete constructed unit-string
@@ -444,11 +444,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      *
      * @return float The converted result
      */
-    private function _cookingDownsize($input = 0, $format = 0)
+    protected function cookingDownsize($input = 0, $format = 0)
     {
-        $format = (int) $this->validunit(2, $format);
+        $format = (int) $this->validUnit(2, $format);
 
-        if ($this->_input == 'si') {
+        if ($this->input == 'si') {
             $div = [1, 3, 3];
         } else {
             $div = [1, 3, 48];
@@ -475,11 +475,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      *
      * @return float The converted result
      */
-    private function _capacityDownsize($input = 0, $format = 0)
+    protected function capacityDownsize($input = 0, $format = 0)
     {
-        $format = (int) $this->validunit(4, $format);
+        $format = (int) $this->validUnit(4, $format);
 
-        if ($this->_input == 'si') {
+        if ($this->input == 'si') {
             $div = [1, 1000, 1000000, 1000000000, 1000000000000];
         } else {
             $div = [1, 1728, 46656, 75271680, 254358061056000];
@@ -506,11 +506,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      *
      * @return float The converted result
      */
-    private function _linearDownsize($input = 0, $format = 0)
+    protected function linearDownsize($input = 0, $format = 0)
     {
-        $format = (int) $this->validunit(4, $format);
+        $format = (int) $this->validUnit(4, $format);
 
-        if ($this->_input == 'si') {
+        if ($this->input == 'si') {
             $div = [1, 10, 100, 1000, 1000000];
         } else {
             $div = [1, 12, 36, 7920, 63360];
@@ -539,12 +539,12 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      *
      * @return float The converted result
      */
-    private function _surfaceDownsize($input = 0, $format = 0)
+    protected function surfaceDownsize($input = 0, $format = 0)
     {
-        $format = (int) $this->validunit(6, $format);
+        $format = (int) $this->validUnit(6, $format);
 
         // check direction of converting si <-> uscs
-        if ($this->_input == 'si') {
+        if ($this->input == 'si') {
             $div = [1, 100, 10000, 1000000, 100000000, 10000000000, 1000000000000];
         } else {
             $div = [1, 12, 36, 7920, 63360, 63360, 63360];
@@ -573,11 +573,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      *
      * @return float The converted result
      */
-    private function _weightDownsize($input = 0, $format = 0)
+    protected function weightDownsize($input = 0, $format = 0)
     {
-        $format = (int) $this->validunit(6, $format);
+        $format = (int) $this->validUnit(6, $format);
 
-        if ($this->_input == 'si') {
+        if ($this->input == 'si') {
             $div = [1, 10, 100, 1000, 10000, 1000000, 1000000000];
         } else {
             $div = [1, 27.34375, 437.5, 7000, 98000, 700000, 14000000];
@@ -607,11 +607,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      *
      * @return float The converted result
      */
-    private function _liquidDownsize($input = 0, $format = 0)
+    protected function liquidDownsize($input = 0, $format = 0)
     {
-        $format = (int) $this->validunit(7, $format);
+        $format = (int) $this->validUnit(7, $format);
 
-        if ($this->_input == 'si') {
+        if ($this->input == 'si') {
             $div = [1, 10, 100, 1000, 10000, 100000, 100000, 100000];
         } else {
             $div = [1, 7680, 61440, 245760, 983040, 1966080, 7864320, 330301440];

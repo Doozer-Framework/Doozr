@@ -73,28 +73,30 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.p
 class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_Abstract
 {
     /**
-     * holds the active timeformat
+     * The active time format.
+     *
      * 0 = standard format
      * 1 = iso date
      * 2 = swatch date.
      *
      * @var int
      */
-    private $_timeset;
+    protected $timeset;
 
     /**
-     * the localized name representation of the timesets.
+     * Localized name representation of the timeset.
+     *
+     * @var array
+     * @static
+     */
+    protected static $timesetNames;
+
+    /**
+     * Existing month in correct order.
      *
      * @var array
      */
-    private static $_timesetNames;
-
-    /**
-     * the exisiting month in correct order.
-     *
-     * @var array
-     */
-    private $_month = [
+    protected $month = [
         'january',
         'february',
         'march',
@@ -110,11 +112,11 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     ];
 
     /**
-     * the exisiting days in correct order.
+     * Existing days in correct order.
      *
      * @var array
      */
-    private $_day = [
+    protected $day = [
         'sunday',
         'monday',
         'tuesday',
@@ -267,7 +269,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function shortDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configL10n->datetime->short_date);
+        return $this->formatDate($timestamp, $this->getConfiguration()->datetime->short_date);
     }
 
     /**
@@ -283,7 +285,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function middleDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configL10n->datetime->middle_date);
+        return $this->formatDate($timestamp, $this->getConfiguration()->datetime->middle_date);
     }
 
     /**
@@ -297,7 +299,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function longDate($timestamp = 0)
     {
-        return $this->_formatDate($timestamp, $this->configL10n->datetime->long_date);
+        return $this->formatDate($timestamp, $this->getConfiguration()->datetime->long_date);
     }
 
     /**
@@ -311,7 +313,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function shorttime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configL10n->datetime->short_time);
+        return $this->formatTime($timestamp, $this->getConfiguration()->datetime->short_time);
     }
 
     /**
@@ -325,7 +327,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function middleTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configL10n->datetime->middle_time);
+        return $this->formatTime($timestamp, $this->getConfiguration()->datetime->middle_time);
     }
 
     /**
@@ -339,7 +341,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function longTime($timestamp = 0)
     {
-        return $this->_formatTime($timestamp, $this->configL10n->datetime->long_time);
+        return $this->formatTime($timestamp, $this->getConfiguration()->datetime->long_time);
     }
 
     /**
@@ -353,7 +355,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function shortDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->short_datetime);
+        return $this->formatDatetime($timestamp, $this->getConfiguration()->datetime->short_datetime);
     }
 
     /**
@@ -367,7 +369,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function middleDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->middle_datetime);
+        return $this->formatDatetime($timestamp, $this->getConfiguration()->datetime->middle_datetime);
     }
 
     /**
@@ -381,7 +383,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function longDateTime($timestamp = 0)
     {
-        return $this->_formatDatetime($timestamp, $this->configL10n->datetime->long_datetime);
+        return $this->formatDatetime($timestamp, $this->getConfiguration()->datetime->long_datetime);
     }
 
     /**
@@ -399,7 +401,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         $month = (int) date('n', $timestamp) - 1;
 
         // return translated (localized) month-name
-        return $this->translator->_($this->_month[$month]);
+        return $this->translator->_($this->month[$month]);
     }
 
     /**
@@ -415,8 +417,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     {
         $day = (int) date('w', $timestamp);
 
-        return $this->getConfig()->datetime->{$this->_day[$day]};
-        //return $this->translator->_($this->_day[$day]);
+        return $this->translator->_($this->day[$day]);
     }
 
     /**
@@ -429,16 +430,16 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     public function getAvailableTimesets()
     {
         // build array with localized names
-        if (!isset(self::$_timesetNames)) {
-            self::$_timesetNames = [
+        if (!isset(self::$timesetNames)) {
+            self::$timesetNames = [
                 $this->translator->_('standard_time'),
                 $this->translator->_('swatch_time'),
-                $this->translator->_('ISO_time'),
+                $this->translator->_('iso_time'),
             ];
         }
 
         // return the names of the timesets
-        return self::$_timesetNames;
+        return self::$timesetNames;
     }
 
     /**
@@ -452,7 +453,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     {
         $timesets = $this->getAvailableTimesets();
 
-        return $timesets[$this->_timeset];
+        return $timesets[$this->timeset];
     }
 
     /**
@@ -466,7 +467,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function setTimeset($timeset = 0)
     {
-        return ($this->_timeset = $timeset);
+        return ($this->timeset = $timeset);
     }
 
     /**
@@ -511,9 +512,9 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      *
      * @return mixed Result of request
      */
-    private function _formatDate($timestamp = 0, $format = '')
+    protected function formatDate($timestamp = 0, $format = '')
     {
-        switch ($this->_timeset) {
+        switch ($this->timeset) {
         case 1:
             // swatch date
         return $this->swatchDate($timestamp).' � '.$this->swatchTime($timestamp);
@@ -524,7 +525,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         break;
         default:
             // default time
-        return date($this->_dateFilter($format, $timestamp), $timestamp);
+        return date($this->dateFilter($format, $timestamp), $timestamp);
         break;
         }
     }
@@ -539,9 +540,9 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      *
      * @return mixed Result of request
      */
-    private function _formatTime($timestamp = 0, $format = '')
+    protected function formatTime($timestamp = 0, $format = '')
     {
-        switch ($this->_timeset) {
+        switch ($this->timeset) {
         case 1:
             // swatch date
         return $this->swatchTime($timestamp);
@@ -552,7 +553,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         break;
         default:
             // default time
-        return date($this->_dateFilter($format, $timestamp), $timestamp);
+        return date($this->dateFilter($format, $timestamp), $timestamp);
         break;
         }
     }
@@ -565,9 +566,9 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      *
      * @return mixed Result of request
      */
-    private function _formatDatetime($timestamp = 0, $format = '')
+    protected function formatDatetime($timestamp = 0, $format = '')
     {
-        switch ($this->_timeset) {
+        switch ($this->timeset) {
         case 1:
             // swatch date
         return $this->swatchDate($timestamp).' � '.$this->swatchTime($timestamp);
@@ -578,7 +579,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         break;
         default:
             // default time
-        return date($this->_dateFilter($format, $timestamp), $timestamp);
+        return date($this->dateFilter($format, $timestamp), $timestamp);
         break;
         }
     }
@@ -592,7 +593,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      *
      * @return string The encoded string
      */
-    private function _encodeDate($string = '')
+    protected function encodeDate($string = '')
     {
         // maybe has to be rewritten for multibyte...
         $length = strlen($string);
@@ -616,7 +617,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      *
      * @return mixed Result of request
      */
-    private function _dateFilter($format = '', $timestamp = 0)
+    protected function dateFilter($format = '', $timestamp = 0)
     {
         // check if replace needed - return direct if not
         if (!preg_match('(monthname|dayname|hour)', $format)) {
@@ -626,35 +627,35 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         // replace existing placeholder - monthname_short
         $format = mb_eregi_replace(
             'monthname_short',
-            $this->_encodeDate(mb_substr($this->monthName($timestamp), 0, 3)),
+            $this->encodeDate(mb_substr($this->monthName($timestamp), 0, 3)),
             $format
         );
 
         // replace existing placeholder - dayname_short
         $format = mb_eregi_replace(
             'dayname_short',
-            $this->_encodeDate(mb_substr($this->dayName($timestamp), 0, 2)),
+            $this->encodeDate(mb_substr($this->dayName($timestamp), 0, 2)),
             $format
         );
 
         // replace existing placeholder - dayname
         $format = mb_eregi_replace(
             'dayname',
-            $this->_encodeDate($this->dayName($timestamp)),
+            $this->encodeDate($this->dayName($timestamp)),
             $format
         );
 
         // replace existing placeholder - monthname
         $format = mb_eregi_replace(
             'monthname',
-            $this->_encodeDate($this->monthName($timestamp)),
+            $this->encodeDate($this->monthName($timestamp)),
             $format
         );
 
         // replace existing placeholder - hour
         $format = mb_eregi_replace(
             'hour',
-            $this->_encodeDate($this->translator->_('hour')),
+            $this->encodeDate($this->translator->_('hour')),
             $format
         );
 
@@ -692,7 +693,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         $this->type = 'Datetime';
 
         // Store the default and active timeset
-        $this->_timeset = $configL10n->datetime->default_timeset;
+        $this->timeset = $this->getConfiguration()->datetime->default_timeset;
 
         // Call parents constructor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);

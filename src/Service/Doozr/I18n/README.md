@@ -1,10 +1,13 @@
 # I18n
-## Overview
-The **I18n** Service provides a real good and lightweight interface to *gettext™* as well as a very *gettext™* like functionality + caching provided in plain vanilla PHP - often interesting for environments where you are not able to setup *gettext™*. The **I18n** Service is cappable of handling translation and localization of text and values. The **I18n** Service is also full compatible with the *PHPTal* I18n interface and so it works hand in hand together with *PHPTal*. The **I18n** Service makes use of the **Cache** Service and provides access to the following caching backends: *filesystem*, *memcached* and *Redis* (comming soon). All common Internationalization (*I18n*) & Localization (*L10n*) tasks can be easily fulfilled with the **I18n** Service.
+## Doozr Know-How: What is the I18n service?
+The `I18n-Service` provides a lightweight interface to `gettext™` as well as a very gettext™-like functionality provided in `plain vanilla PHP`. The `I18n-Service` is capable of handling translations and localizations of text and values (Badword-Filter, Currency-, DateTime-, Measurement- & Number-Localization). All common internationalization (**I18n**) & localization (**L10n**) tasks can be easily fulfilled with this service.
+
+The `I18n-Service` is full compatible with the `PHPTAL I18n Interface` and so it works hand in hand with `Doozr's` `Template-Service`.
+
 
 ### Features
-- **Automatic locale detection** (client/browser detect)
-- **Translation** (through *gettext™* or custom *text* interface)
+- **Locale detection** (client/browser detect)
+- **Translation** (*gettext™* or custom *text* interface)
 - **Localization support** (date/time, measure, number, currency)
 - **Support for dynamic translations** (parameter/arguments)
 - ***gettext™* wrapper**

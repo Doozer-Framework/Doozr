@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n - String.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * String.php - The "String" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n - String.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * String.php - The "String" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -69,51 +69,19 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_I18n_Default
+class Doozr_Configuration_Hierarchy_I18n_L10n_String
 {
     /**
-     * Default locale for translations (e.g. "en-us" [default]).
+     * Character used for replacing bad words (for example).
      *
      * @var string
      */
-    public $locale = 'en-us';
+    public $replacecharacter = '*';
 
     /**
-     * Default language for translations (e.g. "en" [default]).
+     * String of bad words which must be filtered when bad word filter is used.
      *
      * @var string
      */
-    public $language = 'en';
-
-    /**
-     * Default country for translations (e.g. "us" [default]).
-     *
-     * @var string
-     */
-    public $country = 'us';
-
-    /**
-     * Default weight for translation set (e.g. "1" [default]).
-     *
-     * @var int
-     */
-    public $weight = 1;
-
-    /**
-     * Default available locales for translation set (e.g. "[de-de, en-gb, en-us]" [default]).
-     *
-     * @var array
-     */
-    public $available = [
-        'de-de',
-        'en-gb',
-        'en-us',
-    ];
-
-    /**
-     * Default namespace for translations (e.g. "default" [default]).
-     *
-     * @var string
-     */
-    public $namespace = 'default';
+    public $badwords = '';
 }
