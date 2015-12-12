@@ -53,6 +53,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
+
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
@@ -668,14 +669,14 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to act as constructor.
+     * Constructor.
      *
-     * @param Doozr_Registry_Interface      $registry   The Doozr_Registry instance
-     * @param string                        $locale     The locale this instance is working with
-     * @param string                        $namespace  The active namespace of this format-class
-     * @param object                        $configI18n An instance of Doozr_Config_Ini holding the I18n-config
-     * @param object                        $configL10n An instance of Doozr_Config_Ini holding the I10n-config (locale)
-     * @param Doozr_I18n_Service_Translator $translator An instance of a translator (for locale)
+     * @param Doozr_Registry_Interface                $registry   Instance of Doozr_Registry
+     * @param string                                  $locale     Locale
+     * @param string                                  $namespace  Namespace of this localizer
+     * @param Doozr_Configuration_Hierarchy_I18n      $configI18n I18n configuration
+     * @param Doozr_Configuration_Hierarchy_I18n_L10n $configL10n L10n configuration of the current active locale
+     * @param Doozr_I18n_Service_Translator           $translator An instance of a translator (for locale).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -685,15 +686,15 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
         Doozr_Registry_Interface $registry = null,
         $locale = null,
         $namespace = null,
-        $configI18n = null, // Config of Doozr (main .config.json) including "I18n"
-        $configL10n = null, // Config I18n/L10n configuration of the current active locale
+        $configI18n = null,
+        $configL10n = null,
         Doozr_I18n_Service_Translator $translator = null
     ) {
         // Set type of format-class
         $this->type = 'Datetime';
 
         // Store the default and active timeset
-        $this->timeset = $this->getConfiguration()->datetime->default_timeset;
+        $this->timeset = $configL10n->datetime->default_timeset;
 
         // Call parents constructor
         parent::__construct($registry, $locale, $namespace, $configI18n, $configL10n, $translator);

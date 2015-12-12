@@ -271,8 +271,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     /**
      * Returns the available locales defined in config.
      *
-     * This method is intend to return all locales defined in configuration.
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return array An array containing the available locales with numerical index
@@ -324,8 +322,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     /**
      * Returns the currently active locale.
      *
-     * This method is intend to return the currently active locale.
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string|null The active locale if set, otherwise NULL
@@ -363,9 +359,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
     /**
      * Returns an instance of the locale detector.
-     *
-     * This method is intend to return an instance of the locale detector. The locale detector
-     * can be used to detect the clients prefered locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -423,9 +416,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
     /**
      * Returns an translator instance for passed locale.
-     *
-     * This method is intend to return a new translator instance for
-     * locale passed to it..
      *
      * @param string $locale   The locale to return translator for
      * @param string $encoding The encoding of the translation
@@ -501,7 +491,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * PHPTAL:
      * Sets the language for translation.
      *
-     * This method is intend to set the language used for translation.
      * In our I18n service its normally done by calling setActiveLocale()
      * which is instrumentalized in this method.
      *
@@ -790,8 +779,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
     /**
      * Initializes the template translator.
-     *
-     * This method is intend to initialize the template translator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
