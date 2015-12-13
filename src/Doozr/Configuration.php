@@ -14,7 +14,7 @@
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -75,8 +75,8 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Interface.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
- * @property   Doozr_Base_Configuration_Hierarchy_Kernel $kernel
- * @property   Doozr_Base_Configuration_Hierarchy_I18n $i18n
+ * @property   Doozr_Configuration_Hierarchy_Kernel       $kernel
+ * @property   Doozr_Configuration_Hierarchy_I18n         $i18n
  * @property   Doozr_Base_Configuration_Hierarchy_Session $session
  */
 class Doozr_Configuration extends Doozr_Base_Class_Singleton

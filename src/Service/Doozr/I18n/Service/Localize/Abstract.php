@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Abstract
+ * Doozr - I18n - Service - Localize - Abstract.
  *
  * Abstract.php - Abstract base class for formatter of the I18n module
  *
@@ -11,7 +12,7 @@
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,97 +44,92 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 /**
- * Doozr - I18n - Service - Localize - Abstract
+ * Doozr - I18n - Service - Localize - Abstract.
  *
  * Abstract base class for Localizeter of the I18n module
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
+ *
+ * @property   Doozr_Configuration_Hierarchy_I18n      $configI18n
+ * @property   Doozr_Configuration_Hierarchy_I18n_L10n $configL10n
  */
 abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
 {
     /**
-     * the type of the Localize-class
+     * Type of the localize class.
      *
      * @var string
-     * @access protected
      */
     protected $type;
 
     /**
-     * The Doozr_Registry instance containing core objects
+     * Doozr_Registry instance containing core objects.
      *
      * @var Doozr_Registry
-     * @access protected
      */
     protected $registry;
 
     /**
-     * locale of format-class
+     * Locale of format class.
      *
      * @var string
-     * @access protected
      */
     protected $locale;
 
     /**
-     * namespace of format-class
+     * Namespace of format class.
      *
      * @var string
-     * @access protected
      */
     protected $namespace;
 
     /**
-     * configuration of format-class
+     * configuration of format class.
      *
      * @var array
-     * @access protected
      */
     protected $configI18n;
 
     /**
-     * configuration of format-class
+     * Configuration of format class.
      *
      * @var array
-     * @access protected
      */
     protected $configL10n;
 
     /**
-     * translator instance for active locale
+     * Translator instance for active locale.
      *
      * @var object
-     * @access protected
      */
     protected $translator;
 
     /**
-     * the localized config of Localize_String
+     * Localized config of Localize_String.
      *
      * @var object
-     * @access protected
      */
     protected $config;
-
 
     /*------------------------------------------------------------------------------------------------------------------
     | MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
@@ -150,32 +146,20 @@ abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct(
-        Doozr_Registry_Interface $registry   = null,
-        $locale     = null,
-        $namespace  = null,
+        Doozr_Registry_Interface $registry = null,
+        $locale = null,
+        $namespace = null,
         $configI18n = null,
         $configL10n = null,
         $translator = null
     ) {
-        // store registry
         $this->registry = $registry;
-
-        // store configuration
         $this->locale = $locale;
-
-        // store configuration
         $this->namespace = $namespace;
-
-        // store configuration I18n
         $this->configI18n = $configI18n;
-
-        // store configuration I10n
         $this->configL10n = $configL10n;
-
-        // store translator
         $this->translator = $translator;
     }
 
@@ -184,40 +168,23 @@ abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to create the bad-word table
+     * This method is intend to create the bad-word table.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access private
+     *
+     * @return Doozr_Configuration_Hierarchy_I18n_L10n
      */
-    public function getConfig()
+    public function getConfiguration()
     {
-        // check if we must load localized config (I10n) was already retrieved
-        if (!$this->config) {
-            // get config manager of Doozr-Framework
-            include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Config/Container/Ini.php';
-
-            // configuration-file
-            $configurationFile = DOOZR_APP_ROOT . 'Data/Private/I18n/' . $this->locale . '/Localization/' .
-                                 $this->type . '.ini';
-
-            // get configreader
-            $config = Doozr_Loader_Serviceloader::load('Configuration', 'Ini');
-
-            // read config
-            $this->config = $config->read($configurationFile);
-        }
-
-        // return the configuration
-        return $this->config;
+        return $this->configL10n;
     }
 
     /**
-     * Returns the active locale
+     * Returns the active locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The current locale as string, otherwise NULL
-     * @access public
      */
     public function getLocale()
     {

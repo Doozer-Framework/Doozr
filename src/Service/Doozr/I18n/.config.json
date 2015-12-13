@@ -17,10 +17,10 @@
     },
     "path": "{{DOOZR_APP_ROOT}}Data/Private/I18n/",
     "translator": {
-      "interface": "Gettext"
+      "interface": "Text"
     },
     "user": {
-      "stores": [
+      "storages": [
         "session",
         "cookie"
       ],
