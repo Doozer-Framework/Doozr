@@ -83,16 +83,15 @@ class Doozr_I18n_Service_Exception extends Doozr_Exception
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {
-        // add prefix to message
+        // Add prefix to message
         $message = 'Doozr_I18n_Service: '.$message;
 
-        // check default code = 0
+        // Check default code = 0
         $code = (!$code) ? 0 : $code;
 
-        // get final code
+        // Get final code
         $code = $this->generateUniqueCode($this->file, $code);
 
-        // dispatch to parent
         parent::__construct($message, $code, $previous);
     }
 }

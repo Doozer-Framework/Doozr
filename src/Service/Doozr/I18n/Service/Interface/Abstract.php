@@ -183,12 +183,12 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * starts the initializing of given locale and namespace.
+     * Starts the initializing of given locale and namespace.
      *
      * This method is intend to start the initializing of given locale and namespace and return the corresponding key.
      *
-     * @param string $locale     The locale to init
-     * @param array  $namespaces The namespace to init
+     * @param string $locale     Locale to init
+     * @param array  $namespaces Namespaces to init
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -197,21 +197,22 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
     public function initLocaleNamespace($locale, array $namespaces)
     {
         // get checksum for translation-table + namespaces(s)
-        $crc = hash('md4', $locale.serialize($namespaces));
+        $checksum = hash('md4', $locale.serialize($namespaces));
 
         // Assume cached content does not exist
         $translationTable = false;
 
         // If we want to initialize the translation table we need at least support for it ...
-        if (true  === $this->hasTranslationTableSupport($this)) {
+        if (true === $this->hasTranslationTableSupport($this)) {
 
             // We only run the generating code if either: a) never generated before or b) if caching is disabled
-            if (false === isset(self::$translationTables[$crc]) || false === $this->getCacheEnabled()) {
+            if (false === isset(self::$translationTables[$checksum]) || false === $this->getCacheEnabled()) {
 
                 // If caching enabled => try to get table from cache
                 if (true === $this->getCacheEnabled()) {
                     try {
-                        $translationTable = self::$cache->read($crc);
+                        $translationTable = self::$cache->read($checksum);
+
                     } catch (Doozr_Cache_Service_Exception $e) {
                         // Intentionally left empty
                     }
@@ -226,16 +227,16 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
                 // Store in cache if caching enabled
                 if (true === $this->getCacheEnabled()) {
                     // cache translationtable
-                    self::$cache->create($crc, $translationTable, $this->getCacheLifetime());
+                    self::$cache->create($checksum, $translationTable, $this->getCacheLifetime());
                 }
 
                 // Put into local translationtable (runtime cache!)
-                self::$translationTables[$crc] = $translationTable;
+                self::$translationTables[$checksum] = $translationTable;
             }
         }
 
         // In all cases return the crc (key/identifier)
-        return $crc;
+        return $checksum;
     }
 
     /*------------------------------------------------------------------------------------------------------------------

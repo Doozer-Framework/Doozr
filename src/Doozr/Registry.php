@@ -157,7 +157,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method stores an element in the registry under the passed key.
+     * This method storages an element in the registry under the passed key.
      *
      * @param string $variable   The variable (class, object) to store
      * @param string $identifier The identifier for the stored object, class ...

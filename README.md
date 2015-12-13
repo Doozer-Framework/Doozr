@@ -50,12 +50,11 @@ The **lightweight** PHP-Framework for **high-performance** websites.
 
 `Doozr` is shipped with the following high quality core *Services*:
 
- - `Acl` (CRUD Secured Objects)
- - `Cache` (Interface to Filesystem + Memcached)
- - `Config` (Configreader mit Caching support for INI, JSON)
- - `Crypt` (Secure En-/Decryption)
- - `Filesystem` (Filesystem wrapper with virtual FS support)
  - `Form` (HTML5 secure form handler + validation)
+ - `Cache` (Interface to Filesystem + Memcached)
+ - `Config` (Configuration-Reader for Ini- & JSON-Configurations and caching)
+ - `Crypt` (En-/Decryption with AES)
+ - `Filesystem` (Filesystem wrapper with virtual FS support)
  - `Http` (Wrapper to CURL)
  - `I18n` (Internationalization + Localization support with gettext emulation)
  - `Password` (Password generator + validator)

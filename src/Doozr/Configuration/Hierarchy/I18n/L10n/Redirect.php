@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base Model Interface
+ * Doozr - Configuration - Hierarchy - I18n - L10n - Redirect.
  *
- * Interface.php - Base Model Interface of the Doozr Framework
+ * Redirect.php - The "Redirect" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -40,54 +41,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
+ * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Base Model Interface
+ * Doozr - Configuration - Hierarchy - I18n - L10n - Redirect.
  *
- * Base Model Interface of the Doozr Framework
+ * Redirect.php - The "Redirect" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Base_Model_Interface
+class Doozr_Configuration_Hierarchy_I18n_L10n_Redirect
 {
     /**
-     * storages data
+     * Target locale for redirect (e.g. "en-us").
      *
-     * This method should store the data in a way that it can be retrieved in
-     * further processing e.g. for dispatch-process.
-     *
-     * @param mixed $data The data to store
-     *
-     * @return  boolean TRUE if storing was successful, otherwise FALSE
-     * @access  public
+     * @var string
      */
-    public function setData($data);
-
-    /**
-     * returns data
-     *
-     * This method should return the data which was stored via setData.
-     *
-     * @return  mixed The data
-     * @access  public
-     */
-    public function getData();
+    public $target;
 }

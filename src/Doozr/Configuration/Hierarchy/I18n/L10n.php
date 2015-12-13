@@ -72,44 +72,51 @@
 class Doozr_Configuration_Hierarchy_I18n_L10n
 {
     /**
-     * The encoding node.
+     * Encoding node.
      *
      * @var Doozr_Configuration_Hierarchy_I18n_L10n_Encoding
      */
     public $encoding;
 
     /**
-     * The currency node.
+     * Currency node.
      *
      * @var Doozr_Configuration_Hierarchy_I18n_L10n_Currency
      */
     public $currency;
 
     /**
-     * The number node.
+     * Number node.
      *
      * @var Doozr_Configuration_Hierarchy_I18n_L10n_Number
      */
     public $number;
 
     /**
-     * The measure node.
+     * Measure node.
      *
      * @var Doozr_Configuration_Hierarchy_I18n_L10n_Measure
      */
     public $measure;
 
     /**
-     * The string node.
+     * String node.
      *
      * @var Doozr_Configuration_Hierarchy_I18n_L10n_String
      */
     public $string;
 
     /**
-     * The datetime node.
+     * Datetime node.
      *
      * @var Doozr_Configuration_Hierarchy_I18n_L10n_Datetime
      */
     public $datetime;
+
+    /**
+     * Redirect node.
+     *
+     * @var Doozr_Configuration_Hierarchy_I18n_L10n_Redirect
+     */
+    public $redirect;
 }

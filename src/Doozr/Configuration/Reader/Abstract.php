@@ -325,7 +325,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     /**
      * Reads a configuration file.
      * When caching is enabled it will try to read the configuration from cache. If this fails
-     * it will try to read from filesystem and stores it to cache afterwards.
+     * it will try to read from filesystem and storages it to cache afterwards.
      *
      * When caching is disabled it will always try to load from filesystem
      *

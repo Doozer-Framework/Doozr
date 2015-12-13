@@ -176,7 +176,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
     }
 
     /**
-     * Creates a new dataset from input and stores it in cache.
+     * Creates a new dataset from input and storages it in cache.
      *
      * WARNING: If you supply userdata it must not contain any linebreaks,
      * otherwise it will break the filestructure.

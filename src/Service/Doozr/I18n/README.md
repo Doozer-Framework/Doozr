@@ -89,7 +89,7 @@ You can edit these files with any text-editor you like. Just place one `key = va
    - **Interface text** `Doozr_I18n_Service_Interface_Text`
 
 ### Examples (code)
-Detect clients prefered locale:
+Detect clients preferred locale:
 
     $locale = $i18n->getClientPreferredLocale();
 

@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base Model Interface
+ * Doozr - Configuration - Hierarchy
  *
- * Interface.php - Base Model Interface of the Doozr Framework
+ * Hierarchy.php - The "root" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -40,11 +40,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
+ * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Hierarchy
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
@@ -53,41 +53,38 @@
  */
 
 /**
- * Doozr - Base Model Interface
+ * Doozr - Configuration - Hierarchy - Kernel
  *
- * Base Model Interface of the Doozr Framework
+ * The "kernel" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Configuration
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Base_Model_Interface
+class Doozr_Configuration_Hierarchy
 {
     /**
-     * storages data
+     * The caching node of the configuration.
      *
-     * This method should store the data in a way that it can be retrieved in
-     * further processing e.g. for dispatch-process.
-     *
-     * @param mixed $data The data to store
-     *
-     * @return  boolean TRUE if storing was successful, otherwise FALSE
-     * @access  public
+     * @var Doozr_Configuration_Hierarchy_Kernel
+     * @access public
      */
-    public function setData($data);
+    public $kernel;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Services
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * returns data
+     * Node of service I18n.
      *
-     * This method should return the data which was stored via setData.
-     *
-     * @return  mixed The data
-     * @access  public
+     * @var Doozr_Configuration_Hierarchy_I18n
+     * @access public
      */
-    public function getData();
+    public $i18n;
 }

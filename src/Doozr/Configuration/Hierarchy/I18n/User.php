@@ -72,11 +72,11 @@
 class Doozr_Configuration_Hierarchy_I18n_User
 {
     /**
-     * Stores of user preferences.
+     * Storages for user preferences.
      *
      * @var array
      */
-    public $stores = [
+    public $storages = [
         'session',
         'cookie',
     ];

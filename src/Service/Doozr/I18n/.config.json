@@ -20,7 +20,7 @@
       "interface": "Text"
     },
     "user": {
-      "stores": [
+      "storages": [
         "session",
         "cookie"
       ],

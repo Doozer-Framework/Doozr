@@ -124,48 +124,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     protected static $configurationByLocale = [];
 
     /**
-     * Default formatter of I18n service.
-     *
-     * @var string
-     */
-    const FORMAT_DEFAULT = 'String';
-
-    /**
-     * Localizer for Strings (Bad-Word replacement, Highlighting, ...).
-     *
-     * @var string
-     */
-    const FORMAT_STRING = 'String';
-
-    /**
-     * Localizer for Currencies (Thousands-Separator, Decimal-Dot, Currency-Sign + position ...).
-     *
-     * @var string
-     */
-    const FORMAT_CURRENCY = 'Currency';
-
-    /**
-     * Localizer for Datetime values (Year-Month-Day date position, start of week [Sun/Mondays] ...).
-     *
-     * @var string
-     */
-    const FORMAT_DATETIME = 'Datetime';
-
-    /**
-     * Localizer for Measure values meter, kilometer, miles, inches (...).
-     *
-     * @var string
-     */
-    const FORMAT_MEASURE = 'Measure';
-
-    /**
-     * Localizer for Numbers (...).
-     *
-     * @var string
-     */
-    const FORMAT_NUMBER = 'Number';
-
-    /**
      * The translator singleton for templates.
      *
      * @var Doozr_I18n_Service_Translator
@@ -229,6 +187,14 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     const LOCALIZER_STRING   = 'STRING';
 
     /**
+     * Default formatter of I18n service.
+     *
+     * @var string
+     */
+    const LOCALIZER_DEFAULT = self::LOCALIZER_STRING;
+
+
+    /**
      * Constructor for services.
      *
      * This method is a replacement for __construct
@@ -254,7 +220,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // If no locale was passed then we try to read the preferred locale from client
         if (null === $locale) {
             $locale = $this->getClientPreferredLocale();
-
         }
 
         $this->setActiveLocale($locale);
@@ -346,7 +311,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
             // Get detector
             $detector = $this->getDetector();
 
-            // Detect user's prefered locale
+            // Detect user's preferred locale
             $detector->detect();
 
             // get the locale from detector
@@ -381,7 +346,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @throws Doozr_I18n_Service_Exception
      */
-    public function getLocalizer($type = self::FORMAT_DEFAULT, $locale = null)
+    public function getLocalizer($type = self::LOCALIZER_DEFAULT, $locale = null)
     {
         // If no locale was passed use the active one
         if ($locale === null) {
@@ -452,8 +417,8 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // check for redirect
         if (isset($input['redirect'])) {
             $translator = $this->getTranslator($input['redirect'], $encoding);
+
         } else {
-            //sprintf('Translator for: "%s" loaded.' . PHP_EOL, $locale);
             $translator = new Doozr_I18n_Service_Translator($locale, $encoding, self::$config, $input['config']);
         }
 
@@ -763,6 +728,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         try {
             $redirectLocale = $config->redirect->target;
             $this->activeLocale = $redirectLocale;
+
         } catch (Whoops\Exception\ErrorException $e) {
             $redirectLocale = null;
         } catch (Exception $e) {
@@ -789,9 +755,11 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         if (!self::$templateTranslator) {
             self::$templateTranslator = $this->getTranslator();
 
+            /*
             self::$templateTranslator->setNamespace(
                 self::$config->i18n->default->namespace
             );
+            */
         }
     }
 
