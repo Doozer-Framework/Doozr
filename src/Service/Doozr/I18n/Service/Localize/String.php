@@ -174,7 +174,7 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
 
         // get replace character
         try {
-            $replacecharacter = $this->getConfig()->words->replacecharacter;
+            $replacecharacter = $this->getConfiguration()->words->replacecharacter;
         } catch (Doozr_Config_Service_Exception $e) {
             $replacecharacter = '*';
         }
@@ -216,7 +216,7 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
     private function _createSpecialWordTable()
     {
         // get l10n config for strings
-        $config = $this->getConfig();
+        $config = $this->getConfiguration();
 
         // assume empty special word table
         $this->_specialWordTable = [];
@@ -236,7 +236,7 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
     private function _createBadWordTable()
     {
         // get l10n config for strings
-        $config = $this->getConfig();
+        $config = $this->getConfiguration();
 
         // create empty table
         $this->_badWordTable = [];

@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service.
+ * Doozr - I18n - Service - Detector.
  *
  * Detector.php - Locale detection part of the I18n service.
  *
@@ -56,7 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 
 /**
- * Doozr - I18n - Service.
+ * Doozr - I18n - Service - Detector.
  *
  * Locale detection part of the I18n service.
  *
@@ -73,7 +73,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
 {
     /**
-     * Array containing the "default" for fallback solutions.
+     * Collection of "defaults" as fallback.
      *
      * @var array
      * @static
@@ -81,15 +81,15 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected static $default;
 
     /**
-     * Store(s) available for storing preferences.
+     * Collection of storages available for storing user preferences.
      *
      * @var array
      * @static
      */
-    protected static $stores;
+    protected static $storages;
 
     /**
-     * Identifier used to identify I18n prefered data in store(s).
+     * Identifier of data in storages.
      *
      * @var string
      * @static
@@ -97,7 +97,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected static $identifier;
 
     /**
-     * Array containing all available locales on the system.
+     * Collection of available locales on current system/os.
      *
      * @var string[]
      * @static
@@ -113,7 +113,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected static $session;
 
     /**
-     * Status of initialization.
+     * Whether initialized or not.
      *
      * @var bool
      * @static
@@ -121,21 +121,21 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected static $initialized = false;
 
     /**
-     * Current active and prefered locale.
+     * Active & preferred locale.
      *
      * @var string
      */
     protected $locale;
 
     /**
-     * Current active and preferred weight.
+     * Active & preferred weight.
      *
      * @var float
      */
     protected $weight;
 
     /**
-     * Current active and preferred language.
+     * Active & preferred language.
      *
      * @var string
      */
@@ -149,51 +149,49 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected $country;
 
     /**
-     * Array containing all detected locales.
+     * Collection of detected locales.
      *
      * @var array
      */
     protected $detectedLocales;
 
     /**
-     * Array containing all detected languages.
+     * Collection of detected languages.
      *
      * @var array
      */
     protected $detectedLanguages;
 
     /**
-     * Array containing all detected countries.
+     * Collection of detected countries.
      *
      * @var array
      */
     protected $detectedCountries;
 
     /**
-     * The lifetime for stored preferences.
+     * Lifetime of stored preferences.
      *
      * @var int
      */
     protected static $preferenceLifetime = 7776000;
 
     /**
-     * TRUE if any new value was detected, otherwise
-     * FALSE.
+     * Whether something was touched (dirty state).
      *
      * @var bool
      */
-    protected $touched = false;
+    protected $dirty = false;
 
     /**
      * Instance of Doozr_Registry.
      *
-     * @var Doozr_Registry_Interface
+     * @var Doozr_Registry
      */
     protected static $registry;
 
     /**
-     * Runtime environment (Cli || Web || Httpd)
-     * To know if cookie and session is accessible.
+     * Runtime environment (Cli || Web || Httpd) [To know if cookie and session is accessible].
      *
      * @var string
      * @static
@@ -203,38 +201,39 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     /**
      * This method is intend to act as constructor.
      *
-     * @param Doozr_Configuration_Interface $config   Instance of Doozr_Config_Ini containing the I18n-config
-     * @param Doozr_Registry_Interface      $registry Instance of Doozr_Registry
+     * @param Doozr_Configuration_Interface $configuration Instance of Doozr_Config_Ini containing the I18n-configuration
+     * @param Doozr_Registry_Interface      $registry      Instance of Doozr_Registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return \Doozr_I18n_Service_Detector Instance of this class
      */
-    protected function __construct(Doozr_Configuration_Interface $config, Doozr_Registry_Interface $registry)
+    protected function __construct(Doozr_Configuration_Interface $configuration, Doozr_Registry_Interface $registry)
     {
         // Store registry
         self::$registry = $registry;
         self::$runtimeEnvironment = DOOZR_RUNTIME_ENVIRONMENT;
 
         // Locale default
+        /* @var $configuration Doozr_Configuration_Hierarchy */
         self::$default = [
-            'locale' => $config->i18n->default->locale,
-            'language' => $config->i18n->default->language,
-            'country' => $config->i18n->default->country,
-            'weight' => $config->i18n->default->weight,
+            'locale' => $configuration->i18n->default->locale,
+            'language' => $configuration->i18n->default->language,
+            'country' => $configuration->i18n->default->country,
+            'weight' => $configuration->i18n->default->weight,
         ];
 
         // a collection of locales available
-        self::$availableLocales = (array) $config->i18n->default->available;
+        self::$availableLocales = (array) $configuration->i18n->default->available;
 
-        // get "prefered-locale"-stores in correct order
-        self::$stores = $config->i18n->user->stores;
+        // get "preferred-locale"-storages in correct order
+        self::$storages = $configuration->i18n->user->storages;
 
         // get lifetime for stored preference data
-        self::$preferenceLifetime = $config->i18n->user->lifetime;
+        self::$preferenceLifetime = $configuration->i18n->user->lifetime;
 
-        // the identifier for stores
-        self::$identifier = $config->i18n->user->identifier;
+        // the identifier for storages
+        self::$identifier = $configuration->i18n->user->identifier;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -322,7 +321,6 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     public function getCountry()
     {
-        // get the stored country
         return $this->country;
     }
 
@@ -335,7 +333,6 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     public function getCountries()
     {
-        // get all stored locales
         return $this->detectedCountries;
     }
 
@@ -348,7 +345,6 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     public function getLanguage()
     {
-        // get the stored language
         return $this->language;
     }
 
@@ -361,7 +357,6 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     public function getLanguages()
     {
-        // get all stored locales
         return $this->detectedLanguages;
     }
 
@@ -396,7 +391,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to detect the user prefered locale.
+     * This method is intend to detect the user preferred locale.
      *
      * @param bool $lookupAlternative TRUE to try to find a matching locale, FALSE to use systems default as fallback
      *
@@ -407,7 +402,6 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     public function detect($lookupAlternative = true)
     {
         if (!self::$initialized) {
-            // finally init
             self::$initialized = $this->init($lookupAlternative);
         }
 
@@ -415,7 +409,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Overrides locale config and stores it to configured stores.
+     * Overrides locale configuration and storages it to configured storages.
      *
      * @param array $preferences The preferences to store
      *
@@ -497,7 +491,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
             }
 
             // we did change something
-            $this->touched = true;
+            $this->dirty = true;
         }
 
         // store retrieved data in class and afterwards in store(s)
@@ -506,8 +500,8 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         $this->language = $userPreferences['language'];
         $this->country = $userPreferences['country'];
 
-        // finally store in defines stores
-        if ($this->touched) {
+        // finally store in defines storages
+        if ($this->dirty) {
             $this->writePreferences($userPreferences);
         }
 
@@ -516,7 +510,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to write the given preferences to all configured stores.
+     * This method is intend to write the given preferences to all configured storages.
      *
      * @param array $preferences The preferences to store
      *
@@ -531,12 +525,12 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
 
         if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI !== self::$runtimeEnvironment) {
 
-            // iterate over stores and try to reconstruct the previously stored preferences
-            foreach (self::$stores as $store) {
-                // construct method-name for current store
-                $method = 'write'.ucfirst($store);
+            // iterate over storages and try to reconstruct the previously stored preferences
+            foreach (self::$storages as $storage) {
+                // construct method-name for current storage
+                $method = 'write'.ucfirst($storage);
 
-                // try to get preferences from store
+                // try to get preferences from storage
                 $result = $result && $this->{$method}($preferences);
             }
         }
@@ -550,7 +544,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return array An array containing the prefered "locale" + "weight", "language" and "country"
+     * @return array An array containing the preferred "locale" + "weight", "language" and "country"
      */
     private function detectPreferences()
     {
@@ -575,11 +569,11 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to return the user's prefered, previously stored, locale from store.
+     * This method is intend to return the user's preferred, previously stored, locale from store.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return mixed ARRAY containing the prefered-config, otherwise NULL
+     * @return array|null Collection of the preferred-configuration, otherwise NULL
      */
     protected function readPreferences()
     {
@@ -588,12 +582,12 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
 
         if (Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI !== self::$runtimeEnvironment) {
 
-            // iterate over stores and try to reconstruct the previously stored preferences
-            foreach (self::$stores as $store) {
-                // construct method-name for current store
-                $method = 'read'.ucfirst($store);
+            // iterate over storages and try to reconstruct the previously stored preferences
+            foreach (self::$storages as $storage) {
+                // construct method-name for current storage
+                $method = 'read'.ucfirst($storage);
 
-                // try to get preferences from store
+                // try to get preferences from storage
                 $storedPreferences = $this->{$method}();
 
                 // if result was retrieved successfully we can
@@ -764,7 +758,6 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
             ];
         }
 
-        // return new constructed
         return $locales;
     }
 
@@ -836,12 +829,11 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     protected function writeSession(array $preferences)
     {
-        // store preferences in session and return result
         return $this->getSession()->set(self::$identifier, $preferences);
     }
 
     /**
-     * This method is intend to read a previous stored locale-config from session.
+     * This method is intend to read a previous stored locale-configuration from session.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -849,19 +841,18 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     protected function readSession()
     {
-        // assume empty cookie / no stored config
+        // Assume empty cookie / no stored configuration
         try {
             $storedSettings = $this->getSession()->get(self::$identifier);
         } catch (Doozr_Session_Service_Exception $e) {
             $storedSettings = null;
         }
 
-        // check the result for validity
+        // Check the result for validity
         if (!$storedSettings || !$this->isValidLocaleCode($storedSettings['locale'])) {
-            return;
+            $storedSettings = null;
         }
 
-        // return result
         return $storedSettings;
     }
 
@@ -876,7 +867,6 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     protected function writeCookie(array $preferences)
     {
-        // combine data
         $data = implode(',', $preferences);
         $lifetime = time() + self::$preferenceLifetime;
         $path = '/';
@@ -887,12 +877,12 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
             $domain = '.'.$server[$i].$domain;
         }
 
-        // store preferences in cookie and return result
+        // Store preferences in cookie and return result
         return setcookie(self::$identifier, $data, $lifetime, $path, $domain);
     }
 
     /**
-     * This method is intend to read a cookie with a previous stored locale-config (state).
+     * This method is intend to read a cookie with a previous stored locale-configuration (state).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -900,7 +890,6 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     protected function readCookie()
     {
-        // check if is set
         if (isset($_COOKIE[self::$identifier])) {
             $storedSettings = explode(',', $_COOKIE[self::$identifier]);
 
@@ -920,7 +909,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
             }
         }
 
-        // return result
+        // Return result
         return (isset($locale)) ? $locale : null;
     }
 }

@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Response_Gzip
+class Doozr_Configuration_Hierarchy_Kernel_Transmission_Response_Gzip
 {
     /**
      * Whether Gzip is enabled as default (e.g. "true").

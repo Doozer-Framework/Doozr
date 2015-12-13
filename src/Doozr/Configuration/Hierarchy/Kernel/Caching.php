@@ -66,7 +66,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Caching
+class Doozr_Configuration_Hierarchy_Kernel_Caching
 {
     /**
      * Whether debugging is enabled or not.
@@ -87,7 +87,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel_Caching
     /**
      * The memcache configuration used as default (e.g. "{}").
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Caching_Memcache
+     * @var Doozr_Configuration_Hierarchy_Kernel_Caching_Memcache
      * @access public
      */
     public $memcache = '{}';
@@ -95,7 +95,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel_Caching
     /**
      * The filesystem configuration used as default (e.g. "{}").
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Caching_Filesystem
+     * @var Doozr_Configuration_Hierarchy_Kernel_Caching_Filesystem
      * @access public
      */
     public $filesystem;

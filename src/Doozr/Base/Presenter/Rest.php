@@ -101,7 +101,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
     protected $routes = [];
 
     /**
-     * The seperator for the route (URL).
+     * The separator for the route (URL).
      *
      * @var string
      */

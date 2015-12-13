@@ -237,6 +237,36 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
+     * Test: If the number localizer returns correct formatted numbers.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @depends testGettingNumberLocalizerFromService
+     */
+    public function testLocalizeNumber()
+    {
+        $locale = Resource_Fixture::LOCALE_VALID;
+        self::$service->setActiveLocale($locale);
+
+        /* @var Doozr_I18n_Service_Localize_Number $number */
+        $number = self::$service->getLocalizer('Number', 'en-us');
+
+        $value = $number->number(23.55, true);
+        $this->assertEquals('23.55', $value);
+
+        $value = $number->number(1233423.55, true);
+        $this->assertEquals('1,233,423.55', $value);
+
+        /* @var Doozr_I18n_Service_Localize_Number $number */
+        $number = self::$service->getLocalizer('Number', $locale);
+
+        $value = $number->number(23.55, true);
+        $this->assertEquals('23,55', $value);
+
+        $value = $number->number(1233423.55, true);
+        $this->assertEquals('1.233.423,55', $value);
+    }
+
+    /**
      * Test: If the service returns the correct string localizer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -343,7 +373,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
         $domain = 'default';
 
         // Assertion(s)
-        $this->assertEquals(array($domain), self::$service->useDomain($domain));
+        $this->assertEquals([$domain], self::$service->useDomain($domain));
     }
 
     /**

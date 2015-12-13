@@ -66,7 +66,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Debugging
+class Doozr_Configuration_Hierarchy_Kernel_Debugging
 {
     /**
      * Whether debugging is enabled or not.

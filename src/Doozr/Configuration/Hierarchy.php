@@ -1,11 +1,10 @@
 <?php
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * Hierarchy.php - The "root" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -44,76 +43,48 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- *
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Hierarchy
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- *
  * @version    Git: $Id$
- *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - Kernel
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * The "kernel" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
- *
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Configuration
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- *
  * @version    Git: $Id$
- *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_I18n_Default
+class Doozr_Configuration_Hierarchy
 {
     /**
-     * Default locale for translations (e.g. "en-us" [default]).
+     * The caching node of the configuration.
      *
-     * @var string
+     * @var Doozr_Configuration_Hierarchy_Kernel
+     * @access public
      */
-    public $locale = 'en-us';
+    public $kernel;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Services
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Default language for translations (e.g. "en" [default]).
+     * Node of service I18n.
      *
-     * @var string
+     * @var Doozr_Configuration_Hierarchy_I18n
+     * @access public
      */
-    public $language = 'en';
-
-    /**
-     * Default country for translations (e.g. "us" [default]).
-     *
-     * @var string
-     */
-    public $country = 'us';
-
-    /**
-     * Default weight for translation set (e.g. "1" [default]).
-     *
-     * @var int
-     */
-    public $weight = 1;
-
-    /**
-     * Default available locales for translation set (e.g. "[de-de, en-gb, en-us]" [default]).
-     *
-     * @var array
-     */
-    public $available = [
-        'de-de',
-        'en-gb',
-        'en-us',
-    ];
-
-    /**
-     * Default namespace for translations (e.g. "default" [default]).
-     *
-     * @var string
-     */
-    public $namespace = 'default';
+    public $i18n;
 }

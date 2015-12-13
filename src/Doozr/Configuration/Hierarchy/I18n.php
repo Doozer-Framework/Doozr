@@ -69,19 +69,19 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_I18n
+class Doozr_Configuration_Hierarchy_I18n
 {
     /**
      * The caching node of the configuration.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_I18n_Cache
+     * @var Doozr_Configuration_Hierarchy_I18n_Cache
      */
     public $cache;
 
     /**
      * The debugging node of the configuration.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_I18n_Default
+     * @var Doozr_Configuration_Hierarchy_I18n_Default
      */
     public $default;
 
@@ -95,14 +95,14 @@ class Doozr_Base_Configuration_Hierarchy_I18n
     /**
      * Translator configuration.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_I18n_Translator
+     * @var Doozr_Configuration_Hierarchy_I18n_Translator
      */
     public $translator;
 
     /**
      * User configuration for preferences.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_I18n_User
+     * @var Doozr_Configuration_Hierarchy_I18n_User
      */
     public $user;
 }

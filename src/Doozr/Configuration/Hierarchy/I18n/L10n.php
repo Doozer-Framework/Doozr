@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * L10n.php - The "L10n" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * L10n.php - The "L10n" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -69,51 +69,54 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_I18n_Default
+class Doozr_Configuration_Hierarchy_I18n_L10n
 {
     /**
-     * Default locale for translations (e.g. "en-us" [default]).
+     * Encoding node.
      *
-     * @var string
+     * @var Doozr_Configuration_Hierarchy_I18n_L10n_Encoding
      */
-    public $locale = 'en-us';
+    public $encoding;
 
     /**
-     * Default language for translations (e.g. "en" [default]).
+     * Currency node.
      *
-     * @var string
+     * @var Doozr_Configuration_Hierarchy_I18n_L10n_Currency
      */
-    public $language = 'en';
+    public $currency;
 
     /**
-     * Default country for translations (e.g. "us" [default]).
+     * Number node.
      *
-     * @var string
+     * @var Doozr_Configuration_Hierarchy_I18n_L10n_Number
      */
-    public $country = 'us';
+    public $number;
 
     /**
-     * Default weight for translation set (e.g. "1" [default]).
+     * Measure node.
      *
-     * @var int
+     * @var Doozr_Configuration_Hierarchy_I18n_L10n_Measure
      */
-    public $weight = 1;
+    public $measure;
 
     /**
-     * Default available locales for translation set (e.g. "[de-de, en-gb, en-us]" [default]).
+     * String node.
      *
-     * @var array
+     * @var Doozr_Configuration_Hierarchy_I18n_L10n_String
      */
-    public $available = [
-        'de-de',
-        'en-gb',
-        'en-us',
-    ];
+    public $string;
 
     /**
-     * Default namespace for translations (e.g. "default" [default]).
+     * Datetime node.
      *
-     * @var string
+     * @var Doozr_Configuration_Hierarchy_I18n_L10n_Datetime
      */
-    public $namespace = 'default';
+    public $datetime;
+
+    /**
+     * Redirect node.
+     *
+     * @var Doozr_Configuration_Hierarchy_I18n_L10n_Redirect
+     */
+    public $redirect;
 }

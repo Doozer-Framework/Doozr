@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n - Measure.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * Measure.php - The "Measure" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n - Measure.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * Measure.php - The "Measure" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -69,51 +69,12 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_I18n_Default
+class Doozr_Configuration_Hierarchy_I18n_L10n_Measure
 {
     /**
-     * Default locale for translations (e.g. "en-us" [default]).
+     * Measure system.
      *
      * @var string
      */
-    public $locale = 'en-us';
-
-    /**
-     * Default language for translations (e.g. "en" [default]).
-     *
-     * @var string
-     */
-    public $language = 'en';
-
-    /**
-     * Default country for translations (e.g. "us" [default]).
-     *
-     * @var string
-     */
-    public $country = 'us';
-
-    /**
-     * Default weight for translation set (e.g. "1" [default]).
-     *
-     * @var int
-     */
-    public $weight = 1;
-
-    /**
-     * Default available locales for translation set (e.g. "[de-de, en-gb, en-us]" [default]).
-     *
-     * @var array
-     */
-    public $available = [
-        'de-de',
-        'en-gb',
-        'en-us',
-    ];
-
-    /**
-     * Default namespace for translations (e.g. "default" [default]).
-     *
-     * @var string
-     */
-    public $namespace = 'default';
+    public $measure_system = 'si';
 }

@@ -69,7 +69,7 @@
 interface Doozr_Base_Model_Interface
 {
     /**
-     * stores data
+     * storages data
      *
      * This method should store the data in a way that it can be retrieved in
      * further processing e.g. for dispatch-process.

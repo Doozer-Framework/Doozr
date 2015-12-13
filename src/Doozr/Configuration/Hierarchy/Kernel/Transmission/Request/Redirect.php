@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect
+class Doozr_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect
 {
     /**
      * Comma separated list of excluded words (excluded from processing/matching routes).
@@ -93,7 +93,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect
     /**
      * Redirect pattern.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect_Pattern
+     * @var Doozr_Configuration_Hierarchy_Kernel_Transmission_Request_Redirect_Pattern
      */
     public $pattern;
 }

@@ -130,7 +130,7 @@ class Doozr_View_Web extends Doozr_Base_View
         }
 
         // If data was/could not be retrieved we get it fresh here ...
-        if ($html === null) {
+        if (null === $html) {
             // Get name of template file
             $templateFile = $this->configuration->kernel->view->template->path .
                             $this->translateToTemplateFilename() . '.' . $this->getTemplateExtension();
@@ -146,13 +146,19 @@ class Doozr_View_Web extends Doozr_Base_View
             $template->setForceReparse(true);
             $template->setCacheLifetime(-1);
 
-
             // Set output runtimeEnvironment ...
             $template->setOutputMode($this->getOutputMode());
 
-            // if I18n passed -> forward to template engine (e.g. PHPTAL)
+            // If I18n passed -> forward to template engine (e.g. PHPTAL)
             if (null !== $i18n) {
-                $i18n->useDomain($this->translateToTextdomain());
+                try {
+                    $i18n->useDomain($this->translateToTextdomain());
+
+                } catch (Doozr_I18n_Service_Exception $e) {
+                    // We don't care but we log for developing purposes
+                    $this->getRegistry()->getLogger()->debug($e->getMessage());
+                }
+
                 $template->setTranslator($i18n);
                 $template->{'doozr_locale'} = $i18n->getActiveLocale();
             }

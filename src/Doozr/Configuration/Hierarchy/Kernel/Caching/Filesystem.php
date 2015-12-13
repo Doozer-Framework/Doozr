@@ -67,7 +67,7 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Caching_Filesystem
+class Doozr_Configuration_Hierarchy_Kernel_Caching_Filesystem
 {
     /**
      * The directory where the content gets cached as file.

@@ -188,23 +188,23 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     /**
      * Constructor.
      *
-     * This method is intend to act as constructor.
-     *
-     * @param string                        $locale     The locale this instance is working with
-     * @param string                        $encoding   The encoding for this instance
-     * @param Doozr_Configuration_Interface $configI18n An instance of Doozr_Config_Ini holding the I18n-config
-     * @param Doozr_Configuration_Interface $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
+     * @param string                        $locale        Locale
+     * @param string                        $encoding      Encoding for this instance
+     * @param Doozr_Configuration_Interface $configuration Instance of Doozr_Config_Ini holding the I18n-config
+     * @param Doozr_Configuration_Interface $configL10n    Instance of Doozr_Config_Ini holding the I10n-config (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return \Doozr_I18n_Service_Translator Instance of this class
      */
     public function __construct(
-                               $locale,
-                               $encoding,
-        Doozr_Configuration_Interface $configI18n,
+                                      $locale,
+                                      $encoding,
+        Doozr_Configuration_Interface $configuration,
         Doozr_Configuration_Interface $configL10n
     ) {
+        /* @var Doozr_Configuration_Hierarchy $configuration */
+        /* @var Doozr_Configuration_Hierarchy_I18n_L10n $configL10n */
         $this
             ->locale($locale)
             ->redirectLocale(
@@ -213,13 +213,13 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
                     null
             )
             ->encoding($encoding)
-            ->cacheEnabled($configI18n->kernel->caching->enabled)
-            ->cacheLifetime($configI18n->kernel->caching->lifetime)
-            ->pathToTranslations($configI18n->i18n->path)
+            ->cacheEnabled($configuration->kernel->caching->enabled)
+            ->cacheLifetime($configuration->kernel->caching->lifetime)
+            ->pathToTranslations($configuration->i18n->path)
             ->translatorInterface(
-                ucfirst(strtolower($configI18n->i18n->translator->interface))
+                ucfirst(strtolower($configuration->i18n->translator->interface))
             )
-            ->configI18n($configI18n)
+            ->configI18n($configuration)
             ->configL10n($configL10n);
     }
 
@@ -885,7 +885,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     protected function namespaceChanged()
     {
         // Get locale we target (performance)
-        $encoding       = $this->getEncoding();
+        $encoding = $this->getEncoding();
         $redirectLocale = $this->getRedirectLocale();
 
         // Init interface for translation
@@ -918,11 +918,11 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     protected function translatorInterfaceFactory()
     {
         // Combine some parts to a config for the interface
-        $config                  = $this->getConfigI18n()->i18n;
-        $config->path            = $this->getPathToTranslations();
-        $config->cache->enabled  = $this->getCacheEnabled();
+        $config = $this->getConfigI18n()->i18n;
+        $config->path = $this->getPathToTranslations();
+        $config->cache->enabled = $this->getCacheEnabled();
         $config->cache->lifetime = $this->getCacheLifetime();
-        $config->encoding        = $this->getEncoding();
+        $config->encoding = $this->getEncoding();
 
         // Include required file -> NO autoloading -> cause of performance!
         include_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/'.
@@ -954,7 +954,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     {
         $encoding = $this->getEncoding();
 
-        if ($this->hasNamespace() === false) {
+        if (false === $this->hasNamespace()) {
             throw new Doozr_I18n_Service_Exception(
                 'Translation without namespace is not possible. Please set a namespace via setNamespace(...) '.
                 'or addNamespace(...) first.'

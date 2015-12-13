@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n - Datetime.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * Datetime.php - The "Datetime" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - Default.
+ * Doozr - Configuration - Hierarchy - I18n - L10n - Datetime.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * Datetime.php - The "Datetime" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -69,51 +69,84 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_I18n_Default
+class Doozr_Configuration_Hierarchy_I18n_L10n_Datetime
 {
     /**
-     * Default locale for translations (e.g. "en-us" [default]).
-     *
-     * @var string
-     */
-    public $locale = 'en-us';
-
-    /**
-     * Default language for translations (e.g. "en" [default]).
-     *
-     * @var string
-     */
-    public $language = 'en';
-
-    /**
-     * Default country for translations (e.g. "us" [default]).
-     *
-     * @var string
-     */
-    public $country = 'us';
-
-    /**
-     * Default weight for translation set (e.g. "1" [default]).
+     * Default timeset.
      *
      * @var int
      */
-    public $weight = 1;
+    public $default_timeset = 0;
 
     /**
-     * Default available locales for translation set (e.g. "[de-de, en-gb, en-us]" [default]).
-     *
-     * @var array
-     */
-    public $available = [
-        'de-de',
-        'en-gb',
-        'en-us',
-    ];
-
-    /**
-     * Default namespace for translations (e.g. "default" [default]).
+     * Short date.
+     * http://php.net/manual/en/function.date.php
      *
      * @var string
      */
-    public $namespace = 'default';
+    public $short_date = 'j.n.Y';
+
+    /**
+     * Short time.
+     * http://php.net/manual/en/function.date.php
+     *
+     * @var string
+     */
+    public $short_time = 'G:i';
+
+    /**
+     * Short datetime.
+     * http://php.net/manual/en/function.date.php
+     *
+     * @var string
+     */
+    public $short_datetime = 'j.n.Y - G.i';
+
+    /**
+     * Middle date.
+     * http://php.net/manual/en/function.date.php
+     *
+     * @var string
+     */
+    public $middle_date = 'dayname_short, j. monthname_short Y';
+
+    /**
+     * Middle time.
+     * http://php.net/manual/en/function.date.php
+     *
+     * @var string
+     */
+    public $middle_time = 'G.i hour';
+
+    /**
+     * Middle datetime.
+     * http://php.net/manual/en/function.date.php
+     *
+     * @var string
+     */
+    public $middle_datetime = 'dayname_short, j. monthname_short. Y - G.i hour';
+
+    /**
+     * Long date.
+     * http://php.net/manual/en/function.date.php
+     *
+     * @var string
+     */
+    public $long_date = 'dayname, j. monthname Y';
+
+    /**
+     * Long time.
+     * http://php.net/manual/en/function.date.php
+     *
+     * @var string
+     */
+    public $long_time = 'G.i hour';
+
+    /**
+     * Long datetime.
+     * http://php.net/manual/en/function.date.php
+     *
+     * @var string
+     */
+    public $long_datetime = 'dayname, j. monthname Y - G.i hour';
 }

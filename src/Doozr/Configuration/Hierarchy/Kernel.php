@@ -66,12 +66,12 @@
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel
+class Doozr_Configuration_Hierarchy_Kernel
 {
     /**
      * The caching node of the configuration.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Caching
+     * @var Doozr_Configuration_Hierarchy_Kernel_Caching
      * @access public
      */
     public $caching;
@@ -79,7 +79,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The debugging node of the configuration.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Debugging
+     * @var Doozr_Configuration_Hierarchy_Kernel_Debugging
      * @access public
      */
     public $debugging;
@@ -87,7 +87,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The localization node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Localization
+     * @var Doozr_Configuration_Hierarchy_Kernel_Localization
      * @access public
      */
     public $localization;
@@ -95,7 +95,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The logging node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Logging
+     * @var Doozr_Configuration_Hierarchy_Kernel_Logging
      * @access public
      */
     public $logging;
@@ -103,7 +103,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The model node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Model
+     * @var Doozr_Configuration_Hierarchy_Kernel_Model
      * @access public
      */
     public $model;
@@ -111,7 +111,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The path node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Path
+     * @var Doozr_Configuration_Hierarchy_Kernel_Path
      * @access public
      */
     public $path;
@@ -119,7 +119,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The presenter node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Presenter
+     * @var Doozr_Configuration_Hierarchy_Kernel_Presenter
      * @access public
      */
     public $presenter;
@@ -127,7 +127,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The security node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Security
+     * @var Doozr_Configuration_Hierarchy_Kernel_Security
      * @access public
      */
     public $security;
@@ -135,7 +135,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The services node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Services
+     * @var Doozr_Configuration_Hierarchy_Kernel_Services
      * @access public
      */
     public $services;
@@ -143,7 +143,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The system node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_System
+     * @var Doozr_Configuration_Hierarchy_Kernel_System
      * @access public
      */
     public $system;
@@ -151,7 +151,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The transmission node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Transmission
+     * @var Doozr_Configuration_Hierarchy_Kernel_Transmission
      * @access public
      */
     public $transmission;
@@ -159,7 +159,7 @@ class Doozr_Base_Configuration_Hierarchy_Kernel
     /**
      * The view node of the configuration
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_View
+     * @var Doozr_Configuration_Hierarchy_Kernel_View
      * @access public
      */
     public $view;

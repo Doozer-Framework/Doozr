@@ -91,9 +91,9 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
     Doozr_Session_Service_Interface
 {
     /**
-     * Instance of Doozr_Crypt
+     * Instance of Doozr_Crypt_Service
      *
-     * @var Doozr_Crypt
+     * @var Doozr_Crypt_Service
      * @access protected
      */
     protected $crypt;
@@ -1171,7 +1171,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
     }
 
     /**
-     * stores a given variable with value in session
+     * storages a given variable with value in session
      *
      * This method is intend to store a given variable with value in session
      *

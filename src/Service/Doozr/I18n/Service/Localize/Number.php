@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Number
+ * Doozr - I18n - Service - Localize - Number.
  *
  * Number.php - This localizer is responsible to localize (L10N) values of type number.
  *
@@ -43,84 +44,92 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Localize/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * Doozr - I18n - Service - Localize - Number
+ * Doozr - I18n - Service - Localize - Number.
  *
  * This localizer is responsible to localize (L10N) values of type number.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_I18n_Service_Localize_Number extends Doozr_I18n_Service_Localize_Abstract
 {
+    /**
+     * Type of the current localizer.
+     *
+     * @var string
+     * @access protected
+     */
+    protected $type = Doozr_I18n_Service::LOCALIZER_NUMBER;
+
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to format a given value as percentage value.
+     * Formats value as percentage value.
      *
-     * @param string  $value      The value to format as percentage value
-     * @param bool    $showSymbol TRUE to show %-symbol, FALSE to hide
-     * @param string  $spacer     The spacer placed between value and symbol
+     * @param string $value      The value to format as percentage value
+     * @param bool   $showSymbol TRUE to show %-symbol, FALSE to hide
+     * @param string $spacer     The spacer placed between value and symbol
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The formatted percentage value
-     * @access public
+     *
+     * @return string Formatted percentage value
      */
     public function percent($value, $showSymbol = false, $spacer = ' ')
     {
-        // format the given value
-        $formatted = number_format(
-            $value,
-            $this->config->currency->minor_unit,
-            $this->config->currency->decimal_point,
-            $this->config->currency->thousands_seperator
-        );
+        if (true === $showSymbol) {
+            $formatted = $spacer.'%';
 
-        if ($showSymbol) {
-            $formatted .= $spacer.'%';
+        } else {
+            $formatted = '';
         }
 
-        // return formatted (currency) result
-        return $formatted;
+        // Format given value
+        return number_format(
+            $value,
+            $this->getConfiguration()->number->minor_unit,
+            $this->getConfiguration()->number->decimal_point,
+            $this->getConfiguration()->number->thousands_separator
+        ) . $formatted;
     }
 
     /**
-     * This method is intend to format a given value as percentage value.
+     * Formats a value/number to formatted string value.
      *
-     * @param string $value                 The value to format as percentage value
-     * @param bool   $floatingPointNotation Controls if the number should be formatted by floating point notation
+     * @param string $value                 Value to format as number
+     * @param bool   $floatingPointNotation Whether
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The formatted percentage value
-     * @access public
+     *
+     * @return string Formatted value
      */
     public function number($value, $floatingPointNotation = false)
     {
-        // Format the given value
         return number_format(
             $value,
-            ($floatingPointNotation) ? $this->config->currency->minor_unit : 0,
-            $this->config->currency->decimal_point,
-            $this->config->currency->thousands_seperator
+            (true === $floatingPointNotation) ? $this->getConfiguration()->number->minor_unit : 0,
+            $this->getConfiguration()->number->decimal_point,
+            $this->getConfiguration()->number->thousands_separator
         );
     }
 }

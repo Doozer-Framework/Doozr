@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Routing
+class Doozr_Configuration_Hierarchy_Kernel_Transmission_Routing
 {
     /**
      * The routing configuration node.
