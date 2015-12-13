@@ -13,7 +13,7 @@ namespace App;
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * @category   Doozr
  * @package    Doozr_App
