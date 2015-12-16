@@ -12,7 +12,7 @@
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -101,7 +101,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
     protected $routes = [];
 
     /**
-     * The seperator for the route (URL).
+     * The separator for the route (URL).
      *
      * @var string
      */

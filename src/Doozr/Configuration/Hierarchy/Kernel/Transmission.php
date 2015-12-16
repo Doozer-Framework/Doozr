@@ -12,7 +12,7 @@
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -69,33 +69,33 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Configuration_Hierarchy_Kernel_Transmission
+class Doozr_Configuration_Hierarchy_Kernel_Transmission
 {
     /**
      * The routing configuration node.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Routing
+     * @var Doozr_Configuration_Hierarchy_Kernel_Transmission_Routing
      */
     public $routing;
 
     /**
      * The ssl configuration node.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Ssl
+     * @var Doozr_Configuration_Hierarchy_Kernel_Transmission_Ssl
      */
     public $ssl;
 
     /**
      * The response configuration node.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Response
+     * @var Doozr_Configuration_Hierarchy_Kernel_Transmission_Response
      */
     public $response;
 
     /**
      * The request configuration node.
      *
-     * @var Doozr_Base_Configuration_Hierarchy_Kernel_Transmission_Request
+     * @var Doozr_Configuration_Hierarchy_Kernel_Transmission_Request
      */
     public $request;
 }

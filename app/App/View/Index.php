@@ -13,7 +13,7 @@ namespace App;
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * @category   Doozr
  * @package    Doozr_App
@@ -55,7 +55,10 @@ final class View_Index extends \Doozr_View_Web
          */
         $fingerprint = $session->getIdentifier();
 
+        // Get I18n service instance
+        $i18nService = \Doozr_Loader_Serviceloader::load('i18n', $this->getRegistry()->getConfiguration());
+
         // Render data from model
-        return $this->render($data, $fingerprint);
+        return $this->render($data, $fingerprint, $i18nService);
     }
 }

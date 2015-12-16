@@ -1,3 +1,4 @@
+Welcome = Welcome
 Yes = Yes
 No = No
 hour = hour

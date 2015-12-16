@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Currency
+ * Doozr - I18n - Service - Localize - Currency.
  *
  * Currency.php - Currency formatter
  *
@@ -11,7 +12,7 @@
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,48 +44,47 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/I18n/Service/Localize/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * Doozr - I18n - Service - Localize - Currency
+ * Doozr - I18n - Service - Localize - Currency.
  *
  * Currency.php - Currency formatter
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_Abstract
 {
     /**
-     * Notation for display currency with symbol like $, €
+     * Notation for display currency with symbol like $, €.
      *
      * @var int
-     * @access public
      */
     const NOTATION_SYMBOL = 1;
 
     /**
-     * Notation for display currency with text like USD, EUR
+     * Notation for display currency with text like USD, EUR.
      *
      * @var int
-     * @access public
      */
-    const NOTATION_TEXT   = 2;
+    const NOTATION_TEXT = 2;
 
     /*------------------------------------------------------------------------------------------------------------------
      | PUBLIC API
@@ -100,26 +100,27 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
      * @param string $symbolPosition Set to "l" to show symbols on the left, or to "r" to show on right side
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The correct formatted currency
-     * @access public
+     *
      * @throws \Doozr_I18n_Service_Exception
      */
     public function format(
         $value,
-        $notation       = null,
-        $country        = null,
-        $encoding       = null,
+        $notation = null,
+        $country = null,
+        $encoding = null,
         $symbolPosition = null
     ) {
         // get country
         $country = (!$country) ? $this->locale : $country;
 
-        // format the given value
+        // Format given value
         $formatted = number_format(
             $value,
-            $this->configL10n->currency->minor_unit,
-            $this->configL10n->currency->decimal_point,
-            $this->configL10n->currency->thousands_seperator
+            $this->getConfiguration()->currency->minor_unit,
+            $this->getConfiguration()->currency->decimal_point,
+            $this->getConfiguration()->currency->thousands_separator
         );
 
         // is value = major (1) or minor (0)
@@ -127,7 +128,7 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
 
         // check for position override
         if (!$symbolPosition) {
-            $symbolPosition = $this->configL10n->currency->symbol_position;
+            $symbolPosition = $this->getConfiguration()->currency->symbol_position;
         }
 
         // if notation set overwrite it with the concrete notation
@@ -149,13 +150,13 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
 
             // get notation
             if ($notation === self::NOTATION_SYMBOL) {
-                $notation = $this->getConfig()->{$country}->major_symbol;
+                $notation = $this->getConfiguration()->{$country}->major_symbol;
             } else {
-                $notation = $this->getConfig()->{$country}->major_short;
+                $notation = $this->getConfiguration()->{$country}->major_short;
             }
 
             // spacing between curreny-symbol and value
-            $notationSpace = $this->configL10n->currency->notation_space;
+            $notationSpace = $this->getConfiguration()->currency->notation_space;
 
             // check where to add the symbol ...
             if ($symbolPosition == 'l') {
@@ -173,14 +174,15 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
      * This method is intend to return the currency-code for the current active locale.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The currency-code
-     * @access public
+     *
+     * @return int The currency-code
+     *
      * @throws Doozr_I18n_Service_Exception
      */
     public function getCurrencyCode()
     {
         try {
-            return $this->configL10n->currency->code;
+            return $this->getConfiguration()->currency->code;
         } catch (Exception $e) {
             throw new Doozr_I18n_Service_Exception(
                 'Error reading currency code from L10N config.', null, $e
@@ -203,15 +205,15 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
      * @param Doozr_I18n_Service_Translator $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_I18n_Service_Localize_Currency
-     * @access public
      */
     public function __construct(
-        Doozr_Registry_Interface $registry        = null,
-        $locale                                   = null,
-        $namespace                                = null,
-        $configI18n                               = null,
-        $configL10n                               = null,
+        Doozr_Registry_Interface $registry = null,
+        $locale = null,
+        $namespace = null,
+        $configI18n = null,
+        $configL10n = null,
         Doozr_I18n_Service_Translator $translator = null
     ) {
         // Set type of format-class
