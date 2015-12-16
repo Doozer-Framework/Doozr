@@ -319,8 +319,8 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testGettingAvailableLocales()
     {
         $this->assertEquals(
-            object_to_array(self::$service->getAvailableLocales()),
-            Resource_Fixture::$localesAvailable
+            Resource_Fixture::$localesAvailable,
+            object_to_array(self::$service->getAvailableLocales())
         );
     }
 

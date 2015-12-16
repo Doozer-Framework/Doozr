@@ -176,15 +176,15 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     const ENCODING_ISO_8859_16 = 'ISO-8859-16';     // south european
 
     /**
-     * Different types of localizer existing in project
+     * Different types of localizer existing in project.
      *
      * @var string
      */
     const LOCALIZER_CURRENCY = 'CURRENCY';
     const LOCALIZER_DATETIME = 'DATETIME';
-    const LOCALIZER_MEASURE  = 'MEASURE';
-    const LOCALIZER_NUMBER   = 'NUMBER';
-    const LOCALIZER_STRING   = 'STRING';
+    const LOCALIZER_MEASURE = 'MEASURE';
+    const LOCALIZER_NUMBER = 'NUMBER';
+    const LOCALIZER_STRING = 'STRING';
 
     /**
      * Default formatter of I18n service.
@@ -192,7 +192,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @var string
      */
     const LOCALIZER_DEFAULT = self::LOCALIZER_STRING;
-
 
     /**
      * Constructor for services.
@@ -248,13 +247,13 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     /**
      * Setter for available locales.
      *
-     * @param array $locales The locales to set
+     * @param array $locales Locales to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function setAvailableLocales(array $locales)
     {
-        self::$config->i18n->default->available = $locales;
+        self::$config->i18n->default->available = array_to_object($locales);
     }
 
     /**
@@ -362,9 +361,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // Check for redirect -> !
         if (true === isset($input['redirect']) && null !== $input['redirect']) {
             return $this->getLocalizer($type, $input['redirect']);
-
         } else {
-
             return self::instantiate(
                 'Doozr_I18n_Service_Localize_'.$type,
                 [
@@ -400,6 +397,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // Check if locale is available on system
         $availableLocales = object_to_array($this->getAvailableLocales());
+
         if (in_array($locale, $availableLocales) === false) {
             throw new Doozr_I18n_Service_Exception(
                 sprintf('The locale "%s" is not available by configuration.', $locale)
@@ -417,7 +415,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // check for redirect
         if (isset($input['redirect'])) {
             $translator = $this->getTranslator($input['redirect'], $encoding);
-
         } else {
             $translator = new Doozr_I18n_Service_Translator($locale, $encoding, self::$config, $input['config']);
         }
@@ -728,7 +725,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         try {
             $redirectLocale = $config->redirect->target;
             $this->activeLocale = $redirectLocale;
-
         } catch (Whoops\Exception\ErrorException $e) {
             $redirectLocale = null;
         } catch (Exception $e) {
@@ -737,9 +733,9 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // return a valid set of locale, redirect locale and the config
         return [
-            'locale'   => $locale,
+            'locale' => $locale,
             'redirect' => $redirectLocale,
-            'config'   => $config,
+            'config' => $config,
         ];
     }
 
@@ -810,7 +806,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // Check if already a config parser exist
         if (true === isset(self::$configurationByLocale[$locale])) {
             $config = self::$configurationByLocale[$locale];
-
         } else {
             $filename = self::getRegistry()->getPath()->get(
                 'app',
