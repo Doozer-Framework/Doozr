@@ -12,7 +12,7 @@
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -157,7 +157,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method stores an element in the registry under the passed key.
+     * This method storages an element in the registry under the passed key.
      *
      * @param string $variable   The variable (class, object) to store
      * @param string $identifier The identifier for the stored object, class ...

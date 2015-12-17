@@ -11,7 +11,7 @@
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -910,8 +910,8 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      */
     protected function translateToTextdomain()
     {
-        echo 'FIX REQUIRED!';die;
-        return strtolower($this->route[$this->translation[0]]);
+        // Try to load textdomain from system ...
+        return strtolower($this->getRoute()->getPresenter().$this->getRoute()->getAction());
     }
 
     /**

@@ -14,7 +14,7 @@
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -132,11 +132,11 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
             $configuration = parent::read($filename);
         }
 
-        // but we need to validate here cause our domain
+        // ... but we need to validate here cause our domain
         $configuration = $this->validate($configuration);
 
         // Error handling
-        if ($configuration === false) {
+        if (false === $configuration) {
             throw new Doozr_Configuration_Reader_Exception(
                 'Configuration could no be parsed. Ensure its valid.'
                 /* @todo Ensure Lint on error with exception = details! */
@@ -146,7 +146,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
         $this->setDecodedContent($configuration);
 
         // Cache!
-        if ($this->getCache() === true) {
+        if (true === $this->cacheEnabled()) {
             $this->getCacheService()->update($this->getUuid(), $configuration);
         }
 

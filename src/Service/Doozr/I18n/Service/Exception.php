@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n
+ * Doozr - Service - I18n.
  *
  * Exception.php - Base exception of module I18n
  *
@@ -11,7 +12,7 @@
  * LICENSE:
  * Doozr - The lightweight PHP-Framework for high-performance websites
  *
- * Copyright (c) 2005 - 2015, Benjamin Carl - All rights reserved.
+ * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,29 +44,30 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
 /**
- * Doozr Service I18n
+ * Doozr Service I18n.
  *
  * Base exception of module I18n
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_I18n_Service_Exception extends Doozr_Exception
@@ -78,20 +80,18 @@ class Doozr_I18n_Service_Exception extends Doozr_Exception
      * @param object $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {
-        // add prefix to message
-        $message = 'Doozr_I18n_Service: ' . $message;
+        // Add prefix to message
+        $message = 'Doozr_I18n_Service: '.$message;
 
-        // check default code = 0
+        // Check default code = 0
         $code = (!$code) ? 0 : $code;
 
-        // get final code
+        // Get final code
         $code = $this->generateUniqueCode($this->file, $code);
 
-        // dispatch to parent
         parent::__construct($message, $code, $previous);
     }
 }
