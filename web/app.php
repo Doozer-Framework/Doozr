@@ -77,11 +77,43 @@ try {
 // Bootstrap
 require_once 'Doozr/Bootstrap.php';
 
+use Clickalicious\CachingMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Relay\Runner;
+use Gpupo\Cache\CacheItemPool;
+use Gpupo\Cache\CacheItem;
+use Cocur\Slugify\Slugify;
 
 // Build queue for running middleware through relay
+$queue[] = function (Request $request, Response $response, callable $next) {
+
+    // Create cache item factory
+    $cacheItemFactory = function ($key) {
+        return new CacheItem($key);
+    };
+
+    // Create cache item key factory
+    $cacheItemKeyFactory = function (Request $request) {
+        static $key = null;
+        if (null === $key) {
+            $uri = $request->getUri();
+            $slugify = new Slugify();
+            $key = $slugify->slugify(trim($uri->getPath(), '/').($uri->getQuery() ? '?'.$uri->getQuery() : ''));
+        }
+        return $key;
+    };
+
+    // Get cache
+    $cachingMiddleWare = new CachingMiddleware(
+        new CacheItemPool('Filesystem'),
+        $cacheItemFactory,
+        $cacheItemKeyFactory
+    );
+
+    return $cachingMiddleWare($request, $response, $next);
+};
+
 $queue[] = function (Request $request, Response $response, callable $next) {
 
     // Boot the App kernel

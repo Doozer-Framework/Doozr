@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - Kernel - Caching.
+ * Doozr - Configuration - Hierarchy - Kernel - View - Directories.
  *
- * Caching.php - The "debugging" node representation for providing autocompletion for config values.
+ * Directories.php - The "directories" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * Doozr - Configuration - Hierarchy - Kernel - Caching.
+ * Doozr - Configuration - Hierarchy - Kernel - View - Directories.
  *
- * The "debugging" node representation for providing autocompletion for config values.
+ * The "directories" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
  *
@@ -69,40 +69,40 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_Kernel_Caching
+class Doozr_Configuration_Hierarchy_Kernel_View_Directories
 {
     /**
-     * Whether debugging is enabled or not.
-     *
-     * @var bool
-     */
-    public $enabled = true;
-
-    /**
-     * The container used as default (e.g. "filesystem").
+     * The templates path.
      *
      * @var string
      */
-    public $container = 'filesystem';
+    public $templates = '{{DOOZR_APP_ROOT}}Data/Private/Template/';
 
     /**
-     * The memcache configuration used as default (e.g. "{}").
+     * The compiled path.
      *
-     * @var Doozr_Configuration_Hierarchy_Kernel_Caching_Memcache
+     * @var string
      */
-    public $memcache = '{}';
+    public $compiled = '{{DOOZR_DIRECTORY_TEMP}}';
 
     /**
-     * The filesystem configuration used as default (e.g. "{}").
+     * The config path.
      *
-     * @var Doozr_Configuration_Hierarchy_Kernel_Caching_Filesystem
+     * @var string
      */
-    public $filesystem;
+    public $config = '{{DOOZR_APP_ROOT}}Data/Private/Config/';
 
     /**
-     * The lifetime of cached elements in seconds used as default (e.g. "3600").
+     * The cache path.
      *
-     * @var int
+     * @var string
      */
-    public $lifetime = 3600;
+    public $cache = '{{DOOZR_DIRECTORY_TEMP}}';
+
+    /**
+     * The plugins path.
+     *
+     * @var string
+     */
+    public $plugins = '{{DOOZR_APP_ROOT}}Data/Private/Plugin/Phptal/';
 }

@@ -744,11 +744,11 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // 2nd get existing log content
         $collection = $collectingLogger->getCollectionRaw();
 
-        // 3rd remove collecting logger
-        self::$registry->getLogger()->detachAll(true);
-
         // Check if logging enabled ...
         if (true === self::$registry->getParameter('doozr.kernel.logging')) {
+
+            // Remove collecting logger
+            self::$registry->getLogger()->detachAll(true);
 
             // Iterate and attach to subsystem
             foreach (self::$registry->getConfiguration()->kernel->logging->logger as $logger) {
@@ -759,7 +759,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
                     ]
                 );
 
-                // attach the logger
+                // Attach the logger
                 self::$registry->getLogger()->attach($loggerInstance);
             }
 
@@ -773,10 +773,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
                     $entry['separator']
                 );
             }
+
         } else {
             // Disable logging (+ dispatching ...)
-            /* @todo CHECK disable() useful? makes sense? */
-            //self::$registry->getLogger()->disable();
             self::$registry->getLogger()->detachAll(true);
         }
 
