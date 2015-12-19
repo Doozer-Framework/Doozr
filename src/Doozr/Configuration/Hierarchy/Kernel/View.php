@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - Kernel - Caching.
+ * Doozr - Configuration - Hierarchy - Kernel - View.
  *
- * Caching.php - The "debugging" node representation for providing autocompletion for config values.
+ * View.php - The "path" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * Doozr - Configuration - Hierarchy - Kernel - Caching.
+ * Doozr - Configuration - Hierarchy - Kernel - View.
  *
- * The "debugging" node representation for providing autocompletion for config values.
+ * The "path" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
  *
@@ -69,40 +69,26 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_Kernel_Caching
+class Doozr_Configuration_Hierarchy_Kernel_View
 {
     /**
-     * Whether debugging is enabled or not.
+     * Settings node.
      *
-     * @var bool
+     * @var Doozr_Configuration_Hierarchy_Kernel_View_Settings
      */
-    public $enabled = true;
+    public $settings;
 
     /**
-     * The container used as default (e.g. "filesystem").
+     * Settings node.
      *
-     * @var string
+     * @var Doozr_Configuration_Hierarchy_Kernel_View_Directories
      */
-    public $container = 'filesystem';
+    public $directories;
 
     /**
-     * The memcache configuration used as default (e.g. "{}").
+     * Settings node.
      *
-     * @var Doozr_Configuration_Hierarchy_Kernel_Caching_Memcache
+     * @var Doozr_Configuration_Hierarchy_Kernel_View_Template
      */
-    public $memcache = '{}';
-
-    /**
-     * The filesystem configuration used as default (e.g. "{}").
-     *
-     * @var Doozr_Configuration_Hierarchy_Kernel_Caching_Filesystem
-     */
-    public $filesystem;
-
-    /**
-     * The lifetime of cached elements in seconds used as default (e.g. "3600").
-     *
-     * @var int
-     */
-    public $lifetime = 3600;
+    public $template;
 }

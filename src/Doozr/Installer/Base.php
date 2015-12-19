@@ -193,12 +193,20 @@ class Doozr_Installer_Base
      */
     protected static function retrieveInstallPath()
     {
-        $path = DIRECTORY_SEPARATOR . implode(
+        $path1 = DIRECTORY_SEPARATOR . implode(
                 DIRECTORY_SEPARATOR,
-                array('vendor', 'clickalicious', 'doozr', 'src', 'Doozr','Installer', 'Base.php')
+                array('src', 'Doozr','Installer', 'Base.php')
             );
 
-        return realpath(str_replace($path, '', __FILE__));
+        $path2 = DIRECTORY_SEPARATOR . implode(
+                DIRECTORY_SEPARATOR,
+                array('vendor', 'clickalicious', 'doozr')
+            );
+
+        $path = str_replace($path1, '', __FILE__);
+        $path = str_replace($path2, '', $path);
+
+        return realpath($path);
     }
 
     /**
