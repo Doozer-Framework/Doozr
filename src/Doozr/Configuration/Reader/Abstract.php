@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Reader - Abstract
+ * Doozr - Configuration - Reader - Abstract.
  *
  * Abstract.php - The Abstract class for config reader. This class provides high level
  * access to filesystem and cache. Can be used for all types of readers.
@@ -44,33 +45,34 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Configuration
- * @subpackage Doozr_Configuration_Reader
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Doozr - Configuration - Reader - Abstract
+ * Doozr - Configuration - Reader - Abstract.
  *
  * The Abstract class for config reader. This class provides high level
  * access to filesystem and cache. Can be used for all types of readers.
  *
  * @category   Doozr
- * @package    Doozr_Configuration
- * @subpackage Doozr_Configuration_Reader
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
@@ -79,7 +81,6 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * Instance of filesystem service.
      *
      * @var Doozr_Filesystem_Service|Doozr_Base_Service_Interface
-     * @access protected
      */
     protected $filesystem;
 
@@ -87,15 +88,13 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * Instance of cache service.
      *
      * @var Doozr_Cache_Service
-     * @access protected
      */
     protected $cacheService;
 
     /**
-     * Filename of configuration we currently process
+     * Filename of configuration we currently process.
      *
      * @var string
-     * @access protected
      */
     protected $filename;
 
@@ -103,31 +102,27 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * The active cache state (enabled[true]/disabled[false]) as boolean.
      *
      * @var bool
-     * @access protected
      */
     protected $cache = false;
 
     /**
-     * The uuid of the active configuration
+     * The uuid of the active configuration.
      *
      * @var string
-     * @access protected
      */
     protected $uuid;
 
     /**
-     * Include Directive {{include($filename)]]
+     * Include Directive {{include($filename)]].
      *
      * @var string
-     * @access public
      */
     const DIRECTIVE_INCLUDE = 'include';
 
     /**
-     * Require Directive {{include($filename)]]
+     * Require Directive {{include($filename)]].
      *
      * @var string
-     * @access public
      */
     const DIRECTIVE_REQUIRE = 'require';
 
@@ -139,13 +134,13 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param bool                         $enableCache  TRUE to enable caching, FALSE to disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Configuration_Reader_Abstract
-     * @access public
      */
     public function __construct(
         Doozr_Base_Service_Interface $filesystem,
         Doozr_Cache_Service          $cacheService = null,
-                                     $enableCache  = false
+                                     $enableCache = false
     ) {
         $this
             ->filesystem($filesystem)
@@ -159,10 +154,11 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $filename The filename of the configuration file to read (parse)
      *
      * @return \Doozr_Configuration_Reader_Abstract
+     *
      * @throws \Doozr_Cache_Service_Exception
      * @throws \Doozr_Configuration_Exception
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function read($filename)
     {
@@ -178,7 +174,6 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
                 if ($content !== null && $content !== '') {
                     return $content;
                 }
-
             } catch (Doozr_Cache_Service_Exception $exception) {
                 // Intentionally left blank
             }
@@ -219,8 +214,9 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $uuid     The UUID of the file
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The content of the file
-     * @access public
+     *
      * @throws Doozr_Configuration_Exception
      */
     protected function process($filename, $uuid)
@@ -237,22 +233,20 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
             $extracted = $this->extractDirectives($directive, $configuration);
 
             foreach ($extracted[1] as $index => $include) {
-                $includeFilename = realpath(dirname($filename) . DIRECTORY_SEPARATOR . $include);
+                $includeFilename = realpath(dirname($filename).DIRECTORY_SEPARATOR.$include);
 
                 if ($includeFilename !== false) {
                     $content = $this->readFile($includeFilename);
-
                 } elseif ($strict === false) {
                     $content = '{}';
-
                 } else {
                     throw new Doozr_Configuration_Exception(
-                        'The file "' . $filename . '" could not be included. Sure it exists?'
+                        'The file "'.$filename.'" could not be included. Sure it exists?'
                     );
                 }
 
                 $configuration = str_replace(
-                    '"' . $extracted[0][$index] . '"',
+                    '"'.$extracted[0][$index].'"',
                     //$extracted[0][$index],
                     $content,
                     $configuration
@@ -260,7 +254,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
             }
         }
 
-        /**
+        /*
          *
          * @todo RETRIEVE DOOZR CONSTANTS SO EXPENSIVE?
          *
@@ -268,15 +262,15 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
 
         // After executing directive like function calls
         $variables = array(
-            'DOOZR_APP_ROOT'       => str_replace('\\', '\\\\', DOOZR_APP_ROOT),
-            'DOOZR_DOCUMENT_ROOT'  => str_replace('\\', '\\\\', DOOZR_DOCUMENT_ROOT),
-            'DOOZR_DIRECTORY_TEMP'    => str_replace('\\', '\\\\', DOOZR_DIRECTORY_TEMP),
+            'DOOZR_APP_ROOT' => str_replace('\\', '\\\\', DOOZR_APP_ROOT),
+            'DOOZR_DOCUMENT_ROOT' => str_replace('\\', '\\\\', DOOZR_DOCUMENT_ROOT),
+            'DOOZR_DIRECTORY_TEMP' => str_replace('\\', '\\\\', DOOZR_DIRECTORY_TEMP),
             'DOOZR_NAMESPACE_FLAT' => DOOZR_NAMESPACE_FLAT,
         );
 
         // Do default replacements
         foreach ($variables as $variable => $value) {
-            $configuration = str_replace('{{' . $variable . '}}', $value, $configuration);
+            $configuration = str_replace('{{'.$variable.'}}', $value, $configuration);
         }
 
         return $configuration;
@@ -289,13 +283,14 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $content   to look in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Of found directives or empty one if no matches
-     * @access protected
      */
     protected function extractDirectives($directive, $content)
     {
-        $pattern = '/{{' . $directive . '\(?([\w\.]*)\)?}}/';
+        $pattern = '/{{'.$directive.'\(?([\w\.]*)\)?}}/';
         preg_match_all($pattern, $content, $result);
+
         return $result;
     }
 
@@ -305,8 +300,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $input The input to calculate the UUID for.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The UUID
-     * @access protected
      */
     protected function calculateUuid($input)
     {
@@ -314,7 +309,6 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
             // Generate a version 5 (name-based and hashed with SHA1) UUID object
             $uuid5 = Uuid::uuid5(Uuid::NAMESPACE_DNS, $input);
             $uuid = $uuid5->toString();
-
         } catch (UnsatisfiedDependencyException $e) {
             $uuid = sha1($input);
         }
@@ -333,8 +327,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $uuid     The UUID to read
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The content read
-     * @access protected
      */
     protected function readFile($filename, $uuid = null)
     {
@@ -347,10 +341,9 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
             try {
                 $content = $this->getCacheService()->read($uuid);
 
-                if ($content !== null && $content != "") {
+                if ($content !== null && $content != '') {
                     return $content;
                 }
-
             } catch (Doozr_Cache_Service_Exception $e) {
                 // Intentionally omitted
             }
@@ -373,8 +366,6 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $uuid The uuid to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setUuid($uuid)
     {
@@ -387,12 +378,13 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $uuid The uuid to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function uuid($uuid)
     {
         $this->uuid = $uuid;
+
         return $this;
     }
 
@@ -400,8 +392,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * Getter for uuid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Uuid if set, otherwise NULL
-     * @access protected
      */
     public function getUuid()
     {
@@ -414,8 +406,6 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param bool $cache The cache to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setCache($cache)
     {
@@ -428,8 +418,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param bool $cache The cache to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function cache($cache)
     {
@@ -442,8 +432,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if cache is enabled, otherwise FALSE
-     * @access protected
      */
     public function getCache()
     {
@@ -451,11 +441,11 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * Nice name alias to getCache()
+     * Nice name alias to getCache().
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if cache is enabled, otherwise FALSE
-     * @access protected
      */
     protected function cacheEnabled()
     {
@@ -468,8 +458,6 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $filename The filename to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setFilename($filename)
     {
@@ -482,8 +470,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $filename The filename to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function filename($filename)
     {
@@ -496,8 +484,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * Getter for filename.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Filename if set, otherwise NULL
-     * @access protected
      */
     public function getClassFilename()
     {
@@ -510,8 +498,6 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param Doozr_Filesystem_Service $filesystem
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setFilesystem(Doozr_Filesystem_Service $filesystem)
     {
@@ -524,8 +510,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param Doozr_Base_Service_Interface $filesystem
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function filesystem(Doozr_Base_Service_Interface $filesystem)
     {
@@ -538,8 +524,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * Getter for filesystem service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|Doozr_Filesystem_Service Instance of filesystem service if set, otherwise NULL
-     * @access protected
      */
     protected function getFilesystem()
     {
@@ -552,8 +538,6 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param Doozr_Cache_Service $cacheService
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setCacheService(Doozr_Cache_Service $cacheService)
     {
@@ -566,8 +550,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param null|Doozr_Cache_Service $cacheService
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function cacheService(Doozr_Cache_Service $cacheService = null)
     {
@@ -580,8 +564,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * Getter for cache service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|Doozr_Cache_Service Instance of cache service if set, otherwise NULL
-     * @access protected
      */
     protected function getCacheService()
     {
@@ -595,8 +579,8 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      * @param string $input The input to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
-     * @access protected
+     *
+     * @return mixed|bool Input on success, otherwise FALSE
      * @abstract
      */
     abstract protected function validate($input);

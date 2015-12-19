@@ -1,11 +1,10 @@
 <?php
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - Kernel - Caching.
+ * Doozr - Configuration - Hierarchy - Kernel - View - Template
  *
- * Caching.php - The "debugging" node representation for providing autocompletion for config values.
+ * Template.php - The "template" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -44,65 +43,44 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- *
+ * @package    Doozr_Configuration
+ * @subpackage Doozr_Configuration_Hierarchy
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- *
  * @version    Git: $Id$
- *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Configuration - Hierarchy - Kernel - Caching.
+ * Doozr - Configuration - Hierarchy - Kernel - View - Template
  *
- * The "debugging" node representation for providing autocompletion for config values.
+ * The "settings" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- *
+ * @package    Doozr_Kernel
+ * @subpackage Doozr_Kernel_Configuration
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- *
  * @version    Git: $Id$
- *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_Kernel_Caching
+class Doozr_Configuration_Hierarchy_Kernel_View_Template
 {
     /**
-     * Whether debugging is enabled or not.
-     *
-     * @var bool
-     */
-    public $enabled = true;
-
-    /**
-     * The container used as default (e.g. "filesystem").
+     * Path to templates.
      *
      * @var string
+     * @access public
      */
-    public $container = 'filesystem';
+    public $path = '{{DOOZR_APP_ROOT}}Data/Private/Template/';
 
     /**
-     * The memcache configuration used as default (e.g. "{}").
+     * Path to engine.
      *
-     * @var Doozr_Configuration_Hierarchy_Kernel_Caching_Memcache
+     * @var Doozr_Configuration_Hierarchy_Kernel_View_Template_Engine
+     * @access public
      */
-    public $memcache = '{}';
-
-    /**
-     * The filesystem configuration used as default (e.g. "{}").
-     *
-     * @var Doozr_Configuration_Hierarchy_Kernel_Caching_Filesystem
-     */
-    public $filesystem;
-
-    /**
-     * The lifetime of cached elements in seconds used as default (e.g. "3600").
-     *
-     * @var int
-     */
-    public $lifetime = 3600;
+    public $engine;
 }

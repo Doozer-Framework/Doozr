@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logging - File
+ * Doozr - Logging - File.
  *
  * File.php - This logger logs all passed content to a logfile.
  *
@@ -43,33 +44,34 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Logging
- * @subpackage Doozr_Logging_File
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging/Constant.php';
 
 use Psr\Log\LoggerInterface;
 
 /**
- * Doozr - Logging - File
+ * Doozr - Logging - File.
  *
  * File.php - This logger logs all passed content to a logfile.
  *
  * @category   Doozr
- * @package    Doozr_Logging
- * @subpackage Doozr_Logging_File
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @see        Abstract.php, Interface.php
  */
@@ -80,18 +82,16 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     SplObserver
 {
     /**
-     * Name of this logger
+     * Name of this logger.
      *
      * @var string
-     * @access protected
      */
     protected $name = 'File';
 
     /**
-     * Version of this logger
+     * Version of this logger.
      *
      * @var string
-     * @access protected
      */
     protected $version = '$Id$';
 
@@ -100,48 +100,42 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * The file we log to
+     * The file we log to.
      *
      * @var string
-     * @access protected
      */
     protected $logfile;
 
     /**
      * use persistence filehandle for log-operation(s)?
      * true to keep the handle opened for the length of each request
-     * false to reopen the file (retrieving a handle) for each log entry
+     * false to reopen the file (retrieving a handle) for each log entry.
      *
      * @var bool
-     * @access protected
      */
     protected $persistent = true;
 
     /**
      * holds the status of "overwrite" or "append" runtimeEnvironment
-     * True to append log to file, false to overwrite
+     * True to append log to file, false to overwrite.
      *
      * @var bool
-     * @access protected
      */
     protected $append = true;
 
     /**
-     * Instance of filesystem service
+     * Instance of filesystem service.
      *
      * @var object
-     * @access protected
      */
     protected $filesystem = null;
 
     /**
-     * Instance of the path-manager
+     * Instance of the path-manager.
      *
      * @var object
-     * @access protected
      */
     protected $path;
-
 
     /**
      * Constructor.
@@ -151,8 +145,8 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * @param string                 $fingerprint Fingerprint of the client
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Logging_File
-     * @access public
      */
     public function __construct(Doozr_Datetime_Service $datetime, $level = null, $fingerprint = null)
     {
@@ -184,8 +178,6 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * @param Doozr_Path_Interface $path The path manager
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setPath(Doozr_Path_Interface $path)
     {
@@ -196,10 +188,10 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * Getter for path.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Path|null The path manager instance if set, otherwise NULL
-     * @access public
      */
-    public function getPathToClass($resolveSymlinks = false)
+    public function getPath()
     {
         return $this->path;
     }
@@ -210,8 +202,6 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * @param string $filename The log-filename
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setLogfile($filename)
     {
@@ -222,8 +212,8 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * Getter for logfile.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the logfile if set, otherwise NULL
-     * @access public
      */
     public function getLogfile()
     {
@@ -233,11 +223,9 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     /**
      * Setter for filesystem.
      *
-     * @param Doozr_Base_Service_Interface $filesystem The filesystem instance
+     * @param Doozr_Filesystem_Service $filesystem The filesystem instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFilesystem(Doozr_Filesystem_Service $filesystem)
     {
@@ -248,8 +236,8 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * Getter for filesystem.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Filesystem_Service|null The Doozr_Filesystem_Service instance if set, otherwise NULL
-     * @access public
      */
     public function getFilesystem()
     {
@@ -257,13 +245,11 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     }
 
     /**
-     * Setter for persistent status
+     * Setter for persistent status.
      *
      * @param bool $status TRUE = write persistent, FALSE do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setPersistent($status = true)
     {
@@ -271,11 +257,11 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     }
 
     /**
-     * Getter for persistent status
+     * Getter for persistent status.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if persistent write is on, otherwise FALSE if not
-     * @access public
      */
     public function getPersistent()
     {
@@ -283,13 +269,11 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     }
 
     /**
-     * Setter for append status
+     * Setter for append status.
      *
      * @param bool $status TRUE = append, FALSE do not [overwrite]
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAppend($status = true)
     {
@@ -297,11 +281,11 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     }
 
     /**
-     * Getter for append status
+     * Getter for append status.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if append is on, otherwise FALSE if not
-     * @access public
      */
     public function getAppend()
     {
@@ -318,8 +302,6 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * @param string $name The name of the route to dispatch
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function route($name)
     {
@@ -331,14 +313,12 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Update of SplObserver
+     * Update of SplObserver.
      *
      * @param SplSubject $subject The subject we work on
      * @param null       $event   The event to process (optional)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function update(SplSubject $subject, $event = null)
     {
@@ -370,8 +350,6 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * We need this method cause it differs here from abstract default.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function output()
     {
@@ -391,10 +369,8 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
             // use persistent write to write content to file?
             if ($this->getPersistent() === true) {
                 $this->getFilesystem()->pwrite($this->getLogfile(), $content, $this->getAppend());
-
             } else {
                 $this->getFilesystem()->write($this->getLogfile(), $content, $this->getAppend());
-
             }
         }
 
@@ -403,11 +379,11 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     }
 
     /**
-     * Returns the separator for this very specific logger
+     * Returns the separator for this very specific logger.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The line separator -> empty in this case
-     * @access protected
      */
     protected function getLineSeparator()
     {
@@ -418,12 +394,12 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * This method is intend to add the defined line-separator to log-content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      */
     protected function separate()
     {
-        // do nothing to seperate in system logger
+        // do nothing to separate in system logger
         return true;
     }
 }

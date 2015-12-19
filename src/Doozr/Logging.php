@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logging
+ * Doozr - Logging.
  *
  * Logging.php - This logger is the composite for accessing the logging-subsystem of Doozr.
  * This logger is the main entry point for all log-content. This logger takes any log and
@@ -45,36 +46,37 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Logging
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging/Constant.php';
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Doozr - Logging
+ * Doozr - Logging.
  *
  * This logger is the composite for accessing the logging-subsystem of Doozr.
  * This logger is the main entry point for all log-content. This logger takes any log and
  * dispatch this to the attached loggers.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Logging
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
@@ -91,31 +93,27 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * The observer storage.
      *
      * @var SplObjectStorage
-     * @access protected
      */
     protected $observer;
 
     /**
-     * The default log level from config (once set)
+     * The default log level from config (once set).
      *
      * @var int
-     * @access protected
      */
     protected $defaultLoglevel;
 
     /**
-     * Name of this logger
+     * Name of this logger.
      *
      * @var string
-     * @access protected
      */
     protected $name = 'Composite';
 
     /**
-     * Version of this logger
+     * Version of this logger.
      *
      * @var string
-     * @access protected
      */
     protected $version = 'Git: $Id$';
 
@@ -124,7 +122,6 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * elements.
      *
      * @var int
-     * @access protected
      */
     protected $position = 0;
 
@@ -136,13 +133,13 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * Constructor.
      *
      * @param Doozr_Datetime_Service $datetime    Instance of Datetime-Service for date-operations
-     * @param int|null           $level       The logger level | if not passed the max is set
+     * @param int|null               $level       The logger level | if not passed the max is set
      * @param string|null            $fingerprint The fingerprint of the current client|will be
      *                                            generated if not passed
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Logging
-     * @access public
      */
     public function __construct(Doozr_Datetime_Service $datetime = null, $level = null, $fingerprint = null)
     {
@@ -168,16 +165,16 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param string $separator   The separator to use/set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
     public function log(
               $type,
               $message,
-        array $context     = [],
-              $time        = null,
+        array $context = [],
+              $time = null,
               $fingerprint = null,
-              $separator   = null
+              $separator = null
     ) {
         // call parents log just as normal => so content, raw ... gets filled
         parent::log($type, $message, $context, $time, $fingerprint, $separator);
@@ -189,14 +186,14 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
 
         // Store message in archive for e.g. debug bar and similar outputs
         $this->archive(
-            sha1($message . $type . $fingerprint),
+            sha1($message.$type.$fingerprint),
             array(
-                'type'        => $type,
-                'message'     => $message,
-                'context'     => $context,
-                'time'        => $time,
+                'type' => $type,
+                'message' => $message,
+                'context' => $context,
+                'time' => $time,
                 'fingerprint' => $fingerprint,
-                'separator'   => $separator,
+                'separator' => $separator,
             )
         );
 
@@ -212,17 +209,15 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * all contents as well.
      *
      * @param bool $clearContents TRUE to remove all content from logger,
-     *                               FALSE to keep it
+     *                            FALSE to keep it
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function detachAll($clearContents = false)
     {
         $this->observer = new SplObjectStorage();
 
-        if ($clearContents === true) {
+        if (true === $clearContents) {
             $this->clear();
         }
     }
@@ -232,13 +227,13 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns a logger by its name
+     * Returns a logger by its name.
      *
      * @param string $name The name of the logger
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Logging_Interface|null The logger if exist, otherwise NULL
-     * @access public
      */
     public function getLogger($name)
     {
@@ -248,7 +243,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -257,8 +252,6 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param int $level The log-level to set as standard
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDefaultLoglevel($level)
     {
@@ -269,8 +262,8 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * This method is intend to return the default log-level.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The default log-level
-     * @access public
+     *
+     * @return int The default log-level
      */
     public function getDefaultLoglevel()
     {
@@ -288,8 +281,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param LoggerInterface $logger The logger to attach
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     *
      * @throws Doozr_Logging_Exception
      */
     public function setLogger(LoggerInterface $logger)
@@ -313,8 +305,6 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param SplObserver $observer The observer to attach
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function attach(SplObserver $observer)
     {
@@ -327,8 +317,6 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param SplObserver $observer The observer to detach
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function detach(SplObserver $observer)
     {
@@ -341,8 +329,6 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param string $event The event to send with notify
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function notify($event = null)
     {
@@ -363,8 +349,8 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * log-content it just dispatch the stuff to its attached observers.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE as dummy return value
-     * @access protected
      */
     protected function output()
     {
@@ -377,13 +363,13 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the TRUE if the passed offset exists otherwise FALSE
+     * Returns the TRUE if the passed offset exists otherwise FALSE.
      *
      * @param mixed $offset The offset to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean The result of the operation
-     * @access public
+     *
+     * @return bool The result of the operation
      */
     public function offsetExists($offset)
     {
@@ -397,13 +383,13 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     }
 
     /**
-     * Returns the value for the passed offset
+     * Returns the value for the passed offset.
      *
      * @param mixed $offset The offset to return value for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function offsetGet($offset)
     {
@@ -413,18 +399,18 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
             }
         }
 
-        return null;
+        return;
     }
 
     /**
-     * Sets the value for the passed offset
+     * Sets the value for the passed offset.
      *
-     * @param int $offset The offset to set value for
-     * @param mixed   $value  The value to write
+     * @param int   $offset The offset to set value for
+     * @param mixed $value  The value to write
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function offsetSet($offset, $value)
     {
@@ -436,13 +422,13 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     }
 
     /**
-     * Unsets an offset
+     * Unsets an offset.
      *
      * @param mixed $offset The offset to unset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function offsetUnset($offset)
     {
@@ -452,7 +438,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
             }
         }
 
-        return null;
+        return;
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -460,11 +446,11 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Rewinds the position to 0
+     * Rewinds the position to 0.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function rewind()
     {
@@ -472,11 +458,11 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     }
 
     /**
-     * Checks if current position is still valid
+     * Checks if current position is still valid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean The result of the operation
-     * @access public
+     *
+     * @return bool The result of the operation
      */
     public function valid()
     {
@@ -484,11 +470,11 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     }
 
     /**
-     * Returns the key for the current position
+     * Returns the key for the current position.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The result of the operation
-     * @access public
+     *
+     * @return int The result of the operation
      */
     public function key()
     {
@@ -496,11 +482,11 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     }
 
     /**
-     * Returns the current element
+     * Returns the current element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function current()
     {
@@ -515,15 +501,15 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     }
 
     /**
-     * Goes to next element
+     * Goes to next element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the operation
-     * @access public
      */
     public function next()
     {
-        $this->position++;
+        ++$this->position;
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
@@ -531,11 +517,11 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the count of elements in registry
+     * Returns the count of elements in registry.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The result of the operation
-     * @access public
+     *
+     * @return int The result of the operation
      */
     public function count()
     {
@@ -552,12 +538,10 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param string $name The name of the route to dispatch
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function route($name)
     {
-        /**
+        /*
          * This logger does not need to be re-routed
          */
     }

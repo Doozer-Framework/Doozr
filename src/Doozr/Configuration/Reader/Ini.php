@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Reader - Ini
+ * Doozr - Configuration - Reader - Ini.
  *
  * Ini.php - Configuration reader for reading JSON configurations and represent
  * them in an object oriented way. The JSON format is extended and we say
@@ -46,20 +47,20 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Configuration
- * @subpackage Doozr_Configuration_Reader
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Reader/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Reader/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Interface.php';
 
 /**
- * Doozr - Configuration - Reader - Ini
+ * Doozr - Configuration - Reader - Ini.
  *
  * Configuration reader for reading JSON configurations and represent
  * them in an object oriented way. The JSON format is extended and we say
@@ -67,12 +68,13 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Interface.php';
  * service instance (this can be either memcache, filesystem ...).
  *
  * @category   Doozr
- * @package    Doozr_Configuration
- * @subpackage Doozr_Configuration_Reader
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
@@ -83,7 +85,6 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * The decoded content.
      *
      * @var \stdClass
-     * @access protected
      */
     protected $decodedContent;
 
@@ -93,10 +94,8 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * otherwise a flat structure is returned.
      *
      * @var bool
-     * @access public
      */
     const PHP_INI_PARSER_PROCESS_SECTIONS = true;
-
 
     /**
      * Here we proxy the call to parents generic reading and replacing functionality.
@@ -106,8 +105,9 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * @param string $filename The filename to read.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \stdClass The configuration as object representation
-     * @access public
+     *
      * @throws Doozr_Configuration_Reader_Exception
      */
     public function read($filename)
@@ -157,8 +157,9 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * Returns the configuration as array.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array|null The configuration as array if set, otherwise NULL
-     * @access public
+     *
      * @throws Doozr_Configuration_Reader_Exception
      */
     public function getAsArray()
@@ -185,10 +186,9 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
             foreach ($nodes as $node) {
                 try {
                     $configuration &= $configuration->{$node};
-
                 } catch (Doozr_Error_Exception $e) {
                     throw new Doozr_Configuration_Reader_Exception(
-                        'Configuration does not have a property: "' . $node . '" in configuration.'
+                        'Configuration does not have a property: "'.$node.'" in configuration.'
                     );
                 }
             }
@@ -210,14 +210,15 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * @return \stdClass The config as stdClass
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the request
-     * @access public
+     *
      * @throws Doozr_Configuration_Reader_Exception
      */
     public function get($node = null)
     {
         if ($node !== null) {
-            $nodes         = explode(':', $node);
+            $nodes = explode(':', $node);
             $configuration = $this->getDecodedContent();
 
             foreach ($nodes as $node) {
@@ -243,8 +244,8 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * @param string $property The property to read from config
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return stdClass The result of the request
-     * @access public
      */
     public function __get($property)
     {
@@ -252,14 +253,14 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
     }
 
     /**
-     * Validates that a passed string is valid ini
+     * Validates that a passed string is valid ini.
      *
      * @param string $input           The input to validate
      * @param bool   $processSections TRUE to process sections, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return stdClass FALSE on error, STRING with result on success
-     * @access protected
+     *
+     * @return mixed|bool Input on success, otherwise FALSE
      */
     protected function validate($input, $processSections = self::PHP_INI_PARSER_PROCESS_SECTIONS)
     {
@@ -280,8 +281,6 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * @param \stdClass $content The configuration to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setDecodedContent(\stdClass $content)
     {
@@ -294,12 +293,13 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * @param \stdClass $content The configuration to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function decodedContent(\stdClass $content)
     {
         $this->setDecodedContent($content);
+
         return $this;
     }
 
@@ -307,8 +307,8 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
      * Getter for decoded content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return stdClass The configuration if set, otherwise NULL
-     * @access protected
      */
     protected function getDecodedContent()
     {
