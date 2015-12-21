@@ -85,35 +85,63 @@ use Gpupo\Cache\CacheItemPool;
 use Gpupo\Cache\CacheItem;
 use Cocur\Slugify\Slugify;
 
-// Build queue for running middleware through relay
-$queue[] = function (Request $request, Response $response, callable $next) {
+/*
+ * Put CachingMiddleware on stack when caching is enabled
+ */
+if (true === DOOZR_CACHING) {
 
-    // Create cache item factory
-    $cacheItemFactory = function ($key) {
-        return new CacheItem($key);
+    /**
+     * Fill queue for running "CachingMiddleware"
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request  Request (PSR) to process
+     * @param \Psr\Http\Message\ResponseInterface      $response Response (PSR) to use
+     * @param callable                                 $next     Next middleware in stack
+     *
+     * @return \Psr\Http\Message\ResponseInterface A PSR compatible response
+     */
+    $queue[] = function (Request $request, Response $response, callable $next) {
+
+        // Create cache item factory
+        $cacheItemFactory = function ($key) {
+            return new CacheItem($key);
+        };
+
+        // Create cache item key factory
+        $cacheItemKeyFactory = function (Request $request) {
+            static $key = null;
+            if (null === $key) {
+                $uri     = $request->getUri();
+                $slugify = new Slugify();
+                $key     = $slugify->slugify(trim($uri->getPath(), '/').($uri->getQuery() ? '?'.$uri->getQuery() : ''));
+            }
+
+            return $key;
+        };
+
+        // Get cache
+        $cachingMiddleWare = new CachingMiddleware(
+            new CacheItemPool('Filesystem'),
+            $cacheItemFactory,
+            $cacheItemKeyFactory
+        );
+
+        return $cachingMiddleWare($request, $response, $next);
     };
+}
 
-    // Create cache item key factory
-    $cacheItemKeyFactory = function (Request $request) {
-        static $key = null;
-        if (null === $key) {
-            $uri = $request->getUri();
-            $slugify = new Slugify();
-            $key = $slugify->slugify(trim($uri->getPath(), '/').($uri->getQuery() ? '?'.$uri->getQuery() : ''));
-        }
-        return $key;
-    };
+/*
+ * Put Doozr (Middleware) on stack for processing
+ */
 
-    // Get cache
-    $cachingMiddleWare = new CachingMiddleware(
-        new CacheItemPool('Filesystem'),
-        $cacheItemFactory,
-        $cacheItemKeyFactory
-    );
-
-    return $cachingMiddleWare($request, $response, $next);
-};
-
+/**
+ * Fill queue for running "Doozr" middleware
+ *
+ * @param \Psr\Http\Message\ServerRequestInterface $request  Request (PSR) to process
+ * @param \Psr\Http\Message\ResponseInterface      $response Response (PSR) to use
+ * @param callable                                 $next     Next middleware in stack
+ *
+ * @return \Psr\Http\Message\ResponseInterface A PSR compatible response
+ */
 $queue[] = function (Request $request, Response $response, callable $next) {
 
     // Boot the App kernel
@@ -138,6 +166,10 @@ $queue[] = function (Request $request, Response $response, callable $next) {
     return $app($request, $response, $next);
 };
 
+/*
+ * Execute the configured stack by running it via \Relay\Runner()
+ */
+
 // Create a Relay Runner instance ...
 $runner = new Runner($queue);
 
@@ -150,6 +182,10 @@ $response = $runner(
         new \Doozr_Response_State()
     )
 );
+
+/*
+ * Send the response as Web response (PSR)
+ */
 
 // After running the whole queue send the response (HTTP way)
 $responseSender = new Doozr_Response_Sender_Web($response);
