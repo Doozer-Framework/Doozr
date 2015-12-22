@@ -871,14 +871,23 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Translates the current setup of view parameter to a textdomain which can
      * and should be used to translate strings (i18n) for example via gettext.
      *
+     * @param bool $presenterOnly Whether to load a presenter global textdomain or not (TRUE presenter only, FALSE not)
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string The textdomain
      */
-    protected function translateToTextdomain()
+    protected function translateToTextdomain($presenterOnly = false)
     {
+        if (false === $presenterOnly) {
+            $textdomain = $this->getRoute()->getPresenter().$this->getRoute()->getAction();
+
+        } else {
+            $textdomain = $this->getRoute()->getPresenter();
+        }
+
         // Try to load textdomain from system ...
-        return strtolower($this->getRoute()->getPresenter().$this->getRoute()->getAction());
+        return strtolower($textdomain);
     }
 
     /**

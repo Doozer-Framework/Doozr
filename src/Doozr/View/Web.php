@@ -151,12 +151,34 @@ class Doozr_View_Web extends Doozr_Base_View
 
             // If I18n passed -> forward to template engine (e.g. PHPTAL)
             if (null !== $i18n) {
+
+
+                // Try to load specific namespace/textdomain for PRESENTER+ACTION
                 try {
                     $i18n->useDomain($this->translateToTextdomain());
 
                 } catch (Doozr_I18n_Service_Exception $e) {
+
                     // We don't care but we log for developing purposes
                     $this->getRegistry()->getLogger()->debug($e->getMessage());
+
+                    // Try to load specific namespace/textdomain for PRESENTER
+                    try {
+                        $i18n->useDomain($this->translateToTextdomain(true));
+
+                    } catch (Doozr_I18n_Service_Exception $e) {
+                        // We don't care but we log for developing purposes
+                        $this->getRegistry()->getLogger()->debug($e->getMessage());
+
+                        // Try to load default namespace/textdomain
+                        try {
+                            $i18n->useDomain($this->getConfiguration()->i18n->default->namespace);
+
+                        } catch (Doozr_I18n_Service_Exception $e) {
+                            // We don't care but we log for developing purposes
+                            $this->getRegistry()->getLogger()->debug($e->getMessage());
+                        }
+                    }
                 }
 
                 $template->setTranslator($i18n);

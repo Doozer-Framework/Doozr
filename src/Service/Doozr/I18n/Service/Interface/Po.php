@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Text.
+ * Doozr - I18n - Service - Interface - Po.
  *
- * Text.php - Translation-Interface to text
+ * Po.php - Translation-Interface to text
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Abstract.
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Interface.php';
 
 /**
- * Doozr - I18n - Service - Interface - Text.
+ * Doozr - I18n - Service - Interface - Po.
  *
  * Translation-Interface to text
  *
@@ -71,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Interface
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abstract
+class Doozr_I18n_Service_Interface_Po extends Doozr_I18n_Service_Interface_Abstract
     implements
     Doozr_I18n_Service_Interface_Interface
 {
@@ -79,18 +79,18 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
      * Name of the directory containing the LC_MESSAGES directory.
      *
      * @example If the path to LC_MESSAGES is /var/foo/locales/en_US/Text/LC_MESSAGES then the value of
-     *          TRANSLATION_FILES_DIRECTORY must be "Text" without the quotation marks.
+     *          TRANSLATION_FILES_DIRECTORY must be "Po" without the quotation marks.
      *
      * @var string
      */
-    const TRANSLATION_FILES_DIRECTORY = 'Text';
+    const TRANSLATION_FILES_DIRECTORY = 'Gettext';
 
     /**
      * Extension of translation files of this interface.
      *
      * @var string
      */
-    const TRANSLATION_FILES_EXTENSION = 'mo';
+    const TRANSLATION_FILES_EXTENSION = 'po';
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
@@ -190,31 +190,25 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
      */
     protected function parseTranslationfile($filename)
     {
+        // Check for existence ...
         if (!file_exists($filename) || !is_readable($filename)) {
             throw new Doozr_I18n_Service_Exception(
                 sprintf('Translationfile: "%s" does not exist or isn\'t readable.', $filename)
             );
         }
 
-        // assume empty resulting array
+        // Assume empty resulting array
         $result = [];
 
-        // open read handle to file
-        $fileHandle = fopen($filename, 'r');
+        // Init PO Parser and parse file ...
+        $fileHandler = new Sepia\FileHandler($filename);
+        $poParser = new Sepia\PoParser($fileHandler);
+        $entries = $poParser->parse();
 
-        // read till end of file (eof)
-        while (!feof($fileHandle)) {
-            // read current line
-            $line = fgets($fileHandle);
-
-            if (!$line === false && strlen(trim($line))) {
-                $parts = explode('=', $line);
-                $result[md5(trim($parts[0]))] = trim($parts[1]);
-            }
+        // Iterate entries ...
+        foreach ($entries as $entry => $translation) {
+            $result[md5($entry)] = $translation['msgstr'][0];
         }
-
-        // close handle to file
-        fclose($fileHandle);
 
         // return parsed array
         return $result;

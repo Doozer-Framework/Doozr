@@ -691,7 +691,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
         // Store
         $this->setNamespaces($namespace);
 
-        // and trigger namespace changed
+        // Trigger namespace changed
         $this->namespaceChanged();
 
         return true;
