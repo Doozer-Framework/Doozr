@@ -96,7 +96,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected $caching;
 
     /**
-     * The output runtimeEnvironment used.
+     * The output mode used.
      *
      * @var int
      */

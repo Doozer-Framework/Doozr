@@ -158,7 +158,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
     protected function retrievePathToApplication()
     {
         // If path to app was defined before return this (prio 1)
-        if (!defined('DOOZR_APP_ROOT')) {
+        if (false === defined('DOOZR_APP_ROOT')) {
             if (false !== $environment = getenv('DOOZR_APP_ROOT')) {
                 // assume that path to application is like the default environment (one folder up)
                 $path = $this->mergePath($environment, 'app/');

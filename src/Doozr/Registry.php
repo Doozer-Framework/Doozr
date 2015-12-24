@@ -56,6 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Registry/Interface.php';
 
+use Psr\Cache\CacheItemPoolInterface;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid;
 
@@ -613,7 +614,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for cache.
      *
-     * @param Doozr_Cache_Service $cache Instance of cache
+     * @param CacheItemPoolInterface $cache Instance of cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -643,7 +644,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Cache_Service The cache instance
+     * @return CacheItemPoolInterface The cache instance
      */
     public function getCache()
     {

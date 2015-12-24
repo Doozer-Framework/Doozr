@@ -576,7 +576,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             $target,
             [
                 $registry,
-                $requestState,
+                $requestState
             ]
         );
 
@@ -585,8 +585,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             $target,
             [
                 $registry,
-                $requestState,
-                $registry->getParameter('doozr.kernel.caching'),
+                $requestState
             ]
         );
 

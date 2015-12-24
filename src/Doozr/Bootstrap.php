@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Bootstrap
+ * Doozr - Bootstrap.
  *
  * Bootstrap.php - Bootstrapping important operations at startup of Doozr.
  *
@@ -43,12 +44,13 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Bootstrap
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
@@ -73,11 +75,11 @@ if (false === defined('DOOZR_DOCUMENT_ROOT')) {
 
         // Retrieve path to file without! resolving possible symlinks
         $partial = explode($s, __FILE__);
-        $root    = $_SERVER['DOCUMENT_ROOT'];
-        $path    = '';
+        $root = $_SERVER['DOCUMENT_ROOT'];
+        $path = '';
 
         for ($i = count($partial) - 1; $i > -1; --$i) {
-            $path = $s . $partial[$i] . $path;
+            $path = $s.$partial[$i].$path;
 
             if (realpath($root.$path) === __FILE__) {
                 $path = $root.$path;
@@ -90,12 +92,12 @@ if (false === defined('DOOZR_DOCUMENT_ROOT')) {
             }
         }
 
-        if (!defined('__FILE_LINK__')) {
+        if (false === defined('__FILE_LINK__')) {
             define('__FILE_LINK__', __FILE__);
         }
 
         // retrieve absolute path to Doozr - make it our new document root -> by file link
-        $documentRoot = str_replace('Doozr' . $s . 'Bootstrap.php', '', __FILE_LINK__);
+        $documentRoot = str_replace('Doozr'.$s.'Bootstrap.php', '', __FILE_LINK__);
     }
 
     // Finally we store as constant for further use
@@ -106,7 +108,7 @@ if (false === defined('DOOZR_DOCUMENT_ROOT')) {
 | LOAD KERNEL
 +---------------------------------------------------------------------------------------------------------------------*/
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel/App.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Kernel/App.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
 | CHECK FOR PASSED APP PATH
@@ -119,14 +121,14 @@ if (false === defined('DOOZR_APP_ROOT')) {
     if (false === $appRoot = getenv('DOOZR_APP_ROOT')) {
 
         // Priority #1: App-Root by Document-Root
-        if (false === $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'] . $s . '..' . $s . 'app')) {
+        if (false === $defaultAppRoot = realpath($_SERVER['DOCUMENT_ROOT'].$s.'..'.$s.'app')) {
 
             // Priority #2: App-Root by Doozr Document-Root
-            $defaultAppRoot = realpath(DOOZR_DOCUMENT_ROOT . '../app');
+            $defaultAppRoot = realpath(DOOZR_DOCUMENT_ROOT.'../app');
         }
 
         $appRoot = ($defaultAppRoot !== false) ? $defaultAppRoot : '';
-        $appRoot = rtrim($appRoot, $s) . $s;
+        $appRoot = rtrim($appRoot, $s).$s;
     }
 
     // Finally store a constant for further use
@@ -136,7 +138,7 @@ if (false === defined('DOOZR_APP_ROOT')) {
 /*----------------------------------------------------------------------------------------------------------------------
 | PATH FOR ALL TEMPORARY STUFF (FILESYSTEM)
 +---------------------------------------------------------------------------------------------------------------------*/
-define('DOOZR_DIRECTORY_TEMP', sys_get_temp_dir() . DIRECTORY_SEPARATOR);
+define('DOOZR_DIRECTORY_TEMP', sys_get_temp_dir().DIRECTORY_SEPARATOR);
 
 /*----------------------------------------------------------------------------------------------------------------------
 | RUNTIME ENVIRONMENT
@@ -188,7 +190,7 @@ if (false === defined('DOOZR_LOGGING')) {
         }
     }
 
-    define('DOOZR_LOGGING', (bool)$doozrLogging);
+    define('DOOZR_LOGGING', (bool) $doozrLogging);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -207,7 +209,7 @@ if (false === defined('DOOZR_DEBUGGING')) {
         }
     }
 
-    define('DOOZR_DEBUGGING', (bool)$doozrDebugging);
+    define('DOOZR_DEBUGGING', (bool) $doozrDebugging);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -225,13 +227,12 @@ if (false === defined('DOOZR_CACHING')) {
             DOOZR_APP_ENVIRONMENT === Doozr_Kernel::APP_ENVIRONMENT_TESTING
         ) {
             $doozrCaching = false;
-
         } else {
             $doozrCaching = !DOOZR_DEBUGGING;
         }
     }
 
-    define('DOOZR_CACHING', (bool)$doozrCaching);
+    define('DOOZR_CACHING', (bool) $doozrCaching);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -252,9 +253,8 @@ if (false === defined('DOOZR_PROFILING')) {
         }
     }
 
-    define('DOOZR_PROFILING', (bool)$doozrProfiling);
+    define('DOOZR_PROFILING', (bool) $doozrProfiling);
 }
-
 
 /*----------------------------------------------------------------------------------------------------------------------
 | APPLICATIONS NAMESPACE
@@ -279,22 +279,22 @@ if (false === defined('DOOZR_APP_NAMESPACE')) {
 
 // Try to include composer's autoloader to make all the composer stuff easy available
 if (false === composer_running()) {
-    include_once DOOZR_DOCUMENT_ROOT . '../vendor/autoload.php';
+    include_once DOOZR_DOCUMENT_ROOT.'../vendor/autoload.php';
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
 | EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
 +---------------------------------------------------------------------------------------------------------------------*/
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Extend.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Extend.php';
 
 /*----------------------------------------------------------------------------------------------------------------------
 | AUTOLOADING (SPL)
 +---------------------------------------------------------------------------------------------------------------------*/
 
 // SPL facade files config + facade itself
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Configuration.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Autoloader/Spl/Configuration.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Autoloader/Spl/Facade.php';
 
 // now configure a new autoloader spl config
 $autoloaderDoozr = new Doozr_Loader_Autoloader_Spl_Config();
@@ -306,7 +306,7 @@ $autoloaderDoozr
     ->description('Doozr\'s autoloader for loading classes of Doozr below "src/".')
     ->priority(0);
 
-/**
+/*
  * Autoloader for Doozr - Services (native)
  */
 $autoloaderService = new Doozr_Loader_Autoloader_Spl_Config();
@@ -314,11 +314,11 @@ $autoloaderService
     ->_namespace('Doozr')
     ->namespaceSeparator('_')
     ->addExtension('php')
-    ->path(DOOZR_DOCUMENT_ROOT . 'Service')
+    ->path(DOOZR_DOCUMENT_ROOT.'Service')
     ->description('Doozr\'s autoloader for loading Services of Doozr below "src/Service".')
     ->priority(1);
 
-/**
+/*
  * The facade itself is auto instanciating singleton within the
  * register method if not already instantiated! So don't worry
  * just call the register() method pass a config and everything
@@ -339,13 +339,13 @@ Doozr_Loader_Autoloader_Spl_Facade::attach(
 if (Doozr_Kernel::APP_ENVIRONMENT_TESTING !== DOOZR_APP_ENVIRONMENT) {
 
     // ERROR-HANDLER: register error-handler
-    require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Handler/Error.php';
+    require_once DOOZR_DOCUMENT_ROOT.'Doozr/Handler/Error.php';
 
     // Set own error_handler
     set_error_handler(
         array(
             'Doozr_Handler_Error',
-            'handle'
+            'handle',
         )
     );
 
@@ -353,18 +353,18 @@ if (Doozr_Kernel::APP_ENVIRONMENT_TESTING !== DOOZR_APP_ENVIRONMENT) {
     register_shutdown_function(
         array(
             'Doozr_Handler_Error',
-            'handleUnhandable'
+            'handleUnhandable',
         )
     );
 
     // EXCEPTION-HANDLER: register exception-handler
-    require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Handler/Exception.php';
+    require_once DOOZR_DOCUMENT_ROOT.'Doozr/Handler/Exception.php';
 
     // Set own exception_handler
     set_exception_handler(
         array(
             'Doozr_Handler_Exception',
-            'handle'
+            'handle',
         )
     );
 }
@@ -374,11 +374,11 @@ if (Doozr_Kernel::APP_ENVIRONMENT_TESTING !== DOOZR_APP_ENVIRONMENT) {
 +---------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Detects composer in global scope
+ * Detects composer in global scope.
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
+ *
  * @return bool TRUE if composer is active, otherwise FALSE
- * @access public
  */
 function composer_running()
 {
@@ -406,8 +406,8 @@ function composer_running()
  * @param string $sapi The SAPI of PHP
  *
  * @author Benjamin Carl <opensource@clickalicious.de>
+ *
  * @return string The runtime environment the Kernel is running in
- * @access public
  */
 function detectRuntimeEnvironment($sapi = PHP_SAPI)
 {

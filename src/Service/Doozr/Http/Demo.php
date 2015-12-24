@@ -56,7 +56,8 @@ require_once '../../../../src/Doozr/Bootstrap.php';
 
 /* @var $http Doozr_Http_Service */
 $http = Doozr_Loader_Serviceloader::load('http');
-var_dump(
+
+$result = var_export(
     $http
         ->host('requestb.in')
         ->port(80)
@@ -66,4 +67,8 @@ var_dump(
         ->put('ti0ozjti')
         ->delete('ti0ozjti')
         ->run()
+    ,
+    true
 );
+
+print_r($result);
