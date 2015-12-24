@@ -241,7 +241,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      */
     public function getAvailableLocales()
     {
-        return self::$config->i18n->default->available;
+        return object_to_array(self::$config->i18n->default->available);
     }
 
     /**
@@ -396,9 +396,9 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         }
 
         // Check if locale is available on system
-        $availableLocales = object_to_array($this->getAvailableLocales());
+        $availableLocales = $this->getAvailableLocales();
 
-        if (in_array($locale, $availableLocales) === false) {
+        if (false === in_array($locale, $availableLocales)) {
             throw new Doozr_I18n_Service_Exception(
                 sprintf('The locale "%s" is not available by configuration.', $locale)
             );
@@ -425,24 +425,20 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     /**
      * Installs gettext like shortcuts _() __() ___().
      *
-     * @return bool|mixed
+     * @return bool TRUE on success, otherwise FALSE
      *
      * @throws Doozr_I18n_Service_Exception
      */
     public function install()
     {
-        $result = false;
-
         if (extension_loaded('gettext')) {
             throw new Doozr_I18n_Service_Exception(
                 'Installation stopped! Please disable gettext extension if you want to use I18n service with '.
                 'shortcut functionality _() | __() | ___()'
             );
-        } else {
-            $result = include_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Install.php';
         }
 
-        return $result;
+        return include_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Install.php';
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -641,14 +637,23 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         $this->setVariable($key, $value);
     }
 
+    /**
+     * Replaces a string with another one in passed string.
+     *
+     * @param string $pattern The pattern to be used for detection
+     * @param string $string  String to work with
+     * @param string $replace Replacement string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string The resulting string
+     */
     public function replaceVariables($pattern, $string, $replace)
     {
         $count = preg_match($pattern, $string, $result);
 
-        if ($count > 0) {
-            for ($i = 0; $i < count($result); $i += 2) {
-                $string = str_replace($result[$i], $this->getVariable($result[$i + 1]), $string);
-            }
+        for ($i = 0; $i < $count; $i += 2) {
+            $string = str_replace($result[$i], $this->getVariable($result[$i + 1]), $string);
         }
 
         return $string;
@@ -750,12 +755,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     {
         if (!self::$templateTranslator) {
             self::$templateTranslator = $this->getTranslator();
-
-            /*
-            self::$templateTranslator->setNamespace(
-                self::$config->i18n->default->namespace
-            );
-            */
         }
     }
 
