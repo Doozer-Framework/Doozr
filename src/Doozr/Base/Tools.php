@@ -282,7 +282,7 @@ class Doozr_Base_Tools extends Doozr_Base_Development
                     }
 
                     // check for instantiation
-                    if (strpos($methodSourcecode, 'n'.'e'.'w '.'s'.'elf(') || strpos($methodSourcecode, 'new '.$classname.'(')) {
+                    if (strpos($methodSourcecode, 'ne'.'w s'.'elf(') || strpos($methodSourcecode, 'new '.$classname.'(')) {
                         $constructor = $possibleConstructor->name;
                         break;
                     }
@@ -290,8 +290,9 @@ class Doozr_Base_Tools extends Doozr_Base_Development
             }
 
             // and finally instantiate
-            if (is_null($arguments)) {
+            if (null === $arguments) {
                 return call_user_func($classname.'::'.$constructor);
+
             } else {
                 // parameter!
                 if (is_array($arguments)) {

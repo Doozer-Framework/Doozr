@@ -133,7 +133,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     /**
      * Response
      *
-     * @var Doozr_Response_Interface
+     * @var Response
      * @access protected
      */
     protected $response;
@@ -168,7 +168,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Response $response The response to use as base.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Response_Interface Instance for chaining
+     * @return Response Instance for chaining
      * @access public
      */
     public function resolve(Request $request, Response $response)
@@ -189,7 +189,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     }
 
     /**
-     * Dispatches the request to the backend layers. This can be "Model" "View" "Presenter" in MVP runtimeEnvironment
+     * Dispatches the request to the backend layers. This can be "Model" "View" "Presenter"
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Response_Interface|Doozr_Response_Web
@@ -217,8 +217,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
 
             // Call the requested Action on requested Presenter (Presenter:Action)
             $data = $presenter->{$method}();
-
-            #dump('FEHLER HIER DRÜBER!');die;
 
             // Create a response body with write access
             $responseBody = new Doozr_Response_Body('php://memory', 'w');
@@ -516,13 +514,13 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     /**
      * Setter for response.
      *
-     * @param Doozr_Response_Interface $response The response
+     * @param Response $response The response
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function setResponse(Doozr_Response_Interface $response = null)
+    protected function setResponse(Response $response = null)
     {
         $this->response = $response;
     }
@@ -530,13 +528,13 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     /**
      * Fluent: Setter for response.
      *
-     * @param Doozr_Response_Interface $response The response
+     * @param Response $response The response
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
      * @access protected
      */
-    protected function response(Doozr_Response_Interface $response)
+    protected function response(Response $response)
     {
         $this->setResponse($response);
         return $this;
@@ -546,7 +544,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for response.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Response_Interface The response if set, otherwise NULL
+     * @return Response The response if set, otherwise NULL
      * @access protected
      */
     protected function getResponse()
@@ -576,7 +574,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             $target,
             [
                 $registry,
-                $requestState,
+                $requestState
             ]
         );
 
@@ -585,8 +583,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             $target,
             [
                 $registry,
-                $requestState,
-                $registry->getParameter('doozr.kernel.caching'),
+                $requestState
             ]
         );
 
