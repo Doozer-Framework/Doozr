@@ -106,10 +106,10 @@ final class Doozr_Handler_Exception extends Doozr_Base_Class
         // Information disclosure protection. Only in debug we show what really happened
         if (true === $debug) {
             $message = $exception->getMessage();
-            $code = $exception->getCode();
+            $code    = $exception->getCode();
         } else {
             $message = constant('Doozr_Http::REASONPHRASE_'.$statusCode);
-            $code = $statusCode;
+            $code    = $statusCode;
         }
 
         // Simple exception switch by runtime environment
@@ -129,8 +129,6 @@ final class Doozr_Handler_Exception extends Doozr_Base_Class
                 $exception->getPrevious()->getLine()
             );
         }
-
-        exit;
     }
 
     /**

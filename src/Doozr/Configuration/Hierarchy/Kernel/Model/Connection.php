@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Response - Httpd.
+ * Doozr - Configuration - Hierarchy - Kernel - Model - Connection.
  *
- * Httpd.php - Doozr response implementation for Httpd (HTTP) response(s).
+ * Connection.php - The "connection" node representation for providing auto-completion for config values.
  *
  * PHP versions 5.5
  *
@@ -53,13 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Kernel.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Response/Web.php';
 
 /**
- * Doozr - Response - Httpd.
+ * Doozr - Configuration - Hierarchy - Kernel - Model - Connection.
  *
- * Doozr response implementation for Httpd (HTTP) response(s).
+ * The "connection" node representation for providing auto-completion for config values.
  *
  * @category   Doozr
  *
@@ -71,14 +69,82 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Response/Web.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Response_Httpd extends Doozr_Response_Web
+class Doozr_Configuration_Hierarchy_Kernel_Model_Connection
 {
     /**
-     * Type of response.
+     * Type for SQL based storages.
      *
-     * @example Httpd, Web, ...
+     * @var int
+     */
+    const TYPE_SQL = 1;
+
+    /**
+     * Type for NOSQL based storages.
+     *
+     * @var int
+     */
+    const TYPE_NOSQL = 2;
+
+    /**
+     * The Id.
      *
      * @var string
      */
-    protected $type = Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD;
+    public $id = 'Doozr';
+
+    /**
+     * The name.
+     *
+     * @var string
+     */
+    public $name = 'Doozr';
+
+    /**
+     * The description.
+     *
+     * @var string
+     */
+    public $description = 'Description of the connection.';
+
+    /**
+     * The type.
+     *
+     * @var int
+     */
+    public $type = self::TYPE_SQL;
+
+    /**
+     * The hostname or ip.
+     *
+     * @var string
+     */
+    public $host = 'localhost';
+
+    /**
+     * The port to connect to.
+     *
+     * @var int
+     */
+    public $port;
+
+    /**
+     * Name of the database to connect to.
+     *
+     * @var string
+     */
+    public $database;
+
+    /**
+     * Username for connection.
+     *
+     * @var string
+     */
+    public $user = '';
+
+    /**
+     * Password for connection.
+     *
+     * @var string
+     */
+    public $password = '';
 }

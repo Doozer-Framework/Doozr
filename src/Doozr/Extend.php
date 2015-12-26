@@ -148,20 +148,26 @@ function merge_array(array $array_1, array $array_2)
  */
 function array_change_key_case_recursive($input, $case = CASE_LOWER)
 {
-    if (!is_array($input)) {
+    if (false === is_array($input)) {
         trigger_error(
-            sprintf('Invalid input array "%s"', $input),
+            sprintf('Invalid input. Not an array "%s"', var_export($input, true)),
             E_USER_NOTICE
         );
-        exit;
+
+        return $input;
     }
 
     // CASE_UPPER|CASE_LOWER
-    if (!in_array($case, [CASE_UPPER, CASE_LOWER])) {
-        trigger_error("Case parameter '{$case}' is invalid.", E_USER_NOTICE);
-        exit;
+    if (false === in_array($case, [CASE_UPPER, CASE_LOWER])) {
+        trigger_error(
+            sprintf('Case parameter "%s" is invalid.', $case),
+            E_USER_NOTICE
+        );
+
+        return $input;
     }
 
+    // Do the transformation
     $input = array_change_key_case($input, $case);
 
     foreach ($input as $key => $array) {

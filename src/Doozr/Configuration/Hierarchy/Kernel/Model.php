@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Response - Httpd.
+ * Doozr - Configuration - Hierarchy - Kernel - Model.
  *
- * Httpd.php - Doozr response implementation for Httpd (HTTP) response(s).
+ * Model.php - The "model" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -53,13 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Kernel.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Response/Web.php';
 
 /**
- * Doozr - Response - Httpd.
+ * Doozr - Configuration - Hierarchy - Kernel - Model.
  *
- * Doozr response implementation for Httpd (HTTP) response(s).
+ * The "model" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
  *
@@ -71,14 +69,59 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Response/Web.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Response_Httpd extends Doozr_Response_Web
+class Doozr_Configuration_Hierarchy_Kernel_Model
 {
     /**
-     * Type of response.
+     * Whether Model layer is enabled or disabled.
      *
-     * @example Httpd, Web, ...
+     * @var bool
+     */
+    public $enabled = true;
+
+    /**
+     * Generic error message.
+     * Used when not wanna show details about an error to the public.
      *
      * @var string
      */
-    protected $type = Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD;
+    public $errormessage = 'Error while accessing database.';
+
+    /**
+     * Identifier/name of the OxM (ORM, ODM, O?M).
+     *
+     * @var string
+     */
+    public $oxm = 'Doctrine';
+
+    /**
+     * Filename of main include file for dispatching further process.
+     * To isolate the model driver and provide maximum flexibility it will work like:
+     * 1. Take Registry
+     * 2. Take Configuration
+     * Pass both to the specific "Driver" extending base driver and everything is fine.
+     *
+     * @var string
+     */
+    public $driver = 'Driver.php';
+
+    /**
+     * Filename of the route file.
+     *
+     * @var string
+     */
+    public $route = 'Route.php';
+
+    /**
+     * The document root of the driver.
+     *
+     * @var string
+     */
+    public $docroot = '{{DOOZR_DOCUMENT_ROOT}}Model/Lib/Doctrine/lib/';
+
+    /**
+     * The connections collection array indexed by name
+     *
+     * @var Doozr_Configuration_Hierarchy_Kernel_Model_Connection[]
+     */
+    public $connections = [];
 }

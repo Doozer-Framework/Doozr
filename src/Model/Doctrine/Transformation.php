@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Doodi <-> CouchDB - Transformation Class
+ * Doozr - Model - Doctrine - Transformation.
  *
- * TransformationCouchdb.class.php - The Transformation Class for CouchDB calls
+ * Transformation.php - Transformation for x calls.
  *
  * PHP versions 5.5
  *
@@ -43,37 +44,45 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Model
- * @subpackage Doozr_Model_Doodi
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 /**
- * Doozr - Doodi <-> CouchDB - Transformation Class
+ * Doozr - Model - Doctrine - Transformation.
  *
- * The Transformation Class for CouchDB calls
+ * Transformation for x calls.
  *
  * @category   Doozr
- * @package    Doozr_Model
- * @subpackage Doozr_Model_Doodi
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
-final class Doodi_Couchdb_Transformation extends Doozr_Base_Class
+final class Model_Doctrine_Transformation extends \Doozr_Base_Class
 {
     /**
+     * The basics.
+     *
+     * @var array
+     */
+    protected $basics;
+
+    /**
      * out intelligent transformation matrix
-     * full-qualified example:
+     * full-qualified example:.
      *
      * @example
      * 'connect' => array(
@@ -93,42 +102,37 @@ final class Doodi_Couchdb_Transformation extends Doozr_Base_Class
      *     )
      *
      * @var array
-     * @access private
      */
-    private $_transformations = array(
+    protected $transformations = array(
         'connect' => array(
-            'class'            => 'phpillowConnection',
-            'method'           => 'createInstance',
-            'type'             => 'static',
-            'argumentCount'    => 2,
+            'class' => 'phpillowConnection',
+            'method' => 'createInstance',
+            'type' => 'static',
+            'argumentCount' => 2,
             'defaultArguments' => array(
                 0 => 'HOST',
-                1 => 'PORT'
+                1 => 'PORT',
             ),
-            'trigger'          => 'getInstance'
+            'trigger' => 'getInstance',
         ),
         'getInstance' => array(
-            'class'            => 'phpillowConnection',
-            'method'           => 'getInstance',
-            'type'             => 'static',
-            'argumentCount'    => 0
+            'class' => 'phpillowConnection',
+            'method' => 'getInstance',
+            'type' => 'static',
+            'argumentCount' => 0,
         ),
         'open' => array(
-            'class'            => 'phpillowConnection',
-            'method'           => 'setDatabase',
-            'type'             => 'static',
-            'argumentCount'    => 1,
+            'class' => 'phpillowConnection',
+            'method' => 'setDatabase',
+            'type' => 'static',
+            'argumentCount' => 1,
             'defaultArguments' => array(
-                0 => 'DATABASE'
-            )
+                0 => 'DATABASE',
+            ),
         ),
         'close' => [],
-        'disconnect' => []
+        'disconnect' => [],
     );
-
-    /*******************************************************************************************************************
-     * // BEGIN MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
 
     /**
      * Constructor.
@@ -136,21 +140,16 @@ final class Doodi_Couchdb_Transformation extends Doozr_Base_Class
      * @param array $configuration The configuration to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doodi_Couchdb_Transformation Instance of this class
-     * @access public
      */
     public function __construct($configuration)
     {
-        // store the configuration as basic-data
-        $this->_basics = $configuration;
-
-        // call parents constructor
-        parent::__construct();
+        // Store the configuration as basic-data
+        $this->basics = $configuration;
     }
 
     /**
      * transforms generic methods from Doodi (like connect, open, create, read, update, delete)
-     * to callable original method behind Facade or Bridge
+     * to callable original method behind Facade or Bridge.
      *
      * This method is intend to transform generic methods from Doodi
      *
@@ -159,22 +158,22 @@ final class Doodi_Couchdb_Transformation extends Doozr_Base_Class
      * @param mixed  $arguments ARRAY of arguments if given, otherwise NULL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object Instance of this class
-     * @access public
      */
     public function transform($caller, $method, $arguments = null)
     {
         // check if a transformation for call is defined ...
-        if (isset($this->_transformations[$method])) {
+        if (isset($this->transformations[$method])) {
 
             // retrieve data for transformation
-            $transformation = $this->_transformations[$method];
+            $transformation = $this->transformations[$method];
 
             // check for empty transformation => /dev/null transformation
             if (!empty($transformation)) {
 
                 // the name of the class
-                $class  = $transformation['class'];
+                $class = $transformation['class'];
 
                 // the name of the method
                 $method = $transformation['method'];
@@ -203,12 +202,12 @@ final class Doodi_Couchdb_Transformation extends Doozr_Base_Class
                         }
                     }
 
-                    // check for remapping of arguments
+                    // Check for remapping of arguments
                     if (isset($transformation['argumentMap'])) {
-                        // get matrix for remapping arguments
+                        // Get matrix for remapping arguments
                         $matrix = $transformation['argumentMap'];
 
-                        // iterate over transformation
+                        // Iterate over transformation
                         for ($i = 0; $i < count($arguments); ++$i) {
                             $target[$matrix[$i]] = $arguments[$i];
                         }
@@ -220,7 +219,6 @@ final class Doodi_Couchdb_Transformation extends Doozr_Base_Class
 
                     // get result from call
                     $result = call_user_func_array(array($class, $method), $arguments);
-
                 } else {
                     // get result from call
                     $result = call_user_func(array($class, $method));
@@ -234,76 +232,65 @@ final class Doodi_Couchdb_Transformation extends Doozr_Base_Class
                 return $result;
             } else {
                 // /dev/null transform
-                return null;
+                return;
             }
         } else {
             // if not  a valid transformation -> return to sender (:
             if ($caller) {
                 return $this->dynamicCall($caller, $method, $arguments);
             } else {
-                return null;
+                return;
             }
         }
     }
 
-    /*******************************************************************************************************************
-     * \\ END MAIN CONTROL METHODS (CONSTRUCTOR AND INIT)
-     ******************************************************************************************************************/
-
     /**
-     * returns the transformations
+     * returns the transformations.
      *
      * This method is intend to return the transformations
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The transformations
-     * @access public
      */
     public function getTransformations()
     {
-        return $this->_transformations;
+        return $this->transformations;
     }
 
-
     /**
-     * magic __get - generic attribute getter
-     *
-     * This method is intend to act as generic attribute getter
+     * magic __get - generic attribute getter.
      *
      * @param string $variable The name of the variable to return value for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The requested data
-     * @access public
      */
     public function __get($variable)
     {
-        var_dump($variable);
-        return (isset($this->_basics[$variable])) ?
-            $this->_basics[$variable] :
-            $this->_triggerError(__METHOD__, $variable, debug_backtrace());
+        return (isset($this->basics[$variable])) ?
+            $this->basics[$variable] :
+            $this->triggerError(__METHOD__, $variable, debug_backtrace());
     }
 
-
     /**
-     * magic __get - generic attribute getter
-     *
-     * This method is intend to act as generic attribute getter
+     * magic __get - generic attribute getter.
      *
      * @param string $method  The signature of the method where the error was detected
      * @param string $context The context (variable-name) on which the error was detected
      * @param array  $trace   The stacktrace-snapshot at moment of error-detected
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed NULL
-     * @access private
+     *
+     * @return mixed
      */
-    private function _triggerError($method, $context, $trace)
+    protected function triggerError($method, $context, $trace)
     {
         // trigger
         trigger_error('Undefined property: '.__CLASS__.'::$'.$context, E_USER_NOTICE);
 
         // result = null
-        return null;
+        return;
     }
 }
