@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - Model
+ * Doozr - Base - Model.
  *
  * Model.php - Base class for Models
  *
@@ -43,32 +44,33 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model/Observer.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Model/Observer.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Model/Interface.php';
 
 use Psr\Cache\CacheItemPoolInterface;
 
 /**
- * Doozr Base Model
+ * Doozr Base Model.
  *
  * Base class for Models
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_Model extends Doozr_Base_Model_Observer
@@ -76,10 +78,9 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     Doozr_Base_Model_Interface
 {
     /**
-     * Data for CRUD operation(s)
+     * Data for CRUD operation(s).
      *
      * @var mixed
-     * @access protected
      */
     protected $data;
 
@@ -87,7 +88,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Active/last action.
      *
      * @var string
-     * @access protected
      */
     protected $action;
 
@@ -95,23 +95,20 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Active/last route.
      *
      * @var Doozr_Request_Route_State
-     * @access protected
      */
     protected $route;
 
     /**
-     * The request state object of Doozr
+     * The request state object of Doozr.
      *
      * @var Doozr_Request_State
-     * @access protected
      */
     protected $requestState;
 
     /**
-     * Instance of the Doozr_Cache_Service
+     * Instance of the Doozr_Cache_Service.
      *
      * @var Doozr_Cache_Service
-     * @access protected
      */
     protected $cache;
 
@@ -119,7 +116,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * The main configuration for use in model environment.
      *
      * @var Doozr_Configuration
-     * @access protected
      */
     protected $configuration;
 
@@ -129,9 +125,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param Doozr_Registry      $registry     Doozr registry
      * @param Doozr_Request_State $requestState Request state
      *
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
+     *
      * @throws Doozr_Base_Model_Exception
      */
     public function __construct(
@@ -159,6 +154,9 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
                 );
             }
         }
+
+        // Ensure parent's constructor is called
+        parent::__construct();
     }
 
     /**
@@ -167,8 +165,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param Doozr_Request_Route_State $route The route to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setRoute(Doozr_Request_Route_State $route)
     {
@@ -181,8 +177,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param Doozr_Request_Route_State $route The route to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function route(Doozr_Request_Route_State $route)
     {
@@ -195,8 +191,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Request_Route_State The route stored, otherwise NULL
-     * @access protected
      */
     protected function getRoute()
     {
@@ -209,8 +205,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param Doozr_Request_State $requestState The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setRequestState($requestState)
     {
@@ -223,8 +217,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param Doozr_Request_State $requestState The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function requestState($requestState)
     {
@@ -237,8 +231,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for requestState.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Request_State The requestState stored, otherwise NULL
-     * @access protected
      */
     protected function getRequestState()
     {
@@ -251,8 +245,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param CacheItemPoolInterface $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setCache($cache)
     {
@@ -265,8 +257,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param CacheItemPoolInterface $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function cache($cache)
     {
@@ -279,8 +271,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Cache_Service The cache service instance stored, otherwise NULL
-     * @access protected
+     *
+     * @return CacheItemPoolInterface The cache service instance stored, otherwise NULL
      */
     protected function getCache()
     {
@@ -293,8 +285,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param mixed $data The data (array preferred) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setData($data)
     {
@@ -307,8 +297,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param mixed $data The data to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Model $this Instance for chaining
-     * @access public
      */
     public function data($data)
     {
@@ -323,8 +313,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param string $action The action to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setAction($action)
     {
@@ -337,8 +325,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param string $action The action to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function action($action)
     {
@@ -351,8 +339,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for action.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The last action processed, otherwise NULL in clean state
-     * @access protected
      */
     protected function getAction()
     {
@@ -365,24 +353,22 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param bool $force TRUE to force retrieval fresh data, otherwise FALSE to use already retrieved [default]
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The data for the runtimeEnvironment requested
-     * @access public
      */
     public function getData($force = false)
     {
         if ($this->data === null || $force === true) {
-
-            $route  = $this->getRoute();
+            $route = $this->getRoute();
             $action = $route->getAction();
             $method = false;
 
             $this->action($action);
 
             // Check for concrete method call
-            if (method_exists($this, '__data' . ucfirst($action))) {
+            if (method_exists($this, '__data'.ucfirst($action))) {
                 // Concrete integration ...
-                $method = '__data' . ucfirst($action);
-
+                $method = '__data'.ucfirst($action);
             } elseif (method_exists($this, '__data')) {
                 // custom generic overload solution
                 $method = '__data';
@@ -394,7 +380,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
 
                 if (count($arguments) > 0) {
                     $result = call_user_func_array(array($this, $method), $arguments);
-
                 } else {
                     $result = call_user_func(array($this, $method));
                 }
@@ -421,8 +406,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param Doozr_Configuration_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     protected function setConfiguration(Doozr_Configuration_Interface $configuration)
     {
@@ -435,8 +418,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param Doozr_Configuration_Interface $configuration The
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     protected function configuration(Doozr_Configuration_Interface $configuration)
     {
@@ -449,8 +432,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Configuration_Interface The configuration stored
-     * @access public
      */
     protected function getConfiguration()
     {
@@ -458,34 +441,35 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     }
 
     /**
-     * Escapes values from bad stuff but only simple
+     * Escapes values from bad stuff but only simple.
      *
      * @param string $string String to escape
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Escaped input
-     * @access public
      */
     public function escape($string)
     {
         $string = mb_convert_encoding($string, 'UTF-8', 'UTF-8');
         $string = str_replace('{{', '', $string);
         $string = str_replace('}}', '', $string);
+
         return htmlentities($string, ENT_QUOTES, 'UTF-8');
     }
 
     /**
-     * Create of Crud
+     * Create of Crud.
      *
      * @param mixed $data The data for create
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      */
     protected function create($data = null)
     {
-        $method = '__' . str_replace(__CLASS__ . '::', '', __METHOD__);
+        $method = '__'.str_replace(__CLASS__.'::', '', __METHOD__);
 
         if ($this->hasMethod($method) && is_callable(array($this, $method))) {
             $arguments = func_get_args();
@@ -500,15 +484,15 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     }
 
     /**
-     * Read of cRud
+     * Read of cRud.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Data on success, otherwise null
-     * @access protected
      */
     protected function read()
     {
-        $method = '__' . str_replace(__CLASS__ . '::', '', __METHOD__);
+        $method = '__'.str_replace(__CLASS__.'::', '', __METHOD__);
 
         if ($this->hasMethod($method) && is_callable(array($this, $method))) {
             $arguments = func_get_args();
@@ -523,15 +507,15 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     }
 
     /**
-     * Delete of cruD
+     * Delete of cruD.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      */
     protected function delete()
     {
-        $method = '__' . str_replace(__CLASS__ . '::', '', __METHOD__);
+        $method = '__'.str_replace(__CLASS__.'::', '', __METHOD__);
 
         if ($this->hasMethod($method) && is_callable(array($this, $method))) {
             $arguments = func_get_args();
@@ -546,45 +530,43 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     }
 
     /**
-     * Returns an array containing a flat structure for a breadcrumb navigation
+     * Returns an array containing a flat structure for a breadcrumb navigation.
      *
      * @param string $url  The URL used to extract breadcrumb from
      * @param string $home The crumb used for "Home" e.g. >> Home
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The resulting breadcrumb structure
-     * @access protected
      */
     protected function getBreadcrumbByUrl($url, $home = 'Home')
     {
-        $nodes      = explode('/', $url);
+        $nodes = explode('/', $url);
         $countNodes = count($nodes);
 
         $breadcrumb = [];
-        $root       = '';
+        $root = '';
 
         for ($i = 0; $i < $countNodes; ++$i) {
             $node = ($i === 0) ? $home : $nodes[$i];
             $breadcrumb[] = array(
-                'href'   => ($i === 0) ? '/' : ($root . '/' . $node),
-                'text'   => $node,
+                'href' => ($i === 0) ? '/' : ($root.'/'.$node),
+                'text' => $node,
                 'active' => ($i === ($countNodes - 1)),
-                'class'  => ($i === ($countNodes - 1)) ? 'active' : null,
-                'id'     => ($i === ($countNodes - 1)) ? 'breadcrumb' : null,
+                'class' => ($i === ($countNodes - 1)) ? 'active' : null,
+                'id' => ($i === ($countNodes - 1)) ? 'breadcrumb' : null,
             );
 
-            $root .= ($i > 0) ? ('/' . $node) : '';
+            $root .= ($i > 0) ? ('/'.$node) : '';
         }
 
         return $breadcrumb;
     }
 
     /**
-     * This method is intend to call the teardown method of a model if exist
+     * This method is intend to call the teardown method of a model if exist.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function __destruct()
     {

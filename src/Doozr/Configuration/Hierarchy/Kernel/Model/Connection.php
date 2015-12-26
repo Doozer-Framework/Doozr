@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Base-Facade-Singleton-Strict
+ * Doozr - Configuration - Hierarchy - Kernel - Model - Connection.
  *
- * DoozrBaseFacadeSingleton.class.php - Base-Facade-Singleton-Strict for all ...
+ * Connection.php - The "connection" node representation for providing auto-completion for config values.
  *
  * PHP versions 5.5
  *
@@ -43,76 +44,107 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Facade
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
 
 /**
- * Doozr Base-Facade-Singleton-Strict
+ * Doozr - Configuration - Hierarchy - Kernel - Model - Connection.
  *
- * Base-Facade-Singleton-Strict for all ...
+ * The "connection" node representation for providing auto-completion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Facade
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Facade_Singleton_Strict extends Doozr_Base_Class_Singleton_Strict
+class Doozr_Configuration_Hierarchy_Kernel_Model_Connection
 {
     /**
-     * This method is intend to act as generic facade - for all non-implemented methods
+     * Type for SQL based storages.
      *
-     * @param string $signature The signature (name of the method) originally called
-     * @param mixed  $arguments The arguments used for call (can be either an ARRAY of values or NULL)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Result of called method if exists, otherwise NULL
-     * @access public
+     * @var int
      */
-    public function __call($signature, $arguments)
-    {
-        // analyze the basics of current ghost-call and define consts ...
-        $this->getChild();
-
-        // get transformer of child (calling) class
-        $transformer = call_user_func(array(CHILD, 'getTransformer'));
-
-        // get existing transformations
-        $transformations = $transformer->getTransformations();
-
-        if (isset($transformations[$signature])) {
-            // transform => call => return result
-            return $transformer->transform(null, $signature, $arguments);
-        } else {
-            trigger_error('Call to undefined function '.$signature.'()', E_USER_ERROR);
-        }
-
-        // no success
-        return null;
-    }
+    const TYPE_SQL = 1;
 
     /**
-     * This method is intend to retrieve and store the children (counterpart of parent::) of this class
+     * Type for NOSQL based storages.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @var int
      */
-    protected function getChild()
-    {
-        if (false === defined('CHILD')) {
-            define('CHILD', get_called_class());
-        }
-    }
+    const TYPE_NOSQL = 2;
+
+    /**
+     * The Id.
+     *
+     * @var string
+     */
+    public $id = 'Doozr';
+
+    /**
+     * The name.
+     *
+     * @var string
+     */
+    public $name = 'Doozr';
+
+    /**
+     * The description.
+     *
+     * @var string
+     */
+    public $description = 'Description of the connection.';
+
+    /**
+     * The type.
+     *
+     * @var int
+     */
+    public $type = self::TYPE_SQL;
+
+    /**
+     * The hostname or ip.
+     *
+     * @var string
+     */
+    public $host = 'localhost';
+
+    /**
+     * The port to connect to.
+     *
+     * @var int
+     */
+    public $port;
+
+    /**
+     * Name of the database to connect to.
+     *
+     * @var string
+     */
+    public $database;
+
+    /**
+     * Username for connection.
+     *
+     * @var string
+     */
+    public $user = '';
+
+    /**
+     * Password for connection.
+     *
+     * @var string
+     */
+    public $password = '';
 }

@@ -38,19 +38,16 @@
     },
     "model": {
       "enabled": true,
-      "errormessage": "Error while accessing database. Please contact your technical support.",
-      "proxy": "Couchdb",
-      "oxm": "Couchdb",
-      "bootstrap": "Bootstrap.php",
-      "route": "Route.php",
-      "docroot": "{{DOOZR_DOCUMENT_ROOT}}Model/Lib/Couchdb/lib/",
-      "connection": {
+      "errormessage": "Error while accessing database.",
+      "oxm": "Doctrine",
+      "driver": "Driver.php",
+      "connections": {
         "read": {
           "name": "Doozr",
           "description": "",
-          "type": "nosql",
+          "type": "sql",
           "host": "localhost",
-          "port": "5984",
+          "port": "3600",
           "database": "Doozr",
           "user": "",
           "password": ""

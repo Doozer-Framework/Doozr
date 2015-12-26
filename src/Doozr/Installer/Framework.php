@@ -3,7 +3,8 @@
 
 // Check for execution from www or something!
 if ('cli' !== php_sapi_name()) {
-    die('Please execute the installed from command line.');
+    echo 'Please execute the Installer from command line.';
+    exit;
 }
 
 /**

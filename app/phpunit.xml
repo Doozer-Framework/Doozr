@@ -31,7 +31,6 @@
             <directory suffix=".php">../src/</directory>
             <exclude>
                 <directory suffix=".php">../src/Doozr/Di/</directory>
-                <directory suffix=".php">../src/Model/</directory>
                 <directory suffix=".php">../src/Service/</directory>
             </exclude>
         </whitelist>

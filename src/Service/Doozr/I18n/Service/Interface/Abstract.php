@@ -212,7 +212,6 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
                 if (true === $this->getCacheEnabled()) {
                     try {
                         $translationTable = self::$cache->read($checksum);
-
                     } catch (Doozr_Cache_Service_Exception $e) {
                         // Intentionally left empty
                     }
@@ -626,6 +625,6 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
     {
         $method = 'buildTranslationtable';
 
-        return (method_exists($instance, $method) && is_callable([$instance, $method]));
+        return method_exists($instance, $method) && is_callable([$instance, $method]);
     }
 }

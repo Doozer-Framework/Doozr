@@ -155,9 +155,9 @@ abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
         $configL10n = null,
         $translator = null
     ) {
-        $this->registry = $registry;
-        $this->locale = $locale;
-        $this->namespace = $namespace;
+        $this->registry   = $registry;
+        $this->locale     = $locale;
+        $this->namespace  = $namespace;
         $this->configI18n = $configI18n;
         $this->configL10n = $configL10n;
         $this->translator = $translator;

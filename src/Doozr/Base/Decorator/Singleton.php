@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Base Decorator Singleton
+ * Doozr Base Decorator Singleton.
  *
  * Singleton.php - Base class for decorators.
  *
@@ -43,70 +44,67 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Decorator
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Exception.php';
 
 /**
- * Doozr Base Decorator Singleton
+ * Doozr Base Decorator Singleton.
  *
  * Base class for decorators.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Decorator
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
 {
     /**
-     * Configuration for decorator
+     * Configuration for decorator.
      *
      * @var array
-     * @access protected
      */
     protected $configuration;
 
     /**
      * This instance contains the routing matrix.
-     * (e.g. route "foo()" to "bar()")
+     * (e.g. route "foo()" to "bar()").
      *
      * @var object
-     * @access protected
      */
     protected $route;
 
     /**
-     * Contains the current status of decorated class
+     * Contains the current status of decorated class.
      *
      * @var bool
-     * @access protected
      */
     protected $enabled;
 
     /**
-     * The chaining classname memory
+     * The chaining classname memory.
      *
      * @var string
-     * @access protected
      * @static
      */
     protected static $chainClassname;
 
     /**
-     * The transformer which takes
+     * The transformer which takes.
      *
      * @var object
      */
@@ -115,7 +113,7 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
 
     /**
      * Initializes the decorator by passed through configuration.
-     * The configuration is used for checking the required information:
+     * The configuration is used for checking the required information:.
      *
      * path
      * name
@@ -127,86 +125,82 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
      * @param array $configuration Reference to the configuration for decorator
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     *
      * @throws Doozr_Exception
      */
     protected function init(array $configuration, Doozr_Path $path)
     {
-        // the path to the class to decorate
-        if (!isset($configuration['path'])) {
+        // Check for path to the class to decorate
+        if (false === isset($configuration['path'])) {
             throw new Doozr_Exception(
                 'Base decorator needs path to class which should be decorated!'
             );
         }
 
-        // the name of the class to decorate
-        if (!isset($configuration['name'])) {
+        // Check for the name of the class to decorate
+        if (false === isset($configuration['name'])) {
             throw new Doozr_Exception(
                 'Base decorator needs name for decoration (route ...)!'
             );
         }
         $name = ucfirst(strtolower($configuration['name']));
 
-        // bootstrap script required for decorated class to run
-        if (isset($configuration['bootstrap']) && $configuration['bootstrap'] !== false) {
-            include_once $configuration['path'].$configuration['bootstrap'];
+        // Bootstrap script required for decorated class to run
+        if (true === isset($configuration['driver']) && false||null !== $configuration['driver']) {
+            $result = include_once $configuration['path'].$configuration['driver'];
+        } else {
+            $result = true;
         }
 
-        // the glue between ???
-        // TODO: check sense comment ...
-        if (!isset($configuration['glue'])) {
-            $configuration['glue'] = '';
+        if (false === $result) {
+            throw new Doozr_Exception(
+                sprintf(
+                    'Bootstrap configured ("%s") but not able to load or already loaded.',
+                    $configuration['path'].$configuration['driver']
+                )
+            );
         }
 
-        // if a route script is set, we install this (aka proxy or better proxies!) here
-        if (isset($configuration['docroot']) && isset($configuration['route'])) {
-            // include the route
-            include_once $configuration['docroot'].$configuration['route'];
-            $classname = 'Doodi_'.$name.'_Route';
-            $this->route = new $classname();
-        }
-
-        // store configuration for further processing
+        // Store configuration for further processing
         $this->configuration = $configuration;
     }
 
     /**
-     * Translates given method signature and arguments to
-     * target signature and arguments.
+     * Translates given method signature and arguments to target signature and arguments.
      *
      * @param string $signature The signature of the method to translate
      * @param array  $arguments The arguments to pass to method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     *
+     * @return mixed The result of the transform() call.
      */
     protected function translate($signature, $arguments = null)
     {
         if (!self::$transformer) {
-            self::$transformer = $this->_initTransformer(
+            self::$transformer = $this->initTransformer(
                 $this->configuration['docroot'],
                 $this->configuration['name']
             );
         };
 
-        // return translation of input
+        // Return translation of input
         return self::$transformer->transform($this, $signature, $arguments);
     }
 
     /**
-     * This method is intend to initialize the transformer-class if exists
+     * This method is intend to initialize the transformer-class if exists.
      *
      * @param string $docroot Document root
      * @param string $vendor  Vendor name
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object Instance of transformer
-     * @access private
+     *
      * @throws Exception
      */
-    private function _initTransformer($docroot, $vendor = 'Doozr')
+    protected function initTransformer($docroot, $vendor = 'Doozr')
     {
         // vendor (can be anything - must match folder containing transformation
         // e.g.
@@ -224,13 +218,17 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
             $transformerClass = 'Doodi_'.$vendor.'_Transformation';
 
             // and instantiate the transformer
-            return new $transformerClass($this->_configuration);
-
+            return new $transformerClass($this->configuration);
         } else {
             // no transformer => no function
             throw new Exception(
-                'No "Transformer ('.$transformationFile.')" for Mode: "'.$vendor.'" // Driver: "'.$vendor.
-                '" found. Can\'t continue!'
+                sprintf(
+                    'No "Transformer (%s)" for Mode: "%s" // Driver: "%s" found. Can\'t continue!',
+                    $transformationFile,
+                    $vendor,
+                    $vendor
+                )
+
             );
         }
     }
@@ -243,8 +241,8 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
      * @param array  $arguments       The arguments of the method call
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The result of the message call
-     * @access public
      */
     public function __call($methodSignature, $arguments)
     {
@@ -301,13 +299,13 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
 
     /**
      * This magic method fetches all propertie accesses to this class
-     * and pass them to the decorated class - this is done by
+     * and pass them to the decorated class - this is done by.
      *
      * @param string $chainClassname The requested property
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Decorator_Singleton The current instance of this class
-     * @access public
      */
     public function __get($chainClassname)
     {
@@ -319,7 +317,6 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
             }
 
             self::$chainClassname = $chainClassname;
-
         } else {
             self::$chainClassname = self::$chainClassname.$this->decoratorConfiguration['glue'].
                 ucfirst($chainClassname);

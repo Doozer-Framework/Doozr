@@ -73,5 +73,166 @@
  */
 interface Doozr_I18n_Service_Interface extends PHPTAL_TranslationService
 {
-    /* Intentionally left blank */
+    /*------------------------------------------------------------------------------------------------------------------
+     | PUBLIC API
+     +----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the available locales defined in config.
+     *
+     * @return array An array containing the available locales with numerical index
+     */
+    public function getAvailableLocales();
+
+    /**
+     * Setter for available locales.
+     *
+     * @param array $locales Locales to set
+     */
+    public function setAvailableLocales(array $locales);
+
+    /**
+     * Setter for active locale.
+     *
+     * @param string $locale The locale to set as active
+     *
+     * @return bool TRUE on success, otherwise FALSE
+     *
+     * @throws Doozr_I18n_Service_Exception
+     */
+    public function setActiveLocale($locale);
+
+    /**
+     * Returns the currently active locale.
+     *
+     * @return string|null The active locale if set, otherwise NULL
+     */
+    public function getActiveLocale();
+
+    /**
+     * This method is intend to return the current active locale.
+     *
+     * @return string The active locale
+     */
+    public function getClientPreferredLocale();
+
+    /**
+     * Returns an instance of the locale detector.
+     *
+     * @return Doozr_I18n_Service_Detector Instance of the locale detector
+     */
+    public function getDetector();
+
+    /**
+     * This method is intend to return the instance of the locale-detector.
+     *
+     * @param string $type   The type of the formatter to return
+     * @param string $locale The locale to use for formatter
+     *
+     * @return Doozr_I18n_Service_Localize_Abstract The instance of the locale-detector
+     *
+     * @throws Doozr_I18n_Service_Exception
+     */
+    public function getLocalizer($type = self::LOCALIZER_DEFAULT, $locale = null);
+
+    /**
+     * Returns an translator instance for passed locale.
+     *
+     * @param string $locale   The locale to return translator for
+     * @param string $encoding The encoding of the translation
+     *
+     * @return Doozr_I18n_Service_Translator An instance of the locale-detector
+     *
+     * @throws Doozr_I18n_Service_Exception
+     */
+    public function getTranslator($locale = null, $encoding = null);
+
+    /**
+     * Installs gettext like shortcuts _() __() ___().
+     *
+     * @return bool TRUE on success, otherwise FALSE
+     *
+     * @throws Doozr_I18n_Service_Exception
+     */
+    public function install();
+
+    /**
+     * Returns the current active encoding.
+     *
+     * @return string Currently active encoding (e.g. "UTF-8") ...
+     */
+    public function getEncoding();
+
+    /**
+     * Setter for variable.
+     *
+     * @param string $key   The key/name of the variable
+     * @param string $value The value of the variable
+     */
+    public function setVariable($key, $value);
+
+    /**
+     * Fluent: Setter for variable.
+     *
+     * @param string $key   The key/name of the variable
+     * @param string $value The value of the variable
+     *
+     * @return $this Instance for chaining
+     */
+    public function variable($key, $value);
+
+    /**
+     * Getter for variable.
+     *
+     * @return string|null The value of the variable, NULL
+     */
+    public function getVariable($key);
+
+    /**
+     * Returns all defined variables.
+     *
+     * @return array Name of defined variables
+     */
+    public function getDefinedVariables();
+
+    /**
+     * Getter for variables.
+     *
+     * @return array Name of defined variables
+     */
+    public function getVariables();
+
+    /**
+     * Magic: Setter for variable.
+     *
+     * @param string $key   The key/name of the variable
+     * @param string $value The value of the variable
+     *
+     * @return array Name of defined variables
+     */
+    public function __set($key, $value);
+
+    /**
+     * Replaces a string with another one in passed string.
+     *
+     * @param string $pattern The pattern to be used for detection
+     * @param string $string  String to work with
+     * @param string $replace Replacement string
+     *
+     * @return string The resulting string
+     */
+    public function replaceVariables($pattern, $string, $replace);
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | Public Interface/API (Tools)
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Checks for validity of a passed locale string.
+     *
+     * @param string $locale A locale to check for validity (e.g. "de", "de-AT", "en-us", ...)
+     *
+     * @return bool TRUE if valid, otherwise FALSE
+     */
+    public function isValidLocale($locale = '');
 }

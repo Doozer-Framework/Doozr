@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Response - Resolver
+ * Doozr - Response - Resolver.
  *
  * Resolver.php - Response resolver. Returns a response by request (route from request-state to MVP).
  *
@@ -43,32 +44,33 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Response_Resolver
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Doozr - Request - Dispatcher
+ * Doozr - Request - Dispatcher.
  *
  * Request dispatcher for dispatching route from request state to MVP.
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Response_Resolver
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Response_Resolver extends Doozr_Base_Class
@@ -77,7 +79,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Presenter class for active route.
      *
      * @var string
-     * @access protected
      */
     protected $classname;
 
@@ -85,7 +86,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Method (Action) for active route.
      *
      * @var string
-     * @access protected
      */
     protected $method;
 
@@ -93,48 +93,42 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * The active route.
      *
      * @var array
-     * @access protected
      */
     protected $route;
 
     /**
      * The directory separator
-     * shortcut to DIRECTORY_SEPARATOR
+     * shortcut to DIRECTORY_SEPARATOR.
      *
      * @var string
-     * @access protected
      */
     protected $separator = DIRECTORY_SEPARATOR;
 
     /**
-     * Instance of model
+     * Instance of model.
      *
      * @var object
-     * @access protected
      */
     protected $model;
 
     /**
-     * Instance of view
+     * Instance of view.
      *
      * @var object
-     * @access protected
      */
     protected $view;
 
     /**
-     * Presenter instance
+     * Presenter instance.
      *
      * @var Doozr_Base_Presenter
-     * @access protected
      */
     protected $presenter;
 
     /**
-     * Response
+     * Response.
      *
-     * @var Doozr_Response_Interface
-     * @access protected
+     * @var Response
      */
     protected $response;
 
@@ -148,7 +142,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Doozr_Registry $registry Registry containing all kernel components
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct(
         Doozr_Registry $registry
@@ -168,14 +161,16 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Response $response The response to use as base.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Response_Interface Instance for chaining
-     * @access public
+     *
+     * @return Response Instance for chaining
      */
     public function resolve(Request $request, Response $response)
     {
+        /* @var Doozr_Request_Psr_Interface $request */
+
         // Ensure to put *route* in before ;) - here.
-        $route        = $request->getAttribute('route');
-        $target       = $route->getPresenter();
+        $route = $request->getAttribute('route');
+        $target = $route->getPresenter();
         $requestState = $request->export();
 
         $this
@@ -189,23 +184,25 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     }
 
     /**
-     * Dispatches the request to the backend layers. This can be "Model" "View" "Presenter" in MVP runtimeEnvironment
+     * Dispatches the request to the backend layers. This can be "Model" "View" "Presenter".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Response_Interface|Doozr_Response_Web
-     * @access public
+     *
      * @throws \Doozr_Route_Exception
      */
     public function run()
     {
         // The MVP process is here ...
-        $response  = $this->getResponse();
+        /* @var Psr\Http\Message\ResponseInterface $response */
+        $response = $this->getResponse();
         $presenter = $this->getPresenter();
-        $action    = $this->getAction();
-        $view      = $this->getView();
+        $action = $this->getAction();
+        $view = $this->getView();
 
         // Use inofficial standard "xAction()"
-        $method = $action . 'Action';
+        $method = $action.'Action';
 
         // Validate that request mapped to a route (foo:bar) can be executed by Doozr
         if (true === $httpStatus = $this->validateRequest($presenter, $method)) {
@@ -218,15 +215,12 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             // Call the requested Action on requested Presenter (Presenter:Action)
             $data = $presenter->{$method}();
 
-            #dump('FEHLER HIER DRÜBER!');die;
-
             // Create a response body with write access
             $responseBody = new Doozr_Response_Body('php://memory', 'w');
             $responseBody->write($data[Doozr_Base_Presenter::IDENTIFIER_VIEW]);
 
             $response = $response->withBody($responseBody);
             $response = $response->withStatus(Doozr_Http::OK);
-
         } else {
             // So if the Status is not TRUE (successful) it contains an integer for HTTP Response :)
             switch ($httpStatus) {
@@ -242,7 +236,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
                     $message = sprintf(
                         'Method "%s()" of class "%s" not callable. Sure it exists and it\'s public?',
                         $method,
-                        'Presenter_' . ucfirst($this->getClassname())
+                        'Presenter_'.ucfirst($this->getClassname())
                     );
                     break;
             }
@@ -267,8 +261,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param string $classname The classname for presenter of current request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setClassname($classname)
     {
@@ -281,8 +273,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param string $classname The classname for presenter of current request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function classname($classname)
     {
@@ -295,8 +287,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for classname.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The classname if set, otherwise NULL
-     * @access protected
      */
     protected function getClassname()
     {
@@ -309,8 +301,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Doozr_Request_Route_State $route The route of current request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setRoute(Doozr_Request_Route_State $route)
     {
@@ -323,8 +313,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Doozr_Request_Route_State $route The route of current request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function route(Doozr_Request_Route_State $route)
     {
@@ -337,8 +327,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Request_Route_State The route if set, otherwise NULL
-     * @access protected
      */
     protected function getRoute()
     {
@@ -351,8 +341,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param string $method The current action
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setAction($method)
     {
@@ -365,8 +353,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param string $action The current action
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function action($action)
     {
@@ -379,8 +367,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for action.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The action if set, otherwise NULL
-     * @access protected
      */
     protected function getAction()
     {
@@ -393,8 +381,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Doozr_Base_Presenter_Interface $presenter The presenter instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setPresenter(Doozr_Base_Presenter_Interface $presenter = null)
     {
@@ -407,8 +393,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Doozr_Base_Presenter_Interface $presenter The presenter instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function presenter(Doozr_Base_Presenter_Interface $presenter)
     {
@@ -421,8 +407,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for presenter.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Presenter Doozr_Base_Presenter_Interface if set, otherwise NULL
-     * @access protected
      */
     protected function getPresenter()
     {
@@ -435,8 +421,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Doozr_Base_Model_Interface $model The model
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setModel(Doozr_Base_Model_Interface $model = null)
     {
@@ -449,8 +433,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Doozr_Base_Model_Interface $model The model
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function model($model)
     {
@@ -463,8 +447,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Model_Interface|null Doozr_Base_Model_Interface if set, otherwise NULL
-     * @access protected
      */
     protected function getModel()
     {
@@ -477,8 +461,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Doozr_Base_View_Interface $view The view
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setView(Doozr_Base_View_Interface $view = null)
     {
@@ -491,8 +473,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param Doozr_Base_View_Interface $view The view
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function view(Doozr_Base_View_Interface $view)
     {
@@ -505,8 +487,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for view.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return SplObserver The view if set, otherwise NULL
-     * @access protected
      */
     protected function getView()
     {
@@ -516,13 +498,11 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     /**
      * Setter for response.
      *
-     * @param Doozr_Response_Interface $response The response
+     * @param Response $response The response
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
-    protected function setResponse(Doozr_Response_Interface $response = null)
+    protected function setResponse(Response $response = null)
     {
         $this->response = $response;
     }
@@ -530,15 +510,16 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     /**
      * Fluent: Setter for response.
      *
-     * @param Doozr_Response_Interface $response The response
+     * @param Response $response The response
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
-    protected function response(Doozr_Response_Interface $response)
+    protected function response(Response $response)
     {
         $this->setResponse($response);
+
         return $this;
     }
 
@@ -546,8 +527,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * Getter for response.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Response_Interface The response if set, otherwise NULL
-     * @access protected
+     *
+     * @return Response The response if set, otherwise NULL
      */
     protected function getResponse()
     {
@@ -566,8 +547,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param \Doozr_Request_State $requestState The request state to inject NOT REQUEST! only state cause no transform!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function initMvp($target, Doozr_Registry $registry, Doozr_Request_State $requestState)
     {
@@ -586,7 +565,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             [
                 $registry,
                 $requestState,
-                $registry->getParameter('doozr.kernel.caching'),
             ]
         );
 
@@ -613,8 +591,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param string $method   The name of the method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool|integer TRUE if request is valid, otherwise HTTP-Error like 400 ...
-     * @access protected
+     *
+     * @return bool|int TRUE if request is valid, otherwise HTTP-Error like 400 ...
      */
     protected function validateRequest($instance, $method)
     {
@@ -624,7 +602,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         if (false === is_object($instance) || !$instance instanceof Doozr_Base_Presenter) {
             // No presenter instance = Bad Request = 400
             $validity = Doozr_Http::BAD_REQUEST;
-
         } elseif (false === method_exists($instance, $method) || false === is_callable(array($instance, $method))) {
             // No action (method) to call on existing presenter = Not Found = 404
             $validity = Doozr_Http::NOT_FOUND;
@@ -640,8 +617,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param null|array $arguments The optional arguments to pass to model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Model
-     * @access protected
      */
     protected function modelFactory($target, $arguments = null)
     {
@@ -655,8 +632,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param null|array $arguments The optional arguments to pass to view.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_View
-     * @access protected
      */
     protected function viewFactory($target, $arguments = null)
     {
@@ -670,8 +647,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param null|array $arguments The optional arguments to pass to presenter.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Presenter_Interface
-     * @access protected
      */
     protected function presenterFactory($target, $arguments = null)
     {
@@ -686,8 +663,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      * @param array  $arguments An array of Parameters to append at instantiation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Presenter|Doozr_Base_Model|Doozr_Base_View
-     * @access protected
      */
     protected function layerFactory($request, $layer, $arguments = null)
     {
@@ -695,11 +672,11 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         $instance = null;
 
         // Build classname
-        $classname = 'App\\'.$layer . '_' . ucfirst($request);
+        $classname = 'App\\'.$layer.'_'.ucfirst($request);
 
         // Build location (path + filename)
-        $classFileAndPath = $this->getRegistry()->getParameter('doozr.app.root') .
-                            str_replace('_', $this->separator, $classname) . '.php';
+        $classFileAndPath = $this->getRegistry()->getParameter('doozr.app.root').
+                            str_replace('_', $this->separator, $classname).'.php';
 
         // Check if requested layer file exists
         if ($this->getRegistry()->getFilesystem()->exists($classFileAndPath)) {

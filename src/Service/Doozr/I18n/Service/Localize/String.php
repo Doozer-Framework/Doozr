@@ -103,9 +103,9 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
      * @var array
      */
     private $_templates = [
-        'abbr' => '<abbr title="{$DESC}">{$WORD}</abbr>',
+        'abbr'    => '<abbr title="{$DESC}">{$WORD}</abbr>',
         'acronym' => '<acronym title="{$DESC}">{$WORD}</acronym>',
-        'dfn' => '<dfn>{$WORD}</dfn> {$DESC}',
+        'dfn'     => '<dfn>{$WORD}</dfn> {$DESC}',
     ];
 
     /*------------------------------------------------------------------------------------------------------------------

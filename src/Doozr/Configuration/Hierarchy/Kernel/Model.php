@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Base-Facade-Singleton-Strict
+ * Doozr - Configuration - Hierarchy - Kernel - Model.
  *
- * DoozrBaseFacadeSingleton.class.php - Base-Facade-Singleton-Strict for all ...
+ * Model.php - The "model" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -43,76 +44,84 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Facade
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
 
 /**
- * Doozr Base-Facade-Singleton-Strict
+ * Doozr - Configuration - Hierarchy - Kernel - Model.
  *
- * Base-Facade-Singleton-Strict for all ...
+ * The "model" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Facade
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2015 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Facade_Singleton_Strict extends Doozr_Base_Class_Singleton_Strict
+class Doozr_Configuration_Hierarchy_Kernel_Model
 {
     /**
-     * This method is intend to act as generic facade - for all non-implemented methods
+     * Whether Model layer is enabled or disabled.
      *
-     * @param string $signature The signature (name of the method) originally called
-     * @param mixed  $arguments The arguments used for call (can be either an ARRAY of values or NULL)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed Result of called method if exists, otherwise NULL
-     * @access public
+     * @var bool
      */
-    public function __call($signature, $arguments)
-    {
-        // analyze the basics of current ghost-call and define consts ...
-        $this->getChild();
-
-        // get transformer of child (calling) class
-        $transformer = call_user_func(array(CHILD, 'getTransformer'));
-
-        // get existing transformations
-        $transformations = $transformer->getTransformations();
-
-        if (isset($transformations[$signature])) {
-            // transform => call => return result
-            return $transformer->transform(null, $signature, $arguments);
-        } else {
-            trigger_error('Call to undefined function '.$signature.'()', E_USER_ERROR);
-        }
-
-        // no success
-        return null;
-    }
+    public $enabled = true;
 
     /**
-     * This method is intend to retrieve and store the children (counterpart of parent::) of this class
+     * Generic error message.
+     * Used when not wanna show details about an error to the public.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @var string
      */
-    protected function getChild()
-    {
-        if (false === defined('CHILD')) {
-            define('CHILD', get_called_class());
-        }
-    }
+    public $errormessage = 'Error while accessing database.';
+
+    /**
+     * Identifier/name of the OxM (ORM, ODM, O?M).
+     *
+     * @var string
+     */
+    public $oxm = 'Doctrine';
+
+    /**
+     * Filename of main include file for dispatching further process.
+     * To isolate the model driver and provide maximum flexibility it will work like:
+     * 1. Take Registry
+     * 2. Take Configuration
+     * Pass both to the specific "Driver" extending base driver and everything is fine.
+     *
+     * @var string
+     */
+    public $driver = 'Driver.php';
+
+    /**
+     * Filename of the route file.
+     *
+     * @var string
+     */
+    public $route = 'Route.php';
+
+    /**
+     * The document root of the driver.
+     *
+     * @var string
+     */
+    public $docroot = '{{DOOZR_DOCUMENT_ROOT}}Model/Lib/Doctrine/lib/';
+
+    /**
+     * The connections collection array indexed by name
+     *
+     * @var Doozr_Configuration_Hierarchy_Kernel_Model_Connection[]
+     */
+    public $connections = [];
 }
