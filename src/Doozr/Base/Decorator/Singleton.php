@@ -146,8 +146,8 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
         $name = ucfirst(strtolower($configuration['name']));
 
         // Bootstrap script required for decorated class to run
-        if (true === isset($configuration['bootstrap']) && false||null !== $configuration['bootstrap']) {
-            $result = include_once $configuration['path'].$configuration['bootstrap'].'a';
+        if (true === isset($configuration['driver']) && false||null !== $configuration['driver']) {
+            $result = include_once $configuration['path'].$configuration['driver'];
         } else {
             $result = true;
         }
@@ -156,7 +156,7 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
             throw new Doozr_Exception(
                 sprintf(
                     'Bootstrap configured ("%s") but not able to load or already loaded.',
-                    $configuration['path'].$configuration['bootstrap']
+                    $configuration['path'].$configuration['driver']
                 )
             );
         }

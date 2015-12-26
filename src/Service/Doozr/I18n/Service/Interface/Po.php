@@ -150,7 +150,7 @@ class Doozr_I18n_Service_Interface_Po extends Doozr_I18n_Service_Interface_Abstr
         // check if locale was prepared before
         if (!isset(self::$translations[$locale])) {
             self::$translations[$locale] = [];
-            $fresh = true;
+            $fresh                       = true;
         }
 
         // Iterate namespaces and parse ...
@@ -159,7 +159,6 @@ class Doozr_I18n_Service_Interface_Po extends Doozr_I18n_Service_Interface_Abstr
             if (!$fresh && isset(self::$translations[$locale][$namespace])) {
                 // we can reuse the existing
                 $result = array_merge($result, self::$translations[$locale][$namespace]);
-
             } else {
                 // Load fresh from file
                 $translationFile = $this->path.$locale.DIRECTORY_SEPARATOR.self::TRANSLATION_FILES_DIRECTORY.
@@ -202,8 +201,8 @@ class Doozr_I18n_Service_Interface_Po extends Doozr_I18n_Service_Interface_Abstr
 
         // Init PO Parser and parse file ...
         $fileHandler = new Sepia\FileHandler($filename);
-        $poParser = new Sepia\PoParser($fileHandler);
-        $entries = $poParser->parse();
+        $poParser    = new Sepia\PoParser($fileHandler);
+        $entries     = $poParser->parse();
 
         // Iterate entries ...
         foreach ($entries as $entry => $translation) {

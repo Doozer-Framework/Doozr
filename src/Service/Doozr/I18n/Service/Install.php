@@ -3,7 +3,6 @@
 
 $i18n = null;
 
-
 function _()
 {
     $arguments = func_get_args();

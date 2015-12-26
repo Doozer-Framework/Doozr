@@ -76,7 +76,6 @@ class Doozr_I18n_Service_Localize_Number extends Doozr_I18n_Service_Localize_Abs
      * Type of the current localizer.
      *
      * @var string
-     * @access protected
      */
     protected $type = Doozr_I18n_Service::LOCALIZER_NUMBER;
 
@@ -99,7 +98,6 @@ class Doozr_I18n_Service_Localize_Number extends Doozr_I18n_Service_Localize_Abs
     {
         if (true === $showSymbol) {
             $formatted = $spacer.'%';
-
         } else {
             $formatted = '';
         }
@@ -110,7 +108,7 @@ class Doozr_I18n_Service_Localize_Number extends Doozr_I18n_Service_Localize_Abs
             $this->getConfiguration()->number->minor_unit,
             $this->getConfiguration()->number->decimal_point,
             $this->getConfiguration()->number->thousands_separator
-        ) . $formatted;
+        ).$formatted;
     }
 
     /**

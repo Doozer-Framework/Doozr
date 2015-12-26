@@ -150,24 +150,24 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      */
-    const ENCODING_UTF_1 = 'UTF-1';
-    const ENCODING_UTF_5 = 'UTF-5';
-    const ENCODING_UTF_6 = 'UTF-6';
-    const ENCODING_UTF_7 = 'UTF-7';
-    const ENCODING_UTF_8 = 'UTF-8';
-    const ENCODING_UTF_9 = 'UTF-9';
-    const ENCODING_UTF_16 = 'UTF-16';
-    const ENCODING_UTF_18 = 'UTF-18';
-    const ENCODING_UTF_32 = 'UTF-32';
-    const ENCODING_ISO_8859_1 = 'ISO-8859-1';       // west european
-    const ENCODING_ISO_8859_2 = 'ISO-8859-2';       // middle european
-    const ENCODING_ISO_8859_3 = 'ISO-8859-3';       // south european
-    const ENCODING_ISO_8859_4 = 'ISO-8859-4';       // north european
-    const ENCODING_ISO_8859_5 = 'ISO-8859-5';       // cyrillic
-    const ENCODING_ISO_8859_6 = 'ISO-8859-6';       // arabic
-    const ENCODING_ISO_8859_7 = 'ISO-8859-7';       // greece
-    const ENCODING_ISO_8859_8 = 'ISO-8859-8';       // hebrew
-    const ENCODING_ISO_8859_9 = 'ISO-8859-9';       // turkish
+    const ENCODING_UTF_1       = 'UTF-1';
+    const ENCODING_UTF_5       = 'UTF-5';
+    const ENCODING_UTF_6       = 'UTF-6';
+    const ENCODING_UTF_7       = 'UTF-7';
+    const ENCODING_UTF_8       = 'UTF-8';
+    const ENCODING_UTF_9       = 'UTF-9';
+    const ENCODING_UTF_16      = 'UTF-16';
+    const ENCODING_UTF_18      = 'UTF-18';
+    const ENCODING_UTF_32      = 'UTF-32';
+    const ENCODING_ISO_8859_1  = 'ISO-8859-1';       // west european
+    const ENCODING_ISO_8859_2  = 'ISO-8859-2';       // middle european
+    const ENCODING_ISO_8859_3  = 'ISO-8859-3';       // south european
+    const ENCODING_ISO_8859_4  = 'ISO-8859-4';       // north european
+    const ENCODING_ISO_8859_5  = 'ISO-8859-5';       // cyrillic
+    const ENCODING_ISO_8859_6  = 'ISO-8859-6';       // arabic
+    const ENCODING_ISO_8859_7  = 'ISO-8859-7';       // greece
+    const ENCODING_ISO_8859_8  = 'ISO-8859-8';       // hebrew
+    const ENCODING_ISO_8859_9  = 'ISO-8859-9';       // turkish
     const ENCODING_ISO_8859_10 = 'ISO-8859-10';     // nordic
     const ENCODING_ISO_8859_11 = 'ISO-8859-11';     // thai
     const ENCODING_ISO_8859_13 = 'ISO-8859-13';     // baltic
@@ -182,9 +182,9 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      */
     const LOCALIZER_CURRENCY = 'CURRENCY';
     const LOCALIZER_DATETIME = 'DATETIME';
-    const LOCALIZER_MEASURE = 'MEASURE';
-    const LOCALIZER_NUMBER = 'NUMBER';
-    const LOCALIZER_STRING = 'STRING';
+    const LOCALIZER_MEASURE  = 'MEASURE';
+    const LOCALIZER_NUMBER   = 'NUMBER';
+    const LOCALIZER_STRING   = 'STRING';
 
     /**
      * Default formatter of I18n service.
@@ -468,7 +468,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // get valid locales from arguments
         $locales = func_get_args();
-        $locale = isset($locales[0]) ? $locales[0] : null;
+        $locale  = isset($locales[0]) ? $locales[0] : null;
 
         if ($locale !== null) {
             $result = $this->setActiveLocale($locale);
@@ -530,7 +530,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         self::$templateTranslator->setNamespace($domain);
 
-        return array($domain);
+        return [$domain];
     }
 
     /**
@@ -728,7 +728,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // check for redirect of current locale (e.g. from "en-gb" -> "en")
         try {
-            $redirectLocale = $config->redirect->target;
+            $redirectLocale     = $config->redirect->target;
             $this->activeLocale = $redirectLocale;
         } catch (Whoops\Exception\ErrorException $e) {
             $redirectLocale = null;
@@ -738,9 +738,9 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // return a valid set of locale, redirect locale and the config
         return [
-            'locale' => $locale,
+            'locale'   => $locale,
             'redirect' => $redirectLocale,
-            'config' => $config,
+            'config'   => $config,
         ];
     }
 
@@ -836,7 +836,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         self::$registry->getContainer()->getMap()->wire(
             [
                 'doozr.filesystem.service' => Doozr_Loader_Serviceloader::load('filesystem'),
-                'doozr.cache.service' => Doozr_Loader_Serviceloader::load(
+                'doozr.cache.service'      => Doozr_Loader_Serviceloader::load(
                     'cache',
                     DOOZR_CACHING_CONTAINER,
                     DOOZR_NAMESPACE_FLAT.'.cache.i18n',
