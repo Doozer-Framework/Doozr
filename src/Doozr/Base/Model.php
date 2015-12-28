@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -66,7 +66,7 @@ use Psr\Cache\CacheItemPoolInterface;
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -142,13 +142,13 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
             ->configuration($registry->getConfiguration());
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
+        if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
             $result = $this->__tearup($requestState->getUri()->getPath());
 
             if ($result !== true) {
                 throw new Doozr_Base_Model_Exception(
                     sprintf(
-                        '__tearup() (if set) MUST return TRUE. __tearup() is set but it returned: "%s"',
+                        '__tearup() (if set) MUST return bool TRUE. __tearup() is set but it returned: "%s"',
                         var_export($result, true)
                     )
                 );
@@ -359,7 +359,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     public function getData($force = false)
     {
         if ($this->data === null || $force === true) {
-            $route = $this->getRoute();
+            $route  = $this->getRoute();
             $action = $route->getAction();
             $method = false;
 
@@ -379,9 +379,9 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
                 $arguments = func_get_args();
 
                 if (count($arguments) > 0) {
-                    $result = call_user_func_array(array($this, $method), $arguments);
+                    $result = call_user_func_array([$this, $method], $arguments);
                 } else {
-                    $result = call_user_func(array($this, $method));
+                    $result = call_user_func([$this, $method]);
                 }
 
                 if (true !== $result) {
@@ -471,12 +471,12 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     {
         $method = '__'.str_replace(__CLASS__.'::', '', __METHOD__);
 
-        if ($this->hasMethod($method) && is_callable(array($this, $method))) {
+        if ($this->hasMethod($method) && is_callable([$this, $method])) {
             $arguments = func_get_args();
             if (empty($arguments)) {
                 $result = $this->{$method}();
             } else {
-                $result = call_user_func_array(array($this, $method), $arguments);
+                $result = call_user_func_array([$this, $method], $arguments);
             }
 
             return $result;
@@ -494,12 +494,12 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     {
         $method = '__'.str_replace(__CLASS__.'::', '', __METHOD__);
 
-        if ($this->hasMethod($method) && is_callable(array($this, $method))) {
+        if ($this->hasMethod($method) && is_callable([$this, $method])) {
             $arguments = func_get_args();
             if (empty($arguments)) {
                 $result = $this->{$method}();
             } else {
-                $result = call_user_func_array(array($this, $method), $arguments);
+                $result = call_user_func_array([$this, $method], $arguments);
             }
 
             return $result;
@@ -517,12 +517,12 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     {
         $method = '__'.str_replace(__CLASS__.'::', '', __METHOD__);
 
-        if ($this->hasMethod($method) && is_callable(array($this, $method))) {
+        if ($this->hasMethod($method) && is_callable([$this, $method])) {
             $arguments = func_get_args();
             if (empty($arguments)) {
                 $result = $this->{$method}();
             } else {
-                $result = call_user_func_array(array($this, $method), $arguments);
+                $result = call_user_func_array([$this, $method], $arguments);
             }
 
             return $result;
@@ -541,21 +541,21 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      */
     protected function getBreadcrumbByUrl($url, $home = 'Home')
     {
-        $nodes = explode('/', $url);
+        $nodes      = explode('/', $url);
         $countNodes = count($nodes);
 
         $breadcrumb = [];
-        $root = '';
+        $root       = '';
 
         for ($i = 0; $i < $countNodes; ++$i) {
-            $node = ($i === 0) ? $home : $nodes[$i];
-            $breadcrumb[] = array(
-                'href' => ($i === 0) ? '/' : ($root.'/'.$node),
-                'text' => $node,
+            $node         = ($i === 0) ? $home : $nodes[$i];
+            $breadcrumb[] = [
+                'href'   => ($i === 0) ? '/' : ($root.'/'.$node),
+                'text'   => $node,
                 'active' => ($i === ($countNodes - 1)),
-                'class' => ($i === ($countNodes - 1)) ? 'active' : null,
-                'id' => ($i === ($countNodes - 1)) ? 'breadcrumb' : null,
-            );
+                'class'  => ($i === ($countNodes - 1)) ? 'active' : null,
+                'id'     => ($i === ($countNodes - 1)) ? 'breadcrumb' : null,
+            ];
 
             $root .= ($i > 0) ? ('/'.$node) : '';
         }
@@ -571,7 +571,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     public function __destruct()
     {
         // check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
+        if ($this->hasMethod('__teardown') && is_callable([$this, '__teardown'])) {
             $this->__teardown();
         }
     }

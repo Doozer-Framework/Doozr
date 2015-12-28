@@ -47,7 +47,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -64,7 +64,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -146,15 +146,6 @@ interface Doozr_I18n_Service_Interface extends PHPTAL_TranslationService
      * @throws Doozr_I18n_Service_Exception
      */
     public function getTranslator($locale = null, $encoding = null);
-
-    /**
-     * Installs gettext like shortcuts _() __() ___().
-     *
-     * @return bool TRUE on success, otherwise FALSE
-     *
-     * @throws Doozr_I18n_Service_Exception
-     */
-    public function install();
 
     /**
      * Returns the current active encoding.

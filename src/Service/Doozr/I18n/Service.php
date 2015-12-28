@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -69,7 +69,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -420,25 +420,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         }
 
         return $translator;
-    }
-
-    /**
-     * Installs gettext like shortcuts _() __() ___().
-     *
-     * @return bool TRUE on success, otherwise FALSE
-     *
-     * @throws Doozr_I18n_Service_Exception
-     */
-    public function install()
-    {
-        if (extension_loaded('gettext')) {
-            throw new Doozr_I18n_Service_Exception(
-                'Installation stopped! Please disable gettext extension if you want to use I18n service with '.
-                'shortcut functionality _() | __() | ___()'
-            );
-        }
-
-        return include_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Install.php';
     }
 
     /*------------------------------------------------------------------------------------------------------------------

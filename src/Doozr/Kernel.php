@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -86,7 +86,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -116,7 +116,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     /**
      * Instance of service DateTime.
      *
-     * @var Doozr_Datetime_Service
+     * @var Doozr_Datetime_Service|Doozr_Base_Service_Interface
      * @static
      */
     protected static $dateTime;
@@ -974,14 +974,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     {
         // Retrieve configuration
         $configuration = self::$registry->getConfiguration();
-        $path          = self::$registry->getPath();
 
         // Build decorator config ...
-        $databaseConfiguration = [
-            'name' => $configuration->kernel->model->oxm,
-            'path' => $path->get('model', $configuration->kernel->model->oxm.'\\'),
-            'driver' => $configuration->kernel->model->driver,
-        ];
+        $databaseConfiguration = object_to_array($configuration->kernel->model);
 
         self::$registry->setModel(
             self::$registry->getContainer()->build('doozr.model', [$databaseConfiguration])

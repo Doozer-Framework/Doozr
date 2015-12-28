@@ -1,5 +1,5 @@
 # Doozr Translation file.
-# Copyright (C) 2005 - 2015 Benjamin Carl <opensource@clickalicious.de>
+# Copyright (C) 2005 - 2016 Benjamin Carl <opensource@clickalicious.de>
 #
 msgid ""
 msgstr ""

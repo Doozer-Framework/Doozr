@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -64,7 +64,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/tests/Resource/Fixture.php'
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -418,23 +418,6 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     {
         $language = Resource_Fixture::LOCALE_VALID;
         $this->assertTrue(self::$service->setLanguage($language));
-    }
-
-    /**
-     * Test: If the install routine is functional.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @covers Doozr_I18n_Service::install()
-     */
-    public function testInstallRoutineForTranslationShortcuts()
-    {
-        try {
-            $result = self::$service->install();
-            $this->assertTrue($result);
-
-        } catch (Exception $e) {
-            $this->assertInstanceOf('Doozr_I18n_Service_Exception', $e);
-        }
     }
 
     public function testGetOtherInterface()

@@ -41,16 +41,17 @@
       "errormessage": "Error while accessing database.",
       "oxm": "Doctrine",
       "driver": "Driver.php",
+      "entities": "{{DOOZR_APP_ROOT}}App/Model/Entity/",
       "connections": {
         "read": {
-          "name": "Doozr",
-          "description": "",
           "type": "sql",
+          "driver": "pdo_mysql",
+          "description": "A read connection to MySQL.",
+          "user": "root",
+          "password": "",
+          "dbname": "mysql",
           "host": "localhost",
-          "port": "3600",
-          "database": "Doozr",
-          "user": "",
-          "password": ""
+          "port": "3306"
         }
       }
     },
