@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - Class
+ * Doozr - Base - Class.
  *
  * Class.php - Base-Class for all classes of the Doozr Framework except
  * the classes following the singleton pattern.
@@ -44,30 +45,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Class
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Tools.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Tools.php';
 
 /**
- * Doozr - Base - Class
+ * Doozr - Base - Class.
  *
  * Base-Class for all classes of the Doozr Framework except the classes following
  * the singleton pattern.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Class
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_Class extends Doozr_Base_Tools
@@ -76,18 +78,15 @@ class Doozr_Base_Class extends Doozr_Base_Tools
      * The registry instance injected in all core classes based on Doozr_Base_Class.
      *
      * @var Doozr_Registry
-     * @access protected
      */
     protected $registry;
 
     /**
-     * Setter for registry
+     * Setter for registry.
      *
      * @param Doozr_Registry $registry The registry instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setRegistry(Doozr_Registry &$registry)
     {
@@ -100,21 +99,22 @@ class Doozr_Base_Class extends Doozr_Base_Tools
      * @param Doozr_Registry $registry The registry instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function registry(Doozr_Registry $registry)
     {
         $this->setRegistry($registry);
+
         return $this;
     }
 
     /**
-     * Getter for registry
+     * Getter for registry.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Registry The registry of Doozr
-     * @access protected
      */
     protected function getRegistry()
     {

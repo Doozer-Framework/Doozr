@@ -38,22 +38,20 @@
     },
     "model": {
       "enabled": true,
-      "errormessage": "Error while accessing database. Please contact your technical support.",
-      "proxy": "Couchdb",
-      "oxm": "Couchdb",
-      "bootstrap": "Bootstrap.php",
-      "route": "Route.php",
-      "docroot": "{{DOOZR_DOCUMENT_ROOT}}Model/Lib/Couchdb/lib/",
-      "connection": {
+      "errormessage": "Error while accessing database.",
+      "oxm": "Doctrine",
+      "driver": "Driver.php",
+      "entities": "{{DOOZR_APP_ROOT}}App/Model/Entity/",
+      "connections": {
         "read": {
-          "name": "Doozr",
-          "description": "",
-          "type": "nosql",
+          "type": "sql",
+          "driver": "pdo_mysql",
+          "description": "A read connection to MySQL.",
+          "user": "root",
+          "password": "",
+          "dbname": "mysql",
           "host": "localhost",
-          "port": "5984",
-          "database": "Doozr",
-          "user": "",
-          "password": ""
+          "port": "3306"
         }
       }
     },

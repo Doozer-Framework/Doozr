@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -63,7 +63,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -691,7 +691,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
         // Store
         $this->setNamespaces($namespace);
 
-        // and trigger namespace changed
+        // Trigger namespace changed
         $this->namespaceChanged();
 
         return true;

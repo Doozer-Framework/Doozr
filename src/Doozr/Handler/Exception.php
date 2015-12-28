@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Handler - Exception
+ * Doozr - Handler - Exception.
  *
  * Exception.php - Exception-Handler of the Doozr-Framework which overrides
  * the PHP default exception-handler (handling)
@@ -44,16 +45,16 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Handler
- * @subpackage Doozr_Handler_Exception
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 // Doozr constants for the three main exception-types (codes like PHP error-types)
 define('E_USER_EXCEPTION', 23);
@@ -61,18 +62,19 @@ define('E_USER_CORE_EXCEPTION', 235);
 define('E_USER_CORE_FATAL_EXCEPTION', 23523);
 
 /**
- * Doozr - Handler - Exception
+ * Doozr - Handler - Exception.
  *
  * Exception-Handler of the Doozr-Framework which overrides
  * the PHP default exception-handler (handling)
  *
  * @category   Doozr
- * @package    Doozr_Handler
- * @subpackage Doozr_Handler_Exception
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
@@ -87,63 +89,84 @@ final class Doozr_Handler_Exception extends Doozr_Base_Class
      * @param Exception $exception The thrown and uncaught exception object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @static
      */
     public static function handle(Exception $exception)
     {
-        // Sometimes errors thrown before subsystem is ready - in this case its never told to outside but logged
-        $debug   = (true === defined('DOOZR_DEBUGGING')) ? DOOZR_DEBUGGING : false;
-        $testing = false;
-
-        // We only need to do this additional check if debug is not enabled!
-        if (false === $debug) {
-            $testing = (true === defined('DOOZR_APP_ENVIRONMENT') && 'testing' === DOOZR_APP_ENVIRONMENT) ? true : false;
-        }
+        // Sometimes errors thrown before subsystem is ready - in this case its always told to outside but logged
+        $debug = (true === defined('DOOZR_DEBUGGING')) ? DOOZR_DEBUGGING : true;
 
         // In range of 100 - 599 we do send a HTTP response by logic and laws of Doozr
         if ($exception->getCode() < 100 || $exception->getCode() > 599) {
             $statusCode = 500;
-
         } else {
             $statusCode = $exception->getCode();
         }
 
-        $message = ($debug || $testing) ? $exception->getMessage() : constant('Doozr_Http::REASONPHRASE_'.$statusCode);
+        // Information disclosure protection. Only in debug we show what really happened
+        if (true === $debug) {
+            $message = $exception->getMessage();
+            $code    = $exception->getCode();
+        } else {
+            $message = constant('Doozr_Http::REASONPHRASE_'.$statusCode);
+            $code    = $statusCode;
+        }
 
         // Simple exception switch by runtime environment
         if (Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB === DOOZR_RUNTIME_ENVIRONMENT) {
-            self::handleHtml($statusCode, $exception->getCode(), $message);
-
-        } else {
-            self::handleText(
-                $exception->getCode(),
+            self::handleHtml(
+                $statusCode,
+                $code,
                 $message,
                 $exception->getPrevious()->getFile(),
                 $exception->getPrevious()->getLine()
             );
-
+        } else {
+            self::handleText(
+                $code,
+                $message,
+                $exception->getPrevious()->getFile(),
+                $exception->getPrevious()->getLine()
+            );
         }
-
-        exit;
     }
 
-    protected static function handleHtml($statusCode, $code, $message)
+    /**
+     * Output of exception for HTML ready environments.
+     *
+     * @param int    $statusCode HTTP status code of the exception
+     * @param int    $code       Code of the exception
+     * @param string $message    Message of the exception
+     * @param string $file       File where exception was thrown
+     * @param int    $line       Line number where exception was thrown
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected static function handleHtml($statusCode, $code, $message, $file, $line)
     {
         $file = '';
         $line = '';
+
         if (false === headers_sent($file, $line)) {
-            header('HTTP/1.1 '.$statusCode.' '.$message);
+            header('HTTP/'.Doozr_Http::VERSION_1_1.' '.$statusCode.' '.$message);
         }
 
         // Show the message
         echo sprintf('<h1>%s %s</h1>', $code, $message);
     }
 
+    /**
+     * Output of exception for text-only environments.
+     *
+     * @param int    $code    Code of exception
+     * @param string $message Message of exception
+     * @param string $file    File where exception was thrown
+     * @param int    $line    Line number where exception was thrown
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
     protected static function handleText($code, $message, $file, $line)
     {
         echo sprintf('%s %s %s %s', $code, $message, $file, $line);
     }
-
 }
