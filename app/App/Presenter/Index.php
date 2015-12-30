@@ -26,7 +26,7 @@ use Doozr\Route\Annotation\Route;
  *
  * @version    Git: $Id$
  *
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  *
  * Demonstration Presenter for 'Hello World!'.
  *

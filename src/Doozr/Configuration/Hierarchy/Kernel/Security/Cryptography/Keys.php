@@ -1,13 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace Psr\Cache;
-
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Kernel - Security - Cryptography - Keys.
  *
- * Interface.php - Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * Keys.php - The "keys" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -46,32 +44,44 @@ namespace Psr\Cache;
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Kernel - Security - Cryptography - Keys.
  *
- * Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * The "keys" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Psr_Cache_Interface #extends CacheItemPoolInterface
+class Doozr_Configuration_Hierarchy_Kernel_Security_Cryptography_Keys
 {
-    // Just for namespace
+    /**
+     * Private key.
+     *
+     * @var string
+     */
+    public $private;
+
+    /**
+     * Public key.
+     *
+     * @var string
+     */
+    public $public;
 }

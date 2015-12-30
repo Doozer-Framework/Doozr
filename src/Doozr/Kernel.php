@@ -471,7 +471,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
                                 'Bootstrapping Doozr (v '.DOOZR_VERSION.')'
                             )
                     ) &&
-                    self::initSystem() &&
+                    self::initPhp() &&
                     self::initEncoding() &&
                     self::initLocale() &&
                     self::initModel() &&
@@ -792,7 +792,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      *
      * @throws Doozr_Kernel_Exception
      */
-    protected static function initSystem()
+    protected static function initPhp()
     {
         $result      = true;
         $phpSettings = self::getRegistry()->getConfiguration()->kernel->system->php;
@@ -1000,7 +1000,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // Get default services for runtimeEnvironment
         $services = self::$registry->getConfiguration()
             ->kernel
-            ->services
+            ->service
             ->{strtolower(self::$registry->getParameter('doozr.kernel.runtime.environment'))};
 
         foreach ($services as $service) {

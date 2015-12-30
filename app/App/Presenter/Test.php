@@ -25,7 +25,7 @@ use Doozr\Route\Annotation\Route;
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  *
  * Demonstration Presenter for 'Hello World!'.
  *

@@ -1,13 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace Psr\Cache;
-
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Kernel - System - Php.
  *
- * Interface.php - Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * Php.php - The "php" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -46,32 +44,49 @@ namespace Psr\Cache;
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Kernel - System - Php.
  *
- * Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * The "php" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Psr_Cache_Interface #extends CacheItemPoolInterface
+class Doozr_Configuration_Hierarchy_Kernel_System_Php
 {
-    // Just for namespace
+    /**
+     * Configuration of php.ini max_execution_time integer.
+     * http://php.net/manual/de/info.configuration.php#ini.max-execution-time
+     *
+     * @var int
+     */
+    public $max_execution_time = 0;
+
+    /**
+     * Configuration of PHP memory_limit integer
+     * http://php.net/manual/en/ini.core.php#ini.memory-limit
+     *
+     * Using    int = bytes
+     * Using string = something like "128M"
+     *
+     * @var int|string
+     */
+    public $memory_limit = 12582912;
 }

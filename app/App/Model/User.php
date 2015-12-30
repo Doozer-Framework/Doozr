@@ -24,7 +24,7 @@ namespace App\Model;
  *
  * @version    Git: $Id$
  *
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 final class User extends \Doozr_Base_Model
 {

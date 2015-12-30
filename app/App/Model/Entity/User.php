@@ -24,7 +24,7 @@ namespace App\Model\Entity;
  *
  * @version    Git: $Id$
  *
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**

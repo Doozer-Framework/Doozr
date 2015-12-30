@@ -144,14 +144,16 @@ class Doozr_Security extends Doozr_Base_Class_Singleton
     {
         // max-len in bit = 1024
         if ($bit > 1024) {
-            throw new Doozr_Exception('The largest size of a private-key is 1024! Please choose a lower bit count.');
+            throw new Doozr_Exception(
+                'The largest size of a private-key is 1024! Please choose a lower bit count.'
+            );
         }
 
         // calculate bytes from bits
         $bytes = round($bit / 8);
 
         // get whole key
-        $key = self::$config->kernel->security->encryption->keys->private;
+        $key = self::$config->kernel->security->cryptography->keys->private;
 
         // return extracted key
         return substr($key, (strlen($key) - $bytes), $bytes);

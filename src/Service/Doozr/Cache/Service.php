@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Cache - Service
+ * Doozr - Cache - Service.
  *
  * Cache.php - Caching Service for caching operations with support for
  * different container like "Filesystem", "Memcache" ...
@@ -44,37 +45,41 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Psr/Cache/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Crud/Interface.php';
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Psr/Cache/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Crud/Interface.php';
-
-use Psr\Cache\Doozr_Psr_Cache_Interface;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\CacheItemInterface;
 use Doozr\Loader\Serviceloader\Annotation\Inject;
+use Psr\Cache\Doozr_Psr_Cache_Interface;
 
 /**
- * Doozr - Cache - Service
+ * Doozr - Cache - Service.
  *
  * Caching Service for caching operations with support for
  * different container like "Filesystem", "Memcache" ...
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
- * @throws     Doozr_Cache_Service_Exception
+ *
+ * @throws Doozr_Cache_Service_Exception
  * @Inject(
  *     link   = "doozr.registry",
  *     type   = "constructor",
@@ -84,30 +89,28 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
 class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     implements
     Doozr_Base_Service_Interface,
-    Doozr_Psr_Cache_Interface,
-    Doozr_Base_Crud_Interface
+    Doozr_Base_Crud_Interface,
+    Doozr_Psr_Cache_Interface
+    #CacheItemPoolInterface
 {
     /**
-     * Active namespace
+     * Active namespace.
      *
      * @var string
-     * @access protected
      */
     protected $namespace;
 
     /**
-     * Active container
+     * Active container.
      *
      * @var Doozr_Cache_Service_Container_Interface
-     * @access protected
      */
     protected $container;
 
     /**
-     * Whether OS is unixoid
+     * Whether OS is unixoid.
      *
      * @var bool
-     * @access protected
      */
     protected $unix;
 
@@ -115,7 +118,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * Whether caching is disabled, or not.
      *
      * @var bool
-     * @access protected
      */
     protected $enabled;
 
@@ -128,22 +130,20 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * 60 * 60 * 24 = 86400 seconds.
      *
      * @var int
-     * @access protected
      */
     protected $gcMaximumLifetime = 86400;
 
     /**
      * Garbage collection: Probability in percent.
-     * 0 = never / 100 always
+     * 0 = never / 100 always.
      *
      * @var int
-     * @access protected
      */
     protected $gcProbability = 50;
 
     /**
      * Garbage collection:
-     * probability in seconds
+     * probability in seconds.
      *
      * 60 sec. * 60 min. = 3600
      *
@@ -151,32 +151,28 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * of seconds.
      *
      * @var int
-     * @access public
      */
     protected $gcProbabilityTime = 3600;
 
     /**
-     * Time of the last run
+     * Time of the last run.
      *
      * @var int
-     * @access protected
      * @static
      */
     protected static $gcLastRunTimestamp;
 
     /**
-     * Container filesystem (default)
+     * Container filesystem (default).
      *
      * @var string
-     * @access public
      */
     const CONTAINER_FILESYSTEM = 'filesystem';
 
     /**
-     * Container memcache (higher performance)
+     * Container memcache (higher performance).
      *
      * @var string
-     * @access public
      */
     const CONTAINER_MEMCACHE = 'memcache';
 
@@ -184,7 +180,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * The default namespace for cache elements.
      *
      * @var string
-     * @access public
      */
     const NAMESPACE_DEFAULT = 'doozr.cache';
 
@@ -198,15 +193,13 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param bool   $enabled          Default state is enabled, FALSE to signalize that caching is disabled
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function __tearup(
               $container,
-              $namespace        = self::NAMESPACE_DEFAULT,
+              $namespace = self::NAMESPACE_DEFAULT,
         array $containerOptions = [],
-              $unix             = true,
-              $enabled          = true
+              $unix = true,
+              $enabled = true
     ) {
         $this
             ->namespace_($namespace)
@@ -218,20 +211,21 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     /**
      * Creates an cache entry.
      *
-     * @param string  $key       The key of the entry
-     * @param mixed   $value     The value of the entry
-     * @param int     $lifetime  The time to expire
-     * @param string  $namespace The dataset namespace
+     * @param string $key       The key of the entry
+     * @param mixed  $value     The value of the entry
+     * @param int    $lifetime  The time to expire
+     * @param string $namespace The dataset namespace
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if dataset could be written, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function create(
         $key,
         $value,
-        $lifetime  = null,
+        $lifetime = null,
         $namespace = null
     ) {
         // Get namespace if not passed
@@ -263,8 +257,9 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $namespace The namespace to read from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed|null Data from cache, otherwise NULL
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function read(
@@ -307,14 +302,15 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $namespace The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if dataset could be written, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function update(
         $key,
         $value,
-        $lifetime  = null,
+        $lifetime = null,
         $namespace = null
     ) {
         if ($namespace === null) {
@@ -325,14 +321,14 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     }
 
     /**
-     * Deletes a dataset from cache
+     * Deletes a dataset from cache.
      *
      * @param string $key       The key to delete data of
      * @param string $namespace The namespace to look for key
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if entry was deleted successful, otherwise FALSE
-     * @access public
      */
     public function delete($key, $namespace = null)
     {
@@ -352,8 +348,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $namespace The namespace of the object to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if exists, otherwise FALSE
-     * @access public
      */
     public function exists($key, $namespace = null)
     {
@@ -367,17 +363,18 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     /**
      * Checks whether an entry is expired.
      *
-     * @param string $key             The key of the element to check
-     * @param string $namespace       The cache namespace
-     * @param int    $lifetime The maximum age for the cached data in seconds - 0 for endless. If the cached
-     *                                data is older but the given lifetime it will be removed from the cache. You don't
-     *                                have to provide this argument if you call expired(). Every dataset knows it's
-     *                                expire date and will be removed automatically. Use this only if you know what
-     *                                you're doing...
+     * @param string $key       The key of the element to check
+     * @param string $namespace The cache namespace
+     * @param int    $lifetime  The maximum age for the cached data in seconds - 0 for endless. If the cached
+     *                          data is older but the given lifetime it will be removed from the cache. You don't
+     *                          have to provide this argument if you call expired(). Every dataset knows it's
+     *                          expire date and will be removed automatically. Use this only if you know what
+     *                          you're doing...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if entry is expired, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function expired($key, $namespace = null, $lifetime = null)
@@ -404,8 +401,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param bool   $force           TRUE to force a garbage collection run, otherwise FALSE (default) to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return int The number of elements collected in gc run
-     * @access public
      */
     public function garbageCollection($namespace = null, $maximumLifetime = null, $force = false)
     {
@@ -434,7 +431,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
             ) ||
             (rand(1, 100) <= $this->gcProbability)                                     // or randomizer hit?
         ) {
-            $result = $this->getContainer()->garbageCollection($namespace, $maximumLifetime);
+            $result                   = $this->getContainer()->garbageCollection($namespace, $maximumLifetime);
             self::$gcLastRunTimestamp = time();
         }
 
@@ -447,8 +444,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $namespace The namespace of the cache item
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return int Number of removed entries
-     * @access public
      */
     public function purge($namespace = null)
     {
@@ -462,15 +459,15 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     }
 
     /**
-     * Checks existence of a container and returns result
+     * Checks existence of a container and returns result.
      *
      * This method is intend to check existence of a container and returns result.
      *
      * @param string $container The container name to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if $container exists, otherwise FALSE
-     * @access public
      */
     public function containerExists($container)
     {
@@ -478,10 +475,10 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         $container = ucfirst(strtolower($container));
 
         // The filename to include
-        $filename  = $this->getPathToClass() .
-                     'Service' . DIRECTORY_SEPARATOR . 'Container' . DIRECTORY_SEPARATOR . $container . '.php';
+        $filename = $this->getPathToClass().
+                     'Service'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.$container.'.php';
 
-        return (file_exists($filename) ? (include_once $filename) : false);
+        return file_exists($filename) ? (include_once $filename) : false;
     }
 
     /**
@@ -490,8 +487,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param int $gcProbabilityTime The gcProbabilityTime to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setGcProbabilityTime($gcProbabilityTime)
     {
@@ -504,12 +499,13 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param int $gcProbabilityTime The gcProbabilityTime to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function gcProbabilityTime($gcProbabilityTime)
     {
         $this->setGcProbabilityTime($gcProbabilityTime);
+
         return $this;
     }
 
@@ -517,8 +513,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * Getter for gcProbabilityTime.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|bool GarbageCollectorMaxLifetime if set, otherwise NULL
-     * @access public
      */
     protected function getGcProbabilityTime()
     {
@@ -531,8 +527,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param int $gcMaximumLifetime The gcMaximumLifetime to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setGcMaximumLifetime($gcMaximumLifetime)
     {
@@ -545,12 +539,13 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param int $gcMaximumLifetime The gcMaximumLifetime to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access public
      */
     public function gcMaximumLifetime($gcMaximumLifetime)
     {
         $this->gcMaximumLifetime = $gcMaximumLifetime;
+
         return $this;
     }
 
@@ -558,8 +553,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * Getter for gcMaximumLifetime.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|bool GarbageCollectorMaxLifetime if set, otherwise NULL
-     * @access public
      */
     public function getGcMaximumLifetime()
     {
@@ -572,8 +567,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * This method is intend to cleanup on class destruct.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function __teardown()
     {
@@ -590,12 +583,13 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     /**
      * Setter for container.
      *
-     * @param string $container       The container to use
-     * @param array $containerOptions The options to pass to container
+     * @param string $container        The container to use
+     * @param array  $containerOptions The options to pass to container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function setContainer(
@@ -610,7 +604,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         }
 
         // Get container with new options
-        return (
+        return
             $this->container = $this->containerFactory(
                 $container,
                 array_merge(
@@ -618,18 +612,19 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
                     $containerOptions
                 )
             )
-        );
+        ;
     }
 
     /**
      * Setter for container.
      *
-     * @param string $container       The container to use
-     * @param array $containerOptions The options to pass to container
+     * @param string $container        The container to use
+     * @param array  $containerOptions The options to pass to container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function container(
@@ -637,6 +632,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         array $containerOptions = null
     ) {
         $this->setContainer($container, $containerOptions);
+
         return $this;
     }
 
@@ -644,8 +640,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * Getter for container.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|Doozr_Cache_Service_Container_Interface $container The container
-     * @access protected
      */
     protected function getContainer()
     {
@@ -658,8 +654,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param bool $unix The unix to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setUnix($unix)
     {
@@ -672,12 +666,13 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param bool $unix The unix to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function unix($unix)
     {
         $this->unix = $unix;
+
         return $this;
     }
 
@@ -685,8 +680,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * Getter for unix.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|bool Unix if set, otherwise NULL
-     * @access protected
      */
     protected function getUnix()
     {
@@ -699,8 +694,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param bool $enabled The enabled to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setEnabled($enabled)
     {
@@ -713,12 +706,13 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param bool $enabled The enabled to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function enabled($enabled)
     {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -726,8 +720,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * Getter for enabled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|bool Enabled if set, otherwise NULL
-     * @access protected
      */
     protected function getEnabled()
     {
@@ -738,12 +732,12 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * Boolean isser for enabled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if enabled, otherwise FALSE
-     * @access protected
      */
     protected function isEnabled()
     {
-        return (true === $this->enabled);
+        return true === $this->enabled;
     }
 
     /**
@@ -754,8 +748,6 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $namespace The dataset namespace to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setNamespace($namespace)
     {
@@ -770,23 +762,24 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $namespace The dataset namespace to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function namespace_($namespace)
     {
         $this->setNamespace($namespace);
+
         return $this;
     }
 
     /**
-     * Getter for namespace
+     * Getter for namespace.
      *
      * This method returns the namespace of the current dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The namespace
-     * @access protected
      */
     protected function getNamespace()
     {
@@ -796,15 +789,16 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     /**
      * Stores a dataset with additional user-defined data.
      *
-     * @param string  $key       The key of the entry
-     * @param mixed   $value     The value of the entry
-     * @param int     $lifetime  The time to expire
-     * @param string  $namespace The dataset namespace
-     * @param string  $userdata  The userdata to add
+     * @param string $key       The key of the entry
+     * @param mixed  $value     The value of the entry
+     * @param int    $lifetime  The time to expire
+     * @param string $namespace The dataset namespace
+     * @param string $userdata  The userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if dataset could be written, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function createExtended(
@@ -822,14 +816,13 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
                 $namespace,
                 $userdata
             );
-
         } catch (Exception $e) {
             throw new Doozr_Cache_Service_Exception(
                 sprintf('Error creating cache entry for with key: "%s".', $key)
             );
         }
 
-        return ($result !== false);
+        return $result !== false;
     }
 
     /**
@@ -839,16 +832,17 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param array  $containerOptions The configuration/options for the container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Cache_Service_Container_Interface Instance of the container
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function containerFactory($container, array $containerOptions = [])
     {
         $container = ucfirst(strtolower($container));
-        $class     = __CLASS__ . '_Container_' . $container;
-        $file      = DOOZR_DOCUMENT_ROOT . 'Service' . DIRECTORY_SEPARATOR .
-                     str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+        $class     = __CLASS__.'_Container_'.$container;
+        $file      = DOOZR_DOCUMENT_ROOT.'Service'.DIRECTORY_SEPARATOR.
+                     str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
 
         include_once $file;
 
@@ -859,14 +853,147 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * Returns the default options for container.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The default options
-     * @access protected
      */
     protected function getDefaultOptions()
     {
-        return array(
+        return [
             'unix'      => $this->unix,
             'namespace' => $this->getNamespace(),
+        ];
+    }
+
+    /**
+     * Returns a Cache Item representing the specified key.
+     *
+     * This method must always return an ItemInterface object, even in case of
+     * a cache miss. It MUST NOT return null.
+     *
+     * @param string $key
+     *                    The key for which to return the corresponding Cache Item.
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     *                                             If the $key string is not a legal value a \Psr\Cache\InvalidArgumentException
+     *                                             MUST be thrown.
+     *
+     * @return \Psr\Cache\CacheItemInterface
+     *                                       The corresponding Cache Item.
+     */
+    public function getItem($key)
+    {
+        return $this->read($key);
+    }
+
+    /**
+     * Returns a traversable set of cache items.
+     *
+     * @param array $keys
+     *                    An indexed array of keys of items to retrieve.
+     *
+     * @return array|\Traversable
+     *                            A traversable collection of Cache Items keyed by the cache keys of
+     *                            each item. A Cache item will be returned for each key, even if that
+     *                            key is not found. However, if no keys are specified then an empty
+     *                            traversable MUST be returned instead.
+     */
+    public function getItems(array $keys = array())
+    {
+        $collection = [];
+
+        foreach ($keys as $key) {
+            try {
+                $collection[$key] = $this->read($key);
+
+            } catch (Exception $e ) {
+                $collection[$key] = null;
+            }
+        }
+
+        return $collection;
+    }
+
+    /**
+     * Deletes all items in the pool.
+     *
+     * @return bool
+     *              True if the pool was successfully cleared. False if there was an error.
+     */
+    public function clear()
+    {
+        throw new Exception(
+            'Not implemented yet!'
+        );
+    }
+
+    /**
+     * Removes multiple items from the pool.
+     *
+     * @param array $keys
+     *                    An array of keys that should be removed from the pool.
+     *
+     * @return static
+     *                The invoked object.
+     */
+    public function deleteItems(array $keys)
+    {
+        $result = true;
+
+        foreach ($keys as $key) {
+            try {
+                $result = $result && $this->delete($key);
+
+            } catch (Exception $e ) {
+                $result = false;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Persists a cache item immediately.
+     *
+     * @param CacheItemInterface $item
+     *                                 The cache item to save.
+     *
+     * @return static
+     *                The invoked object.
+     */
+    public function save(CacheItemInterface $item)
+    {
+        throw new Exception(
+            'Not implemented yet!'
+        );
+        #$this->create($item->getKey(), $item->get(), $item->getExpiration(), )
+    }
+
+    /**
+     * Sets a cache item to be persisted later.
+     *
+     * @param CacheItemInterface $item
+     *                                 The cache item to save.
+     *
+     * @return static
+     *                The invoked object.
+     */
+    public function saveDeferred(CacheItemInterface $item)
+    {
+        throw new Exception(
+            'Not implemented yet!'
+        );
+    }
+
+    /**
+     * Persists any deferred cache items.
+     *
+     * @return bool
+     *              TRUE if all not-yet-saved items were successfully saved. FALSE otherwise.
+     */
+    public function commit()
+    {
+        throw new Exception(
+            'Not implemented yet!'
         );
     }
 }

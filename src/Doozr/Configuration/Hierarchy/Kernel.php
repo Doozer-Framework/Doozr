@@ -117,14 +117,6 @@ class Doozr_Configuration_Hierarchy_Kernel
     public $path;
 
     /**
-     * The presenter node of the configuration
-     *
-     * @var Doozr_Configuration_Hierarchy_Kernel_Presenter
-     * @access public
-     */
-    public $presenter;
-
-    /**
      * The security node of the configuration
      *
      * @var Doozr_Configuration_Hierarchy_Kernel_Security
@@ -135,10 +127,10 @@ class Doozr_Configuration_Hierarchy_Kernel
     /**
      * The services node of the configuration
      *
-     * @var Doozr_Configuration_Hierarchy_Kernel_Services
+     * @var Doozr_Configuration_Hierarchy_Kernel_Service
      * @access public
      */
-    public $services;
+    public $service;
 
     /**
      * The system node of the configuration

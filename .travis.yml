@@ -31,17 +31,17 @@ before_script:
   - composer --optimize-autoloader --no-interaction
 
 script:
-  - phpunit -c app/ --coverage-clover=coverage.clover
+  - bin/phpunit -c tests/ --coverage-clover=coverage.clover --coverage-html=./docs/coverage
 
 after_script:
   # We upload only for reference platform! This is our base for further code analyses and so on.
   - if [ $(phpenv version-name) == "5.5" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [ $(phpenv version-name) == "5.5" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - if [ $(phpenv version-name) == "5.5" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover > /dev/null 2>&1; fi
 
 after_success:
   # Push coverage to github pages branch
-  - chmod +x ./bin/update-gh-pages.sh
-  - bash ./bin/update-gh-pages.sh
+  - chmod +x ./update-gh-pages.sh
+  - bash ./update-gh-pages.sh
   # CREATE GIT TAG
   - git config --global user.email "builds@travis-ci.org"
   - git config --global user.name "Travis"
@@ -49,7 +49,7 @@ after_success:
   - echo -n $GIT_TAG > public/version
   - git commit -m "Set build VERSION number" public/version
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER"
-  - git push --tags --quiet https://$GITHUBKEY@github.com/clickalicious/DoozR > /dev/null 2>&1
+  - git push --tags --quiet https://$GITHUBKEY@github.com/clickalicious/Doozr > /dev/null 2>&1
 
 # blacklist
 branches:

@@ -169,8 +169,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         /* @var Doozr_Request_Psr_Interface $request */
 
         // Ensure to put *route* in before ;) - here.
-        $route = $request->getAttribute('route');
-        $target = $route->getPresenter();
+        $route        = $request->getAttribute('route');
+        $target       = $route->getPresenter();
         $requestState = $request->export();
 
         $this
@@ -188,7 +188,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return \Doozr_Response_Interface|Doozr_Response_Web
+     * @return Response
      *
      * @throws \Doozr_Route_Exception
      */
@@ -196,10 +196,10 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     {
         // The MVP process is here ...
         /* @var Psr\Http\Message\ResponseInterface $response */
-        $response = $this->getResponse();
+        $response  = $this->getResponse();
         $presenter = $this->getPresenter();
-        $action = $this->getAction();
-        $view = $this->getView();
+        $action    = $this->getAction();
+        $view      = $this->getView();
 
         // Use inofficial standard "xAction()"
         $method = $action.'Action';
@@ -602,7 +602,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         if (false === is_object($instance) || !$instance instanceof Doozr_Base_Presenter) {
             // No presenter instance = Bad Request = 400
             $validity = Doozr_Http::BAD_REQUEST;
-        } elseif (false === method_exists($instance, $method) || false === is_callable(array($instance, $method))) {
+        } elseif (false === method_exists($instance, $method) || false === is_callable([$instance, $method])) {
             // No action (method) to call on existing presenter = Not Found = 404
             $validity = Doozr_Http::NOT_FOUND;
         }
@@ -618,7 +618,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Base_Model
+     * @return Doozr_Base_Model|null
      */
     protected function modelFactory($target, $arguments = null)
     {
@@ -633,7 +633,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Base_View
+     * @return Doozr_Base_View|null
      */
     protected function viewFactory($target, $arguments = null)
     {
@@ -648,7 +648,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Base_Presenter_Interface
+     * @return Doozr_Base_Presenter|null
      */
     protected function presenterFactory($target, $arguments = null)
     {
@@ -664,7 +664,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Base_Presenter|Doozr_Base_Model|Doozr_Base_View
+     * @return Doozr_Base_Presenter|Doozr_Base_Model|Doozr_Base_View|null
      */
     protected function layerFactory($request, $layer, $arguments = null)
     {
@@ -681,6 +681,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         // Check if requested layer file exists
         if ($this->getRegistry()->getFilesystem()->exists($classFileAndPath)) {
             include_once $classFileAndPath;
+
+            /* @var Doozr_Base_Presenter|Doozr_Base_Model|Doozr_Base_View $instance */
             $instance = self::instantiate($classname, $arguments);
         }
 

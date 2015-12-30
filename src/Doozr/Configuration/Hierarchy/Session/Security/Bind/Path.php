@@ -1,13 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace Psr\Cache;
-
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Session - Security - Bind - Path.
  *
- * Interface.php - Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * Path.php - The "path" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -46,32 +44,46 @@ namespace Psr\Cache;
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Session - Security - Bind - Path.
  *
- * Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * The "path" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Psr_Cache_Interface #extends CacheItemPoolInterface
+class Doozr_Configuration_Hierarchy_Session_Security_Bind_Path
 {
-    // Just for namespace
+    /**
+     * Whether the session (cookie) should be bind to a path.
+     *
+     * @var bool
+     */
+    public $enabled = true;
+
+    /**
+     * The path for binding.
+     *
+     * @example "/" = www.bar.com/
+     *
+     * @var string
+     */
+    public $path = '/';
 }

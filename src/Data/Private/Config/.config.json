@@ -60,16 +60,15 @@
       "app": "{{DOOZR_APP_ROOT}}",
       "upload": "{{DOOZR_APP_ROOT}}Data/Private/Upload/"
     },
-    "presenter": {},
     "security": {
-      "encryption": {
+      "cryptography": {
         "keys": {
           "private": "{{DOOZR_PRIVATE_KEY}}",
           "public": "{{DOOZR_PUBLIC_KEY}}"
         }
       }
     },
-    "services": {
+    "service": {
       "web": [
         "session"
       ],
@@ -84,10 +83,7 @@
     "system": {
       "php": {
         "max_execution_time": 0,
-        "memory_limit": "128M"
-      },
-      "gc": {
-        "lifetime": 1800
+        "memory_limit": 12582912
       }
     },
     "transmission": {

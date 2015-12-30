@@ -1,13 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace Psr\Cache;
-
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Session.
  *
- * Interface.php - Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * Session.php - The "kernel" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -46,32 +44,69 @@ namespace Psr\Cache;
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Session.
  *
- * Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * The "kernel" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Psr_Cache_Interface #extends CacheItemPoolInterface
+class Doozr_Configuration_Hierarchy_Session
 {
-    // Just for namespace
+    /**
+     * Whether the session should be automatic initialized when loading session service.
+     *
+     * @var bool
+     */
+    public $autoinit = true;
+
+    /**
+     * Identifier for session.
+     *
+     * @var string
+     */
+    public $identifier = '{{DOOZR_NAMESPACE_FLAT}}';
+
+    /**
+     * Lifetime of a session.
+     *
+     * @link http://php.net/manual/en/session.configuration.php#ini.session.cookie-lifetime session.cookie_lifetime
+     *
+     * @var int
+     */
+    public $lifetime = 86400;
+
+    /**
+     * Garbage collection time after which a session is cleaned from system.
+     *
+     * @link http://php.net/manual/en/session.configuration.php session.gc_maxlifetime
+     *
+     * @var int
+     */
+    public $gcTime = 86400;
+
+    /**
+     * The security node of session configuration.
+     *
+     * @var Doozr_Configuration_Hierarchy_Session_Security
+     */
+    public $security;
 }

@@ -1,13 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace Psr\Cache;
-
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Session - Security.
  *
- * Interface.php - Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * Security.php - The "security" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -46,32 +44,79 @@ namespace Psr\Cache;
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
- * Doozr - PSR - Cache - Interface
+ * Doozr - Configuration - Hierarchy - Session - Security.
  *
- * Contract for CachingObject following the PSR-Standard:
- * (http://groups.google.com/group/php-standards/browse_thread/thread/8cac9be9b2bb81a/)
+ * The "security" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Psr
- * @subpackage Doozr_Psr_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Psr_Cache_Interface #extends CacheItemPoolInterface
+class Doozr_Configuration_Hierarchy_Session_Security
 {
-    // Just for namespace
+    /**
+     * Whether security features enabled or not.
+     *
+     * @var bool
+     */
+    public $enabled = true;
+
+    /**
+     * Cycles to regenerate the session Id.
+     *
+     * @var int
+     */
+    public $regenerate = 5;
+
+    /**
+     * Whether the obfuscation is enabled or not.
+     *
+     * @var bool
+     */
+    public $obfuscate = true;
+
+    /**
+     * Whether httpOnly flag should be set or not.
+     *
+     * @var bool
+     */
+    public $httponly = false;
+
+    /**
+     * Whether ssl flag should be set or not.
+     *
+     * @var bool
+     */
+    public $ssl = true;
+
+    /**
+     * Whether security features enabled or not.
+     *
+     * @var Doozr_Configuration_Hierarchy_Session_Security_Encryption
+     */
+    public $encryption;
+
+    /**
+     * The bind node of session configuration.
+     *
+     * @var Doozr_Configuration_Hierarchy_Session_Security_Bind
+     */
+    public $bind;
 }

@@ -24,7 +24,7 @@ namespace App\View;
  *
  * @version    Git: $Id$
  *
- * @link       http://clickalicious.github.com/DoozR/
+ * @link       http://clickalicious.github.com/Doozr/
  */
 final class Index extends \Doozr_View_Web
 {
