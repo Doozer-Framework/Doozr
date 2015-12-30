@@ -31,7 +31,7 @@ before_script:
   - composer --optimize-autoloader --no-interaction
 
 script:
-  - bin/phpunit -c tests/ --coverage-clover=coverage.clover --coverage-html=./docs/coverage
+  - bin/phpunit -c app/ --coverage-clover=coverage.clover --coverage-html=./docs/coverage
 
 after_script:
   # We upload only for reference platform! This is our base for further code analyses and so on.
