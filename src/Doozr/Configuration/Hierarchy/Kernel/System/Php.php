@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_Kernel_System_Php
+class Doozr_Configuration_Hierarchy_Kernel_System_Php implements Traversable
 {
     /**
      * Configuration of php.ini max_execution_time integer.
