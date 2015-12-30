@@ -82,8 +82,7 @@
     },
     "system": {
       "php": {
-        "max_execution_time": 0,
-        "memory_limit": 12582912
+        "max_execution_time": 0
       }
     },
     "transmission": {
