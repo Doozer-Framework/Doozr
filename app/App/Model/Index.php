@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace App;
+namespace App\Model;
 
 /**
- * Doozr - Demonstration - Model
+ * Doozr - Demonstration - Model.
  *
  * Index.php - Index-Model demonstration of Doozr's Model implementation.
  *
@@ -16,26 +17,23 @@ namespace App;
  * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * @category   Doozr
- * @package    Doozr_App
- * @subpackage Doozr_App_Model
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ *
+ * @link       http://clickalicious.github.com/Doozr/
  */
-
-/**
- * Demonstration Model for 'Hello World!'
- */
-final class Model_Index extends \Doozr_Base_Model
+final class Index extends \Doozr_Base_Model
 {
     /**
      * Magic & generic data delivery.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean TRUE on success, otherwise FALSE (we need!!! this as signal from userland back to backend!)
-     * @access protected
+     *
+     * @return bool TRUE on success, otherwise FALSE (we need!!! this as signal from userland back to backend!)
      */
     protected function __data()
     {
@@ -63,8 +61,8 @@ final class Model_Index extends \Doozr_Base_Model
      * Constructor replacement.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean
-     * @access protected
+     *
+     * @return bool
      */
     protected function __tearup()
     {
@@ -79,8 +77,6 @@ final class Model_Index extends \Doozr_Base_Model
      * Shutdown event.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function __teardown()
     {

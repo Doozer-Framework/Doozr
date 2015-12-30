@@ -1,7 +1,10 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace App;
+namespace App\Presenter;
+
+use Doozr\Route\Annotation\Route;
 
 /**
  * Doozr - Demonstration - Presenter
@@ -19,16 +22,12 @@ namespace App;
  * @package    Doozr_App
  * @subpackage Doozr_App_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
- */
-
-use Doozr\Route\Annotation\Route;
-
-/**
- * Demonstration Presenter for 'Hello World!'
+ * @link       http://clickalicious.github.com/Doozr/
+ *
+ * Demonstration Presenter for 'Hello World!'.
  *
  * This demonstration of a simple presenter is the base for handling a request.
  * The index-presenter (Presenter_Test) and the index-action (indexAction) is
@@ -48,7 +47,7 @@ use Doozr\Route\Annotation\Route;
  * attached. If not (now view for example) it just will end up in a HTTP response 200.
  * Everything handled fine.
  */
-final class Presenter_Test extends \Doozr_Base_Presenter
+final class Test extends \Doozr_Base_Presenter
 {
     /**
      * Index-action.
@@ -74,8 +73,8 @@ final class Presenter_Test extends \Doozr_Base_Presenter
      * )
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE always
-     * @access public
      */
     public function indexAction()
     {
@@ -90,8 +89,8 @@ final class Presenter_Test extends \Doozr_Base_Presenter
      * Constructor replacement.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE always
-     * @access protected
      */
     protected function __tearup()
     {
@@ -106,8 +105,6 @@ final class Presenter_Test extends \Doozr_Base_Presenter
      * Shutdown event.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function __teardown()
     {

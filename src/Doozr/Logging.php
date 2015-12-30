@@ -48,7 +48,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -72,7 +72,7 @@ use Psr\Log\LoggerInterface;
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
