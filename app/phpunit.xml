@@ -55,5 +55,6 @@
         <includePath>.</includePath>
         <includePath>../src</includePath>
         <ini name="max_execution_time" value="600" />
+        <ini name="memory_limit" value="-1" />
     </php>
 </phpunit>
