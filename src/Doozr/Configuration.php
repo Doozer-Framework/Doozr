@@ -101,11 +101,11 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     protected $cache;
 
     /**
-     * Namespace for cache e.g.
+     * Scope for cache e.g.
      *
      * @var string
      */
-    protected $namespace;
+    protected $scope;
 
     /**
      * The dirty flag. Indicator for this instance to know
@@ -144,6 +144,17 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     protected $configurations;
 
     /**
+     * Namespace used for caching routes and routing metadata.
+     *
+     * @var string
+     */
+    const SCOPE_CACHE = 'cache.configuration';
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
      * Constructor.
      *
      * @param Doozr_Configuration_Reader_Interface $configReader A container e.g. Json or Ini
@@ -161,9 +172,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
             ->configReader($configReader)
             ->cacheService($cacheService)
             ->configuration(new \stdClass())
-            ->namespace_(DOOZR_NAMESPACE_FLAT.'.cache.configuration')
+            ->scope(DOOZR_NAMESPACE_FLAT.'.'.self::SCOPE_CACHE)
             ->cache($cache);
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Reads a configuration by using the injected Doozr_Configuration_Reader_Interface.
@@ -191,7 +206,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
             // Otherwise look for cached version?
             if (true === $this->getCache()) {
                 try {
-                    $configuration = $this->getCacheService()->read($this->getUuid(), $this->getNamespace());
+                    $configuration = $this->getCacheService()->read($this->getUuid(), $this->getScope());
 
                     // Check returned value => NULL = possible timed out cached entry ...
                     if ($configuration !== null) {
@@ -219,7 +234,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
 
             // Store merge result
             if ($this->getCache() === true) {
-                $this->getCacheService()->create($this->getUuid(), $configuration, null, $this->getNamespace());
+                $this->getCacheService()->create($this->getUuid(), $configuration, null, $this->getScope());
             }
 
             // Store configurations
@@ -324,43 +339,43 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for namespace.
+     * Setter for scope.
      *
-     * @param bool $namespace The namespace to set
+     * @param bool $scope The scope to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setNamespace($namespace)
+    protected function setScope($scope)
     {
-        $this->namespace = $namespace;
+        $this->scope = $scope;
     }
 
     /**
-     * Fluent setter for namespace.
+     * Fluent setter for scope.
      *
-     * @param bool $namespace The namespace to set
+     * @param bool $scope The scope to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance of this class for chaining (fluent interface pattern)
      */
-    protected function namespace_($namespace)
+    protected function scope($scope)
     {
-        $this->namespace = $namespace;
+        $this->scope = $scope;
 
         return $this;
     }
 
     /**
-     * Getter for namespace.
+     * Getter for scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string Namespace if set, otherwise NULL
+     * @return string Scope if set, otherwise NULL
      */
-    public function getNamespace()
+    public function getScope()
     {
-        return $this->namespace;
+        return $this->scope;
     }
 
     /**

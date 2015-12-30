@@ -125,11 +125,11 @@ final class Doozr_Route extends Doozr_Base_Class
     ];
 
     /**
-     * The namespace used to separate routing data.
+     * The scope used to separate routing data.
      *
      * @var string
      */
-    protected $namespace;
+    protected $scope;
 
     /**
      * The route collection.
@@ -153,11 +153,11 @@ final class Doozr_Route extends Doozr_Base_Class
     const DEFAULT_ACTION = 'index';
 
     /**
-     * Namespace used for caching routes and routing metadata.
+     * Scope used for caching routes and routing metadata.
      *
      * @var string
      */
-    const NAMESPACE_CACHE = 'cache.routes';
+    const SCOPE_CACHE = 'cache.routes';
 
     /*------------------------------------------------------------------------------------------------------------------
     | INIT
@@ -175,7 +175,7 @@ final class Doozr_Route extends Doozr_Base_Class
         $this
             ->registry($registry)
             ->cacheEnabled($registry->getParameter('doozr.kernel.caching'))
-            ->namespace_(DOOZR_NAMESPACE_FLAT.'.'.self::NAMESPACE_CACHE);
+            ->scope(DOOZR_NAMESPACE_FLAT.'.'.self::SCOPE_CACHE);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -392,43 +392,43 @@ final class Doozr_Route extends Doozr_Base_Class
     }
 
     /**
-     * Setter for namespace.
+     * Setter for scope.
      *
-     * @param string $namespace The namespace
+     * @param string $scope The scope
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setNamespace($namespace)
+    protected function setScope($scope)
     {
-        $this->namespace = $namespace;
+        $this->scope = $scope;
     }
 
     /**
-     * Setter for namespace.
+     * Setter for scope.
      *
-     * @param string $namespace The namespace
+     * @param string $scope The scope
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function namespace_($namespace)
+    protected function scope($scope)
     {
-        $this->setNamespace($namespace);
+        $this->setScope($scope);
 
         return $this;
     }
 
     /**
-     * Getter for namespace.
+     * Getter for scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string The namspace if set, otherwise NULL
      */
-    protected function getNamespace()
+    protected function getScope()
     {
-        return $this->namespace;
+        return $this->scope;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -483,7 +483,7 @@ final class Doozr_Route extends Doozr_Base_Class
             try {
                 $routes = $this->getRegistry()->getCache()->read(
                     $this->getUuid(),
-                    $this->getNamespace()
+                    $this->getScope()
                 );
             } catch (Doozr_Cache_Service_Exception $e) {
                 $routes = null;
@@ -506,7 +506,7 @@ final class Doozr_Route extends Doozr_Base_Class
                     $this->getUuid(),
                     $routes,
                     null,
-                    $this->getNamespace()
+                    $this->getScope()
                 );
             }
         }

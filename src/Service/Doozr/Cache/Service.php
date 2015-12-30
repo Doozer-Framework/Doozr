@@ -98,7 +98,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * @var string
      */
-    protected $namespace;
+    protected $scope;
 
     /**
      * Active container.
@@ -177,17 +177,17 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     const CONTAINER_MEMCACHE = 'memcache';
 
     /**
-     * The default namespace for cache elements.
+     * The default scope for cache elements.
      *
      * @var string
      */
-    const NAMESPACE_DEFAULT = 'doozr.cache';
+    const SCOPE_DEFAULT = 'doozr.cache';
 
     /**
      * Constructor.
      *
      * @param string $container        Container to use for caching or a collection with priority to try
-     * @param string $namespace        Namespace to group saved/cached elements under
+     * @param string $scope        Scope to group saved/cached elements under
      * @param array  $containerOptions Configuration/options for the container instance
      * @param bool   $unix             TRUE if current OS is unix-type, FALSE if not
      * @param bool   $enabled          Default state is enabled, FALSE to signalize that caching is disabled
@@ -196,13 +196,13 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      */
     public function __tearup(
               $container,
-              $namespace = self::NAMESPACE_DEFAULT,
+              $scope = self::SCOPE_DEFAULT,
         array $containerOptions = [],
               $unix = true,
               $enabled = true
     ) {
         $this
-            ->namespace_($namespace)
+            ->scope($scope)
             ->unix($unix)
             ->container($container, $containerOptions)
             ->enabled($enabled);
@@ -214,7 +214,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $key       The key of the entry
      * @param mixed  $value     The value of the entry
      * @param int    $lifetime  The time to expire
-     * @param string $namespace The dataset namespace
+     * @param string $scope The dataset scope
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -226,11 +226,11 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         $key,
         $value,
         $lifetime = null,
-        $namespace = null
+        $scope = null
     ) {
-        // Get namespace if not passed
-        if ($namespace === null) {
-            $namespace = $this->getNamespace();
+        // Get scope if not passed
+        if ($scope === null) {
+            $scope = $this->getScope();
         }
 
         // Retrieve expiration date
@@ -239,9 +239,9 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         }
 
         // Try to create entry
-        if ($this->createExtended($key, $value, $lifetime, $namespace) === false) {
+        if ($this->createExtended($key, $value, $lifetime, $scope) === false) {
             throw new Doozr_Cache_Service_Exception(
-                sprintf('Error while creating entry with key: "%s" in namespace: "%s"!', $key, $namespace)
+                sprintf('Error while creating entry with key: "%s" in scope: "%s"!', $key, $scope)
             );
         }
 
@@ -254,7 +254,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * This method is intend to return the requested dataset it if exists and is not expired.
      *
      * @param string $key       The key to read
-     * @param string $namespace The namespace to read from
+     * @param string $scope The scope to read from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -264,29 +264,29 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      */
     public function read(
         $key,
-        $namespace = null
+        $scope = null
     ) {
         // Assume we will have a false result
         $result = null;
 
-        // Get namespace if not passed
-        if ($namespace === null) {
-            $namespace = $this->getNamespace();
+        // Get scope if not passed
+        if ($scope === null) {
+            $scope = $this->getScope();
         }
 
         // Check if content exists
-        if ($this->exists($key, $namespace) !== true) {
+        if ($this->exists($key, $scope) !== true) {
             throw new Doozr_Cache_Service_Exception(
                 sprintf(
-                    'Requested entry with key: "%s" in namespace: "%s" could not be found in cache!', $key, $namespace
+                    'Requested entry with key: "%s" in scope: "%s" could not be found in cache!', $key, $scope
                 )
             );
         }
 
         // Check that element is not expired and return ...
-        if ($this->expired($key, $namespace) === false) {
+        if ($this->expired($key, $scope) === false) {
             // Then return the content;
-            $result = $this->getContainer()->read($key, $namespace);
+            $result = $this->getContainer()->read($key, $scope);
         }
 
         // Return only data not meta overhead (key = 2)
@@ -299,7 +299,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $key       The dataset Id
      * @param string $value     The data to write to cache
      * @param int    $lifetime  Date/Time on which the cache-entry expires
-     * @param string $namespace The dataset group
+     * @param string $scope The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -311,32 +311,32 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         $key,
         $value,
         $lifetime = null,
-        $namespace = null
+        $scope = null
     ) {
-        if ($namespace === null) {
-            $namespace = $this->getNamespace();
+        if ($scope === null) {
+            $scope = $this->getScope();
         }
 
-        return $this->create($key, $value, $lifetime, $namespace);
+        return $this->create($key, $value, $lifetime, $scope);
     }
 
     /**
      * Deletes a dataset from cache.
      *
      * @param string $key       The key to delete data of
-     * @param string $namespace The namespace to look for key
+     * @param string $scope The scope to look for key
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return bool TRUE if entry was deleted successful, otherwise FALSE
      */
-    public function delete($key, $namespace = null)
+    public function delete($key, $scope = null)
     {
-        if ($namespace === null) {
-            $namespace = $this->getNamespace();
+        if ($scope === null) {
+            $scope = $this->getScope();
         }
 
-        return $this->getContainer()->delete($key, $namespace);
+        return $this->getContainer()->delete($key, $scope);
     }
 
     /**
@@ -345,26 +345,26 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * This method is intend to check if an cached object exists and return result.
      *
      * @param string $key       The id of the object to check
-     * @param string $namespace The namespace of the object to check
+     * @param string $scope The scope of the object to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return bool TRUE if exists, otherwise FALSE
      */
-    public function exists($key, $namespace = null)
+    public function exists($key, $scope = null)
     {
-        if ($namespace === null) {
-            $namespace = $this->getNamespace();
+        if ($scope === null) {
+            $scope = $this->getScope();
         }
 
-        return $this->getContainer()->exists($key, $namespace);
+        return $this->getContainer()->exists($key, $scope);
     }
 
     /**
      * Checks whether an entry is expired.
      *
      * @param string $key       The key of the element to check
-     * @param string $namespace The cache namespace
+     * @param string $scope The cache scope
      * @param int    $lifetime  The maximum age for the cached data in seconds - 0 for endless. If the cached
      *                          data is older but the given lifetime it will be removed from the cache. You don't
      *                          have to provide this argument if you call expired(). Every dataset knows it's
@@ -377,17 +377,17 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * @throws Doozr_Cache_Service_Exception
      */
-    public function expired($key, $namespace = null, $lifetime = null)
+    public function expired($key, $scope = null, $lifetime = null)
     {
-        if ($namespace === null) {
-            $namespace = $this->getNamespace();
+        if ($scope === null) {
+            $scope = $this->getScope();
         }
 
         if ($lifetime === null) {
             $lifetime = $this->getGcMaximumLifetime();
         }
 
-        return $this->getContainer()->expired($key, $namespace, $lifetime);
+        return $this->getContainer()->expired($key, $scope, $lifetime);
     }
 
     /**
@@ -396,7 +396,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *  - is forced ($force = true)
      *  - there was a run before and this run is older = gcProbabilityTime
      *
-     * @param string $namespace       The namespace to look for elements in
+     * @param string $scope       The scope to look for elements in
      * @param int    $maximumLifetime The maximum lifetime of an element
      * @param bool   $force           TRUE to force a garbage collection run, otherwise FALSE (default) to check
      *
@@ -404,14 +404,14 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * @return int The number of elements collected in gc run
      */
-    public function garbageCollection($namespace = null, $maximumLifetime = null, $force = false)
+    public function garbageCollection($scope = null, $maximumLifetime = null, $force = false)
     {
         // Default result
         $result = 0;
 
-        // Get our active namespace if no special one passed
-        if ($namespace === null) {
-            $namespace = $this->getNamespace();
+        // Get our active scope if no special one passed
+        if ($scope === null) {
+            $scope = $this->getScope();
         }
 
         // The maximum lifetime for the entry in seconds
@@ -431,7 +431,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
             ) ||
             (rand(1, 100) <= $this->gcProbability)                                     // or randomizer hit?
         ) {
-            $result                   = $this->getContainer()->garbageCollection($namespace, $maximumLifetime);
+            $result                   = $this->getContainer()->garbageCollection($scope, $maximumLifetime);
             self::$gcLastRunTimestamp = time();
         }
 
@@ -439,23 +439,23 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     }
 
     /**
-     * Removes all namespace datasets from cache.
+     * Removes all scope datasets from cache.
      *
-     * @param string $namespace The namespace of the cache item
+     * @param string $scope The scope of the cache item
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return int Number of removed entries
      */
-    public function purge($namespace = null)
+    public function purge($scope = null)
     {
-        // Get namespace if not passed
-        if ($namespace === null) {
-            $namespace = $this->getNamespace();
+        // Get scope if not passed
+        if ($scope === null) {
+            $scope = $this->getScope();
         }
 
         // Return result of purge
-        return $this->getContainer()->purge($namespace);
+        return $this->getContainer()->purge($scope);
     }
 
     /**
@@ -573,7 +573,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         // Don't cleanup if cache is disabled! Disabled = meaning NEVER take action!
         if (true === $this->isEnabled()) {
             $this->garbageCollection(
-                $this->getNamespace(),         // Retrieve namespace from this service instance
+                $this->getScope(),         // Retrieve scope from this service instance
                 $this->getGcMaximumLifetime(), // The lifetime used to check entries
                 false                          // At tear-down don't force
             );
@@ -741,49 +741,49 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     }
 
     /**
-     * Setter for namespace.
+     * Setter for scope.
      *
-     * This method is intend to generate and set the namespace.
+     * This method is intend to generate and set the scope.
      *
-     * @param string $namespace The dataset namespace to use
+     * @param string $scope The dataset scope to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setNamespace($namespace)
+    protected function setScope($scope)
     {
-        $this->namespace = $namespace;
+        $this->scope = $scope;
     }
 
     /**
-     * Setter for namespace.
+     * Setter for scope.
      *
-     * This method is intend to generate and set the namespace.
+     * This method is intend to generate and set the scope.
      *
-     * @param string $namespace The dataset namespace to use
+     * @param string $scope The dataset scope to use
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function namespace_($namespace)
+    protected function scope($scope)
     {
-        $this->setNamespace($namespace);
+        $this->setScope($scope);
 
         return $this;
     }
 
     /**
-     * Getter for namespace.
+     * Getter for scope.
      *
-     * This method returns the namespace of the current dataset
+     * This method returns the scope of the current dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The namespace
+     * @return string The scope
      */
-    protected function getNamespace()
+    protected function getScope()
     {
-        return $this->namespace;
+        return $this->scope;
     }
 
     /**
@@ -792,7 +792,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @param string $key       The key of the entry
      * @param mixed  $value     The value of the entry
      * @param int    $lifetime  The time to expire
-     * @param string $namespace The dataset namespace
+     * @param string $scope The dataset scope
      * @param string $userdata  The userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -805,7 +805,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         $key,
         $value,
         $lifetime,
-        $namespace,
+        $scope,
         $userdata = ''
     ) {
         try {
@@ -813,7 +813,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
                 $key,
                 $value,
                 $lifetime,
-                $namespace,
+                $scope,
                 $userdata
             );
         } catch (Exception $e) {
@@ -859,8 +859,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     protected function getDefaultOptions()
     {
         return [
-            'unix'      => $this->unix,
-            'namespace' => $this->getNamespace(),
+            'unix'  => $this->unix,
+            'scope' => $this->getScope(),
         ];
     }
 
