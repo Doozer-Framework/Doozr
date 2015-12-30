@@ -8,7 +8,7 @@
  * Configuration.php - Configuration container for a Json reader (based on filesystem reader) to read Json
  * configurations and make use of three possible layers of caching [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG]
  * -> [CACHE:FILESYSTEM] -> read from filesystem/network. So lookup is (look in runtime cache) then (look in
- * config stored in memory) then (look in memory for file) then access filesystem/network the 1st time. Speedup!!!
+ * configuration stored in memory) then (look in memory for file) then access filesystem/network the 1st time. Speedup!
  *
  * PHP versions 5.5
  *
@@ -64,9 +64,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Interface.php';
  *
  * Configuration container for a Json reader (based on filesystem reader) to read Json configurations and
  * make use of three possible layers of caching [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG] -> [CACHE:FILESYSTEM] ->
- * read from filesystem/network.
- * So lookup is (look in runtime cache) then (look in config stored in memory) then (look in memory for file) then
- * access filesystem/network the 1st time. Speedup!!!
+ * read from filesystem/network. So lookup is (look in runtime cache) then (look in configuration stored in memory) then
+ * (look in memory for file) then access filesystem/network the 1st time. Speedup!!!
  *
  * @category   Doozr
  *
@@ -123,11 +122,11 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     protected $cacheService;
 
     /**
-     * A config reader instance. In this case (Doozr uses JSON):.
+     * A configuration reader instance (Doozr uses JSON-format).
      *
      * @var Doozr_Configuration_Reader_Interface
      */
-    protected $configReader;
+    protected $configurationReader;
 
     /**
      * The merged configuration required for returning content.
@@ -157,19 +156,19 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param Doozr_Configuration_Reader_Interface $configReader A container e.g. Json or Ini
+     * @param Doozr_Configuration_Reader_Interface $configurationReader A container e.g. Json or Ini
      * @param Doozr_Cache_Service                  $cacheService Doozr_Cache_Service Instance
      * @param bool                                 $cache        TRUE to enable caching, FALSE to do disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     protected function __construct(
-        Doozr_Configuration_Reader_Interface $configReader,
+        Doozr_Configuration_Reader_Interface $configurationReader,
         Doozr_Cache_Service                  $cacheService = null,
                                              $cache        = false
     ) {
         $this
-            ->configReader($configReader)
+            ->configurationReader($configurationReader)
             ->cacheService($cacheService)
             ->configuration(new \stdClass())
             ->scope(DOOZR_NAMESPACE_FLAT.'.'.self::SCOPE_CACHE)
@@ -221,8 +220,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
                 }
             }
 
-            // If not cached we need to clone a config parser and begin parsing and merging
-            $configuration = clone $this->getConfigReader();
+            // If not cached we need to clone a configuration parser and begin parsing and merging
+            $configuration = clone $this->getConfigurationReader();
             $configuration->read($filename);
             $configurations[$this->getUuid()] = $configuration->get();
 
@@ -250,7 +249,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * This method does not persist!
      *
      * @param string $node  The key used for entry
-     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
+     * @param mixed  $value The value (every type allowed) - check if it is supported by your chosen configuration type
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -459,43 +458,43 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for configReader.
+     * Setter for configurationReader.
      *
-     * @param Doozr_Configuration_Reader_Interface $configReader
+     * @param Doozr_Configuration_Reader_Interface $configurationReader
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setConfigReader(Doozr_Configuration_Reader_Interface $configReader)
+    protected function setConfigurationReader(Doozr_Configuration_Reader_Interface $configurationReader)
     {
-        $this->configReader = $configReader;
+        $this->configurationReader = $configurationReader;
     }
 
     /**
-     * Fluent setter for config reader.
+     * Fluent setter for configuration reader.
      *
-     * @param Doozr_Configuration_Reader_Interface $configReader
+     * @param Doozr_Configuration_Reader_Interface $configurationReader
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance of this class for chaining (fluent interface pattern)
      */
-    protected function configReader(Doozr_Configuration_Reader_Interface $configReader)
+    protected function configurationReader(Doozr_Configuration_Reader_Interface $configurationReader)
     {
-        $this->configReader = $configReader;
+        $this->configurationReader = $configurationReader;
 
         return $this;
     }
 
     /**
-     * Getter for configReader.
+     * Getter for configurationReader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Configuration_Reader_Interface Instance of a config reader if set, otherwise NULL
+     * @return Doozr_Configuration_Reader_Interface Instance of a configuration reader if set, otherwise NULL
      */
-    protected function getConfigReader()
+    protected function getConfigurationReader()
     {
-        return $this->configReader;
+        return $this->configurationReader;
     }
 
     /**
