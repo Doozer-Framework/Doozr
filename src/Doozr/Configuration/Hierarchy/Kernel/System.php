@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Unit-Test
+ * Doozr - Configuration - Hierarchy - Kernel - System.
  *
- * BaseTest.php - Test for Base
+ * System.php - The "system" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -43,73 +44,37 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Unit-Test
+ * Doozr - Configuration - Hierarchy - Kernel - System.
  *
- * Test for Service
+ * The "system" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-/*
-class BaseTest extends PHPUnit_Framework_TestCase
+class Doozr_Configuration_Hierarchy_Kernel_System
 {
-    public function testInit()
-    {
-        $base = new Doozr_Form_Service_Element_Html_Html();
-        $this->assertInstanceOf('Doozr_Form_Service_Element_Html_Html', $base);
-    }
-
-    public function testSetAndGetAttribute()
-    {
-        $key   = 'foo';
-        $value = 'bar';
-        $base  = new Doozr_Form_Service_Element_Html_Html();
-
-        $this->assertTrue($base->setAttribute($key, $value));
-        $this->assertEquals($value, $base->getAttribute($key));
-    }
-
-    public function testSetAndGetAttributes()
-    {
-        $base = new Doozr_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'foo' => 'bar',
-            'bar' => 'foo'
-        );
-
-        $this->assertTrue($base->setAttributes($attributes));
-        $this->assertEquals('foo', $base->getAttribute('bar'));
-        $this->assertArrayHasKey('bar', $base->getAttributes());
-    }
-
-    public function testSetAndGetHtml()
-    {
-        $base = new Doozr_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'html' => '<html></html>'
-        );
-
-        $this->assertEmpty($base->getHtml());
-        $this->assertTrue($base->setHtml($attributes['html']));
-        $this->assertEquals($attributes['html'], $base->getHtml());
-    }
+    /**
+     * Configuration of php.ini keys and values.
+     *
+     * @var Doozr_Configuration_Hierarchy_Kernel_System_Php
+     */
+    public $php;
 }
-*/

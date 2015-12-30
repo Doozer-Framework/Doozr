@@ -47,7 +47,7 @@
  * @package    Doozr_Kernel
  * @subpackage Doozr_Kernel_Security
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -64,7 +64,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
  * @package    Doozr_Kernel
  * @subpackage Doozr_Kernel_Security
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -144,14 +144,16 @@ class Doozr_Security extends Doozr_Base_Class_Singleton
     {
         // max-len in bit = 1024
         if ($bit > 1024) {
-            throw new Doozr_Exception('The largest size of a private-key is 1024! Please choose a lower bit count.');
+            throw new Doozr_Exception(
+                'The largest size of a private-key is 1024! Please choose a lower bit count.'
+            );
         }
 
         // calculate bytes from bits
         $bytes = round($bit / 8);
 
         // get whole key
-        $key = self::$config->kernel->security->encryption->keys->private;
+        $key = self::$config->kernel->security->cryptography->keys->private;
 
         // return extracted key
         return substr($key, (strlen($key) - $bytes), $bytes);

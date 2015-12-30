@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Response - Web
+ * Doozr - Response - Web.
  *
  * Web.php - Doozr response implementation for Web (HTTP) response(s).
  *
@@ -43,33 +44,34 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response_Web
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Response.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Kernel.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Response.php';
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * Doozr - Response - Web
+ * Doozr - Response - Web.
  *
  * Doozr response implementation for Web (HTTP) response(s).
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response_Web
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Response_Web extends Doozr_Response
@@ -80,8 +82,8 @@ class Doozr_Response_Web extends Doozr_Response
      * Type of response.
      *
      * @example Httpd, Web, ...
+     *
      * @var string
-     * @access protected
      */
     protected $type = Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB;
 
@@ -116,8 +118,8 @@ class Doozr_Response_Web extends Doozr_Response
     public function getReasonPhrase()
     {
         if ('' === $reasonPhrase = $this->getStateObject()->getReasonPhrase()) {
-            $status = 'REASONPHRASE_' . $this->getStatusCode();
-            $reasonPhrase = constant('Doozr_Http::' . $status);
+            $status = 'REASONPHRASE_'.$this->getStatusCode();
+            $reasonPhrase = constant('Doozr_Http::'.$status);
         }
 
         return $reasonPhrase;
@@ -235,8 +237,8 @@ class Doozr_Response_Web extends Doozr_Response
      * Getter for data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Response_Body The data if set, otherwise NULL
-     * @access public
      */
     public function getData()
     {
@@ -251,8 +253,8 @@ class Doozr_Response_Web extends Doozr_Response
      * Returns ready to use protocol line.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The protocol line as string
-     * @access protected
      */
     protected function getProtocolLine()
     {
