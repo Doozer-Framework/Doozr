@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - Class - Singleton
+ * Doozr - Base - Class - Singleton.
  *
  * Singleton.php - Loose Base-Singleton-Class of the Doozr Framework
  * Loose stands for the difference to the strict Version of this class
@@ -46,19 +47,19 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Class_Singleton
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton/Generic.php';
 
 /**
- * Doozr - Base - Class - Singleton
+ * Doozr - Base - Class - Singleton.
  *
  * Loose Base-Singleton-Class of the Doozr Framework
  * Loose stands for the difference to the strict Version of this class
@@ -66,31 +67,31 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Generic.php';
  * instantiation to check for singleton instance
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Class_Singleton
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_Class_Singleton extends Doozr_Base_Class_Singleton_Generic
 {
     /**
-     * The current single instance
+     * The current single instance.
      *
      * @var object
-     * @access protected
      * @static
      */
     protected static $instance;
 
     /**
-     * Constructor for singleton pattern
+     * Constructor for singleton pattern.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object instance/object of this class
-     * @access public
      */
     public static function getInstance()
     {

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration
+ * Doozr - Configuration.
  *
  * Configuration.php - Configuration container for a Json reader (based on filesystem reader) to read Json
  * configurations and make use of three possible layers of caching [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG]
@@ -46,20 +47,20 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Configuration
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Interface.php';
 
 /**
- * Doozr - Configuration
+ * Doozr - Configuration.
  *
  * Configuration container for a Json reader (based on filesystem reader) to read Json configurations and
  * make use of three possible layers of caching [REQUEST -> [CACHE:RUNTIME] -> [CACHE:CONFIG] -> [CACHE:FILESYSTEM] ->
@@ -68,26 +69,27 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Configuration/Interface.php';
  * access filesystem/network the 1st time. Speedup!!!
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Configuration
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
- * @property   Doozr_Configuration_Hierarchy_Kernel       $kernel
- * @property   Doozr_Configuration_Hierarchy_I18n         $i18n
- * @property   Doozr_Base_Configuration_Hierarchy_Session $session
+ *
+ * @property   Doozr_Configuration_Hierarchy_Kernel  $kernel
+ * @property   Doozr_Configuration_Hierarchy_I18n    $i18n
+ * @property   Doozr_Configuration_Hierarchy_Session $session
  */
 class Doozr_Configuration extends Doozr_Base_Class_Singleton
     implements
     Doozr_Configuration_Interface
 {
     /**
-     * The UUID of the active configuration
+     * The UUID of the active configuration.
      *
      * @var string
-     * @access protected
      */
     protected $uuid = '';
 
@@ -95,24 +97,21 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * The cache status.
      *
      * @var bool
-     * @access protected
      */
     protected $cache;
 
     /**
-     * Namespace for cache e.g.
+     * Scope for cache e.g.
      *
      * @var string
-     * @access protected
      */
-    protected $namespace;
+    protected $scope;
 
     /**
      * The dirty flag. Indicator for this instance to know
      * when it is time to start merging and combining UUIDs.
      *
      * @var bool
-     * @access protected
      */
     protected $dirty = false;
 
@@ -120,34 +119,40 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Instance of cache service.
      *
      * @var Doozr_Cache_Service
-     * @access protected
      */
     protected $cacheService;
 
     /**
-     * A config reader instance. In this case (Doozr uses JSON):
+     * A config reader instance. In this case (Doozr uses JSON):.
      *
      * @var Doozr_Configuration_Reader_Interface
-     * @access protected
      */
     protected $configReader;
 
     /**
-     * The merged configuration required for returning content
+     * The merged configuration required for returning content.
      *
      * @var \stdClass
-     * @access protected
      */
     protected $configuration;
 
     /**
-     * The configuration required for returning content
+     * The configuration required for returning content.
      *
      * @var Doozr_Configuration_Reader_Interface[]
-     * @access protected
      */
     protected $configurations;
 
+    /**
+     * Namespace used for caching routes and routing metadata.
+     *
+     * @var string
+     */
+    const SCOPE_CACHE = 'cache.configuration';
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
@@ -157,8 +162,6 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param bool                                 $cache        TRUE to enable caching, FALSE to do disable
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Configuration
-     * @access protected
      */
     protected function __construct(
         Doozr_Configuration_Reader_Interface $configReader,
@@ -169,9 +172,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
             ->configReader($configReader)
             ->cacheService($cacheService)
             ->configuration(new \stdClass())
-            ->namespace_(DOOZR_NAMESPACE_FLAT . '.cache.configuration')
+            ->scope(DOOZR_NAMESPACE_FLAT.'.'.self::SCOPE_CACHE)
             ->cache($cache);
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Reads a configuration by using the injected Doozr_Configuration_Reader_Interface.
@@ -181,13 +188,14 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param string $filename The filename to parse
      *
      * @return Doozr_Configuration_Reader_Interface|mixed|null|stdClass
+     *
      * @throws Doozr_Cache_Service_Exception
      * @throws Doozr_Configuration_Reader_Exception
      */
     public function read($filename)
     {
         // Create UUID in a generic way
-        $this->setUuid(md5($this->getUuid() . $filename));
+        $this->setUuid(md5($this->getUuid().$filename));
 
         // Get all loaded configurations
         $configurations = $this->getConfigurations();
@@ -197,20 +205,17 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
 
             // Otherwise look for cached version?
             if (true === $this->getCache()) {
-
                 try {
-                    $configuration = $this->getCacheService()->read($this->getUuid(), $this->getNamespace());
+                    $configuration = $this->getCacheService()->read($this->getUuid(), $this->getScope());
 
                     // Check returned value => NULL = possible timed out cached entry ...
                     if ($configuration !== null) {
-
                         $configurations[$this->getUuid()] = $configuration;
                         $this->setConfiguration($configuration);
                         $this->setConfigurations($configurations);
 
                         return $configuration;
                     }
-
                 } catch (Doozr_Cache_Service_Exception $e) {
                     //
                 }
@@ -229,13 +234,12 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
 
             // Store merge result
             if ($this->getCache() === true) {
-                $this->getCacheService()->create($this->getUuid(), $configuration, null, $this->getNamespace());
+                $this->getCacheService()->create($this->getUuid(), $configuration, null, $this->getScope());
             }
 
             // Store configurations
             $this->setConfiguration($configuration);
             $this->setConfigurations($configurations);
-
         } else {
             return $configurations[$this->getUuid()];
         }
@@ -249,8 +253,6 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function set($node, $value)
     {
@@ -263,18 +265,17 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param string $node The key used for value lookup.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed|null The value of configuration node if set, otherwise NULL
-     * @access public
      */
     public function get($node = null)
     {
         if ($node !== null) {
-            $nodes = explode(':', $node);
+            $nodes         = explode(':', $node);
             $configuration = $this->getConfiguration();
             foreach ($nodes as $node) {
                 $configuration = $configuration->{$node};
             }
-
         } else {
             $configuration = $this->getConfiguration();
         }
@@ -284,13 +285,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
 
     /**
      * Generic getter to provide a Doozr_Configuration_Reader_Interface like interface to master configuration
-     * e.g. Doozr_Configuration->foo->bar;
+     * e.g. Doozr_Configuration->foo->bar;.
      *
      * @param string $property The property requested
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed|null The value of the node requested, otherwise NULL
-     * @access public
      */
     public function __get($property)
     {
@@ -303,8 +304,6 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param string $uuid The uuid to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setUuid($uuid)
     {
@@ -317,12 +316,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param string $uuid The uuid to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function uuid($uuid)
     {
         $this->uuid = $uuid;
+
         return $this;
     }
 
@@ -330,8 +330,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for uuid.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Uuid if set, otherwise NULL
-     * @access protected
      */
     public function getUuid()
     {
@@ -339,44 +339,43 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for namespace.
+     * Setter for scope.
      *
-     * @param bool $namespace The namespace to set
+     * @param bool $scope The scope to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
-    protected function setNamespace($namespace)
+    protected function setScope($scope)
     {
-        $this->namespace = $namespace;
+        $this->scope = $scope;
     }
 
     /**
-     * Fluent setter for namespace.
+     * Fluent setter for scope.
      *
-     * @param bool $namespace The namespace to set
+     * @param bool $scope The scope to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
-    protected function namespace_($namespace)
+    protected function scope($scope)
     {
-        $this->namespace = $namespace;
+        $this->scope = $scope;
+
         return $this;
     }
 
     /**
-     * Getter for namespace.
+     * Getter for scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string Namespace if set, otherwise NULL
-     * @access protected
+     *
+     * @return string Scope if set, otherwise NULL
      */
-    public function getNamespace()
+    public function getScope()
     {
-        return $this->namespace;
+        return $this->scope;
     }
 
     /**
@@ -385,8 +384,6 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param bool $cache The cache to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setCache($cache)
     {
@@ -399,12 +396,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param bool $cache The cache to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function cache($cache)
     {
         $this->cache = $cache;
+
         return $this;
     }
 
@@ -412,8 +410,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for cache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Cache if set, otherwise NULL
-     * @access protected
+     *
+     * @return bool Cache if set, otherwise NULL
      */
     public function getCache()
     {
@@ -426,8 +424,6 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param Doozr_Cache_Service $cacheService
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setCacheService(Doozr_Cache_Service $cacheService)
     {
@@ -440,12 +436,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param null|Doozr_Cache_Service $cacheService
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function cacheService(Doozr_Cache_Service $cacheService)
     {
         $this->setCacheService($cacheService);
+
         return $this;
     }
 
@@ -453,8 +450,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for cache service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|Doozr_Cache_Service Instance of cache service if set, otherwise NULL
-     * @access protected
      */
     protected function getCacheService()
     {
@@ -467,8 +464,6 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param Doozr_Configuration_Reader_Interface $configReader
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setConfigReader(Doozr_Configuration_Reader_Interface $configReader)
     {
@@ -481,12 +476,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param Doozr_Configuration_Reader_Interface $configReader
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining (fluent interface pattern)
-     * @access protected
      */
     protected function configReader(Doozr_Configuration_Reader_Interface $configReader)
     {
         $this->configReader = $configReader;
+
         return $this;
     }
 
@@ -494,8 +490,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for configReader.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Configuration_Reader_Interface Instance of a config reader if set, otherwise NULL
-     * @access protected
      */
     protected function getConfigReader()
     {
@@ -508,8 +504,6 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param \stdClass $configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setConfiguration(\stdClass $configuration)
     {
@@ -522,12 +516,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param \stdClass $configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function configuration(\stdClass $configuration)
     {
         $this->configuration = $configuration;
+
         return $this;
     }
 
@@ -535,8 +530,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return stdClass The configuration if set, otherwise NULL
-     * @access protected
      */
     protected function getConfiguration()
     {
@@ -549,8 +544,6 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param array $configurations The configurations to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setConfigurations(array $configurations)
     {
@@ -563,12 +556,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param array $configurations The configurations to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining.
-     * @access protected
      */
     protected function configurations(array $configurations)
     {
         $this->configurations = $configurations;
+
         return $this;
     }
 
@@ -576,8 +570,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * Getter for all parsed/processed configurations.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Configuration_Reader_Interface[]
-     * @access protected
      */
     protected function getConfigurations()
     {
@@ -591,13 +585,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      * @param stdClass $object2 The configuration to merge with master
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \stdClass The merged result
-     * @access protected
      */
     protected function merge(\stdClass $object1, \stdClass $object2)
     {
         return array_to_object(
-            array_replace_recursive(object_to_array($object1) , object_to_array($object2))
+            array_replace_recursive(object_to_array($object1), object_to_array($object2))
         );
     }
 }
