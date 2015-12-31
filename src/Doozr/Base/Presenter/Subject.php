@@ -46,7 +46,7 @@
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -64,7 +64,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Subject/Interface.php';
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Presenter
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -110,7 +110,7 @@ abstract class Doozr_Base_Presenter_Subject extends Doozr_Base_State_Container
      * @return Doozr_Base_Presenter_Subject Subject
      * @access public
      */
-    public function __construct(Doozr_Base_State_Interface $state)
+    public function __construct(Doozr_Base_State_Interface $state = null)
     {
         $this->observer = new SplObjectStorage();
         parent::__construct($state);

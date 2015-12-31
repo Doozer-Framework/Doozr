@@ -46,7 +46,7 @@
  * @package    Doozr_Kernel
  * @subpackage Doozr_Kernel_Path
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -64,7 +64,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path/Interface.php';
  * @package    Doozr_Kernel
  * @subpackage Doozr_Kernel_Path
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -158,7 +158,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
     protected function retrievePathToApplication()
     {
         // If path to app was defined before return this (prio 1)
-        if (!defined('DOOZR_APP_ROOT')) {
+        if (false === defined('DOOZR_APP_ROOT')) {
             if (false !== $environment = getenv('DOOZR_APP_ROOT')) {
                 // assume that path to application is like the default environment (one folder up)
                 $path = $this->mergePath($environment, 'app/');

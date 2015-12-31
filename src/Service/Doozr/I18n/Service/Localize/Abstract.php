@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -63,7 +63,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -155,9 +155,9 @@ abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
         $configL10n = null,
         $translator = null
     ) {
-        $this->registry = $registry;
-        $this->locale = $locale;
-        $this->namespace = $namespace;
+        $this->registry   = $registry;
+        $this->locale     = $locale;
+        $this->namespace  = $namespace;
         $this->configI18n = $configI18n;
         $this->configL10n = $configL10n;
         $this->translator = $translator;

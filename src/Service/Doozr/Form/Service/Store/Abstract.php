@@ -47,7 +47,7 @@
  * @package    Doozr_Service
  * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -65,7 +65,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Crud/Interface.php';
  * @package    Doozr_Service
  * @subpackage Doozr_Service_Form
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/

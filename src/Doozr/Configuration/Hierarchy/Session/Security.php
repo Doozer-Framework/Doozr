@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Unit-Test
+ * Doozr - Configuration - Hierarchy - Session - Security.
  *
- * BaseTest.php - Test for Base
+ * Security.php - The "security" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -43,73 +44,79 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Unit-Test
+ * Doozr - Configuration - Hierarchy - Session - Security.
  *
- * Test for Service
+ * The "security" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-/*
-class ContainerTest extends PHPUnit_Framework_TestCase
+class Doozr_Configuration_Hierarchy_Session_Security
 {
-    public function testInit()
-    {
-        $base = new Doozr_Form_Service_Element_Html_Html();
-        $this->assertInstanceOf('Doozr_Form_Service_Element_Html_Html', $base);
-    }
+    /**
+     * Whether security features enabled or not.
+     *
+     * @var bool
+     */
+    public $enabled = true;
 
-    public function testSetAndGetAttribute()
-    {
-        $key   = 'foo';
-        $value = 'bar';
-        $base  = new Doozr_Form_Service_Element_Html_Html();
+    /**
+     * Cycles to regenerate the session Id.
+     *
+     * @var int
+     */
+    public $regenerate = 5;
 
-        $this->assertTrue($base->setAttribute($key, $value));
-        $this->assertEquals($value, $base->getAttribute($key));
-    }
+    /**
+     * Whether the obfuscation is enabled or not.
+     *
+     * @var bool
+     */
+    public $obfuscate = true;
 
-    public function testSetAndGetAttributes()
-    {
-        $base = new Doozr_Form_Service_Element_Html_Html();
+    /**
+     * Whether httpOnly flag should be set or not.
+     *
+     * @var bool
+     */
+    public $httponly = false;
 
-        $attributes = array(
-            'foo' => 'bar',
-            'bar' => 'foo'
-        );
+    /**
+     * Whether ssl flag should be set or not.
+     *
+     * @var bool
+     */
+    public $ssl = true;
 
-        $this->assertTrue($base->setAttributes($attributes));
-        $this->assertEquals('foo', $base->getAttribute('bar'));
-        $this->assertArrayHasKey('bar', $base->getAttributes());
-    }
+    /**
+     * Whether security features enabled or not.
+     *
+     * @var Doozr_Configuration_Hierarchy_Session_Security_Encryption
+     */
+    public $encryption;
 
-    public function testSetAndGetHtml()
-    {
-        $base = new Doozr_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'html' => '<html></html>'
-        );
-
-        $this->assertEmpty($base->getHtml());
-        $this->assertTrue($base->setHtml($attributes['html']));
-        $this->assertEquals($attributes['html'], $base->getHtml());
-    }
+    /**
+     * The bind node of session configuration.
+     *
+     * @var Doozr_Configuration_Hierarchy_Session_Security_Bind
+     */
+    public $bind;
 }
-*/

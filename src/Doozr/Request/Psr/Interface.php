@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Unit-Test
+ * Doozr - Request - Psr - Interface.
  *
- * BaseTest.php - Test for Base
+ * Interface.php - Doozr request interface.
  *
  * PHP versions 5.5
  *
@@ -43,73 +44,55 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Doozr - Unit-Test
+ * Doozr - Request - Psr - Interface.
  *
- * Test for Service
+ * Doozr request interface.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-/*
-class BaseTest extends PHPUnit_Framework_TestCase
+interface Doozr_Request_Psr_Interface extends Request
 {
-    public function testInit()
-    {
-        $base = new Doozr_Form_Service_Element_Html_Html();
-        $this->assertInstanceOf('Doozr_Form_Service_Element_Html_Html', $base);
-    }
+    /**
+     * Marshalling of request. Each of our request implementations must have a retrieve() method which triggers
+     * the retrieval/marshalling of request data (header, body, files, ...).
+     *
+     * @return bool TRUE on success, otherwise FALSE
+     *
+     * @throws Doozr_Request_Exception
+     */
+    public function receive();
 
-    public function testSetAndGetAttribute()
-    {
-        $key   = 'foo';
-        $value = 'bar';
-        $base  = new Doozr_Form_Service_Element_Html_Html();
+    /**
+     * Must return the type of the request implementation.
+     *
+     * @return mixed
+     */
+    public function getType();
 
-        $this->assertTrue($base->setAttribute($key, $value));
-        $this->assertEquals($value, $base->getAttribute($key));
-    }
-
-    public function testSetAndGetAttributes()
-    {
-        $base = new Doozr_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'foo' => 'bar',
-            'bar' => 'foo'
-        );
-
-        $this->assertTrue($base->setAttributes($attributes));
-        $this->assertEquals('foo', $base->getAttribute('bar'));
-        $this->assertArrayHasKey('bar', $base->getAttributes());
-    }
-
-    public function testSetAndGetHtml()
-    {
-        $base = new Doozr_Form_Service_Element_Html_Html();
-
-        $attributes = array(
-            'html' => '<html></html>'
-        );
-
-        $this->assertEmpty($base->getHtml());
-        $this->assertTrue($base->setHtml($attributes['html']));
-        $this->assertEquals($attributes['html'], $base->getHtml());
-    }
+    /**
+     * Extracts the current request as request state representation.
+     *
+     * @return Doozr_Request_State
+     */
+    public function export();
 }
-*/

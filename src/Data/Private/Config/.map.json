@@ -125,7 +125,7 @@
         "constructor": "getInstance",
         "dependencies": [
           {
-            "classname": "Doozr_Path",
+            "classname": "Doozr_Registry",
             "type": "constructor",
             "target": "getInstance",
             "position": 2
@@ -163,6 +163,10 @@
           {
             "type": "constructor",
             "link": "doozr.registry"
+          },
+          {
+            "type": "constructor",
+            "classname": "Doozr_Request_State"
           }
         ]
       },
