@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -86,7 +86,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -116,7 +116,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     /**
      * Instance of service DateTime.
      *
-     * @var Doozr_Datetime_Service
+     * @var Doozr_Datetime_Service|Doozr_Base_Service_Interface
      * @static
      */
     protected static $dateTime;
@@ -471,7 +471,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
                                 'Bootstrapping Doozr (v '.DOOZR_VERSION.')'
                             )
                     ) &&
-                    self::initSystem() &&
+                    self::initPhp() &&
                     self::initEncoding() &&
                     self::initLocale() &&
                     self::initModel() &&
@@ -519,8 +519,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // Build namespace for cache
         $namespace = self::$registry->getParameter('doozr.namespace.flat').'.cache';
         $container = self::$registry->getParameter('doozr.kernel.caching.container');
-        $unix = self::$registry->getParameter('doozr.unix');
-        $caching = self::$registry->getParameter('doozr.kernel.caching');
+        $unix      = self::$registry->getParameter('doozr.unix');
+        $caching   = self::$registry->getParameter('doozr.kernel.caching');
 
         // Store cache ...
         self::$registry->setCache(
@@ -554,9 +554,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
          * The Di-Map builder requires two objects Collection + Importer
          */
         $collection = new Doozr_Di_Collection();
-        $importer = new Doozr_Di_Importer_Json();
+        $importer   = new Doozr_Di_Importer_Json();
         $dependency = new Doozr_Di_Dependency();
-        $map = new Doozr_Di_Map_Static($collection, $importer, $dependency);
+        $map        = new Doozr_Di_Map_Static($collection, $importer, $dependency);
 
         // Generate map from static JSON map of Doozr
         $map->generate(self::$registry->getParameter('doozr.directory.root').'Data/Private/Config/.map.json');
@@ -659,7 +659,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      */
     protected static function initConfiguration()
     {
-        $caching = self::$registry->getParameter('doozr.kernel.caching');
+        $caching   = self::$registry->getParameter('doozr.kernel.caching');
         $namespace = self::$registry->getParameter('doozr.namespace.flat').'.cache.configuration';
 
         $cache = Doozr_Loader_Serviceloader::load(
@@ -773,7 +773,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
                     $entry['separator']
                 );
             }
-
         } else {
             // Disable logging (+ dispatching ...)
             self::$registry->getLogger()->detachAll(true);
@@ -793,9 +792,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      *
      * @throws Doozr_Kernel_Exception
      */
-    protected static function initSystem()
+    protected static function initPhp()
     {
-        $result = true;
+        $result      = true;
         $phpSettings = self::getRegistry()->getConfiguration()->kernel->system->php;
 
         foreach ($phpSettings as $iniKey => $value) {
@@ -975,19 +974,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     {
         // Retrieve configuration
         $configuration = self::$registry->getConfiguration();
-        $path = self::$registry->getPath();
 
         // Build decorator config ...
-        $databaseConfiguration = [
-            'name' => $configuration->kernel->model->proxy,
-            'translate' => $configuration->kernel->model->oxm,
-            'path' => $path->get(
-                'model', 'Lib\\'.$configuration->kernel->model->oxm.'\\'
-            ),
-            'bootstrap' => $configuration->kernel->model->bootstrap,
-            'route' => $configuration->kernel->model->route,
-            'docroot' => $configuration->kernel->model->docroot,
-        ];
+        $databaseConfiguration = object_to_array($configuration->kernel->model);
 
         self::$registry->setModel(
             self::$registry->getContainer()->build('doozr.model', [$databaseConfiguration])
@@ -1011,7 +1000,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // Get default services for runtimeEnvironment
         $services = self::$registry->getConfiguration()
             ->kernel
-            ->services
+            ->service
             ->{strtolower(self::$registry->getParameter('doozr.kernel.runtime.environment'))};
 
         foreach ($services as $service) {
@@ -1095,8 +1084,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     protected static function retrieveServiceConfigurationFiles()
     {
         $virtualFile = self::$registry->getPath()->get('config').'.service.json';
-        $caching = self::$registry->getParameter('doozr.kernel.caching');
-        $files = null;
+        $caching     = self::$registry->getParameter('doozr.kernel.caching');
+        $files       = null;
 
         // Try to load service configurations from cache!
         if (true === $caching) {
@@ -1134,9 +1123,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     protected static function retrieveUserlandConfigurationFiles()
     {
         $appEnvironment = self::$registry->getParameter('doozr.app.environment');
-        $caching = self::$registry->getParameter('doozr.kernel.caching');
-        $exists = null;
-        $file = self::$registry->getPath()->get(
+        $caching        = self::$registry->getParameter('doozr.kernel.caching');
+        $exists         = null;
+        $file           = self::$registry->getPath()->get(
             'app',
             'Data\Private\Config\.config.'.$appEnvironment.'.json'
         );
@@ -1275,7 +1264,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
             // Build Filter for URI and apply ...
             $a = self::$registry->getConfiguration()->kernel->transmission->request->filter;
 
-            $filters =  [];
+            $filters = [];
             foreach ($a as $filter) {
                 $filters[] = $filter;
             }
@@ -1291,7 +1280,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
             );
 
             /* @var $router Doozr_Route */
-            $router = self::$registry->getContainer()->build('doozr.route');
+            $router  = self::$registry->getContainer()->build('doozr.route');
             $request = $router->route($request);
 
             /* @var $responseResolver Doozr_Response_Resolver */
@@ -1299,7 +1288,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
             // Retrieving response by dispatching "request + route" to request dispatcher
             $response = $responseResolver->resolve($request, $response);
-
         } catch (\Exception $exception) {
             if (true === !$debugging) {
                 $response = $this->buildErrorResponse(
