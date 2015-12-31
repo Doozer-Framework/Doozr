@@ -132,6 +132,13 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      */
     protected $response;
 
+    /**
+     * Request state instance.
+     *
+     * @var Doozr_Request_State
+     */
+    protected $requestState;
+
     /*------------------------------------------------------------------------------------------------------------------
     | INIT
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -139,15 +146,18 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     /**
      * Constructor.
      *
-     * @param Doozr_Registry $registry Registry containing all kernel components
+     * @param Doozr_Registry      $registry     Registry containing all kernel components
+     * @param Doozr_Request_State $requestState Request state instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(
-        Doozr_Registry $registry
+        Doozr_Registry      $registry,
+        Doozr_Request_State $requestState
     ) {
         $this
-            ->registry($registry);
+            ->registry($registry)
+            ->requestState($requestState);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -157,8 +167,8 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     /**
      * Marshalling everything for running MVP (run()) by request.
      *
-     * @param Request  $request  The request to marshall from.
-     * @param Response $response The response to use as base.
+     * @param Request  $request  Request to marshall from.
+     * @param Response $response Response to use as base.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -169,19 +179,108 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         /* @var Doozr_Request_Psr_Interface $request */
 
         // Ensure to put *route* in before ;) - here.
-        $route        = $request->getAttribute('route');
-        $target       = $route->getPresenter();
-        $requestState = $request->export();
+        $route  = $request->getAttribute('route');
+        $target = $route->getPresenter();
+
+        #$requestState = $request->export();
+        #dump($requestState);
+
+        // Extract data from request and transfer to a request state
+        #$requestState = $this->convertRequestToRequestState($this->getRequestState(), $request);
+        #dump($requestState);
+        #die;
 
         $this
             ->response($response)
             ->route($route)
             ->classname($target)
             ->action($route->getAction())
-            ->initMvp($target, $this->getRegistry(), $requestState);
+            ->initMvp($target, $this->getRegistry(), $request);
 
         return $this->run();
     }
+
+    /**
+     * Takes values from a Request instance and transfer it to request state
+     *
+     * @param Request $request
+     * @param Doozr_Request_State $requestState
+     */
+    protected function convertRequestToRequestState(Request $request, Doozr_Request_State $requestState)
+    {
+        /*
+        // Set valid request sources
+        $this->setRequestSources(
+            $this->emitValidRequestSources(
+                DOOZR_RUNTIME_ENVIRONMENT
+            )
+        );
+
+        // HTTP Version of the request made
+        $protocolVersion = explode('/', $_SERVER['SERVER_PROTOCOL']);
+
+        // Store protocol version
+        $this->withProtocolVersion(
+            (true === isset($protocolVersion[1])) ? $protocolVersion[1] : '1.0'
+        );
+
+        // Store headers normalized to prevent System/OS/PHP mismatches
+        $headers = $this->normalizeHeaders(getallheaders());
+        foreach ($headers as $header => $value) {
+            $this->withHeader($header, $value);
+        }
+
+        // Receive and store request method (HTTP verb)
+        $this->withMethod(
+            $this->receiveMethod()
+        );
+
+        // Emulate the request in case of PUT ...
+        $this->equalizeRequestArguments(
+            $this->getMethod(),
+            $headers
+        );
+
+        // Store cookies
+        $this->withCookieParams(
+            $_COOKIE
+        );
+
+        // Store file uploads ...
+        $files = [];
+        foreach ($_FILES as $file) {
+            $files[] = new Doozr_Request_File($file);
+        }
+        $this->withUploadedFiles(
+            $files
+        );
+
+        // Store query params as array
+        $queryArguments = [];
+        parse_str($_SERVER['QUERY_STRING'], $queryArguments);
+        $this->withQueryParams(
+            $queryArguments
+        );
+
+        // Detect if Ajax and set flag
+        $this->withAttribute('isAjax', $this->isAjax());
+
+        // Store body arguments (_POST _PUT ...) as parsed body representation
+        $this->withParsedBody(
+            $this->receiveArguments($this->getMethod())
+        );
+
+        // Set the request target!
+        $this->withRequestTarget($this->getUri()->getPath());
+
+        //
+        $requestState->withRequestTarget(
+            $request->getRequestTarget()
+        );
+*/
+    }
+
+
 
     /**
      * Dispatches the request to the backend layers. This can be "Model" "View" "Presenter".
@@ -535,6 +634,48 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         return $this->response;
     }
 
+    /**
+     * Fluent setter for requestState.
+     *
+     * @param Doozr_Request_State $requestState Request state instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function setRequestState(Doozr_Request_State $requestState)
+    {
+        $this->requestState = $requestState;
+    }
+
+    /**
+     * Fluent setter for requestState.
+     *
+     * @param Doozr_Request_State $requestState Request state instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function requestState(Doozr_Request_State $requestState)
+    {
+        $this->setRequestState($requestState);
+
+        return $this;
+    }
+
+    /**
+     * Getter for requestState.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return Doozr_Request_State
+     */
+    protected function getRequestState()
+    {
+        return $this->requestState;
+    }
+
     /*------------------------------------------------------------------------------------------------------------------
     | INTERNAL API
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -542,20 +683,20 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     /**
      * Initializes the MVP layer by creating instances of Model, View & Presenter.
      *
-     * @param string               $target       The target for MVP (name of class)
-     * @param \Doozr_Registry      $registry     Instance of Doozr registry to inject
-     * @param \Doozr_Request_State $requestState The request state to inject NOT REQUEST! only state cause no transform!
+     * @param string          $target   Target for MVP (name of class)
+     * @param \Doozr_Registry $registry Instance of Doozr registry to inject
+     * @param Request         $request  Request state to inject NOT REQUEST! only state cause no transform!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function initMvp($target, Doozr_Registry $registry, Doozr_Request_State $requestState)
+    protected function initMvp($target, Doozr_Registry $registry, Request $request)
     {
         // Try to get model instance
         $model = $this->modelFactory(
             $target,
             [
                 $registry,
-                $requestState,
+                $request,
             ]
         );
 
@@ -564,7 +705,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             $target,
             [
                 $registry,
-                $requestState,
+                $request,
             ]
         );
 
@@ -573,7 +714,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
             $target,
             [
                 $registry,
-                $requestState,
+                $request,
                 $model,
             ]
         );

@@ -57,6 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Model/Observer.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Model/Interface.php';
 
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * Doozr Base Model.
@@ -99,11 +100,11 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     protected $route;
 
     /**
-     * The request state object of Doozr.
+     * The request.
      *
-     * @var Doozr_Request_State
+     * @var Request
      */
-    protected $requestState;
+    protected $request;
 
     /**
      * Instance of the Doozr_Cache_Service.
@@ -122,28 +123,28 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     /**
      * Constructor.
      *
-     * @param Doozr_Registry      $registry     Doozr registry
-     * @param Doozr_Request_State $requestState Request state
+     * @param Doozr_Registry $registry Doozr registry
+     * @param Request        $request  Request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @throws Doozr_Base_Model_Exception
      */
     public function __construct(
-        Doozr_Registry      $registry,
-        Doozr_Request_State $requestState
+        Doozr_Registry $registry,
+        Request        $request
     ) {
         // Store all passed instances
         $this
             ->registry($registry)
-            ->route($requestState->getAttribute('route'))
-            ->requestState($requestState)
+            ->route($request->getAttribute('route'))
+            ->request($request)
             ->cache($registry->getCache())
             ->configuration($registry->getConfiguration());
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
-            $result = $this->__tearup($requestState->getUri()->getPath());
+            $result = $this->__tearup($request->getUri()->getPath());
 
             if ($result !== true) {
                 throw new Doozr_Base_Model_Exception(
@@ -200,43 +201,43 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     }
 
     /**
-     * Setter for requestState.
+     * Setter for request.
      *
-     * @param Doozr_Request_State $requestState The request state to set
+     * @param Request $request The request to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setRequestState($requestState)
+    protected function setRequest(Request $request)
     {
-        $this->requestState = $requestState;
+        $this->request = $request;
     }
 
     /**
-     * Setter for requestState.
+     * Setter for request.
      *
-     * @param Doozr_Request_State $requestState The request state to set
+     * @param Request $request The request to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function requestState($requestState)
+    protected function request(Request $request)
     {
-        $this->setRequestState($requestState);
+        $this->setRequest($request);
 
         return $this;
     }
 
     /**
-     * Getter for requestState.
+     * Getter for request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Request_State The requestState stored, otherwise NULL
+     * @return Request The request stored, otherwise NULL
      */
-    protected function getRequestState()
+    protected function getRequest()
     {
-        return $this->requestState;
+        return $this->request;
     }
 
     /**
@@ -298,7 +299,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Base_Model $this Instance for chaining
+     * @return $this Instance for chaining
      */
     public function data($data)
     {

@@ -81,8 +81,10 @@ class Doozr_Base_Request extends Doozr_Base_State_Container
      * @return \Doozr_Request_State The state object instance
      * @access public
      */
+    /*
     protected function getStateObject()
     {
         return parent::getStateObject();
     }
+    */
 }

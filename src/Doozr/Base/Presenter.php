@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - Presenter
+ * Doozr - Base - Presenter.
  *
  * Presenter.php - Base class for presenters
  *
@@ -43,58 +44,58 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Presenter
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Presenter/Subject.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Presenter/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Route/Annotation/Route.php';
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Presenter/Subject.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Presenter/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Route/Annotation/Route.php';
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Doozr - Base - Presenter
+ * Doozr - Base - Presenter.
  *
  * Base class for presenters
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Presenter
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     Doozr_Base_Presenter_Interface
 {
     /**
-     * Data for CRUD operation(s)
+     * Data for CRUD operation(s).
      *
      * @var mixed
-     * @access protected
      */
     protected $data;
 
     /**
-     * Instance of model for communication
+     * Instance of model for communication.
      *
      * @var Doozr_Base_Model
-     * @access protected
      */
     protected $model;
 
     /**
-     * The main configuration
+     * The main configuration.
      *
      * @var Doozr_Configuration
-     * @access protected
      */
     protected $configuration;
 
@@ -102,89 +103,81 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * Type of presenter.
      *
      * @var string
-     * @access protected
      */
     protected $type = 'Presenter';
 
     /**
-     * Complete route
+     * Complete route.
      *
      * @var Doozr_Request_Route_State
-     * @access protected
      */
     protected $route;
 
     /**
-     * The request state.
+     * The request.
      *
-     * @var Doozr_Base_State|Doozr_Request_State
-     * @access protected
+     * @var Request
      */
-    protected $requestState;
+    protected $request;
 
     /**
      * This array contains the required arguments
-     * to run a specific action in a specific context
+     * to run a specific action in a specific context.
      *
      * @var array
-     * @access protected
      */
     protected $required = [];
 
     /**
      * Allowed request types to execute against this
-     * presenter
+     * presenter.
      *
      * @var array
-     * @access protected
      */
     protected $allowed = [];
 
     /**
-     * The count of root nodes
+     * The count of root nodes.
      *
      * @var int
-     * @access protected
      */
     protected $nodes;
 
     /**
-     * The ids of the route
+     * The ids of the route.
      *
      * @var array
-     * @access protected
      */
     protected $ids;
 
     /**
-     * The URL of the route
+     * The URL of the route.
      *
      * @var string
-     * @access protected
      */
     protected $url;
 
     /**
      * Constructor.
      *
-     * @param Doozr_Registry      $registry     Instance of Doozr_Registry containing all core components
-     * @param Doozr_Request_State $requestState The whole request as state
-     * @param Doozr_Base_Model    $model        The model to communicate with backend (db)
+     * @param Doozr_Registry   $registry Instance of Doozr_Registry containing all core components
+     * @param Request          $request  Whole request as state
+     * @param Doozr_Base_Model $model    Model to communicate with backend (db)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
+     *
      * @throws Doozr_Base_Presenter_Exception
      */
     public function __construct(
-        Doozr_Registry $registry,
-        Doozr_Request_State $requestState,
+        Doozr_Registry   $registry,
+        Request          $request,
         Doozr_Base_Model $model = null
     ) {
         // Store instances for further use ...
         $this
             ->registry($registry)
-            ->requestState($requestState)
-            ->route($requestState->getAttribute('route'))
+            ->request($request)
+            ->route($request->getAttribute('route'))
             ->model($model)
             ->configuration($registry->getConfiguration());
 
@@ -197,19 +190,59 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
         }
 
         // Important! => call parents constructor so SplObjectStorage is created!
-        parent::__construct($requestState);
+        parent::__construct();
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
+        if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
             $result = $this->__tearup($this->getRoute());
 
             if ($result !== true) {
                 throw new Doozr_Base_Presenter_Exception(
-                    '__tearup() must (if set) return TRUE. __tearup() executed and it returned: ' .
+                    '__tearup() must (if set) return TRUE. __tearup() executed and it returned: '.
                     var_export($result, true)
                 );
             }
         }
+    }
+
+    /**
+     * Setter for request.
+     *
+     * @param Request $request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setRequest(Request $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * Fluent: Setter for request.
+     *
+     * @param Request $request
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function request($request)
+    {
+        $this->setRequest($request);
+
+        return $this;
+    }
+
+    /**
+     * Getter for request.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return Request Request
+     */
+    protected function getRequest()
+    {
+        return $this->request;
     }
 
     /**
@@ -218,8 +251,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param Doozr_Request_Route_State $route The route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setRoute(Doozr_Request_Route_State $route)
     {
@@ -232,12 +263,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param Doozr_Request_Route_State $route The route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function route(Doozr_Request_Route_State $route)
     {
         $this->setRoute($route);
+
         return $this;
     }
 
@@ -245,8 +277,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * Getter for route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Request_Route_State The route
-     * @access public
      */
     public function getRoute()
     {
@@ -259,8 +291,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param Doozr_Base_State $requestState The requestState
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setRequestState(Doozr_Base_State $requestState)
     {
@@ -273,12 +303,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param Doozr_Base_State $requestState The requestState
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function requestState(Doozr_Base_State $requestState)
     {
         $this->setRequestState($requestState);
+
         return $this;
     }
 
@@ -286,8 +317,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * Returns requestState.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_State|Doozr_Request_State The requestState
-     * @access public
      */
     public function getRequestState()
     {
@@ -300,8 +331,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param Doozr_Base_Model $model The model to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setModel(Doozr_Base_Model $model = null)
     {
@@ -310,11 +339,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
 
     /**
      * @param Doozr_Base_Model $model
+     *
      * @return $this
      */
     protected function model(Doozr_Base_Model $model = null)
     {
         $this->setModel($model);
+
         return $this;
     }
 
@@ -322,8 +353,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * Getter for model.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Model The model if set, otherwise NULL
-     * @access protected
      */
     protected function getModel()
     {
@@ -336,8 +367,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param mixed $data The data (array preferred) to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The data from processing
-     * @access public
      */
     public function setData($data)
     {
@@ -353,8 +384,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param mixed $data The data to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function data($data)
     {
@@ -367,8 +398,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * This method (container) is intend to return the data for a requested mode.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The data for the mode requested
-     * @access public
      */
     public function getData()
     {
@@ -376,13 +407,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * Sets the ids of the route
+     * Sets the ids of the route.
      *
      * @param array $ids The ids of the route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Presenter
-     * @access protected
      */
     protected function setIds(array $ids)
     {
@@ -390,13 +421,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * Sets the ids of the route
+     * Sets the ids of the route.
      *
      * @param array $ids The ids of the route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Presenter
-     * @access protected
      */
     protected function ids(array $ids)
     {
@@ -409,8 +440,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * Returns the ids of the route.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The ids of the route
-     * @access protected
      */
     protected function getIds()
     {
@@ -423,8 +454,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param Doozr_Configuration_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     protected function setConfiguration(Doozr_Configuration_Interface $configuration)
     {
@@ -437,8 +466,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param Doozr_Configuration_Interface $configuration The configuation object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     protected function configuration(Doozr_Configuration_Interface $configuration)
     {
@@ -451,8 +480,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Configuration_Interface The configuration stored
-     * @access public
      */
     protected function getConfiguration()
     {
@@ -487,8 +516,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      *          root.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setNodes($countOfRootNodes)
     {
@@ -505,8 +532,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      *          root.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Presenter
-     * @access protected
      */
     protected function nodes($countOfRootNodes)
     {
@@ -519,8 +546,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * Returns the count of root nodes.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The count of root nodes
-     * @access protected
+     *
+     * @return int The count of root nodes
      */
     protected function getNodes()
     {
@@ -533,8 +560,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param object $app The app configuration object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function registerAutoloader($app)
     {
@@ -545,24 +570,24 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
             ->namespaceSeparator('_')
             ->addExtension('php')
             ->path(substr($app->path, 0, -1))
-            ->description('Autoloader for App classes with namespace: "' . $app->namespace . '"')
+            ->description('Autoloader for App classes with namespace: "'.$app->namespace.'"')
             ->priority(0);
 
-        Doozr_Loader_Autoloader_Spl_Facade::attach(array($autoloaderApp));
+        Doozr_Loader_Autoloader_Spl_Facade::attach([$autoloaderApp]);
     }
 
     /**
-     * Create of Crud
+     * Create of Crud.
      *
      * @param mixed $data The data for create
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      */
     protected function create($data = null)
     {
-        if ($this->hasMethod('__create') && is_callable(array($this, '__create'))) {
+        if ($this->hasMethod('__create') && is_callable([$this, '__create'])) {
             return $this->__create($data);
         }
 
@@ -571,15 +596,15 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * Read of cRud
+     * Read of cRud.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Data on success, otherwise null
-     * @access protected
      */
     protected function read()
     {
-        if ($this->hasMethod('__read') && is_callable(array($this, '__read'))) {
+        if ($this->hasMethod('__read') && is_callable([$this, '__read'])) {
             return $this->__read();
         }
 
@@ -588,17 +613,17 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * Update of crUd
+     * Update of crUd.
      *
      * @param mixed $data The data for update
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Data on success, otherwise null
-     * @access protected
      */
     public function update($data = null)
     {
-        if ($this->hasMethod('__update') && is_callable(array($this, '__update'))) {
+        if ($this->hasMethod('__update') && is_callable([$this, '__update'])) {
             return $this->__update($data);
         }
 
@@ -607,17 +632,17 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * Delete of cruD
+     * Delete of cruD.
      *
      * @param mixed $data The data for delete
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      */
     protected function delete($data = null)
     {
-        if ($this->hasMethod('__delete') && is_callable(array($this, '__delete'))) {
+        if ($this->hasMethod('__delete') && is_callable([$this, '__delete'])) {
             return $this->__delete($data);
         }
 
@@ -632,14 +657,15 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param string|array $methods The HTTP Method which is allowed as string or multiple methods via array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @link   http://tools.ietf.org/html/rfc1945#page-30
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function allow($methods)
     {
         if (is_array($methods) === false) {
-            $methods = array($methods);
+            $methods = [$methods];
         }
 
         foreach ($methods as $method) {
@@ -660,7 +686,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param string $method The HTTP Method which should be checked
      *
      * @return bool TRUE if passed method is allowed, otherwise FALSE
-     * @access protected
      */
     protected function allowed($method)
     {
@@ -673,8 +698,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param string $method The HTTP Method which should be checked
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if passed method is allowed, otherwise FALSE
-     * @access protected
      */
     protected function isAllowed($method)
     {
@@ -691,9 +716,10 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param string $method   Method (HTTP verb) to bind the requirement to
      *
      * @internal param mixed $variable A single argument required to execute the presenter or an array of arguments
+     *
      * @author   Benjamin Carl <opensource@clickalicious.de>
-     * @return   Doozr_Base_Presenter True if everything wents fine, otherwise false
-     * @access   protected
+     *
+     * @return Doozr_Base_Presenter True if everything wents fine, otherwise false
      */
     protected function required($argument, $scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)
     {
@@ -709,7 +735,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
 
         // convert input to array if not an array
         if (false === is_array($argument)) {
-            $argument = array($argument => null);
+            $argument = [$argument => null];
         }
 
         // store the combined values for automatic requirement management
@@ -720,15 +746,15 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * Returns TRUE if a passed arguments is required by presenter, FALSE if not
+     * Returns TRUE if a passed arguments is required by presenter, FALSE if not.
      *
      * @param string $argument The argument to check
      * @param string $scope    The scope used for lookup
      * @param string $method   The method (HTTP verb) to use for lookup
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if required, otherwise FALSE
-     * @access protected
      */
     protected function isRequired($argument, $scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)
     {
@@ -744,7 +770,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
 
         // Convert input to array if not an array
         if (false === is_array($argument)) {
-            $argument = array($argument);
+            $argument = [$argument];
         }
 
         // Iterate the passed input to build ordered (scope) rules
@@ -763,8 +789,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * @param string $method The method (HTTP verb) to use for lookup
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array List of required fields
-     * @access protected
      */
     protected function getRequired($scope = 'Index', $method = Doozr_Http::REQUEST_METHOD_GET)
     {
@@ -782,17 +808,18 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * Sets the URL of the route
+     * Sets the URL of the route.
      *
      * @param string $url The URL to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Presenter
-     * @access protected
      */
     protected function url($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
@@ -801,8 +828,8 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      * child on demand.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Base_Presenter
-     * @access protected
      */
     protected function run()
     {
@@ -811,16 +838,14 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * This method is intend to call the teardown method of a model if exist
+     * This method is intend to call the teardown method of a model if exist.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function __destruct()
     {
         // check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
+        if ($this->hasMethod('__teardown') && is_callable([$this, '__teardown'])) {
             $this->__teardown();
         }
     }

@@ -163,6 +163,10 @@
           {
             "type": "constructor",
             "link": "doozr.registry"
+          },
+          {
+            "type": "constructor",
+            "classname": "Doozr_Request_State"
           }
         ]
       },

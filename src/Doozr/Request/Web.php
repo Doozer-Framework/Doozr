@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Request - Web
+ * Doozr - Request - Web.
  *
  * Web.php - Handles requests arrived via a real webserver.
  *
@@ -43,33 +44,34 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Web
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request.php';
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
- * Doozr - Request - Web
+ * Doozr - Request - Web.
  *
  * Handles requests arrived via a real webserver.
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Web
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Request_Web extends Doozr_Request
@@ -80,8 +82,8 @@ class Doozr_Request_Web extends Doozr_Request
      * Type of request.
      *
      * @example Httpd, Web, ...
+     *
      * @var string
-     * @access protected
      */
     protected $type = Doozr_Kernel::RUNTIME_ENVIRONMENT_WEB;
 
@@ -89,24 +91,21 @@ class Doozr_Request_Web extends Doozr_Request
      * The request sources valid for active running runtimeEnvironment.
      *
      * @var array
-     * @access protected
      */
     protected $requestSources;
 
     /**
-     * The type native for PHP request sources
+     * The type native for PHP request sources.
      *
      * @var int
-     * @access public
      * @const
      */
     const NATIVE = 0;
 
     /**
-     * The type emulated for PHP request sources
+     * The type emulated for PHP request sources.
      *
      * @var int
-     * @access public
      * @const
      */
     const EMULATED = 1;
@@ -118,13 +117,11 @@ class Doozr_Request_Web extends Doozr_Request
     /**
      * Receive method.
      *
-     * @param string $sapi The sapi to use for receiving values and settings.
-     *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
-    public function receive($sapi = PHP_SAPI)
+    public function receive()
     {
         // Set valid request sources
         $this->setRequestSources(
@@ -203,8 +200,6 @@ class Doozr_Request_Web extends Doozr_Request
      * @param array $requestSources The request sources to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setRequestSources(array $requestSources)
     {
@@ -217,8 +212,8 @@ class Doozr_Request_Web extends Doozr_Request
      * @param array $requestSources The request sources to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function requestSources(array $requestSources)
     {
@@ -231,8 +226,8 @@ class Doozr_Request_Web extends Doozr_Request
      * Getter for request sources.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array|null The request sources stored, otherwise NULL
-     * @access protected
      */
     protected function getRequestSources()
     {
@@ -247,8 +242,8 @@ class Doozr_Request_Web extends Doozr_Request
      * Returns TRUE if the request is an Ajax request, FALSE if not.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if the request is an Ajax request, FALSE if not.
-     * @access protected
      */
     protected function isAjax()
     {
@@ -264,8 +259,6 @@ class Doozr_Request_Web extends Doozr_Request
      * @param string $method The HTTP method used for request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function injectGlobals($method)
     {
@@ -285,8 +278,8 @@ class Doozr_Request_Web extends Doozr_Request
             }
 
             foreach ($data as $argument => $value) {
-                $GLOBALS['_' . $method][$argument] = $value;
-                $_REQUEST[$argument] = $value;
+                $GLOBALS['_'.$method][$argument] = $value;
+                $_REQUEST[$argument]             = $value;
             }
         }
     }
@@ -297,8 +290,8 @@ class Doozr_Request_Web extends Doozr_Request
      * @param array $headers The headers to normalize
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The normalized array of headers (all keys = uppercase & underscore!)
-     * @access protected
      */
     protected function normalizeHeaders(array $headers)
     {
@@ -317,23 +310,23 @@ class Doozr_Request_Web extends Doozr_Request
      * @param string $mode The active runtimeEnvironment to return request sources for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The combined request sources
-     * @access protected
      */
     protected function emitValidRequestSources($mode)
     {
-        $requestSources = array(
+        $requestSources = [
             'ENVIRONMENT' => self::NATIVE,
             'SERVER'      => self::NATIVE,
-        );
+        ];
 
         switch ($mode) {
             case Doozr_Kernel::RUNTIME_ENVIRONMENT_CLI:
                 $requestSources = array_merge(
                     $requestSources,
-                    array(
-                        'CLI' => self::NATIVE
-                    )
+                    [
+                        'CLI' => self::NATIVE,
+                    ]
                 );
                 break;
 
@@ -342,20 +335,20 @@ class Doozr_Request_Web extends Doozr_Request
             default:
                 $requestSources = array_merge(
                     $requestSources,
-                    array(
-                        'GET'         => self::NATIVE,
-                        'POST'        => self::NATIVE,
-                        'HEAD'        => self::EMULATED,
-                        'OPTIONS'     => self::EMULATED,
-                        'PUT'         => self::EMULATED,
-                        'DELETE'      => self::EMULATED,
-                        'TRACE'       => self::EMULATED,
-                        'CONNECT'     => self::EMULATED,
-                        'COOKIE'      => self::NATIVE,
-                        'REQUEST'     => self::NATIVE,
-                        'SESSION'     => self::NATIVE,
-                        'FILES'       => self::NATIVE,
-                    )
+                    [
+                        'GET'     => self::NATIVE,
+                        'POST'    => self::NATIVE,
+                        'HEAD'    => self::EMULATED,
+                        'OPTIONS' => self::EMULATED,
+                        'PUT'     => self::EMULATED,
+                        'DELETE'  => self::EMULATED,
+                        'TRACE'   => self::EMULATED,
+                        'CONNECT' => self::EMULATED,
+                        'COOKIE'  => self::NATIVE,
+                        'REQUEST' => self::NATIVE,
+                        'SESSION' => self::NATIVE,
+                        'FILES'   => self::NATIVE,
+                    ]
                 );
                 break;
         }
@@ -369,8 +362,8 @@ class Doozr_Request_Web extends Doozr_Request
      * @param string $method The HTTP method to receive query parameter for.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The query parameter
-     * @access public
      */
     protected function receiveArguments($method = Doozr_Http::REQUEST_METHOD_GET)
     {
@@ -410,12 +403,12 @@ class Doozr_Request_Web extends Doozr_Request
      * This method emulates those requests which are not implemented in PHP's global by default.
      * So you can access PUT via $_PUT and DELETE via $_DELETE and so on ...
      *
-     * @param string $method The active HTTP method
+     * @param string $method  The active HTTP method
      * @param array  $headers The headers to use for checking
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      */
     protected function equalizeRequestArguments($method, $headers)
     {
@@ -443,8 +436,8 @@ class Doozr_Request_Web extends Doozr_Request
      * Returns the method (POST / GET / PUT ... || CLI) of the current processed request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string the method of current processed request (GET / POST / PUT ... || CLI)
-     * @access public
      */
     public function receiveMethod()
     {

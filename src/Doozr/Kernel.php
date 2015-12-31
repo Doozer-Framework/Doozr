@@ -1288,6 +1288,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
             // Retrieving response by dispatching "request + route" to request dispatcher
             $response = $responseResolver->resolve($request, $response);
+
         } catch (\Exception $exception) {
             if (true === !$debugging) {
                 $response = $this->buildErrorResponse(

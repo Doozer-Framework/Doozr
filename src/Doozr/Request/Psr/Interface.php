@@ -53,7 +53,6 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**

@@ -55,6 +55,8 @@
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/View/Observer.php';
 
+use Psr\Http\Message\ServerRequestInterface as Request;
+
 /**
  * Doozr - Base - View.
  *
@@ -124,11 +126,11 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     protected $translator;
 
     /**
-     * Request state object.
+     * Request.
      *
-     * @var Doozr_Base_State_Interface
+     * @var Request
      */
-    protected $requestState;
+    protected $request;
 
     /**
      * The arguments passed with the request.
@@ -173,30 +175,30 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Constructor.
      *
-     * @param Doozr_Registry      $registry     Doozr registry
-     * @param Doozr_Request_State $requestState Request state
+     * @param Doozr_Registry $registry Doozr registry
+     * @param Request        $request  Request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @throws Doozr_Base_View_Exception
      */
     public function __construct(
-        Doozr_Registry      $registry,
-        Doozr_Request_State $requestState
+        Doozr_Registry $registry,
+        Request        $request
     ) {
         // Store all instances for further use ...
         $this
             ->registry($registry)
-            ->route($requestState->getAttribute('route'))
+            ->route($request->getAttribute('route'))
             ->cache($registry->getCache())
             ->configuration($registry->getConfiguration())
-            ->arguments($requestState->getQueryParams())
-            ->requestState($requestState)
+            ->arguments($request->getQueryParams())
+            ->request($request)
             ->debugging($registry->getParameter('doozr.kernel.debugging'))
             ->caching($registry->getParameter('doozr.kernel.caching'));
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__tearup') && is_callable(array($this, '__tearup'))) {
+        if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
             $result = $this->__tearup($this->getRoute());
 
             if ($result !== true) {
@@ -301,7 +303,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      */
     protected function isDebugging()
     {
-        return (true === $this->getDebugging());
+        return true === $this->getDebugging();
     }
 
     /**
@@ -353,7 +355,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      */
     protected function hasCaching()
     {
-        return (true === $this->getCaching());
+        return true === $this->getCaching();
     }
 
     /**
@@ -517,43 +519,43 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     }
 
     /**
-     * Setter for request state.
+     * Setter for request.
      *
-     * @param Doozr_Base_State_Interface $requestState
+     * @param Request $request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setRequestState($requestState)
+    protected function setRequest(Request $request)
     {
-        $this->requestState = $requestState;
+        $this->request = $request;
     }
 
     /**
-     * Setter for request state.
+     * Fluent: Setter for request.
      *
-     * @param Doozr_Base_State_Interface $requestState
+     * @param Request $request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function requestState($requestState)
+    protected function request($request)
     {
-        $this->setRequestState($requestState);
+        $this->setRequest($request);
 
         return $this;
     }
 
     /**
-     * Getter for request state.
+     * Getter for request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Base_State_Interface Request state
+     * @return Request Request
      */
-    protected function getRequestState()
+    protected function getRequest()
     {
-        return $this->requestState;
+        return $this->request;
     }
 
     /**
@@ -881,7 +883,6 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     {
         if (false === $presenterOnly) {
             $textdomain = $this->getRoute()->getPresenter().$this->getRoute()->getAction();
-
         } else {
             $textdomain = $this->getRoute()->getPresenter();
         }
@@ -906,7 +907,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         $headers = getallheaders();
 
         // Get arguments
-        $arguments = func_get_args();
+        $arguments   = func_get_args();
         $arguments[] = $_SERVER['REMOTE_ADDR'];
         $arguments[] = (isset($headers['USER_AGENT'])) ? $headers['USER_AGENT'] : null;
         $arguments[] = (isset($headers['ACCEPT'])) ? $headers['ACCEPT'] : null;
@@ -944,7 +945,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     public function __destruct()
     {
         // check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__teardown') && is_callable(array($this, '__teardown'))) {
+        if ($this->hasMethod('__teardown') && is_callable([$this, '__teardown'])) {
             $this->__teardown();
         }
     }
