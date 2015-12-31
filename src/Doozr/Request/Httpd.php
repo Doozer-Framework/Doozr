@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Request - Httpd
+ * Doozr - Request - Httpd.
  *
  * Httpd.php - Handles requests arrived via PHP's internal webserver.
  *
@@ -43,31 +44,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Httpd
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Web.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Kernel.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Web.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Interface.php';
 
 /**
- * Doozr - Request - Httpd
+ * Doozr - Request - Httpd.
  *
  * Handles requests arrived via PHP's internal webserver.
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Httpd
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Request_Httpd extends Doozr_Request_Web
@@ -78,8 +80,8 @@ class Doozr_Request_Httpd extends Doozr_Request_Web
      * Type of request.
      *
      * @example Httpd, Web, ...
+     *
      * @var string
-     * @access protected
      */
     protected $type = Doozr_Kernel::RUNTIME_ENVIRONMENT_HTTPD;
 }

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Request - Interface
+ * Doozr - Request - Interface.
  *
  * Interface.php - Contract for Doozr request implementations.
  *
@@ -43,27 +44,29 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Interface
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Request - Interface
+ * Doozr - Request - Interface.
  *
  * Contract for Doozr request implementations.
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_Interface
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Request_Interface
@@ -73,7 +76,7 @@ interface Doozr_Request_Interface
      * the retrieval/marshalling of request data (header, body, files, ...).
      *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Request_Exception
      */
     public function receive();
@@ -82,7 +85,13 @@ interface Doozr_Request_Interface
      * Must return the type of the request implementation.
      *
      * @return mixed
-     * @access public
      */
     public function getType();
+
+    /**
+     * Extracts the current request as request state representation.
+     *
+     * @return Doozr_Request_State
+     */
+    public function export();
 }
