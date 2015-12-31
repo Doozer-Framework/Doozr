@@ -29,6 +29,9 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="false">
             <directory suffix=".php">../src/</directory>
+            <exclude>
+                <directory suffix=".php">../src/Doozr/Configuration/Hierarchy/</directory>
+            </exclude>
         </whitelist>
     </filter>
 
