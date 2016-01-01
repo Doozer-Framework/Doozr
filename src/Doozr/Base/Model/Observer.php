@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Base Model Observer
+ * Doozr Base Model Observer.
  *
  * Observer.php - Base observer-template for "Models" build (MVP pattern)
  *
@@ -43,33 +44,34 @@
  * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Observer/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Observer/Interface.php';
 
 /**
- * Doozr Base Model Observer
+ * Doozr Base Model Observer.
  *
  * Base observer-template for "models" build (MVP pattern)
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Model_Observer extends Doozr_Base_State_Container
+abstract class Doozr_Base_Model_Observer extends Doozr_Base_State_Container
     implements
     Doozr_Base_Observer_Interface
 {
@@ -77,26 +79,22 @@ class Doozr_Base_Model_Observer extends Doozr_Base_State_Container
      * Identifier of the observer.
      *
      * @var string
-     * @access protected
      */
     protected $identifier = self::IDENTIFIER_MODEL;
 
 
     /**
-     * Update (for notifications from subject)
+     * Update (for notifications from subject).
      *
-     * This method is intend as update-notification method triggered by SplSubject
-     * on update.
+     * This method is intend as update-notification method triggered by SplSubject on update.
      *
      * @param SplSubject $subject The instance of the SplSubject
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function update(SplSubject $subject)
     {
-        if ($this->hasMethod('__update') && is_callable(array($this, '__update'))) {
+        if ($this->hasMethod('__update') && is_callable([$this, '__update'])) {
             $this->__update($subject);
         }
     }
@@ -107,8 +105,6 @@ class Doozr_Base_Model_Observer extends Doozr_Base_State_Container
      * @param string $identifier Identifier to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setIdentifier($identifier)
     {
@@ -121,12 +117,13 @@ class Doozr_Base_Model_Observer extends Doozr_Base_State_Container
      * @param string $identifier Identifier to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function identifier($identifier)
     {
         $this->setIdentifier($identifier);
+
         return $this;
     }
 
@@ -134,8 +131,8 @@ class Doozr_Base_Model_Observer extends Doozr_Base_State_Container
      * Getter for identifier.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Instance for chaining
-     * @access public
      */
     public function getIdentifier()
     {

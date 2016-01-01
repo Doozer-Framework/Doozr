@@ -165,8 +165,8 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
      */
     protected function __construct(
         Doozr_Configuration_Reader_Interface $configurationReader,
-        Doozr_Cache_Service                  $cacheService         = null,
-                                             $cache                = false
+        Doozr_Cache_Service                  $cacheService = null,
+                                             $cache = false
     ) {
         $this
             ->configurationReader($configurationReader)
@@ -341,7 +341,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     /**
      * Setter for scope.
      *
-     * @param bool $scope The scope to set
+     * @param string $scope The scope to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -353,7 +353,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     /**
      * Fluent setter for scope.
      *
-     * @param bool $scope The scope to set
+     * @param string $scope The scope to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -421,11 +421,11 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     /**
      * Setter for cache service.
      *
-     * @param Doozr_Cache_Service $cacheService
+     * @param Doozr_Cache_Service|null $cacheService Instance of cache service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setCacheService(Doozr_Cache_Service $cacheService)
+    protected function setCacheService(Doozr_Cache_Service $cacheService = null)
     {
         $this->cacheService = $cacheService;
     }
@@ -433,13 +433,13 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     /**
      * Fluent setter for cache service.
      *
-     * @param null|Doozr_Cache_Service $cacheService
+     * @param Doozr_Cache_Service|null $cacheService Instance of cache service.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance of this class for chaining (fluent interface pattern)
      */
-    protected function cacheService(Doozr_Cache_Service $cacheService)
+    protected function cacheService(Doozr_Cache_Service $cacheService = null)
     {
         $this->setCacheService($cacheService);
 

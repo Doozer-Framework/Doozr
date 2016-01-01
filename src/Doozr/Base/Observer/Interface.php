@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - Observer - Interface
+ * Doozr - Base - Observer - Interface.
  *
  * Interface.php - Base Observer Interface of Doozr.
  *
@@ -43,52 +44,51 @@
  * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Observer
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Base - Observer - Interface
+ * Doozr - Base - Observer - Interface.
  *
  * Base Observer Interface of Doozr.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Observer
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Base_Observer_Interface extends SplObserver
 {
     /**
-     * Default identifier for Presenter
+     * Default identifier for Presenter.
      *
      * @var string
-     * @access public
      */
     const IDENTIFIER_PRESENTER = 'presenter';
 
     /**
-     * Default identifier for View
+     * Default identifier for View.
      *
      * @var string
-     * @access public
      */
     const IDENTIFIER_VIEW = 'view';
 
     /**
-     * Default identifier for Model
+     * Default identifier for Model.
      *
      * @var string
-     * @access public
      */
     const IDENTIFIER_MODEL = 'model';
 
@@ -100,8 +100,8 @@ interface Doozr_Base_Observer_Interface extends SplObserver
      * This identifier should be usable when collecting data via Observer pattern to identify source of responses.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function getIdentifier();
 }

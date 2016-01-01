@@ -161,6 +161,91 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     }
 
     /**
+     * Setter for data attribute.
+     *
+     * @param mixed $data The data
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE on success, otherwise FALSE
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return true;
+    }
+
+    /**
+     * Fluent: Setter for data attribute.
+     *
+     * @param mixed $data The data
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function data($data)
+    {
+        $this->setData($data);
+
+        return $this;
+    }
+
+    /**
+     * Getter for data.
+     *
+     * @param bool $force TRUE to force retrieval fresh data, otherwise FALSE to use already retrieved [default]
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return mixed The data requested
+     */
+    public function getData($force = false)
+    {
+        if ($this->data === null || $force === true) {
+            $route  = $this->getRoute();
+            $action = $route->getAction();
+            $method = false;
+
+            $this->action($action);
+
+            // Check for concrete method call
+            if (method_exists($this, '__data'.ucfirst($action))) {
+                // Concrete integration ...
+                $method = '__data'.ucfirst($action);
+            } elseif (method_exists($this, '__data')) {
+                // custom generic overload solution
+                $method = '__data';
+            }
+
+            // Call if method detected ...
+            if ($method !== false) {
+                $arguments = func_get_args();
+
+                if (count($arguments) > 0) {
+                    $result = call_user_func_array([$this, $method], $arguments);
+                } else {
+                    $result = call_user_func([$this, $method]);
+                }
+
+                if (true !== $result) {
+                    throw new Doozr_Base_Model_Exception(
+                        sprintf(
+                            '%s() (if set) MUST return TRUE. %s() is set but it returned: "%s"',
+                            $method,
+                            $method,
+                            var_export($result, true)
+                        )
+                    );
+                }
+            }
+        }
+
+        return $this->data;
+    }
+
+    /**
      * Setter for route.
      *
      * @param Doozr_Request_Route_State $route The route to set
@@ -281,34 +366,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     }
 
     /**
-     * This method (container) is intend to set the data for a requested runtimeEnvironment.
-     *
-     * @param mixed $data The data (array preferred) to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * Setter for data with fluent API support for chaining calls to this class.
-     *
-     * @param mixed $data The data to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    public function data($data)
-    {
-        $this->setData($data);
-
-        return $this;
-    }
-
-    /**
      * Setter for action.
      *
      * @param string $action The action to set
@@ -346,59 +403,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     protected function getAction()
     {
         return $this->action;
-    }
-
-    /**
-     * This method (container) is intend to return the data for a requested runtimeEnvironment.
-     *
-     * @param bool $force TRUE to force retrieval fresh data, otherwise FALSE to use already retrieved [default]
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return mixed The data for the runtimeEnvironment requested
-     */
-    public function getData($force = false)
-    {
-        if ($this->data === null || $force === true) {
-            $route  = $this->getRoute();
-            $action = $route->getAction();
-            $method = false;
-
-            $this->action($action);
-
-            // Check for concrete method call
-            if (method_exists($this, '__data'.ucfirst($action))) {
-                // Concrete integration ...
-                $method = '__data'.ucfirst($action);
-            } elseif (method_exists($this, '__data')) {
-                // custom generic overload solution
-                $method = '__data';
-            }
-
-            // Call if method detected ...
-            if ($method !== false) {
-                $arguments = func_get_args();
-
-                if (count($arguments) > 0) {
-                    $result = call_user_func_array([$this, $method], $arguments);
-                } else {
-                    $result = call_user_func([$this, $method]);
-                }
-
-                if (true !== $result) {
-                    throw new Doozr_Base_Model_Exception(
-                        sprintf(
-                            '%s() (if set) MUST return TRUE. %s() is set but it returned: "%s"',
-                            $method,
-                            $method,
-                            var_export($result, true)
-                        )
-                    );
-                }
-            }
-        }
-
-        return $this->data;
     }
 
     /**
