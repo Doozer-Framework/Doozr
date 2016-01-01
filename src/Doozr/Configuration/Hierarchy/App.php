@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Request - Psr - Interface.
+ * Doozr - Configuration - Hierarchy - App.
  *
- * Interface.php - Doozr request interface.
+ * App.php - The "app" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -53,12 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Doozr - Request - Psr - Interface.
+ * Doozr - Configuration - Hierarchy - App.
  *
- * Doozr request interface.
+ * The "app" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -70,29 +69,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Request_Psr_Interface extends Request
+class Doozr_Configuration_Hierarchy_App
 {
     /**
-     * Marshalling of request. Each of our request implementations must have a retrieve() method which triggers
-     * the retrieval/marshalling of request data (header, body, files, ...).
+     * Any node you can imagine.
      *
-     * @return bool TRUE on success, otherwise FALSE
-     *
-     * @throws Doozr_Request_Exception
+     * @var mixed
      */
-    public function receive();
-
-    /**
-     * Must return the type of the request implementation.
-     *
-     * @return mixed
-     */
-    public function getType();
-
-    /**
-     * Extracts the current request as request state representation.
-     *
-     * @return Doozr_Request_State
-     */
-    public function export();
+    public $anyNode;
 }

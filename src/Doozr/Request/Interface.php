@@ -87,11 +87,4 @@ interface Doozr_Request_Interface
      * @return mixed
      */
     public function getType();
-
-    /**
-     * Extracts the current request as request state representation.
-     *
-     * @return Doozr_Request_State
-     */
-    public function export();
 }

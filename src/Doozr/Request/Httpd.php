@@ -73,8 +73,6 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Interface.php';
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Request_Httpd extends Doozr_Request_Web
-    implements
-    Doozr_Request_Interface
 {
     /**
      * Type of request.

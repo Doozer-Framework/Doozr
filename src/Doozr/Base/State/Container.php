@@ -90,7 +90,7 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
      */
     public function __construct(Doozr_Base_State_Interface $stateObject = null)
     {
-        if ($stateObject !== null) {
+        if (null !== $stateObject) {
             $this->setStateObject($stateObject);
         }
     }

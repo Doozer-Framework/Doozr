@@ -190,7 +190,9 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
         }
 
         // Important! => call parents constructor so SplObjectStorage is created!
-        parent::__construct();
+        parent::__construct(
+            new Doozr_Request_State()
+        );
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
         if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
@@ -481,7 +483,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Configuration_Interface The configuration stored
+     * @return Doozr_Configuration The configuration stored
      */
     protected function getConfiguration()
     {

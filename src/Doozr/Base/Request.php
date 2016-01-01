@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - Request
+ * Doozr - Base - Request.
  *
  * Request.php - Base class for Doozr request implementations.
  *
@@ -43,48 +44,33 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Request
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State/Container.php';
 
 /**
- * Doozr - Base - Request
+ * Doozr - Base - Request.
  *
  * Base class for Doozr request implementations.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Request
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_Request extends Doozr_Base_State_Container
 {
-    /*------------------------------------------------------------------------------------------------------------------
-    | OVERRIDES
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Getter for state object.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Request_State The state object instance
-     * @access public
-     */
-    /*
-    protected function getStateObject()
-    {
-        return parent::getStateObject();
-    }
-    */
+    // To be continued
 }

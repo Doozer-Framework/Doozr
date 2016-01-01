@@ -80,6 +80,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Interface.php';
  * @property   Doozr_Configuration_Hierarchy_Kernel  $kernel
  * @property   Doozr_Configuration_Hierarchy_I18n    $i18n
  * @property   Doozr_Configuration_Hierarchy_Session $session
+ * @property   Doozr_Configuration_Hierarchy_App     $app
  */
 class Doozr_Configuration extends Doozr_Base_Class_Singleton
     implements
