@@ -78,7 +78,7 @@ class Doozr_Request extends Doozr_Base_Request
 {
     /**
      * The Type of the Response
-     * Can be one of: Cli, Web.
+     * Can be one of: Cli, Web, Httpd.
      *
      * @var string
      */
@@ -151,6 +151,18 @@ class Doozr_Request extends Doozr_Base_Request
     public function getData()
     {
         return $this->getStateObject()->getData();
+    }
+
+    /**
+     * Getter for state object.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return Doozr_Request_State The state object instance
+     */
+    protected function getStateObject()
+    {
+        return $this->stateObject;
     }
 
     /*------------------------------------------------------------------------------------------------------------------

@@ -410,6 +410,23 @@ class Doozr_Http_State extends Doozr_Base_State
     /**
      * Getter for data.
      *
+     * @param string $data The data to store.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Response_Body Data stored
+     * @access public
+     */
+    public function setData($data)
+    {
+        $body = new Doozr_Response_Body();
+        $body->write($data);
+
+        $this->setBody($body);
+    }
+
+    /**
+     * Getter for data.
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Response_Body Data stored
      * @access public

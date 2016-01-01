@@ -288,46 +288,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     }
 
     /**
-     * Setter for requestState.
-     *
-     * @param Doozr_Base_State $requestState The requestState
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    protected function setRequestState(Doozr_Base_State $requestState)
-    {
-        $this->requestState = $requestState;
-    }
-
-    /**
-     * Setter for requestState.
-     *
-     * @param Doozr_Base_State $requestState The requestState
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    protected function requestState(Doozr_Base_State $requestState)
-    {
-        $this->setRequestState($requestState);
-
-        return $this;
-    }
-
-    /**
-     * Returns requestState.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return Doozr_Base_State|Doozr_Request_State The requestState
-     */
-    public function getRequestState()
-    {
-        return $this->requestState;
-    }
-
-    /**
      * Setter for model.
      *
      * @param Doozr_Base_Model $model The model to set
@@ -847,7 +807,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     public function __destruct()
     {
         // check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__teardown') && is_callable([$this, '__teardown'])) {
+        if (true === $this->hasMethod('__teardown') && true === is_callable([$this, '__teardown'])) {
             $this->__teardown();
         }
     }
