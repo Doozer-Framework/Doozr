@@ -449,7 +449,7 @@ class Doozr_Request_Web extends Doozr_Request
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | FULFILL: @see RequestInterface
+    | FULFILL: @see ServerRequestInterface
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -756,5 +756,22 @@ class Doozr_Request_Web extends Doozr_Request
         $this->getStateObject()->withBody($body);
 
         return $this;
+    }
+
+
+
+
+
+
+    /**
+     * Getter for state object.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return Doozr_Request_State The state object instance
+     */
+    protected function getStateObject()
+    {
+        return $this->stateObject;
     }
 }

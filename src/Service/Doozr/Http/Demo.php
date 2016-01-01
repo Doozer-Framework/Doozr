@@ -71,4 +71,4 @@ $result = var_export(
     true
 );
 
-print_r($result);
+echo $result;

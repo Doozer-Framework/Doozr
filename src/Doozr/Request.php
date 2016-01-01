@@ -91,14 +91,14 @@ class Doozr_Request extends Doozr_Base_Request
     /**
      * Constructor.
      *
-     * @param \Doozr_Base_State_Interface $stateObject The state-object used to hold the state
-     * @param bool                        $marshalling TRUE to marshall on init, otherwise FALSE to do not
+     * @param Doozr_Request_State $stateObject State object used to hold the state
+     * @param bool               $marshalling  TRUE to marshall on init, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(
-        Doozr_Base_State_Interface $stateObject,
-        $marshalling = true
+        Doozr_Request_State $stateObject,
+                            $marshalling = true
     ) {
         // Do parents stuff
         parent::__construct($stateObject);
@@ -157,7 +157,7 @@ class Doozr_Request extends Doozr_Base_Request
     | INTERNAL API
     +-----------------------------------------------------------------------------------------------------------------*/
     /*------------------------------------------------------------------------------------------------------------------
-    | FULFILL: @see Doozr_Response_Interface
+    | FULFILL: @see Doozr_Request_Interface
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

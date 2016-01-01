@@ -76,7 +76,8 @@ use Psr\Http\Message\ServerRequestInterface;
  * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
-final class Doozr_Request_State extends Doozr_Http_State implements
+final class Doozr_Request_State extends Doozr_Http_State
+    implements
     ServerRequestInterface
 {
     /**
