@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - Form - Test
+ * Doozr - Configuration - Hierarchy - Kernel - System.
  *
- * FormServiceTest.php - Tests for Service instance of Doozr Form Service.
+ * System.php - The "system" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -43,47 +44,37 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
 
 /**
- * Doozr - Service - Form - Test
+ * Doozr - Configuration - Hierarchy - Kernel - System.
  *
- * Tests for Service instance of Doozr Form Service.
+ * The "system" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class FormServiceTest extends Doozr_Base_Service_Test_Abstract
+class Doozr_Configuration_Hierarchy_Kernel_System
 {
     /**
-     * Prepares setup for Tests of "Form"
+     * Configuration of php.ini keys and values.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @var Doozr_Configuration_Hierarchy_Kernel_System_Php
      */
-    protected function setUp()
-    {
-        self::$serviceName = 'Form';
-        parent::setUp();
-
-        // Load service
-        self::$service = Doozr_Loader_Serviceloader::load(self::$serviceName, $sessionMock);
-    }
-
+    public $php;
 }
