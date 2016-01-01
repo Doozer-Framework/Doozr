@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Request
+ * Doozr - Request.
  *
  * Request.php - Request state container.
  *
@@ -43,31 +44,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Request
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Request.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Request.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Interface.php';
 
 /**
- * Doozr - Request
+ * Doozr - Request.
  *
  * Request state container.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Request
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Request extends Doozr_Base_Request
@@ -76,10 +78,9 @@ class Doozr_Request extends Doozr_Base_Request
 {
     /**
      * The Type of the Response
-     * Can be one of: Cli, Web
+     * Can be one of: Cli, Web.
      *
      * @var string
-     * @access protected
      */
     protected $type;
 
@@ -90,15 +91,14 @@ class Doozr_Request extends Doozr_Base_Request
     /**
      * Constructor.
      *
-     * @param \Doozr_Base_State_Interface $stateObject The state-object used to hold the state
-     * @param bool                        $marshalling TRUE to marshall on init, otherwise FALSE to do not
+     * @param Doozr_Request_State $stateObject State object used to hold the state
+     * @param bool               $marshalling  TRUE to marshall on init, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct(
-        Doozr_Base_State_Interface $stateObject,
-        $marshalling = true
+        Doozr_Request_State $stateObject,
+                            $marshalling = true
     ) {
         // Do parents stuff
         parent::__construct($stateObject);
@@ -119,8 +119,6 @@ class Doozr_Request extends Doozr_Base_Request
      * @param string $data The data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setData($data)
     {
@@ -133,8 +131,8 @@ class Doozr_Request extends Doozr_Base_Request
      * @param string $data The data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function data($data)
     {
@@ -147,8 +145,8 @@ class Doozr_Request extends Doozr_Base_Request
      * Getter for data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Response_Body The data if set, otherwise NULL
-     * @access public
      */
     public function getData()
     {
@@ -159,15 +157,16 @@ class Doozr_Request extends Doozr_Base_Request
     | INTERNAL API
     +-----------------------------------------------------------------------------------------------------------------*/
     /*------------------------------------------------------------------------------------------------------------------
-    | FULFILL: @see Doozr_Response_Interface
+    | FULFILL: @see Doozr_Request_Interface
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Generic marshalling method.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Request_Exception
      */
     public function receive()
@@ -181,8 +180,6 @@ class Doozr_Request extends Doozr_Base_Request
      * @param string $type The type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setType($type)
     {
@@ -195,12 +192,13 @@ class Doozr_Request extends Doozr_Base_Request
      * @param string $type The type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function type($type)
     {
         $this->setType($type);
+
         return $this;
     }
 
@@ -208,8 +206,8 @@ class Doozr_Request extends Doozr_Base_Request
      * Getter for type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Type of the response Cli, Web, ...
-     * @access public
      */
     public function getType()
     {
