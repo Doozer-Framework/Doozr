@@ -118,15 +118,15 @@ final class Doozr_Handler_Exception extends Doozr_Base_Class
                 $statusCode,
                 $code,
                 $message,
-                $exception->getPrevious()->getFile(),
-                $exception->getPrevious()->getLine()
+                $exception->getFile(),
+                $exception->getLine()
             );
         } else {
             self::handleText(
                 $code,
                 $message,
-                $exception->getPrevious()->getFile(),
-                $exception->getPrevious()->getLine()
+                $exception->getFile(),
+                $exception->getLine()
             );
         }
     }

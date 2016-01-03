@@ -66,7 +66,7 @@ final class Index extends \Doozr_Base_Model
      */
     protected function __tearup()
     {
-        // Intentionally left empty.
+        // Intentionally left empty.Too
         // Here it's up to your imagination.
 
         // Must return TRUE always!

@@ -55,13 +55,12 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Psr/Cache/Interface.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Crud/Interface.php';
 
-use Psr\Cache\CacheItemPoolInterface;
+use Gpupo\Cache\CacheItem;
 use Psr\Cache\CacheItemInterface;
+use Psr\Cache\CacheItemPoolInterface;
 use Doozr\Loader\Serviceloader\Annotation\Inject;
-use Psr\Cache\Doozr_Psr_Cache_Interface;
 
 /**
  * Doozr - Cache - Service.
@@ -90,9 +89,15 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     implements
     Doozr_Base_Service_Interface,
     Doozr_Base_Crud_Interface,
-    Doozr_Psr_Cache_Interface
-    #CacheItemPoolInterface
+    CacheItemPoolInterface
 {
+    /**
+     * Deferred items to save on __teardown.
+     *
+     * @var array
+     */
+    protected $deferredItems = [];
+
     /**
      * Active namespace.
      *
@@ -187,7 +192,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * Constructor.
      *
      * @param string $container        Container to use for caching or a collection with priority to try
-     * @param string $scope        Scope to group saved/cached elements under
+     * @param string $scope            Scope to group saved/cached elements under
      * @param array  $containerOptions Configuration/options for the container instance
      * @param bool   $unix             TRUE if current OS is unix-type, FALSE if not
      * @param bool   $enabled          Default state is enabled, FALSE to signalize that caching is disabled
@@ -211,10 +216,10 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     /**
      * Creates an cache entry.
      *
-     * @param string $key       The key of the entry
-     * @param mixed  $value     The value of the entry
-     * @param int    $lifetime  The time to expire
-     * @param string $scope The dataset scope
+     * @param string $key      The key of the entry
+     * @param mixed  $value    The value of the entry
+     * @param int    $lifetime The time to expire
+     * @param string $scope    The dataset scope
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -253,8 +258,9 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to return the requested dataset it if exists and is not expired.
      *
-     * @param string $key       The key to read
-     * @param string $scope The scope to read from
+     * @param string $key      Key to read
+     * @param string $scope    Scope to read from
+     * @param bool   $metaData Whether to add meta-data
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -264,18 +270,19 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      */
     public function read(
         $key,
-        $scope = null
+        $scope = null,
+        $metaData = false
     ) {
         // Assume we will have a false result
         $result = null;
 
         // Get scope if not passed
-        if ($scope === null) {
+        if (null === $scope) {
             $scope = $this->getScope();
         }
 
         // Check if content exists
-        if ($this->exists($key, $scope) !== true) {
+        if (true !== $this->exists($key, $scope)) {
             throw new Doozr_Cache_Service_Exception(
                 sprintf(
                     'Requested entry with key: "%s" in scope: "%s" could not be found in cache!', $key, $scope
@@ -284,22 +291,22 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         }
 
         // Check that element is not expired and return ...
-        if ($this->expired($key, $scope) === false) {
+        if (false === $this->expired($key, $scope)) {
             // Then return the content;
             $result = $this->getContainer()->read($key, $scope);
         }
 
         // Return only data not meta overhead (key = 2)
-        return $result[2];
+        return (true === $metaData) ? $result : $result[2];
     }
 
     /**
      * Updates an entry.
      *
-     * @param string $key       The dataset Id
-     * @param string $value     The data to write to cache
-     * @param int    $lifetime  Date/Time on which the cache-entry expires
-     * @param string $scope The dataset group
+     * @param string $key      The dataset Id
+     * @param string $value    The data to write to cache
+     * @param int    $lifetime Date/Time on which the cache-entry expires
+     * @param string $scope    The dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -323,7 +330,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     /**
      * Deletes a dataset from cache.
      *
-     * @param string $key       The key to delete data of
+     * @param string $key   The key to delete data of
      * @param string $scope The scope to look for key
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -344,7 +351,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *
      * This method is intend to check if an cached object exists and return result.
      *
-     * @param string $key       The id of the object to check
+     * @param string $key   The id of the object to check
      * @param string $scope The scope of the object to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -363,13 +370,13 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     /**
      * Checks whether an entry is expired.
      *
-     * @param string $key       The key of the element to check
-     * @param string $scope The cache scope
-     * @param int    $lifetime  The maximum age for the cached data in seconds - 0 for endless. If the cached
-     *                          data is older but the given lifetime it will be removed from the cache. You don't
-     *                          have to provide this argument if you call expired(). Every dataset knows it's
-     *                          expire date and will be removed automatically. Use this only if you know what
-     *                          you're doing...
+     * @param string $key      The key of the element to check
+     * @param string $scope    The cache scope
+     * @param int    $lifetime The maximum age for the cached data in seconds - 0 for endless. If the cached
+     *                         data is older but the given lifetime it will be removed from the cache. You don't
+     *                         have to provide this argument if you call expired(). Every dataset knows it's
+     *                         expire date and will be removed automatically. Use this only if you know what
+     *                         you're doing...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -396,7 +403,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      *  - is forced ($force = true)
      *  - there was a run before and this run is older = gcProbabilityTime
      *
-     * @param string $scope       The scope to look for elements in
+     * @param string $scope           The scope to look for elements in
      * @param int    $maximumLifetime The maximum lifetime of an element
      * @param bool   $force           TRUE to force a garbage collection run, otherwise FALSE (default) to check
      *
@@ -450,7 +457,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     public function purge($scope = null)
     {
         // Get scope if not passed
-        if ($scope === null) {
+        if (null === $scope) {
             $scope = $this->getScope();
         }
 
@@ -567,16 +574,21 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * This method is intend to cleanup on class destruct.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @throws Psr\Cache\InvalidArgumentException
      */
     public function __teardown()
     {
         // Don't cleanup if cache is disabled! Disabled = meaning NEVER take action!
         if (true === $this->isEnabled()) {
             $this->garbageCollection(
-                $this->getScope(),         // Retrieve scope from this service instance
+                $this->getScope(),             // Retrieve scope from this service instance
                 $this->getGcMaximumLifetime(), // The lifetime used to check entries
                 false                          // At tear-down don't force
             );
+
+            // Save deferred items
+            $this->commit();
         }
     }
 
@@ -646,6 +658,46 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     protected function getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * Setter for deferredItems.
+     *
+     * @param bool $deferredItems The deferredItems to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setDeferredItems($deferredItems)
+    {
+        $this->deferredItems = $deferredItems;
+    }
+
+    /**
+     * Fluent setter for deferredItems.
+     *
+     * @param bool $deferredItems The deferredItems to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance of this class for chaining (fluent interface pattern)
+     */
+    protected function deferredItems($deferredItems)
+    {
+        $this->deferredItems = $deferredItems;
+
+        return $this;
+    }
+
+    /**
+     * Getter for deferredItems.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return null|bool DeferredItems if set, otherwise NULL
+     */
+    protected function getDeferredItems()
+    {
+        return $this->deferredItems;
     }
 
     /**
@@ -789,11 +841,11 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     /**
      * Stores a dataset with additional user-defined data.
      *
-     * @param string $key       The key of the entry
-     * @param mixed  $value     The value of the entry
-     * @param int    $lifetime  The time to expire
-     * @param string $scope The dataset scope
-     * @param string $userdata  The userdata to add
+     * @param string $key      The key of the entry
+     * @param mixed  $value    The value of the entry
+     * @param int    $lifetime The time to expire
+     * @param string $scope    The dataset scope
+     * @param string $userdata The userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -864,50 +916,56 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         ];
     }
 
+    /*-----------------------------------------------------------------------------------------------------------------+
+    | Fulfill: Psr\Cache\CacheItemPoolInterface
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Returns a Cache Item representing the specified key.
      *
-     * This method must always return an ItemInterface object, even in case of
-     * a cache miss. It MUST NOT return null.
+     * This method must always return an ItemInterface object, even in case of a cache miss. It MUST NOT return null.
      *
-     * @param string $key
-     *                    The key for which to return the corresponding Cache Item.
+     * @param string $key The key for which to return the corresponding Cache Item.
      *
-     * @throws \Psr\Cache\InvalidArgumentException
-     *                                             If the $key string is not a legal value a \Psr\Cache\InvalidArgumentException
-     *                                             MUST be thrown.
+     * @throws InvalidArgumentException If the $key string is not a legal value an exception MUST be thrown.
      *
-     * @return \Psr\Cache\CacheItemInterface
-     *                                       The corresponding Cache Item.
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return CacheItemInterface The corresponding Cache Item.
      */
     public function getItem($key)
     {
-        return $this->read($key);
+        // Return an item in all cases
+        $item = new CacheItem($key);
+
+        try {
+            $data = $this->read($key, null, true);
+            $item->set($data[2], $data[0] - time());
+
+        } catch (Doozr_Cache_Service_Exception $exception) {
+
+        }
+
+        return $item;
     }
 
     /**
      * Returns a traversable set of cache items.
      *
-     * @param array $keys
-     *                    An indexed array of keys of items to retrieve.
+     * @param array $keys An indexed array of keys of items to retrieve.
      *
-     * @return array|\Traversable
-     *                            A traversable collection of Cache Items keyed by the cache keys of
-     *                            each item. A Cache item will be returned for each key, even if that
-     *                            key is not found. However, if no keys are specified then an empty
-     *                            traversable MUST be returned instead.
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return array|\Traversable A traversable collection of Cache Items keyed by the cache keys of each item. A Cache
+     *                            item will be returned for each key, even if that key is not found. However, if no keys
+     *                            are specified then an empty traversable MUST be returned instead.
      */
-    public function getItems(array $keys = array())
+    public function getItems(array $keys = [])
     {
         $collection = [];
 
         foreach ($keys as $key) {
-            try {
-                $collection[$key] = $this->read($key);
-
-            } catch (Exception $e ) {
-                $collection[$key] = null;
-            }
+            $collection[$key] = $this->getItem($key);
         }
 
         return $collection;
@@ -916,84 +974,82 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     /**
      * Deletes all items in the pool.
      *
-     * @return bool
-     *              True if the pool was successfully cleared. False if there was an error.
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool True if the pool was successfully cleared. False if there was an error.
      */
     public function clear()
     {
-        throw new Exception(
-            'Not implemented yet!'
-        );
+        return (false !== $this->purge());
     }
 
     /**
      * Removes multiple items from the pool.
      *
-     * @param array $keys
-     *                    An array of keys that should be removed from the pool.
+     * @param array $keys An array of keys that should be removed from the pool.
      *
-     * @return static
-     *                The invoked object.
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this The invoked object.
      */
     public function deleteItems(array $keys)
     {
-        $result = true;
-
         foreach ($keys as $key) {
             try {
-                $result = $result && $this->delete($key);
+                $this->delete($key);
 
-            } catch (Exception $e ) {
-                $result = false;
-            }
+            } catch (Exception $e) {}
         }
 
-        return $result;
+        return $this;
     }
 
     /**
      * Persists a cache item immediately.
      *
-     * @param CacheItemInterface $item
-     *                                 The cache item to save.
+     * @param CacheItemInterface $item The cache item to save.
      *
-     * @return static
-     *                The invoked object.
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this The invoked object.
      */
     public function save(CacheItemInterface $item)
     {
-        throw new Exception(
-            'Not implemented yet!'
-        );
-        #$this->create($item->getKey(), $item->get(), $item->getExpiration(), )
+        $this->create($item->getKey(), $item->get(), $item->getExpiration());
+
+        return $this;
     }
 
     /**
      * Sets a cache item to be persisted later.
      *
-     * @param CacheItemInterface $item
-     *                                 The cache item to save.
+     * @param CacheItemInterface $item The cache item to save.
      *
-     * @return static
-     *                The invoked object.
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return static The invoked object.
      */
     public function saveDeferred(CacheItemInterface $item)
     {
-        throw new Exception(
-            'Not implemented yet!'
-        );
+        $this->deferredItems[] = $item;
+
+        return $this;
     }
 
     /**
      * Persists any deferred cache items.
      *
-     * @return bool
-     *              TRUE if all not-yet-saved items were successfully saved. FALSE otherwise.
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE if all not-yet-saved items were successfully saved. FALSE otherwise.
      */
     public function commit()
     {
-        throw new Exception(
-            'Not implemented yet!'
-        );
+        // Save deferred items
+        $deferredItems = $this->getDeferredItems();
+
+        foreach ($deferredItems as $deferredItem) {
+            $this->save($deferredItem);
+        }
     }
 }

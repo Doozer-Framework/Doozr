@@ -77,6 +77,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Cache/Service/Exception.php';
 use DebugBar\StandardDebugBar;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Gpupo\Cache\CacheItem;
 
 /**
  * Doozr - Kernel.
@@ -798,11 +799,13 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         $phpSettings = self::getRegistry()->getConfiguration()->kernel->system->php;
 
         foreach ($phpSettings as $iniKey => $value) {
+            /*
             if (false === ($result && ini_set($iniKey, $value))) {
                 throw new Doozr_Kernel_Exception(
                     sprintf('Error setting up system. Error while trying to set "%s" (value: "%s")', $iniKey, $value)
                 );
             }
+            */
         }
 
         return $result;
@@ -1086,11 +1089,13 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         $virtualFile = self::$registry->getPath()->get('config').'.service.json';
         $caching     = self::$registry->getParameter('doozr.kernel.caching');
         $files       = null;
+        $stale       = false;
 
         // Try to load service configurations from cache!
         if (true === $caching) {
             try {
-                $files = self::$registry->getCache()->read($virtualFile);
+                $files = self::$registry->getCache()->getItem($virtualFile)->get();
+
             } catch (Doozr_Cache_Service_Exception $exception) {
                 // Intentionally left empty
             }
@@ -1098,14 +1103,18 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
         // Could be loaded from cache? otherwise lookup here (PERFORMANCE:IMPACT:HIGH:FILESYSTEM)
         if (null === $files) {
+            $stale   = true;
             $pattern = self::$registry->getPath()->get('service').
                        '*'.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.'.config.json';
-            $files = glob($pattern, GLOB_NOSORT);
+            $files   = glob($pattern, GLOB_NOSORT);
         }
 
         // Cache items found for reuse later
-        if (true === $caching) {
-            self::$registry->getCache()->create($virtualFile, $files);
+        if (true === $stale && true === $caching) {
+            $cacheItem = new CacheItem($virtualFile);
+            $cacheItem->set($files);
+
+            self::$registry->getCache()->save($cacheItem);
         }
 
         // Return collection of service configuration files
@@ -1125,6 +1134,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         $appEnvironment = self::$registry->getParameter('doozr.app.environment');
         $caching        = self::$registry->getParameter('doozr.kernel.caching');
         $exists         = null;
+        $stale          = false;
         $file           = self::$registry->getPath()->get(
             'app',
             'Data\Private\Config\.config.'.$appEnvironment.'.json'
@@ -1133,13 +1143,14 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // Try to load information from cache!
         if (true === $caching) {
             try {
-                $exists = self::$registry->getCache()->read($file);
+                $exists = self::$registry->getCache()->getItem($file)->get();
             } catch (Doozr_Cache_Service_Exception $exception) {
                 // Intentionally left empty
             }
         }
 
         if (null === $exists) {
+            $stale  = true;
             $exists = (
                 true === self::$registry->getFilesystem()->exists($file) &&
                 true === self::$registry->getFilesystem()->readable($file)
@@ -1147,8 +1158,11 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         }
 
         // Cache items found for reuse later
-        if (true === $caching) {
-            self::$registry->getCache()->create($file, $exists);
+        if (true === $stale && true === $caching) {
+            $cacheItem = new CacheItem($file);
+            $cacheItem->set($exists);
+
+            self::$registry->getCache()->save($cacheItem);
         }
 
         // Return collection of service configuration files
