@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Request - State
+ * Doozr - Request - State.
  *
  * State.php - Request state used as immutable request state representation.
  *
@@ -43,44 +44,47 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_State
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Route/State.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http/State.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Route/State.php';
 
 use Psr\Http\Message\UriInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Doozr - Request - State
+ * Doozr - Request - State.
  *
  * Request state used as immutable request state representation.
  *
  * @category   Doozr
- * @package    Doozr_Request
- * @subpackage Doozr_Request_State
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @final
  */
 final class Doozr_Request_State extends Doozr_Http_State
+    implements
+    ServerRequestInterface
 {
     /**
      * The server ($_SERVER) params or similar implementation (array = key:value).
      * Should be filled on __construct.
      *
      * @var array
-     * @access protected
      */
     protected $serverParams = [];
 
@@ -89,7 +93,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * Should be filled on __construct.
      *
      * @var array
-     * @access protected
      */
     protected $cookieParams = [];
 
@@ -97,7 +100,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * The query parameters of this request. If any.
      *
      * @var array
-     * @access protected
      */
     protected $queryParams = [];
 
@@ -105,7 +107,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * Normalized leaf tree representation of uploaded files.
      *
      * @var array
-     * @access protected
      */
     protected $uploadedFiles = [];
 
@@ -113,7 +114,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * The parsed body.
      *
      * @var null
-     * @access protected
      */
     protected $parsedBody = null;
 
@@ -121,13 +121,11 @@ final class Doozr_Request_State extends Doozr_Http_State
      * The attributes.
      *
      * @var array
-     * @access protected
      */
     protected $attributes = [];
 
     /**
      * @var null|string
-     * @access protected
      */
     protected $requestTarget = self::DEFAULT_REQUEST_TARGET;
 
@@ -135,7 +133,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * The uri.
      *
      * @var UriInterface
-     * @access protected
      */
     protected $uri;
 
@@ -144,7 +141,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * Defaults to GET.
      *
      * @var string
-     * @access protected
      */
     protected $method = Doozr_Http::REQUEST_METHOD_GET;
 
@@ -152,7 +148,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * The default request target used when not specifically defined.
      *
      * @var string
-     * @access public
      */
     const DEFAULT_REQUEST_TARGET = '/';
 
@@ -164,7 +159,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct()
     {
@@ -232,6 +226,7 @@ final class Doozr_Request_State extends Doozr_Http_State
      * updated cookie values.
      *
      * @param array $cookies Array of key/value pairs representing cookies.
+     *
      * @return self
      */
     public function withCookieParams(array $cookies)
@@ -275,6 +270,7 @@ final class Doozr_Request_State extends Doozr_Http_State
      * updated query string arguments.
      *
      * @param array $query Array of query string arguments, typically from $_GET.
+     *
      * @return self
      */
     public function withQueryParams(array $query)
@@ -307,7 +303,9 @@ final class Doozr_Request_State extends Doozr_Http_State
      * updated body parameters.
      *
      * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
+     *
      * @return self
+     *
      * @throws \InvalidArgumentException if an invalid structure is provided.
      */
     public function withUploadedFiles(array $uploadedFiles)
@@ -358,10 +356,12 @@ final class Doozr_Request_State extends Doozr_Http_State
      * updated body parameters.
      *
      * @param null|array|object $data The deserialized body data. This will
-     *     typically be in an array or object.
+     *                                typically be in an array or object.
+     *
      * @return self
+     *
      * @throws \InvalidArgumentException if an unsupported argument type is
-     *     provided.
+     *                                   provided.
      */
     public function withParsedBody($data)
     {
@@ -395,8 +395,10 @@ final class Doozr_Request_State extends Doozr_Http_State
      * specifying a default value to return if the attribute is not found.
      *
      * @see getAttributes()
-     * @param string $name The attribute name.
-     * @param mixed $default Default value to return if the attribute does not exist.
+     *
+     * @param string $name    The attribute name.
+     * @param mixed  $default Default value to return if the attribute does not exist.
+     *
      * @return Doozr_Request_Route_State
      */
     public function getAttribute($name, $default = null)
@@ -422,8 +424,10 @@ final class Doozr_Request_State extends Doozr_Http_State
      * updated attribute.
      *
      * @see getAttributes()
-     * @param string $name The attribute name.
-     * @param mixed $value The value of the attribute.
+     *
+     * @param string $name  The attribute name.
+     * @param mixed  $value The value of the attribute.
+     *
      * @return self
      */
     public function withAttribute($name, $value)
@@ -442,7 +446,9 @@ final class Doozr_Request_State extends Doozr_Http_State
      * the attribute.
      *
      * @see getAttributes()
+     *
      * @param string $name The attribute name.
+     *
      * @return self
      */
     public function withoutAttribute($name)
@@ -487,7 +493,9 @@ final class Doozr_Request_State extends Doozr_Http_State
      * changed request target.
      *
      * @link http://tools.ietf.org/html/rfc7230#section-2.7 (for the various request-target forms allowed in request)
+     *
      * @param mixed $requestTarget
+     *
      * @return self
      */
     public function withRequestTarget($requestTarget)
@@ -519,7 +527,9 @@ final class Doozr_Request_State extends Doozr_Http_State
      * changed request method.
      *
      * @param string $method Case-sensitive method.
+     *
      * @return self
+     *
      * @throws \InvalidArgumentException for invalid HTTP methods.
      */
     public function withMethod($method)
@@ -533,8 +543,9 @@ final class Doozr_Request_State extends Doozr_Http_State
      * This method MUST return a UriInterface instance.
      *
      * @link http://tools.ietf.org/html/rfc3986#section-4.3
+     *
      * @return Doozr_Request_Uri Returns a UriInterface instance
-     *     representing the URI of the request.
+     *                           representing the URI of the request.
      */
     public function getUri()
     {
@@ -567,8 +578,10 @@ final class Doozr_Request_State extends Doozr_Http_State
      * new UriInterface instance.
      *
      * @link http://tools.ietf.org/html/rfc3986#section-4.3
-     * @param UriInterface $uri New request URI to use.
-     * @param bool $preserveHost Preserve the original state of the Host header.
+     *
+     * @param UriInterface $uri          New request URI to use.
+     * @param bool         $preserveHost Preserve the original state of the Host header.
+     *
      * @return self
      */
     public function withUri(UriInterface $uri, $preserveHost = false)
@@ -598,8 +611,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $serverParams The server params to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function withServerParams(array $serverParams)
     {
@@ -616,8 +627,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $serverParams The server params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setServerParams(array $serverParams)
     {
@@ -630,8 +639,8 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $serverParams The server params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function serverParams(array $serverParams)
     {
@@ -646,8 +655,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $cookieParams The cookie params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setCookieParams(array $cookieParams)
     {
@@ -660,8 +667,8 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $cookieParams The server params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function cookieParams(array $cookieParams)
     {
@@ -676,8 +683,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $queryParams The query params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setQueryParams(array $queryParams)
     {
@@ -690,8 +695,8 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $queryParams The server params to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function queryParams(array $queryParams)
     {
@@ -706,8 +711,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $uploadedFiles The uploaded files to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setUploadedFiles(array $uploadedFiles)
     {
@@ -720,8 +723,8 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $uploadedFiles The uploaded files to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function uploadedFiles(array $uploadedFiles)
     {
@@ -736,8 +739,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param null|array|object $parsedBody The deserialized body data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setParsedBody($parsedBody)
     {
@@ -750,8 +751,8 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param null|array|object $parsedBody The deserialized body data.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function parsedBody($parsedBody)
     {
@@ -766,8 +767,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $attributes Attributes to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setAttributes(array $attributes)
     {
@@ -780,8 +779,8 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param array $attributes Attributes to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function attributes(array $attributes)
     {
@@ -796,8 +795,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param string $requestTarget requestTarget to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setRequestTarget($requestTarget)
     {
@@ -810,8 +807,8 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param string $requestTarget requestTarget to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function requestTarget($requestTarget)
     {
@@ -826,8 +823,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param string $method method to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setMethod($method)
     {
@@ -840,8 +835,8 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param string $method method to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function method($method)
     {
@@ -856,8 +851,6 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param UriInterface $uri uri to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setUri($uri)
     {
@@ -870,8 +863,8 @@ final class Doozr_Request_State extends Doozr_Http_State
      * @param UriInterface $uri uri to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function uri($uri)
     {
