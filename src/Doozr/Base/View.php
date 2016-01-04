@@ -755,9 +755,10 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      *
      * @return bool TRUE if successful, otherwise FALSE
      *
-     * @throws \Doozr_Base_View_Exception
-     * @throws \Doozr_Exception
-     * @throws \PHPTAL_ConfigurationException
+     * @throws Doozr_Cache_Service_Exception
+     * @throws Doozr_Base_View_Exception
+     * @throws Doozr_Exception
+     * @throws PHPTAL_ConfigurationException
      */
     protected function render(array $data = [], $fingerprint = null, Doozr_I18n_Service_Interface $i18n = null)
     {
@@ -932,7 +933,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      *
      * @return bool TRUE on success, otherwise FALSE
      */
-    protected function __update(SplSubject $subject)
+    protected function __update(Doozr_Base_Presenter $subject)
     {
         return $this->setData($subject->getData());
     }

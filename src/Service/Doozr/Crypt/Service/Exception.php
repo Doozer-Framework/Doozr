@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - Configuration.
+ * Doozr - Service - Crypt.
  *
- * Exception.php - Base exception of service "Configuration"
+ * Exception.php - Base exception of service "Crypt"
  *
  * PHP versions 5.5
  *
@@ -56,9 +56,9 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
 /**
- * Doozr - Service - Configuration.
+ * Doozr - Service - Crypt.
  *
- * Base exception of service "Configuration"
+ * Base exception of service "Crypt"
  *
  * @category   Doozr
  *
@@ -70,7 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Service_Exception extends Doozr_Exception
+class Doozr_Crypt_Service_Exception extends Doozr_Exception
 {
     /**
      * Constructor.
@@ -81,12 +81,12 @@ class Doozr_Configuration_Service_Exception extends Doozr_Exception
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return \Doozr_Configuration_Service_Exception instance of this exception
+     * @return \Doozr_Crypt_Service_Exception instance of this exception
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {
         // add prefix to message
-        $message = 'Doozr_Configuration_Service: '.$message;
+        $message = 'Doozr_Crypt_Service: '.$message;
 
         // check default code = 0
         $code = (!$code) ? 0 : $code;

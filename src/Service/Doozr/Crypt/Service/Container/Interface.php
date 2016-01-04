@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Crypt - Service - Container - Interface
+ * Doozr - Crypt - Service - Container - Interface.
  *
  * Interface.php - Interface for Container of the Caching Service.
  *
@@ -43,27 +44,29 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Crypt
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Crypt - Service - Container - Interface
+ * Doozr - Crypt - Service - Container - Interface.
  *
  * Interface for Container of the Caching Service.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Crypt
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Crypt_Service_Container_Interface
@@ -71,38 +74,32 @@ interface Doozr_Crypt_Service_Container_Interface
     /**
      * Sets the key used for en-/decryption.
      *
-     * @param string $key The key to use
-     *
-     * @return void
-     * @access public
+     * @param mixed $key The key to use
      */
     public function setKey($key);
 
     /**
      * Returns the key used for en-/decryption.
      *
-     * @return string The key
-     * @access public
+     * @return mixed The key
      */
     public function getKey();
 
     /**
      * Encrypts data.
      *
-     * @param string $data The data to encrypt
+     * @param mixed $data The data to encrypt
      *
-     * @return string The encrypted data
-     * @access public
+     * @return mixed The encrypted data
      */
     public function encrypt($data);
 
     /**
      * Decrypts data.
      *
-     * @param string $data The data to decrypt
+     * @param mixed $data The data to decrypt
      *
-     * @return string The encrypted data
-     * @access public
+     * @return mixed The encrypted data
      */
     public function decrypt($data);
 }

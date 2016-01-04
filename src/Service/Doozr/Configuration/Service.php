@@ -263,7 +263,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
      *
      * @param string $property The property to return
      *
-     * @throws Doozr_Config_Service_Exception
+     * @throws Doozr_Configuration_Service_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed The data from property
      * @access public
@@ -273,7 +273,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
         if ($property != 'decoratedObject') {
 
             if (isset($this->decoratedObject->{$property}) === false) {
-                throw new Doozr_Config_Service_Exception('Error reading property!');
+                throw new Doozr_Configuration_Service_Exception('Error reading property!');
             }
 
             return $this->decoratedObject->{$property};
