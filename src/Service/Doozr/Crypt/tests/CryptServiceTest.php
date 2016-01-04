@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n - Test.
+ * Doozr - Service - Crypt - Test.
  *
- * ServiceTest.php - This is the Test-Controller of a Service Test
+ * CryptServiceTest.php - Tests for Service instance of Doozr Crypt Service.
  *
  * PHP versions 5.5
  *
@@ -53,11 +53,12 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
 
 /**
- * Doozr - Service - I18n - Test.
+ * Doozr - Service - Crypt - Test.
  *
- * This is the Test-Controller of a Service Test
+ * Tests for Service instance of Doozr Crypt Service.
  *
  * @category   Doozr
  *
@@ -65,96 +66,21 @@
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
+ * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCase
+class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
-     * The Service instance for testing.
-     *
-     * @var Doozr_Base_Service_Interface
-     */
-    protected static $service;
-
-    /**
-     * The name of the SErvice.
-     *
-     * @var string
-     */
-    protected static $serviceName;
-
-    /**
-     * Classname of Service.
-     *
-     * @var string
-     */
-    protected static $serviceClassName;
-
-    /**
-     * The Doozr Kernel instance.
-     *
-     * @var Doozr_Kernel
-     */
-    protected static $kernel;
-
-    /**
-     * The Doozr Registry.
-     *
-     * @var Doozr_Registry
-     */
-    protected static $registry;
-
-    /**
-     * Prepares setup for Tests.
+     * Prepares setup for Tests of "Crypt".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setUp()
+    public function setUp()
     {
-        /* @var $app Doozr_Kernel_App Get kernel instance */
-        self::$kernel = Doozr_Kernel_App::boot(
-            DOOZR_APP_ENVIRONMENT,
-            DOOZR_RUNTIME_ENVIRONMENT,
-            DOOZR_UNIX,
-            DOOZR_DEBUGGING,
-            DOOZR_CACHING,
-            DOOZR_CACHING_CONTAINER,
-            DOOZR_LOGGING,
-            DOOZR_PROFILING,
-            DOOZR_APP_ROOT,
-            DOOZR_DIRECTORY_TEMP,
-            DOOZR_DOCUMENT_ROOT,
-            DOOZR_NAMESPACE,
-            DOOZR_NAMESPACE_FLAT
-        );
+        self::$serviceName = 'Crypt';
 
-        // Store classname
-        self::$serviceClassName = 'Doozr_'.self::$serviceName.'_Service';
-
-        // Get registry
-        self::$registry = Doozr_Registry::getInstance();
-
-        // Load service
-        self::$service = Doozr_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfiguration());
-    }
-
-    /**
-     * Test: Generic - if the service is loadable and the existing instance matches the required instance.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function testEnsureServiceIsLoadable()
-    {
-        $this->assertInstanceOf(self::$serviceClassName, self::$service);
-    }
-
-    /**
-     * Cleanup after test execution.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    protected function tearDown()
-    {
-        self::$service = null;
+        parent::setUp();
     }
 }
