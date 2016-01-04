@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Service Cache
+ * Doozr Service Cache.
  *
  * Interface.php - Interface for caching-container
  *
@@ -43,27 +44,29 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr Service Cache
+ * Doozr Service Cache.
  *
  * Interface for caching-container
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Cache_Service_Container_Interface
@@ -71,106 +74,108 @@ interface Doozr_Cache_Service_Container_Interface
     /**
      * Creates an entry.
      *
-     * @param string $key       The dataset Id
-     * @param string $value     The data to write to cache
-     * @param int    $lifetime  Timestamp on which the cache-entry expires (become stale)
-     * @param string $namespace The namespace of the entry
-     * @param mixed  $userdata  The additional userdata
+     * @param string $key      Dataset Id
+     * @param string $value    Data to write to cache
+     * @param int    $lifetime Timestamp on which the cache-entry expires (become stale)
+     * @param string $scope    Scope of the entry
+     * @param mixed  $userdata Additional userdata
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if entry was created successful, otherwise FALSE
-     * @access public
      */
-    public function create($key, $value, $lifetime, $namespace, $userdata = null);
+    public function create($key, $value, $lifetime, $scope, $userdata = null);
 
     /**
      * Reads an entry.
      *
-     * @param string $key       The key to read
-     * @param string $namespace The namespace to read from
+     * @param string $key   Key to read
+     * @param string $scope Scope to read from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The data from cache if successful, otherwise NULL
-     * @access public
      */
-    public function read($key, $namespace);
+    public function read($key, $scope);
 
     /**
      * Updates an entry.
      *
-     * @param string $key       The dataset Id
-     * @param string $value     The data to write to cache
-     * @param int    $lifetime  Date/Time on which the cache-entry expires
-     * @param string $namespace The dataset group
-     * @param mixed  $userdata  The additional userdata
+     * @param string $key      Dataset Id
+     * @param string $value    Data to write to cache
+     * @param int    $lifetime Date/Time on which the cache-entry expires
+     * @param string $scope    Dataset group
+     * @param mixed  $userdata Additional userdata
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if entry was created successful, otherwise FALSE
-     * @access public
      */
-    public function update($key, $value, $namespace, $lifetime, $userdata = null);
+    public function update($key, $value, $scope, $lifetime, $userdata = null);
 
     /**
      * Deletes an entry.
      *
-     * @param string $key       The dataset Id
-     * @param string $namespace The dataset group
+     * @param string $key   Dataset Id
+     * @param string $scope Dataset group
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if entry was deleted successful, otherwise FALSE
-     * @access public
      */
-    public function delete($key, $namespace);
+    public function delete($key, $scope);
 
     /**
      * Cleanup cache - only stale items!
      *
-     * @param string $namespace The namespace to look in
-     * @param int    $lifetime  The maximum age for an entry of the cache
+     * @param string $scope    Scope to look in
+     * @param int    $lifetime Maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if entry was deleted successful, otherwise FALSE
-     * @access protected
      */
-    public function garbageCollection($namespace, $lifetime);
+    public function garbageCollection($scope, $lifetime);
 
     /**
      * This method is intend to purge the cache. It removes all caches datasets from the cache.
      *
-     * @param string $namespace The dataset namespace to purge
+     * @param string $scope The dataset scope to purge
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Number of removed datasets on success, otherwise FALSE
-     * @access public
      */
-    public function purge($namespace);
+    public function purge($scope);
 
     /**
      * Whether the cache entry exists or not.
      *
-     * @param string $key       The key to check
-     * @param string $namespace The namespace to look in
+     * @param string $key   Key to check
+     * @param string $scope Scope to look in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if entry exists, otherwise FALSE
-     * @access public
      */
-    public function exists($key, $namespace);
+    public function exists($key, $scope);
 
     /**
      * Whether the cache entry for key is expired.
      *
      * Throws Doozr_Cache_Service_Exception when checking a not existing
-     * key or namespace! Check via exists first!
+     * key or scope! Check via exists first!
+     *
      * @see exists()
      *
-     * @param string $key       The key to check
-     * @param string $namespace The namespace to look in
+     * @param string $key   Key to check
+     * @param string $scope Scope to look in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if entry expired, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
-    public function expired($key, $namespace);
+    public function expired($key, $scope);
 }

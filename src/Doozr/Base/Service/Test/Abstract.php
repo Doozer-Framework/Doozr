@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n - Test
+ * Doozr - Service - I18n - Test.
  *
  * ServiceTest.php - This is the Test-Controller of a Service Test
  *
@@ -43,76 +44,70 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Service - I18n - Test
+ * Doozr - Service - I18n - Test.
  *
  * This is the Test-Controller of a Service Test
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_I18n
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCase
 {
     /**
-     * The Service instance for testing
+     * The Service instance for testing.
      *
      * @var Doozr_Base_Service_Interface
-     * @access protected
      */
     protected static $service;
 
     /**
-     * The name of the service
+     * The name of the SErvice.
      *
      * @var string
-     * @access protected
      */
     protected static $serviceName;
 
     /**
-     * 'Doozr_Http_Service'
+     * Classname of Service.
      *
-     * @var
+     * @var string
      */
     protected static $serviceClassName;
 
     /**
-     * The Doozr Kernel instance
+     * The Doozr Kernel instance.
      *
      * @var Doozr_Kernel
-     * @access protected
      */
     protected static $kernel;
 
     /**
-     * The Doozr Registry
+     * The Doozr Registry.
      *
      * @var Doozr_Registry
-     * @access protected
      */
     protected static $registry;
-
 
     /**
      * Prepares setup for Tests.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setUp()
     {
@@ -134,7 +129,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
         );
 
         // Store classname
-        self::$serviceClassName = 'Doozr_' . self::$serviceName . '_Service';
+        self::$serviceClassName = 'Doozr_'.self::$serviceName.'_Service';
 
         // Get registry
         self::$registry = Doozr_Registry::getInstance();
@@ -147,8 +142,6 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
      * Test: Generic - if the service is loadable and the existing instance matches the required instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function testEnsureServiceIsLoadable()
     {
@@ -159,8 +152,6 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
      * Cleanup after test execution.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function tearDown()
     {

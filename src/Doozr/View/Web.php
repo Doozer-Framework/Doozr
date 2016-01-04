@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - View - Web
+ * Doozr - View - Web.
  *
  * Web.php - Web specific view for handling HTTP.
  *
@@ -43,29 +44,30 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_View
- * @subpackage Doozr_View_Web
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/View.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/View.php';
 
 /**
- * Doozr - View - Web
+ * Doozr - View - Web.
  *
  * Web specific view for handling HTTP.
  *
  * @category   Doozr
- * @package    Doozr_View
- * @subpackage Doozr_View_Web
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_View_Web extends Doozr_Base_View
@@ -74,7 +76,6 @@ class Doozr_View_Web extends Doozr_Base_View
      * The output mode.
      *
      * @var int
-     * @access protected
      */
     protected $outputMode = PHPTAL::HTML5;
 
@@ -82,7 +83,6 @@ class Doozr_View_Web extends Doozr_Base_View
      * File extension of template files.
      *
      * @var string
-     * @access protected
      */
     protected $templateExtension = 'html';
 
@@ -98,14 +98,15 @@ class Doozr_View_Web extends Doozr_Base_View
      *                                                  Otherwise user specific data can and will be sent to another
      *                                                  user!. So the following rule should be followed:
      *                                                  - generic view/template no user data = fingerprint by
-     *                                                    content/path/url
+     *                                                  content/path/url
      *                                                  - user specific view/template with user data = use
-     *                                                    session-id or user-id!
+     *                                                  session-id or user-id!
      * @param Doozr_I18n_Service_Interface $i18n        An instance of a Doozr I18n service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if successful, otherwise FALSE
-     * @access protected
+     *
      * @throws \Doozr_Base_View_Exception
      */
     protected function render(array $data = [], $fingerprint = null, Doozr_I18n_Service_Interface $i18n = null)
@@ -123,7 +124,6 @@ class Doozr_View_Web extends Doozr_Base_View
         if (true === $this->getCaching()) {
             try {
                 $html = $this->cache->read($this->getFingerprint());
-
             } catch (Doozr_Cache_Service_Exception $exception) {
                 $html = null;
             }
@@ -132,8 +132,8 @@ class Doozr_View_Web extends Doozr_Base_View
         // If data was/could not be retrieved we get it fresh here ...
         if (null === $html) {
             // Get name of template file
-            $templateFile = $this->configuration->kernel->view->template->path .
-                            $this->translateToTemplateFilename() . '.' . $this->getTemplateExtension();
+            $templateFile = $this->configuration->kernel->view->template->path.
+                            $this->translateToTemplateFilename().'.'.$this->getTemplateExtension();
 
             if (false === $this->getRegistry()->getFilesystem()->exists($templateFile)) {
                 throw new Doozr_Base_View_Exception(
@@ -151,12 +151,30 @@ class Doozr_View_Web extends Doozr_Base_View
 
             // If I18n passed -> forward to template engine (e.g. PHPTAL)
             if (null !== $i18n) {
+
+                // Try to load specific namespace/textdomain for PRESENTER+ACTION
                 try {
                     $i18n->useDomain($this->translateToTextdomain());
-
                 } catch (Doozr_I18n_Service_Exception $e) {
+
                     // We don't care but we log for developing purposes
                     $this->getRegistry()->getLogger()->debug($e->getMessage());
+
+                    // Try to load specific namespace/textdomain for PRESENTER
+                    try {
+                        $i18n->useDomain($this->translateToTextdomain(true));
+                    } catch (Doozr_I18n_Service_Exception $e) {
+                        // We don't care but we log for developing purposes
+                        $this->getRegistry()->getLogger()->debug($e->getMessage());
+
+                        // Try to load default namespace/textdomain
+                        try {
+                            $i18n->useDomain($this->getConfiguration()->i18n->default->namespace);
+                        } catch (Doozr_I18n_Service_Exception $e) {
+                            // We don't care but we log for developing purposes
+                            $this->getRegistry()->getLogger()->debug($e->getMessage());
+                        }
+                    }
                 }
 
                 $template->setTranslator($i18n);
@@ -205,8 +223,8 @@ class Doozr_View_Web extends Doozr_Base_View
      * @param string $html The HTML to inject code into
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The HTML including Debugbar.
-     * @access protected
      */
     protected function injectDebugbar($html)
     {
@@ -219,8 +237,8 @@ class Doozr_View_Web extends Doozr_Base_View
         $head = $renderer->renderHead();
         $body = $renderer->render();
 
-        $html = str_replace('</head>', $head . '</head>', $html);
-        $html = str_replace('</body>', $body . '</body>', $html);
+        $html = str_replace('</head>', $head.'</head>', $html);
+        $html = str_replace('</body>', $body.'</body>', $html);
 
         return $html;
     }

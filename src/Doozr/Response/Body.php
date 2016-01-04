@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Response - State - Body
+ * Doozr - Response - State - Body.
  *
  * Body.php - Body stream wrapper.
  *
@@ -43,31 +44,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response_State
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 use Psr\Http\Message\StreamInterface;
 
 /**
- * Doozr - Response - State - Body
+ * Doozr - Response - State - Body.
  *
  * Body stream wrapper.
  *
  * @category   Doozr
- * @package    Doozr_Response
- * @subpackage Doozr_Response_State
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Response_Body extends Doozr_Base_Class
@@ -75,18 +77,16 @@ class Doozr_Response_Body extends Doozr_Base_Class
     StreamInterface
 {
     /**
-     * The resource (PHP) this instance operates on
+     * The resource (PHP) this instance operates on.
      *
      * @var resource
-     * @access protected
      */
     protected $resource;
 
     /**
-     * The stream resource
+     * The stream resource.
      *
      * @var string|resource
-     * @access protected
      */
     protected $stream;
 
@@ -98,11 +98,12 @@ class Doozr_Response_Body extends Doozr_Base_Class
      * Constructor.
      *
      * @param string $stream The stream (name) we will work on
-     * @param string          $mode   Mode with which to open stream
+     * @param string $mode   Mode with which to open stream
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
+     *
      * @return Doozr_Response_Body
+     *
      * @throws InvalidArgumentException
      */
     public function __construct($stream = 'php://memory', $mode = 'r')
@@ -111,7 +112,6 @@ class Doozr_Response_Body extends Doozr_Base_Class
 
         if (is_resource($stream)) {
             $this->resource = $stream;
-
         } elseif (is_string($stream)) {
             set_error_handler(
                 function ($errorNumber, $errorMessage) {
@@ -128,7 +128,6 @@ class Doozr_Response_Body extends Doozr_Base_Class
             );
             $this->resource = fopen($stream, $mode);
             restore_error_handler();
-
         } else {
             throw new \InvalidArgumentException(
                 'Invalid stream provided; must be a string stream identifier or resource'
@@ -151,9 +150,7 @@ class Doozr_Response_Body extends Doozr_Base_Class
             $this->rewind();
 
             return $this->getContents();
-
         } catch (RuntimeException $e) {
-
             return '';
         }
     }
@@ -230,7 +227,7 @@ class Doozr_Response_Body extends Doozr_Base_Class
     public function getSize()
     {
         if (null === $this->resource) {
-            return null;
+            return;
         }
 
         $stats = fstat($this->resource);
@@ -371,7 +368,7 @@ class Doozr_Response_Body extends Doozr_Base_Class
         $meta = stream_get_meta_data($this->resource);
         $mode = $meta['mode'];
 
-        return (strstr($mode, 'r') || strstr($mode, '+'));
+        return strstr($mode, 'r') || strstr($mode, '+');
     }
 
     /**
@@ -430,7 +427,7 @@ class Doozr_Response_Body extends Doozr_Base_Class
 
         $metadata = stream_get_meta_data($this->resource);
         if (!array_key_exists($key, $metadata)) {
-            return null;
+            return;
         }
 
         return $metadata[$key];

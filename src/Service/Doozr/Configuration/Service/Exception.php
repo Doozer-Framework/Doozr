@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Service Config
+ * Doozr - Service - Configuration.
  *
- * Exception.php - Base exception of module Config
+ * Exception.php - Base exception of service "Configuration"
  *
  * PHP versions 5.5
  *
@@ -43,43 +44,44 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Config
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
 /**
- * Doozr Service Config
+ * Doozr - Service - Configuration.
  *
- * Base exception of module Config
+ * Base exception of service "Configuration"
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Config
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Config_Service_Exception extends Doozr_Exception
+class Doozr_Configuration_Service_Exception extends Doozr_Exception
 {
     /**
      * Constructor.
      *
-     * @param string  $message  The exception-message
-     * @param int $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
+     * @param string $message  The exception-message
+     * @param int    $code     The code of the exception
+     * @param object $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Config_Service_Exception instance of this exception
-     * @access public
+     *
+     * @return \Doozr_Configuration_Service_Exception instance of this exception
      */
     public function __construct($message = null, $code = 0, $previous = null)
     {

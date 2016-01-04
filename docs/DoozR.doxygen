@@ -629,7 +629,7 @@ EXCLUDE_PATTERNS       = */Smarty/* \
                          */HTMLPurifier/* \
                          */WURFL/* \
                          */geshi/* \
-                         */DoozR_Purifier/* \
+                         */Doozr_Purifier/* \
                          */Doozr_Ids/* \
                          */Doozr_Deshi/* \
                          */Doozr_Mailer/* \

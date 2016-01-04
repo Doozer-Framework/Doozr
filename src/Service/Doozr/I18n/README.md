@@ -83,7 +83,6 @@ You can edit these files with any text-editor you like. Just place one `key = va
 ### Components / Classes
  - **Service** `Doozr_I18n_Service`
  - **Detector** `Doozr_I18n_Service_Detector`
- - **Installer** `Doozr_I18n_Service_Install` 
  - **Translator** `Doozr_I18n_Service_Translator`
    - **Interface gettext** `Doozr_I18n_Service_Interface_Gettext`
    - **Interface text** `Doozr_I18n_Service_Interface_Text`

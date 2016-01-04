@@ -9,6 +9,8 @@ filter:
         - docs/*
         - src/Service/Doozr/Oauth2/Service/Lib
         - src/Service/Doozr/*
+        - src/Data/*
+        - src/Doozr/Configuration/Hierarchy/*
 
 checks:
     php:
@@ -77,6 +79,8 @@ tools:
                 - vendor/*
                 - src/Service/Doozr/Oauth2/Service/Lib/*
                 - src/Service/Doozr/*
+                - src/Data/*
+                - src/Doozr/Configuration/Hierarchy/*
     php_cpd:
         enabled: true
         excluded_dirs:
@@ -102,6 +106,8 @@ tools:
             - vendor
             - src/Service/Doozr/Oauth2/Service/Lib/*
             - src/Service/Doozr/*
+            - src/Data/*
+            - src/Doozr/Configuration/Hierarchy/*
     php_mess_detector:
         enabled: true
         filter:
@@ -119,6 +125,8 @@ tools:
             - vendor
             - src/Service/Doozr/Oauth2/Service/Lib
             - src/Service/Doozr
+            - src/Data
+            - src/Doozr/Configuration/Hierarchy
     php_analyzer: true
     php_analyzer:
         filter:

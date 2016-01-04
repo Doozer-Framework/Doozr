@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -56,6 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Registry/Interface.php';
 
+use Psr\Cache\CacheItemPoolInterface;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid;
 
@@ -67,7 +68,7 @@ use Ramsey\Uuid\Uuid;
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -613,7 +614,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     /**
      * Setter for cache.
      *
-     * @param Doozr_Cache_Service $cache Instance of cache
+     * @param CacheItemPoolInterface|Doozr_Base_Service_Interface $cache Instance of cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -643,7 +644,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Cache_Service The cache instance
+     * @return CacheItemPoolInterface The cache instance
      */
     public function getCache()
     {
