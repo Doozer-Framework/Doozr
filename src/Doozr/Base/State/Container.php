@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - State - Container
+ * Doozr - Base - State - Container.
  *
  * Container.php - Container for handling storage of state instance.
  *
@@ -43,38 +44,38 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_State
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 /**
- * Doozr - Base - State - Container
+ * Doozr - Base - State - Container.
  *
  * Container for handling storage of state instance.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_State
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_State_Container extends Doozr_Base_Class
 {
     /**
-     * The state object instance
+     * The state object instance.
      *
      * @var Doozr_Base_State
-     * @access protected
      */
     protected $stateObject;
 
@@ -84,12 +85,12 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
      * @param Doozr_Base_State_Interface $stateObject The state object instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Base_State_Container
-     * @access public
      */
     public function __construct(Doozr_Base_State_Interface $stateObject = null)
     {
-        if ($stateObject !== null) {
+        if (null !== $stateObject) {
             $this->setStateObject($stateObject);
         }
     }
@@ -100,8 +101,6 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
      * @param Doozr_Base_State_Interface $stateObject The state object instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     protected function setStateObject(Doozr_Base_State_Interface $stateObject)
     {
@@ -114,12 +113,13 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
      * @param Doozr_Base_State_Interface $stateObject The state object instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Base_State_Container
-     * @access public
      */
     protected function stateObject(Doozr_Base_State_Interface $stateObject)
     {
         $this->setStateObject($stateObject);
+
         return $this;
     }
 
@@ -127,8 +127,8 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
      * Getter for state object.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Base_State The state object instance
-     * @access public
      */
     protected function getStateObject()
     {
@@ -139,8 +139,8 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
      * Exports state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Base_State The state object instance
-     * @access public
      */
     public function export()
     {
@@ -151,8 +151,8 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
      * Dumps state immutable.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Immutable object state as array
-     * @access public
      */
     public function dump()
     {
@@ -165,8 +165,6 @@ class Doozr_Base_State_Container extends Doozr_Base_Class
      * @param Doozr_Base_State_Interface $stateObject
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function import(Doozr_Base_State_Interface $stateObject)
     {

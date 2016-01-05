@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service.
+ * Doozr - I18n - Service
  *
  * Service.php - I18n Service for internationalization and localization.
  *
@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -62,14 +62,14 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * Doozr - I18n - Service.
+ * Doozr - I18n - Service
  *
  * I18n Service for internationalization and localization.
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -150,24 +150,24 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      *
      * @var string
      */
-    const ENCODING_UTF_1 = 'UTF-1';
-    const ENCODING_UTF_5 = 'UTF-5';
-    const ENCODING_UTF_6 = 'UTF-6';
-    const ENCODING_UTF_7 = 'UTF-7';
-    const ENCODING_UTF_8 = 'UTF-8';
-    const ENCODING_UTF_9 = 'UTF-9';
-    const ENCODING_UTF_16 = 'UTF-16';
-    const ENCODING_UTF_18 = 'UTF-18';
-    const ENCODING_UTF_32 = 'UTF-32';
-    const ENCODING_ISO_8859_1 = 'ISO-8859-1';       // west european
-    const ENCODING_ISO_8859_2 = 'ISO-8859-2';       // middle european
-    const ENCODING_ISO_8859_3 = 'ISO-8859-3';       // south european
-    const ENCODING_ISO_8859_4 = 'ISO-8859-4';       // north european
-    const ENCODING_ISO_8859_5 = 'ISO-8859-5';       // cyrillic
-    const ENCODING_ISO_8859_6 = 'ISO-8859-6';       // arabic
-    const ENCODING_ISO_8859_7 = 'ISO-8859-7';       // greece
-    const ENCODING_ISO_8859_8 = 'ISO-8859-8';       // hebrew
-    const ENCODING_ISO_8859_9 = 'ISO-8859-9';       // turkish
+    const ENCODING_UTF_1       = 'UTF-1';
+    const ENCODING_UTF_5       = 'UTF-5';
+    const ENCODING_UTF_6       = 'UTF-6';
+    const ENCODING_UTF_7       = 'UTF-7';
+    const ENCODING_UTF_8       = 'UTF-8';
+    const ENCODING_UTF_9       = 'UTF-9';
+    const ENCODING_UTF_16      = 'UTF-16';
+    const ENCODING_UTF_18      = 'UTF-18';
+    const ENCODING_UTF_32      = 'UTF-32';
+    const ENCODING_ISO_8859_1  = 'ISO-8859-1';       // west european
+    const ENCODING_ISO_8859_2  = 'ISO-8859-2';       // middle european
+    const ENCODING_ISO_8859_3  = 'ISO-8859-3';       // south european
+    const ENCODING_ISO_8859_4  = 'ISO-8859-4';       // north european
+    const ENCODING_ISO_8859_5  = 'ISO-8859-5';       // cyrillic
+    const ENCODING_ISO_8859_6  = 'ISO-8859-6';       // arabic
+    const ENCODING_ISO_8859_7  = 'ISO-8859-7';       // greece
+    const ENCODING_ISO_8859_8  = 'ISO-8859-8';       // hebrew
+    const ENCODING_ISO_8859_9  = 'ISO-8859-9';       // turkish
     const ENCODING_ISO_8859_10 = 'ISO-8859-10';     // nordic
     const ENCODING_ISO_8859_11 = 'ISO-8859-11';     // thai
     const ENCODING_ISO_8859_13 = 'ISO-8859-13';     // baltic
@@ -182,9 +182,9 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      */
     const LOCALIZER_CURRENCY = 'CURRENCY';
     const LOCALIZER_DATETIME = 'DATETIME';
-    const LOCALIZER_MEASURE = 'MEASURE';
-    const LOCALIZER_NUMBER = 'NUMBER';
-    const LOCALIZER_STRING = 'STRING';
+    const LOCALIZER_MEASURE  = 'MEASURE';
+    const LOCALIZER_NUMBER   = 'NUMBER';
+    const LOCALIZER_STRING   = 'STRING';
 
     /**
      * Default formatter of I18n service.
@@ -192,6 +192,10 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * @var string
      */
     const LOCALIZER_DEFAULT = self::LOCALIZER_STRING;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor for services.
@@ -213,6 +217,8 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // Check if requirements fulfilled
         self::checkRequirements();
 
+        #dump(self::getRegistry()->getConfiguration()->i18n);die;
+
         // Store config passed to this instance
         self::$config = $config;
 
@@ -233,6 +239,20 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
+     * Checks for validity of a passed locale string.
+     *
+     * @param string $locale A locale to check for validity (e.g. "de", "de-AT", "en-us", ...)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE if valid, otherwise FALSE
+     */
+    public function isValidLocale($locale = '')
+    {
+        return (preg_match('(^([a-zA-Z]{2})((_|-)[a-zA-Z]{2})?$)', $locale) > 0) ? true : false;
+    }
+
+    /**
      * Returns the available locales defined in config.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -241,7 +261,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      */
     public function getAvailableLocales()
     {
-        return self::$config->i18n->default->available;
+        return object_to_array(self::$config->i18n->default->available);
     }
 
     /**
@@ -396,9 +416,9 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         }
 
         // Check if locale is available on system
-        $availableLocales = object_to_array($this->getAvailableLocales());
+        $availableLocales = $this->getAvailableLocales();
 
-        if (in_array($locale, $availableLocales) === false) {
+        if (false === in_array($locale, $availableLocales)) {
             throw new Doozr_I18n_Service_Exception(
                 sprintf('The locale "%s" is not available by configuration.', $locale)
             );
@@ -422,31 +442,8 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         return $translator;
     }
 
-    /**
-     * Installs gettext like shortcuts _() __() ___().
-     *
-     * @return bool|mixed
-     *
-     * @throws Doozr_I18n_Service_Exception
-     */
-    public function install()
-    {
-        $result = false;
-
-        if (extension_loaded('gettext')) {
-            throw new Doozr_I18n_Service_Exception(
-                'Installation stopped! Please disable gettext extension if you want to use I18n service with '.
-                'shortcut functionality _() | __() | ___()'
-            );
-        } else {
-            $result = include_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Install.php';
-        }
-
-        return $result;
-    }
-
     /*------------------------------------------------------------------------------------------------------------------
-     | PHPTAL Interface fulfillment
+     | FULFILL Doozr_I18n_Service_Interface
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -472,7 +469,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // get valid locales from arguments
         $locales = func_get_args();
-        $locale = isset($locales[0]) ? $locales[0] : null;
+        $locale  = isset($locales[0]) ? $locales[0] : null;
 
         if ($locale !== null) {
             $result = $this->setActiveLocale($locale);
@@ -534,7 +531,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         self::$templateTranslator->setNamespace($domain);
 
-        return array($domain);
+        return [$domain];
     }
 
     /**
@@ -593,6 +590,8 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     /**
      * Getter for variable.
      *
+     * @param string $key The key to return.
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string|null The value of the variable, NULL
@@ -641,14 +640,23 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         $this->setVariable($key, $value);
     }
 
+    /**
+     * Replaces a string with another one in passed string.
+     *
+     * @param string $pattern The pattern to be used for detection
+     * @param string $string  String to work with
+     * @param string $replace Replacement string
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string The resulting string
+     */
     public function replaceVariables($pattern, $string, $replace)
     {
         $count = preg_match($pattern, $string, $result);
 
-        if ($count > 0) {
-            for ($i = 0; $i < count($result); $i += 2) {
-                $string = str_replace($result[$i], $this->getVariable($result[$i + 1]), $string);
-            }
+        for ($i = 0; $i < $count; $i += 2) {
+            $string = str_replace($result[$i], $this->getVariable($result[$i + 1]), $string);
         }
 
         return $string;
@@ -723,7 +731,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // check for redirect of current locale (e.g. from "en-gb" -> "en")
         try {
-            $redirectLocale = $config->redirect->target;
+            $redirectLocale     = $config->redirect->target;
             $this->activeLocale = $redirectLocale;
         } catch (Whoops\Exception\ErrorException $e) {
             $redirectLocale = null;
@@ -733,9 +741,9 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
         // return a valid set of locale, redirect locale and the config
         return [
-            'locale' => $locale,
+            'locale'   => $locale,
             'redirect' => $redirectLocale,
-            'config' => $config,
+            'config'   => $config,
         ];
     }
 
@@ -750,12 +758,6 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     {
         if (!self::$templateTranslator) {
             self::$templateTranslator = $this->getTranslator();
-
-            /*
-            self::$templateTranslator->setNamespace(
-                self::$config->i18n->default->namespace
-            );
-            */
         }
     }
 
@@ -783,14 +785,10 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         return true;
     }
 
-    /*------------------------------------------------------------------------------------------------------------------
-    | Configuration/Management
-    +-----------------------------------------------------------------------------------------------------------------*/
-
     /**
      * Returns the Localization configuration-file (L10n) for passed locale.
      *
-     * This method returns the L10n configuraton from configuration file for passed
+     * This method returns the L10n configuration from configuration file for passed
      * locale if exist. Otherwise an Doozr_I18n_Service_Exception is thrown.
      *
      * @param string $locale The locale to return configuration for
@@ -837,7 +835,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         self::$registry->getContainer()->getMap()->wire(
             [
                 'doozr.filesystem.service' => Doozr_Loader_Serviceloader::load('filesystem'),
-                'doozr.cache.service' => Doozr_Loader_Serviceloader::load(
+                'doozr.cache.service'      => Doozr_Loader_Serviceloader::load(
                     'cache',
                     DOOZR_CACHING_CONTAINER,
                     DOOZR_NAMESPACE_FLAT.'.cache.i18n',
@@ -857,23 +855,5 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         );
 
         return $config;
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public Interface/API (Tools)
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Checks for validity of a passed locale string.
-     *
-     * @param string $locale A locale to check for validity (e.g. "de", "de-AT", "en-us", ...)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return bool TRUE if valid, otherwise FALSE
-     */
-    public function isValidLocale($locale = '')
-    {
-        return (preg_match('(^([a-zA-Z]{2})((_|-)[a-zA-Z]{2})?$)', $locale) > 0) ? true : false;
     }
 }

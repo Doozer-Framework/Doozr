@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Abstract.
+ * Doozr - I18n - Service - Interface - Abstract
  *
  * Abstract.php - I18n Translation Abstract Interface
  *
@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -56,14 +56,14 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 
 /**
- * Doozr - I18n - Service - Interface - Abstract.
+ * Doozr - I18n - Service - Interface - Abstract
  *
  * I18n Translation Abstract Interface
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -212,7 +212,6 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
                 if (true === $this->getCacheEnabled()) {
                     try {
                         $translationTable = self::$cache->read($checksum);
-
                     } catch (Doozr_Cache_Service_Exception $e) {
                         // Intentionally left empty
                     }
@@ -626,6 +625,6 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
     {
         $method = 'buildTranslationtable';
 
-        return (method_exists($instance, $method) && is_callable([$instance, $method]));
+        return method_exists($instance, $method) && is_callable([$instance, $method]);
     }
 }

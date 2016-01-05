@@ -46,7 +46,7 @@
  * @package    Doozr_Tool
  * @subpackage Doozr_Tool_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -63,7 +63,7 @@ require_once 'Doozr/Tool/Abstract.php';
  * @package    Doozr_Tool
  * @subpackage Doozr_Tool_Cache
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -77,8 +77,9 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      * @access protected
      */
     protected $validScopes = array(
-        self::SCOPE_DOOZR,                  // Everything
-        self::SCOPE_DOOZR_CACHE,            // Default namespace
+        self::SCOPE_EVERYTHING,             // Everything
+        self::SCOPE_DOOZR,                  // Alias for *
+        self::SCOPE_DOOZR_CACHE,            // Default scope
         self::SCOPE_DOOZR_ROUTES,           // Routing Matrix
         self::SCOPE_DOOZR_CONFIG,           // Configuration(s)
         self::SCOPE_DOOZR_I18N,             // Translations
@@ -108,8 +109,8 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      * @access public
      */
     const SCOPE_EVERYTHING    = '*';                         // <= Everything/Generic
-    const SCOPE_DOOZR         = 'doozr';                     // <= Doozr root namespace
-    const SCOPE_DOOZR_CACHE   = 'doozr.cache';               // <= Default caching namespace of Service Cache
+    const SCOPE_DOOZR         = 'doozr';                     // <= Doozr root scope
+    const SCOPE_DOOZR_CACHE   = 'doozr.cache';               // <= Default caching scope of Service Cache
     const SCOPE_DOOZR_CONFIG  = 'doozr.cache.configuration'; // <= Configuration of Doozr
     const SCOPE_DOOZR_ROUTES  = 'doozr.cache.routes';        // <= Routes of the Doozr Installation
     const SCOPE_DOOZR_I18N    = 'doozr.cache.i18n';          // <= Translations
@@ -130,8 +131,9 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      */
     protected function execute($injectedCommand = null)
     {
-        $longs  = $this->getLongs();
-        $shorts = $this->getShorts();
+        $longs     = $this->getLongs();
+        $shorts    = $this->getShorts();
+        $arguments = $this->getArguments();
 
         // First check for help requested as long or short
         if ((isset($longs['help']) && $longs['help'] === true) || (isset($shorts['h']) && $shorts['h'] === 1)) {
@@ -152,6 +154,13 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
                 $argumentBag[$name] = $value;
             }
         }
+
+        /*
+        $arguments = array_unique($arguments);
+        foreach ($arguments as $keyValuePair) {
+            $keyValue = explode(':', $keyValuePair);
+            $argumentBag[$keyValue[0]] = $keyValue[1];
+        }*/
 
         if ($injectedCommand !== null) {
             $result = $this->dispatchCommand($injectedCommand, $argumentBag);
@@ -193,13 +202,13 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
         $arguments = null;
 
         // Multicommand?
-        $arguments = explode(':', $command);
+        $arguments = explode(self::ARGUMENT_SEPARATOR, $command);
 
         if (count($arguments) > 1) {
             $command = array_shift($arguments);
         } else {
-            // Extract the namespace (scope for action)
-            $arguments = $argumentBag['namespace'];
+            // Extract the scope (scope for action)
+            $arguments = $argumentBag['scope'];
         }
 
         switch ($command) {
@@ -228,7 +237,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
     /**
      * Purges content from cache.
      *
-     * @param array $namespaces  The namespace to purge content for.
+     * @param array $scopes  The scope to purge content for.
      * @param array $argumentBag The arguments bag
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -237,37 +246,67 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      * @throws Doozr_Exception
      */
     protected function purge(
-        array $namespaces  = [self::SCOPE_EVERYTHING],
+        array $scopes  = [self::SCOPE_EVERYTHING],
         array $argumentBag = []
     ) {
         $result = 0;
 
-        // Iterate the namespaces passed ...
-        foreach ($namespaces as $namespace) {
+        // Iterate the scopes passed ...
+        foreach ($scopes as $scope) {
 
-            // Build namespace for cache
-            if (false === in_array($namespace, $this->validScopes)) {
+            // Build scope for cache
+            if (false === in_array($scope, $this->validScopes)) {
                 throw new Doozr_Exception(
-                    sprintf('Scope %s not allowed!', $namespace)
+                    sprintf('Scope %s not allowed!', $scope)
                 );
             }
 
-            /* @var Doozr_Cache_Service $cache */
-            $cache = Doozr_Loader_Serviceloader::load(
-                'cache',
-                DOOZR_CACHING_CONTAINER,
-                $namespace,
-                [],
+            // Check for multi scope
+            if (self::SCOPE_EVERYTHING === $scope) {
+                $scope = $this->validScopes;
+                array_shift($scope);
+
+            } else {
+                $scope = [$scope];
+            }
+
+            $app = Doozr_Kernel_App::boot(
+                DOOZR_APP_ENVIRONMENT,
+                DOOZR_RUNTIME_ENVIRONMENT,
                 DOOZR_UNIX,
-                DOOZR_CACHING
+                DOOZR_DEBUGGING,
+                DOOZR_CACHING,
+                DOOZR_CACHING_CONTAINER,
+                DOOZR_LOGGING,
+                DOOZR_PROFILING,
+                DOOZR_APP_ROOT,
+                DOOZR_APP_NAMESPACE,
+                DOOZR_DIRECTORY_TEMP,
+                DOOZR_DOCUMENT_ROOT,
+                DOOZR_NAMESPACE,
+                DOOZR_NAMESPACE_FLAT
             );
 
-            // We can purge simply everything from passed namespace!
-            try {
-                $result += $cache->garbageCollection($namespace, -1, true);
+            // Scope
+            foreach ($scope as $singleScope) {
 
-            } catch (Exception $exception) {
-                break;
+                /* @var Doozr_Cache_Service $cache */
+                $cache = Doozr_Loader_Serviceloader::load(
+                    'cache',
+                    DOOZR_CACHING_CONTAINER,
+                    $singleScope,
+                    [],
+                    DOOZR_UNIX,
+                    DOOZR_CACHING
+                );
+
+                // We can purge simply everything from passed scope!
+                try {
+                    $result += $cache->garbageCollection($singleScope, -1, true);
+
+                } catch (Exception $exception) {
+                    break;
+                }
             }
         }
 
@@ -277,7 +316,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
     /**
      * Prepares content for the cache = warmup.
      *
-     * @param string $namespace   The namespace to warmup content for.
+     * @param string $scope   The scope to warmup content for.
      * @param array  $argumentBag The arguments bag
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -285,7 +324,7 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
      * @access protected
      */
     protected function warmup(
-              $namespace   = self::SCOPE_EVERYTHING,
+              $scope   = self::SCOPE_EVERYTHING,
         array $argumentBag = []
     ) {
         dump(__METHOD__);

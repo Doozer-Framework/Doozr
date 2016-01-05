@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base Model Interface
+ * Doozr - Base Model Interface.
  *
  * Interface.php - Base Model Interface of the Doozr Framework
  *
@@ -43,51 +44,51 @@
  * Please feel free to contact us via e-mail: <opensource@clickalicious.de>
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Base Model Interface
+ * Doozr - Base Model Interface.
  *
  * Base Model Interface of the Doozr Framework
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Model
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Base_Model_Interface
 {
     /**
-     * storages data
+     * storages data.
      *
      * This method should store the data in a way that it can be retrieved in
      * further processing e.g. for dispatch-process.
      *
      * @param mixed $data The data to store
      *
-     * @return  boolean TRUE if storing was successful, otherwise FALSE
-     * @access  public
+     * @return bool TRUE if storing was successful, otherwise FALSE
      */
     public function setData($data);
 
     /**
-     * returns data
+     * returns data.
      *
      * This method should return the data which was stored via setData.
      *
-     * @return  mixed The data
-     * @access  public
+     * @return mixed The data
      */
     public function getData();
 }
