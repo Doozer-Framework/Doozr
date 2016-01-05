@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Abstract.
+ * Doozr - I18n - Service - Localize - Abstract
  *
  * Abstract.php - Abstract base class for formatter of the I18n module
  *
@@ -56,7 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 /**
- * Doozr - I18n - Service - Localize - Abstract.
+ * Doozr - I18n - Service - Localize - Abstract
  *
  * Abstract base class for Localizeter of the I18n module
  *

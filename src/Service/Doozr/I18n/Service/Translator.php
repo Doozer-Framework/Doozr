@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n.
+ * Doozr - I18n - Service - Translator
  *
  * Translator.php - Translator is responsible for translation within module I18n.
  *
@@ -56,7 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 /**
- * Doozr - Service - I18n.
+ * Doozr - I18n - Service - Translator
  *
  * Translator is responsible for translation within the module I18n
  *

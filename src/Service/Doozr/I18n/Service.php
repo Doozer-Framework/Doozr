@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service.
+ * Doozr - I18n - Service
  *
  * Service.php - I18n Service for internationalization and localization.
  *
@@ -62,7 +62,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * Doozr - I18n - Service.
+ * Doozr - I18n - Service
  *
  * I18n Service for internationalization and localization.
  *
@@ -193,6 +193,10 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      */
     const LOCALIZER_DEFAULT = self::LOCALIZER_STRING;
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Constructor for services.
      *
@@ -213,6 +217,8 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // Check if requirements fulfilled
         self::checkRequirements();
 
+        #dump(self::getRegistry()->getConfiguration()->i18n);die;
+
         // Store config passed to this instance
         self::$config = $config;
 
@@ -231,6 +237,20 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     /*------------------------------------------------------------------------------------------------------------------
      | PUBLIC API
      +----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Checks for validity of a passed locale string.
+     *
+     * @param string $locale A locale to check for validity (e.g. "de", "de-AT", "en-us", ...)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE if valid, otherwise FALSE
+     */
+    public function isValidLocale($locale = '')
+    {
+        return (preg_match('(^([a-zA-Z]{2})((_|-)[a-zA-Z]{2})?$)', $locale) > 0) ? true : false;
+    }
 
     /**
      * Returns the available locales defined in config.
@@ -423,7 +443,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-     | PHPTAL Interface fulfillment
+     | FULFILL Doozr_I18n_Service_Interface
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -569,6 +589,8 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
 
     /**
      * Getter for variable.
+     *
+     * @param string $key The key to return.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -763,14 +785,10 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         return true;
     }
 
-    /*------------------------------------------------------------------------------------------------------------------
-    | Configuration/Management
-    +-----------------------------------------------------------------------------------------------------------------*/
-
     /**
      * Returns the Localization configuration-file (L10n) for passed locale.
      *
-     * This method returns the L10n configuraton from configuration file for passed
+     * This method returns the L10n configuration from configuration file for passed
      * locale if exist. Otherwise an Doozr_I18n_Service_Exception is thrown.
      *
      * @param string $locale The locale to return configuration for
@@ -837,23 +855,5 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         );
 
         return $config;
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public Interface/API (Tools)
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Checks for validity of a passed locale string.
-     *
-     * @param string $locale A locale to check for validity (e.g. "de", "de-AT", "en-us", ...)
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return bool TRUE if valid, otherwise FALSE
-     */
-    public function isValidLocale($locale = '')
-    {
-        return (preg_match('(^([a-zA-Z]{2})((_|-)[a-zA-Z]{2})?$)', $locale) > 0) ? true : false;
     }
 }

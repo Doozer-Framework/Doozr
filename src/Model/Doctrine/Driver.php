@@ -88,7 +88,7 @@ class Driver extends \Doozr_Base_Model_Driver
     /**
      * The install routine of the driver. All available information for the driver is passed as configuration.
      *
-     * @param array|null $driverConfiguration Configuration of model
+     * @param array $driverConfiguration Configuration of model
      *
      * @throws \Doctrine\ORM\ORMException
      *
@@ -97,7 +97,7 @@ class Driver extends \Doozr_Base_Model_Driver
      * @return EntityManager[] An collection of EntityManagers indexed by connection Id
      * @static
      */
-    public static function install(array $driverConfiguration = null)
+    public static function install(array $driverConfiguration)
     {
         // Check if input is valid
         if (false === self::validate($driverConfiguration, ['classes'])) {

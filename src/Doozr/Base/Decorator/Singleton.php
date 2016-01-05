@@ -75,7 +75,7 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
     /**
      * Configuration for decorator.
      *
-     * @var array
+     * @var array|bool
      */
     protected $configuration;
 

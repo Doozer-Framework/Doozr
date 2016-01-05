@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Test - Fixtures.
+ * Doozr - I18n - Service - Test - Fixture
  *
- * Fixtures.php - Fixtures for tests of Doozr I18n Service.
+ * Fixture.php - Fixtures for tests of Doozr I18n Service.
  *
  * PHP versions 5.5
  *
@@ -55,7 +55,7 @@
  */
 
 /**
- * Doozr - Service - I18n - Test - Fixtures.
+ * Doozr - Service - I18n - Test - Fixture
  *
  * Fixture for tests of Doozr I18n Service.
  *

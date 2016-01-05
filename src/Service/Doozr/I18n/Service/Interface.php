@@ -3,10 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service.
+ * Doozr - I18n - Service - Interface
  *
- * Interface.php - This interface is a contract for dependencies
- * outside e.g.
+ * Interface.php - This interface is a contract for dependencies outside.
  *
  * PHP versions 5.5
  *
@@ -56,10 +55,9 @@
  */
 
 /**
- * Doozr - I18n - Service.
+ * Doozr - I18n - Service - Interface
  *
- * Interface.php - This interface is a contract for dependencies
- * outside e.g.
+ * This interface is a contract for dependencies outside.
  *
  * @category   Doozr
  *
@@ -213,10 +211,6 @@ interface Doozr_I18n_Service_Interface extends PHPTAL_TranslationService
      * @return string The resulting string
      */
     public function replaceVariables($pattern, $string, $replace);
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public Interface/API (Tools)
-    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Checks for validity of a passed locale string.

@@ -157,6 +157,10 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      */
     protected $url;
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Constructor.
      *
@@ -195,6 +199,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
         );
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
+        /*
         if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
             $result = $this->__tearup($this->getRoute());
 
@@ -204,7 +209,118 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
                     var_export($result, true)
                 );
             }
-        }
+        }*/
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * This method (container) is intend to set the data for a requested mode.
+     *
+     * @param mixed $data The data (array preferred) to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return mixed The data from processing
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        // Notify observers about new data
+        return $this->notify();
+    }
+
+    /**
+     * Setter for data.
+     *
+     * @param mixed $data The data to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function data($data)
+    {
+        $this->setData($data);
+
+        return $this;
+    }
+
+    /**
+     * This method (container) is intend to return the data for a requested mode.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return mixed The data for the mode requested
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * This method is intend to call the teardown method of a model if exist.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return mixed The result of magic destruct replacement
+     */
+    public function __destruct()
+    {
+        return $this->__teardown();
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAGIC METHODS
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * __construct replacement for Presenter.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool Must return TRUE in case of success, otherwise FALSE
+     */
+    protected function __tearup()
+    {
+        return true;
+    }
+
+    /**
+     * __destruct replacement for Presenter.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool Must return TRUE in case of success, otherwise FALSE
+     */
+    protected function __teardown()
+    {
+        return true;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    public function type($type)
+    {
+        $this->setType($type);
+
+        return $this;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -282,7 +398,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
      *
      * @return Doozr_Request_Route_State The route
      */
-    public function getRoute()
+    protected function getRoute()
     {
         return $this->route;
     }
@@ -321,51 +437,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     protected function getModel()
     {
         return $this->model;
-    }
-
-    /**
-     * This method (container) is intend to set the data for a requested mode.
-     *
-     * @param mixed $data The data (array preferred) to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return mixed The data from processing
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-
-        // Notify observers about new data
-        return $this->notify();
-    }
-
-    /**
-     * Setter for data.
-     *
-     * @param mixed $data The data to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    public function data($data)
-    {
-        $this->setData($data);
-
-        return $this;
-    }
-
-    /**
-     * This method (container) is intend to return the data for a requested mode.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return mixed The data for the mode requested
-     */
-    public function getData()
-    {
-        return $this->data;
     }
 
     /**
@@ -448,24 +519,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     protected function getConfiguration()
     {
         return $this->configuration;
-    }
-
-
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    public function type($type)
-    {
-        $this->setType($type);
-
-        return $this;
-    }
-
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**
@@ -797,18 +850,5 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     {
         // runs all the stuff required to setup the API service
         return $this;
-    }
-
-    /**
-     * This method is intend to call the teardown method of a model if exist.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function __destruct()
-    {
-        // check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if (true === $this->hasMethod('__teardown') && true === is_callable([$this, '__teardown'])) {
-            $this->__teardown();
-        }
     }
 }

@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Gettext.
+ * Doozr - I18n - Service - Interface - Gettext
  *
  * Gettext.php - Translation interface to => gettext™
  *
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Abstract.
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Interface.php';
 
 /**
- * Doozr - I18n - Service - Interface - Gettext.
+ * Doozr - I18n - Service - Interface - Gettext
  *
  * Gettext.php - Translation interface to => gettext™
  *

@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n - Test - Detector.
+ * Doozr - I18n - Service - DetectorTest
  *
  * DetectorTest.php - Tests for Detector of the Doozr I18n Service.
  *
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/tests/Resource/Fixture.php';
 
 /**
- * Doozr - Service - I18n - Test - Detector.
+ * Doozr - I18n - Service - DetectorTest
  *
  * Tests for Detector of the Doozr I18n Service.
  *

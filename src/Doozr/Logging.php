@@ -332,6 +332,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      */
     public function notify($event = null)
     {
+        /* @var Doozr_Base_Crud_Interface $observer */
         foreach ($this->observer as $observer) {
             $observer->update($this, $event);
         }

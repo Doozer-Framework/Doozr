@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Abstract.
+ * Doozr - I18n - Service - Interface - Abstract
  *
  * Abstract.php - I18n Translation Abstract Interface
  *
@@ -56,7 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 
 /**
- * Doozr - I18n - Service - Interface - Abstract.
+ * Doozr - I18n - Service - Interface - Abstract
  *
  * I18n Translation Abstract Interface
  *

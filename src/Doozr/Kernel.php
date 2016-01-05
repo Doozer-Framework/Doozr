@@ -72,7 +72,6 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Debugging.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Security.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Model.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Arguments.php';
-require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Cache/Service/Exception.php';
 
 use DebugBar\StandardDebugBar;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -117,7 +116,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     /**
      * Instance of service DateTime.
      *
-     * @var Doozr_Datetime_Service|Doozr_Base_Service_Interface
+     * @var Doozr_Datetime_Service
      * @static
      */
     protected static $dateTime;

@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Datetime.
+ * Doozr - I18n - Service - Localize - Datetime
  *
  * Datetime.php - Datetime formatter
  *
@@ -56,7 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * Doozr - I18n - Service - Localize - Datetime.
+ * Doozr - I18n - Service - Localize - Datetime
  *
  * Datetime formatter
  *

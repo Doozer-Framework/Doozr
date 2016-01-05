@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Interface.
+ * Doozr - I18n - Service - Interface - Interface
  *
  * Interface.php - I18n Translation Base Interface
  *
@@ -55,7 +55,7 @@
  */
 
 /**
- * Doozr - I18n - Service - Interface - Base.
+ * Doozr - I18n - Service - Interface - Interface
  *
  * I18n Translation Base Interface
  *

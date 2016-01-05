@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Detector.
+ * Doozr - I18n - Service - Detector
  *
  * Detector.php - Locale detection part of the I18n service.
  *
@@ -56,7 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 
 /**
- * Doozr - I18n - Service - Detector.
+ * Doozr - I18n - Service - Detector
  *
  * Locale detection part of the I18n service.
  *

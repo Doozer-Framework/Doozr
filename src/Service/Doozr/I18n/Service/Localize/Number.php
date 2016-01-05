@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Number.
+ * Doozr - I18n - Service - Localize - Number
  *
  * Number.php - This localizer is responsible to localize (L10N) values of type number.
  *
@@ -56,7 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * Doozr - I18n - Service - Localize - Number.
+ * Doozr - I18n - Service - Localize - Number
  *
  * This localizer is responsible to localize (L10N) values of type number.
  *

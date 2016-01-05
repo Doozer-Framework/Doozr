@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n.
+ * Doozr - I18n - Service - Exception
  *
  * Exception.php - Base exception of module I18n
  *
@@ -56,7 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
 /**
- * Doozr Service I18n.
+ * Doozr - I18n - Service - Exception
  *
  * Base exception of module I18n
  *

@@ -56,6 +56,8 @@
 require_once 'Doozr/Base/Class.php';
 
 use donatj\Flags;
+use donatj\Exceptions\InvalidFlagParamException;
+use donatj\Exceptions\InvalidFlagTypeException;
 
 /**
  * Doozr - Tool - Abstract.
@@ -93,7 +95,7 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
     /**
      * The configuration of flags supported for this CLI.
      *
-     * @var donatj\Flags
+     * @var Flags
      */
     protected $flags;
 
@@ -135,15 +137,13 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
     /**
      * Constructor.
      *
-     * @param Flags  $flags             The Flags instance for handling arguments from CLI.
-     * @param string $name              The name of this CLI
-     * @param string $version           The version of this CLI
+     * @param Flags  $flags             Flags instance for handling arguments from CLI.
+     * @param string $name              Name of CLI
+     * @param string $version           Version of this CLI
      * @param array  $flagConfiguration Configuration for the flags
-     * @param null   $injectCommand
+     * @param null   $injectCommand     Injected command
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return Doozr_Tool_Abstract
      */
     public function __construct(
         Flags $flags,
@@ -226,13 +226,10 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
                 ->longs($this->getFlags()->longs())
                 ->shorts($this->getFlags()->shorts())
                 ->arguments($this->getFlags()->args());
-
-        } catch (donatj\Exceptions\InvalidFlagParamException $e) {
+        } catch (InvalidFlagParamException $e) {
             $this->showHelp($e->getMessage());
-
-        } catch (donatj\Exceptions\InvalidFlagTypeException $e) {
+        } catch (InvalidFlagTypeException $e) {
             $this->showHelp($e->getMessage());
-
         }
 
         return $this;
@@ -394,11 +391,11 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
     /**
      * Setter for flags.
      *
-     * @param string $flags The flags of CLI.
+     * @param Flags $flags The flags of CLI.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setFlags($flags)
+    protected function setFlags(Flags $flags)
     {
         $this->flags = $flags;
     }
@@ -406,13 +403,13 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
     /**
      * Setter for flags.
      *
-     * @param string $flags The flags of CLI.
+     * @param Flags $flags The flags of CLI.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function flags($flags)
+    protected function flags(Flags $flags)
     {
         $this->flags = $flags;
 
@@ -424,7 +421,7 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return donatj\Flags The flags
+     * @return Flags The flags
      */
     protected function getFlags()
     {
@@ -554,11 +551,11 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
     /**
      * Setter for flagConfiguration.
      *
-     * @param string $flagConfiguration The flagConfiguration of CLI.
+     * @param array $flagConfiguration The flagConfiguration of CLI.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setFlagConfiguration($flagConfiguration)
+    protected function setFlagConfiguration(array $flagConfiguration)
     {
         $this->flagConfiguration = $flagConfiguration;
     }
@@ -566,13 +563,13 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
     /**
      * Setter for flagConfiguration.
      *
-     * @param string $flagConfiguration The flagConfiguration of CLI.
+     * @param array $flagConfiguration The flagConfiguration of CLI.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function flagConfiguration($flagConfiguration)
+    protected function flagConfiguration(array $flagConfiguration)
     {
         $this->flagConfiguration = $flagConfiguration;
 
@@ -582,14 +579,17 @@ abstract class Doozr_Tool_Abstract extends Doozr_Base_Class
     /**
      * Getter for flagConfiguration.
      *
+     * @param string|null $key Single key to return flagConfiguration for, or NULL to return whole configuration
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The flagConfiguration
+     * @return array The flagConfiguration
      */
     protected function getFlagConfiguration($key = null)
     {
-        if ($key !== null) {
+        if (null !== $key) {
             $result = (isset($this->flagConfiguration[$key])) ? $this->flagConfiguration[$key] : null;
+
         } else {
             $result = $this->flagConfiguration;
         }

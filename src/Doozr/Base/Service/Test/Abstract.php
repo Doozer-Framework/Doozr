@@ -93,7 +93,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     /**
      * The Doozr Kernel instance.
      *
-     * @var Doozr_Kernel
+     * @var \Doozr_Kernel_App
      */
     protected static $kernel;
 
