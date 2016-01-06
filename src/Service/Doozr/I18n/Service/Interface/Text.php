@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Text.
+ * Doozr - I18n - Service - Interface - Text
  *
  * Text.php - Translation-Interface to text
  *
@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -57,14 +57,14 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Abstract.
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Interface.php';
 
 /**
- * Doozr - I18n - Service - Interface - Text.
+ * Doozr - I18n - Service - Interface - Text
  *
  * Translation-Interface to text
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -150,7 +150,7 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
         // check if locale was prepared before
         if (!isset(self::$translations[$locale])) {
             self::$translations[$locale] = [];
-            $fresh = true;
+            $fresh                       = true;
         }
 
         // Iterate namespaces and parse ...
@@ -207,7 +207,7 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
             $line = fgets($fileHandle);
 
             if (!$line === false && strlen(trim($line))) {
-                $parts = explode('=', $line);
+                $parts                        = explode('=', $line);
                 $result[md5(trim($parts[0]))] = trim($parts[1]);
             }
         }

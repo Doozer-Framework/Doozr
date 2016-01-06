@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - Form - Test
+ * Doozr - Configuration - Hierarchy - Session - Security - Bind - Domain.
  *
- * FormServiceTest.php - Tests for Service instance of Doozr Form Service.
+ * Domain.php - The "domain" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -43,47 +44,46 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Test/Abstract.php';
 
 /**
- * Doozr - Service - Form - Test
+ * Doozr - Configuration - Hierarchy - Session - Security - Bind - Domain.
  *
- * Tests for Service instance of Doozr Form Service.
+ * The "domain" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class FormServiceTest extends Doozr_Base_Service_Test_Abstract
+class Doozr_Configuration_Hierarchy_Session_Security_Bind_Domain
 {
     /**
-     * Prepares setup for Tests of "Form"
+     * Whether the session (cookie) should be bind to the domain.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     * @var bool
      */
-    protected function setUp()
-    {
-        self::$serviceName = 'Form';
-        parent::setUp();
+    public $enabled = true;
 
-        // Load service
-        self::$service = Doozr_Loader_Serviceloader::load(self::$serviceName, $sessionMock);
-    }
-
+    /**
+     * The mode for binding.
+     *
+     * @example "subdomain" = foo.bar.com
+     *
+     * @var string
+     */
+    public $mode = 'subdomain';
 }

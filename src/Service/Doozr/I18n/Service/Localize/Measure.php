@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Measure.
+ * Doozr - I18n - Service - Localize - Measure
  *
  * Measure.php - Measurement formatter
  *
@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -56,14 +56,14 @@
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * Doozr - I18n - Service - Localize - Measure.
+ * Doozr - I18n - Service - Localize - Measure
  *
  * Measurement formatter.
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -162,11 +162,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
     {
         // set if given system is valid
         if ($this->isValidMeasureSystem($system) === true) {
-            return ($this->input = $system);
+            return $this->input = $system;
         }
 
         // otherwise set default measure-system of I10n
-        return ($this->input = $this->getConfiguration()->measure->measure_system);
+        return $this->input = $this->getConfiguration()->measure->measure_system;
     }
 
     /**
@@ -194,11 +194,11 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
     {
         // set if given system is valid
         if ($this->isValidMeasureSystem($system) === true) {
-            return ($this->output = $system);
+            return $this->output = $system;
         }
 
         // otherwise set default measure-system of I10n
-        return ($this->output = $this->getConfiguration()->measure->measure_system);
+        return $this->output = $this->getConfiguration()->measure->measure_system;
     }
 
     /**
@@ -285,15 +285,15 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      */
     public function liquid($input = 0, $inputFormat = 0, $outputFormat = 0)
     {
-        $input = (float) $this->liquidDownsize($input, $inputFormat);
+        $input  = (float) $this->liquidDownsize($input, $inputFormat);
         $format = (int) $this->validUnit(7, $outputFormat);
 
         if ($this->input == 'si' && $this->output == 'si') {
             $formats = ['ml', 'cl', 'dl', 'l', 'dal', 'hl', 'hl', 'hl'];
-            $div = [1, 10, 100, 1000, 10000, 100000, 100000, 100000];
+            $div     = [1, 10, 100, 1000, 10000, 100000, 100000, 100000];
         } elseif ($this->input == 'si' && $this->output == 'uscs') {
             $formats = ['min', 'fldr', 'floz', 'gi', 'pt', 'qt', 'gal', 'barrel'];
-            $div = [
+            $div     = [
                     0.00048133998891762809516053073702394,
                     3.6966912,
                     29.57353,
@@ -305,10 +305,10 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
                 ];
         } elseif ($this->input == 'uscs' && $this->output == 'si') {
             $formats = ['ml', 'cl', 'dl', 'l', 'dal', 'hl', 'hl', 'hl'];
-            $div = [2077.5336, 20775.336, 207753.36, 2077533.6, 20775336, 207753360, 207753360, 207753360];
+            $div     = [2077.5336, 20775.336, 207753.36, 2077533.6, 20775336, 207753360, 207753360, 207753360];
         } elseif ($this->input == 'uscs' && $this->output == 'uscs') {
             $formats = ['min', 'fldr', 'floz', 'gi', 'pt', 'qt', 'gal', 'barrel'];
-            $div = [1, 7680, 61440, 245760, 983040, 1966080, 7864320, 330301440];
+            $div     = [1, 7680, 61440, 245760, 983040, 1966080, 7864320, 330301440];
         }
 
         $this->displayFormat = (string) $formats[$format];
@@ -337,25 +337,25 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      */
     public function linear($input = 0, $inputFormat = 0, $outputFormat = 0)
     {
-        $input = (float) $this->linearDownsize($input, $inputFormat);
+        $input  = (float) $this->linearDownsize($input, $inputFormat);
         $format = (int) $this->validUnit(4, $outputFormat);
 
         if ($this->input == 'si' && $this->output == 'si') {
             $formats = ['mm', 'cm', 'dm', 'm', 'km'];
-            $div = [1, 10, 100, 1000, 1000000];
-            $output = (float) $input / $div[$format];
+            $div     = [1, 10, 100, 1000, 1000000];
+            $output  = (float) $input / $div[$format];
         } elseif ($this->input == 'si' && $this->output == 'uscs') {
             $formats = ['in', 'ft', 'yd', 'fur', 'mi'];
-            $div = [25.4, 304.8, 914.4, 201168, 1609344];
-            $output = (float) $input / $div[$format];
+            $div     = [25.4, 304.8, 914.4, 201168, 1609344];
+            $output  = (float) $input / $div[$format];
         } elseif ($this->input == 'uscs' && $this->output == 'si') {
             $formats = ['mm', 'cm', 'dm', 'm', 'km'];
-            $div = [25.4, 2.54, 0.254, 0.0254, 0.0000254];
-            $output = (float) $input * $div[$format];
+            $div     = [25.4, 2.54, 0.254, 0.0254, 0.0000254];
+            $output  = (float) $input * $div[$format];
         } elseif ($this->input == 'uscs' && $this->output == 'uscs') {
             $formats = ['in', 'ft', 'yd', 'fur', 'mi'];
-            $div = [1, 12, 36, 7920, 63360];
-            $output = (float) $input / $div[$format];
+            $div     = [1, 12, 36, 7920, 63360];
+            $output  = (float) $input / $div[$format];
         }
 
         $this->displayFormat = (string) $formats[$format];
@@ -378,16 +378,16 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
 
         if ($this->input == 'si' && $this->output == 'si') {
             $this->displayFormat = 'C';
-            $output = (float) $input;
+            $output              = (float) $input;
         } elseif ($this->input == 'si' && $this->output == 'uscs') {
             $this->displayFormat = 'F';
-            $output = (float) ((($input / 5) * 9) + 32);
+            $output              = (float) ((($input / 5) * 9) + 32);
         } elseif ($this->input == 'uscs' && $this->output == 'si') {
             $this->displayFormat = 'C';
-            $output = (float) ((($input - 32) / 9) * 5);
+            $output              = (float) ((($input - 32) / 9) * 5);
         } elseif ($this->input == 'uscs' && $this->output == 'uscs') {
             $this->displayFormat = 'F';
-            $output = (float) $input;
+            $output              = (float) $input;
         }
 
         return (float) $output;

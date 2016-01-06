@@ -1,0 +1,8 @@
+{
+  "crypt": {
+    "cipher":  {
+      "default": "aes",
+      "available": ["aes"]
+    }
+  }
+}

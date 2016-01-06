@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - I18n.
+ * Doozr - I18n - Service - Translator
  *
  * Translator.php - Translator is responsible for translation within module I18n.
  *
@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -56,14 +56,14 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 /**
- * Doozr - Service - I18n.
+ * Doozr - I18n - Service - Translator
  *
  * Translator is responsible for translation within the module I18n
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -691,7 +691,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
         // Store
         $this->setNamespaces($namespace);
 
-        // and trigger namespace changed
+        // Trigger namespace changed
         $this->namespaceChanged();
 
         return true;

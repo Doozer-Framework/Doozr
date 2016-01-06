@@ -46,7 +46,7 @@
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Tools
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -63,7 +63,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Development.php';
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Tools
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -282,7 +282,7 @@ class Doozr_Base_Tools extends Doozr_Base_Development
                     }
 
                     // check for instantiation
-                    if (strpos($methodSourcecode, 'n'.'e'.'w '.'s'.'elf(') || strpos($methodSourcecode, 'new '.$classname.'(')) {
+                    if (strpos($methodSourcecode, 'ne'.'w s'.'elf(') || strpos($methodSourcecode, 'new '.$classname.'(')) {
                         $constructor = $possibleConstructor->name;
                         break;
                     }
@@ -290,8 +290,9 @@ class Doozr_Base_Tools extends Doozr_Base_Development
             }
 
             // and finally instantiate
-            if (is_null($arguments)) {
+            if (null === $arguments) {
                 return call_user_func($classname.'::'.$constructor);
+
             } else {
                 // parameter!
                 if (is_array($arguments)) {
