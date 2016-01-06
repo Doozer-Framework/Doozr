@@ -376,11 +376,13 @@ class Doozr_Crypt_Service_Container_Aes extends Doozr_Crypt_Service_Container
         $xsize = strlen($x);
         for ($i = 0; $i < $xsize; $i += 16) {
             for ($j = 0; $j < 16; ++$j) {
+                // @codeCoverageIgnoreStart
                 if (($i + $j) < $xsize) {
                     $t[$j] = $x[$i + $j];
                 } else {
                     $t[$j] = chr(0);
                 }
+                // @codeCoverageIgnoreEnd
             }
 
             $y .= $this->encryptBlock($t);
