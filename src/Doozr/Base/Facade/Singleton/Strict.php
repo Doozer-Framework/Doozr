@@ -46,7 +46,7 @@
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Facade
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -63,17 +63,13 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Facade
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_Facade_Singleton_Strict extends Doozr_Base_Class_Singleton_Strict
 {
-    /*******************************************************************************************************************
-     * // BEGIN GENERIC FACADE
-     ******************************************************************************************************************/
-
     /**
      * This method is intend to act as generic facade - for all non-implemented methods
      *
@@ -87,7 +83,7 @@ class Doozr_Base_Facade_Singleton_Strict extends Doozr_Base_Class_Singleton_Stri
     public function __call($signature, $arguments)
     {
         // analyze the basics of current ghost-call and define consts ...
-        $this->_getChild();
+        $this->getChild();
 
         // get transformer of child (calling) class
         $transformer = call_user_func(array(CHILD, 'getTransformer'));
@@ -111,16 +107,12 @@ class Doozr_Base_Facade_Singleton_Strict extends Doozr_Base_Class_Singleton_Stri
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
-     * @access private
+     * @access protected
      */
-    private function _getChild()
+    protected function getChild()
     {
-        if (!defined('CHILD')) {
+        if (false === defined('CHILD')) {
             define('CHILD', get_called_class());
         }
     }
-
-    /*******************************************************************************************************************
-     * \\ END GENERIC FACADE
-     ******************************************************************************************************************/
 }

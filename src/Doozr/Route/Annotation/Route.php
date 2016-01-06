@@ -48,7 +48,7 @@ namespace Doozr\Route\Annotation;
  * @package    Doozr_Route
  * @subpackage Doozr_Route_Annotation
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -70,7 +70,7 @@ namespace Doozr\Route\Annotation;
  * @package    Doozr_Route
  * @subpackage Doozr_Route_Annotation
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/

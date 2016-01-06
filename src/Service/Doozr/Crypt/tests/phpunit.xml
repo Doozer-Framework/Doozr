@@ -16,7 +16,7 @@
     >
 
     <testsuites>
-        <testsuite name="Doozr_Form_Service">
+        <testsuite name="Doozr_Crypt_Service">
             <directory>.</directory>
         </testsuite>
     </testsuites>
@@ -32,7 +32,5 @@
         <includePath>.</includePath>
         <includePath>../../../../src</includePath>
         <ini name="max_execution_time" value="600" />
-        <!-- emulate submitted data directly using PHPUnit approach -->
-        <post name="foo" value="bar"/>
     </php>
 </phpunit>

@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-namespace App;
+namespace App\View;
 
 /**
- * Doozr - Demonstration - View
+ * Doozr - Demonstration - View.
  *
  * Index.php - Index-View demonstration of Doozr's View implementation.
  *
@@ -16,22 +17,19 @@ namespace App;
  * Copyright (c) 2005 - 2016, Benjamin Carl - All rights reserved.
  *
  * @category   Doozr
- * @package    Doozr_App
- * @subpackage Doozr_App_View
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
- * @link       http://clickalicious.github.com/DoozR/
+ *
+ * @link       http://clickalicious.github.com/Doozr/
  */
-
-/**
- * Demonstration View for 'Hello World!'
- */
-final class View_Index extends \Doozr_View_Web
+final class Index extends \Doozr_View_Web
 {
     /**
-     * Renderer for Index
+     * Renderer for Index.
      *
      * This demo implementation shows how the render method can be used to intercept the render process (hook)
      * and transform the input so the data is bound to a fingerprint (Should be unique for your case // UUID).
@@ -41,8 +39,8 @@ final class View_Index extends \Doozr_View_Web
      * @param array $data The data to render
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool
-     * @access protected
      */
     protected function __renderIndex(array $data)
     {
@@ -56,7 +54,7 @@ final class View_Index extends \Doozr_View_Web
         $fingerprint = $session->getIdentifier();
 
         // Get I18n service instance
-        $i18nService = \Doozr_Loader_Serviceloader::load('i18n', $this->getRegistry()->getConfiguration());
+        $i18nService = \Doozr_Loader_Serviceloader::load('i18n');
 
         // Render data from model
         return $this->render($data, $fingerprint, $i18nService);

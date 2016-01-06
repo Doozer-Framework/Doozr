@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Cache - Service - Container - Filesystem
+ * Doozr - Cache - Service - Container - Filesystem.
  *
  * Filesystem.php - Container Filesystem: Serves I/O access to the filesystem.
  *
@@ -43,50 +44,49 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Cache/Service/Container.php';
 
 /**
- * Doozr - Cache - Service - Container - Filesystem
+ * Doozr - Cache - Service - Container - Filesystem.
  *
  * Container Filesystem: Serves I/O access to the filesystem.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Container
 {
     /**
-     * File locking
+     * File locking.
      *
      * With file container, it's possible, that you get corrupted data-entries under bad circumstances.
      * The file locking must improve this problem but it's experimental stuff. So the default value is false.
      * But it seems to give good results
      *
      * @var bool
-     * @access protected
      */
     protected $locking = true;
 
     /**
-     * List of group-directories
+     * List of group-directories.
      *
      * @var array
-     * @access protected
      */
     protected $directoriesByNamespace = [];
 
@@ -94,7 +94,6 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * Directory where to put the cache files. Make sure to add a trailing slash!
      *
      * @var string
-     * @access protected
      */
     protected $directory;
 
@@ -112,44 +111,39 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * you know what I mean. If you find a useful application of the feature please update this inline doc.
      *
      * @var string
-     * @access protected
      */
     protected $filenamePrefix = '';
 
     /**
-     * Max Line Length of userdata
+     * Max Line Length of userdata.
      *
      * If set to 0, it will take the default (1024 in php 4.2, unlimited in php 4.3)
      * see http://ch.php.net/manual/en/function.fgets.php for details
      *
      * @var int
-     * @access protected
      */
     protected $maxUserdataLineLength = 257;
 
     /**
-     * the allowed options specific for this container
+     * the allowed options specific for this container.
      *
      * @var array
-     * @access protected
      */
-    protected $thisContainerAllowedOptions = array(
+    protected $thisContainerAllowedOptions = [
         'directory',
         'filenamePrefix',
-        'maxUserdataLineLength'
-    );
+        'maxUserdataLineLength',
+    ];
 
     /**
-     * Whether the filesystem structure used for caching is flat:
+     * Whether the filesystem structure used for caching is flat:.
      *
      * @example /tmp/doozr.cache (better performance)
      *
      * or not
-     *
      * @example /tmp/doozr/cache
      *
      * @var bool
-     * @access protected
      */
     protected $flatDirectoryStructure = true;
 
@@ -160,9 +154,10 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param array $options Custom configuration options
      *
      * @throws Doozr_Cache_Service_Exception
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Cache_Service_Container_Filesystem
-     * @access public
      */
     public function __construct(array $options = [])
     {
@@ -170,7 +165,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
         parent::__construct($options);
 
         $this
-            ->directory(sys_get_temp_dir() . DIRECTORY_SEPARATOR)
+            ->directory(sys_get_temp_dir().DIRECTORY_SEPARATOR)
             ->prepareFilesystemAccess()
             ->clear();
     }
@@ -188,8 +183,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $userdata  The custom userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function create($key, $value, $lifetime, $namespace, $userdata = null)
@@ -204,11 +200,11 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
         $filename = $this->getFilenameByKeyAndNamespace($key, $namespace);
 
         // Build dataset from input
-        $dataset = array(
+        $dataset = [
             $this->getExpiresAbsolute($lifetime),
             $userdata,
             $this->encode($value),
-        );
+        ];
 
         // File format: 1st line: expiration date, 2nd line: user data, 3rd+ lines: cache data
         $result = $this->writeFile(
@@ -234,8 +230,8 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $namespace The namespace used for that
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool|array The data from cache if set, otherwise FALSE
-     * @access public
      */
     public function read($key, $namespace)
     {
@@ -270,8 +266,8 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $namespace The namespace of the dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      */
     public function delete($key, $namespace)
     {
@@ -305,8 +301,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $namespace The namespace to return path for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The path to write cache files for given namespace to
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function getDirectoryByNamespace($namespace, $create = true)
@@ -318,10 +315,10 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
             if ($this->isFlatDirectoryStructure() !== true) {
                 $structure = explode(self::NAMESPACE_SEPARATOR, $namespace);
             } else {
-                $structure = array($namespace);
+                $structure = [$namespace];
             }
 
-            $targetDirectory = $this->getDirectory() . implode(DIRECTORY_SEPARATOR, $structure);
+            $targetDirectory = $this->getDirectory().implode(DIRECTORY_SEPARATOR, $structure);
 
             // Check if not already created ...
             if ($create === true && file_exists($targetDirectory) === false) {
@@ -336,15 +333,15 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
                 $directory = $this->getDirectory();
 
                 foreach ($structure as $node) {
-                    if (file_exists($directory . $node) === false) {
-                        if (!mkdir($directory . $node, 0755)) {
+                    if (file_exists($directory.$node) === false) {
+                        if (!mkdir($directory.$node, 0755)) {
                             throw new Doozr_Cache_Service_Exception(
                                 sprintf('Can\'t make directory "%s". Check permissions and path.', $directory)
                             );
                         }
 
                         // mach directory
-                        $directory .= $node . DIRECTORY_SEPARATOR;
+                        $directory .= $node.DIRECTORY_SEPARATOR;
                     }
                 }
 
@@ -352,22 +349,22 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
                 $this->clear();
             }
 
-            $this->directoriesByNamespace[$namespace] = $targetDirectory . DIRECTORY_SEPARATOR;
+            $this->directoriesByNamespace[$namespace] = $targetDirectory.DIRECTORY_SEPARATOR;
         }
 
         return $this->directoriesByNamespace[$namespace];
     }
 
     /**
-     * Flushes the cache
+     * Flushes the cache.
      *
      * This method is intend to purge the cache. It removes all caches datasets from the cache.
      *
      * @param string $namespace The dataset namespace to purge
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Number of removed datasets on success, otherwise FALSE
-     * @access public
      */
     public function purge($namespace)
     {
@@ -389,7 +386,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
     }
 
     /**
-     * Checks if a dataset exists
+     * Checks if a dataset exists.
      *
      * This method is intend to check if a dataset exists.
      *
@@ -397,8 +394,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $namespace The namespace of the dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if file exist, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function exists($key, $namespace)
@@ -418,8 +416,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $namespace The namespace to look in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if element is expired, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function expired($key, $namespace)
@@ -437,7 +436,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
         );
 
         // Check if lifetime of entry (is written within the entry) smaller current timestamp ( = not expired = valid)
-        if ((int)$dataset[0] > time()) {
+        if ((int) $dataset[0] > time()) {
             $this->addToRuntimeCache($key, $dataset, $namespace);
             $result = false;
         }
@@ -449,8 +448,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * Prepares the filesystem for smooth access (directory exists and writable check, trailing slash ...).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function prepareFilesystemAccess()
@@ -459,11 +459,11 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
 
         // Convert relative paths to absolute. Cause it looks like the __destruct has problems with relative paths
         if ($this->unix && DIRECTORY_SEPARATOR !== $directory{0}) {
-            $directory = realpath(getcwd() . DIRECTORY_SEPARATOR . $directory) . DIRECTORY_SEPARATOR;
+            $directory = realpath(getcwd().DIRECTORY_SEPARATOR.$directory).DIRECTORY_SEPARATOR;
         }
 
         // Check if a trailing slash is in directory -> we require
-        if ($directory{strlen($directory)-1} != DIRECTORY_SEPARATOR) {
+        if ($directory{strlen($directory) - 1} != DIRECTORY_SEPARATOR) {
             $directory .= DIRECTORY_SEPARATOR;
         }
 
@@ -489,8 +489,8 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return int The number of elements removed in run
-     * @access public
      */
     public function garbageCollection($namespace, $lifetime)
     {
@@ -517,8 +517,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param int    $lifetime  Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return int The number of elements collected and removed
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function doGarbageCollection($directory, $lifetime)
@@ -544,11 +545,11 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
                 continue;
             }
 
-            $filename = $directory . $filename;
+            $filename = $directory.$filename;
 
             // Security check -> we do NOT have recursive structures cause we cant ...
-            if (is_dir($filename)  ) {
-                $this->doGarbageCollection($filename . DIRECTORY_SEPARATOR, $lifetime);
+            if (is_dir($filename)) {
+                $this->doGarbageCollection($filename.DIRECTORY_SEPARATOR, $lifetime);
                 continue;
             }
 
@@ -562,11 +563,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
                         sprintf('Can\'t unlink cache file "%s", skipping. Check permissions and path.', $filename)
                     );
                     continue;
-
                 } else {
-                    $elementsCollected++;
+                    ++$elementsCollected;
                 }
-
             } else {
                 // Get handle on file
                 $fileHandle = @fopen($filename, 'rb');
@@ -595,10 +594,10 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
                 } else {
                     $this->addEntry(
                         $lastAccess,
-                        array(
+                        [
                             'file' => $filename,
-                            'size' => filesize($filename)
-                        )
+                            'size' => filesize($filename),
+                        ]
                     );
 
                     $this->setTotalSize($this->getTotalSize() + filesize($filename));
@@ -623,7 +622,6 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
 
                 if (@unlink($entry['file'])) {
                     $this->setTotalSize($this->getTotalSize() - $entry['size']);
-
                 } else {
                     throw new Doozr_Cache_Service_Exception(
                         sprintf('Can\'t unlink cache file "%s". Check permissions and path.', $entry['file'])
@@ -640,7 +638,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
     }
 
     /**
-     * returns the filename for the specified id
+     * returns the filename for the specified id.
      *
      * This method is intend to return the filename for the specified id.
      *
@@ -648,13 +646,14 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $namespace The cache namespace
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The filename
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function getFilenameByKeyAndNamespace($key, $namespace)
     {
-        return $this->getDirectoryByNamespace($namespace) . $this->getFilenamePrefix() . $key;
+        return $this->getDirectoryByNamespace($namespace).$this->getFilenamePrefix().$key;
     }
 
     /**
@@ -663,8 +662,6 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param int $locking The locking to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setLocking($locking)
     {
@@ -677,12 +674,13 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param int $locking The locking to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function locking($locking)
     {
         $this->setLocking($locking);
+
         return $this;
     }
 
@@ -690,8 +688,8 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * Getter for locking.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|bool locking if set, otherwise NULL
-     * @access protected
      */
     protected function getLocking()
     {
@@ -705,8 +703,6 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param int $directory The directory to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setDirectory($directory)
     {
@@ -719,12 +715,13 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param int $directory The directory to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function directory($directory)
     {
         $this->setDirectory($directory);
+
         return $this;
     }
 
@@ -732,8 +729,8 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * Getter for directory.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|bool directory if set, otherwise NULL
-     * @access protected
      */
     protected function getDirectory()
     {
@@ -746,8 +743,6 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param bool $state TRUE to set to flat, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setFlatDirectoryStructure($state)
     {
@@ -760,12 +755,13 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param bool $state TRUE to set to flat, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function flatDirectoryStructure($state)
     {
         $this->setFlatDirectoryStructure($state);
+
         return $this;
     }
 
@@ -773,8 +769,8 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * Getter for flatDirectoryStructure.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|bool flatDirectoryStructure if set, otherwise NULL
-     * @access protected
      */
     protected function getFlatDirectoryStructure()
     {
@@ -782,15 +778,15 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
     }
 
     /**
-     * Alias for getter for flatDirectoryStructure (as is...)
+     * Alias for getter for flatDirectoryStructure (as is...).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|bool flatDirectoryStructure if set, otherwise NULL
-     * @access protected
      */
     protected function isFlatDirectoryStructure()
     {
-        return ($this->flatDirectoryStructure === true);
+        return $this->flatDirectoryStructure === true;
     }
 
     /**
@@ -799,8 +795,6 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param bool $state TRUE to set to flat, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setFilenamePrefix($state)
     {
@@ -813,12 +807,13 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param bool $state TRUE to set to flat, otherwise FALSE
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function filenamePrefix($state)
     {
         $this->setFilenamePrefix($state);
+
         return $this;
     }
 
@@ -826,8 +821,8 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * Getter for filenamePrefix.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|bool filenamePrefix if set, otherwise NULL
-     * @access protected
      */
     protected function getFilenamePrefix()
     {
@@ -841,8 +836,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param array  $dataset  The dataset to write
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if file could be written successful, otherwise FALSE
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function writeFile($filename, array $dataset)
@@ -884,8 +880,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param bool   $locking  TRUE to lock file exclusive, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The data of the data-set prepared in a clean array structure
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function readFile($filename, $locking = true)
@@ -902,7 +899,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
         // File format: 1st line: expiration date - 2nd line: user data - 3rd+ lines: cache data
         $expire = trim(fgets($fileHandle, 12));
 
-        if ($this->maxUserdataLineLength == 0 ) {
+        if ($this->maxUserdataLineLength == 0) {
             $userdata = trim(fgets($fileHandle));
         } else {
             $userdata = trim(fgets($fileHandle, $this->maxUserdataLineLength));
@@ -926,11 +923,11 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
         $this->clear();
 
         // Return the result
-        return array(
+        return [
             $expire,
             $userdata,
             $value,
-        );
+        ];
     }
 
     /**
@@ -939,8 +936,9 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * @param string $directory The directory to delete/remove/unlink
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Number of removed entries on success, otherwise FALSE
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function removeEntries($directory)
@@ -966,7 +964,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
             }
 
             // Combine directory + file
-            $file = $directory . $file;
+            $file = $directory.$file;
 
             // Check if entry is directory
             if (is_dir($file)) {
@@ -975,11 +973,10 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
 
                 // Now remove entries and get count
                 $entriesRemoved += $this->removeEntries($file);
-
             } else {
                 // Entry is a file -> so remove
                 if (unlink($file)) {
-                    $entriesRemoved++;
+                    ++$entriesRemoved;
                 }
             }
         }
@@ -993,7 +990,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
         // if directory given isn't the cache-directory -> remove it to
         if ($directory !== $this->getDirectory()) {
             rmdir($directory);
-            $entriesRemoved++;
+            ++$entriesRemoved;
         }
 
         // return the count of removed entries
@@ -1004,13 +1001,14 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
      * Shortcut to clearstatcache.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function clear()
     {
         // clear file status cache
         clearstatcache();
+
         return $this;
     }
 }
