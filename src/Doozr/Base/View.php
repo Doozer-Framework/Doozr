@@ -919,7 +919,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      * Dispatch observer default behavior.
      * This dispatches the data and the stored translator instance to render().
      *
-     * @param SplSubject $subject The subject to retrieve data from
+     * @param Doozr_Base_Presenter $subject The subject to retrieve data from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

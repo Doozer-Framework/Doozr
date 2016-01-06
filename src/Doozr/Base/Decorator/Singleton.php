@@ -119,7 +119,6 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
 
             $result = include_once $driverFile;
         } else {
-            $handle = null;
             $result = true;
         }
 

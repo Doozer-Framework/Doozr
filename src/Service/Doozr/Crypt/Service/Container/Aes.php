@@ -329,6 +329,8 @@ class Doozr_Crypt_Service_Container_Aes extends Doozr_Crypt_Service_Container
      * @param string $key The key to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @throws Doozr_Crypt_Service_Exception
      */
     public function setKey($key)
     {
@@ -336,7 +338,9 @@ class Doozr_Crypt_Service_Container_Aes extends Doozr_Crypt_Service_Container
         $this->rounds = $this->nk + self::$nb + 2;
 
         if ($this->nk != 4 && $this->nk != 6 && $this->nk != 8) {
-            die('Key is '.($this->nk * 32).' bits long. *not* 128, 192, or 256.');
+            throw new Doozr_Crypt_Service_Exception(
+                sprintf('Key is %s bits long. *not* 128, 192, or 256.', ($this->nk * 32))
+            );
         }
 
         $this->rounds = $this->nk + self::$nb + 2;

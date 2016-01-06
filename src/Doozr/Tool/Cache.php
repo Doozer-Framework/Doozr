@@ -133,7 +133,6 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
     {
         $longs     = $this->getLongs();
         $shorts    = $this->getShorts();
-        $arguments = $this->getArguments();
 
         // First check for help requested as long or short
         if ((isset($longs['help']) && $longs['help'] === true) || (isset($shorts['h']) && $shorts['h'] === 1)) {
@@ -154,13 +153,6 @@ class Doozr_Tool_Cache extends Doozr_Tool_Abstract
                 $argumentBag[$name] = $value;
             }
         }
-
-        /*
-        $arguments = array_unique($arguments);
-        foreach ($arguments as $keyValuePair) {
-            $keyValue = explode(':', $keyValuePair);
-            $argumentBag[$keyValue[0]] = $keyValue[1];
-        }*/
 
         if ($injectedCommand !== null) {
             $result = $this->dispatchCommand($injectedCommand, $argumentBag);
