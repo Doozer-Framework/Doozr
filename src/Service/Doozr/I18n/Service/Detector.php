@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Detector.
+ * Doozr - I18n - Service - Detector
  *
  * Detector.php - Locale detection part of the I18n service.
  *
@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -56,14 +56,14 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 
 /**
- * Doozr - I18n - Service - Detector.
+ * Doozr - I18n - Service - Detector
  *
  * Locale detection part of the I18n service.
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -211,16 +211,16 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     protected function __construct(Doozr_Configuration_Interface $configuration, Doozr_Registry_Interface $registry)
     {
         // Store registry
-        self::$registry = $registry;
+        self::$registry           = $registry;
         self::$runtimeEnvironment = DOOZR_RUNTIME_ENVIRONMENT;
 
         // Locale default
         /* @var $configuration Doozr_Configuration_Hierarchy */
         self::$default = [
-            'locale' => $configuration->i18n->default->locale,
+            'locale'   => $configuration->i18n->default->locale,
             'language' => $configuration->i18n->default->language,
-            'country' => $configuration->i18n->default->country,
-            'weight' => $configuration->i18n->default->weight,
+            'country'  => $configuration->i18n->default->country,
+            'weight'   => $configuration->i18n->default->weight,
         ];
 
         // a collection of locales available
@@ -370,9 +370,9 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     public function getLocalePreferences()
     {
         return [
-            'locale' => $this->locale,
+            'locale'   => $this->locale,
             'language' => $this->language,
-            'country' => $this->country,
+            'country'  => $this->country,
         ];
     }
 
@@ -421,10 +421,10 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     {
 
         // Store retrieved data in class and afterwards in store(s)
-        $this->locale = $preferences['locale'];
-        $this->weight = $preferences['weight'];
+        $this->locale   = $preferences['locale'];
+        $this->weight   = $preferences['weight'];
         $this->language = $preferences['language'];
-        $this->country = $preferences['country'];
+        $this->country  = $preferences['country'];
 
         $this->writePreferences($preferences);
 
@@ -469,10 +469,10 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
                     for ($i = 1; $i < $countDetectedLocales; ++$i) {
                         // check if we got a matching locale
                         if (in_array($this->detectedLocales[$i]['locale'], self::$availableLocales)) {
-                            $userPreferences['locale'] = $this->detectedLocales[$i]['locale'];
-                            $userPreferences['weight'] = $this->detectedLocales[$i]['weight'];
+                            $userPreferences['locale']   = $this->detectedLocales[$i]['locale'];
+                            $userPreferences['weight']   = $this->detectedLocales[$i]['weight'];
                             $userPreferences['language'] = $this->detectedLanguages[$i];
-                            $userPreferences['country'] = $this->detectedCountries[$i];
+                            $userPreferences['country']  = $this->detectedCountries[$i];
 
                             // leave loop
                             break;
@@ -483,10 +483,10 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
                 // if we should'nt lookup an alternative OR no locale was detected -> use systems default
                 if (!$lookupAlternative || $userPreferences === null) {
                     // or if we use the systems default locale if auto-detect fails
-                    $userPreferences['locale'] = self::$default['locale'];
-                    $userPreferences['weight'] = self::$default['weight'];
+                    $userPreferences['locale']   = self::$default['locale'];
+                    $userPreferences['weight']   = self::$default['weight'];
                     $userPreferences['language'] = self::$default['language'];
-                    $userPreferences['country'] = self::$default['country'];
+                    $userPreferences['country']  = self::$default['country'];
                 }
             }
 
@@ -495,10 +495,10 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
         }
 
         // store retrieved data in class and afterwards in store(s)
-        $this->locale = $userPreferences['locale'];
-        $this->weight = $userPreferences['weight'];
+        $this->locale   = $userPreferences['locale'];
+        $this->weight   = $userPreferences['weight'];
         $this->language = $userPreferences['language'];
-        $this->country = $userPreferences['country'];
+        $this->country  = $userPreferences['country'];
 
         // finally store in defines storages
         if ($this->dirty) {
@@ -664,12 +664,12 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
 
         // iterate over sorted result and retrieve language and country in correct order
         foreach ($this->detectedLocales as $localeSet) {
-            $parts = explode('-', $localeSet['locale']);
+            $parts    = explode('-', $localeSet['locale']);
             $parts[1] = (isset($parts[1])) ? $parts[1] : $parts[0];
 
             // get language and country validated
             $language = ($this->isValidLocaleCode($parts[0])) ? $parts[0] : null;
-            $country = ($this->isValidLocaleCode($parts[1])) ? $parts[1] : null;
+            $country  = ($this->isValidLocaleCode($parts[1])) ? $parts[1] : null;
 
             // store
             $this->detectedLanguages[] = $language;
@@ -678,10 +678,10 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
 
         // Success - return the preferred locale-set
         return [
-            'locale' => $this->detectedLocales[0]['locale'],
-            'weight' => $this->detectedLocales[0]['weight'],
+            'locale'   => $this->detectedLocales[0]['locale'],
+            'weight'   => $this->detectedLocales[0]['weight'],
             'language' => $this->detectedLanguages[0],
-            'country' => $this->detectedCountries[0],
+            'country'  => $this->detectedCountries[0],
         ];
     }
 
@@ -867,11 +867,11 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     protected function writeCookie(array $preferences)
     {
-        $data = implode(',', $preferences);
+        $data     = implode(',', $preferences);
         $lifetime = time() + self::$preferenceLifetime;
-        $path = '/';
-        $server = explode('.', $_SERVER['SERVER_NAME']);
-        $domain = '';
+        $path     = '/';
+        $server   = explode('.', $_SERVER['SERVER_NAME']);
+        $domain   = '';
 
         for ($i = 2; $i > 0; --$i) {
             $domain = '.'.$server[$i].$domain;
@@ -899,10 +899,10 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
                 $this->isValidLocaleCode($storedSettings[3])
             ) {
                 $locale = [
-                    'locale' => $storedSettings[0],
-                    'weight' => (double) $storedSettings[1],
+                    'locale'   => $storedSettings[0],
+                    'weight'   => (double) $storedSettings[1],
                     'language' => $storedSettings[2],
-                    'country' => $storedSettings[3],
+                    'country'  => $storedSettings[3],
                 ];
             } else {
                 $locale = null;

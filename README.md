@@ -20,21 +20,29 @@ The **lightweight** PHP-Framework for **high-performance** websites.
 - [Security-Issues](#security-issues)
 - [Install »](https://github.com/clickalicious/Doozr/blob/master/docs/INSTALL.md)
 - [Architecture »](https://github.com/clickalicious/Doozr/blob/master/docs/ARCHITECTURE.md)
+- [Service: Cache »](https://github.com/clickalicious/Doozr/blob/master/src/Service/Doozr/Cache/README.md)
+- [Service: Configuration »](https://github.com/clickalicious/Doozr/blob/master/src/Service/Doozr/Configuration/README.md)
+- [Service: Crypt »](https://github.com/clickalicious/Doozr/blob/master/src/Service/Doozr/Crypt/README.md)
+- [Service: Filesystem »](https://github.com/clickalicious/Doozr/blob/master/src/Service/Doozr/Filesystem/README.md)
+- [Service: Form »](https://github.com/clickalicious/Doozr/blob/master/src/Service/Doozr/Form/README.md)
 - [Service: I18n »](https://github.com/clickalicious/Doozr/blob/master/src/Service/Doozr/I18n/README.md)
+- [Service: Password »](https://github.com/clickalicious/Doozr/blob/master/src/Service/Doozr/Password/README.md)
+- [Service: Session »](https://github.com/clickalicious/Doozr/blob/master/src/Service/Doozr/Session/README.md)
+- [Service: Template »](https://github.com/clickalicious/Doozr/blob/master/src/Service/Doozr/Template/README.md)
 - [License »](LICENSE)
 
 
 ## Features
 
- - High performance (developed using profiler)
- - Ultra fast routing, caching and request processing
- - Lightweight and high quality code base (following *PSR-0,1,2,3,4,7*)
- - Fully *PSR-7* compatible
- - Middleware Layer support (*relay\relay*)
- - Integrated logger subsystem
- - Clean & well documented code
+ - High performance (developed using [profiler][5])
+ - Ultra [fast routing][4], caching and request processing
+ - Lightweight and high quality code base (following *PSR-[1][6],[2][7],[3][8],[4][9],[7][10]*)
+ - Fully [*PSR-7*][10] compatible
+ - Middleware [Layer][11] support
+ - Integrated [logger][8] subsystem
+ - Clean & [well documented][12] code
  - Unit-tested
- - Shipped with implemented profiler 
+ - Shipped with implemented [profiler][5] 
 
 
 ## Requirements
@@ -51,20 +59,24 @@ The **lightweight** PHP-Framework for **high-performance** websites.
 
 `Doozr` is shipped with the following high quality core *Services*:
 
- - `Form` (HTML(5) secure form handler (csrf/token)  + validation)
- - `Cache` (Interface to Filesystem + Memcached)
- - `Config` (Configuration-Reader for Ini- & JSON-Configurations and caching)
- - `Crypt` (AES en-/decryption)
+ - `Cache` ([PSR-6][2] compatible caching subsystem, support for Filesystem, Memcached and ...)
+ - `Configuration` (Configuration-Reader for Ini- & JSON-Configurations and caching)
+ - `Crypt` (AES secure en-/decryption)
  - `Filesystem` (Filesystem wrapper with virtual filesystem support)
- - `Http` (Wrapper to CURL)
- - `I18n` (Internationalization + Localization support with gettext emulation)
- - `Password` (Password generator + validator)
- - `Session` (Secure and OO Session interface)
- - `Template` (Interface to PHPTal)
+ - `Form` (Secure form handler (csrf/token) + validation)
+ - `I18n` (Internationalization + Localization, native gettext™ support & gettext emulation)
+ - `Password` (Password generator + validator, support for PHPass based hashes)
+ - `Session` (Secure and object oriented session subystem, En-/Decryption, Unique Identifier, Automatic Id regenerating, ...)
+ - `Template` (Interface to PHPTal with full PHPTal templating support)
 
 100% `composer` support. For any missing features we can make use of [packagist.org][1]. So just put the required package(s) in your `composer.json` and use them right after installation without need to include `.../vendor/autoload.php` manually. `Doozr` detects the `composer` packages and includes the autoloader of `composer`.
 
 This mechanism is our pragmatic approach as bridge to all the software & libraries out there. Of course you can build your very own *Services* and load them the same way as you would load a `Doozr` *Service* - but you are not required to do so. In other words: If you just want to use some smart library then pick it by using `composer` - but if you want to build your own piece of library then you should build a `Doozr` *Service* (which itself can use Composer as well).
+
+
+## Testing & Coverage
+
+Our minimum quality standard for releasing `Doozr` version 1.0.0 is a test coverage of ~90%. Currently - while focussing the first public beta release of Doozr - we target a test coverage of ~75%. But we will do our best to reach the 90% as marker of excellence. It's hard work currently cleaning the whole code base, refactoring huge parts and removing some uneccessary ones. We know how important it is to provide stable and tested functionality - So you can always track the coverage by viewing [Doozr's online code coverage report in HTML-format][3].
 
 
 ## Versioning
@@ -84,6 +96,7 @@ For a consistent versioning we decided to make use of `Semantic Versioning 2.0.0
 
 [![Throughput Graph](https://graphs.waffle.io/clickalicious/Doozr/throughput.svg)](https://waffle.io/clickalicious/Doozr/metrics)
 
+
 ## Security Issues
 
 If you encounter a (potential) security issue don't hesitate to get in contact with us `opensource@clickalicious.de` before releasing it to the public. So i get a chance to prepare and release an update before the issue is getting shared. Thank you!
@@ -96,6 +109,7 @@ If you encounter a (potential) security issue don't hesitate to get in contact w
   <img src="http://jpillora.com/github-twitter-button/img/tweet.png"></img>
 </a>
 
+
 ## Sponsors
 
 Thanks to our sponsors and supporters:
@@ -106,3 +120,14 @@ Thanks to our sponsors and supporters:
 
 
 [1]: https://packagist "packagist.org - Package registry of composer"
+[2]: http://www.php-fig.org/psr/psr-6/ "PSR-6 caching standard"
+[3]: http://clickalicious.github.io/Doozr/ "Doozr's online code coverage report in HTML-format"
+[4]: https://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html "Fast request routing using regular expressions"
+[5]: https://github.com/FriendsOfPHP/uprofiler "Lightweight profiler for PHP (based on facebook/xhprof)"
+[6]: http://www.php-fig.org/psr/psr-1/ "PSR-1: Basic Coding Standard"
+[7]: http://www.php-fig.org/psr/psr-2/ "PSR-2: Coding Style Guide"
+[8]: http://www.php-fig.org/psr/psr-3/ "PSR-3: Logger Interface"
+[9]: http://www.php-fig.org/psr/psr-4/ "PSR-4: Autoloader"
+[10]: http://www.php-fig.org/psr/psr-7/ "PSR-7: HTTP message interfaces"
+[11]: https://packagist.org/packages/relay/relay "A PSR-7 middleware dispatcher."
+[12]: https://doozr.readme.io/ "The Doozr Developer Hub"

@@ -46,7 +46,7 @@
  * @package    Doozr_Configuration
  * @subpackage Doozr_Configuration_Hierarchy
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -61,7 +61,7 @@
  * @package    Doozr_Kernel
  * @subpackage Doozr_Kernel_Configuration
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -69,12 +69,20 @@
 class Doozr_Configuration_Hierarchy
 {
     /**
-     * The caching node of the configuration.
+     * The kernel node of the configuration.
      *
      * @var Doozr_Configuration_Hierarchy_Kernel
      * @access public
      */
     public $kernel;
+
+    /**
+     * The app node of the configuration.
+     *
+     * @var Doozr_Configuration_Hierarchy_App
+     * @access public
+     */
+    public $app;
 
     /*------------------------------------------------------------------------------------------------------------------
     | Services
@@ -87,4 +95,20 @@ class Doozr_Configuration_Hierarchy
      * @access public
      */
     public $i18n;
+
+    /**
+     * Node of service Crypt.
+     *
+     * @var Doozr_Configuration_Hierarchy_Crypt
+     * @access public
+     */
+    public $crypt;
+
+    /**
+     * Node of service Session.
+     *
+     * @var Doozr_Configuration_Hierarchy_Session
+     * @access public
+     */
+    public $session;
 }

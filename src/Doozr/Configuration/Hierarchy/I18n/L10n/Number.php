@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n - Number.
  *
- * Number.php - The "Number" node representation for providing auto-completion of config values.
+ * Number.php - The "number" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -57,12 +57,12 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n - Number.
  *
- * Number.php - The "Number" node representation for providing auto-completion of config values.
+ * Number.php - The "number" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$

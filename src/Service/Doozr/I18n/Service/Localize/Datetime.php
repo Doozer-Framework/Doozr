@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Localize - Datetime.
+ * Doozr - I18n - Service - Localize - Datetime
  *
  * Datetime.php - Datetime formatter
  *
@@ -46,25 +46,24 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Localize/Abstract.php';
 
 /**
- * Doozr - I18n - Service - Localize - Datetime.
+ * Doozr - I18n - Service - Localize - Datetime
  *
  * Datetime formatter
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -142,7 +141,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function isValidTimeCode($timecode = 0)
     {
-        return ($timecode > 0 && $timecode < 2);
+        return $timecode > 0 && $timecode < 2;
     }
 
     /**
@@ -156,7 +155,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function isValidIsoDate($date)
     {
-        return (preg_match('(^\d{4}-\d{2}-\d{2}$)', $date) > 0);
+        return preg_match('(^\d{4}-\d{2}-\d{2}$)', $date) > 0;
     }
 
     /**
@@ -170,7 +169,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function isValidIsoDatetime($date)
     {
-        return (preg_match('(^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$)', $date) > 0);
+        return preg_match('(^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$)', $date) > 0;
     }
 
     /**
@@ -184,7 +183,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function isValidUnixTimestamp($timestamp)
     {
-        return (preg_match('(^\d{1,10}$)', $timestamp) > 0);
+        return preg_match('(^\d{1,10}$)', $timestamp) > 0;
     }
 
     /**
@@ -468,7 +467,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      */
     public function setTimeset($timeset = 0)
     {
-        return ($this->timeset = $timeset);
+        return $this->timeset = $timeset;
     }
 
     /**
@@ -597,7 +596,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     protected function encodeDate($string = '')
     {
         // maybe has to be rewritten for multibyte...
-        $length = strlen($string);
+        $length        = strlen($string);
         $encodedString = '';
 
         for ($i = 0; $i < $length; ++$i) {

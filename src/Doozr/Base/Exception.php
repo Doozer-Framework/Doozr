@@ -46,7 +46,7 @@
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -63,7 +63,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Generic.php';
  * @package    Doozr_Base
  * @subpackage Doozr_Base_Exception
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -162,7 +162,8 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
      */
     protected function generateUniqueCode($file, $code)
     {
-        $base  = 999 - $this->getFileNestingLevel($file);
+        $file  = filename($file);
+        $base  = 999;
         $base -= floor(sqrt($base * $this->getChecksum($file))/1000);
         $base  = crossfoot($base);
         $base  = sprintf("%03d", $base);
