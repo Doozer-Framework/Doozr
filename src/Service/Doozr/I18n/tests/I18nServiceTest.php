@@ -70,6 +70,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/tests/Resource/Fixture.php'
  * @version    Git: $Id$
  *
  * @link       http://clickalicious.github.com/Doozr/
+ *
+ * @property   Doozr_I18n_Service $service
  */
 class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
 {

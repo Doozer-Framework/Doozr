@@ -77,7 +77,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     protected static $service;
 
     /**
-     * The name of the SErvice.
+     * The name of the Service.
      *
      * @var string
      */

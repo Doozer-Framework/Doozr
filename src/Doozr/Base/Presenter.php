@@ -75,7 +75,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
+class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
+    implements
     Doozr_Base_Presenter_Interface
 {
     /**
@@ -305,12 +306,27 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
     | INTERNAL API
     +-----------------------------------------------------------------------------------------------------------------*/
 
-
+    /**
+     * Setter for type
+     *
+     * @param string $type The type to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
     public function setType($type)
     {
         $this->type = $type;
     }
 
+    /**
+     * Fluent: Setter for type
+     *
+     * @param string $type The type to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
     public function type($type)
     {
         $this->setType($type);
@@ -318,6 +334,13 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
         return $this;
     }
 
+    /**
+     * Getter for type
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string The type set
+     */
     public function getType()
     {
         return $this->type;
@@ -590,6 +613,10 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject implements
 
         Doozr_Loader_Autoloader_Spl_Facade::attach([$autoloaderApp]);
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | FULFILL Doozr_Base_Crud_Interface
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Create of Crud.

@@ -69,15 +69,62 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
  * @version    Git: $Id$
  *
  * @link       http://clickalicious.github.com/Doozr/
+ *
+ * @property   Doozr_Crypt_Service $service
  */
 class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
-     * Private key fixture for encryption.
+     * Collection of defined keys for iterating them
+     * @var array
+     */
+    protected static $privateKeys = [];
+
+    /**
+     * The buffer used for en-/decryption.
      *
      * @var string
      */
-    protected static $privateKey;
+    protected static $buffer;
+
+    /**
+     * Key strength 128 Bit.
+     *
+     * @var int
+     */
+    const KEY_128_BIT = 128;
+
+    /**
+     * Key strength 192 Bit.
+     *
+     * @var int
+     */
+    const KEY_256_BIT = 192;
+
+    /**
+     * Key strength 256 Bit.
+     *
+     * @var int
+     */
+    const KEY_512_BIT = 256;
+
+    /**
+     * Keys by strength in Bit.
+     *
+     * @var int[]
+     */
+    const KEYS_BY_STRENGTH_BIT = [
+        self::KEY_128_BIT,
+        self::KEY_256_BIT,
+        self::KEY_512_BIT
+    ];
+
+    /**
+     * Invalid cipher to test exception.
+     *
+     * @var string
+     */
+    const CIPHER_INVALID = 'DES';
 
     /**
      * Prepares setup for Tests of "Crypt".
@@ -90,19 +137,19 @@ class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
 
         parent::setUp();
 
-        /*
+        // Get a faker instance with Doozr's default locale
         $faker = Faker\Factory::create(
             $this->convertLocale(self::$registry->getConfiguration()->i18n->default->locale)
         );
 
-        dump($faker->password(16,16));
-        dump($faker->password(32,32));
-        dump($faker->password(64,64));
-        dump($faker->realText($faker->numberBetween(100,200)));
+        // Iterate defined key strengths, generate keys in different strength and store it
+        foreach (self::KEYS_BY_STRENGTH_BIT as $keyStrengthBits) {
+            $keyStrengthBytes = $keyStrengthBits / 8;
+            self::$privateKeys[$keyStrengthBits] = $faker->password($keyStrengthBytes, $keyStrengthBytes);
+        }
 
-        die;
-        dump(self::$privateKey);
-        */
+        // Generate a random text for encryption
+        self::$buffer = $faker->realText($faker->numberBetween(0, 4096));
     }
 
     /**
@@ -126,9 +173,27 @@ class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function testEncryption()
+    public function testEncryptionAndDecryption()
     {
-        // Assertion(s)
-        $this->assertTrue(true);
+        // Iterate key strengths and test en- and decryption with all defined key strengths
+        foreach (self::$privateKeys as $keyStrengthBits => $privateKey) {
+
+            // Out clear text
+            $text = self::$buffer;
+
+            // Check En- and Decryption
+            $this->assertSame($text, self::$service->decrypt(self::$service->encrypt($text, $privateKey), $privateKey));
+        }
+    }
+
+    /**
+     * Test: If instance fails with Exception due to a invalid cipher passed to constructor
+     *
+     * @expectedException Doozr_Crypt_Service_Exception
+     * @expectedExceptionCode 8100
+     */
+    public function testExceptionOnInvalidCipher()
+    {
+        Doozr_Loader_Serviceloader::load(self::$serviceName, self::CIPHER_INVALID);
     }
 }

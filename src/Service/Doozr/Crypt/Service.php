@@ -187,7 +187,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __tearup(
-        $cipher = self::CIPHER_DEFAULT,
+        $cipher   = self::CIPHER_DEFAULT,
         $encoding = self::ENCODING_DEFAULT
     ) {
         $this
