@@ -229,14 +229,17 @@ class Doozr_Base_View_Rest extends Doozr_Base_View
     /**
      * Maybe a bit spooky but a good solution to get data into this part of the MVP structure.
      *
-     * @param SplSubject $subject The subject which is automatically dispatched
+     * @param Doozr_Base_Presenter_Rest $subject The subject which is automatically dispatched
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access protected
      */
-    protected function __update(SplSubject $subject)
+    protected function __update(Doozr_Base_Presenter_Rest $subject)
     {
+        dump(get_class($subject));
+        die;
+
         // store data internal and call renderer!
         $this->setData($subject->getData(), true);
     }

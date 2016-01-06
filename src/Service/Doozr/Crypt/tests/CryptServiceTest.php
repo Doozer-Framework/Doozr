@@ -113,7 +113,7 @@ class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
      *
      * @var int[]
      */
-    const KEYS_BY_STRENGTH_BIT = [
+    protected static $keysByStrengthBit = [
         self::KEY_128_BIT,
         self::KEY_256_BIT,
         self::KEY_512_BIT
@@ -143,7 +143,7 @@ class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
         );
 
         // Iterate defined key strengths, generate keys in different strength and store it
-        foreach (self::KEYS_BY_STRENGTH_BIT as $keyStrengthBits) {
+        foreach (self::$keysByStrengthBit as $keyStrengthBits) {
             $keyStrengthBytes = $keyStrengthBits / 8;
             self::$privateKeys[$keyStrengthBits] = $faker->password($keyStrengthBytes, $keyStrengthBytes);
         }
