@@ -170,8 +170,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
      * @param Doozr_Base_Model $model    Model to communicate with backend (db)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @throws Doozr_Base_Presenter_Exception
      */
     public function __construct(
         Doozr_Registry   $registry,
@@ -186,13 +184,15 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
             ->model($model)
             ->configuration($registry->getConfiguration());
 
-
         // Check if an app is configured -> enable autoloading for it automagically
         if (false !== isset($this->getConfiguration()->app)) {
             $this->registerAutoloader(
                 $this->getConfiguration()->get('app')
             );
         }
+
+        // Now tearup the stuff from App scope ...
+        $this->__tearup();
 
         // Important! => call parents constructor so SplObjectStorage is created!
         parent::__construct(
@@ -249,6 +249,10 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
         return $this->data;
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAGIC METHODS
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * This method is intend to call the teardown method of a model if exist.
      *
@@ -260,10 +264,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
     {
         return $this->__teardown();
     }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | MAGIC METHODS
-    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * __construct replacement for Presenter.
@@ -294,7 +294,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for type
+     * Setter for type.
      *
      * @param string $type The type to set
      *
@@ -306,7 +306,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
     }
 
     /**
-     * Fluent: Setter for type
+     * Fluent: Setter for type.
      *
      * @param string $type The type to set
      *
@@ -322,7 +322,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
     }
 
     /**
-     * Getter for type
+     * Getter for type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

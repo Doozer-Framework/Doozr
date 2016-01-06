@@ -55,6 +55,7 @@
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/View/Observer.php';
 
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
@@ -149,7 +150,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Contains an instance of the module Doozr_Cache_Service.
      *
-     * @var Doozr_Cache_Service
+     * @var Doozr_Cache_Service|CacheItemPoolInterface
      */
     protected $cache;
 
@@ -197,17 +198,8 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
             ->debugging($registry->getParameter('doozr.kernel.debugging'))
             ->caching($registry->getParameter('doozr.kernel.caching'));
 
-        // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
-            $result = $this->__tearup($this->getRoute());
-
-            if ($result !== true) {
-                throw new Doozr_Base_View_Exception(
-                    '__tearup() must (if set) return TRUE. __tearup() executed and it returned: '.
-                    var_export($result, true)
-                );
-            }
-        }
+        // Now tearup the stuff from App scope ...
+        $this->__tearup();
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -401,11 +393,11 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Setter for cache.
      *
-     * @param Doozr_Cache_Service $cache The cache service instance to set
+     * @param CacheItemPoolInterface $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setCache(Doozr_Cache_Service $cache)
+    protected function setCache(CacheItemPoolInterface $cache)
     {
         $this->cache = $cache;
     }
@@ -413,13 +405,13 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     /**
      * Setter for cache.
      *
-     * @param Doozr_Cache_Service $cache The cache service instance to set
+     * @param CacheItemPoolInterface $cache The cache service instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function cache(Doozr_Cache_Service $cache)
+    protected function cache(CacheItemPoolInterface $cache)
     {
         $this->setCache($cache);
 
@@ -938,6 +930,10 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
         return $this->setData($subject->getData());
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAGIC METHODS
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * This method is intend to call the teardown method of a model if exist.
      *
@@ -945,9 +941,30 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
      */
     public function __destruct()
     {
-        // check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__teardown') && is_callable([$this, '__teardown'])) {
-            $this->__teardown();
-        }
+        $this->__teardown();
+    }
+
+    /**
+     * __construct replacement for View.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool Must return TRUE in case of success, otherwise FALSE
+     */
+    protected function __tearup()
+    {
+        return true;
+    }
+
+    /**
+     * __destruct replacement for View.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool Must return TRUE in case of success, otherwise FALSE
+     */
+    protected function __teardown()
+    {
+        return true;
     }
 }

@@ -58,10 +58,12 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
-use Doctrine\Common\Annotations\AnnotationReader;
+use Ramsey\Uuid\Uuid;
+use Gpupo\Cache\CacheItem;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
-use Ramsey\Uuid\Uuid;
+use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
  * Doozr - Route.
@@ -480,11 +482,10 @@ final class Doozr_Route extends Doozr_Base_Class
 
         // 1st of all we'll try to fetch routes from cache if enabled
         if (true === $this->isCacheEnabled()) {
+
             try {
-                $routes = $this->getRegistry()->getCache()->read(
-                    $this->getUuid(),
-                    $this->getScope()
-                );
+                $routes = $this->restore($this->getUuid(), $this->getScope());
+
             } catch (Doozr_Cache_Service_Exception $e) {
                 $routes = null;
             }
@@ -501,17 +502,74 @@ final class Doozr_Route extends Doozr_Base_Class
 
             // Cache if enabled ...
             if (true === $this->getCacheEnabled()) {
-                // Store result after reading from presenter(s) and config and so on ...
-                $this->getRegistry()->getCache()->create(
-                    $this->getUuid(),
-                    $routes,
-                    null,
-                    $this->getScope()
-                );
+                $this->store($routes);
             }
         }
 
         // Return routes either from cache or fresh retrieved ...
+        return $routes;
+    }
+
+    /**
+     * Stores routes in cache.
+     *
+     * @param array $routes Routes to store
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function store(array $routes = [])
+    {
+        // Get cache instance - at this point all PSR-6 compatibles are allowed
+        $cache = $this->getRegistry()->getCache();
+
+        // Check if we use scopes ...
+        if ($cache instanceof Doozr_Cache_Service) {
+            $cache->create(
+                $this->getUuid(),
+                $routes,
+                null,
+                $this->getScope()
+            );
+
+        } else {
+            $item = new CacheItem($this->getUuid());
+            $item->set($routes);
+
+            $cache->save($item);
+        }
+    }
+
+    /**
+     * Restores stored routes from cache.
+     *
+     * @param string $uuid  Uuid to restore
+     * @param null   $scope Scope to restore from
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return mixed|null|\Psr\Cache\CacheItemInterface
+     */
+    protected function restore($uuid, $scope = null)
+    {
+        // Get cache instance - at this point all PSR-6 compatibles are allowed
+        $cache = $this->getRegistry()->getCache();
+
+        // Check if we use scopes
+        if ($cache instanceof Doozr_Cache_Service) {
+            /* @var Doozr_Cache_Service $cache */
+            $routes = $cache->read(
+                $uuid,
+                $scope
+            );
+
+        } else {
+            /* @var CacheItemPoolInterface $cache */
+            $routes = $cache->getItem($uuid);
+
+            // Get value out of item
+            $routes = $routes->get();
+        }
+
         return $routes;
     }
 

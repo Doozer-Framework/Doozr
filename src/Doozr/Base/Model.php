@@ -109,7 +109,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
     /**
      * Instance of the Doozr_Cache_Service.
      *
-     * @var Doozr_Cache_Service
+     * @var Doozr_Cache_Service|CacheItemPoolInterface
      */
     protected $cache;
 
@@ -127,8 +127,6 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      * @param Request        $request  Request
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @throws Doozr_Base_Model_Exception
      */
     public function __construct(
         Doozr_Registry $registry,
@@ -142,21 +140,8 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
             ->cache($registry->getCache())
             ->configuration($registry->getConfiguration());
 
-        // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        /*
-        if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
-            $result = $this->__tearup($request->getUri()->getPath());
-
-            if ($result !== true) {
-                throw new Doozr_Base_Model_Exception(
-                    sprintf(
-                        '__tearup() (if set) MUST return bool TRUE. __tearup() is set but it returned: "%s"',
-                        var_export($result, true)
-                    )
-                );
-            }
-        }
-        */
+        // Now tearup the stuff from App scope ...
+        $this->__tearup();
 
         // Ensure parent's constructor is called
         parent::__construct();
@@ -334,7 +319,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setCache($cache)
+    protected function setCache(CacheItemPoolInterface $cache)
     {
         $this->cache = $cache;
     }
@@ -348,7 +333,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      *
      * @return $this Instance for chaining
      */
-    protected function cache($cache)
+    protected function cache(CacheItemPoolInterface $cache)
     {
         $this->setCache($cache);
 
@@ -570,6 +555,10 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
         return $breadcrumb;
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | MAGIC METHODS
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * This method is intend to call the teardown method of a model if exist.
      *
@@ -577,9 +566,30 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
      */
     public function __destruct()
     {
-        // check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        if ($this->hasMethod('__teardown') && is_callable([$this, '__teardown'])) {
-            $this->__teardown();
-        }
+        $this->__teardown();
+    }
+
+    /**
+     * __construct replacement for Model.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool Must return TRUE in case of success, otherwise FALSE
+     */
+    protected function __tearup()
+    {
+        return true;
+    }
+
+    /**
+     * __destruct replacement for Model.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool Must return TRUE in case of success, otherwise FALSE
+     */
+    protected function __teardown()
+    {
+        return true;
     }
 }
