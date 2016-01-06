@@ -143,6 +143,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
             ->configuration($registry->getConfiguration());
 
         // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
+        /*
         if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
             $result = $this->__tearup($request->getUri()->getPath());
 
@@ -155,6 +156,7 @@ class Doozr_Base_Model extends Doozr_Base_Model_Observer
                 );
             }
         }
+        */
 
         // Ensure parent's constructor is called
         parent::__construct();

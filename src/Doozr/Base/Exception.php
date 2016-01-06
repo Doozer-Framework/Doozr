@@ -162,7 +162,8 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
      */
     protected function generateUniqueCode($file, $code)
     {
-        $base  = 999 - $this->getFileNestingLevel($file);
+        $file  = filename($file);
+        $base  = 999;
         $base -= floor(sqrt($base * $this->getChecksum($file))/1000);
         $base  = crossfoot($base);
         $base  = sprintf("%03d", $base);

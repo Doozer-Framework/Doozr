@@ -149,7 +149,7 @@ class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
         }
 
         // Generate a random text for encryption
-        self::$buffer = $faker->realText($faker->numberBetween(0, 4096));
+        self::$buffer = $faker->realText($faker->numberBetween(10, 4096));
     }
 
     /**
@@ -190,7 +190,7 @@ class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
      * Test: If instance fails with Exception due to a invalid cipher passed to constructor
      *
      * @expectedException Doozr_Crypt_Service_Exception
-     * @expectedExceptionCode 8100
+     * @expectedExceptionCode 5200
      */
     public function testExceptionOnInvalidCipher()
     {

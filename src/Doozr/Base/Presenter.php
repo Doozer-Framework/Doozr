@@ -198,19 +198,6 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
         parent::__construct(
             new Doozr_Request_State()
         );
-
-        // Check for __tearup - Method (it's Doozr's __construct-like magic-method)
-        /*
-        if ($this->hasMethod('__tearup') && is_callable([$this, '__tearup'])) {
-            $result = $this->__tearup($this->getRoute());
-
-            if ($result !== true) {
-                throw new Doozr_Base_Presenter_Exception(
-                    '__tearup() must (if set) return TRUE. __tearup() executed and it returned: '.
-                    var_export($result, true)
-                );
-            }
-        }*/
     }
 
     /*------------------------------------------------------------------------------------------------------------------
