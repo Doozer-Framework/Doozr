@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Unit-Test
+ * Doozr - Configuration - Hierarchy - Kernel - Security.
  *
- * FormTest.php - Test for Form
+ * Security.php - The "security" node representation for providing autocompletion for config values.
  *
  * PHP versions 5.5
  *
@@ -43,41 +44,37 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Unit-Test
+ * Doozr - Configuration - Hierarchy - Kernel - Security.
  *
- * Test for Service
+ * The "security" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-/*
-class AbstractTest extends PHPUnit_Framework_TestCase
+class Doozr_Configuration_Hierarchy_Kernel_Security
 {
-    public function testSetAndGetId()
-    {
-        $stub = $this->getMockForAbstractClass('Doozr_Form_Service_Element_Html_Abstract');
-
-        $stub->expects($this->any())
-            ->method('setId')
-            ->will($this->returnValue(TRUE));
-
-        $this->assertTrue($stub->setId());
-    }
+    /**
+     * Cryptography settings.
+     *
+     * @var Doozr_Configuration_Hierarchy_Kernel_Security_Cryptography
+     */
+    public $cryptography;
 }
-*/

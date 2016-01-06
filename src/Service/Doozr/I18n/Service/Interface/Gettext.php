@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Gettext.
+ * Doozr - I18n - Service - Interface - Gettext
  *
  * Gettext.php - Translation interface to => gettext™
  *
@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -57,14 +57,14 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Abstract.
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/Interface.php';
 
 /**
- * Doozr - I18n - Service - Interface - Gettext.
+ * Doozr - I18n - Service - Interface - Gettext
  *
  * Gettext.php - Translation interface to => gettext™
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -160,7 +160,7 @@ class Doozr_I18n_Service_Interface_Gettext extends Doozr_I18n_Service_Interface_
     {
         // Make it possible to build a valid locale like: en_US.utf8
         $path           .= $locale.DIRECTORY_SEPARATOR.'Gettext';
-        $gettextLocale = $this->normalizeLocale($locale);                                     // e.g. en-us => en_US
+        $gettextLocale   = $this->normalizeLocale($locale);                                     // e.g. en-us => en_US
         $gettextLanguage = $this->getLanguageByLocale($gettextLocale);                          // e.g. en_US => en
         $gettextEncoding = $this->normalizeEncoding($encoding);                                 // e.g. UTF-8 => utf8
 

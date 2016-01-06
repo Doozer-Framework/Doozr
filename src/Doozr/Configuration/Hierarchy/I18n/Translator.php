@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - Translator
  *
- * Translator.php - The "Translator" node representation for providing auto-completion of config values.
+ * Translator.php - The "translator" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -46,7 +46,7 @@
  * @package    Doozr_Configuration
  * @subpackage Doozr_Configuration_Hierarchy
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -55,13 +55,13 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - Translator
  *
- * Translator.php - The "Translator" node representation for providing auto-completion of config values.
+ * Translator.php - The "translator" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  * @package    Doozr_I18n
  * @subpackage Doozr_I18n_Configuration
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Base Decorator Singleton
+ * Doozr Base Decorator Singleton.
  *
  * Singleton.php - Base class for decorators.
  *
@@ -43,288 +44,177 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Decorator
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 
 /**
- * Doozr Base Decorator Singleton
+ * Doozr Base Decorator Singleton.
  *
  * Base class for decorators.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Decorator
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
 {
     /**
-     * Configuration for decorator
+     * Configuration for decorator.
      *
-     * @var array
-     * @access protected
+     * @var array|bool
      */
     protected $configuration;
 
     /**
-     * This instance contains the routing matrix.
-     * (e.g. route "foo()" to "bar()")
-     *
-     * @var object
-     * @access protected
-     */
-    protected $route;
-
-    /**
-     * Contains the current status of decorated class
+     * Contains the current status of decorated class.
      *
      * @var bool
-     * @access protected
      */
     protected $enabled;
 
-    /**
-     * The chaining classname memory
-     *
-     * @var string
-     * @access protected
-     * @static
-     */
-    protected static $chainClassname;
+    protected $decoratedObject;
+    protected $decoratedClass;
 
     /**
-     * The transformer which takes
-     *
-     * @var object
-     */
-    protected static $transformer;
-
-
-    /**
-     * Initializes the decorator by passed through configuration.
-     * The configuration is used for checking the required information:
-     *
-     * path
-     * name
-     *
-     * and afterwards check for bootstrapping script of used Drivers
-     * Library (e.g. boostrap.php or something like that). If a boot-
-     * strapper is found it is executed.
+     * Initializes the decorated class by calling its init() method (forward call).
      *
      * @param array $configuration Reference to the configuration for decorator
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     *
      * @throws Doozr_Exception
+     *
+     * @return mixed Handle to driver (can be of any kind!).
      */
-    protected function init(array $configuration, Doozr_Path $path)
+    protected function init(array $configuration)
     {
-        // the path to the class to decorate
-        if (!isset($configuration['path'])) {
+        // Check for the name of the oxm to decorate
+        if (false === isset($configuration['oxm'])) {
             throw new Doozr_Exception(
-                'Base decorator needs path to class which should be decorated!'
+                sprintf('Base decorator singleton needs OxM name for decorating!')
             );
         }
 
-        // the name of the class to decorate
-        if (!isset($configuration['name'])) {
+        // Bootstrap script required for decorated class to run
+        if (true === isset($configuration['driver']) && false || null !== $configuration['driver']) {
+            $driverFile = DOOZR_DOCUMENT_ROOT.'Model/'.$configuration['oxm'].'/'.$configuration['driver'];
+
+            $this->getRegistry()->getLogger()->debug(
+                'Loading model driver for OxM "'.$configuration['oxm'].'" from file "'.$driverFile.'"'
+            );
+
+            $result = include_once $driverFile;
+        } else {
+            $handle = null;
+            $result = true;
+        }
+
+        if (false === $result) {
             throw new Doozr_Exception(
-                'Base decorator needs name for decoration (route ...)!'
+                sprintf(
+                    'Driver ("%s") configured but could not be loaded or is already loaded.',
+                    $configuration['path'].$configuration['driver']
+                )
             );
         }
-        $name = ucfirst(strtolower($configuration['name']));
 
-        // bootstrap script required for decorated class to run
-        if (isset($configuration['bootstrap']) && $configuration['bootstrap'] !== false) {
-            include_once $configuration['path'].$configuration['bootstrap'];
-        }
+        // Store the decorated class name & instance
+        $this->decoratedClass  = 'Model\\'.$configuration['oxm'].'\\Driver';
+        $this->decoratedObject = new $this->decoratedClass();
 
-        // the glue between ???
-        // TODO: check sense comment ...
-        if (!isset($configuration['glue'])) {
-            $configuration['glue'] = '';
-        }
+        // Call pre-install hook
+        $preInstallResult = forward_static_call(
+            [$this->decoratedClass, 'preInstall'],
+            $configuration
+        );
 
-        // if a route script is set, we install this (aka proxy or better proxies!) here
-        if (isset($configuration['docroot']) && isset($configuration['route'])) {
-            // include the route
-            include_once $configuration['docroot'].$configuration['route'];
-            $classname = 'Doodi_'.$name.'_Route';
-            $this->route = new $classname();
-        }
+        // Call install
+        $handle = forward_static_call(
+            [$this->decoratedClass, 'install'],
+            $preInstallResult
+        );
 
-        // store configuration for further processing
-        $this->configuration = $configuration;
+        // Call post-install hook
+        $postInstallResult = forward_static_call(
+            [$this->decoratedClass, 'preInstall'],
+            $handle,
+            $preInstallResult
+        );
+
+        // Store configuration for further processing
+        $this->configuration = $preInstallResult;
+
+        return $postInstallResult;
     }
 
-    /**
-     * Translates given method signature and arguments to
-     * target signature and arguments.
-     *
-     * @param string $signature The signature of the method to translate
-     * @param array  $arguments The arguments to pass to method
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function translate($signature, $arguments = null)
-    {
-        if (!self::$transformer) {
-            self::$transformer = $this->_initTransformer(
-                $this->configuration['docroot'],
-                $this->configuration['name']
-            );
-        };
-
-        // return translation of input
-        return self::$transformer->transform($this, $signature, $arguments);
-    }
+    /*------------------------------------------------------------------------------------------------------------------
+    | Generic Accessor's
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to initialize the transformer-class if exists
+     * Generic accessor for object methods.
      *
-     * @param string $docroot Document root
-     * @param string $vendor  Vendor name
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of transformer
-     * @access private
-     * @throws Exception
-     */
-    private function _initTransformer($docroot, $vendor = 'Doozr')
-    {
-        // vendor (can be anything - must match folder containing transformation
-        // e.g.
-        $vendor = ucfirst($vendor);
-
-        // transformation exists?
-        $transformationFile = $docroot.'Transformation.php';
-
-        // check for transformation-class-file
-        if (file_exists($transformationFile)) {
-            // include if exist
-            include_once $transformationFile;
-
-            // combine parts to transformation classname
-            $transformerClass = 'Doodi_'.$vendor.'_Transformation';
-
-            // and instantiate the transformer
-            return new $transformerClass($this->_configuration);
-
-        } else {
-            // no transformer => no function
-            throw new Exception(
-                'No "Transformer ('.$transformationFile.')" for Mode: "'.$vendor.'" // Driver: "'.$vendor.
-                '" found. Can\'t continue!'
-            );
-        }
-    }
-
-    /**
-     * This method is intend to fetch all methods-calls for non-existant methods. This calls
-     * get routed by the previously generated matrix of the routing class.
-     *
-     * @param string $methodSignature The called method
-     * @param array  $arguments       The arguments of the method call
+     * @param string $method    Name of called method
+     * @param array  $arguments Arguments as array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The result of the message call
-     * @access public
+     *
+     * @return mixed Result
      */
-    public function __call($methodSignature, $arguments)
+    public function __call($method, array $arguments = null)
     {
-        // minor corrections on input
-        $methodSignature = str_replace('___', '', $methodSignature);
+        // Forward only the calls which cannot be satisfied by current instance - dumb forwarding
+        if (false === method_exists($this, $method)) {
 
-        // check translate!
-        return $this->translate($methodSignature, $arguments);
-
-        /*
-        // generate uid
-        $id = md5(self::$chainClassname.$methodSignature);
-
-        // get route config for this uid
-        $config = $this->route->matrix[$id];
-
-        // reset chaining
-        self::$chainClassname = null;
-
-        // check for type of call
-        if ($config['type'] == 'static') {
-            // combine parameter for static method call
-            $staticMethod = $config['class'].'::'.$config['method'];
-
-            // call method and get its return value
-            $result = call_user_func_array($staticMethod, $arguments);
-
-            // if this method is constructor -> store instance
-            if ($config['constructor'] === true) {
-                $this->route->matrix[$config['class']] = $result;
-            }
-
-        } else {
-
-            // its not a static call - so we need an instance first
-            if (!isset($this->route->matrix[$config['class']])) {
+            // Error handling if method does also not exist in decorated object
+            if (false === method_exists($this->decoratedObject, $method) || false === is_callable([$this->decoratedObject, $method])) {
                 throw new Doozr_Exception(
-                    'Instance of class: "'.$config['class'].'" required before calling method: "'.$methodSignature.'"!'.
-                    'Please call constructor first.'
+                    sprintf(
+                        'Method "%s" in instance of class "%s" not found or not callable (check if visibility is public)%s!',
+                        $method,
+                        get_class($this->decoratedObject),
+                        (count($arguments) > 0) ? ' (arguments passed: '.var_export($arguments, true).')' : ''
+                    )
                 );
             }
 
-            //
-            $instance = $this->route->matrix[$config['class']];
+            if (count($arguments) > 0) {
+                $result = call_user_func_array([$this->decoratedObject, $method], $arguments);
+            } else {
+                $result = call_user_func([$this->decoratedObject, $method]);
+            }
 
-            // call method and get its return value
-            $result = call_user_func_array(array($instance, $methodSignature), $arguments);
+            return $result;
         }
-
-        // return the result
-        return $result;
-        */
     }
 
     /**
-     * This magic method fetches all propertie accesses to this class
-     * and pass them to the decorated class - this is done by
+     * Generic accessor for static class methods.
      *
-     * @param string $chainClassname The requested property
+     * @param string $method    Name of called method
+     * @param array  $arguments Arguments as array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Base_Decorator_Singleton The current instance of this class
-     * @access public
+     *
+     * @return mixed Result
      */
-    public function __get($chainClassname)
+    public static function __callStatic($method, array $arguments = null)
     {
-        if (!self::$chainClassname) {
-            if (strtolower($chainClassname) == strtolower($this->decoratorConfiguration['name'])) {
-                $chainClassname = (isset($this->decoratorConfiguration['translate']))
-                     ? $this->decoratorConfiguration['translate']
-                     : $chainClassname;
-            }
-
-            self::$chainClassname = $chainClassname;
-
-        } else {
-            self::$chainClassname = self::$chainClassname.$this->decoratorConfiguration['glue'].
-                ucfirst($chainClassname);
-        }
-
-        return $this;
+        #if
+        #return forward_static_call_array()
     }
 }
