@@ -69,12 +69,20 @@
 class Doozr_Configuration_Hierarchy
 {
     /**
-     * The caching node of the configuration.
+     * The kernel node of the configuration.
      *
      * @var Doozr_Configuration_Hierarchy_Kernel
      * @access public
      */
     public $kernel;
+
+    /**
+     * The app node of the configuration.
+     *
+     * @var Doozr_Configuration_Hierarchy_App
+     * @access public
+     */
+    public $app;
 
     /*------------------------------------------------------------------------------------------------------------------
     | Services
@@ -87,4 +95,20 @@ class Doozr_Configuration_Hierarchy
      * @access public
      */
     public $i18n;
+
+    /**
+     * Node of service Crypt.
+     *
+     * @var Doozr_Configuration_Hierarchy_Crypt
+     * @access public
+     */
+    public $crypt;
+
+    /**
+     * Node of service Session.
+     *
+     * @var Doozr_Configuration_Hierarchy_Session
+     * @access public
+     */
+    public $session;
 }

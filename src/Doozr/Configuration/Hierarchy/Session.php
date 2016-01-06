@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Session.
  *
- * Session.php - The "kernel" node representation for providing auto-completion of config values.
+ * Session.php - The "session" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Session.
  *
- * The "kernel" node representation for providing auto-completion of config values.
+ * The "session" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *

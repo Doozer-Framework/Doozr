@@ -47,14 +47,14 @@ final class Index extends \Doozr_View_Web
         /* @var $session \Doozr_Session_Service */
         $session = \Doozr_Loader_Serviceloader::load('session');
 
-        /*
+        /**
          * A user specific view would pass a user specific value in here for group pages a group id and so on ...
          * Use this as fingerprint only if you also use an unique session identifier for each user (Doozr default).
          */
         $fingerprint = $session->getIdentifier();
 
         // Get I18n service instance
-        $i18nService = \Doozr_Loader_Serviceloader::load('i18n', $this->getRegistry()->getConfiguration());
+        $i18nService = \Doozr_Loader_Serviceloader::load('i18n');
 
         // Render data from model
         return $this->render($data, $fingerprint, $i18nService);

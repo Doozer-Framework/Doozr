@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - User.
  *
- * User.php - The "User" node representation for providing auto-completion of config values.
+ * User.php - The "user" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - User.
  *
- * User.php - The "User" node representation for providing auto-completion of config values.
+ * User.php - The "user" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *

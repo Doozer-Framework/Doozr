@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n - Encoding.
  *
- * Encoding.php - The "Encoding" node representation for providing auto-completion of config values.
+ * Encoding.php - The "encoding" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n - Encoding.
  *
- * Encoding.php - The "Encoding" node representation for providing auto-completion of config values.
+ * Encoding.php - The "encoding" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *

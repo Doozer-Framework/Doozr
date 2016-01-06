@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - Cache.
  *
- * Cache.php - The "Cache" node representation for providing auto-completion of config values.
+ * Cache.php - The "cache" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - Cache.
  *
- * Cache.php - The "Cache" node representation for providing auto-completion of config values.
+ * Cache.php - The "cache" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *

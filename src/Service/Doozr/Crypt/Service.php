@@ -187,7 +187,6 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __tearup(
-        Doozr_Configuration_Interface $config = null,
         $cipher = self::CIPHER_DEFAULT,
         $encoding = self::ENCODING_DEFAULT
     ) {
@@ -533,7 +532,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     protected function containerFactory($container, array $containerOptions = [])
     {
         $container = ucfirst(strtolower($container));
-        $classname     = __CLASS__.'_Container_'.$container;
+        $classname = __CLASS__.'_Container_'.$container;
         $file      = $this->getRegistry()->getPath()->get('service').
                      str_replace('_', DIRECTORY_SEPARATOR, $classname).'.php';
 

@@ -135,7 +135,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
         self::$registry = Doozr_Registry::getInstance();
 
         // Load service
-        self::$service = Doozr_Loader_Serviceloader::load(self::$serviceName, self::$registry->getConfiguration());
+        self::$service = Doozr_Loader_Serviceloader::load(self::$serviceName);
     }
 
     /**

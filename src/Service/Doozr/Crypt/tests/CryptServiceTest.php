@@ -73,6 +73,13 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
 class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
+     * Private key fixture for encryption.
+     *
+     * @var string
+     */
+    protected static $privateKey;
+
+    /**
      * Prepares setup for Tests of "Crypt".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -82,7 +89,46 @@ class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
         self::$serviceName = 'Crypt';
 
         parent::setUp();
+
+        /*
+        $faker = Faker\Factory::create(
+            $this->convertLocale(self::$registry->getConfiguration()->i18n->default->locale)
+        );
+
+        dump($faker->password(16,16));
+        dump($faker->password(32,32));
+        dump($faker->password(64,64));
+        dump($faker->realText($faker->numberBetween(100,200)));
+
+        die;
+        dump(self::$privateKey);
+        */
     }
 
+    /**
+     * Converts a locale from "de-de" format to "de_DE" format.
+     *
+     * @param string $locale To convert
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string Converted locale
+     */
+    protected function convertLocale($locale)
+    {
+        $locale = explode('-', $locale);
 
+        return sprintf('%s_%s', strtolower($locale[0]), strtoupper($locale[1]));
+    }
+
+    /**
+     * Test: If encryption & decryption works.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function testEncryption()
+    {
+        // Assertion(s)
+        $this->assertTrue(true);
+    }
 }

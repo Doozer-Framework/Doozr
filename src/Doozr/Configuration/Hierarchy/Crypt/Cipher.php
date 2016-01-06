@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - L10n - String.
+ * Doozr - Configuration - Hierarchy - Crypt - Cipher.
  *
- * String.php - The "string" node representation for providing auto-completion of config values.
+ * Cipher.php - The "cipher" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - L10n - String.
+ * Doozr - Configuration - Hierarchy - Crypt - Cipher.
  *
- * String.php - The "string" node representation for providing auto-completion of config values.
+ * Cipher.php - The "cipher" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -69,19 +69,51 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_I18n_L10n_String
+class Doozr_Configuration_Hierarchy_Crypt_Cipher
 {
     /**
-     * Character used for replacing bad words (for example).
+     * Encryption cipher AES.
      *
      * @var string
+     * @const
      */
-    public $replacecharacter = '*';
+    const CIPHER_AES = 'AES';
 
     /**
-     * String of bad words which must be filtered when bad word filter is used.
+     * Default encryption cipher.
+     *
+     * @var string
+     * @const
+     */
+    const CIPHER_DEFAULT = self::CIPHER_AES;
+
+    /**
+     * Encoding Base64.
+     *
+     * @var string
+     * @const
+     */
+    const ENCODING_BASE64 = 'base64';
+
+    /**
+     * Default encoding.
+     *
+     * @var string
+     * @const
+     */
+    const ENCODING_DEFAULT = self::ENCODING_BASE64;
+
+    /**
+     * The default cipher of the crypt service.
      *
      * @var string
      */
-    public $badwords = '';
+    public $default = self::CIPHER_AES;
+
+    /**
+     * The available ciphers.
+     *
+     * @var \stdClass|array
+     */
+    public $available = [self::CIPHER_AES];
 }

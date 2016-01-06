@@ -203,24 +203,21 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      * This method is a replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
      *
-     * @param Doozr_Configuration_Interface $config   An instance of a config compliant config reader
-     * @param string|null                   $locale   A locale (de, at-de, ...) OR NULL to use autodetection
-     * @param string|null                   $encoding An optional encoding used for setting/translating in locale/translator
-     *                                                also used when setting locale in gettext interface (e.g. en_US.UTF-8)
+     * @param string|null $locale   A locale (de, at-de, ...) OR NULL to use autodetection
+     * @param string|null $encoding An optional encoding used for setting/translating in locale/translator
+     *                              also used when setting locale in gettext interface (e.g. en_US.UTF-8)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return bool TRUE on success
      */
-    public function __tearup(Doozr_Configuration_Interface $config, $locale = null, $encoding = self::ENCODING_UTF_8)
+    public function __tearup($locale = null, $encoding = self::ENCODING_UTF_8)
     {
         // Check if requirements fulfilled
         self::checkRequirements();
 
-        #dump(self::getRegistry()->getConfiguration()->i18n);die;
-
         // Store config passed to this instance
-        self::$config = $config;
+        self::$config = self::getRegistry()->getConfiguration();
 
         // If no locale was passed then we try to read the preferred locale from client
         if (null === $locale) {
@@ -324,8 +321,9 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      */
     public function getClientPreferredLocale()
     {
-        if ($this->activeLocale !== null) {
+        if (null !== $this->activeLocale) {
             $locale = $this->activeLocale;
+
         } else {
             // Get detector
             $detector = $this->getDetector();

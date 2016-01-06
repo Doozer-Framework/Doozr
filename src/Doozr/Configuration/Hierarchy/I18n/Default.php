@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - Default.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * Default.php - The "default" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - Default.
  *
- * Default.php - The "Default" node representation for providing auto-completion of config values.
+ * Default.php - The "default" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -102,7 +102,7 @@ class Doozr_Configuration_Hierarchy_I18n_Default
     /**
      * Default available locales for translation set (e.g. "[de-de, en-gb, en-us]" [default]).
      *
-     * @var array
+     * @var \stdClass|array
      */
     public $available = [
         'de-de',

@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - L10n - String.
+ * Doozr - Configuration - Hierarchy - Crypt.
  *
- * String.php - The "string" node representation for providing auto-completion of config values.
+ * Crypt.php - The "crypt" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -55,9 +55,9 @@
  */
 
 /**
- * Doozr - Configuration - Hierarchy - I18n - L10n - String.
+ * Doozr - Configuration - Hierarchy - Crypt.
  *
- * String.php - The "string" node representation for providing auto-completion of config values.
+ * The "crypt" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
  *
@@ -69,19 +69,12 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Configuration_Hierarchy_I18n_L10n_String
+class Doozr_Configuration_Hierarchy_Crypt
 {
     /**
-     * Character used for replacing bad words (for example).
+     * The crypt node of the configuration.
      *
-     * @var string
+     * @var Doozr_Configuration_Hierarchy_Crypt_Cipher
      */
-    public $replacecharacter = '*';
-
-    /**
-     * String of bad words which must be filtered when bad word filter is used.
-     *
-     * @var string
-     */
-    public $badwords = '';
+    public $cipher;
 }

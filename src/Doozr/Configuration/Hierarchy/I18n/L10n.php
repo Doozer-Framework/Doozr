@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n.
  *
- * L10n.php - The "L10n" node representation for providing auto-completion of config values.
+ * L10n.php - The "l10n" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n.
  *
- * L10n.php - The "L10n" node representation for providing auto-completion of config values.
+ * L10n.php - The "l10n" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *

@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n.
  *
- * The "kernel" node representation for providing autocompletion for config values.
+ * The "i18n" node representation for providing autocompletion for config values.
  *
  * @category   Doozr
  *
