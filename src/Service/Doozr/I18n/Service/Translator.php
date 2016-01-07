@@ -5,7 +5,7 @@
 /**
  * Doozr - I18n - Service - Translator
  *
- * Translator.php - Translator is responsible for translation within module I18n.
+ * Translator.php - Translator is responsible for translation within service I18n.
  *
  * PHP versions 5.5
  *
@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 /**
  * Doozr - I18n - Service - Translator
  *
- * Translator is responsible for translation within the module I18n
+ * Translator is responsible for translation within the service I18n
  *
  * @category   Doozr
  *
