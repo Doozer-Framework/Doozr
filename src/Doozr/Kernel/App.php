@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Kernel - App
+ * Doozr - Kernel - App.
  *
  * App.php - App Kernel of Doozr.
  *
@@ -43,29 +44,30 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_App
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Kernel.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Kernel.php';
 
 /**
- * Doozr - Kernel - App
+ * Doozr - Kernel - App.
  *
  * App Kernel of Doozr.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_App
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @final
  */

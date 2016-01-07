@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Service Cache
+ * Doozr Service Cache.
  *
  * Exception.php - Base exception of module Cache
  *
@@ -43,29 +44,30 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
 /**
- * Doozr Cache Service Cache Exception
+ * Doozr Cache Service Cache Exception.
  *
  * Base Exception of Service Doozr-Cache
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Cache_Service_Exception extends Doozr_Exception
@@ -73,26 +75,21 @@ class Doozr_Cache_Service_Exception extends Doozr_Exception
     /**
      * Constructor.
      *
-     * @param string  $message  The exception-message
-     * @param int $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
+     * @param string    $message           Message
+     * @param int       $code              Code of the exception
+     * @param Exception $previousException Previously thrown exception - AS_OF: PHP 5.3 introduced!
      *
      * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Cache_Service_Exception instance of this exception
-     * @access  public
      */
-    public function __construct($message = null, $code = 0, $previous = null)
+    public function __construct($message = null, $code = 0, $previousException = null)
     {
-        // add prefix to message
-        $message = 'Doozr_Cache_Service: '.$message;
-
-        // check default code = 0
-        $code = (!$code) ? 0 : $code;
+        // Add prefix to message ...
+        $message = sprintf('%s: %s', __CLASS__, $message);
 
         // get final code
         $code = $this->generateUniqueCode($this->file, $code);
 
-        // dispatch to parent
-        parent::__construct($message, $code, $previous);
+        // Dispatch to parent
+        parent::__construct($message, $code, $previousException);
     }
 }

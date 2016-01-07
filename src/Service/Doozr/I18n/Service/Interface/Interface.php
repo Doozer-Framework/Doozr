@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface - Interface.
+ * Doozr - I18n - Service - Interface - Interface
  *
  * Interface.php - I18n Translation Base Interface
  *
@@ -46,7 +46,7 @@
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$
@@ -55,14 +55,14 @@
  */
 
 /**
- * Doozr - I18n - Service - Interface - Base.
+ * Doozr - I18n - Service - Interface - Interface
  *
  * I18n Translation Base Interface
  *
  * @category   Doozr
  *
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
  * @version    Git: $Id$

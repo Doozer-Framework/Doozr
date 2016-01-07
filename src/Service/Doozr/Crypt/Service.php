@@ -1,16 +1,15 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Crypt - Service
+ * Doozr - Crypt - Service.
  *
  * Service.php - En- / Decryption Service for Doozr Framework.
- * This module works with container so different ciphers are supported:
  *
- *     AES:
- *     AES Cipher Library - Based on Federal Information Processing
- *     Standards Publication 197 - 26th November 2001 -
- *     Text cipher class - This class is using AES crypt algoritm
+ * AES Cipher Library - Based on Federal Information Processing
+ * Standards Publication 197 - 26th November 2001 -
+ * Text cipher class - This class is using AES crypt algorithm
  *
  * PHP versions 5.5
  *
@@ -49,35 +48,36 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Crypt
+ *
  * @author     Marcin F. Wisniowski <marcin.wisniowski@mfw.pl>
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
 
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * Doozr - Crypt - Service
+ * Doozr - Crypt - Service.
  *
  * AES Cipher Library - Based on Federal Information Processing Standards Publication
  * 197 - 26th November 2001 - Text cipher class - This class is using AES crypt algoritm
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Crypt
+ *
  * @author     Marcin F. Wisniowski <marcin.wisniowski@mfw.pl>
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     link   = "doozr.registry",
@@ -85,231 +85,141 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade implements Doozr_Base_Service_Interface
+class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
-     * AES-cipher object
+     * Cipher container instance.
      *
-     * @var object
-     * @access protected
+     * @var Doozr_Crypt_Service_Container_Interface
      */
     protected $container;
 
     /**
-     * Private key
+     * Private key.
      *
      * @var string
-     * @access protected
      */
     protected $privateKey;
 
     /**
-     * Currently active cipher
+     * Cipher used for encryption.
      *
      * @var string
-     * @access protected
      */
-    protected $activeCipher;
+    protected $cipher;
 
     /**
-     * Container encoding
+     * Encoding for encrypted strings.
      *
      * @var string
-     * @access protected
      */
-    protected $containerEncoding = 'base64';
+    protected $encoding;
 
     /**
-     * Valid encodings including the encode + decode function reference
+     * Valid encodings including the encode + decode function reference.
      *
      * @var array
-     * @access protected
      */
-    protected $validContainerEncodings = array(
-        'base64' => array(
-            '_encode' => 'base64_encode',
-            '_decode' => 'base64_decode'
-        ),
-        'uuencode' => array(
-            '_encode' => 'convert_uuencode',
-            '_decode' => 'convert_uudecode'
-        )
-    );
+    protected $validEncodings = [
+        'base64' => [
+            'encode' => 'base64_encode',
+            'decode' => 'base64_decode',
+        ],
+        'uuencode' => [
+            'encode' => 'convert_uuencode',
+            'decode' => 'convert_uudecode',
+        ],
+    ];
 
     /**
-     * This method is intend to act as constructor.
+     * Valid container/ciphers.
      *
-     * @param string $cipher   The cipher (container) to use
-     * @param string $encoding The encoding used for output
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * @var array
      */
-    public function __tearup($cipher = 'Aes', $encoding = 'base64')
-    {
-        // setup algorithm
-        $this->setCipher($cipher);
-
-        // setup encoding
-        $this->setEncoding($encoding);
-    }
+    protected $validCiphers = [
+        self::CIPHER_AES,
+    ];
 
     /**
-     * Sets the active cipher (algorithm)
+     * Encryption cipher AES.
      *
-     * This method is intend to set the active cipher (algorithm).
-     *
-     * @param string $cipher The (name of) cipher to use
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
-     * @access public
+     * @var string
+     * @const
      */
-    public function setCipher($cipher = 'Aes')
-    {
-        if ($cipher != $this->activeCipher) {
-            // create a new instance of AES
-            $this->container = $this->containerFactory($cipher);
-
-            // store cipher as active
-            $this->activeCipher = $cipher;
-
-            self::setRealObject(
-                $this->container
-            );
-
-            // successful changed
-            return true;
-        }
-
-        // no change - no success
-        return false;
-    }
+    const CIPHER_AES = 'AES';
 
     /**
-     * Returns the active cipher (algorithm)
+     * Default encryption cipher.
      *
-     * This method is intend to return the active cipher (algorithm).
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The active cipher (algortihm)
-     * @access public
+     * @var string
+     * @const
      */
-    public function getCipher()
-    {
-        return $this->activeCipher;
-    }
+    const CIPHER_DEFAULT = self::CIPHER_AES;
 
     /**
-     * This method is intend to set the encoding.
+     * Encoding Base64.
      *
-     * @param string $encoding The (name of) encoding to use
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     * @var string
+     * @const
      */
-    public function setEncoding($encoding)
-    {
-        if (in_array($encoding, $this->validContainerEncodings)) {
-            $this->containerEncoding = $encoding;
-        }
-    }
+    const ENCODING_BASE64 = 'base64';
 
     /**
-     * Returns the encoding
+     * Default encoding.
      *
-     * This method is intend to return the active encoding.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The active encoding
-     * @access public
+     * @var string
+     * @const
      */
-    public function getEncoding()
-    {
-        return $this->containerEncoding;
-    }
+    const ENCODING_DEFAULT = self::ENCODING_BASE64;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to encode data.
+     * Constructor replacement.
      *
-     * @param string $data The data to encode
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string Encoded data
-     * @access private
-     */
-    private function _encode($data)
-    {
-        $function = $this->validContainerEncodings[$this->containerEncoding][__FUNCTION__];
-        return call_user_func($function, $data);
-    }
-
-    /**
-     * This method is intend to decode data.
-     *
-     * @param string $data The data to decode
+     * @param string $cipher   Cipher (container) for en-/decryption
+     * @param string $encoding Encoding used for output
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string Decoded data
-     * @access private
      */
-    private function _decode($data)
-    {
-        $function = $this->validContainerEncodings[$this->containerEncoding][__FUNCTION__];
-        return call_user_func($function, $data);
+    public function __tearup(
+        $cipher   = self::CIPHER_DEFAULT,
+        $encoding = self::ENCODING_DEFAULT
+    ) {
+        $this
+            ->cipher($cipher)
+            ->encoding($encoding);
     }
 
-    /**
-     * This method is intend to act as factory for container.
-     *
-     * @param string $container        The container to create
-     * @param array  $containerOptions The configuration/options for the container
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of the container
-     * @access protected
-     * @throws Doozr_Exception
-     */
-    protected function containerFactory($container, array $containerOptions = [])
-    {
-        $container = ucfirst(strtolower($container));
-        $class     = __CLASS__.'_Container_'.$container;
-        $file      = $this->getRegistry()->getPath()->get('service') . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
-
-        // check if file exists
-        if (!file_exists($file)) {
-            throw new Doozr_Exception(
-                'Container-File: '.$file.' does not exist!'
-            );
-        }
-
-        include_once $file;
-        return new $class($containerOptions);
-    }
+    /*------------------------------------------------------------------------------------------------------------------
+     | PUBLIC API
+     +----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * This method is intend to encrypt a given string with a given key or default key.
      *
-     * @param string  $data   The data to encrypt
-     * @param mixed   $key    The key to use for encryption
-     * @param bool $encode TRUE to encode the data, otherwise FALSE to do not
+     * @param string $data   The data to encrypt
+     * @param mixed  $key    The key to use for encryption
+     * @param bool   $encode TRUE to encode the data, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The encrypted $content
-     * @access public
      */
     public function encrypt($data, $key = null, $encode = true)
     {
-        if ($key) {
-            $this->container->setKey($key);
+        if (null !== $key) {
+            $this->getContainer()->setKey($key);
         }
 
-        $data = $this->container->encrypt($data);
+        $data = $this->getContainer()->encrypt($data);
 
-        if ($encode) {
-            $data = $this->_encode($data);
+        if (true === $encode) {
+            $data = $this->encode($data);
         }
 
         return $data;
@@ -323,23 +233,320 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade implements 
      * @param bool   $decode TRUE to decode the data, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The decrypted string
-     * @access public
      */
     public function decrypt($data, $key = null, $decode = true)
     {
-        if ($key) {
-            $this->container->setKey($key);
+        if (null !== $key) {
+            $this->getContainer()->setKey($key);
         }
 
-        if ($decode) {
-            $data = $this->_decode(
-                $data
+        if (true === $decode) {
+            $data = $this->decode($data);
+        }
+
+        $data = $this->getContainer()->decrypt($data);
+
+        return $data;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+     | INTERNAL API
+     +----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for container.
+     *
+     * @param Doozr_Crypt_Service_Container_Interface $container The container instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setContainer($container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * Fluent: Setter for container.
+     *
+     * @param Doozr_Crypt_Service_Container_Interface $container The container instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function container($container)
+    {
+        $this->setContainer($container);
+
+        return $this;
+    }
+
+    /**
+     * Getter for container.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return \Doozr_Crypt_Service_Container_Interface
+     */
+    protected function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * Setter for cipher.
+     *
+     * @param string $cipher Cipher to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setCipher($cipher)
+    {
+        if (false === in_array($cipher, $this->getValidCiphers())) {
+            throw new Doozr_Crypt_Service_Exception(
+                sprintf(
+                    'Cipher "%s" not supported. Choose from: "%s".',
+                    $cipher,
+                    var_export($this->getValidCiphers(), true)
+                )
             );
         }
 
-        $data = $this->container->decrypt($data);
+        // Init once or on change
+        if ($cipher !== $this->getCipher()) {
+            // Create a new instance of cipher's container
+            $this
+                ->container($this->containerFactory($cipher))
+                ->cipher;
 
-        return $data;
+            self::setRealObject(
+                $this->getContainer()
+            );
+        }
+    }
+
+    /**
+     * fluent: Setter for cipher.
+     *
+     * @param string $cipher Cipher to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function cipher($cipher)
+    {
+        $this->setCipher($cipher);
+
+        return $this;
+    }
+
+    /**
+     * Getter for cipher.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string The cipher
+     */
+    protected function getCipher()
+    {
+        return $this->cipher;
+    }
+
+    /**
+     * Setter for encoding.
+     *
+     * @param string $encoding The encoding to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setEncoding($encoding)
+    {
+        if (false === array_key_exists($encoding, $this->getValidEncodings())) {
+            throw new Doozr_Crypt_Service_Exception(
+                sprintf(
+                    'Encoding "%s" not supported. Choose from: "%s".',
+                    $encoding,
+                    var_export($this->getValidEncodings(), true)
+                )
+            );
+        }
+
+        $this->encoding = $encoding;
+    }
+
+    /**
+     * Fluent: Setter for encoding.
+     *
+     * @param string $encoding The encoding used for encrypted strings (better for transport)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this
+     */
+    protected function encoding($encoding)
+    {
+        $this->setEncoding($encoding);
+
+        return $this;
+    }
+
+    /**
+     * Getter for encoding.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string Encoding set
+     */
+    protected function getEncoding()
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * Setter for valid encodings.
+     *
+     * @param array $validEncodings The validEncodings to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setValidEncodings(array $validEncodings)
+    {
+        $this->validEncodings = $validEncodings;
+    }
+
+    /**
+     * Fluent: Setter for valid encodings.
+     *
+     * @param array $validEncodings The validEncodings to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this
+     */
+    protected function validEncodings(array $validEncodings)
+    {
+        $this->setValidEncodings($validEncodings);
+
+        return $this;
+    }
+
+    /**
+     * Getter for valid encodings.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return array Valid encodings set
+     */
+    protected function getValidEncodings()
+    {
+        return $this->validEncodings;
+    }
+
+    /**
+     * Setter for valid ciphers.
+     *
+     * @param array $validCiphers Valid ciphers to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setValidCiphers(array $validCiphers)
+    {
+        $this->validCiphers = $validCiphers;
+    }
+
+    /**
+     * Fluent: Setter for valid ciphers.
+     *
+     * @param array $validCiphers Valid ciphers to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function validCiphers(array $validCiphers)
+    {
+        $this->setValidCiphers($validCiphers);
+
+        return $this;
+    }
+
+    /**
+     * Getter for valid ciphers.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return array Valid ciphers set
+     */
+    protected function getValidCiphers()
+    {
+        return $this->validCiphers;
+    }
+
+    /**
+     * Encodes data.
+     *
+     * @param string $data The data to encode
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string Encoded data
+     */
+    protected function encode($data)
+    {
+        $function = $this->getValidEncodings()[$this->getEncoding()][__FUNCTION__];
+
+        return call_user_func($function, $data);
+    }
+
+    /**
+     * Decodes data.
+     *
+     * @param string $data The data to decode
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string Decoded data
+     */
+    protected function decode($data)
+    {
+        $function = $this->getValidEncodings()[$this->getEncoding()][__FUNCTION__];
+
+        return call_user_func($function, $data);
+    }
+
+    /**
+     * This method is intend to act as factory for container.
+     *
+     * @param string $container        The container to create
+     * @param array  $containerOptions The configuration/options for the container
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return Doozr_Crypt_Service_Container_Interface Container instance
+     *
+     * @throws Doozr_Crypt_Service_Exception
+     */
+    protected function containerFactory($container, array $containerOptions = [])
+    {
+        $container = ucfirst(strtolower($container));
+        $classname = __CLASS__.'_Container_'.$container;
+        $file      = $this->getRegistry()->getPath()->get('service').
+                     str_replace('_', DIRECTORY_SEPARATOR, $classname).'.php';
+
+        // Check if file exists
+        if (false === file_exists($file)) {
+            throw new Doozr_Crypt_Service_Exception(
+                sprintf('Container "%s" is not loadable. File "%s" does not exist!', $container, $file)
+            );
+        }
+
+        // Include the file for the class
+        include_once $file;
+
+        // Any options set?
+        return $this->instantiate($classname, $containerOptions);
     }
 }

@@ -46,7 +46,7 @@
  * @package    Doozr_Http
  * @subpackage Doozr_Http_State
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -67,7 +67,7 @@ use Psr\Http\Message\StreamInterface;
  * @package    Doozr_Http
  * @subpackage Doozr_Http_State
  * @author     Benjamin Carl <opensource@clickalicious.de>
- * @copyright  2005 - 2015 Benjamin Carl
+ * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
@@ -405,6 +405,23 @@ class Doozr_Http_State extends Doozr_Base_State
         $this->setBody($body);
 
         return $this;
+    }
+
+    /**
+     * Getter for data.
+     *
+     * @param string $data The data to store.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return Doozr_Response_Body Data stored
+     * @access public
+     */
+    public function setData($data)
+    {
+        $body = new Doozr_Response_Body();
+        $body->write($data);
+
+        $this->setBody($body);
     }
 
     /**
