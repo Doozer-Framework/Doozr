@@ -5,7 +5,7 @@
 /**
  * Doozr - I18n - Service - Exception
  *
- * Exception.php - Base exception of module I18n
+ * Exception.php - Base exception of service I18n.
  *
  * PHP versions 5.5
  *
@@ -53,12 +53,12 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Exception.php';
 
 /**
  * Doozr - I18n - Service - Exception
  *
- * Base exception of module I18n
+ * Base exception of service I18n
  *
  * @category   Doozr
  *
@@ -70,28 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_I18n_Service_Exception extends Doozr_Exception
+class Doozr_I18n_Service_Exception extends Doozr_Base_Service_Exception
 {
-    /**
-     * This method is intend to act as constructor.
-     *
-     * @param string $message  The exception-message
-     * @param int    $code     The code of the exception
-     * @param object $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function __construct($message = null, $code = 0, $previous = null)
-    {
-        // Add prefix to message
-        $message = 'Doozr_I18n_Service: '.$message;
-
-        // Check default code = 0
-        $code = (!$code) ? 0 : $code;
-
-        // Get final code
-        $code = $this->generateUniqueCode($this->file, $code);
-
-        parent::__construct($message, $code, $previous);
-    }
+    // Intentionally left empty
 }

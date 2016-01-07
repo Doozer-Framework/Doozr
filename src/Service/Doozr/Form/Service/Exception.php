@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Service - Form.
  *
- * Exception.php - Base exception for Form Service.
+ * Exception.php - Base exception of service "Form"
  *
  * PHP versions 5.5
  *
@@ -43,34 +44,33 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Exception.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Service - Form.
  *
- * Base exception for Form Service.
+ * Base exception of service "Form"
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Exception extends Doozr_Base_Exception
+class Doozr_Form_Service_Exception extends Doozr_Base_Service_Exception
 {
-    /**
-     * intentionally left blank - currently only used for structuring
-     */
+    // Intentionally left empty
 }

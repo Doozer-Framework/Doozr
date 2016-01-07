@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - Template.
+ * Doozr - Configuration - Hierarchy - Crypt - Encoding.
  *
- * Exception.php - Base exception of service "Template"
+ * Encoding.php - The "cipher" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -53,12 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Exception.php';
 
 /**
- * Doozr - Service - Template.
+ * Doozr - Configuration - Hierarchy - Crypt - Encoding.
  *
- * Base exception of service "Template"
+ * Encoding.php - The "cipher" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -70,7 +69,38 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Exception.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Template_Service_Exception extends Doozr_Base_Service_Exception
+class Doozr_Configuration_Hierarchy_Crypt_Encoding
 {
-    // Intentionally left empty
+    /**
+     * Default encoding.
+     *
+     * @var string
+     */
+    public $default = 'base64';
+
+    /**
+     * The encoding function mapping.
+     *
+     * @var \stdClass|array
+     */
+    public $mapping = [
+        'base64' => [
+            'encode' => 'base64_encode',
+            'decode' => 'base64_decode',
+        ],
+        'uuencode' => [
+            'encode' => 'convert_uuencode',
+            'decode' => 'convert_uudecode',
+        ],
+    ];
+
+    /**
+     * The available ciphers.
+     *
+     * @var \stdClass|array
+     */
+    public $available = [
+        'base64',
+        'uuencode',
+    ];
 }

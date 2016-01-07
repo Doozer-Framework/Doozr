@@ -1012,7 +1012,7 @@ class Doozr_Form_Service_FormManager
      * @example echo $instance WILL provide you an echo
      *          of the rendered HTML
      *
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string The rendered HTML
      * @access  public
      */
