@@ -75,9 +75,9 @@ class Doozr_Base_Service_Exception extends Doozr_Exception
     /**
      * Constructor.
      *
-     * @param string    $message           Message
-     * @param int       $code              Code of the exception
-     * @param Exception $previousException Previously thrown exception - AS_OF: PHP 5.3 introduced!
+     * @param string|null    $message           Message
+     * @param int            $code              Code of the exception
+     * @param Exception|null $previousException Previously thrown exception - AS_OF: PHP 5.3 introduced!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */

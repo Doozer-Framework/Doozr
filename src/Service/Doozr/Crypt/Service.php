@@ -379,7 +379,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     }
 
     /**
-     * Setter for valid encodings.
+     * Setter for encodingAvailable.
      *
      * @param array $encodingAvailable The encodingAvailable to set
      *
@@ -391,7 +391,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     }
 
     /**
-     * Fluent: Setter for valid encodings.
+     * Fluent: Setter for encodingAvailable.
      *
      * @param array $encodingAvailable The encodingAvailable to set
      *
@@ -407,11 +407,11 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     }
 
     /**
-     * Getter for encodings available.
+     * Getter for encodingAvailable.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return array Valid encodings set
+     * @return array The encodingAvailable set
      */
     protected function getEncodingAvailable()
     {
