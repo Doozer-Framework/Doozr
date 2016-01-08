@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - Template.
+ * Doozr - Base - Service - Exception.
  *
- * Exception.php - Base exception of service "Template"
+ * Exception.php - Base exception for Services.
  *
  * PHP versions 5.5
  *
@@ -53,12 +53,12 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
 /**
- * Doozr - Service - Template.
+ * Doozr - Base - Service - Exception.
  *
- * Base exception of service "Template"
+ * Base exception for Services.
  *
  * @category   Doozr
  *
@@ -70,7 +70,26 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Exception.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Template_Service_Exception extends Doozr_Base_Service_Exception
+class Doozr_Base_Service_Exception extends Doozr_Exception
 {
-    // Intentionally left empty
+    /**
+     * Constructor.
+     *
+     * @param string|null    $message           Message
+     * @param int            $code              Code of the exception
+     * @param Exception|null $previousException Previously thrown exception - AS_OF: PHP 5.3 introduced!
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function __construct($message = null, $code = 0, $previousException = null)
+    {
+        // Add prefix to message ...
+        $message = sprintf('%s: %s', __CLASS__, $message);
+
+        // Get final code
+        $code = $this->generateUniqueCode($this->file, $code);
+
+        // Dispatch to parent
+        parent::__construct($message, $code, $previousException);
+    }
 }

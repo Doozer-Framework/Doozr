@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - Exception - Abstract
+ * Doozr - Base - Exception - Abstract.
  *
  * Abstract.php - Abstract class for base exception of the Doozr Framework.
  *
@@ -43,75 +44,71 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Exception
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Base - Exception - Abstract
+ * Doozr - Base - Exception - Abstract.
  *
  * Abstract class for base exception of the Doozr Framework.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Exception
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 abstract class Doozr_Base_Exception_Generic_Abstract extends RuntimeException
 {
     /**
-     * Exception-message
+     * Exception-message.
      *
      * @var string
-     * @access protected
      */
     protected $message = 'Doozr -> unknown exception';
 
     /**
-     * Exception error-code/nr/#
+     * Exception error-code/nr/#.
      *
      * @var int
-     * @access protected
      */
     protected $code = 0;
 
     /**
-     * Filename of the file where the exception was initially thrown
+     * Filename of the file where the exception was initially thrown.
      *
      * @var string
-     * @access protected
      */
     protected $file;
 
     /**
-     * Line of the file where the exception was initially thrown
+     * Line of the file where the exception was initially thrown.
      *
      * @var int
-     * @access protected
      */
     protected $line;
 
     /**
      * Constructor.
      *
-     * @param string    $message  Exceptions message
-     * @param int       $code     Code of the exception
-     * @param Exception $previous Previous exception thrown - AS_OF: PHP 5.3 introduced !
+     * @param string|null    $message           Exceptions message
+     * @param int            $code              Code of the exception
+     * @param Exception|null $previousException Previous exception thrown - AS_OF: PHP 5.3 introduced !
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Base_Exception_Generic_Abstract instance of this class
-     * @access public
      */
-    public function __construct($message = null, $code = 0, $previous = null)
+    public function __construct($message = null, $code = 0, $previousException = null)
     {
         // If no message set set default message!
         if (null === $message) {
@@ -121,7 +118,7 @@ abstract class Doozr_Base_Exception_Generic_Abstract extends RuntimeException
         }
 
         // Call parents constructor
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code, $previousException);
     }
 
     /**
@@ -130,8 +127,8 @@ abstract class Doozr_Base_Exception_Generic_Abstract extends RuntimeException
      * This method is intend to return a string representation of this class content
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string A string representation of this class content
-     * @access public
      */
     public function __toString()
     {
