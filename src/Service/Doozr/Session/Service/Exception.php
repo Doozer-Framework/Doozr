@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Session - Service - Exception
+ * Doozr - Service - Session.
  *
- * Exception.php - Exception base class for exceptions of session service.
+ * Exception.php - Base exception of service "Session"
  *
  * PHP versions 5.5
  *
@@ -43,32 +44,33 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Session
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Exception.php';
 
 /**
- * Doozr - Session - Service - Exception
+ * Doozr - Service - Session.
  *
- * Exception base class for exceptions of session service.
+ * Base exception of service "Session"
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Session
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Session_Service_Exception extends Doozr_Base_Exception
+class Doozr_Session_Service_Exception extends Doozr_Base_Service_Exception
 {
-    // Intentionally left blank -> Just used for namespacing
+    // Intentionally left empty
 }

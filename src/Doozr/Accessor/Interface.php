@@ -3,10 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Accessor - Interface
  *
- * Label.php - The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * Interface.php - Accessor Interface of Doozr.
  *
  * PHP versions 5.5
  *
@@ -54,13 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Accessor - Interface
  *
- * The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * Accessor Interface of Doozr.
  *
  * @category   Doozr
  *
@@ -72,89 +69,23 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcompo
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Formcomponent
+interface Doozr_Accessor_Interface
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string "".
+     * The official and supported way of getting stored objects from registry.
      *
-     * @var string
+     * @param string|null $identifier The identifier to return content for, NULL to return all objects
+     *
+     * @return mixed|null The stored variable if exist, otherwise NULL
      */
-    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_LABEL;
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
+    public function get($identifier = null);
 
     /**
-     * Setter for form.
+     * The official and supported way of storing objects in registry.
      *
-     * @param string $form The form to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @param mixed       $variable   The variable to store
+     * @param string|null $identifier The identifier to store variable under
      */
-    public function setForm($form)
-    {
-        $this->setAttribute('form', $form);
-    }
-
-    /**
-     * Getter for form.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The form
-     */
-    public function getForm()
-    {
-        return $this->getAttribute('form');
-    }
-
-    /**
-     * Setter for "for" attribute.
-     *
-     * @param string $referencedComponent The referenced form element for which this label is for
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function setFor($referencedComponent)
-    {
-        $this->setAttribute('for', $referencedComponent);
-    }
-
-    /**
-     * Getter for "for" attribute.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string|null The "for" attribute of the component, NULL if not set
-     */
-    public function getFor()
-    {
-        return $this->getAttribute('for');
-    }
-
-    /**
-     * Setter for Text of the label.
-     *
-     * @param string $text The text to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function setText($text)
-    {
-        $this->setInnerHtml($text);
-    }
-
-    /**
-     * Getter for text of the label.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string|null The text of the label, NULL if not set
-     */
-    public function getText()
-    {
-        return $this->getInnerHtml();
-    }
+    public function set(&$variable, $identifier = null);
 }
+

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Option.php - Interface for Options as well as Optgroup components.
  * Same contract.
@@ -44,89 +45,85 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Interface for Options as well as Optgroup components.
  * Same contract.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Form_Service_Component_Interface_Option
 {
     /**
-     * Setter for label
+     * Setter for label.
      *
      * @param string $label The label of the option
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setLabel($label);
 
     /**
-     * Getter for label
+     * Getter for label.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The label
-     * @access public
      */
     public function getLabel();
 
     /**
-     * Setter for disabled status
+     * Setter for disabled status.
      *
      * @param bool $state The status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDisabled($state);
 
     /**
-     * Getter for disabled status
+     * Getter for disabled status.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if disabled, otherwise FALSE
-     * @access public
      */
     public function getDisabled();
 
     /**
-     * Setter for key
+     * Setter for key.
      *
      * @param string $key The key to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setKey($key);
 
     /**
-     * Getter for key
+     * Getter for key.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The key
-     * @access public
      */
     public function getKey();
 }

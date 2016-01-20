@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service - Error
+ * Doozr - Form - Service - Error.
  *
  * Error.php - Form Error class
  *
@@ -43,88 +44,83 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Service - Form - Error
+ * Doozr - Service - Form - Error.
  *
  * Error.php - ...
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Validate_Error
 {
     /**
-     * The error
+     * The error.
      *
      * @var string
-     * @access protected
      */
     protected $error;
 
     /**
-     * Additional info to error
+     * Additional info to error.
      *
      * @var mixed
-     * @access protected
      */
     protected $info;
 
     /**
-     * The value which triggered this error
+     * The value which triggered this error.
      *
      * @var mixed
-     * @access private
      */
     private $value;
 
     /**
-     * The error-code
+     * The error-code.
      *
      * @var int
-     * @access protected
      */
     protected $errorCode = 0;
 
     /**
-     * The error-message
+     * The error-message.
      *
      * @var string
-     * @access protected
      */
     protected $errorMessage = '';
 
     /**
-     * The "error to error-code" translation-matrix
+     * The "error to error-code" translation-matrix.
      *
      * @var array
-     * @access protected
      * @static
      */
     protected $errorCodeMatrix = [];
 
     /**
-     * The "error to error-message" translation-matrix
+     * The "error to error-message" translation-matrix.
      *
      * @var array
-     * @access protected
      * @static
      */
-    protected $errorMessageMatrix = array(
+    protected $errorMessageMatrix = [
          0 => 'UNKNOWN_ERROR',
          1 => 'N.A.',
          2 => 'This field is required.',
@@ -145,8 +141,8 @@ class Doozr_Form_Service_Validate_Error
         17 => 'This field must be empty.',
         18 => 'This field can be either TRUE or FALSE.',
         19 => 'This field must be of type double (e.g. 1.0 or 2.3 ...).',
-        20 => 'This field must be of type integer (e.g. 1 or 2 or 374 or 9384984)'
-    );
+        20 => 'This field must be of type integer (e.g. 1 or 2 or 374 or 9384984)',
+    ];
 
     /**
      * Constructor.
@@ -156,8 +152,8 @@ class Doozr_Form_Service_Validate_Error
      * @param array|null  $info  Additional information to error (e.g. the count of given chars on error minlength)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Form_Service_Validate_Error Instance of this class
-     * @access public
      */
     public function __construct($error = null, $value = null, $info = null)
     {
@@ -178,8 +174,6 @@ class Doozr_Form_Service_Validate_Error
      * @param string $error The error
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setError($error)
     {
@@ -190,8 +184,8 @@ class Doozr_Form_Service_Validate_Error
      * Getter for error.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The error if set, otherwise NULL
-     * @access public
      */
     public function getError()
     {
@@ -204,8 +198,6 @@ class Doozr_Form_Service_Validate_Error
      * @param string $value The value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setValue($value)
     {
@@ -216,8 +208,8 @@ class Doozr_Form_Service_Validate_Error
      * Getter for value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The value if set, otherwise NULL
-     * @access public
      */
     public function getValue()
     {
@@ -230,8 +222,6 @@ class Doozr_Form_Service_Validate_Error
      * @param string $info The info
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setInfo($info)
     {
@@ -242,8 +232,8 @@ class Doozr_Form_Service_Validate_Error
      * Returns the additional info.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The additional info
-     * @access public
      */
     public function getInfo()
     {
@@ -251,16 +241,16 @@ class Doozr_Form_Service_Validate_Error
     }
 
     /**
-     * Getter for the I18N-error-identifier
+     * Getter for the I18N-error-identifier.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The I18N-error-identifier
-     * @access public
      */
     public function getI18nIdentifier()
     {
         // set identifier for localization
-        return strtolower(__CLASS__ . '_' . $this->getError());
+        return strtolower(__CLASS__.'_'.$this->getError());
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -268,11 +258,11 @@ class Doozr_Form_Service_Validate_Error
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Initializes the validation matrix
+     * Initializes the validation matrix.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      */
     protected function init()
     {
@@ -283,7 +273,7 @@ class Doozr_Form_Service_Validate_Error
 
             // iterate over types and construct error-code-matrix of it
             foreach ($typeMatrix as $type => $order) {
-                $this->errorCodeMatrix[$type] = ($order+1);
+                $this->errorCodeMatrix[$type] = ($order + 1);
             }
         }
 
@@ -297,8 +287,8 @@ class Doozr_Form_Service_Validate_Error
      * @param string $value The string to make safe for output
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The input safe for output
-     * @access protected
      */
     protected function safeOutput($value)
     {
@@ -311,8 +301,8 @@ class Doozr_Form_Service_Validate_Error
      * @param string $error The error to return error-code for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The error-code
-     * @access protected
+     *
+     * @return int The error-code
      */
     protected function getErrorCode($error)
     {
@@ -320,13 +310,13 @@ class Doozr_Form_Service_Validate_Error
     }
 
     /**
-     * Returns error-message by error-code
+     * Returns error-message by error-code.
      *
      * @param int $errorCode The error-code to return error-message for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The error-message
-     * @access protected
      */
     protected function getErrorMessage($errorCode)
     {
@@ -338,7 +328,6 @@ class Doozr_Form_Service_Validate_Error
         if ($this->info) {
             if (is_string($this->info)) {
                 $this->errorMessageMatrix[$errorCode] .= ' '.$this->info;
-
             } elseif (count($this->info) != 1 || $this->info[0] != null) {
                 foreach ($this->info as $info) {
                     $info = serialize($info);

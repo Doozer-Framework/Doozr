@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service - Shared Constant(s)
+ * Doozr - Form - Service - Shared Constant(s).
  *
  * Constant.php - Shared Constants used by classes of this service.
  *
@@ -43,27 +44,29 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service - Shared Constant(s)
+ * Doozr - Form - Service - Shared Constant(s).
  *
  * Shared Constants used by classes of this service.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Constant
@@ -72,51 +75,45 @@ class Doozr_Form_Service_Constant
      * The prefix for fields, fieldsets ...
      *
      * @var string
-     * @access public
      */
     const PREFIX = 'Doozr_Form_Service_';
 
     /**
      * Identifier for the container object
      * in an AngularJS scope. So in this default setup
-     * hidden fields available through
+     * hidden fields available through.
      *
      * @example $scope.hidden.[NAME]
      *
      * @var string
-     * @access public
      */
     const SCOPE = '';
 
     /**
-     * The default name used at init for default (e.g. for optional I18n namespace)
+     * The default name used at init for default (e.g. for optional I18n namespace).
      *
      * @var string
-     * @access public
      */
     const DEFAULT_NAMESPACE = 'Form';
 
     /**
-     * The default step if no step is/was set before
+     * The default step if no step is/was set before.
      *
      * @var int
-     * @access public
      */
     const STEP_DEFAULT_FIRST = 1;
 
     /**
-     * The default amount of steps till finish is 1 (1/1)
+     * The default amount of steps till finish is 1 (1/1).
      *
      * @var int
-     * @access public
      */
     const STEP_DEFAULT_LAST = 1;
 
     /**
-     * The name/identifier of hidden field for submission status
+     * The name/identifier of hidden field for submission status.
      *
      * @var string
-     * @access public
      */
     const FORM_NAME_FIELD_SUBMITTED = 'Submitted';
 
@@ -124,7 +121,6 @@ class Doozr_Form_Service_Constant
      * The fieldname of the token field.
      *
      * @var string
-     * @access public
      */
     const FORM_NAME_FIELD_TOKEN = 'Token';
 
@@ -133,7 +129,6 @@ class Doozr_Form_Service_Constant
      * information about a valid file uploaded.
      *
      * @var string
-     * @access public
      */
     const FORM_NAME_FIELD_FILE = 'File';
 
@@ -141,7 +136,6 @@ class Doozr_Form_Service_Constant
      * The fieldname for the step field.
      *
      * @var string
-     * @access public
      */
     const FORM_NAME_FIELD_STEP = 'Step';
 
@@ -149,7 +143,6 @@ class Doozr_Form_Service_Constant
      * The fieldname for the steps field.
      *
      * @var string
-     * @access public
      */
     const FORM_NAME_FIELD_STEPS = 'Steps';
 
@@ -157,170 +150,149 @@ class Doozr_Form_Service_Constant
      * The fieldname for the jump field.
      *
      * @var string
-     * @access public
      */
     const FORM_NAME_FIELD_JUMP = 'Jump';
 
     /**
      * Token behavior constants
-     * DENY = Block access to page (tries to send 404)
+     * DENY = Block access to page (tries to send 404).
      *
      * @var int
-     * @access public
      */
     const TOKEN_BEHAVIOR_DENY = 1;
 
     /**
      * Token behavior constants
-     * IGNORE = No matter if valid or invalid - the token just get ignored
+     * IGNORE = No matter if valid or invalid - the token just get ignored.
      *
      * @var int
-     * @access public
      */
     const TOKEN_BEHAVIOR_IGNORE = 2;
 
     /**
      * Token behavior constants
-     * DENY = Block access to page (tries to send 404)
+     * DENY = Block access to page (tries to send 404).
      *
      * @var int
-     * @access public
      */
     const TOKEN_BEHAVIOR_INVALIDATE = 3;
 
     /**
-     * Fieldtypes of form elements
+     * Fieldtypes of form elements.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_NONE = '';
 
     /**
-     * The tag form
+     * The tag form.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_FORM = 'form';
 
     /**
-     * The tag radio
+     * The tag radio.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_RADIO = 'radio';
 
     /**
-     * The tag checkbox
+     * The tag checkbox.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_CHECKBOX = 'checkbox';
 
     /**
-     * The tag select
+     * The tag select.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_SELECT = 'select';
 
     /**
-     * The tag option
+     * The tag option.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_OPTION = 'option';
 
     /**
-     * The tag optgroup
+     * The tag optgroup.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_OPTGROUP = 'optgroup';
 
     /**
-     * The tag textarea
+     * The tag textarea.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_TEXTAREA = 'textarea';
 
     /**
-     * The tag input
+     * The tag input.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_INPUT = 'input';#
 
     /**
-     * The tag label
+     * The tag label.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_LABEL = 'label';
 
     /**
-     * The tag div
+     * The tag div.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_DIV = 'div';
 
     /**
-     * The tag fieldset
+     * The tag fieldset.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_FIELDSET = 'fieldset';
 
     /**
-     * The tag legend
+     * The tag legend.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_LEGEND = 'legend';
 
     /**
-     * The tag button
+     * The tag button.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_BUTTON = 'button';
 
     /**
-     * The tag datalist
+     * The tag datalist.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_DATALIST = 'datalist';
 
     /**
-     * The tag keygen
+     * The tag keygen.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_KEYGEN = 'keygen';
 
     /**
-     * The tag output
+     * The tag output.
      *
      * @var string
-     * @access public
      */
     const HTML_TAG_OUTPUT = 'output';
 
@@ -328,7 +300,6 @@ class Doozr_Form_Service_Constant
      * HTML-Version 4 flag.
      *
      * @var int
-     * @access public
      */
     const HTML_VERSION_4 = 4;
 
@@ -336,7 +307,6 @@ class Doozr_Form_Service_Constant
      * HTML-Version 5 flag.
      *
      * @var int
-     * @access public
      */
     const HTML_VERSION_5 = 5;
 
@@ -345,18 +315,16 @@ class Doozr_Form_Service_Constant
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * The encoding type for "normal" form data (default)
+     * The encoding type for "normal" form data (default).
      *
      * @var string
-     * @access public
      */
     const ENCODING_TYPE_DEFAULT = 'application/x-www-form-urlencoded';
 
     /**
-     * The encoding type for multitype upload form data
+     * The encoding type for multitype upload form data.
      *
      * @var string
-     * @access public
      */
     const ENCODING_TYPE_FILEUPLOAD = 'multipart/form-data';
 
@@ -365,7 +333,6 @@ class Doozr_Form_Service_Constant
      * spaces plus' will become (+).
      *
      * @var string
-     * @access public
      */
     const ENCODING_TYPE_TEXT = 'text/plain';
 
@@ -373,40 +340,35 @@ class Doozr_Form_Service_Constant
      * Type for generic components like <textare> <select> ...
      *
      * @var string
-     * @access public
      */
     const COMPONENT_GENERIC = 'generic';
 
     /**
-     * Type for default components like <input type="..." ...>
+     * Type for default components like <input type="..." ...>.
      *
      * @var string
-     * @access public
      */
     const COMPONENT_DEFAULT = 'default';
 
     /**
      * Container component type. Container is a form component
-     * which must contain childs to be valid like <select>
+     * which must contain childs to be valid like <select>.
      *
      * @var string
-     * @access public
      */
     const COMPONENT_CONTAINER = 'container';
 
     /**
-     * Template for closing tag
+     * Template for closing tag.
      *
      * @var string
-     * @access public
      */
     const TEMPLATE_DEFAULT_CLOSING = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
 
     /**
-     * Template for non-closing tag
+     * Template for non-closing tag.
      *
      * @var string
-     * @access public
      */
     const TEMPLATE_DEFAULT_NONCLOSING = '<{{TAG}}{{ATTRIBUTES}} />';
 }

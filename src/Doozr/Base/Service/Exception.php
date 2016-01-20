@@ -3,10 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Base - Service - Exception.
  *
- * Label.php - The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * Exception.php - Base exception for Services.
  *
  * PHP versions 5.5
  *
@@ -54,13 +53,12 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Base - Service - Exception.
  *
- * The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * Base exception for Services.
  *
  * @category   Doozr
  *
@@ -72,89 +70,26 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcompo
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Formcomponent
+class Doozr_Base_Service_Exception extends Doozr_Exception
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string "".
+     * Constructor.
      *
-     * @var string
-     */
-    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_LABEL;
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Setter for form.
-     *
-     * @param string $form The form to set
+     * @param string|null    $message           Message
+     * @param int            $code              Code of the exception
+     * @param Exception|null $previousException Previously thrown exception - AS_OF: PHP 5.3 introduced!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setForm($form)
+    public function __construct($message = null, $code = 0, $previousException = null)
     {
-        $this->setAttribute('form', $form);
-    }
+        // Add prefix to message ...
+        $message = sprintf('%s: %s', __CLASS__, $message);
 
-    /**
-     * Getter for form.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The form
-     */
-    public function getForm()
-    {
-        return $this->getAttribute('form');
-    }
+        // Get final code
+        $code = $this->generateUniqueCode($this->file, $code);
 
-    /**
-     * Setter for "for" attribute.
-     *
-     * @param string $referencedComponent The referenced form element for which this label is for
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function setFor($referencedComponent)
-    {
-        $this->setAttribute('for', $referencedComponent);
-    }
-
-    /**
-     * Getter for "for" attribute.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string|null The "for" attribute of the component, NULL if not set
-     */
-    public function getFor()
-    {
-        return $this->getAttribute('for');
-    }
-
-    /**
-     * Setter for Text of the label.
-     *
-     * @param string $text The text to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function setText($text)
-    {
-        $this->setInnerHtml($text);
-    }
-
-    /**
-     * Getter for text of the label.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string|null The text of the label, NULL if not set
-     */
-    public function getText()
-    {
-        return $this->getInnerHtml();
+        // Dispatch to parent
+        parent::__construct($message, $code, $previousException);
     }
 }

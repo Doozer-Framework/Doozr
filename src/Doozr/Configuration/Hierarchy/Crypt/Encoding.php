@@ -3,10 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Configuration - Hierarchy - Crypt - Encoding.
  *
- * Label.php - The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * Encoding.php - The "cipher" node representation for providing auto-completion of config values.
  *
  * PHP versions 5.5
  *
@@ -54,13 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Configuration - Hierarchy - Crypt - Encoding.
  *
- * The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * Encoding.php - The "cipher" node representation for providing auto-completion of config values.
  *
  * @category   Doozr
  *
@@ -72,89 +69,38 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcompo
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Formcomponent
+class Doozr_Configuration_Hierarchy_Crypt_Encoding
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string "".
+     * Default encoding.
      *
      * @var string
      */
-    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_LABEL;
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
+    public $default = 'base64';
 
     /**
-     * Setter for form.
+     * The encoding function mapping.
      *
-     * @param string $form The form to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @var \stdClass|array
      */
-    public function setForm($form)
-    {
-        $this->setAttribute('form', $form);
-    }
+    public $mapping = [
+        'base64' => [
+            'encode' => 'base64_encode',
+            'decode' => 'base64_decode',
+        ],
+        'uuencode' => [
+            'encode' => 'convert_uuencode',
+            'decode' => 'convert_uudecode',
+        ],
+    ];
 
     /**
-     * Getter for form.
+     * The available ciphers.
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The form
+     * @var \stdClass|array
      */
-    public function getForm()
-    {
-        return $this->getAttribute('form');
-    }
-
-    /**
-     * Setter for "for" attribute.
-     *
-     * @param string $referencedComponent The referenced form element for which this label is for
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function setFor($referencedComponent)
-    {
-        $this->setAttribute('for', $referencedComponent);
-    }
-
-    /**
-     * Getter for "for" attribute.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string|null The "for" attribute of the component, NULL if not set
-     */
-    public function getFor()
-    {
-        return $this->getAttribute('for');
-    }
-
-    /**
-     * Setter for Text of the label.
-     *
-     * @param string $text The text to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function setText($text)
-    {
-        $this->setInnerHtml($text);
-    }
-
-    /**
-     * Getter for text of the label.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string|null The text of the label, NULL if not set
-     */
-    public function getText()
-    {
-        return $this->getInnerHtml();
-    }
+    public $available = [
+        'base64',
+        'uuencode',
+    ];
 }

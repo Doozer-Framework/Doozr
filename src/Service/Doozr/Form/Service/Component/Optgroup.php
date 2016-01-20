@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Optgroup.php - Optgroup part of select field. Extra element cause it
  * has a similar interface like standard html elements. so recycle.
@@ -44,31 +45,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Option.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface/Option.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Option part of select field. Extra element cause it
  * has a similar interface like standard html elements. so recycle.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component_Formcomponent
@@ -76,10 +78,9 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     Doozr_Form_Service_Component_Interface_Option
 {
     /**
-     * The tag for this type of element
+     * The tag for this type of element.
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_OPTGROUP;
 
@@ -88,13 +89,13 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Proxy to addChild() to filter input components
+     * Proxy to addChild() to filter input components.
      *
      * @param Doozr_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The index of the added option
-     * @access public
+     *
+     * @return int The index of the added option
      */
     public function addOption(Doozr_Form_Service_Component_Interface_Option $option)
     {
@@ -102,13 +103,13 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     }
 
     /**
-     * Proxy to removeChild() to filter input components
+     * Proxy to removeChild() to filter input components.
      *
      * @param int $index The index of the component to remove
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
     public function removeOption($index)
     {
@@ -116,13 +117,11 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     }
 
     /**
-     * Setter for disabled status
+     * Setter for disabled status.
      *
      * @param bool $state The status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDisabled($state)
     {
@@ -134,11 +133,11 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     }
 
     /**
-     * Getter for disabled status
+     * Getter for disabled status.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if disabled, otherwise FALSE
-     * @access public
      */
     public function getDisabled()
     {
@@ -146,13 +145,11 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     }
 
     /**
-     * Setter for label of this element
+     * Setter for label of this element.
      *
      * @param string $label The label to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setLabel($label)
     {
@@ -160,11 +157,11 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     }
 
     /**
-     * Getter for label
+     * Getter for label.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The label
-     * @access public
      */
     public function getLabel()
     {
@@ -172,13 +169,11 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     }
 
     /**
-     * Setter for value of this element
+     * Setter for value of this element.
      *
      * @param string|null $value The value to set or null to use key as value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setValue($value = null)
     {
@@ -186,13 +181,11 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     }
 
     /**
-     * Setter for key [<option>KEY</option>] of this element
+     * Setter for key [<option>KEY</option>] of this element.
      *
      * @param string $key The key to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setKey($key)
     {
@@ -200,11 +193,11 @@ class Doozr_Form_Service_Component_Optgroup extends Doozr_Form_Service_Component
     }
 
     /**
-     * Getter for key
+     * Getter for key.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The key
-     * @access public
      */
     public function getKey()
     {
