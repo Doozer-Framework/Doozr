@@ -3,10 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Form - Service - Test
  *
- * Label.php - The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * FormServiceTest.php - Tests for Service instance of Doozr Form Service.
  *
  * PHP versions 5.5
  *
@@ -54,13 +53,14 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
+
+use Faker\Factory as FakerFactory;
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Form - Service - Test
  *
- * The Label element control layer which adds validation,
- * and so on to an HTML element.
+ * Tests for Service instance of Doozr Form Service.
  *
  * @category   Doozr
  *
@@ -71,90 +71,102 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcompo
  * @version    Git: $Id$
  *
  * @link       http://clickalicious.github.com/Doozr/
+ *
+ * @property   Doozr_Form_Service $service
  */
-class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Formcomponent
+class FormServiceTest extends Doozr_Base_Service_Test_Abstract
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string "".
+     * Faker instance to generate random values for testing
      *
-     * @var string
+     * @var Faker\Generator
      */
-    protected $tag = Doozr_Form_Service_Constant::HTML_TAG_LABEL;
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
+    protected static $faker;
 
     /**
-     * Setter for form.
-     *
-     * @param string $form The form to set
+     * Prepares setup for Tests of "Form".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setForm($form)
+    public function setUp()
     {
-        $this->setAttribute('form', $form);
+        self::$serviceName = 'Form';
+
+        parent::setUp();
+
+        // Get a faker instance with Doozr's default locale
+        self::$faker = FakerFactory::create(
+            $this->convertLocale(self::$registry->getConfiguration()->i18n->default->locale)
+        );
+
+        #self::$faker->realText(self::$faker->numberBetween(10, 4096));
     }
 
     /**
-     * Getter for form.
+     * Converts a locale from "de-de" format to "de_DE" format.
+     *
+     * @param string $locale To convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The form
+     * @return string Converted locale
      */
-    public function getForm()
+    protected function convertLocale($locale)
     {
-        return $this->getAttribute('form');
+        $locale = explode('-', $locale);
+
+        return sprintf('%s_%s', strtolower($locale[0]), strtoupper($locale[1]));
     }
 
     /**
-     * Setter for "for" attribute.
-     *
-     * @param string $referencedComponent The referenced form element for which this label is for
+     * Test: If the correct fieldname for token field is returned.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setFor($referencedComponent)
+    public function testFieldnameToken()
     {
-        $this->setAttribute('for', $referencedComponent);
+        $this->assertSame(
+            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN,
+            self::$service->getFieldnameToken()
+        );
     }
 
     /**
-     * Getter for "for" attribute.
+     * Test: If the correct fieldname for submitted field is returned.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string|null The "for" attribute of the component, NULL if not set
      */
-    public function getFor()
+    public function testFieldnameSubmitted()
     {
-        return $this->getAttribute('for');
+        $this->assertSame(
+            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED,
+            self::$service->getFieldnameSubmitted()
+        );
     }
 
     /**
-     * Setter for Text of the label.
-     *
-     * @param string $text The text to set
+     * Test: If the correct fieldname for step field is returned.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setText($text)
+    public function testFieldnameStep()
     {
-        $this->setInnerHtml($text);
+        $this->assertSame(
+            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP,
+            self::$service->getFieldnameStep()
+        );
     }
 
     /**
-     * Getter for text of the label.
+     * Test: If the correct fieldname for steps field is returned.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string|null The text of the label, NULL if not set
      */
-    public function getText()
+    public function testFieldnameSteps()
     {
-        return $this->getInnerHtml();
+        $this->assertSame(
+            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS,
+            self::$service->getFieldnameSteps()
+        );
     }
 }

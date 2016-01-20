@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Unit.php - Unit-test capable storage.
  *
@@ -43,30 +44,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Store/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Store/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Store/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Store/Interface.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Unit-test capable storage.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Store_Unit extends Doozr_Form_Service_Store_Abstract
@@ -74,10 +76,9 @@ class Doozr_Form_Service_Store_Unit extends Doozr_Form_Service_Store_Abstract
     Doozr_Form_Service_Store_Interface
 {
     /**
-     * The store
+     * The store.
      *
      * @var array
-     * @access protected
      */
     protected static $store = [];
 
@@ -93,12 +94,13 @@ class Doozr_Form_Service_Store_Unit extends Doozr_Form_Service_Store_Abstract
      * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
     public function create($key, $value)
     {
         self::$store[$key] = $value;
+
         return true;
     }
 
@@ -108,8 +110,8 @@ class Doozr_Form_Service_Store_Unit extends Doozr_Form_Service_Store_Abstract
      * @param string $key The key for the data to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed|null The value if set, otherwise NULL
-     * @access public
      */
     public function read($key)
     {
@@ -123,12 +125,13 @@ class Doozr_Form_Service_Store_Unit extends Doozr_Form_Service_Store_Abstract
      * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
     public function update($key, $value)
     {
         self::$store[$key] = $value;
+
         return true;
     }
 
@@ -138,12 +141,13 @@ class Doozr_Form_Service_Store_Unit extends Doozr_Form_Service_Store_Abstract
      * @param string $key The key to delete
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
     public function delete($key)
     {
         unset(self::$store[$key]);
+
         return true;
     }
 }

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Interface.php - Interface for parser.
  *
@@ -43,27 +44,29 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Interface for parser.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Form_Service_Parser_Interface
@@ -74,8 +77,6 @@ interface Doozr_Form_Service_Parser_Interface
      * @param string $input The input to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setInput($input);
 
@@ -83,8 +84,8 @@ interface Doozr_Form_Service_Parser_Interface
      * Getter for input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The input set, otherwise NULL if not set
-     * @access public
      */
     public function getInput();
 
@@ -94,8 +95,6 @@ interface Doozr_Form_Service_Parser_Interface
      * @param string $output The output to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setOutput($output);
 
@@ -103,8 +102,8 @@ interface Doozr_Form_Service_Parser_Interface
      * Getter for output.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The output set, otherwise NULL if not set
-     * @access public
      */
     public function getOutput();
 
@@ -114,8 +113,6 @@ interface Doozr_Form_Service_Parser_Interface
      * @param mixed $template The template to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setTemplate($template);
 
@@ -123,17 +120,17 @@ interface Doozr_Form_Service_Parser_Interface
      * Getter for template.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The stored template if set, otherwise NULL
-     * @access public
      */
     public function getTemplate();
 
     /**
-     * Runs the parser which produces all required content to feed Form-Managers Import
+     * Runs the parser which produces all required content to feed Form-Managers Import.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Instance of class for chaining
-     * @access public
      */
     public function parse();
 }

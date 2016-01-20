@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Generic.php - Generic Validator. Validates Form(s) & Component(s).
  *
@@ -43,30 +44,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Validator/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Validator/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Validator/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Validator/Interface.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Generic.php - Generic Validator. Validates Form(s) & Component(s).
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Validator_Generic extends Doozr_Form_Service_Validator_Abstract
@@ -79,8 +81,6 @@ class Doozr_Form_Service_Validator_Generic extends Doozr_Form_Service_Validator_
      * @param bool $force TRUE to force revalidation, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function validate($force = false)
     {
