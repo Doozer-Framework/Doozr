@@ -126,7 +126,7 @@ interface Doozr_Form_Service_Parser_Interface
     public function getTemplate();
 
     /**
-     * Runs the parser which produces all required content to feed Form-Managers Import.
+     * Runs the parser which produces all required content to feed Form-Handlers Import.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

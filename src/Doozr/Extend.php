@@ -891,4 +891,7 @@ if (false === function_exists('is_ssl')) {
 | LINUX EMULATION IF WE RUN ON WINDOWS OS'
 +---------------------------------------------------------------------------------------------------------------------*/
 
-include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Emulate/Linux.php';
+if (false !== strpos(DOOZR_OS, 'WIN')) {
+    include_once DOOZR_DOCUMENT_ROOT . 'Doozr/Emulate/Linux.php';
+}
+

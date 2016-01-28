@@ -655,7 +655,7 @@ class Doozr_Form_Service_Validate_Validator
 
         // regular expressions for postcode(s)
         $pattern = [
-            'DE' => '^[0-9]{5,5}$',                                                     // GERMANY
+            'DE' => '^[0-9]{5,5}$',                                                      // GERMANY
             'AT' => '^[0-9]{4,4}$',                                                      // AUSTRIA
             'AU' => '^[2-9][0-9]{2,3}$',                                                 // AUSTRALIA
             'CA' => '^[a-zA-Z].[0-9].[a-zA-Z].\s[0-9].[a-zA-Z].[0-9].',                  // CANADA
@@ -665,7 +665,7 @@ class Doozr_Form_Service_Validate_Validator
             'PT' => '^[0-9]{4,4}-[0-9]{3,3}$',                                           // PORTUGAL
             'SE' => '^[0-9]{3,3}\s[0-9]{2,2}$',                                          // SWEDEN
             'UK' => '^([A-Z]{1,2}[0-9]{1}[0-9A-Z]{0,1}) ?([0-9]{1}[A-Z]{1,2})$',         // UNITED-KINGDOM (England)
-            'US' => '^[0-9]{5,5}[\-]{0,1}[0-9]{4,4}',                                     // UNITED-STATES (USA)
+            'US' => '^[0-9]{5,5}[\-]{0,1}[0-9]{4,4}',                                    // UNITED-STATES (USA)
         ];
 
         if (!isset($pattern[$countrycode])) {

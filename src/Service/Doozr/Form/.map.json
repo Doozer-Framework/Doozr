@@ -1,0 +1,73 @@
+{
+  "map": [
+    {
+      "doozr.form.service.formhandler": {
+        "classname": "Doozr_Form_Service_FormHandler",
+        "constructor": "__construct",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.i18n.service",
+            "position": 2
+          },
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.component.input",
+            "position": 3
+          },
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.component.form",
+            "position": 4
+          },
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.store",
+            "position": 5
+          },
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer.html",
+            "position": 6
+          },
+          {
+            "type": "constructor",
+            "classname": "Doozr_Form_Service_Validate_Validator",
+            "position": 7
+          },
+          {
+            "type": "constructor",
+            "classname": "Doozr_Form_Service_Validate_Error",
+            "position": 8
+          }
+        ]
+      },
+      "doozr.form.service.component.input": {
+        "classname": "Doozr_Form_Service_Component_Input",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer.html"
+          },
+          {
+            "type": "constructor",
+            "classname": "Doozr_Form_Service_Validator_Generic"
+          }
+        ]
+      },
+      "doozr.form.service.component.form": {
+        "classname": "Doozr_Form_Service_Component_Form",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer.html"
+          },
+          {
+            "type": "constructor",
+            "classname": "Doozr_Form_Service_Validator_Generic"
+          }
+        ]
+      }
+    }
+  ]
+}

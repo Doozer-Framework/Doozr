@@ -1,6 +1,6 @@
 <?php
 /**
- * Object_Freezer
+ * Object_Freezer.
  *
  * Copyright (c) 2008-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -34,26 +34,26 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @since      File available since Release 1.0.0
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/HashGenerator/NonRecursiveSHA1.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/IdGenerator/UUID.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/Util.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Object/Freezer/HashGenerator/NonRecursiveSHA1.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Object/Freezer/IdGenerator/UUID.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Object/Freezer/Util.php';
 
 /**
  * This class provides the low-level functionality required to store ("freeze")
  * PHP objects to and retrieve ("thaw") PHP objects from an object store.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://github.com/sebastianbergmann/php-object-freezer/
  * @since      Class available since Release 1.0.0
  */
@@ -62,7 +62,7 @@ class Object_Freezer
     /**
      * @var bool
      */
-    protected $autoload = TRUE;
+    protected $autoload = true;
 
     /**
      * @var array
@@ -82,23 +82,22 @@ class Object_Freezer
     /**
      * Constructor.
      *
-     * @param  Object_Freezer_IdGenerator   $idGenerator
-     * @param  Object_Freezer_HashGenerator $hashGenerator
-     * @param  array                        $blacklist
-     * @param  boolean                      $useAutoload
+     * @param Object_Freezer_IdGenerator   $idGenerator
+     * @param Object_Freezer_HashGenerator $hashGenerator
+     * @param array                        $blacklist
+     * @param bool                         $useAutoload
      *
      * @throws InvalidArgumentException
-     * @access public
      */
-    public function __construct(Object_Freezer_IdGenerator $idGenerator = NULL, Object_Freezer_HashGenerator $hashGenerator = NULL, array $blacklist = [], $useAutoload = TRUE)
+    public function __construct(Object_Freezer_IdGenerator $idGenerator = null, Object_Freezer_HashGenerator $hashGenerator = null, array $blacklist = [], $useAutoload = true)
     {
         // Use Object_Freezer_IdGenerator_UUID by default.
-        if ($idGenerator === NULL) {
-            $idGenerator = new Object_Freezer_IdGenerator_UUID;
+        if ($idGenerator === null) {
+            $idGenerator = new Object_Freezer_IdGenerator_UUID();
         }
 
         // Use Object_Freezer_HashGenerator_NonRecursiveSHA1 by default.
-        if ($hashGenerator === NULL) {
+        if ($hashGenerator === null) {
             $hashGenerator = new Object_Freezer_HashGenerator_NonRecursiveSHA1(
               $idGenerator
             );
@@ -193,9 +192,11 @@ class Object_Freezer
      * The result array's "root" element contains the UUID for the now frozen
      * object of class A (32246c35-f47b-4fbc-a2ad-ed14e520865e).
      *
-     * @param  object  $object  The object that is to be frozen.
-     * @param  array   $objects Only used internally.
-     * @return array            The frozen object(s).
+     * @param object $object  The object that is to be frozen.
+     * @param array  $objects Only used internally.
+     *
+     * @return array The frozen object(s).
+     *
      * @throws InvalidArgumentException
      */
     public function freeze($object, array &$objects = [])
@@ -211,7 +212,7 @@ class Object_Freezer
             $object->__php_object_freezer_uuid = $this->idGenerator->getId();
         }
 
-        $isDirty = $this->isDirty($object, TRUE);
+        $isDirty = $this->isDirty($object, true);
         $uuid    = $object->__php_object_freezer_uuid;
 
         if (!isset($objects[$uuid])) {
@@ -226,20 +227,16 @@ class Object_Freezer
                 if ($k !== '__php_object_freezer_uuid') {
                     if (is_array($v)) {
                         $this->freezeArray($v, $objects);
-                    }
-
-                    else if (is_object($v) &&
+                    } elseif (is_object($v) &&
                              !in_array(get_class($v), $this->blacklist)) {
                         // Freeze the aggregated object.
                         $this->freeze($v, $objects);
 
                         // Replace $v with the aggregated object's UUID.
-                        $v = '__php_object_freezer_' .
+                        $v = '__php_object_freezer_'.
                              $v->__php_object_freezer_uuid;
-                    }
-
-                    else if (is_resource($v)) {
-                        $v = NULL;
+                    } elseif (is_resource($v)) {
+                        $v = null;
                     }
 
                     // Store the attribute in the object's state array.
@@ -262,11 +259,9 @@ class Object_Freezer
         foreach ($array as &$value) {
             if (is_array($value)) {
                 $this->freezeArray($value, $objects);
-            }
-
-            else if (is_object($value)) {
+            } elseif (is_object($value)) {
                 $tmp   = $this->freeze($value, $objects);
-                $value = '__php_object_freezer_' . $tmp['root'];
+                $value = '__php_object_freezer_'.$tmp['root'];
                 unset($tmp);
             }
         }
@@ -327,15 +322,17 @@ class Object_Freezer
      * }
      * </code>
      *
-     * @param  array   $frozenObject The frozen object that should be thawed.
-     * @param  string  $root         The UUID of the object that should be
-     *                               treated as the root object when multiple
-     *                               objects are present in $frozenObject.
-     * @param  array   $objects      Only used internally.
-     * @return object                The thawed object.
+     * @param array  $frozenObject The frozen object that should be thawed.
+     * @param string $root         The UUID of the object that should be
+     *                             treated as the root object when multiple
+     *                             objects are present in $frozenObject.
+     * @param array  $objects      Only used internally.
+     *
+     * @return object The thawed object.
+     *
      * @throws RuntimeException
      */
-    public function thaw(array $frozenObject, $root = NULL, array &$objects = [])
+    public function thaw(array $frozenObject, $root = null, array &$objects = [])
     {
         // Bail out if one of the required classes cannot be found.
         foreach ($frozenObject['objects'] as $object) {
@@ -351,7 +348,7 @@ class Object_Freezer
 
         // By default, we thaw the root object and (recursively)
         // its aggregated objects.
-        if ($root === NULL) {
+        if ($root === null) {
             $root = $frozenObject['root'];
         }
 
@@ -371,7 +368,7 @@ class Object_Freezer
                 if (strpos($name, '__php_object_freezer') !== 0) {
                     if ($reflector->hasProperty($name)) {
                         $attribute = $reflector->getProperty($name);
-                        $attribute->setAccessible(TRUE);
+                        $attribute->setAccessible(true);
                         $attribute->setValue($objects[$root], $value);
                     } else {
                         $objects[$root]->$name = $value;
@@ -395,19 +392,17 @@ class Object_Freezer
     /**
      * Thaws an array.
      *
-     * @param  array   $array        The array that is to be thawed.
-     * @param  array   $frozenObject The frozen object structure from which to
-     *                               thaw.
-     * @param  array   $objects      Only used internally.
+     * @param array $array        The array that is to be thawed.
+     * @param array $frozenObject The frozen object structure from which to
+     *                            thaw.
+     * @param array $objects      Only used internally.
      */
     protected function thawArray(array &$array, array $frozenObject, array &$objects)
     {
         foreach ($array as &$value) {
             if (is_array($value)) {
                 $this->thawArray($value, $frozenObject, $objects);
-            }
-
-            else if (is_string($value) &&
+            } elseif (is_string($value) &&
                      strpos($value, '__php_object_freezer') === 0) {
                 $aggregatedObjectId = str_replace(
                   '__php_object_freezer_', '', $value
@@ -481,7 +476,8 @@ class Object_Freezer
      * Sets the blacklist of class names for which aggregates objects are
      * not frozen.
      *
-     * @param  array $blacklist
+     * @param array $blacklist
+     *
      * @throws InvalidArgumentException
      */
     public function setBlacklist(array $blacklist)
@@ -504,7 +500,8 @@ class Object_Freezer
      * Sets the flag that controls whether or not __autoload()
      * should be invoked.
      *
-     * @param  boolean $flag
+     * @param bool $flag
+     *
      * @throws InvalidArgumentException
      */
     public function setUseAutoload($flag)
@@ -527,12 +524,14 @@ class Object_Freezer
      * Returns FALSE when the object's __php_object_freezer_hash attribute is
      * still valid.
      *
-     * @param  object  $object The object that is to be checked.
-     * @param  boolean $rehash Whether or not to rehash dirty objects.
+     * @param object $object The object that is to be checked.
+     * @param bool   $rehash Whether or not to rehash dirty objects.
+     *
      * @return bool
+     *
      * @throws InvalidArgumentException
      */
-    public function isDirty($object, $rehash = FALSE)
+    public function isDirty($object, $rehash = false)
     {
         // Bail out if a non-object was passed.
         if (!is_object($object)) {
@@ -546,12 +545,12 @@ class Object_Freezer
             );
         }
 
-        $isDirty = TRUE;
+        $isDirty = true;
         $hash    = $this->hashGenerator->getHash($object);
 
         if (isset($object->__php_object_freezer_hash) &&
             $object->__php_object_freezer_hash == $hash) {
-            $isDirty = FALSE;
+            $isDirty = false;
         }
 
         if ($isDirty && $rehash) {

@@ -1,7 +1,7 @@
 <?php
 
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 
 final class Doozr_Di_Injection_Matrix extends Doozr_Base_Class
@@ -15,7 +15,7 @@ final class Doozr_Di_Injection_Matrix extends Doozr_Base_Class
 
     public function addConstructorInjection($position, $instance)
     {
-        $this->constructorInjections[$position-1] = $instance;
+        $this->constructorInjections[$position - 1] = $instance;
     }
 
     public function addSetterInjection($method, $instance)
@@ -28,5 +28,3 @@ final class Doozr_Di_Injection_Matrix extends Doozr_Base_Class
         $this->propertyInjections[$property] = $instance;
     }
 }
-
-

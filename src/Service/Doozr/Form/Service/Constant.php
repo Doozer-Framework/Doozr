@@ -90,11 +90,11 @@ class Doozr_Form_Service_Constant
     const SCOPE = '';
 
     /**
-     * The default name used at init for default (e.g. for optional I18n namespace).
+     * The default name used at init for default (e.g. for optional I18n scope).
      *
      * @var string
      */
-    const DEFAULT_NAMESPACE = 'Form';
+    const DEFAULT_SCOPE = 'Form';
 
     /**
      * The default step if no step is/was set before.

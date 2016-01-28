@@ -81,10 +81,14 @@ class Doozr_Form_Service_Validator_Generic extends Doozr_Form_Service_Validator_
      * @param bool $force TRUE to force revalidation, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE on success, otherwise FALSE
      */
     public function validate($force = false)
     {
         pre($force);
         pred(__METHOD__);
+
+        return true;
     }
 }

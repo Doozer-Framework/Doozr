@@ -147,21 +147,19 @@ class Doozr_Form_Service_Validate_Error
     /**
      * Constructor.
      *
-     * @param string      $error The error to set
-     * @param string|null $value The value which is responsible for this error
-     * @param array|null  $info  Additional information to error (e.g. the count of given chars on error minlength)
+     * @param string|null $error Error to set
+     * @param string|null $value Value which is responsible for this error
+     * @param array|null  $info  Additional information to error (e.g. the count of given chars on error min-length ...)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return Doozr_Form_Service_Validate_Error Instance of this class
      */
     public function __construct($error = null, $value = null, $info = null)
     {
-        $this->init();
-
-        $this->setError($error);
-        $this->setValue($value);
-        $this->setInfo($info);
+        $this
+            ->init()
+            ->error($error)
+            ->value($value)
+            ->info($info);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -178,6 +176,22 @@ class Doozr_Form_Service_Validate_Error
     public function setError($error)
     {
         $this->error = $error;
+    }
+
+    /**
+     * Fluent: Setter for error.
+     *
+     * @param string $error The error
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function error($error)
+    {
+        $this->setError($error);
+
+        return $this;
     }
 
     /**
@@ -205,6 +219,22 @@ class Doozr_Form_Service_Validate_Error
     }
 
     /**
+     * Fluent: Setter for Value.
+     *
+     * @param string $value The value
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function value($value)
+    {
+        $this->setValue($value);
+
+        return $this;
+    }
+
+    /**
      * Getter for value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -226,6 +256,22 @@ class Doozr_Form_Service_Validate_Error
     public function setInfo($info)
     {
         $this->info = $info;
+    }
+
+    /**
+     * Fluent: Setter for info.
+     *
+     * @param string $info The info
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function info($info)
+    {
+        $this->setInfo($info);
+
+        return $this;
     }
 
     /**
@@ -262,7 +308,7 @@ class Doozr_Form_Service_Validate_Error
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return bool TRUE on success, otherwise FALSE
+     * @return $this Instance for chaining
      */
     protected function init()
     {
@@ -277,8 +323,7 @@ class Doozr_Form_Service_Validate_Error
             }
         }
 
-        // success
-        return true;
+        return $this;
     }
 
     /**
@@ -336,7 +381,7 @@ class Doozr_Form_Service_Validate_Error
             }
         }
 
-        // return costructed error message
+        // Return constructed error message
         return $this->errorMessageMatrix[$errorCode];
     }
 }

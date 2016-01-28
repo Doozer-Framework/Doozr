@@ -74,7 +74,6 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     id     = "bens.foo.bar",
  *     link   = "doozr.registry",
  *     type   = "constructor",
  *     target = "getInstance"

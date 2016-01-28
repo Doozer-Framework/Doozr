@@ -283,7 +283,7 @@ if (false === composer_running()) {
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
-| EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
+| EXTEND PHP's FUNCTIONALITY
 +---------------------------------------------------------------------------------------------------------------------*/
 
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Extend.php';

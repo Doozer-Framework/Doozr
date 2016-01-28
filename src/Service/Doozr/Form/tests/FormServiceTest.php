@@ -98,8 +98,6 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         self::$faker = FakerFactory::create(
             $this->convertLocale(self::$registry->getConfiguration()->i18n->default->locale)
         );
-
-        #self::$faker->realText(self::$faker->numberBetween(10, 4096));
     }
 
     /**
@@ -125,8 +123,21 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testFieldnameToken()
     {
+        // Test for default fieldname initially set
         $this->assertSame(
             Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN,
+            self::$service->getFieldnameToken()
+        );
+
+        // Generate, set & test getting a custom fieldname
+        $fieldname = self::$faker->word();
+
+        // Set random custom fieldname
+        self::$service->setFieldnameToken($fieldname);
+
+        // Now check for successful setted value
+        $this->assertSame(
+            $fieldname,
             self::$service->getFieldnameToken()
         );
     }
@@ -138,8 +149,21 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testFieldnameSubmitted()
     {
+        // Test for default fieldname initially set
         $this->assertSame(
             Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED,
+            self::$service->getFieldnameSubmitted()
+        );
+
+        // Generate, set & test getting a custom fieldname
+        $fieldname = self::$faker->word();
+
+        // Set random custom fieldname
+        self::$service->setFieldnameSubmitted($fieldname);
+
+        // Now check for successful setted value
+        $this->assertSame(
+            $fieldname,
             self::$service->getFieldnameSubmitted()
         );
     }
@@ -155,6 +179,18 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
             Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP,
             self::$service->getFieldnameStep()
         );
+
+        // Generate, set & test getting a custom fieldname
+        $fieldname = self::$faker->word();
+
+        // Set random custom fieldname
+        self::$service->setFieldnameStep($fieldname);
+
+        // Now check for successful setted value
+        $this->assertSame(
+            $fieldname,
+            self::$service->getFieldnameStep()
+        );
     }
 
     /**
@@ -168,5 +204,31 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
             Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS,
             self::$service->getFieldnameSteps()
         );
+
+        // Generate, set & test getting a custom fieldname
+        $fieldname = self::$faker->word();
+
+        // Set random custom fieldname
+        self::$service->setFieldnameSteps($fieldname);
+
+        // Now check for successful setted value
+        $this->assertSame(
+            $fieldname,
+            self::$service->getFieldnameSteps()
+        );
+    }
+
+
+    /**
+     * Test: If a FormHandler can be retrieved for a custom scope.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function testFormHandler()
+    {
+        // Generate, set & test getting a custom fieldname
+        $scope = self::$faker->word();
+        $formHandler = self::$service->getFormHandler($scope);
+        $this->assertInstanceOf(Doozr_Form_Service_FormHandler, $formHandler);
     }
 }

@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Map - Typehint.
+ * Doozr - Form - Service.
  *
- * Typehint.php - Typehint based map class of Di.
+ * Unit.php - Unit-test capable storage.
  *
  * PHP versions 5.5
  *
@@ -51,14 +51,15 @@
  *
  * @version    Git: $Id$
  *
- * @link       https://github.com/clickalicious/Di
+ * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/ap.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Store/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Store/Interface.php';
 
 /**
- * Doozr - Di - Map - Typehint.
+ * Doozr - Form - Service.
  *
- * Typehint based map class of Di.
+ * Unit-test capable storage.
  *
  * @category   Doozr
  *
@@ -66,103 +67,86 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/ap.php';
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
- * @link       https://github.com/clickalicious/Di
+ * @version    Git: $Id$
+ *
+ * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Di_Map_Typehint extends Doozr_Di_Map
+class Doozr_Form_Service_Store_UnitTest extends Doozr_Form_Service_Store_Abstract
+    implements
+    Doozr_Form_Service_Store_Interface
 {
     /**
-     * Annotation parser instance.
+     * The store.
      *
-     * @var Doozr_Di_Parser_Interface
+     * @var array
      */
-    protected $parser;
-
-    /**
-     * Constructor.
-     *
-     * @param Doozr_Di_Collection      $collection Doozr_Di_Collection to collect dependencies in.
-     * @param Doozr_Di_Parser_Typehint $parser     Doozr_Di_Parser_Typehint to parse dependencies with
-     * @param Doozr_Di_Dependency      $dependency Doozr_Di_Dependency base object for cloning dependencies from.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function __construct(
-        Doozr_Di_Collection      $collection,
-        Doozr_Di_Parser_Typehint $parser,
-        Doozr_Di_Dependency      $dependency
-    ) {
-        // Store given instances
-        $this
-            ->collection($collection)
-            ->parser($parser)
-            ->dependency($dependency);
-    }
+    protected static $store = [];
 
     /*------------------------------------------------------------------------------------------------------------------
-    | PUBLIC API
+    | Public API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Builds the collection from dependency parser result for given class.
+     * Creates an entry in store.
      *
-     * @param string $classname The name of the class to parse dependencies for
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return Doozr_Di_Collection The build collection
-     */
-    public function generate($classname)
-    {
-        // Set input
-        $this->getParser()->setInput(
-            ['classname' => $classname]
-        );
-
-        // Add dependencies to collection
-        $this->addRawDependenciesToCollection($this->getParser()->parse());
-    }
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | INTERNAL API
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Setter for parser.
-     *
-     * @param Doozr_Di_Parser_Interface $parser The parser of the parser.
+     * @param string $key   The key for the data to store
+     * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE on success, otherwise FALSE
      */
-    protected function setParser(Doozr_Di_Parser_Interface $parser)
+    public function create($key, $value)
     {
-        $this->parser = $parser;
+        self::$store[$key] = $value;
+
+        return true;
     }
 
     /**
-     * Fluent: Setter for parser.
+     * Reads an entry from store.
      *
-     * @param Doozr_Di_Parser_Interface $parser The parser of the parser.
+     * @param string $key The key for the data to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return $this Instance for chaining
+     * @return mixed|null The value if set, otherwise NULL
      */
-    protected function parser(Doozr_Di_Parser_Interface $parser)
+    public function read($key)
     {
-        $this->setParser($parser);
-
-        return $this;
+        return self::$store[$key];
     }
 
     /**
-     * Getter for Parser.
+     * Updates an entry in store.
+     *
+     * @param string $key   The key for the data to store
+     * @param mixed  $value The value to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Di_Parser_Interface The Parser if set, otherwise NULL
+     * @return bool TRUE on success, otherwise FALSE
      */
-    protected function getParser()
+    public function update($key, $value)
     {
-        return $this->parser;
+        self::$store[$key] = $value;
+
+        return true;
+    }
+
+    /**
+     * Deletes an entry from store.
+     *
+     * @param string $key The key to delete
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE on success, otherwise FALSE
+     */
+    public function delete($key)
+    {
+        unset(self::$store[$key]);
+
+        return true;
     }
 }
