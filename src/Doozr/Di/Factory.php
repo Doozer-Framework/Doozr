@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Factory
+ * Doozr - Di - Factory.
  *
  * Factory.php - The Di factory is responsible for creating instances configured through
  * a recipe only. Everything else is prepared by other parts of the Di library. But the
@@ -48,21 +49,21 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Factory
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Registry/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Registry/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Constants.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Dependency.php';
 
 /**
- * Doozr - Di - Factory
+ * Doozr - Di - Factory.
  *
  * The Di factory is responsible for creating instances configured through
  * a recipe only. Everything else is prepared by other parts of the Di library. But the
@@ -71,11 +72,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
  * requirements to produce instances are fulfilled.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Factory
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  * @final
  */
@@ -85,7 +86,6 @@ final class Doozr_Di_Factory
      * Reflection-class-instance of the current class.
      *
      * @var ReflectionClass
-     * @access protected
      */
     protected $reflection;
 
@@ -93,7 +93,6 @@ final class Doozr_Di_Factory
      * Whether the current class is instantiable.
      *
      * @var bool
-     * @access protected
      */
     protected $instantiable;
 
@@ -101,7 +100,6 @@ final class Doozr_Di_Factory
      * An registry interface compatible store for loading and storing instances.
      *
      * @var Doozr_Registry_Interface
-     * @access protected
      */
     protected $registry;
 
@@ -115,7 +113,6 @@ final class Doozr_Di_Factory
      * @param Doozr_Registry_Interface $registry An registry instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct(Doozr_Registry_Interface $registry)
     {
@@ -134,14 +131,14 @@ final class Doozr_Di_Factory
      * @param array $arguments Arguments to pass to instance on creation.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object New instance built from recipe.
-     * @access public
      */
     public function build($recipe, array $arguments = [])
     {
-        // Create Reflection Instance of passed classname
+        // Create Reflection Instance of passed className
         $this
-            ->reflection(new ReflectionClass($recipe['classname']));
+            ->reflection(new ReflectionClass($recipe['className']));
 
         // Create an instance and return it to caller
         return $this->instantiate($recipe, $arguments);
@@ -157,8 +154,6 @@ final class Doozr_Di_Factory
      * @param Doozr_Registry_Interface $registry The registry to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setRegistry(Doozr_Registry_Interface $registry)
     {
@@ -171,8 +166,8 @@ final class Doozr_Di_Factory
      * @param Doozr_Registry_Interface $registry The registry to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function registry(Doozr_Registry_Interface $registry)
     {
@@ -185,8 +180,8 @@ final class Doozr_Di_Factory
      * Getter for registry.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Registry_Interface Registry if set, otherwise NULL
-     * @access protected
      */
     protected function getRegistry()
     {
@@ -199,8 +194,6 @@ final class Doozr_Di_Factory
      * @param bool $instantiable The instantiable to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setInstantiable($instantiable)
     {
@@ -213,8 +206,8 @@ final class Doozr_Di_Factory
      * @param bool $instantiable The instantiable to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function instantiable($instantiable)
     {
@@ -227,8 +220,8 @@ final class Doozr_Di_Factory
      * Getter for instantiable.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Instantiable if set, otherwise NULL
-     * @access protected
+     *
+     * @return bool Instantiable if set, otherwise NULL
      */
     protected function getInstantiable()
     {
@@ -241,8 +234,6 @@ final class Doozr_Di_Factory
      * @param ReflectionClass $reflection The reflection to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setReflection(ReflectionClass $reflection)
     {
@@ -255,8 +246,8 @@ final class Doozr_Di_Factory
      * @param ReflectionClass $reflection The reflection to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function reflection(ReflectionClass $reflection)
     {
@@ -269,8 +260,8 @@ final class Doozr_Di_Factory
      * Getter for reflection.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return ReflectionClass The reflection class instance
-     * @access protected
      */
     protected function getReflection()
     {
@@ -278,62 +269,61 @@ final class Doozr_Di_Factory
     }
 
     /**
-     * Returns an instance of a passed classname.
+     * Returns an instance of a passed className.
      *
      * This method is intend to construct an instance of a given class and pass the given (optional) arguments
      * to the constructor. This method looks really ugly and i know this of course. But this way is a tradeoff
      * between functionality and speed optimization.
      *
-     * @param string|array $classname Name of the class to instantiate or an array containing [class => constructor].
+     * @param string|array $className Name of the class to instantiate or an array containing [class => constructor].
      * @param array        $arguments Arguments to pass to constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object Instance of class with passed classname
-     * @access protected
+     *
+     * @return object Instance of class with passed className
+     *
      * @throws Doozr_Di_Exception
      */
-    protected function construct($classname, array $arguments = [])
+    protected function construct($className, array $arguments = [])
     {
         // Check for static call (like getInstance or some other singleton)
-        if (true === is_array($classname)) {
+        if (true === is_array($className)) {
 
             // Arguments require different handling ...
             if (count($arguments) > 0) {
-                return call_user_func_array($classname, $arguments);
+                return call_user_func_array($className, $arguments);
             } else {
-                return call_user_func($classname);
+                return call_user_func($className);
             }
-
         } else {
-
             $countArguments = count($arguments);
 
             // Normal instantiation ... but a bit different for speedup.
             // Looks weired but its the fastest way!
             switch ($countArguments) {
                 case 0:
-                    return new $classname();
+                    return new $className();
 
                 case 1:
-                    return new $classname(
+                    return new $className(
                         $arguments[0]
                     );
 
                 case 2:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1]
                     );
 
                 case 3:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2]
                     );
 
                 case 4:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -341,7 +331,7 @@ final class Doozr_Di_Factory
                     );
 
                 case 5:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -350,7 +340,7 @@ final class Doozr_Di_Factory
                     );
 
                 case 6:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -359,7 +349,7 @@ final class Doozr_Di_Factory
                         $arguments[5]);
                 case 7:
 
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -369,7 +359,7 @@ final class Doozr_Di_Factory
                         $arguments[6]);
                 case 8:
 
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -380,7 +370,7 @@ final class Doozr_Di_Factory
                         $arguments[7]);
                 case 9:
 
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -390,13 +380,41 @@ final class Doozr_Di_Factory
                         $arguments[6],
                         $arguments[7],
                         $arguments[8]);
+                case 10:
+
+                    return new $className(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9]);
+                case 11:
+
+                    return new $className(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9],
+                        $arguments[10]);
 
                 default:
                     throw new Doozr_Di_Exception(
                         sprintf(
-                            'Too much arguments passed to "%s". This method can handle up to 6 arguments. '.
-                            'Please reduce arguments passed to constructor.',
-                            __METHOD__
+                            'Too much arguments passed to "%s". This method can handle up to 6 arguments. You passed '.
+                            '"%s". Please reduce arguments passed to constructor.',
+                            __METHOD__,
+                            $countArguments
                         )
                     );
                     break;
@@ -411,8 +429,8 @@ final class Doozr_Di_Factory
      * @param array $arguments The optional runtime arguments to add.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The resulting and prepared recipe.
-     * @access protected
      */
     protected function prepareArguments(array $recipe, array $arguments)
     {
@@ -426,10 +444,10 @@ final class Doozr_Di_Factory
     }
 
     /**
-     * Instantiates a class including it dependencies
+     * Instantiates a class including it dependencies.
      *
      * This method is intend to instantiate a class and pass the required dependencies to it.
-     * The dependencies are pre-configured and passed to this method as $recipe. The classname is
+     * The dependencies are pre-configured and passed to this method as $recipe. The className is
      * the name of the class to instantiate and arguments is an (optional) array of arguments
      * which are passed to the class as additional arguments when instantiating.
      *
@@ -437,8 +455,9 @@ final class Doozr_Di_Factory
      * @param array $arguments Arguments to pass to instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object The new created instance
-     * @access protected
+     *
      * @throws Doozr_Di_Exception
      */
     protected function instantiate($recipe, array $arguments = [])
@@ -479,29 +498,28 @@ final class Doozr_Di_Factory
                         }
 
                         $dependency->setInstance($instance);
-
                     } else {
 
-                        // Check basic requirements :D it's just the classname!
-                        if (null === $classname = $dependency->getClassname()) {
+                        // Check basic requirements :D it's just the className!
+                        if (null === $className = $dependency->getClassName()) {
                             throw new Doozr_Di_Exception(
                                 sprintf(
-                                    'Property "classname" not set! If you are not using "link" then you need to ' .
-                                    'define the class to inject via "classname".'
+                                    'Property "className" not set! If you are not using "link" then you need to '.
+                                    'define the class to inject via "className".'
                                 )
                             );
                         }
 
                         // Check if the constructor is known to us ...
                         if (null === $constructor = $dependency->getConstructor()) {
-                            $constructor = $this->parseConstructor(new \ReflectionClass($classname));
+                            $constructor = self::parseConstructor(new \ReflectionClass($className));
                             $dependency->setConstructor($constructor);
                         }
 
                         // Create instance via this class ;)
                         $instance = $this->instantiate(
                             [
-                                'classname'   => $classname,
+                                'className'   => $className,
                                 'constructor' => $constructor,
                                 'arguments'   => $dependency->getArguments(),
                             ]
@@ -529,27 +547,27 @@ final class Doozr_Di_Factory
         }
 
         // Process injections, create instance and return it
-        return $this->createInstance($recipe['classname'], $recipe['constructor'], $arguments, $injections);
+        return $this->createInstance($recipe['className'], $recipe['constructor'], $arguments, $injections);
     }
 
     /**
      * Creates an instance of a class and returns it.
      *
      * This method is intend to instantiate a class and pass the required dependencies to it.
-     * The dependencies are pre-configured and passed to this method as $recipe. The classname is
+     * The dependencies are pre-configured and passed to this method as $recipe. The className is
      * the name of the class to instantiate and arguments is an (optional) array of arguments
      * which are passed to the class as additional arguments when instantiating.
      *
-     * @param string $classname   Name of the class being instantiated
+     * @param string $className   Name of the class being instantiated
      * @param string $constructor Name of constructor method (only required if not default = e.g. using Singleton)
-     * @param array  $arguments   Arguments to pass to constructor when creating instance of $classname
+     * @param array  $arguments   Arguments to pass to constructor when creating instance of $className
      * @param array  $injections  Injections to execute on instantiation process and via setter or property injections
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object The new created instance.
-     * @access protected
      */
-    protected function createInstance($classname, $constructor = null, array $arguments = [], array $injections = [])
+    protected function createInstance($className, $constructor = null, array $arguments = [], array $injections = [])
     {
         // Check for required dependency injections ...
         if (count($injections[Doozr_Di_Constants::INJECTION_TYPE_CONSTRUCTOR]) > 0) {
@@ -566,7 +584,7 @@ final class Doozr_Di_Factory
         }
 
         // Get instance - for no dependency calls too
-        $instance = $this->constructorInjection($classname, $arguments, $constructor);
+        $instance = $this->constructorInjection($className, $arguments, $constructor);
 
         // process only if $injections exists
         if (count($injections[Doozr_Di_Constants::INJECTION_TYPE_METHOD]) > 0) {
@@ -601,33 +619,32 @@ final class Doozr_Di_Factory
     }
 
     /**
-     * Returns an instance with injected dependencies
+     * Returns an instance with injected dependencies.
      *
      * This method is intend to return an instance of the given class. It injects
      * the required dependencies into constructor on instantiation.
      *
-     * @param string $classname   Name of the class being instantiated
-     * @param array  $arguments   Arguments to pass to constructor when creating instance of $classname
+     * @param string $className   Name of the class being instantiated
+     * @param array  $arguments   Arguments to pass to constructor when creating instance of $className
      * @param string $constructor Constructor used as priority 1 when not directly instantiable.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object The new created instance
-     * @access protected
      */
-    protected function constructorInjection($classname, array $arguments = [], $constructor = null)
+    protected function constructorInjection($className, array $arguments = [], $constructor = null)
     {
         // Check for passed constructor or retrieve it
         if (null === $constructor) {
-            $constructor = $this->parseConstructor($this->getReflection());
-
+            $constructor = self::parseConstructor($this->getReflection());
         }
 
         // If not the default (__constructor) it must be static and so turn into array
         if (Doozr_Di_Constants::CONSTRUCTOR_METHOD !== $constructor) {
-            $classname = [$classname, $constructor];
+            $className = [$className, $constructor];
         }
 
-        return $this->construct($classname, $arguments);
+        return $this->construct($className, $arguments);
     }
 
     /**
@@ -637,10 +654,12 @@ final class Doozr_Di_Factory
      * @param ReflectionClass $reflectionClass A reflection class instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Constructor parsed or detected
-     * @access protected
+     *
+     * @static
      */
-    protected function parseConstructor(\ReflectionClass $reflectionClass)
+    protected static function parseConstructor(\ReflectionClass $reflectionClass)
     {
         // Check if constructor is our common and well known __construct
         if (true === $reflectionClass->isInstantiable()) {
@@ -653,26 +672,34 @@ final class Doozr_Di_Factory
             // Assume default singleton constructor method name
             $constructor = Doozr_Di_Constants::CONSTRUCTOR_METHOD_SINGLETON;
 
+            $lastProcessedFileName = null;
+
             // iterate over static methods and check for instantiation
             foreach ($constructorCandidates as $constructorCandidate) {
-
                 /* @var ReflectionMethod $constructorCandidate */
-                $sourcecode = file($constructorCandidate->getFileName());
+                $fileName = $constructorCandidate->getFileName();
 
+                if ($lastProcessedFileName !== $fileName) {
+                    $sourcecode            = file($fileName);
+                    $lastProcessedFileName = $fileName;
+                }
+
+                // Start Extract method source
                 $start            = $constructorCandidate->getStartLine() + 1;
-                $end              = $constructorCandidate->getEndline()   - 1;
+                $end              = $constructorCandidate->getEndLine()   - 1;
                 $methodSourcecode = '';
 
                 // Concat sourcecode lines
                 for ($i = $start; $i < $end; ++$i) {
                     $methodSourcecode .= $sourcecode[$i];
                 }
+                // End Extract method source
 
                 // Check for instantiation code ... possibly the constructor
                 if (
                     strpos(
                         $methodSourcecode,
-                        'new self('
+                        'n'.'e'.'w'.' self('
                     ) ||
                     strpos(
                         $methodSourcecode,
@@ -695,8 +722,6 @@ final class Doozr_Di_Factory
      * @param array  $injections The dependencies to inject as array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function methodInjection(&$instance, array $injections)
     {
@@ -712,8 +737,6 @@ final class Doozr_Di_Factory
      * @param array  $injections The dependencies to inject as array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function propertyInjection(&$instance, array $injections)
     {
@@ -729,8 +752,8 @@ final class Doozr_Di_Factory
      * @param array  $injections The dependencies to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed NULL if no dependencies found, otherwise ARRAY containing the dependencies
-     * @access protected
      */
     protected function parseInjections($type, array $injections)
     {
@@ -746,7 +769,7 @@ final class Doozr_Di_Factory
                 foreach ($injections[$type] as $recipe) {
                     $result[] = [
                         'signature' => $recipe['target'],
-                        'argument'  => $recipe['instance']
+                        'argument'  => $recipe['instance'],
                     ];
                 }
                 break;
@@ -769,8 +792,8 @@ final class Doozr_Di_Factory
      * @param array $arguments  Additional arguments to pass to constructor
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The merged result ready to pass to targets constructor
-     * @access protected
      */
     protected function mergeArguments(array $injections, array $arguments)
     {
@@ -785,7 +808,6 @@ final class Doozr_Di_Factory
 
         // Iterate the injections and position them in result
         for ($i = 0; $i < $countInjections; ++$i) {
-
             if (null !== $injections[$i]['position']) {
                 $position = $injections[$i]['position'] - 1;
             } else {
@@ -809,8 +831,8 @@ final class Doozr_Di_Factory
      * Creates and returns an empty array for the three types of injections.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array For the three types of injections
-     * @access protected
      */
     protected function initInjectionMapSkeleton()
     {

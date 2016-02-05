@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Parser - Constructor
+ * Doozr - Di - Parser - Constructor.
  *
  * Constructor.php - Constructor Parser of the Di.
  *
@@ -43,31 +44,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Constants.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Parser/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Parser/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
 
 /**
- * Doozr - Di - Parser - Constructor
+ * Doozr - Di - Parser - Constructor.
  *
  * Constructor Parser of the Di.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
@@ -79,14 +80,15 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Parse out the constructor of a class (eg. for singleton classes)
+     * Parse out the constructor of a class (eg. for singleton classes).
      *
      * This method is intend to parse out the name of the constructor. This method is used for singleton classes
      * or classes which can not be instantiated via "new" operator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the method which act as constructor
-     * @access public
+     *
      * @throws Doozr_Di_Exception
      */
     public function parse()
@@ -102,21 +104,21 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
         $this->prepareInput();
 
         // if called from outside we maybe need a new instance of reflection
-        if (!class_exists($this->input['classname']) && !$this->input['reflection']) {
+        if (!class_exists($this->input['className']) && !$this->input['reflection']) {
             throw new Doozr_Di_Exception(
-                'Could not parse constructor! Please define at least a "file" which contains the classname '.
+                'Could not parse constructor! Please define at least a "file" which contains the className '.
                 'or an existing ReflectionClass instance'
             );
         }
 
         // get reflection if not already passed to this method
         if (!$this->input['reflection']) {
-            $reflectionInstance = new ReflectionClass($this->input['classname']);
+            $reflectionInstance = new ReflectionClass($this->input['className']);
         } else {
             $reflectionInstance = $this->input['reflection'];
         }
 
-        // get filename of classname
+        // get filename of className
         if (!isset($this->input['file'])) {
             $this->input['file'] = $reflectionInstance->getFileName();
         }
@@ -124,7 +126,6 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
         /* @var ReflectionInstance $reflectionInstance */
         if ($reflectionInstance->isInstantiable()) {
             $constructor = Doozr_Di_Constants::CONSTRUCTOR_METHOD;
-
         } else {
             // read the file as array
             $sourcecode = file($this->input['file']);
@@ -137,8 +138,8 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
 
             // iterate over static methods and check for instantiation
             foreach ($possibleConstructors as $possibleConstructor) {
-                $start = $possibleConstructor->getStartLine()+1;
-                $end   = $possibleConstructor->getEndline()-1;
+                $start            = $possibleConstructor->getStartLine() + 1;
+                $end              = $possibleConstructor->getEndLine() - 1;
                 $methodSourcecode = '';
 
                 // concat sourcecode lines
@@ -148,7 +149,7 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
 
                 // check for instantiation
                 if (strpos($methodSourcecode, 'new self(')
-                    || strpos($methodSourcecode, 'new ' . $this->input['classname'] . '(')
+                    || strpos($methodSourcecode, 'new '.$this->input['className'].'(')
                 ) {
                     $constructor = $possibleConstructor->name;
                     break;
@@ -161,17 +162,17 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Checks if the requirements are fulfilled
+     * Checks if the requirements are fulfilled.
      *
      * This method is intend to check if the requirements are fulfilled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if requirements fulfilled, otherwise FALSE
-     * @access public
      * @static
      */
     public function requirementsFulfilled()
     {
-        return ($this->input !== null);
+        return $this->input !== null;
     }
 }

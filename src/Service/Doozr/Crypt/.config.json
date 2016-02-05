@@ -3,6 +3,20 @@
     "cipher":  {
       "default": "aes",
       "available": ["aes"]
+    },
+    "encoding": {
+      "default": "base64",
+      "available": ["base64", "uuencode"],
+      "mapping": {
+        "base64": {
+          "encode": "base64_encode",
+          "decode": "base64_decode"
+        },
+        "uuencode": {
+          "encode": "convert_uuencode",
+          "decode": "convert_uudecode"
+        }
+      }
     }
   }
 }

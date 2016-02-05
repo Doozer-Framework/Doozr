@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Label.php - The Label element control layer which adds validation,
  * and so on to an HTML element.
@@ -44,40 +45,40 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * The Label element control layer which adds validation,
  * and so on to an HTML element.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
      * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string ""
+     * e.g. "input" or "form". Default empty string "".
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_LABEL;
 
@@ -86,13 +87,11 @@ class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Fo
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for form
+     * Setter for form.
      *
      * @param string $form The form to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setForm($form)
     {
@@ -100,11 +99,11 @@ class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for form
+     * Getter for form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The form
-     * @access public
      */
     public function getForm()
     {
@@ -117,8 +116,6 @@ class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Fo
      * @param string $referencedComponent The referenced form element for which this label is for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFor($referencedComponent)
     {
@@ -129,8 +126,8 @@ class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Fo
      * Getter for "for" attribute.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The "for" attribute of the component, NULL if not set
-     * @access public
      */
     public function getFor()
     {
@@ -143,8 +140,6 @@ class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Fo
      * @param string $text The text to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setText($text)
     {
@@ -155,8 +150,8 @@ class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Fo
      * Getter for text of the label.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The text of the label, NULL if not set
-     * @access public
      */
     public function getText()
     {

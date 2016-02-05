@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Path
+ * Doozr - Path.
  *
  * Path.php - This is the Path-Manager of Doozr and it is intend for retrieving and setting paths.
  *
@@ -43,30 +44,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Path
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Path/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Path/Interface.php';
 
 /**
- * Doozr - Path
+ * Doozr - Path.
  *
  * This is the Path-Manager of Doozr and it is intend for retrieving and setting paths.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Path
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Path extends Doozr_Base_Class_Singleton
@@ -74,309 +76,36 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
     Doozr_Path_Interface
 {
     /**
-     * The frameworks default paths
+     * The frameworks default paths.
      *
      * @var array
-     * @access protected
      * @static
      */
     protected static $path = [];
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor.
+     * Add a path to PHP's include paths.
      *
-     * @param string $pathToRoot        The path to Doozr (DOOZR_DOCUMENT_ROOT)
-     * @param string $pathToApplication The path to applications root directory
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Path
-     * @access protected
-     */
-    protected function __construct($pathToRoot = null, $pathToApplication = null)
-    {
-        $this->init($pathToRoot, $pathToApplication);
-    }
-
-    /**
-     * initializes all required operations
-     *
-     * This method is intend to begin retrieving the current document root of Doozr. Afterwards
-     * it retrieves the path to the application and setup all required default and include paths.
-     *
-     * @param string $pathToRoot        The path to Doozr (DOOZR_DOCUMENT_ROOT)
-     * @param string $pathToApplication The path to applications root directory
+     * @param string $path The path which should be added to include path's
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function init($pathToRoot, $pathToApplication)
-    {
-        // check for rootfolder runtimeEnvironment
-        // null = try to detect root | true = use const DOOZR_DOCUMENT_ROOT | ELSE = take path from parameter
-        switch ($pathToRoot) {
-            case null:
-                $pathToRoot = str_replace(
-                    str_replace('_', DIRECTORY_SEPARATOR, __CLASS__) . '.php',
-                    '',
-                    __FILE__
-                );
-                break;
-
-            case 'DOOZR':
-                // break intentionally omitted
-
-            default:
-                $pathToRoot = DOOZR_DOCUMENT_ROOT;
-                break;
-        }
-
-        // retrieve path to application
-        if (!$pathToApplication) {
-            $pathToApplication = $this->retrievePathToApplication();
-        }
-
-        // init all important paths from framework and app
-        $this->initPaths($pathToRoot, $pathToApplication);
-
-        // setup include paths to speedup PHPs lookups
-        $this->initIncludePaths();
-    }
-
-    /**
-     * returns the path to the application
-     *
-     * This method is intend to return the path to the application. If it is not set
-     * yet it creates the path by assuming that the Application is one level up from
-     * DOOZR_DOCUMENT_ROOT
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string Path to Application
-     * @access protected
-     */
-    protected function retrievePathToApplication()
-    {
-        // If path to app was defined before return this (prio 1)
-        if (false === defined('DOOZR_APP_ROOT')) {
-            if (false !== $environment = getenv('DOOZR_APP_ROOT')) {
-                // assume that path to application is like the default environment (one folder up)
-                $path = $this->mergePath($environment, 'app/');
-
-            } else {
-                // assume that path to application is like the default environment (one folder up)
-                $path = $this->mergePath(DOOZR_DOCUMENT_ROOT, '../app/');
-
-            }
-
-            // we need a constant of the path as counterpart to DOOZR_DOCUMENT_ROOT
-            define('DOOZR_APP_ROOT', $path);
-        }
-
-        // Always use constant
-        return DOOZR_APP_ROOT;
-    }
-
-    /**
-     * returns the path n levels up from input
-     *
-     * This method is intend to switch up n level from a given base path.
-     *
-     * @param string  $path                  The input path
-     * @param int $level                 The count of levels to move up
-     * @param bool $preserveTrailingSlash TRUE to preserve trailing slash if exist, FALSE to do not
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string Path n level up
-     * @access protected
-     */
-    protected function up($path, $level = 1, $preserveTrailingSlash = false)
-    {
-        $postfix = '';
-
-        if (substr($path, -1, 1) == DIRECTORY_SEPARATOR) {
-            ++$level;
-            if ($preserveTrailingSlash) {
-                $postfix = DIRECTORY_SEPARATOR;
-            }
-        }
-
-        $path = explode(DIRECTORY_SEPARATOR, $path);
-        $path = array_slice($path, 0, count($path)-$level);
-
-        return implode(DIRECTORY_SEPARATOR, $path).$postfix;
-    }
-
-    /**
-     * setup the default paths of Doozr and Application
-     *
-     * setup the default paths of Doozr
-     *
-     * @param string $pathToRoot        The path to Doozr (DOOZR_DOCUMENT_ROOT)
-     * @param string $pathToApplication The path to applications root directory
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function initPaths($pathToRoot, $pathToApplication)
-    {
-        // get absolute root
-        $root = $this->up($pathToRoot, 1, true);
-
-        // real root (without "src" directory)
-        self::$path['document_root'] = $root;
-
-        // path to core
-        self::$path['core'] = $this->combine($root, array('src', 'Doozr'));
-
-        // path to framework
-        self::$path['framework'] = $this->combine($root, array('src'));
-
-        // path to app
-        self::$path['app'] = $pathToApplication;
-
-        // path to model
-        self::$path['model'] = $this->combine($root, array('src', 'Model'));
-
-        // path to services
-        self::$path['service'] = $this->combine($root, array('src', 'Service'));
-
-        // path to controller
-        self::$path['controller'] = $this->combine($root, array('src', 'Doozr', 'Controller'));
-
-        // path to data
-        self::$path['data'] = $this->combine($root, array('src', 'Data'));
-
-        // path to data-private
-        self::$path['data_private'] = $this->combine($root, array('src', 'Data', 'Private'));
-
-        // path to auth
-        self::$path['auth'] = $this->combine($root, array('src', 'Data', 'Private', 'Auth'));
-
-        // path to cache
-        self::$path['cache'] = DOOZR_DIRECTORY_TEMP;
-
-        // path to config
-        self::$path['config'] = $this->combine($root, array('src', 'Data', 'Private', 'Config'));
-
-        // path to font
-        self::$path['font'] = $this->combine($root, array('src', 'Data', 'Private', 'Font'));
-
-        // path to log
-        self::$path['log'] = DOOZR_DIRECTORY_TEMP;
-
-        // path to temp
-        self::$path['temp'] = DOOZR_DIRECTORY_TEMP;
-
-        // path to data-public (APP)
-        self::$path['data_public'] = $this->combine($pathToApplication, array('Data', 'Public'));
-
-        // path to data-public (APP)
-        self::$path['www'] = $this->combine($pathToApplication, array('Data', 'Public', 'www'));
-
-        // path to upload (APP)
-        self::$path['upload'] = $this->combine($pathToApplication, array('Data', 'Private', 'Upload'));
-
-        // path to localisation (APP)
-        self::$path['localisation'] = $this->combine($pathToApplication, array('Data', 'Private', 'Locale'));
-    }
-
-    /**
-     * This method is intend to return a combined path based on input.
-     *
-     * @param string $base          The base path for combine operation
-     * @param string[]  $relativePaths The path parts as array to add
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return String The new combined path
-     * @access protected
-     */
-    protected function combine($base = '', array $relativePaths = [])
-    {
-        foreach ($relativePaths as $relativePath) {
-            $base .= $relativePath.DIRECTORY_SEPARATOR;
-        }
-
-        return $base;
-    }
-
-    /**
-     * setup the inlcude path's of php
-     *
-     * setup the inlcude path's of php
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
-     */
-    protected function initIncludePaths()
-    {
-        // get ini include path and split it to an array
-        $iniIncludePaths = explode(PATH_SEPARATOR, ini_get('include_path'));
-
-        // default entry
-        $includePathsDoozr = '.';
-
-        // build Doozr include paths
-        foreach (self::$path as $path) {
-            $includePathsDoozr .= self::buildPath($path);
-        }
-
-        if (!empty($iniIncludePaths)) {
-            foreach ($iniIncludePaths as $iniIncludePath) {
-                // if '.' or exisiting path -> do not attach twice
-                if (in_array($iniIncludePath, self::$path) || trim($iniIncludePath) == '.') {
-                    continue;
-                }
-
-                $includePathsDoozr .= self::buildPath($iniIncludePath);
-            }
-        }
-
-        // now try to set the ini value include_path
-        ini_set('include_path', $includePathsDoozr);
-    }
-
-    /**
-     * Build valid include path
-     *
-     * @param string $path The path which should be formatted as include-path
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string with the correct include path
-     * @access protected
-     * @static
-     */
-    protected static function buildPath($path)
-    {
-        return PATH_SEPARATOR.$path;
-    }
-
-    /**
-     * Add a path to php's include searchpaths
-     *
-     * @param string $path The path which should be added as include-path
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @static
      */
     public static function addIncludePath($path)
     {
-        $path = get_include_path() . PATH_SEPARATOR.$path;
-        set_include_path($path);
+        set_include_path(get_include_path().self::buildPath($path));
     }
 
     /**
-     * Removes a path from php's include searchpaths
+     * Removes a path from PHP's include paths.
      *
-     * @param string $path The path which should be removed from include-paths
+     * @param string $path The path which should be removed from include path's
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      * @static
      */
     public static function removeIncludePath($path)
@@ -385,15 +114,15 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Returns requested path
+     * Returns path by identifier (e.g. 'temp').
      *
-     * @param string  $identifier    The path which should be returned
-     * @param string  $add           An extension to the path requested
-     * @param bool $trailingSlash True to add a trailing slash (false = default)
+     * @param string $identifier    Path which should be returned
+     * @param string $add           Extension to the path requested
+     * @param bool   $trailingSlash TRUE to add a trailing slash, FALSE to do not (default)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The path requested
-     * @access protected
      * @static
      */
     public function get($identifier, $add = '', $trailingSlash = false)
@@ -406,106 +135,109 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
             throw new Doozr_Path_Exception(
                 sprintf('There is no path entry for identifier: "%s"', $identifier)
             );
-
         }
 
         // Check for additional path add-on
         if (strlen($add)) {
             // if defined we add the correct slashed path
-            $add = self::correctPath($add);
+            $add = self::fixPath($add);
         }
 
-        return self::$path[$identifier] . $add . (($trailingSlash) ? DIRECTORY_SEPARATOR : '');
+        return self::$path[$identifier].$add.(($trailingSlash) ? DIRECTORY_SEPARATOR : '');
     }
 
     /**
-     * Register an path from external - maybe created at runtime
+     * Register an path from external - maybe created at runtime.
      *
-     * @param string  $identifier The name of the path which should be set
-     * @param string  $path       The path which should be set
-     * @param bool $force      True to force overwrite of already existing identifier
+     * @param string $identifier Name of the path which should be set
+     * @param string $path       Path which should be set
+     * @param bool   $force      TRUE to force overwrite of already existing identifier, FALSE to prevent from overwrite
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool True if successful otherwise false
-     * @access protected
+     *
+     * @return bool TRUE on success, otherwise FALSE
      * @static
+     *
      * @throws Doozr_Exception
      */
     public function set($identifier, $path, $force = false)
     {
-        // check if already exist and prevent overwrite if not force
-        if (isset(self::$path[$identifier]) && !is_null(self::$path[$identifier]) && !$force) {
+        // Check if already exist and prevent overwrite if not force
+        if ((true === isset(self::$path[$identifier])) && ((null !== self::$path[$identifier]) && (false === $force))) {
             throw new Doozr_Exception(
-                'Path with identifier "'.$identifier.'" is already defined! Set $force to TRUE to overwrite it.'
+                sprintf(
+                    'Path with identifier "%s" already defined! Set $force to TRUE to overwrite it.',
+                    $identifier
+                )
             );
         }
 
-        // create/update path
-        self::$path[$identifier] = $this->correctPath($path);
+        // Create/update path
+        self::$path[$identifier] = self::fixPath($path);
 
-        // return success
         return true;
     }
 
     /**
-     * Corrects slashes with "wrong" direction in a path and returns it
+     * Fix slashes with "wrong" direction in a path and returns it.
      *
      * @param string $path The path to correct slashes in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The path with corrected slash-direction
-     * @access public
      * @static
      */
-    public static function correctPath($path)
+    public static function fixPath($path)
     {
-        // detect which direction of slash is "wrong"
+        // Detect which direction of slash is "wrong"
         switch (DIRECTORY_SEPARATOR) {
-        case '/':
-            $wrongDirection = '\\';
-            break;
-        case '\\':
-            $wrongDirection = '/';
-            break;
+            case '\\':
+                $wrongDirection = '/';
+                break;
+
+            case '/':
+            default:
+                $wrongDirection = '\\';
+                break;
         }
 
-        // if wrong directional slash found -> replace it
-        if (stristr($path, $wrongDirection)) {
+        if (false !== stristr($path, $wrongDirection)) {
             $path = str_replace($wrongDirection, DIRECTORY_SEPARATOR, $path);
+
+            // In case of mixed slashes we maybe need to cleanup
+            if (stristr($path, '\\\\')) {
+                $path = str_replace('\\\\', '\\', $path);
+            } elseif (stristr($path, '//')) {
+                $path = str_replace('//', '/', $path);
+            }
         }
 
-        // in case of mixed slashes we maybe need to cleanup
-        if (stristr($path, '\\\\')) {
-            $path = str_replace('\\\\', '\\', $path);
-        } elseif (stristr($path, '//')) {
-            $path = str_replace('//', '/', $path);
-        }
-
-        // return corrected path
+        // Return corrected path
         return $path;
     }
 
     /**
-     * This method is intend to merge two path-settings under consideration of ../ (n-times)
+     * This method is intend to merge two path-settings under consideration of ../ (n-times).
      *
      * @param string $pathBase  The path used as base
      * @param string $pathMerge The path used as extension to $pathBase
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The corrected new merged path
-     * @access public
      */
     public function mergePath($pathBase, $pathMerge = '')
     {
         // correct the input-path settings
-        $pathBase = $this->correctPath($pathBase);
-        $pathMerge = $this->correctPath($pathMerge);
+        $pathBase  = self::fixPath($pathBase);
+        $pathMerge = self::fixPath($pathMerge);
 
         // holds the new constructed path
         $newPath = '';
 
         // define replace patterns
-        $pattern_1 = '..' . DIRECTORY_SEPARATOR;
+        $pattern_1 = '..'.DIRECTORY_SEPARATOR;
 
         //check for pattern_1 = '../'
         if (stristr($pathMerge, $pattern_1)) {
@@ -525,7 +257,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
             }
 
             // remove n elements (representation of ../ found in pathMerge)
-            for ($i = 0; $i < $patternCount; $i++) {
+            for ($i = 0; $i < $patternCount; ++$i) {
                 array_pop($tmpPathBase);
             }
 
@@ -533,7 +265,7 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
             array_push($tmpPathBase, $pathMerge);
 
             $newPath = implode(DIRECTORY_SEPARATOR, $tmpPathBase).
-                ((substr($pathMerge, -1, 1) != DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '');
+                       ((substr($pathMerge, -1, 1) != DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '');
         } else {
             $newPath = $pathBase;
         }
@@ -543,37 +275,37 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * converts a given service name to a path
-     *
-     * This method is intend to convert a given service name to a path.
+     * Converts a given service name to its path representation.
      *
      * @param string $serviceName The name of the service to retrieve the path for
-     * @param string $namespace  The namespace to use for building path to service
+     * @param string $scope       The namespace to use for building path to service
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The path requested
-     * @access public
      * @static
+     *
      * @deprecated
      */
-    public static function serviceToPath($serviceName, $namespace = 'Doozr')
+    public static function serviceToPath($serviceName, $scope = DOOZR_NAMESPACE)
     {
         $service = ucfirst(str_replace('_', DIRECTORY_SEPARATOR, $serviceName));
 
-        return self::correctPath(
-            self::$path['service'] . $namespace . DIRECTORY_SEPARATOR . $service . DIRECTORY_SEPARATOR
+        return self::fixPath(
+            self::$path['service'].$scope.DIRECTORY_SEPARATOR.$service.DIRECTORY_SEPARATOR
         );
     }
 
     /**
-     * Nice magic access to stored path's
+     * Nice magic access to stored path's.
      *
-     * @param string     $method    The method name
+     * @param string $method The method name
      * @param $arguments $arguments One argument to pass by would be a new path to be set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Result depending on operation
-     * @access public
+     *
      * @throws Doozr_Path_Exception
      */
     public function __call($method, $arguments)
@@ -597,5 +329,235 @@ class Doozr_Path extends Doozr_Base_Class_Singleton
                 return $result;
             }
         }
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Constructor.
+     *
+     * @param string $pathToRoot        The path to Doozr (DOOZR_DOCUMENT_ROOT)
+     * @param string $pathToApplication The path to Application's root directory
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return \Doozr_Path
+     */
+    protected function __construct($pathToRoot = null, $pathToApplication = null)
+    {
+        $this
+            ->init($pathToRoot, $pathToApplication);
+    }
+
+    /**
+     * initializes all required operations.
+     *
+     * This method is intend to begin retrieving the current document root of Doozr. Afterwards
+     * it retrieves the path to the Application and setup all required default and include paths.
+     *
+     * @param string|null $pathToRoot        Path to Doozr (DOOZR_DOCUMENT_ROOT)
+     * @param string|null $pathToApplication Path to applications root directory
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function init($pathToRoot, $pathToApplication)
+    {
+        // Check for root folder runtimeEnvironment
+        // null = try to detect root | true = use const DOOZR_DOCUMENT_ROOT | ELSE = take path from parameter
+        switch ($pathToRoot) {
+            case null:
+                $pathToRoot = str_replace(
+                    str_replace('_', DIRECTORY_SEPARATOR, __CLASS__).'.php',
+                    '',
+                    __FILE__
+                );
+                break;
+
+            case 'DOOZR':
+                // break intentionally omitted
+            default:
+                $pathToRoot = DOOZR_DOCUMENT_ROOT;
+                break;
+        }
+
+        // Retrieve path to application
+        if (null === $pathToApplication) {
+            $pathToApplication = $this->retrievePathToApplication();
+        }
+
+        // Init important paths from framework and app, setup include paths to speedup PHPs lookups
+        $this
+            ->initPaths($pathToRoot, $pathToApplication)
+            ->configureIncludePaths();
+    }
+
+    /**
+     * Returns path to the application.
+     *
+     * This method is intend to return the path to the application. If it is not set
+     * yet it creates the path by assuming that the Application is one level up from
+     * DOOZR_DOCUMENT_ROOT
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string Path to Application
+     */
+    protected function retrievePathToApplication()
+    {
+        // If path to app was defined before return this (priority 1)
+        if (false === defined('DOOZR_APP_ROOT')) {
+            if (false !== $environment = getenv('DOOZR_APP_ROOT')) {
+                // assume that path to application is like the default environment (one folder up)
+                $path = $this->mergePath($environment, 'app/');
+            } else {
+                // assume that path to application is like the default environment (one folder up)
+                $path = $this->mergePath(DOOZR_DOCUMENT_ROOT, '../app/');
+            }
+
+            // we need a constant of the path as counterpart to DOOZR_DOCUMENT_ROOT
+            define('DOOZR_APP_ROOT', $path);
+        }
+
+        // Always use constant
+        return DOOZR_APP_ROOT;
+    }
+
+    /**
+     * Returns the path n levels up from input.
+     *
+     * @param string $path                  Input path
+     * @param int    $level                 Count of levels to move up
+     * @param bool   $preserveTrailingSlash TRUE to preserve trailing slash if exist, FALSE to do not
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string Path n level up
+     */
+    protected function up($path, $level = 1, $preserveTrailingSlash = false)
+    {
+        $postfix = '';
+
+        if (substr($path, -1, 1) === DIRECTORY_SEPARATOR) {
+            ++$level;
+            if ($preserveTrailingSlash) {
+                $postfix = DIRECTORY_SEPARATOR;
+            }
+        }
+
+        $path = explode(DIRECTORY_SEPARATOR, $path);
+        $path = array_slice($path, 0, count($path) - $level);
+
+        return implode(DIRECTORY_SEPARATOR, $path).$postfix;
+    }
+
+    /**
+     * Configures the default paths of Doozr & Application.
+     *
+     * @param string $pathToRoot        The path to Doozr (DOOZR_DOCUMENT_ROOT)
+     * @param string $pathToApplication The path to applications root directory
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function initPaths($pathToRoot, $pathToApplication)
+    {
+        // get absolute root
+        $root = $this->up($pathToRoot, 1, true);
+
+        self::$path['document_root'] = $root;
+        self::$path['core']          = $this->combine($root, ['src', 'Doozr']);
+        self::$path['framework']     = $this->combine($root, ['src']);
+        self::$path['app']           = $pathToApplication;
+        self::$path['model']         = $this->combine($root, ['src', 'Model']);
+        self::$path['service']       = $this->combine($root, ['src', 'Service']);
+        self::$path['controller']    = $this->combine($root, ['src', 'Doozr', 'Controller']);
+        self::$path['data']          = $this->combine($root, ['src', 'Data']);
+        self::$path['data_private']  = $this->combine($root, ['src', 'Data', 'Private']);
+        self::$path['auth']          = $this->combine($root, ['src', 'Data', 'Private', 'Auth']);
+        self::$path['cache']         = DOOZR_DIRECTORY_TEMP;
+        self::$path['config']        = $this->combine($root, ['src', 'Data', 'Private', 'Config']);
+        self::$path['font']          = $this->combine($root, ['src', 'Data', 'Private', 'Font']);
+        self::$path['log']           = DOOZR_DIRECTORY_TEMP;
+        self::$path['temp']          = DOOZR_DIRECTORY_TEMP;
+        self::$path['data_public']   = $this->combine($pathToApplication, ['Data', 'Public']);
+        self::$path['www']           = $this->combine($pathToApplication, ['Data', 'Public', 'www']);
+        self::$path['upload']        = $this->combine($pathToApplication, ['Data', 'Private', 'Upload']);
+        self::$path['localisation']  = $this->combine($pathToApplication, ['Data', 'Private', 'Locale']);
+
+        return $this;
+    }
+
+    /**
+     * This method is intend to return a combined path based on input.
+     *
+     * @param string   $base          The base path for combine operation
+     * @param string[] $relativePaths The path parts as array to add
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string The new combined path
+     */
+    protected function combine($base = '', array $relativePaths = [])
+    {
+        foreach ($relativePaths as $relativePath) {
+            $base .= $relativePath.DIRECTORY_SEPARATOR;
+        }
+
+        return $base;
+    }
+
+    /**
+     * Configures the include paths of PHP.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function configureIncludePaths()
+    {
+        // get ini include path and split it to an array
+        $iniIncludePaths = explode(PATH_SEPARATOR, ini_get('include_path'));
+
+        // default entry
+        $includePathsDoozr = '.';
+
+        // build Doozr include paths
+        foreach (self::$path as $path) {
+            $includePathsDoozr .= self::buildPath($path);
+        }
+
+        if (!empty($iniIncludePaths)) {
+            foreach ($iniIncludePaths as $iniIncludePath) {
+                // If '.' or existing path -> do not attach twice
+                if (in_array($iniIncludePath, self::$path) || trim($iniIncludePath) == '.') {
+                    continue;
+                }
+
+                $includePathsDoozr .= self::buildPath($iniIncludePath);
+            }
+        }
+
+        // Now try to set the ini value include_path
+        ini_set('include_path', $includePathsDoozr);
+
+        return $this;
+    }
+
+    /**
+     * Build valid include path.
+     *
+     * @param string $path The path which should be formatted as include-path
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string with the correct include path
+     * @static
+     */
+    protected static function buildPath($path)
+    {
+        return PATH_SEPARATOR.$path;
     }
 }

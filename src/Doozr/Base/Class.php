@@ -5,8 +5,7 @@
 /**
  * Doozr - Base - Class.
  *
- * Class.php - Base-Class for all classes of the Doozr Framework except
- * the classes following the singleton pattern.
+ * Class.php - Base-Class for all classes of the Doozr Framework except the classes following the singleton pattern.
  *
  * PHP versions 5.5
  *
@@ -59,8 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Tools.php';
 /**
  * Doozr - Base - Class.
  *
- * Base-Class for all classes of the Doozr Framework except the classes following
- * the singleton pattern.
+ * Base-Class for all classes of the Doozr Framework except the classes following the singleton pattern.
  *
  * @category   Doozr
  *

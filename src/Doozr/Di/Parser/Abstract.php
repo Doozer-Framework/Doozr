@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Parser - Abstract
+ * Doozr - Di - Parser - Abstract.
  *
  * Abstract.php - Abstract base class for all Parser of Di.
  *
@@ -43,52 +44,50 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
 
 /**
- * Doozr - Di - Parser - Abstract
+ * Doozr - Di - Parser - Abstract.
  *
  * Abstract base class for all Parser of Di.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  * @abstract
  */
 abstract class Doozr_Di_Parser_Abstract
 {
     /**
-     * Input to parse content from
+     * Input to parse content from.
      *
      * @var mixed
-     * @access protected
      */
     protected $input;
 
     /**
-     * Last result parsed
+     * Last result parsed.
      *
      * @var array
-     * @access protected
      */
     protected $lastResult;
 
     /**
-     * Temporary data from parsing
+     * Temporary data from parsing.
      *
      * @var array
-     * @access protected
      */
     protected $data = [];
 
@@ -101,30 +100,28 @@ abstract class Doozr_Di_Parser_Abstract
      * This method is intend to prepare  input for later use (e.g. in parse()).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     *
      * @throws Doozr_Di_Exception
      */
     protected function prepareInput()
     {
         $input = [
-            'classname'  => null,
+            'className'  => null,
             'reflection' => null,
         ];
 
         if (is_string($this->input)) {
-            $input['classname'] = $this->input;
-
+            $input['className'] = $this->input;
         } else {
             extract($this->input);
 
-            if (!isset($classname)) {
+            if (!isset($className)) {
                 throw new Doozr_Di_Exception(
-                    'Error preparing input. No classname to parse defined!'
+                    'Error preparing input. No className to parse defined!'
                 );
             }
 
-            $input['classname'] = $classname;
+            $input['className'] = $className;
 
             if (isset($file)) {
                 $this->loadFile($file);
@@ -146,8 +143,7 @@ abstract class Doozr_Di_Parser_Abstract
      * @param string $file The name (and path) of the file
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
+     *
      * @throws Doozr_Di_Exception
      */
     protected function loadFile($file)
@@ -169,13 +165,13 @@ abstract class Doozr_Di_Parser_Abstract
      * This method returns the default skeleton for storing a dependency.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array An array containing the default skeleton
-     * @access protected
      */
     protected function getDefaultSkeleton()
     {
         return [
-            'classname' => null,
+            'className' => null,
             'type'      => null,
             'target'    => null,
             'instance'  => null,
@@ -189,13 +185,14 @@ abstract class Doozr_Di_Parser_Abstract
      * This method is intend to return all variables from PHP's global scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The defined variables from global scope
-     * @access protected
      */
     protected function retrieveGlobals()
     {
         // Retrieve globals and return them
         global $GLOBALS;
+
         return $GLOBALS;
     }
 
@@ -209,8 +206,8 @@ abstract class Doozr_Di_Parser_Abstract
      * @param string $input The input to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function setInput($input)
     {
@@ -225,8 +222,8 @@ abstract class Doozr_Di_Parser_Abstract
      * @param string $input The input to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function input($input)
     {
@@ -240,8 +237,8 @@ abstract class Doozr_Di_Parser_Abstract
      * This method is intend to return the input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The input
-     * @access public
      */
     public function getInput()
     {
@@ -253,8 +250,8 @@ abstract class Doozr_Di_Parser_Abstract
      * This method is intend to reset the state of this instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function reset()
     {

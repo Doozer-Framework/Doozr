@@ -72,9 +72,16 @@
 class Doozr_Configuration_Hierarchy_Crypt
 {
     /**
-     * The crypt node of the configuration.
+     * The cipher node of the configuration.
      *
      * @var Doozr_Configuration_Hierarchy_Crypt_Cipher
      */
     public $cipher;
+
+    /**
+     * The encoding node of the configuration.
+     *
+     * @var Doozr_Configuration_Hierarchy_Crypt_Encoding
+     */
+    public $encoding;
 }

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Service - Form - Validator
+ * Doozr - Service - Form - Validator.
  *
  * Validator.php - Validation base class for validating basic types and
  * as a base for applications internal validation
@@ -44,28 +45,28 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Validate/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Validate/Constant.php';
 
 /**
- * Doozr - Service - Form - Validator
+ * Doozr - Service - Form - Validator.
  *
  * Validator-Class for validating different types of data
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Validate_Validator
@@ -75,20 +76,19 @@ class Doozr_Form_Service_Validate_Validator
      * we use this order to validate values.
      *
      * @var array
-     * @access private
      * @static
      */
-    protected static $typeOrderMatrix = array(
-        Doozr_Form_Service_Validate_Constant::VALIDATE_IMPACT            =>  0,
-        Doozr_Form_Service_Validate_Constant::VALIDATE_REQUIRED          =>  1,
-        Doozr_Form_Service_Validate_Constant::VALIDATE_NOTEMPTY          =>  2,
-        Doozr_Form_Service_Validate_Constant::VALIDATE_EMPTY             =>  3,
-        Doozr_Form_Service_Validate_Constant::VALIDATE_VALUE             =>  4,
-        Doozr_Form_Service_Validate_Constant::VALIDATE_ALPHABETIC        =>  5,
-        Doozr_Form_Service_Validate_Constant::VALIDATE_MINLENGTH         =>  6,
-        Doozr_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH         =>  7,
-        Doozr_Form_Service_Validate_Constant::VALIDATE_EMAIL             =>  8,
-        Doozr_Form_Service_Validate_Constant::VALIDATE_EMAILAUTH         =>  9,
+    protected static $typeOrderMatrix = [
+        Doozr_Form_Service_Validate_Constant::VALIDATE_IMPACT            => 0,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_REQUIRED          => 1,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_NOTEMPTY          => 2,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_EMPTY             => 3,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_VALUE             => 4,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_ALPHABETIC        => 5,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_MINLENGTH         => 6,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH         => 7,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_EMAIL             => 8,
+        Doozr_Form_Service_Validate_Constant::VALIDATE_EMAILAUTH         => 9,
         Doozr_Form_Service_Validate_Constant::VALIDATE_NUMERIC           => 10,
         Doozr_Form_Service_Validate_Constant::VALIDATE_NOTNULL           => 11,
         Doozr_Form_Service_Validate_Constant::VALIDATE_IP                => 12,
@@ -107,17 +107,16 @@ class Doozr_Form_Service_Validate_Validator
         Doozr_Form_Service_Validate_Constant::VALIDATE_FILESIZEMIN       => 25,
         Doozr_Form_Service_Validate_Constant::VALIDATE_FILESIZEMAX       => 26,
         Doozr_Form_Service_Validate_Constant::VALIDATE_FILEEXTENSION     => 27,
-    );
+    ];
 
     /**
      * holds allowed chars by valid-type
-     * e.g. for help text and/or error-message(s)
+     * e.g. for help text and/or error-message(s).
      *
      * @var array
-     * @access private
      * @static
      */
-    private static $_charlist = array(
+    private static $_charlist = [
         'required'     => '',
         'empty'        => '',
         'notempty'     => 'any',
@@ -126,15 +125,14 @@ class Doozr_Form_Service_Validate_Validator
         'numeric'      => '0-9',
         'alphanumeric' => 'a-z A-Z 0-9',
         'lowercase'    => 'a-z',
-        'boolean'      => 'TRUE|FALSE'
-    );
+        'boolean'      => 'TRUE|FALSE',
+    ];
 
     /**
      * The current processed untouched list of validation-types
-     * in its original order
+     * in its original order.
      *
      * @var array
-     * @access protected
      */
     protected $currentValidationtypes = [];
 
@@ -144,7 +142,7 @@ class Doozr_Form_Service_Validate_Validator
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * validates a given set of information (value, type, componenttye [e.g. checkbox, radio, text])
+     * validates a given set of information (value, type, componenttye [e.g. checkbox, radio, text]).
      *
      * This method is intend to validate a given set of information.
      *
@@ -152,8 +150,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $validationTypes ... against this validation-types
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if given information is valid, otherwise FALSE if invalid
-     * @access public
      */
     public function validate($value, $validationTypes = Doozr_Form_Service_Validate_Constant::VALIDATE_REQUIRED)
     {
@@ -165,9 +163,9 @@ class Doozr_Form_Service_Validate_Validator
 
         // if not of type array make it one
         if (!is_array($this->currentValidationtypes)) {
-            $this->currentValidationtypes = array(
-                $this->currentValidationtypes => true
-            );
+            $this->currentValidationtypes = [
+                $this->currentValidationtypes => true,
+            ];
         }
 
         // order the validation given
@@ -188,18 +186,18 @@ class Doozr_Form_Service_Validate_Validator
                 $validationValues = null;
             }
 
-            // construct internal methodname by type
-            $validationMethod = $this->getValidationMethodnameByType($validationType);
+            // construct internal methodName by type
+            $validationMethod = $this->getValidationMethodNameByType($validationType);
 
             // call validationmethod with value as parameter
             if (!$this->{$validationMethod}($value, $this->currentValidationtypes[$validationType])) {
 
                 // return new error object
-                $valid = array(
+                $valid = [
                     'error' => $validationType,
                     'value' => $value,
-                    'info'  => $this->currentValidationtypes[$validationType]
-                );
+                    'info'  => $this->currentValidationtypes[$validationType],
+                ];
 
                 break;
             }
@@ -216,8 +214,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues An array of valid values to check given value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateValue($value, array $validValues)
     {
@@ -228,7 +226,6 @@ class Doozr_Form_Service_Validate_Validator
             foreach ($values as $value) {
                 $result = $result && in_array($value, $validValues);
             }
-
         } else {
             $result = in_array($value, $validValues);
         }
@@ -249,8 +246,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if could be validatet, otherwise FALSE
-     * @access public
      */
     public function validateFileExtension($value, array $validValues)
     {
@@ -258,7 +255,7 @@ class Doozr_Form_Service_Validate_Validator
             $validValues = $validValues[0];
         }
 
-        $partials = explode('.', $value['name']);
+        $partials  = explode('.', $value['name']);
         $extension = array_pop(
             $partials
         );
@@ -273,8 +270,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if could be validatet, otherwise FALSE
-     * @access public
      */
     public function validateRegularexpression($value, array $validValues)
     {
@@ -282,7 +279,7 @@ class Doozr_Form_Service_Validate_Validator
             $validValues = $validValues[0];
         }
 
-        return (preg_match($validValues[0], $value) > 0);
+        return preg_match($validValues[0], $value) > 0;
     }
 
     /**
@@ -293,8 +290,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if could be validatet, otherwise FALSE
-     * @access public
      */
     public function validateFileType($value, array $validValues)
     {
@@ -315,8 +312,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if could be validatet, otherwise FALSE
-     * @access public
      */
     public function validateFileSizeMin($value, array $validValues)
     {
@@ -328,7 +325,7 @@ class Doozr_Form_Service_Validate_Validator
 
         $size = $value['size'];
 
-        return ($size >= $validLimit);
+        return $size >= $validLimit;
     }
 
     /**
@@ -339,8 +336,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues The valid values to validate against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if could be validatet, otherwise FALSE
-     * @access public
      */
     public function validateFileSizeMax($value, array $validValues)
     {
@@ -352,17 +349,17 @@ class Doozr_Form_Service_Validate_Validator
 
         $size = $value['size'];
 
-        return ($size <= $validLimit);
+        return $size <= $validLimit;
     }
 
     /**
-     * Validates if given value fulfill the requirement "required"
+     * Validates if given value fulfill the requirement "required".
      *
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateRequired($value)
     {
@@ -382,8 +379,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateNotnull($value)
     {
@@ -396,40 +393,41 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateNotempty($value)
     {
         settype($value, 'string');
-        return (strlen($value));
+
+        return strlen($value);
     }
 
     /**
-     * validates if given value fulfill the requirement "empty"
+     * validates if given value fulfill the requirement "empty".
      *
      * This method is intend to validate if given value fulfill the requirement "empty".
      *
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateEmpty($value)
     {
-        return (!$this->validateNotempty($value));
+        return !$this->validateNotempty($value);
     }
 
     /**
      * Validates if given value fulfill the requirement "alphabetic".
      *
-     * @param mixed   $value     The value to validate
-     * @param int $charCount The character limitation (optional)
+     * @param mixed $value     The value to validate
+     * @param int   $charCount The character limitation (optional)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateAlphabetic($value, $charCount = null)
     {
@@ -439,13 +437,13 @@ class Doozr_Form_Service_Validate_Validator
 
         // check for character limitation
         if ($charCount !== null) {
-            $pattern = "/^[a-zA-Z???????]{0," . $charCount . "}$/";
+            $pattern = '/^[a-zA-Z???????]{0,'.$charCount.'}$/';
         } else {
             $pattern = '/^[A-Za-z???????]+$/';
         }
 
         // validate and return
-        return (bool)preg_match($pattern, $value);
+        return (bool) preg_match($pattern, $value);
     }
 
     /**
@@ -455,22 +453,22 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $invalidValues The invalid values to check $value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateInvalid($value, array $invalidValues)
     {
-        return (!in_array($value, $invalidValues));
+        return !in_array($value, $invalidValues);
     }
 
     /**
-     * Validates if passed values type is boolean
+     * Validates if passed values type is boolean.
      *
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateBoolean($value)
     {
@@ -478,47 +476,49 @@ class Doozr_Form_Service_Validate_Validator
     }
 
     /**
-     * validates if given value fulfill the requirement "double"
+     * validates if given value fulfill the requirement "double".
      *
      * This method is intend to validate if given value fulfill the requirement "double".
      *
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateDouble($value)
     {
         $pattern = '/[0-9]*\.{1}[0-9]+/';
-        return (bool)preg_match($pattern, $value);
+
+        return (bool) preg_match($pattern, $value);
     }
 
     /**
-     * validates if given value fulfill the requirement "integer"
+     * validates if given value fulfill the requirement "integer".
      *
      * This method is intend to validate if given value fulfill the requirement "integer".
      *
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateInteger($value)
     {
         $pattern = '/^\d+$/';
-        return (bool)preg_match($pattern, $value) && (substr($value, 0, 1) != 0);
+
+        return (bool) preg_match($pattern, $value) && (substr($value, 0, 1) != 0);
     }
 
     /**
-     * Returns TRUE if passed value is a string, otherwise FALSE
+     * Returns TRUE if passed value is a string, otherwise FALSE.
      *
      * @param mixed $value The value to check
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool
-     * @access public
      */
     public function validateString($value)
     {
@@ -532,25 +532,25 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $values The invalid values to check $value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateLink($value, array $values)
     {
         // just a poc!!!!!!! dont't use in the wild
-        return ($value == $_POST->{$values[0]});
+        return $value == $_POST->{$values[0]};
     }
 
     /**
-     * validates if given value fulfill the requirement "impact"
+     * validates if given value fulfill the requirement "impact".
      *
      * This method is intend to validate if given value fulfill the requirement "impact".
      *
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateImpact($value)
     {
@@ -560,7 +560,7 @@ class Doozr_Form_Service_Validate_Validator
     }
 
     /**
-     * validates if given value fulfill the requirement "minlength"
+     * validates if given value fulfill the requirement "minlength".
      *
      * This method is intend to validate if given value fulfill the requirement "minlength".
      *
@@ -568,12 +568,12 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues An array of valid values to check given value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateMinlength($value, array $validValues)
     {
-        return (strlen($value) >= $validValues[0]);
+        return strlen($value) >= $validValues[0];
     }
 
     /**
@@ -583,24 +583,25 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validValues An array of valid values to check given value against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateMaxlength($value, array $validValues)
     {
-        return (strlen($value) <= $validValues[0]);
+        return strlen($value) <= $validValues[0];
     }
 
     /**
      * Validate if given value fulfill the requirement "ustid".
-     * http://de.wikipedia.org/wiki/Umsatzsteuer-Identifikationsnummer
+     * http://de.wikipedia.org/wiki/Umsatzsteuer-Identifikationsnummer.
      *
      * @param mixed $value               The value to validate
      * @param array $additionalParameter Additional parameter to use for validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Form_Service_Exception
      */
     public function validateUstid($value, $additionalParameter)
@@ -615,18 +616,18 @@ class Doozr_Form_Service_Validate_Validator
         }
 
         // regular expressions for postcode(s)
-        $pattern = array(
-            'DE' => '^(DE)[0-9]{9,9}$'  // GERMANY
-        );
+        $pattern = [
+            'DE' => '^(DE)[0-9]{9,9}$',  // GERMANY
+        ];
 
         if (!isset($pattern[$countrycode])) {
             throw new Doozr_Form_Service_Exception(
-                'Unknown country-code "' . $countrycode . '" for USTID-validation!'
+                'Unknown country-code "'.$countrycode.'" for USTID-validation!'
             );
         }
 
         // validate and return
-        return (bool)preg_match('/' . $pattern[$countrycode] . '/', $value);
+        return (bool) preg_match('/'.$pattern[$countrycode].'/', $value);
     }
 
     /**
@@ -636,8 +637,9 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $additionalParameter Additional parameter to use for validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Form_Service_Exception
      */
     public function validatePostcode($value, $additionalParameter)
@@ -652,28 +654,28 @@ class Doozr_Form_Service_Validate_Validator
         }
 
         // regular expressions for postcode(s)
-        $pattern = array(
-            'DE' => '^[0-9]{5,5}$',                                                     // GERMANY
-            'AT' =>'^[0-9]{4,4}$',                                                      // AUSTRIA
-            'AU' =>'^[2-9][0-9]{2,3}$',                                                 // AUSTRALIA
-            'CA' =>'^[a-zA-Z].[0-9].[a-zA-Z].\s[0-9].[a-zA-Z].[0-9].',                  // CANADA
-            'EE' =>'^[0-9]{5,5}$',                                                      // ESTONIA
-            'NL' =>'^[0-9]{4,4}\s[a-zA-Z]{2,2}$',                                       // NETHERLANDS
-            'IT' =>'^[0-9]{5,5}$',                                                      // ITALY
-            'PT' =>'^[0-9]{4,4}-[0-9]{3,3}$',                                           // PORTUGAL
-            'SE' =>'^[0-9]{3,3}\s[0-9]{2,2}$',                                          // SWEDEN
-            'UK' =>'^([A-Z]{1,2}[0-9]{1}[0-9A-Z]{0,1}) ?([0-9]{1}[A-Z]{1,2})$',         // UNITED-KINGDOM (England)
-            'US' =>'^[0-9]{5,5}[\-]{0,1}[0-9]{4,4}'                                     // UNITED-STATES (USA)
-        );
+        $pattern = [
+            'DE' => '^[0-9]{5,5}$',                                                      // GERMANY
+            'AT' => '^[0-9]{4,4}$',                                                      // AUSTRIA
+            'AU' => '^[2-9][0-9]{2,3}$',                                                 // AUSTRALIA
+            'CA' => '^[a-zA-Z].[0-9].[a-zA-Z].\s[0-9].[a-zA-Z].[0-9].',                  // CANADA
+            'EE' => '^[0-9]{5,5}$',                                                      // ESTONIA
+            'NL' => '^[0-9]{4,4}\s[a-zA-Z]{2,2}$',                                       // NETHERLANDS
+            'IT' => '^[0-9]{5,5}$',                                                      // ITALY
+            'PT' => '^[0-9]{4,4}-[0-9]{3,3}$',                                           // PORTUGAL
+            'SE' => '^[0-9]{3,3}\s[0-9]{2,2}$',                                          // SWEDEN
+            'UK' => '^([A-Z]{1,2}[0-9]{1}[0-9A-Z]{0,1}) ?([0-9]{1}[A-Z]{1,2})$',         // UNITED-KINGDOM (England)
+            'US' => '^[0-9]{5,5}[\-]{0,1}[0-9]{4,4}',                                    // UNITED-STATES (USA)
+        ];
 
         if (!isset($pattern[$countrycode])) {
             throw new Doozr_Form_Service_Exception(
-                'Unknown country-code "' . $countrycode . '" for postcode-validation!'
+                'Unknown country-code "'.$countrycode.'" for postcode-validation!'
             );
         }
 
         // validate and return
-        return (bool)preg_match('/' . $pattern[$countrycode] . '/', $value);
+        return (bool) preg_match('/'.$pattern[$countrycode].'/', $value);
     }
 
     /**
@@ -682,8 +684,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateUppercase($value)
     {
@@ -691,7 +693,7 @@ class Doozr_Form_Service_Validate_Validator
         $pattern = '/^[A-Z]*$/';
 
         // validate and return
-        return (bool)preg_match($pattern, $value);
+        return (bool) preg_match($pattern, $value);
     }
 
     /**
@@ -700,8 +702,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateLowercase($value)
     {
@@ -709,7 +711,7 @@ class Doozr_Form_Service_Validate_Validator
         $pattern = '/^[a-z]*$/';
 
         // validate and return
-        return (bool)preg_match($pattern, $value);
+        return (bool) preg_match($pattern, $value);
     }
 
     /**
@@ -718,8 +720,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateIp($value)
     {
@@ -727,7 +729,7 @@ class Doozr_Form_Service_Validate_Validator
         $pattern = '/^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})$/i';
 
         // validate and return
-        return (bool)preg_match($pattern, $value);
+        return (bool) preg_match($pattern, $value);
     }
 
     /**
@@ -736,8 +738,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateNumeric($value)
     {
@@ -745,7 +747,7 @@ class Doozr_Form_Service_Validate_Validator
         $pattern = '/^[0-9]+$/';
 
         // validate and return
-        return (bool)preg_match($pattern, $value);
+        return (bool) preg_match($pattern, $value);
     }
 
     /**
@@ -754,12 +756,12 @@ class Doozr_Form_Service_Validate_Validator
      * @param mixed $value The value to validate
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateEmail($value)
     {
-        return (bool)preg_match("/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i", $value);
+        return (bool) preg_match("/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i", $value);
     }
 
     /**
@@ -770,8 +772,8 @@ class Doozr_Form_Service_Validate_Validator
      *                           required only in this special case. not nice but functional.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if fulfilled requirements, otherwise FALSE
-     * @access public
      */
     public function validateEmailauth($value, $validValues)
     {
@@ -799,7 +801,7 @@ class Doozr_Form_Service_Validate_Validator
             );
 
             // give pieces a name
-            $user = $matches[1];
+            $user   = $matches[1];
             $domain = $matches[2];
 
             // holds the found mx-hosts
@@ -812,12 +814,10 @@ class Doozr_Form_Service_Validate_Validator
             if (getmxrr($domain, $mxHosts, $mxweight)) {
                 asort($mxweight);
                 //$mxHosts = array_keys($mxweight);
-
             } elseif (checkdnsrr($domain, 'A')) {
                 // mail ... ??!?
                 $mxweight[0] = 5;
-                $mxHosts[0] = gethostbyname($domain);
-
+                $mxHosts[0]  = gethostbyname($domain);
             }
 
             // store count of mailers
@@ -825,11 +825,9 @@ class Doozr_Form_Service_Validate_Validator
 
             // if mx-host found continue ...
             if ($mxHostCount > 0) {
-
                 foreach ($mxweight as $key => $value) {
-
                     pre('Checking server '.$mxHosts[$key].'...');
-                    $errorNumber = 0;
+                    $errorNumber  = 0;
                     $errorMessage = 0;
 
                     // try to open socket
@@ -851,12 +849,12 @@ class Doozr_Form_Service_Validate_Validator
                         pre($mxHosts[$key].' replied with: '.$response);
 
                         // array holding the SMTP-commands in correct order
-                        $smtpCommands = array(
+                        $smtpCommands = [
                             "HELO $validationHeloHost",
                             "MAIL FROM: <$validationProbeAddress>",
                             "RCPT TO: <$value>",
-                            "QUIT",
-                        );
+                            'QUIT',
+                        ];
 
                         // hard error on connect -> break out // Error means 'any reply that does not start with 2xx'
                         // List of SMTP-Status-Codes: http://www.elektronik-kompendium.de/sites/net/0903081.htm
@@ -871,10 +869,10 @@ class Doozr_Form_Service_Validate_Validator
                             $before = microtime(true);
                             fputs($sock, "$smtpCommand\r\n");
                             $response = fgets($sock, 4096);
-                            $t = 1000 * (microtime(true) - $before);
+                            $t        = 1000 * (microtime(true) - $before);
 
                             // log
-                            pre(htmlentities('$smtpCommand' . PHP_EOL . '$response') . '(' . sprintf('%.2f', $t) . ' ms)');
+                            pre(htmlentities('$smtpCommand'.PHP_EOL.'$response').'('.sprintf('%.2f', $t).' ms)');
 
                             if (!$meta['timed_out'] && preg_match('/^5\d\d[ -]/', $response)) {
                                 // log
@@ -894,7 +892,6 @@ class Doozr_Form_Service_Validate_Validator
 
                         // exit here
                         break;
-
                     }
                 }
             } elseif ($mxHostCount <= 0) {
@@ -914,8 +911,8 @@ class Doozr_Form_Service_Validate_Validator
      * Returns the  the validation-type matrix.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The validation-types as ordered-by-priority array
-     * @access public
      * @static
      */
     public static function getValidationTypeMatrix()
@@ -928,19 +925,19 @@ class Doozr_Form_Service_Validate_Validator
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * returns the name of the validation-method by given validationtype
+     * returns the name of the validation-method by given validationtype.
      *
      * This method is intend to return the name of the validation-method by given validationtype.
      *
-     * @param string $validationtype The validationtype to return methodname for
+     * @param string $validationtype The validationtype to return methodName for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The constructed Methodname
-     * @access protected
+     *
+     * @return string The constructed MethodName
      */
-    protected function getValidationMethodnameByType($validationtype)
+    protected function getValidationMethodNameByType($validationtype)
     {
-        return 'validate' . ucfirst($validationtype);
+        return 'validate'.ucfirst($validationtype);
     }
 
     /**
@@ -949,8 +946,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validationTypes The validation-types to order
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The ordered list of validation-types
-     * @access protected
      */
     protected function sortValidationtypes(array $validationTypes)
     {
@@ -964,13 +961,13 @@ class Doozr_Form_Service_Validate_Validator
         $sortable = array_keys($sortable);
 
         // sort the components by our preferred order to speed up validation
-        usort($sortable, array('self', '_compareValidationtypes'));
+        usort($sortable, ['self', '_compareValidationtypes']);
 
         // add previously removed items
         foreach ($splittedValidationtypes['nonsortable'] as $validationtype => $value) {
-            $sortable[] = array(
-                $validationtype => $value
-            );
+            $sortable[] = [
+                $validationtype => $value,
+            ];
         }
 
         // return ordered list
@@ -978,15 +975,16 @@ class Doozr_Form_Service_Validate_Validator
     }
 
     /**
-     * Comparemethod for _sortValidationtypes()
+     * Comparemethod for _sortValidationtypes().
      *
      * @param mixed $a The value to compare ...
      * @param mixed $b ... against this value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if given information is valid, otherwise FALSE if invalid
-     * @access private
      * @static
+     *
      * @throws Doozr_Form_Service_Exception
      */
     private static function _compareValidationtypes($a, $b)
@@ -999,11 +997,11 @@ class Doozr_Form_Service_Validate_Validator
         // check for nonexistent index
         if (!isset(self::$typeOrderMatrix[$a])) {
             throw new Doozr_Form_Service_Exception(
-                __METHOD__ . ': nonexistent index for self::$_typeOrderMatrix found: ' . $a
+                __METHOD__.': nonexistent index for self::$_typeOrderMatrix found: '.$a
             );
         } elseif (!isset(self::$typeOrderMatrix[$b])) {
             throw new Doozr_Form_Service_Exception(
-                __METHOD__ . ': nonexistent index for self::$_typeOrderMatrix found: ' . $b
+                __METHOD__.': nonexistent index for self::$_typeOrderMatrix found: '.$b
             );
         }
 
@@ -1017,8 +1015,8 @@ class Doozr_Form_Service_Validate_Validator
      * @param array $validationTypes The validation-types to split
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The splitted list of validation-types
-     * @access protected
      */
     protected function splitForOrder(array $validationTypes)
     {
@@ -1029,13 +1027,13 @@ class Doozr_Form_Service_Validate_Validator
         $nonsortable = [];
 
         // types to be removed before ordering
-        $removeTypes = array(
+        $removeTypes = [
             Doozr_Form_Service_Validate_Constant::VALIDATE_VALUE,
             Doozr_Form_Service_Validate_Constant::VALIDATE_MINLENGTH,
             Doozr_Form_Service_Validate_Constant::VALIDATE_MAXLENGTH,
             Doozr_Form_Service_Validate_Constant::VALIDATE_POSTCODE,
-            Doozr_Form_Service_Validate_Constant::VALIDATE_USTID
-        );
+            Doozr_Form_Service_Validate_Constant::VALIDATE_USTID,
+        ];
 
         // iterate over non-sortable validation-types and split
         foreach ($removeTypes as $removeType) {
@@ -1047,9 +1045,9 @@ class Doozr_Form_Service_Validate_Validator
         }
 
         // return prepared items
-        return array(
+        return [
             'sortable'    => $sortable,
-            'nonsortable' => $nonsortable
-        );
+            'nonsortable' => $nonsortable,
+        ];
     }
 }

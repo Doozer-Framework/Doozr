@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Container
+ * Doozr - Di - Container.
  *
  * Container.php - The Di Container is responsible for
  *
@@ -43,31 +44,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Container
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Constants.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Factory.php';
 
 /**
- * Doozr - Di - Container
+ * Doozr - Di - Container.
  *
  * Di container.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Container
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Container
@@ -77,16 +78,14 @@ class Doozr_Di_Container
      * maps of all containers across all instances.
      *
      * @var array
-     * @access private
      * @static
      */
     private static $dependencyMaps = [];
 
     /**
-     * The scope of this container instance
+     * The scope of this container instance.
      *
      * @var string
-     * @access protected
      */
     protected $scope;
 
@@ -95,15 +94,13 @@ class Doozr_Di_Container
      * Can be either ...
      *
      * @var int
-     * @access protected
      */
     protected $mode;
 
     /**
-     * Contains container instances
+     * Contains container instances.
      *
      * @var object
-     * @access protected
      * @static
      */
     private static $instances = [];
@@ -113,16 +110,14 @@ class Doozr_Di_Container
      * Indexed by $id.
      *
      * @var array
-     * @access private
      * @static
      */
     private static $cache = [];
 
     /**
-     * Instance of Doozr_Di_Factory for creating instances
+     * Instance of Doozr_Di_Factory for creating instances.
      *
      * @var Doozr_Di_Factory
-     * @access protected
      */
     protected $factory;
 
@@ -136,7 +131,6 @@ class Doozr_Di_Container
      * @param string $scope Scope used for handling resources, references and so on.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access private
      */
     private function __construct($scope)
     {
@@ -154,8 +148,8 @@ class Doozr_Di_Container
      * @param string $scope The scope of this instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Container Instance
-     * @access public
      * @static
      */
     public static function getInstance($scope = Doozr_Di_Constants::DEFAULT_SCOPE)
@@ -181,8 +175,6 @@ class Doozr_Di_Container
      * @param Doozr_Di_Factory $factory The factory instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFactory(Doozr_Di_Factory $factory)
     {
@@ -190,13 +182,13 @@ class Doozr_Di_Container
     }
 
     /**
-     * Fluent: Setter for Factory
+     * Fluent: Setter for Factory.
      *
      * @param Doozr_Di_Factory $factory The factory instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function factory(Doozr_Di_Factory $factory)
     {
@@ -206,13 +198,13 @@ class Doozr_Di_Container
     }
 
     /**
-     * Getter for Factory
+     * Getter for Factory.
      *
      * This method is intend to return the instance of Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Factory The instance of Doozr_Di_Factory if set, otherwise NULL
-     * @access public
      */
     public function getFactory()
     {
@@ -225,8 +217,8 @@ class Doozr_Di_Container
      * @param Doozr_Di_Map $map Map to merge in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|null TRUE on success, otherwise FALSE
-     * @access public
+     *
+     * @return bool|null TRUE on success, otherwise FALSE
      */
     public function addToMap(Doozr_Di_Map $map)
     {
@@ -246,8 +238,6 @@ class Doozr_Di_Container
      * @param Doozr_Di_Map $map The map to merge in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMap(Doozr_Di_Map $map)
     {
@@ -260,8 +250,8 @@ class Doozr_Di_Container
      * @param Doozr_Di_Map $map The map to merge in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function map(Doozr_Di_Map $map)
     {
@@ -271,14 +261,14 @@ class Doozr_Di_Container
     }
 
     /**
-     * Returns the dependency map of this container
+     * Returns the dependency map of this container.
      *
      * This method is intend to return the dependency map instance of this
      * container instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map The dependency map instance as Doozr_Di_Map if set, otherwise NULL
-     * @access public
      */
     public function getMap()
     {
@@ -286,15 +276,16 @@ class Doozr_Di_Container
     }
 
     /**
-     * Returns the Dependency-Map from another scope
+     * Returns the Dependency-Map from another scope.
      *
      * This method is intend to return the Dependency-Map of another scope.
      *
      * @param string $scope The scope to load map from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map The dependency instance from another scope
-     * @access public
+     *
      * @throws Doozr_Di_Exception
      */
     public function getMapFromOtherScope($scope)
@@ -313,15 +304,13 @@ class Doozr_Di_Container
     }
 
     /**
-     * Imports a Dependency-Map from another scope
+     * Imports a Dependency-Map from another scope.
      *
      * This method is intend to import a Dependency-Map from another scope.
      *
      * @param string $scope The scope to load dependency map from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function importMapFromOtherScope($scope)
     {
@@ -331,15 +320,16 @@ class Doozr_Di_Container
     /**
      * Builds an instance of requested Id with all dependencies from recipe in one single call.
      *
-     * @param string $id        Id of class to build.
-     * @param mixed  $arguments Arguments to pass to class (works only in dynamic mode)
+     * @param string $id        Id of class to build
+     * @param array  $arguments Arguments to pass to class (works only in dynamic mode)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object|mixed Instance of the given class
-     * @access public
+     *
      * @throws Doozr_Di_Exception
      */
-    public function build($id, $arguments = [])
+    public function build($id, array $arguments = null)
     {
         // Load a fresh instance of {id}
         #if (false === $instance = self::loadFromCacheById($id)) {
@@ -354,8 +344,13 @@ class Doozr_Di_Container
             // Receive recipe for requested Id as well as name of class ...
             $recipe = $this->getMap()->getCollection()->getRecipeById($id);
 
-            // Check if classname could be retrieved
-            if (null === $recipe['classname']) {
+            // Check for arguments override
+            if (null === $arguments) {
+                $arguments = (null !== $recipe['arguments']) ? $recipe['arguments'] : [];
+            }
+
+            // Check if className could be retrieved
+            if (null === $recipe['className']) {
                 throw new Doozr_Di_Exception(
                     sprintf(
                         'Please provide a configuration for the Id "%s". Or did you mean: "%s"?',
@@ -380,13 +375,13 @@ class Doozr_Di_Container
     }
 
     /**
-     * Checks if the requirements are fulfilled
+     * Checks if the requirements are fulfilled.
      *
      * This method is intend to check if the requirements are fulfilled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if requirements fulfilled, otherwise FALSE
-     * @access public
      */
     public function requirementsFulfilled()
     {
@@ -408,8 +403,6 @@ class Doozr_Di_Container
      * @param string $scope The scope of the scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setScope($scope)
     {
@@ -422,8 +415,8 @@ class Doozr_Di_Container
      * @param string $scope The scope of the scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function scope($scope)
     {
@@ -436,8 +429,8 @@ class Doozr_Di_Container
      * Getter for Scope.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The Scope if set, otherwise NULL
-     * @access protected
      */
     protected function getScope()
     {
@@ -451,8 +444,8 @@ class Doozr_Di_Container
      * @param Doozr_Di_Map $source The map which is merged into $target
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map The current instance of the Container for chaining/fluent-interface
-     * @access protected
      */
     protected function mergeMaps(Doozr_Di_Map $target, Doozr_Di_Map $source)
     {
@@ -470,8 +463,8 @@ class Doozr_Di_Container
      * @param string $misspelled The misspelled id
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting comma seperated list of hints for possible entries
-     * @access protected
      */
     protected function getSimilar($misspelled)
     {
@@ -494,8 +487,8 @@ class Doozr_Di_Container
      * @param string $id The Id to return dependencies for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object|bool The loaded instance on success, otherwise FALSE
-     * @access protected
      * @static
      */
     protected static function loadFromCacheById($id)
@@ -516,8 +509,6 @@ class Doozr_Di_Container
      * @param object $instance The instance to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      * @static
      */
     protected static function addInstanceToCache($id, $instance)

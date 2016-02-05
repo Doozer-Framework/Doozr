@@ -74,7 +74,6 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     id     = "bens.foo.bar",
  *     link   = "doozr.registry",
  *     type   = "constructor",
  *     target = "getInstance"
@@ -91,7 +90,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
     protected $isVirtual = false;
 
     /**
-     * Reference of module virtual-filesystem
+     * Reference of service virtual-filesystem
      *
      * @var object
      * @access protected

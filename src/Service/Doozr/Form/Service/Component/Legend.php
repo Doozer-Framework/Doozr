@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Legend.php - The Legend component. Used for fieldset description.
  * A specialized version of Formcomponent.
@@ -44,40 +45,40 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * The Legend component. Used for fieldset description.
  * A specialized version of Formcomponent.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Legend extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
      * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string ""
+     * e.g. "input" or "form". Default empty string "".
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_LEGEND;
 
@@ -92,8 +93,8 @@ class Doozr_Form_Service_Component_Legend extends Doozr_Form_Service_Component_F
      * @param string                                $message  The message to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Form_Service_Component_Legend
-     * @access public
      */
     public function __construct(
         Doozr_Form_Service_Renderer_Interface $renderer = null,
@@ -108,13 +109,11 @@ class Doozr_Form_Service_Component_Legend extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for align
+     * Setter for align.
      *
      * @param string $align The alignment to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAlign($align)
     {
@@ -122,11 +121,11 @@ class Doozr_Form_Service_Component_Legend extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for align
+     * Getter for align.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The alignment
-     * @access public
      */
     public function getAlign()
     {

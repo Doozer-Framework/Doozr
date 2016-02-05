@@ -5,7 +5,7 @@
  * Doozr - Template - Service
  *
  * Service.php - Service: Gate for accessing any kind of template library.
- * This module is build upon the deep core integration of
+ * This service is build upon the deep core integration of
  * Doozr_Base_Template_Engine.
  *
  * PHP versions 5.5
@@ -64,7 +64,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * Doozr - Template - Service
  *
  * Service: Gate for accessing any kind of template library.
- * This module is build upon the deep core integration of
+ * This service is build upon the deep core integration of
  * Doozr_Base_Template_Engine.
  *
  * @category   Doozr

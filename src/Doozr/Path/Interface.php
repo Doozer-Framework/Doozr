@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Path Interface
+ * Doozr Path Interface.
  *
  * Interface.php - Path-Interface-Class of the Doozr-Framework
  *
@@ -43,117 +44,105 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Path
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr Path Interface
+ * Doozr Path Interface.
  *
  * Path-Interface-Class of the Doozr-Framework
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Path
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Path_Interface
 {
     /**
-     * signature for addIncludePath()
+     * Add a path to PHP's include paths.
      *
-     * @param string $path The path which should be added as include-path
+     * @param string $path The path which should be added to include path's
      *
-     * @return  void
-     * @access  public
      * @static
      */
     public static function addIncludePath($path);
 
     /**
-     * removes a path from php's include searchpaths
+     * Removes a path from PHP's include paths.
      *
-     * @param string $path The path which should be removed from include-paths
+     * @param string $path The path which should be removed from include path's
      *
-     * @return  void
-     * @access  public
      * @static
      */
     public static function removeIncludePath($path);
 
     /**
-     * signature for get()
+     * Returns path by identifier (e.g. 'temp').
      *
-     * @param string  $identifier    The path which should be returned
-     * @param string  $add           An extension to the path requested
-     * @param bool $trailingSlash True to add a trailing slash (false = default)
+     * @param string $identifier    Path which should be returned
+     * @param string $add           Extension to the path requested
+     * @param bool   $trailingSlash TRUE to add a trailing slash, FALSE to do not (default)
      *
-     * @return  string The path requested
-     * @access  private
+     * @return string The path requested
      * @static
      */
     public function get($identifier, $add = '', $trailingSlash = false);
 
     /**
-     * signature for set()
+     * Register an path from external source (e.g. created at runtime).
      *
-     * @param string  $identifier The name of the path which should be set
-     * @param string  $path       The path which should be set
-     * @param bool $force      True to force overwrite of already existing identifier
+     * @param string $identifier Name of the path which should be set
+     * @param string $path       Path which should be set
+     * @param bool   $force      TRUE to force overwrite of already existing identifier, FALSE to prevent from overwrite
      *
-     * @return  boolean True if successful otherwise false
-     * @access  private
+     * @return bool TRUE on success, otherwise FALSE
      * @static
      */
     public function set($identifier, $path, $force = false);
 
     /**
-     * converts a given module name to a path
+     * Converts a given module name to a path.
      *
-     * This method is intend to convert a given module name to a path.
+     * @param string $serviceName Name of the module to retrieve the path for
+     * @param string $scope       Namespace to use for building path to module
      *
-     * @param string $serviceName The name of the module to retrieve the path for
-     * @param string $namespace  The namespace to use for building path to module
-     *
-     * @return  string The path requested
-     * @access  public
+     * @return string The path requested
      * @static
      */
-    public static function serviceToPath($serviceName, $namespace = 'Doozr');
+    public static function serviceToPath($serviceName, $scope = DOOZR_NAMESPACE);
 
     /**
-     * returns slash-corrected path
+     * Returns path with slashes matching current OS standard.
      *
      * corrects slashes with "wrong" direction in a path and returns it
      *
      * @param string $path The path to correct slashes in
      *
-     * @return  string The path with corrected slash-direction
-     * @access  public
+     * @return string The path with corrected slash-direction
      * @static
      */
-    public static function correctPath($path);
+    public static function fixPath($path);
 
     /**
-     * merges two path's
+     * Merges two paths under consideration of "../" (directory traversal n-times).
      *
-     * This method is intend to merge two path-settings under consideration
-     * of ../ (n-times)
+     * @param string $pathBase  Path used as base
+     * @param string $pathMerge Path used as extension to $pathBase
      *
-     * @param string $pathBase  The path used as base
-     * @param string $pathMerge The path used as extension to $pathBase
-     *
-     * @return  string The corrected new merged path
-     * @access  public
+     * @return string The corrected new merged path
      * @static
      */
     public function mergePath($pathBase, $pathMerge = '');
