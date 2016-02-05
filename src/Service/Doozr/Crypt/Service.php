@@ -97,18 +97,18 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     protected $container;
 
     /**
-     * Private key.
-     *
-     * @var string
-     */
-    protected $privateKey;
-
-    /**
      * Cipher used for encryption.
      *
      * @var string
      */
     protected $cipher;
+
+    /**
+     * Valid container/ciphers.
+     *
+     * @var string[]
+     */
+    protected $cipherAvailable;
 
     /**
      * Encoding for encrypted strings.
@@ -120,59 +120,16 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     /**
      * Valid encodings including the encode + decode function reference.
      *
-     * @var array
+     * @var string[]
      */
-    protected $validEncodings = [
-        'base64' => [
-            'encode' => 'base64_encode',
-            'decode' => 'base64_decode',
-        ],
-        'uuencode' => [
-            'encode' => 'convert_uuencode',
-            'decode' => 'convert_uudecode',
-        ],
-    ];
+    protected $encodingAvailable;
 
     /**
-     * Valid container/ciphers.
+     * Mapping from encoding to encode & decode functions.
      *
-     * @var array
+     * @var array[]
      */
-    protected $validCiphers = [
-        self::CIPHER_AES,
-    ];
-
-    /**
-     * Encryption cipher AES.
-     *
-     * @var string
-     * @const
-     */
-    const CIPHER_AES = 'AES';
-
-    /**
-     * Default encryption cipher.
-     *
-     * @var string
-     * @const
-     */
-    const CIPHER_DEFAULT = self::CIPHER_AES;
-
-    /**
-     * Encoding Base64.
-     *
-     * @var string
-     * @const
-     */
-    const ENCODING_BASE64 = 'base64';
-
-    /**
-     * Default encoding.
-     *
-     * @var string
-     * @const
-     */
-    const ENCODING_DEFAULT = self::ENCODING_BASE64;
+    protected $encodingMapping;
 
     /*------------------------------------------------------------------------------------------------------------------
     | INIT
@@ -187,10 +144,26 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __tearup(
-        $cipher   = self::CIPHER_DEFAULT,
-        $encoding = self::ENCODING_DEFAULT
+        $cipher = null,
+        $encoding = null
     ) {
+        // Check for defaults from configuration
+        if (null === $cipher) {
+            $cipher = $this->getRegistry()->getConfiguration()->crypt->cipher->default;
+        }
+
+        if (null === $encoding) {
+            $encoding = $this->getRegistry()->getConfiguration()->crypt->encoding->default;
+        }
+
+        $cipherAvailable   = object_to_array($this->getRegistry()->getConfiguration()->crypt->cipher->available);
+        $encodingAvailable = object_to_array($this->getRegistry()->getConfiguration()->crypt->encoding->available);
+        $encodingMapping   = object_to_array($this->getRegistry()->getConfiguration()->crypt->encoding->mapping);
+
         $this
+            ->cipherAvailable($cipherAvailable)
+            ->encodingAvailable($encodingAvailable)
+            ->encodingMapping($encodingMapping)
             ->cipher($cipher)
             ->encoding($encoding);
     }
@@ -304,12 +277,12 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      */
     protected function setCipher($cipher)
     {
-        if (false === in_array($cipher, $this->getValidCiphers())) {
+        if (false === in_array($cipher, $this->getCipherAvailable())) {
             throw new Doozr_Crypt_Service_Exception(
                 sprintf(
                     'Cipher "%s" not supported. Choose from: "%s".',
                     $cipher,
-                    var_export($this->getValidCiphers(), true)
+                    var_export($this->getCipherAvailable(), true)
                 )
             );
         }
@@ -364,12 +337,12 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      */
     protected function setEncoding($encoding)
     {
-        if (false === array_key_exists($encoding, $this->getValidEncodings())) {
+        if (false === in_array($encoding, $this->getEncodingAvailable())) {
             throw new Doozr_Crypt_Service_Exception(
                 sprintf(
                     'Encoding "%s" not supported. Choose from: "%s".',
                     $encoding,
-                    var_export($this->getValidEncodings(), true)
+                    var_export($this->getEncodingAvailable(), true)
                 )
             );
         }
@@ -406,69 +379,109 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     }
 
     /**
-     * Setter for valid encodings.
+     * Setter for encodingAvailable.
      *
-     * @param array $validEncodings The validEncodings to set
+     * @param array $encodingAvailable The encodingAvailable to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setValidEncodings(array $validEncodings)
+    protected function setEncodingAvailable(array $encodingAvailable)
     {
-        $this->validEncodings = $validEncodings;
+        $this->encodingAvailable = $encodingAvailable;
     }
 
     /**
-     * Fluent: Setter for valid encodings.
+     * Fluent: Setter for encodingAvailable.
      *
-     * @param array $validEncodings The validEncodings to set
+     * @param array $encodingAvailable The encodingAvailable to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this
      */
-    protected function validEncodings(array $validEncodings)
+    protected function encodingAvailable(array $encodingAvailable)
     {
-        $this->setValidEncodings($validEncodings);
+        $this->setEncodingAvailable($encodingAvailable);
 
         return $this;
     }
 
     /**
-     * Getter for valid encodings.
+     * Getter for encodingAvailable.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return array Valid encodings set
+     * @return array The encodingAvailable set
      */
-    protected function getValidEncodings()
+    protected function getEncodingAvailable()
     {
-        return $this->validEncodings;
+        return $this->encodingAvailable;
+    }
+
+    /**
+     * Setter for encodingMapping.
+     *
+     * @param array $encodingMapping The encodingMapping to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setEncodingMapping(array $encodingMapping)
+    {
+        $this->encodingMapping = $encodingMapping;
+    }
+
+    /**
+     * Fluent: Setter for encodingMapping.
+     *
+     * @param array $encodingMapping The encodingMapping to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this
+     */
+    protected function encodingMapping(array $encodingMapping)
+    {
+        $this->setEncodingMapping($encodingMapping);
+
+        return $this;
+    }
+
+    /**
+     * Getter for encodingMapping.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return array The encodingMapping set
+     */
+    protected function getEncodingMapping()
+    {
+        return $this->encodingMapping;
     }
 
     /**
      * Setter for valid ciphers.
      *
-     * @param array $validCiphers Valid ciphers to set
+     * @param array $cipherAvailable Valid ciphers to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setValidCiphers(array $validCiphers)
+    protected function setCipherAvailable(array $cipherAvailable)
     {
-        $this->validCiphers = $validCiphers;
+        $this->cipherAvailable = $cipherAvailable;
     }
 
     /**
      * Fluent: Setter for valid ciphers.
      *
-     * @param array $validCiphers Valid ciphers to set
+     * @param array $cipherAvailable Valid ciphers to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function validCiphers(array $validCiphers)
+    protected function cipherAvailable(array $cipherAvailable)
     {
-        $this->setValidCiphers($validCiphers);
+        $this->setCipherAvailable($cipherAvailable);
 
         return $this;
     }
@@ -480,9 +493,9 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      *
      * @return array Valid ciphers set
      */
-    protected function getValidCiphers()
+    protected function getCipherAvailable()
     {
-        return $this->validCiphers;
+        return $this->cipherAvailable;
     }
 
     /**
@@ -496,7 +509,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      */
     protected function encode($data)
     {
-        $function = $this->getValidEncodings()[$this->getEncoding()][__FUNCTION__];
+        $function = $this->getEncodingMapping()[$this->getEncoding()][__FUNCTION__];
 
         return call_user_func($function, $data);
     }
@@ -512,7 +525,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      */
     protected function decode($data)
     {
-        $function = $this->getValidEncodings()[$this->getEncoding()][__FUNCTION__];
+        $function = $this->getEncodingMapping()[$this->getEncoding()][__FUNCTION__];
 
         return call_user_func($function, $data);
     }
@@ -537,16 +550,18 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
                      str_replace('_', DIRECTORY_SEPARATOR, $classname).'.php';
 
         // Check if file exists
+        // @codeCoverageIgnoreStart
         if (false === file_exists($file)) {
             throw new Doozr_Crypt_Service_Exception(
                 sprintf('Container "%s" is not loadable. File "%s" does not exist!', $container, $file)
             );
         }
+        // @codeCoverageIgnoreEnd
 
         // Include the file for the class
         include_once $file;
 
         // Any options set?
-        return $this->instantiate($classname, $containerOptions);
+        return self::instantiate($classname, $containerOptions);
     }
 }

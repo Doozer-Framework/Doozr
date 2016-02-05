@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Map - Fluent
+ * Doozr - Di - Map - Fluent.
  *
  * Fluent.php - Fluent map class of Di.
  *
@@ -43,65 +44,61 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Map
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Map.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Factory.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Dependency.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Factory.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
 
 /**
- * Doozr - Di - Map - Fluent
+ * Doozr - Di - Map - Fluent.
  *
  * Fluent map class of Di.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Map
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Map_Fluent extends Doozr_Di_Map
 {
     /**
-     * Current active classname to add dependencies for
+     * Current active classname to add dependencies for.
      *
      * @var string
-     * @access protected
      */
     protected $classname;
 
     /**
-     * Last active classname
+     * Last active classname.
      *
      * @var string
-     * @access protected
      */
     protected $lastClassname;
 
     /**
-     * Base dependency object
+     * Base dependency object.
      *
      * @var Doozr_Di_Dependency
-     * @access protected
      */
     protected $dependency;
 
     /**
-     * Current active dependency
+     * Current active dependency.
      *
      * @var Doozr_Di_Dependency
-     * @access protected
      */
     protected $currentDependency;
 
@@ -116,7 +113,6 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * @param Doozr_Di_Dependency $dependency Doozr_Di_Dependency base object for cloning dependencies from.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct(
         Doozr_Di_Collection $collection,
@@ -132,14 +128,14 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Empty container method to keep the interface consistent with other Doozr_Di_Map_* classes
+     * Empty container method to keep the interface consistent with other Doozr_Di_Map_* classes.
      *
      * This method is intend as empty container method to keep the interface consistent with
      * other Doozr_Di_Map_* classes.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map_Fluent The current instance for chaining method calls
-     * @access public
      */
     public function generate()
     {
@@ -149,7 +145,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Setter for the name of the class which has dependencies
+     * Setter for the name of the class which has dependencies.
      *
      * This method is intend to set the name of the class which has dependencies.
      *
@@ -158,8 +154,8 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * @param mixed  $constructor The constructor of the class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
-     * @access public
      */
     public function classname($classname, $arguments = null, $constructor = null)
     {
@@ -184,15 +180,15 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Setter for the name of the dependency class
+     * Setter for the name of the dependency class.
      *
      * This method is intend to set the name of the dependency class.
      *
      * @param string $classname The name of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
-     * @access public
      */
     public function dependsOn($classname)
     {
@@ -210,15 +206,15 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Setter for the target of the dependency class
+     * Setter for the target of the dependency class.
      *
      * This method is intend to set the target of the dependency class.
      *
      * @param string $target The target of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
-     * @access public
      */
     public function target($target)
     {
@@ -230,31 +226,37 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Setter for the target of the dependency class
+     * Setter for the target of the dependency class.
      *
      * This method is intend to set the target of the dependency class.
      *
      * @param string $target The target of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
-     * @access public
      */
     public function id($target)
     {
+        if (null === $this->currentDependency) {
+            throw new Doozr_Form_Service_Exception(
+                sprintf('Please call classname() before trying to set an Id via %s', __METHOD__)
+            );
+        }
+
         return $this->target($target);
     }
 
     /**
-     * Setter for the instance of the dependency class
+     * Setter for the instance of the dependency class.
      *
      * This method is intend to set the instance of the dependency class.
      *
      * @param mixed $instance The instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
-     * @access public
      */
     public function instance($instance)
     {
@@ -266,15 +268,15 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Setter for the arguments of the dependency class
+     * Setter for the arguments of the dependency class.
      *
      * This method is intend to set the arguments of the dependency class.
      *
      * @param array $arguments The arguments to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class (for method chaining)
-     * @access public
      */
     public function arguments(array $arguments)
     {
@@ -285,15 +287,13 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Stores the name of the last processed class
+     * Stores the name of the last processed class.
      *
      * This method is required for the fluent interface.
      *
      * @param string $classname The name of the last processed class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setLastProcessedClass($classname)
     {
@@ -301,13 +301,13 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Returns the name of the last processed class
+     * Returns the name of the last processed class.
      *
      * This method is intend to return the name of the last processed class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the last processed class
-     * @access public
      */
     public function getLastProcessedClass()
     {
@@ -321,30 +321,30 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * @param array $matrix The wire matrix containing instances to wire
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
-     * @access public
      */
-    public function wire($mode = Doozr_Di_Constants::WIRE_MODE_AUTOMATIC, array $matrix = [])
+    public function wire(array $matrix = [], $mode = Doozr_Di_Constants::WIRE_MODE_AUTOMATIC)
     {
         // flush maybe existing temporary content
         $this->flush();
 
-        parent::wire($mode, $matrix);
+        parent::wire($matrix, $mode);
 
         // fluent interface
         return $this;
     }
 
     /**
-     * Setter for the configuration of the dependency class
+     * Setter for the configuration of the dependency class.
      *
      * This method is intend to set the configuration of the dependency class.
      *
      * @param bool $returnContainer TRUE to return container instance, FALSE to return map instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Container Instance of the container for active scope
-     * @access public
      */
     public function store($returnContainer = true)
     {
@@ -356,7 +356,6 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
 
         if ($returnContainer === true) {
             return $this->container;
-
         } else {
             // fluent interface
             return $this;
@@ -364,27 +363,28 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     }
 
     /**
-     * Shortcut for build()
+     * Shortcut for build().
      *
      * This method is intend to act as a shortcut to build().
      *
-     * @param array   $arguments The arguments to pass to build()
-     * @param string  $classname The (optional) name of the class to build instance of
-     * @param bool $wire      TRUE to automatic wire instances, otherwise FALSE to do not
+     * @param array  $arguments The arguments to pass to build()
+     * @param string $classname The (optional) name of the class to build instance of
+     * @param bool   $wire      TRUE to automatic wire instances, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
-     * @access public
      */
     public function build($arguments = null, $classname = null, $wire = true)
     {
         $classname = ($classname) ? $classname : $this->classname;
 
-        if ($wire) {
+        /*
+        if (true === $wire) {
             $this->wire(Doozr_Di_Constants::WIRE_MODE_AUTOMATIC);
-        }
+        }*/
 
-        return $this->store()->build($classname, $arguments);
+        #return $this->store()->build($classname, $arguments);
     }
 
     /**
@@ -392,12 +392,10 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * This method is intend to set the configuration of the dependency class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function reset()
     {
-        $this->classname = null;
+        $this->classname  = null;
         $this->dependency = null;
 
         parent::reset();
@@ -408,13 +406,11 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Flushes the content
+     * Flushes the content.
      *
      * This method is intend to flush the temporary content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function flush()
     {

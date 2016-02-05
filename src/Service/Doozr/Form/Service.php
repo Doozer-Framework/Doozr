@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Service.php - Service for generating valid and 100% x-browser compatible
  * HTML-Forms.
@@ -44,34 +45,35 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Singleton/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Constant.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Validate/Constant.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Singleton/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Validate/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
 
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Service for generating valid and 100% x-browser compatible HTML-Forms
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
  *     link   = "doozr.registry",
@@ -79,13 +81,14 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  *     target = "getInstance"
  * )
  */
-class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements Doozr_Base_Service_Interface
+class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
+    implements
+    Doozr_Base_Service_Interface
 {
     /**
      * Name of token field.
      *
      * @var string
-     * @access protected
      */
     protected $fieldnameToken;
 
@@ -93,7 +96,6 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * Name of submitted field.
      *
      * @var string
-     * @access protected
      */
     protected $fieldnameSubmitted;
 
@@ -101,7 +103,6 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * Name of step field.
      *
      * @var string
-     * @access protected
      */
     protected $fieldnameStep;
 
@@ -109,51 +110,63 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * Name of the steps field.
      *
      * @var string
-     * @access protected
      */
     protected $fieldnameSteps;
 
     /**
      * Session service instance.
      *
-     * @var Doozr_Session_Service
-     * @access protected
+     * @var Doozr_Session_Service|null
      */
     protected $session;
-
 
     /**
      * Constructor replacement.
      *
+     * @param Doozr_Session_Service_Interface $session        Instance of Service Session
+     * @param string                          $fieldnameToken Name of the field for "token" value
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     *
+     * @return bool TRUE On success, otherwise FALSE
      */
-    public function __tearup(Doozr_Session_Service $session = null)
-    {
-        if ($session === null) {
-            $session = Doozr_Loader_Serviceloader::load('session');
+    public function __tearup(
+        Doozr_Session_Service_Interface $session = null,
+    # HERE ADD: Renderer Inject,
+        $fieldnameToken = null,
+        $fieldnameSubmitted = null,
+        $fieldnameStep = null,
+        $fieldnameSteps = null
+    ) {
+        if (null === $fieldnameToken) {
+            $fieldnameToken = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN;
         }
 
-        // Store session
-        $this->setSession($session);
+        if (null === $fieldnameSubmitted) {
+            $fieldnameSubmitted = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
+        }
+
+        if (null === $fieldnameStep) {
+            $fieldnameStep = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP;
+        }
+
+        if (null === $fieldnameSteps) {
+            $fieldnameSteps = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
+        }
 
         $this
-            ->fieldnameToken(
-                Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN
-            )
-            ->fieldnameSubmitted(
-                Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED
-            )
-            ->fieldnameStep(
-                Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP
-            )
-            ->fieldnameSteps(
-                Doozr_Form_Service_Constant::PREFIX . Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS
-            );
+            ->session($session)
+            ->fieldnameToken($fieldnameToken)
+            ->fieldnameSubmitted($fieldnameSubmitted)
+            ->fieldnameStep($fieldnameStep)
+            ->fieldnameSteps($fieldnameSteps);
 
         return true;
     }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Setter for session.
@@ -161,10 +174,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param Doozr_Session_Service $session The session service instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
-    protected function setSession(Doozr_Session_Service $session)
+    public function setSession(Doozr_Session_Service $session = null)
     {
         $this->session = $session;
     }
@@ -175,12 +186,13 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param Doozr_Session_Service $session The session service instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
-    protected function session(Doozr_Session_Service $session)
+    public function session(Doozr_Session_Service $session = null)
     {
         $this->setSession($session);
+
         return $this;
     }
 
@@ -188,10 +200,10 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * Getter for session.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Session_Service|null The instance if set, otherwise NULL
-     * @access protected
      */
-    protected function getSession()
+    public function getSession()
     {
         return $this->session;
     }
@@ -202,10 +214,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param string $fieldnameToken Fieldname
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
-    protected function setFieldnameToken($fieldnameToken)
+    public function setFieldnameToken($fieldnameToken)
     {
         $this->fieldnameToken = $fieldnameToken;
     }
@@ -216,12 +226,13 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param string $fieldnameToken Fieldname
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
-    protected function fieldnameToken($fieldnameToken)
+    public function fieldnameToken($fieldnameToken)
     {
         $this->setFieldnameToken($fieldnameToken);
+
         return $this;
     }
 
@@ -229,8 +240,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * Getter for fieldname token.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the token field
-     * @access public
      */
     public function getFieldnameToken()
     {
@@ -243,10 +254,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param string $fieldnameSubmitted Fieldname
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
-    protected function setFieldnameSubmitted($fieldnameSubmitted)
+    public function setFieldnameSubmitted($fieldnameSubmitted)
     {
         $this->fieldnameSubmitted = $fieldnameSubmitted;
     }
@@ -257,12 +266,13 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param string $fieldnameSubmitted Fieldname
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
-    protected function fieldnameSubmitted($fieldnameSubmitted)
+    public function fieldnameSubmitted($fieldnameSubmitted)
     {
         $this->setFieldnameSubmitted($fieldnameSubmitted);
+
         return $this;
     }
 
@@ -270,8 +280,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * Getter for fieldname submitted.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the submitted field
-     * @access public
      */
     public function getFieldnameSubmitted()
     {
@@ -284,10 +294,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param string $fieldnameStep Fieldname
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
-    protected function setFieldnameStep($fieldnameStep)
+    public function setFieldnameStep($fieldnameStep)
     {
         $this->fieldnameStep = $fieldnameStep;
     }
@@ -298,12 +306,13 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param string $fieldnameStep Fieldname
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
-    protected function fieldnameStep($fieldnameStep)
+    public function fieldnameStep($fieldnameStep)
     {
         $this->setFieldnameStep($fieldnameStep);
+
         return $this;
     }
 
@@ -311,8 +320,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * Getter for fieldname step.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the step field
-     * @access public
      */
     public function getFieldnameStep()
     {
@@ -325,10 +334,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param string $fieldnameSteps Fieldname
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
-    protected function setFieldnameSteps($fieldnameSteps)
+    public function setFieldnameSteps($fieldnameSteps)
     {
         $this->fieldnameSteps = $fieldnameSteps;
     }
@@ -339,12 +346,13 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * @param string $fieldnameSteps Fieldname
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
-    protected function fieldnameSteps($fieldnameSteps)
+    public function fieldnameSteps($fieldnameSteps)
     {
         $this->setFieldnameSteps($fieldnameSteps);
+
         return $this;
     }
 
@@ -352,8 +360,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * Getter for fieldname steps.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the steps field
-     * @access public
      */
     public function getFieldnameSteps()
     {
@@ -364,8 +372,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
      * Returns name of form handable if current request is handable by Doozr_Form_Service, otherwise FALSE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|bool The name of the form which is handable by Doozr_Form_Service if exist, otherwise FALSE
-     * @access public
      */
     public function isHandable()
     {
@@ -381,7 +389,6 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
 
         if (isset($requestArguments->{$this->getFieldnameSubmitted()}) === true) {
             $handable = $requestArguments->{$this->getFieldnameSubmitted()};
-
         } elseif (isset($requestBody->{$this->getFieldnameSubmitted()}) === true) {
             $handable = $requestBody->{$this->getFieldnameSubmitted()};
         }
@@ -390,33 +397,68 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade implements 
     }
 
     /**
-     * Returns Form-Manager instance (yep i know damn name) to manage the form(s).
+     * Returns FormHandler instance (yep i know damn name) to manage the form(s).
+     *
+     * @param string $scope             Scope for the form (form identifier or name)
+     * @param array  $arguments         Arguments from request or cli
+     * @param string $requestMethod     Request method used for request
+     * @param bool   $angularDirectives TRUE ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Form_Service_FormManager
-     * @access public
+     *
+     * @return Doozr_Form_Service_FormHandler
      */
-    public function getFormManager($namespace, $arguments = null, $requestMethod = null, $angular = false)
+    public function getFormHandler(
+              $scope,
+        array $arguments = [],
+              $requestMethod = null,
+              $angularDirectives = false
+    ) {
+        // Return form handler from factory
+        return $this->formHandlerFactory($scope, $arguments, $requestMethod, $angularDirectives);
+    }
+
+    /**
+     * Factory for FormHandler.
+     *
+     * @param string $scope             Scope for the form (form identifier or name)
+     * @param array  $arguments         Arguments from request or cli
+     * @param string $requestMethod     Request method used for request
+     * @param bool   $angularDirectives TRUE ...
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return \Doozr_Form_Service_FormHandler
+     */
+    protected function formHandlerFactory($scope, array $arguments, $requestMethod, $angularDirectives)
     {
-        // Create a new form-container which combines the control-layer and the HTML parts
-        return new Doozr_Form_Service_FormManager(
-            $namespace,                                                // The namespace (used for session, I18n, ...)
-            null,                                                      // Could ne I18n
-            new Doozr_Form_Service_Component_Input(                    // Input element <- for cloning [DI]
-                new Doozr_Form_Service_Renderer_Html(),
-                new Doozr_Form_Service_Validator_Generic()
-            ),
-            new Doozr_Form_Service_Component_Form(                     // The form element we operate on [DI]
-                new Doozr_Form_Service_Renderer_Html(),
-                new Doozr_Form_Service_Validator_Generic()
-            ),
-            new Doozr_Form_Service_Store_Session($this->getSession()), // The session store [DI]
-            new Doozr_Form_Service_Renderer_Html(),                    // A Renderer -> Native = HTML [DI]
-            new Doozr_Form_Service_Validate_Validator(),               // A Validator to validate the elements [DI]
-            new Doozr_Form_Service_Validate_Error(),                   // A Error object <- for cloning [DI]
-            $arguments,                                                // The currents requests arguments
-            $requestMethod,
-            $angular                                                   // Bind to AngularJS directive (inject ng-model!)
+        $collection = new Doozr_Di_Collection();
+        $importer   = new Doozr_Di_Importer_Json();
+        $dependency = new Doozr_Di_Dependency();
+        $map        = new Doozr_Di_Map_Static($collection, $importer, $dependency);
+
+        // Generate map from static JSON map of Doozr
+        $map->generate($this->retrievePathToCurrentClass().'.map.json');
+
+        // Get container instance from registry
+        $container = self::getRegistry()->getContainer();
+
+        // Add map to existing maps in container
+        $container->addToMap($map);
+
+        // Create container and set factory and map
+        $container->getMap()->wire(
+            [
+                'doozr.i18n.service'          => Doozr_Loader_Serviceloader::load('i18n'),
+                'doozr.form.service.store'    => new Doozr_Form_Service_Store_UnitTest(),
+                'doozr.form.service.renderer' => new Doozr_Form_Service_Renderer_Html(),
+            ]
+        );
+
+        /* @var Doozr_Form_Service_FormHandler $formHandler */
+        return self::$registry->getContainer()->build(
+            'doozr.form.service.formhandler',
+            [$scope, $arguments, $requestMethod, $angularDirectives]
         );
     }
 }

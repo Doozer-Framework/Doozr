@@ -218,7 +218,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
 
             $response = $response->withBody($responseBody);
             $response = $response->withStatus(Doozr_Http::OK);
-
         } else {
             // So if the Status is not TRUE (successful) it contains an integer for HTTP Response :)
             switch ($httpStatus) {

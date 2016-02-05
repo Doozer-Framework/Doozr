@@ -1,6 +1,6 @@
 <?php
 /**
- * Object_Freezer
+ * Object_Freezer.
  *
  * Copyright (c) 2008-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -34,21 +34,22 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @since      File available since Release 1.0.0
  */
 
 /**
  * Proxy for a frozen object that is replaced with a thawed object when needed.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://github.com/sebastianbergmann/php-object-freezer/
  * @since      Class available since Release 1.0.0
  */
@@ -88,7 +89,7 @@ class Object_Freezer_LazyProxy
      */
     public function getObject()
     {
-        if ($this->thawedObject === NULL) {
+        if ($this->thawedObject === null) {
             $this->thawedObject = $this->storage->fetch($this->uuid);
         }
 
@@ -99,14 +100,15 @@ class Object_Freezer_LazyProxy
      * Delegates the attribute read access to the real object and
      * tries to replace the lazy proxy object with it.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return mixed
      */
     public function __get($name)
     {
         $object    = $this->replaceProxy(2);
         $attribute = new ReflectionProperty($object, $name);
-        $attribute->setAccessible(TRUE);
+        $attribute->setAccessible(true);
 
         return $attribute->getValue($object);
     }
@@ -122,7 +124,7 @@ class Object_Freezer_LazyProxy
     {
         $object    = $this->replaceProxy(2);
         $attribute = new ReflectionProperty($object, $name);
-        $attribute->setAccessible(TRUE);
+        $attribute->setAccessible(true);
 
         $attribute->setValue($object, $value);
     }
@@ -131,8 +133,9 @@ class Object_Freezer_LazyProxy
      * Delegates the message to the real object and
      * tries to replace the lazy proxy object with it.
      *
-     * @param  string $name
-     * @param  array  $arguments
+     * @param string $name
+     * @param array  $arguments
+     *
      * @return mixed
      */
     public function __call($name, array $arguments)
@@ -146,14 +149,15 @@ class Object_Freezer_LazyProxy
     /**
      * Tries to replace the lazy proxy object with the real object.
      *
-     * @param  integer $offset
+     * @param int $offset
+     *
      * @return object
      */
     protected function replaceProxy($offset)
     {
         $object = $this->getObject();
 
-        /**
+        /*
          * 0: LazyProxy::replaceProxy()
          * 1: LazyProxy::__get($name) / LazyProxy::__set($name, $value)
          *    2: Frame that accesses $name
@@ -167,7 +171,7 @@ class Object_Freezer_LazyProxy
             $reflector = new ReflectionObject($trace[$offset]['object']);
 
             foreach ($reflector->getProperties() as $attribute) {
-                $attribute->setAccessible(TRUE);
+                $attribute->setAccessible(true);
 
                 if ($attribute->getValue($trace[$offset]['object']) === $this) {
                     $attribute->setValue($trace[$offset]['object'], $object);

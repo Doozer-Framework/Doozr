@@ -4,7 +4,6 @@
       "doozr.configuration": {
         "classname": "Doozr_Configuration",
         "instance": null,
-        "arguments": [],
         "constructor": "getInstance",
         "dependencies": [
           {
@@ -168,6 +167,8 @@
       },
       "doozr.configuration.reader.ini": {
         "classname": "Doozr_Configuration_Reader_Ini",
+        "instance": null,
+        "arguments": [],
         "dependencies": [
           {
             "type": "constructor",

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Constants
+ * Doozr - Di - Constants.
  *
  * Constants.php - Di constants. Global required values in a container
  * served as constants.
@@ -44,26 +45,27 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Constants
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
 
 /**
- * Doozr - Di - Constants
+ * Doozr - Di - Constants.
  *
  * Di constants. Global required values in a container served as constants.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Map
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Constants
@@ -73,52 +75,46 @@ class Doozr_Di_Constants
      * By changing the scope it's possible to separate content.
      *
      * @var string
-     * @access public
      * @const
      */
     const DEFAULT_SCOPE = DOOZR_NAMESPACE_FLAT;
 
     /**
-     * Type for "Constructor" injection
+     * Type for "Constructor" injection.
      *
      * @var string
-     * @access public
      * @const
      */
     const INJECTION_TYPE_CONSTRUCTOR = 'constructor';
 
     /**
-     * Type for "Method" injection
+     * Type for "Method" injection.
      *
      * @var string
-     * @access public
      * @const
      */
     const INJECTION_TYPE_METHOD = 'method';
 
     /**
-     * Type for "Property" injection
+     * Type for "Property" injection.
      *
      * @var string
-     * @access public
      * @const
      */
     const INJECTION_TYPE_PROPERTY = 'property';
 
-   /**
-     * Wiring is done manually by you
+    /**
+     * Wiring is done manually by you.
      *
      * @var int
-     * @access public
      * @const
      */
     const WIRE_MODE_MANUAL = 1;
 
     /**
-     * Wiring is done automatically
+     * Wiring is done automatically.
      *
      * @var int
-     * @access public
      * @const
      */
     const WIRE_MODE_AUTOMATIC = 2;
@@ -127,7 +123,6 @@ class Doozr_Di_Constants
      * Name of the constructor method.
      *
      * @var string
-     * @access public
      * @const
      */
     const CONSTRUCTOR_METHOD = '__construct';
@@ -136,7 +131,6 @@ class Doozr_Di_Constants
      * Name of the constructor method of singletons.
      *
      * @var string
-     * @access public
      * @const
      */
     const CONSTRUCTOR_METHOD_SINGLETON = 'getInstance';

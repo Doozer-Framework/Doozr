@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Dependency
+ * Doozr - Di - Dependency.
  *
  * Dependency.php - Dependency recipe representation. This class contains all information
  * to create instances and handle them within the Di Library.
@@ -44,19 +45,19 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Dependency
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Constants.php';
 
 /**
- * Doozr - Di - Dependency
+ * Doozr - Di - Dependency.
  *
  * Dependency recipe representation. This class contains all information to create instances
  * and handle them within the Di Library.
@@ -72,11 +73,11 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
  * position        string       1
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Dependency
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Dependency
@@ -87,7 +88,6 @@ class Doozr_Di_Dependency
      * Id of this dependency instance.
      *
      * @var string
-     * @access public
      */
     public $id;
 
@@ -95,7 +95,6 @@ class Doozr_Di_Dependency
      * Name of the class.
      *
      * @var string
-     * @access public
      */
     public $classname;
 
@@ -106,7 +105,6 @@ class Doozr_Di_Dependency
      * instance will be returned.
      *
      * @var object
-     * @access public
      */
     public $instance;
 
@@ -114,7 +112,6 @@ class Doozr_Di_Dependency
      * The arguments passed to the constructor of $classname when creating a new instance.
      *
      * @var array
-     * @access public
      */
     public $arguments;
 
@@ -122,7 +119,6 @@ class Doozr_Di_Dependency
      * The constructor of $classname (Speeds up creating fresh instances).
      *
      * @var string
-     * @access public
      */
     public $constructor;
 
@@ -131,23 +127,20 @@ class Doozr_Di_Dependency
      * Defaults to "constructor".
      *
      * @var string
-     * @access public
      */
     public $type = Doozr_Di_Constants::INJECTION_TYPE_CONSTRUCTOR;
 
     /**
-     * The target used in combination with
+     * The target used in combination with.
      *
      * @var string
-     * @access public
      */
     public $target;
 
     /**
-     * The position where to inject this dependency into
+     * The position where to inject this dependency into.
      *
      * @var int
-     * @access public
      */
     public $position;
 
@@ -156,7 +149,6 @@ class Doozr_Di_Dependency
      * This will make instance become a reference.
      *
      * @var string
-     * @access public
      */
     public $link;
 
@@ -170,7 +162,6 @@ class Doozr_Di_Dependency
      * @param array $recipe The recipe of this dependency.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
      */
     public function __construct(array $recipe = null)
     {
@@ -189,8 +180,7 @@ class Doozr_Di_Dependency
      * @param array $recipe The recipe to import.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     *
      * @throws Doozr_Di_Exception
      */
     public function import(array $recipe)
@@ -214,8 +204,6 @@ class Doozr_Di_Dependency
      * @param string $id The id of the dependency.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setId($id)
     {
@@ -228,8 +216,8 @@ class Doozr_Di_Dependency
      * @param string $id The id of the dependency.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function id($id)
     {
@@ -242,8 +230,8 @@ class Doozr_Di_Dependency
      * Getter for Id.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The Id if set, otherwise NULL
-     * @access public
      */
     public function getId()
     {
@@ -256,8 +244,6 @@ class Doozr_Di_Dependency
      * @param string $classname The name of the class to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setClassname($classname)
     {
@@ -270,8 +256,8 @@ class Doozr_Di_Dependency
      * @param string $classname The name of the class to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function classname($classname)
     {
@@ -281,13 +267,13 @@ class Doozr_Di_Dependency
     }
 
     /**
-     * Returns the name of the class
+     * Returns the name of the class.
      *
      * This method is intend to return the name of the class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the dependency class
-     * @access public
      */
     public function getClassname()
     {
@@ -300,8 +286,6 @@ class Doozr_Di_Dependency
      * @param object $instance The instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setInstance($instance)
     {
@@ -314,8 +298,8 @@ class Doozr_Di_Dependency
      * @param object $instance The instance to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function instance($instance)
     {
@@ -328,8 +312,8 @@ class Doozr_Di_Dependency
      * Getter for instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object The instance of the dependency class
-     * @access public
      */
     public function getInstance()
     {
@@ -342,8 +326,6 @@ class Doozr_Di_Dependency
      * @param string $arguments The arguments to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setArguments($arguments)
     {
@@ -356,8 +338,8 @@ class Doozr_Di_Dependency
      * @param array $arguments The arguments to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function arguments($arguments)
     {
@@ -367,13 +349,13 @@ class Doozr_Di_Dependency
     }
 
     /**
-     * Returns the name of the class
+     * Returns the name of the class.
      *
      * This method is intend to return the name of the class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the dependency class
-     * @access public
      */
     public function getArguments()
     {
@@ -384,12 +366,12 @@ class Doozr_Di_Dependency
      * Returns TRUE if this dependency has arguments, otherwise FALSE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if this dependency has arguments, otherwise FALSE
-     * @access public
      */
     public function hasArguments()
     {
-        return (true === isset($this->arguments) && count($this->arguments) > 0);
+        return true === isset($this->arguments) && count($this->arguments) > 0;
     }
 
     /**
@@ -398,8 +380,6 @@ class Doozr_Di_Dependency
      * @param string $constructor The signature of the constructor
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setConstructor($constructor)
     {
@@ -412,8 +392,8 @@ class Doozr_Di_Dependency
      * @param string $constructor The signature of the constructor
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function constructor($constructor)
     {
@@ -426,8 +406,8 @@ class Doozr_Di_Dependency
      * Returns the constructor of the dependency class.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string String containing the signature of the constructor if set, otherwise NULL
-     * @access public
      */
     public function getConstructor()
     {
@@ -438,8 +418,8 @@ class Doozr_Di_Dependency
      * Returns TRUE if this dependency has a custom constructor, otherwise FALSE.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if this dependency has arguments, otherwise FALSE
-     * @access public
      */
     public function hasConstructor()
     {
@@ -452,8 +432,6 @@ class Doozr_Di_Dependency
      * @param string $type The type to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setType($type)
     {
@@ -466,8 +444,8 @@ class Doozr_Di_Dependency
      * @param string $type The type to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function type($type)
     {
@@ -480,8 +458,8 @@ class Doozr_Di_Dependency
      * Getter for type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The type if set, otherwise NULL
-     * @access public
      */
     public function getType()
     {
@@ -494,8 +472,6 @@ class Doozr_Di_Dependency
      * @param string $target The target to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setTarget($target)
     {
@@ -508,8 +484,8 @@ class Doozr_Di_Dependency
      * @param string $target The target to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function target($target)
     {
@@ -522,8 +498,8 @@ class Doozr_Di_Dependency
      * Returns the target of the current instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The target of the instance
-     * @access public
      */
     public function getTarget()
     {
@@ -536,8 +512,6 @@ class Doozr_Di_Dependency
      * @param int $position The position to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setPosition($position)
     {
@@ -550,8 +524,8 @@ class Doozr_Di_Dependency
      * @param int $position The position to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function position($position)
     {
@@ -564,8 +538,8 @@ class Doozr_Di_Dependency
      * Getter for position.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The position if set, otherwise NULL
-     * @access public
+     *
+     * @return int The position if set, otherwise NULL
      */
     public function getPosition()
     {
@@ -578,8 +552,8 @@ class Doozr_Di_Dependency
      * @param string $link The link of the dependency.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string
-     * @access public
      */
     public function setLink($link)
     {
@@ -592,8 +566,8 @@ class Doozr_Di_Dependency
      * @param string $link The link of the dependency.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function link($link)
     {
@@ -606,8 +580,8 @@ class Doozr_Di_Dependency
      * Getter for Link.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The Link if set, otherwise NULL
-     * @access public
      */
     public function getLink()
     {
@@ -618,20 +592,20 @@ class Doozr_Di_Dependency
      * Returns state either dependency has link.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if dependency has link, otherwise FALSE
-     * @access public
      */
     public function hasLink()
     {
-        return (null !== $this->getLink());
+        return null !== $this->getLink();
     }
 
     /**
      * Returns the current dependency as array.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The dependency recipe
-     * @access public
      */
     public function asArray()
     {
@@ -651,13 +625,13 @@ class Doozr_Di_Dependency
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * magic __toString
+     * magic __toString.
      *
      * This method return the name of the dependency-class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The name of the dependency-class
-     * @access public
      */
     public function __toString()
     {
@@ -669,7 +643,7 @@ class Doozr_Di_Dependency
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Implements offsetExists
+     * Implements offsetExists.
      *
      * @param string $offset The offset to check
      *
@@ -681,7 +655,7 @@ class Doozr_Di_Dependency
     }
 
     /**
-     * Implements offsetGet
+     * Implements offsetGet.
      *
      * @param string $offset The offset to return
      *
@@ -693,12 +667,10 @@ class Doozr_Di_Dependency
     }
 
     /**
-     * Implements offsetSet
+     * Implements offsetSet.
      *
      * @param string $offset The offset to set
      * @param mixed  $value  The value to set
-     *
-     * @return void
      */
     public function offsetSet($offset, $value)
     {
@@ -710,11 +682,9 @@ class Doozr_Di_Dependency
     }
 
     /**
-     * Implements offsetUnset
+     * Implements offsetUnset.
      *
      * @param string $offset The offset to unset
-     *
-     * @return void
      */
     public function offsetUnset($offset)
     {

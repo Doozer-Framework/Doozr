@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Parser - Annotation
+ * Doozr - Di - Parser - Annotation.
  *
  * Annotation.php - Annotation Parser of the Di.
  *
@@ -43,32 +44,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Constants.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Parser/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Constants.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Parser/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Parser/Interface.php';
 
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
- * Doozr - Di - Parser - Annotation
+ * Doozr - Di - Parser - Annotation.
  *
  * Annotation Parser of the Di.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Parser
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
@@ -79,67 +80,60 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * An annotation reader instance.
      *
      * @var AnnotationReader
-     * @access protected
      * @static
      */
     protected static $annotationReader;
 
     /**
-     * The pattern used to identify our annotations
+     * The pattern used to identify our annotations.
      *
      * @var string
-     * @access const
      */
     const BASE_PATTERN = 'inject';
 
     /**
      * The range to parse from:
-     * EVERYTHING
+     * EVERYTHING.
      *
      * @var int
-     * @access public
      */
     const RANGE_EVERYTHING = 1;
 
     /**
      * The range to parse from:
-     * CLASS = Only from class docblock
+     * CLASS = Only from class docblock.
      *
      * @var int
-     * @access public
      */
     const RANGE_CLASS = 2;
 
     /**
      * The range to parse from:
-     * METHODS = Only from methods docblocks
+     * METHODS = Only from methods docblocks.
      *
      * @var int
-     * @access public
      */
     const RANGE_METHODS = 3;
 
     /**
      * The range to parse from:
-     * PROPERTIES = Only from class properties docblocks
+     * PROPERTIES = Only from class properties docblocks.
      *
      * @var int
-     * @access public
      */
     const RANGE_PROPERTIES = 4;
 
     /**
      * The range to parse from:
-     * SINGLE = Only from single elements docblock
+     * SINGLE = Only from single elements docblock.
      *
      * @var int
-     * @access public
      */
     const RANGE_SINGLE_ELEMENT = 5;
 
 
     /**
-     * Parses the annotations out of input and return it as array
+     * Parses the annotations out of input and return it as array.
      *
      * This method is intend to build an array of options for each of the commands that were matched.
      * This options array is readable/similar to a dependency map item. This method requires only
@@ -148,8 +142,9 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * @param int $range The range to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Containing the dependencies build from annotations
-     * @access public
+     *
      * @throws Doozr_Di_Exception
      */
     public function parse($range = self::RANGE_EVERYTHING)
@@ -185,13 +180,13 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Checks if the string has a Inject command
+     * Checks if the string has a Inject command.
      *
      * This method is intend to check if a given string contains a Inject command.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Containing the dependencies build from annotations
-     * @access public
+     *
+     * @return bool Containing the dependencies build from annotations
      */
     public function hasCommand()
     {
@@ -199,14 +194,14 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Returns the count of Inject commands
+     * Returns the count of Inject commands.
      *
      * This method is intend to return the count of Inject commands from last
      * parsing.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The count of commands found
-     * @access public
+     *
+     * @return int The count of commands found
      */
     public function numberOfCommands()
     {
@@ -219,29 +214,30 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Checks if the requirements are fulfilled
+     * Checks if the requirements are fulfilled.
      *
      * This method is intend to check if the requirements are fulfilled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if requirements fulfilled, otherwise FALSE
-     * @access public
      * @static
      */
     public function requirementsFulfilled()
     {
-        return ($this->input !== null);
+        return $this->input !== null;
     }
 
     /**
      * Parses the dependencies from a given reflection for defined range and optional method or property.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
-     * @param int $range The range to parse from
+     * @param int             $range      The range to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array An raw array containing the dependencies indexed
-     * @access protected
+     *
      * @throws Doozr_Di_Exception
      */
     protected function parseFromReflectionByRange(ReflectionClass $reflection, $range)
@@ -285,8 +281,8 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * @param string $sourcecode The sourcecode to parse annotations from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Containing the dependencies parsed from annotations found
-     * @access protected
      */
     protected function getAnnotationFromSource($sourcecode)
     {
@@ -317,9 +313,9 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
 
                 // store target
                 if (stristr($arguments[0], ':')) {
-                    $target = explode(':', $arguments[0]);
-                    $tmp['classname']  = $target[0];
-                    $tmp['target'] = $target[1];
+                    $target           = explode(':', $arguments[0]);
+                    $tmp['classname'] = $target[0];
+                    $tmp['target']    = $target[1];
                 } else {
                     $tmp['target'] = $arguments[0];
                 }
@@ -349,8 +345,8 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * Getter for AnnotationReader with lazy instantiate.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return AnnotationReader Instance of annotation reader
-     * @access protected
      */
     protected static function getAnnotationReader()
     {
@@ -367,8 +363,8 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * @param \ReflectionClass $reflection The reflection instance to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array An raw array containing the dependencies indexed
-     * @access protected
      */
     protected function parseFromClassComment(\ReflectionClass $reflection)
     {
@@ -407,8 +403,8 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * @param ReflectionClass $reflection The reflection instance to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array An raw array containing the dependencies indexed
-     * @access protected
      */
     protected function parseFromClassMethods(ReflectionClass $reflection)
     {
@@ -435,8 +431,8 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
      * @param ReflectionClass $reflection The reflection instance to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array An raw array containing the dependencies indexed
-     * @access protected
      */
     protected function parseFromClassProperties(ReflectionClass $reflection)
     {
