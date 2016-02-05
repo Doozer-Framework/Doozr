@@ -123,20 +123,20 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     /**
      * Constructor replacement.
      *
-     * @param Doozr_Session_Service $session        Instance of Service Session
-     * @param string                $fieldnameToken Name of the field for "token" value
+     * @param Doozr_Session_Service_Interface $session        Instance of Service Session
+     * @param string                          $fieldnameToken Name of the field for "token" value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return bool TRUE On success, otherwise FALSE
      */
     public function __tearup(
-        Doozr_Session_Service $session = null,
+        Doozr_Session_Service_Interface $session = null,
     # HERE ADD: Renderer Inject,
-        $fieldnameToken     = null,
+        $fieldnameToken = null,
         $fieldnameSubmitted = null,
-        $fieldnameStep      = null,
-        $fieldnameSteps     = null
+        $fieldnameStep = null,
+        $fieldnameSteps = null
     ) {
         if (null === $fieldnameToken) {
             $fieldnameToken = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN;
@@ -399,25 +399,38 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     /**
      * Returns FormHandler instance (yep i know damn name) to manage the form(s).
      *
+     * @param string $scope             Scope for the form (form identifier or name)
+     * @param array  $arguments         Arguments from request or cli
+     * @param string $requestMethod     Request method used for request
+     * @param bool   $angularDirectives TRUE ...
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return Doozr_Form_Service_FormHandler
      */
     public function getFormHandler(
-        $scope,
-        $arguments     = null,
-        $requestMethod = null,
-        $angular       = false
+              $scope,
+        array $arguments = [],
+              $requestMethod = null,
+              $angularDirectives = false
     ) {
         // Return form handler from factory
-        return $this->formHandlerFactory($scope);
+        return $this->formHandlerFactory($scope, $arguments, $requestMethod, $angularDirectives);
     }
 
     /**
+     * Factory for FormHandler.
+     *
+     * @param string $scope             Scope for the form (form identifier or name)
+     * @param array  $arguments         Arguments from request or cli
+     * @param string $requestMethod     Request method used for request
+     * @param bool   $angularDirectives TRUE ...
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return \Doozr_Form_Service_FormHandler
      */
-    protected function formHandlerFactory($scope)
+    protected function formHandlerFactory($scope, array $arguments, $requestMethod, $angularDirectives)
     {
         $collection = new Doozr_Di_Collection();
         $importer   = new Doozr_Di_Importer_Json();
@@ -425,7 +438,7 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
         $map        = new Doozr_Di_Map_Static($collection, $importer, $dependency);
 
         // Generate map from static JSON map of Doozr
-        $map->generate($this->getPathToClass().'.map.json');
+        $map->generate($this->retrievePathToCurrentClass().'.map.json');
 
         // Get container instance from registry
         $container = self::getRegistry()->getContainer();
@@ -442,60 +455,10 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
             ]
         );
 
-        // Get FormHandler ...
         /* @var Doozr_Form_Service_FormHandler $formHandler */
-        $formHandler = self::$registry->getContainer()->build('doozr.form.service.formhandler', [$scope, []]);
-
-        dump(get_class($formHandler));
-        die;
-
-
-
-        /**
-        $diContainer = self::$registry->getContainer();
-
-        $map = new Doozr_Di_Map_Fluent(
-            new Doozr_Di_Collection(),
-            new Doozr_Di_Dependency()
+        return self::$registry->getContainer()->build(
+            'doozr.form.service.formhandler',
+            [$scope, $arguments, $requestMethod, $angularDirectives]
         );
-
-        $map
-            ->classname('Doozr_Form_Service_FormHandler', ['test', null], '__construct')
-            ->dependsOn('Doozr_Form_Service_Component_Input')
-            ->id('doozr.form.service.formhandler')
-            ->wire(
-                [
-                    'doozr.datetime.service' => Doozr_Loader_Serviceloader::load('datetime'),
-                ]
-            );
-
-        $diContainer->addToMap($map);
-        dump($diContainer->build('doozr.form.service.formhandler'));
-        */
-        die;
-
-        // Create a new form-container which combines the control-layer and the HTML parts
-        return new Doozr_Form_Service_FormHandler(
-            $scope,                                                     // The namespace (used for session, I18n, ...)
-            null,                                                       // Could be I18n
-            new Doozr_Form_Service_Component_Input(                     // Input element <- for cloning [DI]
-                new Doozr_Form_Service_Renderer_Html(),
-                new Doozr_Form_Service_Validator_Generic()
-            ),
-            new Doozr_Form_Service_Component_Form(                      // The form element we operate on [DI]
-                new Doozr_Form_Service_Renderer_Html(),
-                new Doozr_Form_Service_Validator_Generic()
-            ),
-            new Doozr_Form_Service_Store_Session($this->getSession()),  // The session store [DI]
-            new Doozr_Form_Service_Renderer_Html(),                     // A Renderer -> Native = HTML [DI]
-            new Doozr_Form_Service_Validate_Validator(),                // A Validator to validate the elements [DI]
-            new Doozr_Form_Service_Validate_Error(),                    // A Error object <- for cloning [DI]
-            $arguments,                                                 // The currents requests arguments
-            $requestMethod,
-            $angular                                                    // Bind to AngularJS directive (inject ng-model!)
-        );
-
-        #new Doozr_Form_Service_Store_Session($this->getSession())
-        #new Doozr_Form_Service_Store_UnitTest()
     }
 }

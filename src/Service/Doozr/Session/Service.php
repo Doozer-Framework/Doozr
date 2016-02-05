@@ -768,7 +768,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
         // set params for cookie!
         session_set_cookie_params(
             $this->getLifetime(),
-            $this->getPathToClass(),
+            $this->retrievePathToCurrentClass(),
             $this->getDomain(),
             $this->getSsl(),
             $this->getHttpOnly()
@@ -793,7 +793,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
             $this->getIdentifier(),
             ($sessionId) ? $sessionId : session_id(),
             $this->getLifetime(),
-            $this->getPathToClass(),
+            $this->retrievePathToCurrentClass(),
             $this->getDomain(),
             $this->getSsl(),
             $this->getHttpOnly()
@@ -1395,7 +1395,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
      *
      * @return string The active path
      */
-    public function getPathToClass($resolveSymlinks = false)
+    public function retrievePathToCurrentClass($resolveSymlinks = false)
     {
         return $this->path;
     }
@@ -1526,7 +1526,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
             $this->getIdentifier(),
             $this->getId(),
             $lifetime,
-            $this->getPathToClass(),
+            $this->retrievePathToCurrentClass(),
             $this->getDomain(),
             $this->getSsl(),
             $this->getHttpOnly()

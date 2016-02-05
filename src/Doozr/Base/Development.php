@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Development.php - Doozr Base-Tools
- * A toolset which is useful while developing classes which give you features like
- * ...
+ * Doozr - Base - Development.
+ *
+ * Development.php - Doozr base development tools.
  *
  * PHP versions 5.5
  *
@@ -43,53 +44,56 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Development
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr Base-Tools
- * A toolset which is useful while developing classes which give you features like
- * ...
+ * Doozr - Base - Development.
+ *
+ * Doozr base development tools.
  *
  * @category   Doozr
- * @package    Doozr_Base
- * @subpackage Doozr_Base_Development
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @author     $LastChangedBy$
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Base_Development
 {
     /**
-     * Details about the last profiled method
+     * Details about the last profiled method.
      *
-     * @var mixed
-     * @access protected
+     * @var array|null
      */
-    protected $details;
+    protected $profilingDetails;
 
     /**
-     * Information if the profiled method was type static
+     * Information if the profiled method is static.
      *
      * @var bool
-     * @access protected
      */
     protected $profileStatic = false;
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Runs a method with the provided arguments for profiling
+     * Runs a method with the provided arguments for profiling.
      *
-     * Runs a method with the provided arguments, and returns details about how long it took.
+     * Runs a method with the provided arguments, and returns profilingDetails about how long it took.
      * Works with instance methods and static methods.
      *
      * @param mixed      $class           Name of the class to profile or an existing instance
@@ -98,34 +102,33 @@ class Doozr_Base_Development
      * @param int        $invocations     Number of times to call the method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return float The average invocation duration in seconds
-     * @access public
+     *
+     * @return $this Instance for chaining
+     *
      * @throws Doozr_Exception
      */
     public function profile($class, $methodname, array $methodarguments = null, $invocations = 1)
     {
-        if (is_object($class)) {
+        if (true === is_object($class)) {
             $classname = get_class($class);
         } else {
             $classname = $class;
+
+            if (false === class_exists($classname)) {
+                throw new Doozr_Exception(
+                    sprintf('%s does not exist.', $classname)
+                );
+            }
         }
 
-        if (!class_exists($classname)) {
-            throw new Doozr_Exception(
-                sprintf('%s does not exist.', $classname)
-            );
-        }
-
-        // reflect
-        $method = new ReflectionMethod($classname, $methodname);
-
+        $method   = new \ReflectionMethod($classname, $methodname);
         $instance = null;
 
-        if ($method->isStatic()) {
+        if (true === $method->isStatic()) {
             // mark last profiling session as static
             $this->profileStatic = true;
-        } elseif (!$method->isStatic() && !$class instanceof $classname) {
-            $class = new ReflectionClass($classname);
+        } elseif (false === $method->isStatic() && !($class instanceof $classname)) {
+            $class    = new \ReflectionClass($classname);
             $instance = $class->newInstance();
         } else {
             $instance = $class;
@@ -133,8 +136,9 @@ class Doozr_Base_Development
 
         $durations = [];
 
-        for ($i = 0; $i < $invocations; $i++) {
+        for ($i = 0; $i < $invocations; ++$i) {
             $start = microtime(true);
+
             if (is_null($methodarguments)) {
                 $method->invoke($instance);
             } else {
@@ -148,102 +152,130 @@ class Doozr_Base_Development
         $duration['average'] = round($duration['total'] / count($durations), 4);
         $duration['worst']   = round(max($durations), 4);
 
-        $this->details = array(
+        return $this->profilingDetails([
             'class'       => $classname,
             'method'      => $methodname,
             'arguments'   => $methodarguments,
             'duration'    => $duration,
-            'invocations' => $invocations
-        );
-
-        return $duration['average'];
+            'invocations' => $invocations,
+        ]);
     }
 
     /**
-     * Returns a string representing the last invoked method
+     * Prints out profilingDetails about the last profiled method.
+     *
+     * @param bool $print TRUE to print/echo the profiling-profilingDetails otherwise it returns the data
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string|null Report of last profiling operation
+     */
+    public function getProfilingReport($print = false)
+    {
+        // Check for existing profilingDetails ...
+        if (null !== $details = $this->getProfilingDetails()) {
+            $methodName       = $this->invokedMethod();
+            $countInvocations = $details['invocations'];
+
+            if (1 === $countInvocations) {
+                $report = sprintf('%s took %ss', $methodName, $details['duration']['average']);
+
+            } else {
+                $report = sprintf('%s was invoked %s times\n', $methodName, $countInvocations);
+                $report .= sprintf('Total duration:   %ss\n', $details['duration']['total']);
+                $report .= sprintf('Average duration: %ss\n', $details['duration']['average']);
+                $report .= sprintf('Worst duration:   %ss\n', $details['duration']['worst']);
+            }
+
+            if (true === $print) {
+                echo $report;
+            }
+        }
+
+        return $details;
+    }
+
+    /**
+     * Getter for profilingDetails.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return array|null profilingDetails set, otherwise NULL
+     */
+    public function getProfilingDetails()
+    {
+        return $this->profilingDetails;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns a string representing the last invoked method.
      *
      * This method is intend to return a string representing the last invoked method,
      * including any arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The last invoked message
-     * @access private
      */
-    private function _invokedMethod()
+    protected function invokedMethod()
     {
-        if (isset($this->details)) {
-
+        // Existing profile profilingDetails ...
+        if (null !== $details = $this->getProfileDetails()) {
             if ($this->profileStatic) {
                 $scopeResolution = '::';
-
             } else {
                 $scopeResolution = '->';
             }
 
-            if (!is_null($this->details['arguments'])) {
-                $arguments = join(', ', $this->details['arguments']);
-
+            if (null !== $this->getProfileDetails()['arguments']) {
+                $arguments = implode(', ', $details['arguments']);
             } else {
                 $arguments = '';
             }
 
             $result = sprintf(
                 '%s%s%s("%s")',
-                $this->details['class'],
+                $details['class'],
                 $scopeResolution,
-                $this->details['method'],
+                $details['method'],
                 $arguments
             );
-
         } else {
             $result = null;
-
         }
 
         return $result;
     }
 
     /**
-     * Prints out details about the last profiled method
+     * Setter for profilingDetails.
      *
-     * This method is intend to print out the details about the last profiled method.
-     *
-     * @param bool $print True [default] to print/echo the profiling-details otherwise it returns the data
+     * @param array $profilingDetails profilingDetails to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string|null [optional] The result of the last profiling operation (only if $print = false)
-     * @access public
      */
-    public function getProfilingDetails($print = true)
+    protected function setProfilingDetails(array $profilingDetails)
     {
-        if (isset($this->details)) {
-            $methodString = $this->_invokedMethod();
-            $numInvoked   = $this->details['invocations'];
+        $this->profilingDetails = $profilingDetails;
+    }
 
-            if ($numInvoked == 1) {
-                $profilingDetails = sprintf(
-                    "%s took %ss\n",
-                    $methodString,
-                    $this->details['duration']['average']
-                );
-            } else {
-                $profilingDetails  = sprintf('%s was invoked %s times\n', $methodString, $numInvoked);
-                $profilingDetails .= sprintf('Total duration:   %ss\n', $this->details['duration']['total']);
-                $profilingDetails .= sprintf('Average duration: %ss\n', $this->details['duration']['average']);
-                $profilingDetails .= sprintf('Worst duration:   %ss\n', $this->details['duration']['worst']);
-            }
+    /**
+     * Fluent: Setter for profilingDetails.
+     *
+     * @param array $profilingDetails profilingDetails to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function profilingDetails(array $profilingDetails)
+    {
+        $this->setProfilingDetails($profilingDetails);
 
-            $result = $profilingDetails;
-
-            // echo or return
-            if (true === $print) {
-                echo $result;
-            }
-
-        } else {
-            $result = null;
-        }
-
-        return $result;
+        return $this;
     }
 }

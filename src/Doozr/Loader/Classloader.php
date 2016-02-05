@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Loader - Classloader
+ * Doozr - Loader - Classloader.
  *
  * Classloader.php - The Classloader is capable of loading any class requested.
  *
@@ -43,49 +44,51 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Loader
- * @subpackage Doozr_Loader_Classloader
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Interface.php';
 
 /**
- * Doozr - Loader - Classloader
+ * Doozr - Loader - Classloader.
  *
  * The Classloader is capable of loading any class requested.
  *
  * @category   Doozr
- * @package    Doozr_Loader
- * @subpackage Doozr_Loader_Classloader
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Loader_Classloader extends Doozr_Base_Class implements Doozr_Loader_Interface
+class Doozr_Loader_Classloader extends Doozr_Base_Class
+    implements
+    Doozr_Loader_Interface
 {
     /**
-     * Returns an instance of any class requested.
+     * Returns an instance of classname passed.
      *
-     * @param       $classname
-     * @param array $arguments
-     * @param null  $singleton
-     * @param null  $constructor
+     * @param string $classname   Name of class to return instance of
+     * @param array  $arguments   Arguments to pass
+     * @param null   $singleton   Whether the class is singleton
+     * @param null   $constructor Name of constructor method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return object The instance created
-     * @access public
+     *
+     * @return object Instance created
      */
     public static function load($classname, $arguments = null, $singleton = null, $constructor = null)
     {
-        // This call to the powerful and intelligent instantiation method
         return self::instantiate($classname, $arguments, $constructor, $singleton);
     }
 }

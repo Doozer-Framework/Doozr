@@ -144,7 +144,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __tearup(
-        $cipher   = null,
+        $cipher = null,
         $encoding = null
     ) {
         // Check for defaults from configuration
@@ -562,6 +562,6 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
         include_once $file;
 
         // Any options set?
-        return $this->instantiate($classname, $containerOptions);
+        return self::instantiate($classname, $containerOptions);
     }
 }

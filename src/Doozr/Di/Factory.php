@@ -380,13 +380,41 @@ final class Doozr_Di_Factory
                         $arguments[6],
                         $arguments[7],
                         $arguments[8]);
+                case 10:
+
+                    return new $classname(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9]);
+                case 11:
+
+                    return new $classname(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9],
+                        $arguments[10]);
 
                 default:
                     throw new Doozr_Di_Exception(
                         sprintf(
-                            'Too much arguments passed to "%s". This method can handle up to 6 arguments. '.
-                            'Please reduce arguments passed to constructor.',
-                            __METHOD__
+                            'Too much arguments passed to "%s". This method can handle up to 6 arguments. You passed '.
+                            '"%s". Please reduce arguments passed to constructor.',
+                            __METHOD__,
+                            $countArguments
                         )
                     );
                     break;
@@ -484,7 +512,7 @@ final class Doozr_Di_Factory
 
                         // Check if the constructor is known to us ...
                         if (null === $constructor = $dependency->getConstructor()) {
-                            $constructor = $this->parseConstructor(new \ReflectionClass($classname));
+                            $constructor = self::parseConstructor(new \ReflectionClass($classname));
                             $dependency->setConstructor($constructor);
                         }
 
@@ -608,7 +636,7 @@ final class Doozr_Di_Factory
     {
         // Check for passed constructor or retrieve it
         if (null === $constructor) {
-            $constructor = $this->parseConstructor($this->getReflection());
+            $constructor = self::parseConstructor($this->getReflection());
         }
 
         // If not the default (__constructor) it must be static and so turn into array
@@ -628,12 +656,15 @@ final class Doozr_Di_Factory
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string Constructor parsed or detected
+     *
+     * @static
      */
-    protected function parseConstructor(\ReflectionClass $reflectionClass)
+    protected static function parseConstructor(\ReflectionClass $reflectionClass)
     {
         // Check if constructor is our common and well known __construct
         if (true === $reflectionClass->isInstantiable()) {
             $constructor = Doozr_Di_Constants::CONSTRUCTOR_METHOD;
+
         } else {
             // Only in other cases we need to parse ...
             $constructorCandidates = $reflectionClass->getMethods(ReflectionMethod::IS_STATIC);
@@ -641,26 +672,34 @@ final class Doozr_Di_Factory
             // Assume default singleton constructor method name
             $constructor = Doozr_Di_Constants::CONSTRUCTOR_METHOD_SINGLETON;
 
+            $lastProcessedFileName = null;
+
             // iterate over static methods and check for instantiation
             foreach ($constructorCandidates as $constructorCandidate) {
-
                 /* @var ReflectionMethod $constructorCandidate */
-                $sourcecode = file($constructorCandidate->getFileName());
+                $fileName = $constructorCandidate->getFileName();
 
+                if ($lastProcessedFileName !== $fileName) {
+                    $sourcecode            = file($fileName);
+                    $lastProcessedFileName = $fileName;
+                }
+
+                // Start Extract method source
                 $start            = $constructorCandidate->getStartLine() + 1;
-                $end              = $constructorCandidate->getEndline()   - 1;
+                $end              = $constructorCandidate->getEndLine()   - 1;
                 $methodSourcecode = '';
 
                 // Concat sourcecode lines
                 for ($i = $start; $i < $end; ++$i) {
                     $methodSourcecode .= $sourcecode[$i];
                 }
+                // End Extract method source
 
                 // Check for instantiation code ... possibly the constructor
                 if (
                     strpos(
                         $methodSourcecode,
-                        'new self('
+                        'n'.'e'.'w'.' self('
                     ) ||
                     strpos(
                         $methodSourcecode,

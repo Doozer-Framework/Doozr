@@ -56,6 +56,7 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
 
 use Faker\Factory as FakerFactory;
+use Carbon\Carbon;
 
 /**
  * Doozr - Form - Service - Test

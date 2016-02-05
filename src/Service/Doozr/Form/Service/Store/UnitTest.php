@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Form - Service - Store - UnitTest.
  *
- * Unit.php - Unit-test capable storage.
+ * UnitTest.php - UnitTest capable null storage adapter.
  *
  * PHP versions 5.5
  *
@@ -57,9 +57,9 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Store/Abstract.php'
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Store/Interface.php';
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Form - Service - Store - UnitTest.
  *
- * Unit-test capable storage.
+ * UnitTest capable null storage adapter.
  *
  * @category   Doozr
  *

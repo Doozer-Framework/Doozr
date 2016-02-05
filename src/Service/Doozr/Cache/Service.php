@@ -482,8 +482,8 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         $container = ucfirst(strtolower($container));
 
         // The filename to include
-        $filename = $this->getPathToClass().
-                     'Service'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.$container.'.php';
+        $filename = $this->retrievePathToCurrentClass().
+                    'Service'.DIRECTORY_SEPARATOR.'Container'.DIRECTORY_SEPARATOR.$container.'.php';
 
         return file_exists($filename) ? (include_once $filename) : false;
     }

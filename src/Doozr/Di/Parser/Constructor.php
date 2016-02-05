@@ -139,7 +139,7 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
             // iterate over static methods and check for instantiation
             foreach ($possibleConstructors as $possibleConstructor) {
                 $start            = $possibleConstructor->getStartLine() + 1;
-                $end              = $possibleConstructor->getEndline() - 1;
+                $end              = $possibleConstructor->getEndLine() - 1;
                 $methodSourcecode = '';
 
                 // concat sourcecode lines
