@@ -27,7 +27,7 @@
           },
           {
             "type": "constructor",
-            "link": "doozr.form.service.renderer.html",
+            "link": "doozr.form.service.renderer",
             "position": 6
           },
           {
@@ -47,7 +47,7 @@
         "dependencies": [
           {
             "type": "constructor",
-            "link": "doozr.form.service.renderer.html"
+            "link": "doozr.form.service.renderer"
           },
           {
             "type": "constructor",
@@ -60,7 +60,7 @@
         "dependencies": [
           {
             "type": "constructor",
-            "link": "doozr.form.service.renderer.html"
+            "link": "doozr.form.service.renderer"
           },
           {
             "type": "constructor",

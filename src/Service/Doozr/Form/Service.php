@@ -449,9 +449,9 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
         // Create container and set factory and map
         $container->getMap()->wire(
             [
-                'doozr.i18n.service'               => Doozr_Loader_Serviceloader::load('i18n'),
-                'doozr.form.service.store'         => new Doozr_Form_Service_Store_UnitTest(),
-                'doozr.form.service.renderer.html' => new Doozr_Form_Service_Renderer_Html(),
+                'doozr.i18n.service'          => Doozr_Loader_Serviceloader::load('i18n'),
+                'doozr.form.service.store'    => new Doozr_Form_Service_Store_UnitTest(),
+                'doozr.form.service.renderer' => new Doozr_Form_Service_Renderer_Html(),
             ]
         );
 

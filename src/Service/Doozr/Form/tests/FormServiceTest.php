@@ -219,7 +219,6 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         );
     }
 
-
     /**
      * Test: If a FormHandler can be retrieved for a custom scope.
      *
@@ -230,6 +229,6 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         // Generate, set & test getting a custom fieldname
         $scope = self::$faker->word();
         $formHandler = self::$service->getFormHandler($scope);
-        $this->assertInstanceOf(Doozr_Form_Service_FormHandler, $formHandler);
+        $this->assertInstanceOf('Doozr_Form_Service_FormHandler', $formHandler);
     }
 }
