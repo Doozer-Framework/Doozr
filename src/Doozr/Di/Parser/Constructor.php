@@ -104,21 +104,21 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
         $this->prepareInput();
 
         // if called from outside we maybe need a new instance of reflection
-        if (!class_exists($this->input['classname']) && !$this->input['reflection']) {
+        if (!class_exists($this->input['className']) && !$this->input['reflection']) {
             throw new Doozr_Di_Exception(
-                'Could not parse constructor! Please define at least a "file" which contains the classname '.
+                'Could not parse constructor! Please define at least a "file" which contains the className '.
                 'or an existing ReflectionClass instance'
             );
         }
 
         // get reflection if not already passed to this method
         if (!$this->input['reflection']) {
-            $reflectionInstance = new ReflectionClass($this->input['classname']);
+            $reflectionInstance = new ReflectionClass($this->input['className']);
         } else {
             $reflectionInstance = $this->input['reflection'];
         }
 
-        // get filename of classname
+        // get filename of className
         if (!isset($this->input['file'])) {
             $this->input['file'] = $reflectionInstance->getFileName();
         }
@@ -149,7 +149,7 @@ class Doozr_Di_Parser_Constructor extends Doozr_Di_Parser_Abstract
 
                 // check for instantiation
                 if (strpos($methodSourcecode, 'new self(')
-                    || strpos($methodSourcecode, 'new '.$this->input['classname'].'(')
+                    || strpos($methodSourcecode, 'new '.$this->input['className'].'(')
                 ) {
                     $constructor = $possibleConstructor->name;
                     break;

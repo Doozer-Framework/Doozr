@@ -64,7 +64,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Constants.php';
  *
  * @example
  * id              string       doozr.foo.bar   ASCII
- * classname       string       Doozr_Registry  ASCII
+ * className       string       Doozr_Registry  ASCII
  * instance        null|object
  * arguments       null|array
  * constructor     null|string
@@ -96,7 +96,7 @@ class Doozr_Di_Dependency
      *
      * @var string
      */
-    public $classname;
+    public $className;
 
     /**
      * Instance to use (instead of creating a new ones on request).
@@ -109,14 +109,14 @@ class Doozr_Di_Dependency
     public $instance;
 
     /**
-     * The arguments passed to the constructor of $classname when creating a new instance.
+     * The arguments passed to the constructor of $className when creating a new instance.
      *
      * @var array
      */
     public $arguments;
 
     /**
-     * The constructor of $classname (Speeds up creating fresh instances).
+     * The constructor of $className (Speeds up creating fresh instances).
      *
      * @var string
      */
@@ -239,29 +239,29 @@ class Doozr_Di_Dependency
     }
 
     /**
-     * Setter for classname.
+     * Setter for className.
      *
-     * @param string $classname The name of the class to set
+     * @param string $className The name of the class to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setClassname($classname)
+    public function setClassName($className)
     {
-        $this->classname = $classname;
+        $this->className = $className;
     }
 
     /**
-     * Setter for classname.
+     * Setter for className.
      *
-     * @param string $classname The name of the class to set
+     * @param string $className The name of the class to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    public function classname($classname)
+    public function className($className)
     {
-        $this->setClassname($classname);
+        $this->setClassName($className);
 
         return $this;
     }
@@ -275,9 +275,9 @@ class Doozr_Di_Dependency
      *
      * @return string The name of the dependency class
      */
-    public function getClassname()
+    public function getClassName()
     {
-        return $this->classname;
+        return $this->className;
     }
 
     /**
@@ -611,7 +611,7 @@ class Doozr_Di_Dependency
     {
         return [
             'id'        => $this->getId(),
-            'classname' => $this->getClassname(),
+            'className' => $this->getClassName(),
             'instance'  => $this->getInstance(),
             'arguments' => $this->getArguments(),
             'type'      => $this->getType(),
@@ -635,7 +635,7 @@ class Doozr_Di_Dependency
      */
     public function __toString()
     {
-        return $this->classname;
+        return $this->className;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -675,7 +675,7 @@ class Doozr_Di_Dependency
     public function offsetSet($offset, $value)
     {
         if (true === is_null($offset)) {
-            $this->classname = $value;
+            $this->className = $value;
         } else {
             $this->{$offset} = $value;
         }

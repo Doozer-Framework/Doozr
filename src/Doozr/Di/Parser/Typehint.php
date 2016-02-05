@@ -121,19 +121,19 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
         $this->prepareInput();
 
         // if called from outside we maybe need a new instance of reflection
-        if (!class_exists($this->input['classname']) && !$this->input['reflection']) {
+        if (!class_exists($this->input['className']) && !$this->input['reflection']) {
             throw new Doozr_Di_Exception(
-                'Could not parse constructor! Please define at least a "file" which contains the classname '.
+                'Could not parse constructor! Please define at least a "file" which contains the className '.
                 'or an existing ReflectionClass instance'
             );
         }
 
         // get reflection if not already passed to this method
         if (!$this->input['reflection']) {
-            $reflectionClass = new ReflectionClass($this->input['classname']);
+            $reflectionClass = new ReflectionClass($this->input['className']);
         }
 
-        // get filename of classname
+        // get filename of className
         if (!isset($this->input['file'])) {
             $this->input['file'] = $reflectionClass->getFileName();
         }
@@ -170,12 +170,12 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
         // set parser input for constructor parser
         $this->parser->setInput(
             [
-                'classname'  => $reflectionClass->getName(),
+                'className'  => $reflectionClass->getName(),
                 'reflection' => $reflectionClass,
             ]
         );
 
-        // get constructor of classname for check!
+        // get constructor of className for check!
         $constructor = $this->parser->parse();
 
         // iterate over all found candidates and check for Typehints
@@ -197,7 +197,7 @@ class Doozr_Di_Parser_Typehint extends Doozr_Di_Parser_Abstract
                     $tmp = $this->getDefaultSkeleton();
 
                     // Fill with real data
-                    $tmp['classname'] = $argument[0];
+                    $tmp['className'] = $argument[0];
                     $tmp['target']    = str_replace('$', '', $argument[1]);
                     $tmp['type']      = ($constructor == $method) ?
                         Doozr_Di_Constants::INJECTION_TYPE_CONSTRUCTOR :

@@ -5,7 +5,7 @@
 /**
  * Doozr - Di - Collection.
  *
- * Collection.php - Di matrix for mapping a "classname" [indexedByClassname] or an
+ * Collection.php - Di matrix for mapping a "className" [indexedByClassName] or an
  * "id" [indexedById] to a collection of dependencies. So the responsibility of
  * this class is collecting and holding this collection of dependencies for a class
  * indexed by its name or id.
@@ -61,7 +61,7 @@ require_once 'Exception.php';
 /**
  * Doozr - Di - Collection.
  *
- * Di matrix for mapping a "classname" [indexedByClassname] or an
+ * Di matrix for mapping a "className" [indexedByClassName] or an
  * "id" [indexedById] to a collection of dependencies. So the responsibility of
  * this class is collecting and holding this collection of dependencies for a class
  * indexed by its name or id.
@@ -80,11 +80,11 @@ class Doozr_Di_Collection
     Iterator
 {
     /**
-     * Mapping from Id to Classname.
+     * Mapping from Id to ClassName.
      *
      * @var array
      */
-    protected $mapIdToClassname = [];
+    protected $mapIdToClassName = [];
 
     /**
      * The position of Iterator.
@@ -121,7 +121,7 @@ class Doozr_Di_Collection
      *
      * @var array
      */
-    protected $classnameById = [];
+    protected $classNameById = [];
 
     /**
      * Dependencies indexed by id of service.
@@ -131,21 +131,21 @@ class Doozr_Di_Collection
     protected $dependenciesById = [];
 
     /**
-     * Dependencies indexed by dependency (classname?!).
+     * Dependencies indexed by dependency (className?!).
      *
      * @var array
      */
-    protected $indexedByClassname = [];
+    protected $indexedByClassName = [];
 
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Adds a dependency to collection and indexes it by id, classname.
+     * Adds a dependency to collection and indexes it by id, className.
      *
      * @param string              $id          Identifier to file the reference under
-     * @param string              $classname   Name of the class having the dependencies
+     * @param string              $className   Name of the class having the dependencies
      * @param string              $constructor Constructor of the class having the dependency
      * @param Doozr_Di_Dependency $dependency  Dependency recipe
      *
@@ -153,17 +153,17 @@ class Doozr_Di_Collection
      *
      * @return bool TRUE on success
      */
-    public function addDependency($id, $classname, $constructor, Doozr_Di_Dependency $dependency)
+    public function addDependency($id, $className, $constructor, Doozr_Di_Dependency $dependency)
     {
         // Prepare indices ...
         $this->initDependenciesById($id);
-        $this->initIndexByClassname($classname);
+        $this->initIndexByClassName($className);
 
         // Build index to speedup lookups
         $this->dependenciesById[$id][]          = $dependency;
         $index                                  = count($this->dependenciesById[$id]) - 1;
-        $this->indexedByClassname[$classname][] = &$this->dependenciesById[$id][$index];
-        $this->classnameById[$id]               = $classname;
+        $this->indexedByClassName[$className][] = &$this->dependenciesById[$id][$index];
+        $this->classNameById[$id]               = $className;
         $this->constructorById[$id]             = $constructor;
 
         // update the numerical index for iterator access
@@ -173,16 +173,16 @@ class Doozr_Di_Collection
     }
 
     /**
-     * Adds a mapping from an Id => to a => classname.
+     * Adds a mapping from an Id => to a => className.
      *
      * @param string $id        Id part of mapping
-     * @param string $classname Classname part of mapping
+     * @param string $className ClassName part of mapping
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function addMapping($id, $classname)
+    public function addMapping($id, $className)
     {
-        $this->classnameById[$id] = $classname;
+        $this->classNameById[$id] = $className;
     }
 
     /**
@@ -193,20 +193,20 @@ class Doozr_Di_Collection
     public function reset()
     {
         $this->position           = 0;
-        $this->mapIdToClassname   = [];
+        $this->mapIdToClassName   = [];
         $this->numericalIndex     = [];
         $this->argumentsById      = [];
         $this->constructorById    = [];
-        $this->classnameById      = [];
+        $this->classNameById      = [];
         $this->dependenciesById   = [];
-        $this->indexedByClassname = [];
+        $this->indexedByClassName = [];
     }
 
     /**
      * Adds a collection of dependencies to existing collection.
      *
      * @param string                $id           Identifier to file the reference under
-     * @param string                $classname    Name of the class having the dependencies
+     * @param string                $className    Name of the class having the dependencies
      * @param string                $constructor  Constructor of the class having the dependencies
      * @param Doozr_Di_Dependency[] $dependencies Collection of dependency recipes
      *
@@ -216,12 +216,12 @@ class Doozr_Di_Collection
      *
      * @throws Doozr_Di_Exception
      */
-    public function addDependencies($id, $classname, $constructor, array $dependencies)
+    public function addDependencies($id, $className, $constructor, array $dependencies)
     {
         $result = true;
 
         foreach ($dependencies as $dependency) {
-            $result = $result && $this->addDependency($id, $classname, $constructor, $dependency);
+            $result = $result && $this->addDependency($id, $className, $constructor, $dependency);
 
             if (false === $result) {
                 throw new Doozr_Di_Exception(
@@ -274,14 +274,14 @@ class Doozr_Di_Collection
      * This method is intend to set the name of the constructor method
      * of the target class.
      *
-     * @param string $classname   The name of the class to set constructor for
+     * @param string $className   The name of the class to set constructor for
      * @param string $constructor The name of the constructor method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setConstructor($classname, $constructor)
+    public function setConstructor($className, $constructor)
     {
-        $this->constructorById[$classname] = $constructor;
+        $this->constructorById[$className] = $constructor;
     }
 
     /**
@@ -328,8 +328,8 @@ class Doozr_Di_Collection
     public function getRecipeById($id)
     {
         $result = [
-            'classname' => (isset($this->classnameById[$id])) ?
-                $this->classnameById[$id] :
+            'className' => (isset($this->classNameById[$id])) ?
+                $this->classNameById[$id] :
                 null,
             'arguments' => (isset($this->argumentsById[$id])) ?
                 $this->argumentsById[$id] :
@@ -346,17 +346,17 @@ class Doozr_Di_Collection
     }
 
     /**
-     * Returns the classname for a passed Id.
+     * Returns the className for a passed Id.
      *
-     * @param string $id The id to return classname for
+     * @param string $id The id to return className for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string|null The name of the class if set, otherwise NULL
      */
-    public function getClassnameById($id)
+    public function getClassNameById($id)
     {
-        return (isset($this->classnameById[$id])) ? $this->classnameById[$id] : null;
+        return (isset($this->classNameById[$id])) ? $this->classNameById[$id] : null;
     }
 
     /**
@@ -490,17 +490,17 @@ class Doozr_Di_Collection
     }
 
     /**
-     * Initializes the index by classname.
+     * Initializes the index by className.
      *
-     * @param string $classname The name of the class
+     * @param string $className The name of the class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function initIndexByClassname($classname)
+    protected function initIndexByClassName($className)
     {
         // Create an entry array if not already created (lazy init)
-        if (false === isset($this->indexedByClassname[$classname])) {
-            $this->indexedByClassname[$classname] = [];
+        if (false === isset($this->indexedByClassName[$className])) {
+            $this->indexedByClassName[$className] = [];
         }
     }
 }

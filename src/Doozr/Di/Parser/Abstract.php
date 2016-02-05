@@ -106,22 +106,22 @@ abstract class Doozr_Di_Parser_Abstract
     protected function prepareInput()
     {
         $input = [
-            'classname'  => null,
+            'className'  => null,
             'reflection' => null,
         ];
 
         if (is_string($this->input)) {
-            $input['classname'] = $this->input;
+            $input['className'] = $this->input;
         } else {
             extract($this->input);
 
-            if (!isset($classname)) {
+            if (!isset($className)) {
                 throw new Doozr_Di_Exception(
-                    'Error preparing input. No classname to parse defined!'
+                    'Error preparing input. No className to parse defined!'
                 );
             }
 
-            $input['classname'] = $classname;
+            $input['className'] = $className;
 
             if (isset($file)) {
                 $this->loadFile($file);
@@ -171,7 +171,7 @@ abstract class Doozr_Di_Parser_Abstract
     protected function getDefaultSkeleton()
     {
         return [
-            'classname' => null,
+            'className' => null,
             'type'      => null,
             'target'    => null,
             'instance'  => null,

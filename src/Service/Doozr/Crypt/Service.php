@@ -545,9 +545,9 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     protected function containerFactory($container, array $containerOptions = [])
     {
         $container = ucfirst(strtolower($container));
-        $classname = __CLASS__.'_Container_'.$container;
+        $className = __CLASS__.'_Container_'.$container;
         $file      = $this->getRegistry()->getPath()->get('service').
-                     str_replace('_', DIRECTORY_SEPARATOR, $classname).'.php';
+                     str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
 
         // Check if file exists
         // @codeCoverageIgnoreStart
@@ -562,6 +562,6 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
         include_once $file;
 
         // Any options set?
-        return self::instantiate($classname, $containerOptions);
+        return self::instantiate($className, $containerOptions);
     }
 }

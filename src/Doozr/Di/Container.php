@@ -349,8 +349,8 @@ class Doozr_Di_Container
                 $arguments = (null !== $recipe['arguments']) ? $recipe['arguments'] : [];
             }
 
-            // Check if classname could be retrieved
-            if (null === $recipe['classname']) {
+            // Check if className could be retrieved
+            if (null === $recipe['className']) {
                 throw new Doozr_Di_Exception(
                     sprintf(
                         'Please provide a configuration for the Id "%s". Or did you mean: "%s"?',

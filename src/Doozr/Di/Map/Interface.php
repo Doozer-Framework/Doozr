@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Base - Exception - Abstract.
+ * Doozr - Di - Map - Interface.
  *
- * Abstract.php - Abstract class for base exception of the Doozr Framework.
+ * Interface.php - Interface map class of Di.
  *
  * PHP versions 5.5
  *
@@ -51,13 +51,18 @@
  *
  * @version    Git: $Id$
  *
- * @link       http://clickalicious.github.com/Doozr/
+ * @link       https://github.com/clickalicious/Di
  */
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Factory.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Dependency.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
 
 /**
- * Doozr - Base - Exception - Abstract.
+ * Doozr - Di - Map - Interface.
  *
- * Abstract class for base exception of the Doozr Framework.
+ * Interface map class of Di.
  *
  * @category   Doozr
  *
@@ -65,82 +70,14 @@
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
- * @version    Git: $Id$
- *
- * @link       http://clickalicious.github.com/Doozr/
+ * @link       https://github.com/clickalicious/Di
  */
-abstract class Doozr_Base_Exception_Generic_Abstract extends RuntimeException
+interface Doozr_Di_Map_Interface
 {
     /**
-     * Exception-message.
+     * Builds the collection from dependency parser result for given class.
      *
-     * @var string
+     * @param string $className The name of the class to parse dependencies for
      */
-    protected $message = 'Doozr -> unknown exception';
-
-    /**
-     * Exception error-code/nr/#.
-     *
-     * @var int
-     */
-    protected $code = 0;
-
-    /**
-     * Filename of the file where the exception was initially thrown.
-     *
-     * @var string
-     */
-    protected $file;
-
-    /**
-     * Line of the file where the exception was initially thrown.
-     *
-     * @var int
-     */
-    protected $line;
-
-    /**
-     * Constructor.
-     *
-     * @param string|null    $message           Exceptions message
-     * @param int            $code              Code of the exception
-     * @param Exception|null $previousException Previous exception thrown - AS_OF: PHP 5.3 introduced !
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function __construct($message = null, $code = 0, $previousException = null)
-    {
-        // If no message set set default message!
-        if (null === $message) {
-            throw new $this(
-                sprintf('Exception "%s" without message!', get_class($this))
-            );
-        }
-
-        // Call parents constructor
-        parent::__construct($message, $code, $previousException);
-    }
-
-    /**
-     * Returns a string representation of this class content.
-     *
-     * This method is intend to return a string representation of this class content
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string A string representation of this class content
-     */
-    public function __toString()
-    {
-        $className = get_class($this);
-        $error     = sprintf(
-            ' %s in %s(%s)\n%s',
-            $this->getMessage(),
-            $this->getFile(),
-            $this->getLine(),
-            $this->getTraceAsString()
-        );
-
-        return $className.$error;
-    }
+    public function generate($className);
 }

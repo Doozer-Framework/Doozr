@@ -75,18 +75,18 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
 class Doozr_Di_Map_Fluent extends Doozr_Di_Map
 {
     /**
-     * Current active classname to add dependencies for.
+     * Current active className to add dependencies for.
      *
      * @var string
      */
-    protected $classname;
+    protected $className;
 
     /**
-     * Last active classname.
+     * Last active className.
      *
      * @var string
      */
-    protected $lastClassname;
+    protected $lastClassName;
 
     /**
      * Base dependency object.
@@ -149,7 +149,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      *
      * This method is intend to set the name of the class which has dependencies.
      *
-     * @param string $classname   The name of the class which has dependencies
+     * @param string $className   The name of the class which has dependencies
      * @param mixed  $arguments   The arguments to pass to constructor of class
      * @param mixed  $constructor The constructor of the class
      *
@@ -157,22 +157,22 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      */
-    public function classname($classname, $arguments = null, $constructor = null)
+    public function className($className, $arguments = null, $constructor = null)
     {
         // flush maybe exisiting content
         $this->flush();
 
-        // store classname
-        $this->classname = $classname;
+        // store className
+        $this->className = $className;
 
         // add arguments if given
         if (!is_null($arguments) && is_array($arguments)) {
-            $this->getCollection()->setArguments($classname, $arguments);
+            $this->getCollection()->setArguments($className, $arguments);
         }
 
         // add constructor if given
         if (!is_null($constructor)) {
-            $this->getCollection()->setConstructor($classname, $constructor);
+            $this->getCollection()->setConstructor($className, $constructor);
         }
 
         // fluent interface
@@ -184,13 +184,13 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      *
      * This method is intend to set the name of the dependency class.
      *
-     * @param string $classname The name of the dependency class
+     * @param string $className The name of the dependency class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      */
-    public function dependsOn($classname)
+    public function dependsOn($className)
     {
         // store last created temporary dependency
         if ($this->currentDependency) {
@@ -200,7 +200,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
         /* @var $this->currentDependency Doozr_Di_Dependency */
         $this->currentDependency = clone $this->dependency;
 
-        $this->currentDependency->setClassname($classname);
+        $this->currentDependency->setClassName($className);
 
         return $this;
     }
@@ -240,7 +240,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     {
         if (null === $this->currentDependency) {
             throw new Doozr_Form_Service_Exception(
-                sprintf('Please call classname() before trying to set an Id via %s', __METHOD__)
+                sprintf('Please call className() before trying to set an Id via %s', __METHOD__)
             );
         }
 
@@ -291,13 +291,13 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      *
      * This method is required for the fluent interface.
      *
-     * @param string $classname The name of the last processed class
+     * @param string $className The name of the last processed class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setLastProcessedClass($classname)
+    public function setLastProcessedClass($className)
     {
-        $this->lastClassname = $classname;
+        $this->lastClassName = $className;
     }
 
     /**
@@ -311,7 +311,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      */
     public function getLastProcessedClass()
     {
-        return $this->lastClassname;
+        return $this->lastClassName;
     }
 
     /**
@@ -368,23 +368,23 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      * This method is intend to act as a shortcut to build().
      *
      * @param array  $arguments The arguments to pass to build()
-     * @param string $classname The (optional) name of the class to build instance of
+     * @param string $className The (optional) name of the class to build instance of
      * @param bool   $wire      TRUE to automatic wire instances, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return Doozr_Di_Map_Fluent Instance of this class (for method chaining)
      */
-    public function build($arguments = null, $classname = null, $wire = true)
+    public function build($arguments = null, $className = null, $wire = true)
     {
-        $classname = ($classname) ? $classname : $this->classname;
+        $className = ($className) ? $className : $this->className;
 
         /*
         if (true === $wire) {
             $this->wire(Doozr_Di_Constants::WIRE_MODE_AUTOMATIC);
         }*/
 
-        #return $this->store()->build($classname, $arguments);
+        #return $this->store()->build($className, $arguments);
     }
 
     /**
@@ -395,7 +395,7 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      */
     public function reset()
     {
-        $this->classname  = null;
+        $this->className  = null;
         $this->dependency = null;
 
         parent::reset();
@@ -414,12 +414,12 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
      */
     protected function flush()
     {
-        $this->lastClassname = $this->classname;
+        $this->lastClassName = $this->className;
 
         if ($this->currentDependency !== null) {
             $this->getCollection()->addDependency(
                 $this->id,
-                $this->classname,
+                $this->className,
                 $this->constructor,
                 $this->currentDependency);
         }

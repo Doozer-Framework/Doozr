@@ -136,9 +136,9 @@ final class Doozr_Di_Factory
      */
     public function build($recipe, array $arguments = [])
     {
-        // Create Reflection Instance of passed classname
+        // Create Reflection Instance of passed className
         $this
-            ->reflection(new ReflectionClass($recipe['classname']));
+            ->reflection(new ReflectionClass($recipe['className']));
 
         // Create an instance and return it to caller
         return $this->instantiate($recipe, $arguments);
@@ -269,31 +269,31 @@ final class Doozr_Di_Factory
     }
 
     /**
-     * Returns an instance of a passed classname.
+     * Returns an instance of a passed className.
      *
      * This method is intend to construct an instance of a given class and pass the given (optional) arguments
      * to the constructor. This method looks really ugly and i know this of course. But this way is a tradeoff
      * between functionality and speed optimization.
      *
-     * @param string|array $classname Name of the class to instantiate or an array containing [class => constructor].
+     * @param string|array $className Name of the class to instantiate or an array containing [class => constructor].
      * @param array        $arguments Arguments to pass to constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return object Instance of class with passed classname
+     * @return object Instance of class with passed className
      *
      * @throws Doozr_Di_Exception
      */
-    protected function construct($classname, array $arguments = [])
+    protected function construct($className, array $arguments = [])
     {
         // Check for static call (like getInstance or some other singleton)
-        if (true === is_array($classname)) {
+        if (true === is_array($className)) {
 
             // Arguments require different handling ...
             if (count($arguments) > 0) {
-                return call_user_func_array($classname, $arguments);
+                return call_user_func_array($className, $arguments);
             } else {
-                return call_user_func($classname);
+                return call_user_func($className);
             }
         } else {
             $countArguments = count($arguments);
@@ -302,28 +302,28 @@ final class Doozr_Di_Factory
             // Looks weired but its the fastest way!
             switch ($countArguments) {
                 case 0:
-                    return new $classname();
+                    return new $className();
 
                 case 1:
-                    return new $classname(
+                    return new $className(
                         $arguments[0]
                     );
 
                 case 2:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1]
                     );
 
                 case 3:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2]
                     );
 
                 case 4:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -331,7 +331,7 @@ final class Doozr_Di_Factory
                     );
 
                 case 5:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -340,7 +340,7 @@ final class Doozr_Di_Factory
                     );
 
                 case 6:
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -349,7 +349,7 @@ final class Doozr_Di_Factory
                         $arguments[5]);
                 case 7:
 
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -359,7 +359,7 @@ final class Doozr_Di_Factory
                         $arguments[6]);
                 case 8:
 
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -370,7 +370,7 @@ final class Doozr_Di_Factory
                         $arguments[7]);
                 case 9:
 
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -382,7 +382,7 @@ final class Doozr_Di_Factory
                         $arguments[8]);
                 case 10:
 
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -395,7 +395,7 @@ final class Doozr_Di_Factory
                         $arguments[9]);
                 case 11:
 
-                    return new $classname(
+                    return new $className(
                         $arguments[0],
                         $arguments[1],
                         $arguments[2],
@@ -447,7 +447,7 @@ final class Doozr_Di_Factory
      * Instantiates a class including it dependencies.
      *
      * This method is intend to instantiate a class and pass the required dependencies to it.
-     * The dependencies are pre-configured and passed to this method as $recipe. The classname is
+     * The dependencies are pre-configured and passed to this method as $recipe. The className is
      * the name of the class to instantiate and arguments is an (optional) array of arguments
      * which are passed to the class as additional arguments when instantiating.
      *
@@ -500,26 +500,26 @@ final class Doozr_Di_Factory
                         $dependency->setInstance($instance);
                     } else {
 
-                        // Check basic requirements :D it's just the classname!
-                        if (null === $classname = $dependency->getClassname()) {
+                        // Check basic requirements :D it's just the className!
+                        if (null === $className = $dependency->getClassName()) {
                             throw new Doozr_Di_Exception(
                                 sprintf(
-                                    'Property "classname" not set! If you are not using "link" then you need to '.
-                                    'define the class to inject via "classname".'
+                                    'Property "className" not set! If you are not using "link" then you need to '.
+                                    'define the class to inject via "className".'
                                 )
                             );
                         }
 
                         // Check if the constructor is known to us ...
                         if (null === $constructor = $dependency->getConstructor()) {
-                            $constructor = self::parseConstructor(new \ReflectionClass($classname));
+                            $constructor = self::parseConstructor(new \ReflectionClass($className));
                             $dependency->setConstructor($constructor);
                         }
 
                         // Create instance via this class ;)
                         $instance = $this->instantiate(
                             [
-                                'classname'   => $classname,
+                                'className'   => $className,
                                 'constructor' => $constructor,
                                 'arguments'   => $dependency->getArguments(),
                             ]
@@ -547,27 +547,27 @@ final class Doozr_Di_Factory
         }
 
         // Process injections, create instance and return it
-        return $this->createInstance($recipe['classname'], $recipe['constructor'], $arguments, $injections);
+        return $this->createInstance($recipe['className'], $recipe['constructor'], $arguments, $injections);
     }
 
     /**
      * Creates an instance of a class and returns it.
      *
      * This method is intend to instantiate a class and pass the required dependencies to it.
-     * The dependencies are pre-configured and passed to this method as $recipe. The classname is
+     * The dependencies are pre-configured and passed to this method as $recipe. The className is
      * the name of the class to instantiate and arguments is an (optional) array of arguments
      * which are passed to the class as additional arguments when instantiating.
      *
-     * @param string $classname   Name of the class being instantiated
+     * @param string $className   Name of the class being instantiated
      * @param string $constructor Name of constructor method (only required if not default = e.g. using Singleton)
-     * @param array  $arguments   Arguments to pass to constructor when creating instance of $classname
+     * @param array  $arguments   Arguments to pass to constructor when creating instance of $className
      * @param array  $injections  Injections to execute on instantiation process and via setter or property injections
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return object The new created instance.
      */
-    protected function createInstance($classname, $constructor = null, array $arguments = [], array $injections = [])
+    protected function createInstance($className, $constructor = null, array $arguments = [], array $injections = [])
     {
         // Check for required dependency injections ...
         if (count($injections[Doozr_Di_Constants::INJECTION_TYPE_CONSTRUCTOR]) > 0) {
@@ -584,7 +584,7 @@ final class Doozr_Di_Factory
         }
 
         // Get instance - for no dependency calls too
-        $instance = $this->constructorInjection($classname, $arguments, $constructor);
+        $instance = $this->constructorInjection($className, $arguments, $constructor);
 
         // process only if $injections exists
         if (count($injections[Doozr_Di_Constants::INJECTION_TYPE_METHOD]) > 0) {
@@ -624,15 +624,15 @@ final class Doozr_Di_Factory
      * This method is intend to return an instance of the given class. It injects
      * the required dependencies into constructor on instantiation.
      *
-     * @param string $classname   Name of the class being instantiated
-     * @param array  $arguments   Arguments to pass to constructor when creating instance of $classname
+     * @param string $className   Name of the class being instantiated
+     * @param array  $arguments   Arguments to pass to constructor when creating instance of $className
      * @param string $constructor Constructor used as priority 1 when not directly instantiable.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return object The new created instance
      */
-    protected function constructorInjection($classname, array $arguments = [], $constructor = null)
+    protected function constructorInjection($className, array $arguments = [], $constructor = null)
     {
         // Check for passed constructor or retrieve it
         if (null === $constructor) {
@@ -641,10 +641,10 @@ final class Doozr_Di_Factory
 
         // If not the default (__constructor) it must be static and so turn into array
         if (Doozr_Di_Constants::CONSTRUCTOR_METHOD !== $constructor) {
-            $classname = [$classname, $constructor];
+            $className = [$className, $constructor];
         }
 
-        return $this->construct($classname, $arguments);
+        return $this->construct($className, $arguments);
     }
 
     /**

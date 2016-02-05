@@ -2,7 +2,7 @@
   "map": [
     {
       "doozr.form.service.formhandler": {
-        "classname": "Doozr_Form_Service_FormHandler",
+        "className": "Doozr_Form_Service_FormHandler",
         "constructor": "__construct",
         "dependencies": [
           {
@@ -32,18 +32,18 @@
           },
           {
             "type": "constructor",
-            "classname": "Doozr_Form_Service_Validate_Validator",
+            "className": "Doozr_Form_Service_Validate_Validator",
             "position": 7
           },
           {
             "type": "constructor",
-            "classname": "Doozr_Form_Service_Validate_Error",
+            "className": "Doozr_Form_Service_Validate_Error",
             "position": 8
           }
         ]
       },
       "doozr.form.service.component.input": {
-        "classname": "Doozr_Form_Service_Component_Input",
+        "className": "Doozr_Form_Service_Component_Input",
         "dependencies": [
           {
             "type": "constructor",
@@ -51,12 +51,12 @@
           },
           {
             "type": "constructor",
-            "classname": "Doozr_Form_Service_Validator_Generic"
+            "className": "Doozr_Form_Service_Validator_Generic"
           }
         ]
       },
       "doozr.form.service.component.form": {
-        "classname": "Doozr_Form_Service_Component_Form",
+        "className": "Doozr_Form_Service_Component_Form",
         "dependencies": [
           {
             "type": "constructor",
@@ -64,7 +64,7 @@
           },
           {
             "type": "constructor",
-            "classname": "Doozr_Form_Service_Validator_Generic"
+            "className": "Doozr_Form_Service_Validator_Generic"
           }
         ]
       }

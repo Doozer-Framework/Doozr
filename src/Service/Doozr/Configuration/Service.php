@@ -239,16 +239,16 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
      */
     public static function __callStatic($signature, $arguments)
     {
-        $targetClassname = get_class(self::$_staticDecoratedObject);
+        $targetClassName = get_class(self::$_staticDecoratedObject);
 
         if ($arguments) {
             $result = call_user_func_array(
-                $targetClassname.'::'.$signature,
+                $targetClassName.'::'.$signature,
                 $arguments
             );
         } else {
             $result = call_user_func(
-                array($targetClassname, $signature)
+                array($targetClassName, $signature)
             );
         }
 
@@ -324,7 +324,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
     /**
      * This method is intend to act as factory for creating an instance of a config container.
      *
-     * @param string $class     The classname of container
+     * @param string $class     The className of container
      * @param string $path      The base path to Framework
      * @param mixed  $arguments Arguments to pass to instance
      *

@@ -110,25 +110,25 @@ class Doozr_Base_Development
     public function profile($class, $methodname, array $methodarguments = null, $invocations = 1)
     {
         if (true === is_object($class)) {
-            $classname = get_class($class);
+            $className = get_class($class);
         } else {
-            $classname = $class;
+            $className = $class;
 
-            if (false === class_exists($classname)) {
+            if (false === class_exists($className)) {
                 throw new Doozr_Exception(
-                    sprintf('%s does not exist.', $classname)
+                    sprintf('%s does not exist.', $className)
                 );
             }
         }
 
-        $method   = new \ReflectionMethod($classname, $methodname);
+        $method   = new \ReflectionMethod($className, $methodname);
         $instance = null;
 
         if (true === $method->isStatic()) {
             // mark last profiling session as static
             $this->profileStatic = true;
-        } elseif (false === $method->isStatic() && !($class instanceof $classname)) {
-            $class    = new \ReflectionClass($classname);
+        } elseif (false === $method->isStatic() && !($class instanceof $className)) {
+            $class    = new \ReflectionClass($className);
             $instance = $class->newInstance();
         } else {
             $instance = $class;
@@ -153,7 +153,7 @@ class Doozr_Base_Development
         $duration['worst']   = round(max($durations), 4);
 
         return $this->profilingDetails([
-            'class'       => $classname,
+            'class'       => $className,
             'method'      => $methodname,
             'arguments'   => $methodarguments,
             'duration'    => $duration,

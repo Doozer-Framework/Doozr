@@ -125,7 +125,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
             "dependencies": [
                 {
                     "id": "Database1",
-                    "classname": "Database",
+                    "className": "Database",
                     "arguments": ["foo", "bar", "baz"],
                     "instance": null,
                     "config": {
@@ -134,7 +134,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                 },
                 {
                     "id": "Logger1",
-                    "classname": "Logger",
+                    "className": "Logger",
                     "instance": null,
                     "config": {
                         "type": "method",
@@ -152,19 +152,19 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
         $collection = [];
 
         // iterate over collection
-        foreach ($this->collection as $classname => $dependencies) {
+        foreach ($this->collection as $className => $dependencies) {
 
-            // collect dependencies for $classname in an array
-            $collection[$classname] = new stdClass();
+            // collect dependencies for $className in an array
+            $collection[$className] = new stdClass();
 
             // check for arguments
-            ($this->collection->getArguments($classname)) ?
-                $collection[$classname]->arguments = $this->collection->getArguments($classname) :
+            ($this->collection->getArguments($className)) ?
+                $collection[$className]->arguments = $this->collection->getArguments($className) :
                 null;
 
             // check for custom arguments
-            ($this->collection->getConstructor($classname)) ?
-                $collection[$classname]->constructor = $this->collection->getConstructor($classname) :
+            ($this->collection->getConstructor($className)) ?
+                $collection[$className]->constructor = $this->collection->getConstructor($className) :
                 null;
 
             // iterate over existing dependencies, translate to JSON structure and store temporary in $collection[]
@@ -177,8 +177,8 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                 // the target
                 $tmp->target = $dependency->getTarget();
 
-                // the classname
-                $tmp->classname = $dependency->getClassname();
+                // the className
+                $tmp->className = $dependency->getClassName();
 
                 // the arguments
                 if ($dependency->getArguments()) {
@@ -200,7 +200,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                 $tmp->config = $dependency->getConfiguration();
 
                 // store created object to $collection
-                $collection[$classname]->dependencies[] = $tmp;
+                $collection[$className]->dependencies[] = $tmp;
             }
         }
 

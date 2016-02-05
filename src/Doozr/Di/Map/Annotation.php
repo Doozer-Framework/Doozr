@@ -56,6 +56,7 @@
  * @link       https://github.com/clickalicious/Di
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map/Interface.php';
 
 /**
  * Doozr - Di - Map - Annotation.
@@ -73,6 +74,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Map_Annotation extends Doozr_Di_Map
+    implements
+    Doozr_Di_Map_Interface
 {
     /**
      * Annotation parser instance.
@@ -112,19 +115,19 @@ class Doozr_Di_Map_Annotation extends Doozr_Di_Map
     /**
      * Builds the collection from dependency parser result for given class.
      *
-     * @param string $classname The name of the class to parse dependencies for
+     * @param string $className The name of the class to parse dependencies for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function generate($classname)
+    public function generate($className)
     {
         // set input
         $this->getParser()->setInput(
-            ['classname' => $classname]
+            ['className' => $className]
         );
 
         // Add these dependencies to collection
-        $this->addRawDependenciesToCollection($this->getParser()->parse(), $classname);
+        $this->addRawDependenciesToCollection($this->getParser()->parse(), $className);
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -132,19 +135,19 @@ class Doozr_Di_Map_Annotation extends Doozr_Di_Map
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Adds the given raw dependencies (array) to the collection for given classname
-     * This method is intend to add the given raw dependencies (array) to the collection for given classname.
+     * Adds the given raw dependencies (array) to the collection for given className
+     * This method is intend to add the given raw dependencies (array) to the collection for given className.
      *
      * @param array  $rawDependencies Dependencies as raw array.
-     * @param string $classname       Name of the class having the dependencies.
+     * @param string $className       Name of the class having the dependencies.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function addRawDependenciesToCollection(array $rawDependencies, $classname = '')
+    protected function addRawDependenciesToCollection(array $rawDependencies, $className = '')
     {
         $rawDependencies = [
-            $classname => [
-                'classname'    => $classname,
+            $className => [
+                'className'    => $className,
                 'dependencies' => array_merge([], $rawDependencies),
             ],
         ];

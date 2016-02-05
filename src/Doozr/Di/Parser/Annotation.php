@@ -160,18 +160,18 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
         $input = $this->getInput();
 
         // check if class is already in scope
-        if (!class_exists($input['classname'])) {
+        if (!class_exists($input['className'])) {
             if (!isset($input['file'])) {
                 throw new Doozr_Di_Exception(
-                    'Error parsing dependencies from classname. Class not found in scope and no "file" defined!'
+                    'Error parsing dependencies from className. Class not found in scope and no "file" defined!'
                 );
             }
 
             $this->loadFile($input['file']);
         }
 
-        // create a reflection instance of the classname
-        $reflection = new ReflectionClass($input['classname']);
+        // create a reflection instance of the className
+        $reflection = new ReflectionClass($input['className']);
 
         // parse annotation(s) from reflection and return result
         $this->lastResult = $this->parseFromReflectionByRange($reflection, $range);
@@ -314,7 +314,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
                 // store target
                 if (stristr($arguments[0], ':')) {
                     $target           = explode(':', $arguments[0]);
-                    $tmp['classname'] = $target[0];
+                    $tmp['className'] = $target[0];
                     $tmp['target']    = $target[1];
                 } else {
                     $tmp['target'] = $arguments[0];
@@ -358,7 +358,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Parses the dependencies from a given reflection out of the classname' comment.
+     * Parses the dependencies from a given reflection out of the className' comment.
      *
      * @param \ReflectionClass $reflection The reflection instance to parse from
      *
@@ -398,7 +398,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Parses the dependencies from a given reflection out of the classname' methods.
+     * Parses the dependencies from a given reflection out of the className' methods.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
      *
@@ -426,7 +426,7 @@ class Doozr_Di_Parser_Annotation extends Doozr_Di_Parser_Abstract
     }
 
     /**
-     * Parses the dependencies from a given reflection out of the classname' properties.
+     * Parses the dependencies from a given reflection out of the className' properties.
      *
      * @param ReflectionClass $reflection The reflection instance to parse from
      *

@@ -153,7 +153,7 @@ abstract class Doozr_Di_Map
             if (null === $this->getCollection()->getDependencies($id)) {
                 foreach ($dependencies as $position => $dependency) {
                     $arguments   = $collection->getArgumentsById($id);
-                    $classname   = $collection->getClassnameById($id);
+                    $className   = $collection->getClassNameById($id);
                     $constructor = $collection->getConstructorById($id);
 
                     // Have arguments set?
@@ -161,7 +161,7 @@ abstract class Doozr_Di_Map
                         $this->getCollection()->setArguments($id, $arguments);
                     }
 
-                    $this->getCollection()->addDependency($id, $classname, $constructor, $dependency);
+                    $this->getCollection()->addDependency($id, $className, $constructor, $dependency);
                 }
             }
         }
@@ -269,12 +269,12 @@ abstract class Doozr_Di_Map
                     $constructor = (true === isset($setup['constructor'])) ? $setup['constructor'] : null;
 
                     // Add current dependency to list of dependencies
-                    $this->getCollection()->addDependency($id, $setup['classname'], $constructor, $dependency);
+                    $this->getCollection()->addDependency($id, $setup['className'], $constructor, $dependency);
                 }
 
             } else {
                 // No dependencies? We will keep those classes loadable with default behavior!
-                $this->getCollection()->addMapping($id, $setup['classname']);
+                $this->getCollection()->addMapping($id, $setup['className']);
 
             }
         }

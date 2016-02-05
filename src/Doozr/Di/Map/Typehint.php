@@ -105,17 +105,17 @@ class Doozr_Di_Map_Typehint extends Doozr_Di_Map
     /**
      * Builds the collection from dependency parser result for given class.
      *
-     * @param string $classname The name of the class to parse dependencies for
+     * @param string $className The name of the class to parse dependencies for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return Doozr_Di_Collection The build collection
      */
-    public function generate($classname)
+    public function generate($className)
     {
         // Set input
         $this->getParser()->setInput(
-            ['classname' => $classname]
+            ['className' => $className]
         );
 
         // Add dependencies to collection

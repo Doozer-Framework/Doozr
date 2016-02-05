@@ -76,9 +76,9 @@ class Doozr_Loader_Classloader extends Doozr_Base_Class
     Doozr_Loader_Interface
 {
     /**
-     * Returns an instance of classname passed.
+     * Returns an instance of className passed.
      *
-     * @param string $classname   Name of class to return instance of
+     * @param string $className   Name of class to return instance of
      * @param array  $arguments   Arguments to pass
      * @param null   $singleton   Whether the class is singleton
      * @param null   $constructor Name of constructor method
@@ -87,8 +87,8 @@ class Doozr_Loader_Classloader extends Doozr_Base_Class
      *
      * @return object Instance created
      */
-    public static function load($classname, $arguments = null, $singleton = null, $constructor = null)
+    public static function load($className, $arguments = null, $singleton = null, $constructor = null)
     {
-        return self::instantiate($classname, $arguments, $constructor, $singleton);
+        return self::instantiate($className, $arguments, $constructor, $singleton);
     }
 }

@@ -156,7 +156,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
         // Get arguments generic way rip off 1st this is the service name
         $arguments            = array_slice(func_get_args(), 1);
         $fullQualifiedService = self::getFullQualifiedService($service);
-        $classname            = $fullQualifiedService['namespace'].
+        $className            = $fullQualifiedService['namespace'].
             '_'.ucfirst($fullQualifiedService['name']).'_Service';
 
         // Instantiated?
@@ -168,14 +168,14 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
         // Generate map from annotations in source of current service main entry
         self::$map
             ->reset()
-            ->generate($classname);
+            ->generate($className);
 
         // Store map
         self::$registry->getContainer()->addToMap(self::$map);
 
         // Create instance ...
         /* @var $instance Doozr_Base_Service_Interface */
-        $instance = self::$registry->getContainer()->build($classname, $arguments);
+        $instance = self::$registry->getContainer()->build($className, $arguments);
 
         // Decide which identifier to use
         $identifier = strtolower(

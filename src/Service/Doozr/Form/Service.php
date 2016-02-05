@@ -377,6 +377,9 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
      */
     public function isHandable()
     {
+        echo 'FAIL!!!!!!!!';
+        die;
+
         // Assume that request is not! handable by Doozr_Form_Service -> The API does only share some parts with MVP def
         $handable = false;
 
@@ -432,10 +435,15 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
      */
     protected function formHandlerFactory($scope, array $arguments, $requestMethod, $angularDirectives)
     {
+        /*
         $collection = new Doozr_Di_Collection();
         $importer   = new Doozr_Di_Importer_Json();
         $dependency = new Doozr_Di_Dependency();
         $map        = new Doozr_Di_Map_Static($collection, $importer, $dependency);
+        */
+
+        // Get container instance from registry
+        $map = self::getRegistry()->getContainer()->getMap();
 
         // Generate map from static JSON map of Doozr
         $map->generate($this->retrievePathToCurrentClass().'.map.json');

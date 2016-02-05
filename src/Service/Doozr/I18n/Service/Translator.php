@@ -928,7 +928,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
         include_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/'.
             $this->getTranslatorInterface().'.php';
 
-        // Combine classname
+        // Combine className
         $interfaceClass = 'Doozr_I18n_Service_Interface_'.$this->getTranslatorInterface();
 
         // Instantiate and return instance

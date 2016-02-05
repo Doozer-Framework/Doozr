@@ -258,7 +258,7 @@ class Doozr_Base_Tools extends Doozr_Base_Development
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return object Instance of the class ($classname) requested
+     * @return object Instance of the class ($className) requested
      */
     protected static function instantiate($className, $arguments = null, $constructor = null, $includeFilename = null)
     {

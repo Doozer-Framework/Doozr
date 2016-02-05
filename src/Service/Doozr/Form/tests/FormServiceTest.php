@@ -136,7 +136,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         // Set random custom fieldname
         self::$service->setFieldnameToken($fieldname);
 
-        // Now check for successful setted value
+        // Now check for successful stored value
         $this->assertSame(
             $fieldname,
             self::$service->getFieldnameToken()
@@ -162,7 +162,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         // Set random custom fieldname
         self::$service->setFieldnameSubmitted($fieldname);
 
-        // Now check for successful setted value
+        // Now check for successful stored value
         $this->assertSame(
             $fieldname,
             self::$service->getFieldnameSubmitted()
@@ -187,7 +187,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         // Set random custom fieldname
         self::$service->setFieldnameStep($fieldname);
 
-        // Now check for successful setted value
+        // Now check for successful stored value
         $this->assertSame(
             $fieldname,
             self::$service->getFieldnameStep()
@@ -212,7 +212,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         // Set random custom fieldname
         self::$service->setFieldnameSteps($fieldname);
 
-        // Now check for successful setted value
+        // Now check for successful stored value
         $this->assertSame(
             $fieldname,
             self::$service->getFieldnameSteps()
