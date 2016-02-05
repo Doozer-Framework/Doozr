@@ -97,8 +97,8 @@ class Doozr_Base_Development
      * Works with instance methods and static methods.
      *
      * @param mixed      $class           Name of the class to profile or an existing instance
-     * @param string     $methodname      Name of the method to profile
-     * @param array|null $methodarguments Arguments to pass to the function
+     * @param string     $methodName      Name of the method to profile
+     * @param array|null $methodArguments Arguments to pass to the function
      * @param int        $invocations     Number of times to call the method
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -107,7 +107,7 @@ class Doozr_Base_Development
      *
      * @throws Doozr_Exception
      */
-    public function profile($class, $methodname, array $methodarguments = null, $invocations = 1)
+    public function profile($class, $methodName, array $methodArguments = null, $invocations = 1)
     {
         if (true === is_object($class)) {
             $className = get_class($class);
@@ -121,7 +121,7 @@ class Doozr_Base_Development
             }
         }
 
-        $method   = new \ReflectionMethod($className, $methodname);
+        $method   = new \ReflectionMethod($className, $methodName);
         $instance = null;
 
         if (true === $method->isStatic()) {
@@ -139,10 +139,10 @@ class Doozr_Base_Development
         for ($i = 0; $i < $invocations; ++$i) {
             $start = microtime(true);
 
-            if (is_null($methodarguments)) {
+            if (is_null($methodArguments)) {
                 $method->invoke($instance);
             } else {
-                $method->invokeArgs($instance, $methodarguments);
+                $method->invokeArgs($instance, $methodArguments);
             }
 
             $durations[] = microtime(true) - $start;
@@ -154,8 +154,8 @@ class Doozr_Base_Development
 
         return $this->profilingDetails([
             'class'       => $className,
-            'method'      => $methodname,
-            'arguments'   => $methodarguments,
+            'method'      => $methodName,
+            'arguments'   => $methodArguments,
             'duration'    => $duration,
             'invocations' => $invocations,
         ]);

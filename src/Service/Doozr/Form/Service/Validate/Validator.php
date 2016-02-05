@@ -186,8 +186,8 @@ class Doozr_Form_Service_Validate_Validator
                 $validationValues = null;
             }
 
-            // construct internal methodname by type
-            $validationMethod = $this->getValidationMethodnameByType($validationType);
+            // construct internal methodName by type
+            $validationMethod = $this->getValidationMethodNameByType($validationType);
 
             // call validationmethod with value as parameter
             if (!$this->{$validationMethod}($value, $this->currentValidationtypes[$validationType])) {
@@ -929,13 +929,13 @@ class Doozr_Form_Service_Validate_Validator
      *
      * This method is intend to return the name of the validation-method by given validationtype.
      *
-     * @param string $validationtype The validationtype to return methodname for
+     * @param string $validationtype The validationtype to return methodName for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The constructed Methodname
+     * @return string The constructed MethodName
      */
-    protected function getValidationMethodnameByType($validationtype)
+    protected function getValidationMethodNameByType($validationtype)
     {
         return 'validate'.ucfirst($validationtype);
     }
