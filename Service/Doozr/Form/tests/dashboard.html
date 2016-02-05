@@ -179,7 +179,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#methodCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,6], "Method Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,7], "Method Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -230,7 +230,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Cyclomatic Complexity');
 
     d3.select('#classComplexity svg')
-      .datum(getComplexityData([[100,6,"<a href=\"FormServiceTest.php.html#77\">FormServiceTest<\/a>"]], 'Class Complexity'))
+      .datum(getComplexityData([[100,7,"<a href=\"FormServiceTest.php.html#78\">FormServiceTest<\/a>"]], 'Class Complexity'))
       .transition()
       .duration(500)
       .call(chart);
@@ -255,7 +255,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Method Complexity');
 
     d3.select('#methodComplexity svg')
-      .datum(getComplexityData([[100,1,"<a href=\"FormServiceTest.php.html#91\">FormServiceTest::setUp<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#114\">FormServiceTest::convertLocale<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#126\">FormServiceTest::testFieldnameToken<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#139\">FormServiceTest::testFieldnameSubmitted<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#152\">FormServiceTest::testFieldnameStep<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#165\">FormServiceTest::testFieldnameSteps<\/a>"]], 'Method Complexity'))
+      .datum(getComplexityData([[100,1,"<a href=\"FormServiceTest.php.html#92\">FormServiceTest::setUp<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#113\">FormServiceTest::convertLocale<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#125\">FormServiceTest::testFieldnameToken<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#151\">FormServiceTest::testFieldnameSubmitted<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#177\">FormServiceTest::testFieldnameStep<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#202\">FormServiceTest::testFieldnameSteps<\/a>"],[100,1,"<a href=\"FormServiceTest.php.html#227\">FormServiceTest::testFormHandler<\/a>"]], 'Method Complexity'))
       .transition()
       .duration(500)
       .call(chart);

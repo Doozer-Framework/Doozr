@@ -58,7 +58,7 @@
        </div>
 </td>
       <td class="danger small"><div align="right">0.00%</div></td>
-      <td class="danger small"><div align="right">0&nbsp;/&nbsp;12</div></td>
+      <td class="danger small"><div align="right">0&nbsp;/&nbsp;16</div></td>
      </tr>
 
      <tr>
@@ -79,7 +79,7 @@
        </div>
 </td>
       <td class="danger small"><div align="right">0.00%</div></td>
-      <td class="danger small"><div align="right">0&nbsp;/&nbsp;12</div></td>
+      <td class="danger small"><div align="right">0&nbsp;/&nbsp;14</div></td>
      </tr>
 
 
@@ -146,7 +146,7 @@
      <tr><td><div align="right"><a name="57"></a><a href="#57">57</a></div></td><td class="codeLine"><span class="comment">|&nbsp;BEGIN&nbsp;EMULATING&nbsp;LINUX&nbsp;(UNIX)&nbsp;ONLY&nbsp;FUNCTIONALITY&nbsp;FOR&nbsp;OTHER&nbsp;OS'</span></td></tr>
      <tr><td><div align="right"><a name="58"></a><a href="#58">58</a></div></td><td class="codeLine"><span class="comment">+---------------------------------------------------------------------------------------------------------------------*/</span></td></tr>
      <tr><td><div align="right"><a name="59"></a><a href="#59">59</a></div></td><td class="codeLine"></td></tr>
-     <tr><td><div align="right"><a name="60"></a><a href="#60">60</a></div></td><td class="codeLine"><span class="keyword">if</span><span class="default">&nbsp;</span><span class="keyword">(</span><span class="keyword">!</span><span class="default">function_exists</span><span class="keyword">(</span><span class="default">'getallheaders'</span><span class="keyword">)</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">{</span></td></tr>
+     <tr class="danger"><td><div align="right"><a name="60"></a><a href="#60">60</a></div></td><td class="codeLine"><span class="keyword">if</span><span class="default">&nbsp;</span><span class="keyword">(</span><span class="keyword">!</span><span class="default">function_exists</span><span class="keyword">(</span><span class="default">'getallheaders'</span><span class="keyword">)</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">{</span></td></tr>
      <tr><td><div align="right"><a name="61"></a><a href="#61">61</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span></td></tr>
      <tr><td><div align="right"><a name="62"></a><a href="#62">62</a></div></td><td class="codeLine"><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;getallheaders&nbsp;&nbsp;adds&nbsp;getallheader()-Support&nbsp;to&nbsp;Apache&nbsp;and&nbsp;other&nbsp;Webservers</span></td></tr>
      <tr><td><div align="right"><a name="63"></a><a href="#63">63</a></div></td><td class="codeLine"><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;on&nbsp;Windows-based&nbsp;OS'.&nbsp;This&nbsp;method&nbsp;originally&nbsp;is&nbsp;only&nbsp;available&nbsp;on&nbsp;Unix/Linux-</span></td></tr>
@@ -158,7 +158,7 @@
      <tr><td><div align="right"><a name="69"></a><a href="#69">69</a></div></td><td class="codeLine"><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@access&nbsp;public</span></td></tr>
      <tr><td><div align="right"><a name="70"></a><a href="#70">70</a></div></td><td class="codeLine"><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span></td></tr>
      <tr><td><div align="right"><a name="71"></a><a href="#71">71</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">getallheaders</span><span class="keyword">(</span><span class="keyword">)</span></td></tr>
-     <tr><td><div align="right"><a name="72"></a><a href="#72">72</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">{</span></td></tr>
+     <tr class="danger"><td><div align="right"><a name="72"></a><a href="#72">72</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">{</span></td></tr>
      <tr><td><div align="right"><a name="73"></a><a href="#73">73</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">//&nbsp;holds&nbsp;the&nbsp;headers&nbsp;to&nbsp;return</span></td></tr>
      <tr class="danger"><td><div align="right"><a name="74"></a><a href="#74">74</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$headers</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="keyword">[</span><span class="keyword">]</span><span class="keyword">;</span></td></tr>
      <tr><td><div align="right"><a name="75"></a><a href="#75">75</a></div></td><td class="codeLine"></td></tr>
@@ -178,8 +178,8 @@
      <tr><td><div align="right"><a name="89"></a><a href="#89">89</a></div></td><td class="codeLine"></td></tr>
      <tr><td><div align="right"><a name="90"></a><a href="#90">90</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">//&nbsp;return&nbsp;the&nbsp;result</span></td></tr>
      <tr class="danger"><td><div align="right"><a name="91"></a><a href="#91">91</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span class="default">&nbsp;</span><span class="default">$headers</span><span class="keyword">;</span></td></tr>
-     <tr class="warning"><td><div align="right"><a name="92"></a><a href="#92">92</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
-     <tr><td><div align="right"><a name="93"></a><a href="#93">93</a></div></td><td class="codeLine"><span class="keyword">}</span></td></tr>
+     <tr class="danger"><td><div align="right"><a name="92"></a><a href="#92">92</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
+     <tr class="danger"><td><div align="right"><a name="93"></a><a href="#93">93</a></div></td><td class="codeLine"><span class="keyword">}</span></td></tr>
 
     </tbody>
    </table>
