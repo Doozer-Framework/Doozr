@@ -53,7 +53,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Exception.php';
 
 /**
  * Doozr - Service - Crypt.
@@ -70,31 +70,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Crypt_Service_Exception extends Doozr_Exception
+class Doozr_Crypt_Service_Exception extends Doozr_Base_Service_Exception
 {
-    /**
-     * Constructor.
-     *
-     * @param string $message  The exception-message
-     * @param int    $code     The code of the exception
-     * @param object $previous The previous exception thrown - AS_OF: PHP 5.3 introduced!
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return \Doozr_Crypt_Service_Exception instance of this exception
-     */
-    public function __construct($message = null, $code = 0, $previous = null)
-    {
-        // add prefix to message
-        $message = 'Doozr_Crypt_Service: '.$message;
-
-        // check default code = 0
-        $code = (!$code) ? 0 : $code;
-
-        // get final code
-        $code = $this->generateUniqueCode($this->file, $code);
-
-        // dispatch to parent
-        parent::__construct($message, $code, $previous);
-    }
+    // Intentionally left empty
 }

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Formcomponent.php - This abstract base class is used for extending the default
  * HTML component Doozr_Form_Service_Html and provides generic form field/component
@@ -46,17 +47,18 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * This abstract base class is used for extending the default
  * HTML component Doozr_Form_Service_Html and provides generic form field/component
@@ -64,12 +66,13 @@
  * functionality like getName(), setName() ... on top!
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Service_Component_Html
@@ -77,59 +80,52 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
     Doozr_Form_Service_Component_Interface_Form
 {
     /**
-     * The validations of this component
+     * The validations of this component.
      *
      * @var array
-     * @access protected
      */
     protected $validation = [];
 
     /**
      * Status if component is capable of
-     * submitting multiple values
+     * submitting multiple values.
      *
      * @var bool
-     * @access protected
      */
     protected $multiValue = false;
 
     /**
-     * Validity of this component
+     * Validity of this component.
      *
      * @var array
-     * @access protected
      */
     protected $valid = true;
 
     /**
-     * The value here is handled slightly different from other components
+     * The value here is handled slightly different from other components.
      *
      * @var string
-     * @access protected
      */
     protected $value;
 
     /**
-     * The submitted value
+     * The submitted value.
      *
      * @var mixed
-     * @access protected
      */
     protected $submittedValue;
 
     /**
-     * Mark this component as generic
+     * Mark this component as generic.
      *
      * @var string
-     * @access protected
      */
     protected $type = Doozr_Form_Service_Constant::COMPONENT_GENERIC;
 
     /**
-     * A validator instance used to validate this component
+     * A validator instance used to validate this component.
      *
      * @var Doozr_Form_Service_Validator_Interface
-     * @access protected
      */
     protected $validator;
 
@@ -140,8 +136,6 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @param Doozr_Form_Service_Validator_Interface $validator The validator instance which validates this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Form_Service_Component_Formcomponent
-     * @access public
      */
     public function __construct(
         Doozr_Form_Service_Renderer_Interface $renderer = null,
@@ -165,8 +159,6 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @param string $type The type to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setType($type)
     {
@@ -177,8 +169,8 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Getter for type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The type if set, otherwise NULL
-     * @access public
      */
     public function getType()
     {
@@ -191,8 +183,8 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @param Doozr_Form_Service_Validator_Interface $validator The validator instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Form_Service_Validator_Interface The validator instance
-     * @access public
      */
     public function setValidator(Doozr_Form_Service_Validator_Interface $validator)
     {
@@ -203,8 +195,8 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Getter for validator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Form_Service_Validator_Interface The validator instance
-     * @access public
      */
     public function getValidator()
     {
@@ -215,8 +207,8 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Returns the validity state of the form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if valid, otherwise FALSE
-     * @access public
      */
     public function isValid()
     {
@@ -231,8 +223,6 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @param null|string $value      The value for validation or NULL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function addValidation($validation, $value = null)
     {
@@ -250,12 +240,13 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @param null|string $value      The value for validation or NULL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function validation($validation, $value = null)
     {
         $this->addValidation($validation, $value);
+
         return $this;
     }
 
@@ -263,8 +254,8 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Getter for validation.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Validations as array
-     * @access public
      */
     public function getValidation()
     {
@@ -272,15 +263,13 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
     }
 
     /**
-     * Setter for name
+     * Setter for name.
      *
      * Sets the name of this component.
      *
      * @param string $name The name of the component to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setName($name)
     {
@@ -293,8 +282,8 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Returns the name of an component.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The name of the component as string, otherwise NULL if not set
-     * @access public
      */
     public function getName()
     {
@@ -307,8 +296,6 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @param mixed $value The submitted value of this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setSubmittedValue($value)
     {
@@ -319,8 +306,8 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Getter for submitted value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Submitted value of the component
-     * @access public
      */
     public function getSubmittedValue()
     {
@@ -333,8 +320,6 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @param mixed $value The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setValue($value)
     {
@@ -345,8 +330,8 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Getter for value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The value as string if set, otherwise NULL
-     * @access public
      */
     public function getValue()
     {

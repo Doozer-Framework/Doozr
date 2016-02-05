@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Textarea.php - More specialized version of a form component.
  *
@@ -43,39 +44,39 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Textarea.php - More specialized version of a form component.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
      * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string ""
+     * e.g. "input" or "form". Default empty string "".
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_TEXTAREA;
 
@@ -89,8 +90,6 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * @param string $autofocus The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAutofocus($autofocus = null)
     {
@@ -101,8 +100,8 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * Getter for autofocus.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The value if set, otherwise NULL
-     * @access public
      */
     public function getAutofocus()
     {
@@ -115,8 +114,6 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * @param string $cols The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setCols($cols)
     {
@@ -127,8 +124,8 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * Getter for cols.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The value if set, otherwise NULL
-     * @access public
      */
     public function getCols()
     {
@@ -141,8 +138,6 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * @param string $disabled The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDisabled($disabled = 'disabled')
     {
@@ -153,8 +148,8 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * Getter for disabled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The value if set, otherwise NULL
-     * @access public
      */
     public function getDisabled()
     {
@@ -167,8 +162,6 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * @param string $form The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setForm($form)
     {
@@ -179,8 +172,8 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * Getter for form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The value if set, otherwise NULL
-     * @access public
      */
     public function getForm()
     {
@@ -193,8 +186,6 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * @param string $maxlength The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMaxlength($maxlength)
     {
@@ -205,8 +196,8 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * Getter for max-length.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The value if set, otherwise NULL
-     * @access public
      */
     public function getMaxlength()
     {
@@ -219,8 +210,6 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * @param string $rows The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setRows($rows)
     {
@@ -231,8 +220,8 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * Getter for rows.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The value if set, otherwise NULL
-     * @access public
      */
     public function getRows()
     {
@@ -245,8 +234,6 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * @param string $wrap The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setWrap($wrap)
     {
@@ -257,8 +244,8 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * Getter for wrap.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The value if set, otherwise NULL
-     * @access public
      */
     public function getWrap()
     {
@@ -271,8 +258,6 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * @param mixed $value The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setValue($value)
     {
@@ -285,8 +270,8 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
      * Getter for value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Value of this element
-     * @access public
      */
     public function getValue()
     {

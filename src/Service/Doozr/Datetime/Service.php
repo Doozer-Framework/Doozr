@@ -94,7 +94,7 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
      *
      * @return  void
      * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __tearup()
     {
@@ -154,7 +154,7 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
      *
      * @return  string The time in requested format
      * @access  public
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function getTime($format = 'H:i:s')
     {

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Html.php - HTML Renderer. Renders a components setup to HTML.
  *
@@ -43,29 +44,30 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Renderer/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Renderer/Abstract.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * HTML Renderer. Renders a components setup to HTML.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstract
@@ -77,28 +79,28 @@ class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstr
     /**
      * Renders a passed templates with variables childs and attributes.
      *
-     * @param bool $force      TRUE to force rerendering, FALSE to accept cached result
-     * @param array   $template   The template to render
-     * @param string  $tag        The tag of the element to render
-     * @param array   $variables  The variables to use for rendering
-     * @param array   $childs     The child elements
-     * @param array   $attributes The attributes
-     * @param string  $innerHtml
+     * @param bool   $force      TRUE to force rerendering, FALSE to accept cached result
+     * @param array  $template   The template to render
+     * @param string $tag        The tag of the element to render
+     * @param array  $variables  The variables to use for rendering
+     * @param array  $childs     The child elements
+     * @param array  $attributes The attributes
+     * @param string $innerHtml
      *
      * @internal param $string %innerHtml  The inner HTML of the component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The rendered result
-     * @access public
      */
     public function render(
-        $force            = false,
-        $template         = [],
-        $tag              = '',
-        array $variables  = [],
-        array $childs     = [],
+        $force = false,
+        $template = [],
+        $tag = '',
+        array $variables = [],
+        array $childs = [],
         array $attributes = [],
-              $innerHtml  = ''
+              $innerHtml = ''
     ) {
         // Render childs if any attached
         if (count($childs) > 0) {
@@ -111,19 +113,19 @@ class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstr
         // Set template variables for our default template
         $templateVariables = array_merge(
             $variables,
-            array(
+            [
                 'attributes' => $attributesCollected,
-                'tag'        => $tag
-            )
+                'tag'        => $tag,
+            ]
         );
 
         $html = $this->_tpl($template, $templateVariables);
 
         // if inner HTML was passed render this as well
         if ($innerHtml !== null) {
-            $variables = array(
-                'inner-html' => $innerHtml
-            );
+            $variables = [
+                'inner-html' => $innerHtml,
+            ];
 
             $html = $this->_tpl($html, $variables);
         }
@@ -145,8 +147,8 @@ class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstr
      * @param array $attributes The atributes to prepare
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The rendered result
-     * @access public
      */
     protected function prepareAttributes(array $attributes)
     {
@@ -155,10 +157,10 @@ class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstr
         foreach ($attributes as $attribute => $value) {
             // Check value-less attributes to be embedded properly
             if ($value === null) {
-                $attributesCollected .= ' ' . $attribute;
+                $attributesCollected .= ' '.$attribute;
             } else {
                 $value = (is_array($value)) ? $value[0] : $value;
-                $attributesCollected .= ' ' . $attribute . '="' . $value . '"';
+                $attributesCollected .= ' '.$attribute.'="'.$value.'"';
             }
         }
 
@@ -166,14 +168,14 @@ class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstr
     }
 
     /**
-     * Renders the HTML of the childs attached
+     * Renders the HTML of the childs attached.
      *
-     * @param array   $childs The childs attached
-     * @param bool $force  TRUE to force rerendering, otherwise FALSE to use cache
+     * @param array $childs The childs attached
+     * @param bool  $force  TRUE to force rerendering, otherwise FALSE to use cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The rendered result
-     * @access public
      */
     protected function renderChilds(array $childs = [], $force)
     {

@@ -127,6 +127,13 @@ class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
     const CIPHER_INVALID = 'DES';
 
     /**
+     * Invalid encoding to test exception.
+     *
+     * @var string
+     */
+    const ENCODING_INVALID = 'Base63';
+
+    /**
      * Prepares setup for Tests of "Crypt".
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -195,5 +202,16 @@ class CryptServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testExceptionOnInvalidCipher()
     {
         Doozr_Loader_Serviceloader::load(self::$serviceName, self::CIPHER_INVALID);
+    }
+
+    /**
+     * Test: If instance fails with Exception due to a invalid encoding passed to constructor
+     *
+     * @expectedException Doozr_Crypt_Service_Exception
+     * @expectedExceptionCode 5200
+     */
+    public function testExceptionOnInvalidEncoding()
+    {
+        Doozr_Loader_Serviceloader::load(self::$serviceName, null, self::ENCODING_INVALID);
     }
 }
