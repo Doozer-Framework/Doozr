@@ -87,7 +87,7 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
     protected $dateTime;
 
     /**
-     * Replacement for __construct
+     * Service entry point.
      *
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!

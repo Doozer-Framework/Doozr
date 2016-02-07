@@ -413,7 +413,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
     const DEFAULT_SEC_FLAG_HTTPONLY = false;
 
     /**
-     * Replacement for __construct.
+     * Service entry point.
      *
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!

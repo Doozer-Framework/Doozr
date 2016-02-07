@@ -211,10 +211,10 @@ abstract class Doozr_Di_Map
             );
         }
 
-        // now we connect our map-recipe with existing (real) instances
+        // Now we connect our map-recipe with existing (real) instances
         $this->wireDependenciesWithInstances($matrix);
 
-        // success
+        // Success
         return true;
     }
 
@@ -257,8 +257,6 @@ abstract class Doozr_Di_Map
             if (true === isset($setup['dependencies'])) {
                 // Iterate every dependency for current id
                 foreach ($setup['dependencies'] as $recipe) {
-
-
 
                     // Clone base dependency object so we don't need a new operator here
                     /* @todo Replace next line with Di $this->getRegistry()->getContainer()->build('doozr.form.service.dependency'); */

@@ -136,7 +136,7 @@ class Doozr_Crypt_Service extends Doozr_Base_Service_Multiple_Facade
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor replacement.
+     * Service entry point.
      *
      * @param string $cipher   Cipher (container) for en-/decryption
      * @param string $encoding Encoding used for output

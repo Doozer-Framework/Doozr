@@ -3,9 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Map - Interface.
+ * Doozr - Request - Web.
  *
- * Interface.php - Interface map class of Di.
+ * Web.php - Handles requests arrived via a real webserver.
  *
  * PHP versions 5.5
  *
@@ -51,18 +51,14 @@
  *
  * @version    Git: $Id$
  *
- * @link       https://github.com/clickalicious/Di
+ * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Factory.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Container.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Dependency.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Web.php';
 
 /**
- * Doozr - Di - Map - Interface.
+ * Doozr - Request - Web.
  *
- * Interface map class of Di.
+ * Handles requests arrived via a real webserver.
  *
  * @category   Doozr
  *
@@ -70,26 +66,26 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
  *
- * @link       https://github.com/clickalicious/Di
+ * @version    Git: $Id$
+ *
+ * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Di_Map_Interface
+class Doozr_Request_Cli extends Doozr_Request_Web
 {
-    /**
-     * Builds the collection from dependency parser result for given class.
-     *
-     * @param mixed $source The source to generate map from
-     *
-     * @return mixed
-     */
-    public function generate($source = null);
+    /*------------------------------------------------------------------------------------------------------------------
+    | FULFILL: @see Doozr_Request_Interface
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Wire
+     * Receive method.
      *
-     * @param int   $mode   Mode to use for wiring
-     * @param array $matrix Wire matrix containing instances to wire
+     * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return mixed
+     * @return bool TRUE on success, otherwise FALSE
      */
-    public function wire(array $matrix = [], $mode = Doozr_Di_Constants::WIRE_MODE_AUTOMATIC);
+    public function receive()
+    {
+        echo 11111;
+        die;
+    }
 }

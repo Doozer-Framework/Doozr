@@ -879,6 +879,21 @@ if (false === function_exists('is_ssl')) {
     }
 }
 
+// Check if method already exists
+if (false === function_exists('microseconds')) {
+    /**
+     * Returns microseconds.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return int Microseconds
+     */
+    function microseconds()
+    {
+        return (int)gettimeofday()['usec'];
+    }
+}
+
 /*----------------------------------------------------------------------------------------------------------------------
 | LINUX EMULATION IF WE RUN ON WINDOWS OS'
 +---------------------------------------------------------------------------------------------------------------------*/

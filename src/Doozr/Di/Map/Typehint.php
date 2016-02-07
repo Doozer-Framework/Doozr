@@ -53,7 +53,8 @@
  *
  * @link       https://github.com/clickalicious/Di
  */
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/ap.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map/Interface.php';
 
 /**
  * Doozr - Di - Map - Typehint.
@@ -69,6 +70,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/ap.php';
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Map_Typehint extends Doozr_Di_Map
+    implements
+    Doozr_Di_Map_Interface
 {
     /**
      * Annotation parser instance.
@@ -105,17 +108,17 @@ class Doozr_Di_Map_Typehint extends Doozr_Di_Map
     /**
      * Builds the collection from dependency parser result for given class.
      *
-     * @param string $className The name of the class to parse dependencies for
+     * @param string $source Name of the class to parse dependencies for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Di_Collection The build collection
+     * @return void
      */
-    public function generate($className)
+    public function generate($source = null)
     {
         // Set input
         $this->getParser()->setInput(
-            ['className' => $className]
+            ['className' => $source]
         );
 
         // Add dependencies to collection

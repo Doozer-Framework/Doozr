@@ -260,7 +260,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
     const PHP_STREAM_COPY_ALL = 2000000;
 
     /**
-     * replacement for __construct
+     * Service entry point.
      *
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!

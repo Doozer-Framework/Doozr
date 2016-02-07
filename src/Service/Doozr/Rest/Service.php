@@ -83,7 +83,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
 class Doozr_Rest_Service extends Doozr_Base_Service_Multiple implements Doozr_Base_Service_Interface
 {
     /**
-     * Constructor.
+     * Service entry point.
      *
      * @param array   $route
      * @param int     $countRootNodes The count of root nodes (e.g. 2 on /Foo/Bar/Demo/Screen/ means

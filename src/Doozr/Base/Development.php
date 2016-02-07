@@ -137,7 +137,7 @@ class Doozr_Base_Development
         $durations = [];
 
         for ($i = 0; $i < $invocations; ++$i) {
-            $start = microtime(true);
+            $start = microseconds();
 
             if (is_null($methodArguments)) {
                 $method->invoke($instance);
@@ -145,18 +145,27 @@ class Doozr_Base_Development
                 $method->invokeArgs($instance, $methodArguments);
             }
 
-            $durations[] = microtime(true) - $start;
+            $durations[] = microseconds() - $start;
         }
 
-        $duration['total']   = round(array_sum($durations), 4);
-        $duration['average'] = round($duration['total'] / count($durations), 4);
-        $duration['worst']   = round(max($durations), 4);
+        $total = round(array_sum($durations), 8);
 
         return $this->profilingDetails([
-            'class'       => $className,
-            'method'      => $methodName,
-            'arguments'   => $methodArguments,
-            'duration'    => $duration,
+            'class'     => $className,
+            'method'    => $methodName,
+            'arguments' => $methodArguments,
+            'duration'  => [
+                'microseconds' => [
+                    'total'   => $total,
+                    'average' => round($total / count($durations), 8),
+                    'worst'   => round(max($durations), 8),
+                ],
+                'seconds' => [
+                    'total'   => $total / 1000,
+                    'average' => round($total / 1000 / count($durations), 8),
+                    'worst'   => round(max($durations) / 1000, 8),
+                ],
+            ],
             'invocations' => $invocations,
         ]);
     }
@@ -178,13 +187,12 @@ class Doozr_Base_Development
             $countInvocations = $details['invocations'];
 
             if (1 === $countInvocations) {
-                $report = sprintf('%s took %ss', $methodName, $details['duration']['average']);
-
+                $report = sprintf('%s took %ss', $methodName, $details['duration']['microseconds']['average']);
             } else {
                 $report = sprintf('%s was invoked %s times\n', $methodName, $countInvocations);
-                $report .= sprintf('Total duration:   %ss\n', $details['duration']['total']);
-                $report .= sprintf('Average duration: %ss\n', $details['duration']['average']);
-                $report .= sprintf('Worst duration:   %ss\n', $details['duration']['worst']);
+                $report .= sprintf('Total duration:   %sms\n', $details['duration']['microseconds']['total']);
+                $report .= sprintf('Average duration: %sms\n', $details['duration']['microseconds']['average']);
+                $report .= sprintf('Worst duration:   %sms\n', $details['duration']['microseconds']['worst']);
             }
 
             if (true === $print) {
@@ -192,7 +200,7 @@ class Doozr_Base_Development
             }
         }
 
-        return $details;
+        return $report;
     }
 
     /**
@@ -223,29 +231,23 @@ class Doozr_Base_Development
      */
     protected function invokedMethod()
     {
+        $result = null;
+
         // Existing profile profilingDetails ...
-        if (null !== $details = $this->getProfileDetails()) {
-            if ($this->profileStatic) {
+        if (null !== $details = $this->getProfilingDetails()) {
+            if (true === $this->profileStatic) {
                 $scopeResolution = '::';
             } else {
                 $scopeResolution = '->';
             }
 
-            if (null !== $this->getProfileDetails()['arguments']) {
+            if (null !== $this->getProfilingDetails()['arguments']) {
                 $arguments = implode(', ', $details['arguments']);
             } else {
                 $arguments = '';
             }
 
-            $result = sprintf(
-                '%s%s%s("%s")',
-                $details['class'],
-                $scopeResolution,
-                $details['method'],
-                $arguments
-            );
-        } else {
-            $result = null;
+            $result = sprintf('%s%s%s("%s")', $details['class'], $scopeResolution, $details['method'], $arguments);
         }
 
         return $result;

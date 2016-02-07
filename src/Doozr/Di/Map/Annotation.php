@@ -115,19 +115,21 @@ class Doozr_Di_Map_Annotation extends Doozr_Di_Map
     /**
      * Builds the collection from dependency parser result for given class.
      *
-     * @param string $className The name of the class to parse dependencies for
+     * @param string $source Name of the class to parse dependencies for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return void
      */
-    public function generate($className)
+    public function generate($source = null)
     {
         // set input
         $this->getParser()->setInput(
-            ['className' => $className]
+            ['className' => $source]
         );
 
         // Add these dependencies to collection
-        $this->addRawDependenciesToCollection($this->getParser()->parse(), $className);
+        $this->addRawDependenciesToCollection($this->getParser()->parse(), $source);
     }
 
     /*------------------------------------------------------------------------------------------------------------------

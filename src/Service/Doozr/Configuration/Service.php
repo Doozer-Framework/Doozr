@@ -135,8 +135,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend as replacement for __construct
-     * PLEASE DO NOT USE __construct() - make always use of __tearup()!
+     * Service entry point.
      *
      * @param string $type          The type of config container (Ini, Json, ...)
      * @param bool   $enableCaching TRUE to enable caching, FALSE to disable it

@@ -54,10 +54,7 @@
  * @link       https://github.com/clickalicious/Di
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Factory.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Container.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Dependency.php';
-require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map/Interface.php';
 
 /**
  * Doozr - Di - Map - Fluent.
@@ -73,6 +70,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Map_Fluent extends Doozr_Di_Map
+    implements
+    Doozr_Di_Map_Interface
 {
     /**
      * Current active className to add dependencies for.
@@ -130,17 +129,15 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
     /**
      * Empty container method to keep the interface consistent with other Doozr_Di_Map_* classes.
      *
-     * This method is intend as empty container method to keep the interface consistent with
-     * other Doozr_Di_Map_* classes.
+     * @param mixed $source The source to generate from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Di_Map_Fluent The current instance for chaining method calls
+     * @return Doozr_Di_Map_Fluent Current instance for chaining method calls
      */
-    public function generate()
+    public function generate($source = null)
     {
-        // empty container method to keep the interface consistent with
-        // Doozr_Di_Map_Static and Doozr_Di_Map_Fluent
+        // Empty container method for interface fulfillment (Doozr_Di_Map_Static, Doozr_Di_Map_Fluent)
         return $this;
     }
 
@@ -331,7 +328,6 @@ class Doozr_Di_Map_Fluent extends Doozr_Di_Map
 
         parent::wire($matrix, $mode);
 
-        // fluent interface
         return $this;
     }
 

@@ -229,7 +229,7 @@ class Doozr_Di_Container
             $map = $this->mergeMaps($existingMap, $map);
         }
 
-        self::$dependencyMaps[$this->getScope()] = $map;
+        $this->setDependencyMap($this->getScope(), $map);
     }
 
     /**
@@ -241,7 +241,7 @@ class Doozr_Di_Container
      */
     public function setMap(Doozr_Di_Map $map)
     {
-        self::$dependencyMaps[$this->getScope()] = $map;
+        $this->setDependencyMap($this->getScope(), $map);
     }
 
     /**
@@ -263,16 +263,16 @@ class Doozr_Di_Container
     /**
      * Returns the dependency map of this container.
      *
-     * This method is intend to return the dependency map instance of this
-     * container instance.
+     * This method is intend to return the dependency map instance of this container instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Di_Map The dependency map instance as Doozr_Di_Map if set, otherwise NULL
+     * @return Doozr_Di_Map_Interface|Doozr_Di_Map_Static|Doozr_Di_Map_Fluent|Doozr_Di_Map_Annotation|
+     *         Doozr_Di_Map_Typehint The dependency map instance as Doozr_Di_Map if set, otherwise NULL
      */
     public function getMap()
     {
-        return (isset(self::$dependencyMaps[$this->getScope()])) ? self::$dependencyMaps[$this->getScope()] : null;
+        return $this->getDependencyMap($this->getScope());
     }
 
     /**
@@ -284,23 +284,23 @@ class Doozr_Di_Container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Di_Map The dependency instance from another scope
+     * @return Doozr_Di_Map_Interface The dependency instance from another scope
      *
      * @throws Doozr_Di_Exception
      */
     public function getMapFromOtherScope($scope)
     {
-        if (!isset(self::$dependencyMaps[$scope])) {
+        if (null === $map = $this->getDependencyMap($scope)) {
             throw new Doozr_Di_Exception(
                 sprintf(
-                    'Dependency-Map could not be found. Dependency-Map with scope "%s" does not exist.',
+                    'Dependency map could not be found. Dependency map for scope "%s" does not exist.',
                     $scope
                 )
             );
         }
 
-        // return requested map
-        return self::$dependencyMaps[$scope];
+        // Return requested map
+        return $map;
     }
 
     /**
@@ -314,7 +314,7 @@ class Doozr_Di_Container
      */
     public function importMapFromOtherScope($scope)
     {
-        self::$dependencyMaps[$this->getScope()] = $this->getMapFromOtherScope($scope);
+        $this->setDependencyMap($this->getScope(), $this->getMapFromOtherScope($scope));
     }
 
     /**
@@ -514,5 +514,27 @@ class Doozr_Di_Container
     protected static function addInstanceToCache($id, $instance)
     {
         self::$cache[$id] = $instance;
+    }
+
+
+
+    /**
+     *
+     */
+    public function setDependencyMap($identifier, Doozr_Di_Map_Interface $map)
+    {
+        self::$dependencyMaps[$identifier] = $map;
+    }
+
+    public function dependencyMap($identifier, Doozr_Di_Map_Interface $map)
+    {
+        $this->setDependencyMap($identifier, $map);
+
+        return $this;
+    }
+
+    public function getDependencyMap($identifier)
+    {
+        return (true === isset(self::$dependencyMaps[$identifier])) ? self::$dependencyMaps[$identifier] : null;
     }
 }

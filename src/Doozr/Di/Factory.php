@@ -99,7 +99,7 @@ final class Doozr_Di_Factory
     /**
      * An registry interface compatible store for loading and storing instances.
      *
-     * @var Doozr_Registry_Interface
+     * @var Doozr_Registry
      */
     protected $registry;
 
@@ -181,7 +181,7 @@ final class Doozr_Di_Factory
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Registry_Interface Registry if set, otherwise NULL
+     * @return Doozr_Registry Registry if set, otherwise NULL
      */
     protected function getRegistry()
     {

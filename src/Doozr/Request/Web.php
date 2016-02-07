@@ -131,7 +131,7 @@ class Doozr_Request_Web extends Doozr_Request
         );
 
         // HTTP Version of the request made
-        $protocolVersion = explode('/', $_SERVER['SERVER_PROTOCOL']);
+        $protocolVersion = explode('/', (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : '/');
 
         // Store protocol version
         $this->withProtocolVersion(

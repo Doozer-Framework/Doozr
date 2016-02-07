@@ -264,7 +264,7 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
 
 
     /**
-     * constructs the class.
+     * Service entry point.
      *
      * constructor builds the class
      *

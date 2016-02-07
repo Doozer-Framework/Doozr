@@ -189,7 +189,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     const SCOPE_DEFAULT = 'doozr.cache';
 
     /**
-     * Constructor.
+     * Service entry point.
      *
      * @param string $container        Container to use for caching or a collection with priority to try
      * @param string $scope            Scope to group saved/cached elements under

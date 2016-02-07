@@ -114,7 +114,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      *
      * @var string
      */
-    const DEFAULT_NAMESPACE = 'Doozr';
+    const DEFAULT_NAMESPACE = DOOZR_NAMESPACE;
 
     /**
      * The default alias for skeleton.
@@ -157,7 +157,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
         $arguments            = array_slice(func_get_args(), 1);
         $fullQualifiedService = self::getFullQualifiedService($service);
         $className            = $fullQualifiedService['namespace'].
-            '_'.ucfirst($fullQualifiedService['name']).'_Service';
+                                '_'.ucfirst($fullQualifiedService['name']).'_Service';
 
         // Instantiated?
         (self::$instance === null) ? self::init() : null;
@@ -179,9 +179,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
 
         // Decide which identifier to use
         $identifier = strtolower(
-            ($fullQualifiedService['alias'] !== null) ?
-                $fullQualifiedService['alias'] :
-                $fullQualifiedService['name']
+            ($fullQualifiedService['alias'] !== null) ? $fullQualifiedService['alias'] : $fullQualifiedService['name']
         );
 
         // Register service and put the UUID as reference into response
@@ -235,9 +233,9 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
     protected static function initDependencyInjection()
     {
         // Get required dependency container for annotations!
-        require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map/Annotation.php';
-        require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Parser/Annotation.php';
-        require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Dependency.php';
+        include_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map/Annotation.php';
+        include_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Parser/Annotation.php';
+        include_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Dependency.php';
 
         $collection = new Doozr_Di_Collection();
         $parser     = new Doozr_Di_Parser_Annotation();
@@ -350,7 +348,7 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      */
     protected static function getServiceFile($service, $namespace = self::DEFAULT_NAMESPACE)
     {
-        return self::getServicePath($service, $namespace).'Service.php';
+        return self::getServicePath($service, $namespace).DIRECTORY_SEPARATOR.'Service.php';
     }
 
     /**
@@ -366,9 +364,9 @@ class Doozr_Loader_Serviceloader extends Doozr_Base_Class_Singleton
      * @return string The full path to the service library file.
      * @static
      */
-    protected static function getServicePath($service, $namespace = self::DEFAULT_NAMESPACE)
+    public static function getServicePath($service, $namespace = self::DEFAULT_NAMESPACE)
     {
         return DOOZR_DOCUMENT_ROOT.'Service'.DIRECTORY_SEPARATOR.$namespace.DIRECTORY_SEPARATOR.
-            $service.DIRECTORY_SEPARATOR;
+               ucfirst($service);
     }
 }

@@ -56,7 +56,6 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Test/Abstract.php';
 
 use Faker\Factory as FakerFactory;
-use Carbon\Carbon;
 
 /**
  * Doozr - Form - Service - Test
@@ -92,6 +91,42 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
     public function setUp()
     {
         self::$serviceName = 'Form';
+
+        /** INIT */
+        static $status;
+
+        // Function has already run
+        if (null === $status) {
+            // Get container instance from registry
+            $map = self::$registry->getContainer()->getMap();
+
+            // File containing mappings
+            $file = Doozr_Loader_Serviceloader::getServicePath('form').DIRECTORY_SEPARATOR.'.map.json';
+
+            // Generate map from static JSON map of Doozr
+            $map->generate($file);
+
+            // Get container instance from registry
+            $container = self::$registry->getContainer();
+
+            // Add map to existing maps in container
+            $container->addToMap($map);
+
+            // Create container and set factory and map
+            $container->getMap()->wire(
+                [
+                    'doozr.i18n.service'          => Doozr_Loader_Serviceloader::load('i18n'),
+                    'doozr.form.service.store'    => new Doozr_Form_Service_Store_UnitTest(),
+                    'doozr.form.service.renderer' => new Doozr_Form_Service_Renderer_Html(),
+                ]
+            );
+
+            self::$registry->setContainer($container);
+
+            $status = 1;
+        }
+
+        /** END INIT */
 
         parent::setUp();
 
@@ -226,6 +261,14 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testFormHandler()
     {
+        /*
+        $request = new Doozr_Request_Cli(
+            new Doozr_Request_State()
+        );
+        dump($request);
+        die;
+        */
+
         // Generate, set & test getting a custom fieldname
         $scope = self::$faker->word();
         $formHandler = self::$service->getFormHandler($scope);

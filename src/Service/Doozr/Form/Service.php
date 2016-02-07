@@ -59,6 +59,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Constant.php';
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Validate/Constant.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
 
+use Psr\Http\Message\ServerRequestInterface;
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
@@ -114,48 +115,52 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     protected $fieldnameSteps;
 
     /**
-     * Session service instance.
+     * Name of field in form for TOKEN transfer.
      *
-     * @var Doozr_Session_Service|null
+     * @var string
      */
-    protected $session;
+    const FIELD_TOKEN = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN;
 
     /**
-     * Constructor replacement.
+     * Name of field in form for SUBMITTED status transfer.
      *
-     * @param Doozr_Session_Service_Interface $session        Instance of Service Session
-     * @param string                          $fieldnameToken Name of the field for "token" value
+     * @var string
+     */
+    const FIELD_SUBMITTED = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
+
+    /**
+     * Name of field in form for STEP transfer.
+     *
+     * @var string
+     */
+    const FIELD_STEP = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP;
+
+    /**
+     * Name of field in form for STEPS transfer.
+     *
+     * @var string
+     */
+    const FIELD_STEPS = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
+
+    /**
+     * Service entry point.
+     *
+     * @param string $fieldnameToken     Name of form field for "token" value
+     * @param string $fieldnameSubmitted Name of form field for "submitted" value
+     * @param string $fieldnameStep      Name of form field for "step" value
+     * @param string $fieldnameSteps     Name of form field for "steps" value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return bool TRUE On success, otherwise FALSE
      */
     public function __tearup(
-        Doozr_Session_Service_Interface $session = null,
-    # HERE ADD: Renderer Inject,
-        $fieldnameToken = null,
-        $fieldnameSubmitted = null,
-        $fieldnameStep = null,
-        $fieldnameSteps = null
+        $fieldnameToken     = self::FIELD_TOKEN,
+        $fieldnameSubmitted = self::FIELD_SUBMITTED,
+        $fieldnameStep      = self::FIELD_STEP,
+        $fieldnameSteps     = self::FIELD_STEPS
     ) {
-        if (null === $fieldnameToken) {
-            $fieldnameToken = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN;
-        }
-
-        if (null === $fieldnameSubmitted) {
-            $fieldnameSubmitted = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
-        }
-
-        if (null === $fieldnameStep) {
-            $fieldnameStep = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP;
-        }
-
-        if (null === $fieldnameSteps) {
-            $fieldnameSteps = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
-        }
-
         $this
-            ->session($session)
             ->fieldnameToken($fieldnameToken)
             ->fieldnameSubmitted($fieldnameSubmitted)
             ->fieldnameStep($fieldnameStep)
@@ -167,46 +172,6 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     /*------------------------------------------------------------------------------------------------------------------
     | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Setter for session.
-     *
-     * @param Doozr_Session_Service $session The session service instance
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    public function setSession(Doozr_Session_Service $session = null)
-    {
-        $this->session = $session;
-    }
-
-    /**
-     * Setter for session.
-     *
-     * @param Doozr_Session_Service $session The session service instance
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    public function session(Doozr_Session_Service $session = null)
-    {
-        $this->setSession($session);
-
-        return $this;
-    }
-
-    /**
-     * Getter for session.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return Doozr_Session_Service|null The instance if set, otherwise NULL
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
 
     /**
      * Setter for fieldname token.
@@ -371,29 +336,27 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     /**
      * Returns name of form handable if current request is handable by Doozr_Form_Service, otherwise FALSE.
      *
+     * @param ServerRequestInterface $request Psr request instance for getting information from
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string|bool The name of the form which is handable by Doozr_Form_Service if exist, otherwise FALSE
      */
-    public function isHandable()
+    public function isHandable(ServerRequestInterface $request = null)
     {
-        echo 'FAIL!!!!!!!!';
-        die;
-
         // Assume that request is not! handable by Doozr_Form_Service -> The API does only share some parts with MVP def
         $handable = false;
 
-        /* @var $requestState Doozr_Request_State */
-        $requestState = $this->getRegistry()->request;
-
         // Get required input to search in ...
-        $requestArguments = $requestState->getQueryParams();
-        $requestBody      = $requestState->getRequestBody();
+        $requestArguments = $request->getQueryParams();
+        $requestBody      = $request->getBody();
 
-        if (isset($requestArguments->{$this->getFieldnameSubmitted()}) === true) {
-            $handable = $requestArguments->{$this->getFieldnameSubmitted()};
-        } elseif (isset($requestBody->{$this->getFieldnameSubmitted()}) === true) {
-            $handable = $requestBody->{$this->getFieldnameSubmitted()};
+        if (true === isset($requestArguments[$this->getFieldnameSubmitted()])) {
+            $handable = $requestArguments[$this->getFieldnameSubmitted()];
+
+        } elseif (true === isset($requestBody[$this->getFieldnameSubmitted()])) {
+            $handable = $requestBody[$this->getFieldnameSubmitted()];
+
         }
 
         return $handable;
@@ -413,8 +376,8 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
      */
     public function getFormHandler(
               $scope,
-        array $arguments = [],
-              $requestMethod = null,
+        array $arguments         = [],
+              $requestMethod     = null,
               $angularDirectives = false
     ) {
         // Return form handler from factory
@@ -431,38 +394,10 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return \Doozr_Form_Service_FormHandler
+     * @return \Doozr_Form_Service_FormHandler Instance of form handler full ready to process forms
      */
     protected function formHandlerFactory($scope, array $arguments, $requestMethod, $angularDirectives)
     {
-        /*
-        $collection = new Doozr_Di_Collection();
-        $importer   = new Doozr_Di_Importer_Json();
-        $dependency = new Doozr_Di_Dependency();
-        $map        = new Doozr_Di_Map_Static($collection, $importer, $dependency);
-        */
-
-        // Get container instance from registry
-        $map = self::getRegistry()->getContainer()->getMap();
-
-        // Generate map from static JSON map of Doozr
-        $map->generate($this->retrievePathToCurrentClass().'.map.json');
-
-        // Get container instance from registry
-        $container = self::getRegistry()->getContainer();
-
-        // Add map to existing maps in container
-        $container->addToMap($map);
-
-        // Create container and set factory and map
-        $container->getMap()->wire(
-            [
-                'doozr.i18n.service'          => Doozr_Loader_Serviceloader::load('i18n'),
-                'doozr.form.service.store'    => new Doozr_Form_Service_Store_UnitTest(),
-                'doozr.form.service.renderer' => new Doozr_Form_Service_Renderer_Html(),
-            ]
-        );
-
         /* @var Doozr_Form_Service_FormHandler $formHandler */
         return self::$registry->getContainer()->build(
             'doozr.form.service.formhandler',

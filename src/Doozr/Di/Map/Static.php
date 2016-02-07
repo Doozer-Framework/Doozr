@@ -55,6 +55,7 @@
  * @link       https://github.com/clickalicious/Di
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map/Interface.php';
 
 /**
  * Doozr - Di - Map - Static.
@@ -71,6 +72,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Map.php';
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Map_Static extends Doozr_Di_Map
+    implements
+    Doozr_Di_Map_Interface
 {
     /**
      * Instance of Doozr_Di_Importer_Interface.
@@ -110,16 +113,20 @@ class Doozr_Di_Map_Static extends Doozr_Di_Map
     /**
      * Generates the dependency map from passed filename (JSON).
      *
-     * @param string $filename The name of the JSON formatted file to parse dependencies from
+     * @param string $source Name of the JSON-formatted file to parse dependencies from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
      */
-    public function generate($filename)
+    public function generate($source = null)
     {
-        $this->getImporter()->setInput($filename);
+        $this->getImporter()->setInput($source);
 
         // Add these dependencies to collection
         $this->addRawDependenciesToCollection($this->getImporter()->import());
+
+        return $this;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
