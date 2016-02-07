@@ -115,34 +115,6 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     protected $fieldnameSteps;
 
     /**
-     * Name of field in form for TOKEN transfer.
-     *
-     * @var string
-     */
-    const FIELD_TOKEN = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN;
-
-    /**
-     * Name of field in form for SUBMITTED status transfer.
-     *
-     * @var string
-     */
-    const FIELD_SUBMITTED = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
-
-    /**
-     * Name of field in form for STEP transfer.
-     *
-     * @var string
-     */
-    const FIELD_STEP = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP;
-
-    /**
-     * Name of field in form for STEPS transfer.
-     *
-     * @var string
-     */
-    const FIELD_STEPS = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
-
-    /**
      * Service entry point.
      *
      * @param string $fieldnameToken     Name of form field for "token" value
@@ -155,11 +127,32 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
      * @return bool TRUE On success, otherwise FALSE
      */
     public function __tearup(
-        $fieldnameToken     = self::FIELD_TOKEN,
-        $fieldnameSubmitted = self::FIELD_SUBMITTED,
-        $fieldnameStep      = self::FIELD_STEP,
-        $fieldnameSteps     = self::FIELD_STEPS
+        $fieldnameToken     = null,
+        $fieldnameSubmitted = null,
+        $fieldnameStep      = null,
+        $fieldnameSteps     = null
     ) {
+        // Check for default fallback ...
+        if (null === $fieldnameToken) {
+            $fieldnameToken = Doozr_Form_Service_Constant::PREFIX.
+                              Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN;
+        }
+
+        if (null === $fieldnameSubmitted) {
+            $fieldnameSubmitted = Doozr_Form_Service_Constant::PREFIX.
+                                  Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
+        }
+
+        if (null === $fieldnameStep) {
+            $fieldnameStep = Doozr_Form_Service_Constant::PREFIX.
+                             Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP;
+        }
+
+        if (null === $fieldnameSteps) {
+            $fieldnameSteps = Doozr_Form_Service_Constant::PREFIX.
+                              Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS;
+        }
+
         $this
             ->fieldnameToken($fieldnameToken)
             ->fieldnameSubmitted($fieldnameSubmitted)
