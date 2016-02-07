@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Input.php - Contract for all HTML/DOM components. This contract garantues
  * that a class using this interface is renderable through render() can take
@@ -46,17 +47,18 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Contract for all HTML/DOM components. This contract garantues
  * that a class using this interface is renderable through render() can take
@@ -64,24 +66,23 @@
  * that a call on render() will return the HTML for the whole component.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Form_Service_Component_Interface_Input
 {
     /**
-     * Sets the HTML input element property "autocapitalize"
+     * Sets the HTML input element property "autocapitalize".
      *
      * @param bool $state The state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAutocapitalize($state);
 
@@ -89,8 +90,8 @@ interface Doozr_Form_Service_Component_Interface_Input
      * Returns the autocapitalize state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if autocapitalize is on, otherwise FALSE
-     * @access public
      */
     public function getAutocapitalize();
 
@@ -100,8 +101,6 @@ interface Doozr_Form_Service_Component_Interface_Input
      * @param string $type The type to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setType($type);
 
@@ -109,8 +108,8 @@ interface Doozr_Form_Service_Component_Interface_Input
      * Getter for type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The type if set, otherwise NULL
-     * @access public
      */
     public function getType();
 
@@ -120,8 +119,6 @@ interface Doozr_Form_Service_Component_Interface_Input
      * @param string $listname The name of the list the input refers to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setList($listname);
 
@@ -129,8 +126,8 @@ interface Doozr_Form_Service_Component_Interface_Input
      * Returns the list the component is bound to.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The name of the list this component is bound to, NULL if not bound
-     * @access public
      */
     public function getList();
 

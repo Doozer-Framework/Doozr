@@ -277,7 +277,7 @@ class Doozr_Http_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
     const REQUEST_SLEEP_BETWEEN = 0.2;
 
     /**
-     * Constructor replacement for services of Doozr Framework
+     * Service entry point.
      *
      * @param null|string $host     The name/IP of the host to connect to
      * @param int         $port     The port to connect to

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Importer - Interface
+ * Doozr - Di - Importer - Interface.
  *
  * Interface.php - Contract for all Importers of the Di library. Every compatible
  * Importer must implement this Interface.
@@ -44,27 +45,28 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
 
 /**
- * Doozr - Di - Importer - Interface
+ * Doozr - Di - Importer - Interface.
  *
  * Contract for all Importers of the Di library. Every compatible
  * Importer must implement this Interface.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  */
 interface Doozr_Di_Importer_Interface
@@ -72,8 +74,7 @@ interface Doozr_Di_Importer_Interface
     /**
      * Imports.
      *
-     * @return mixed Can be either bool signalize success or error, or even a result
-     * @access public
+     * @return array Array result
      */
     public function import();
 
@@ -81,7 +82,6 @@ interface Doozr_Di_Importer_Interface
      * Exports.
      *
      * @return mixed
-     * @access public
      */
     public function export();
 
@@ -89,9 +89,6 @@ interface Doozr_Di_Importer_Interface
      * Setter for input.
      *
      * @param mixed $input The input to set
-     *
-     * @return void
-     * @access public
      */
     public function setInput($input);
 
@@ -99,7 +96,6 @@ interface Doozr_Di_Importer_Interface
      * Getter for input.
      *
      * @return mixed The input set, otherwise NULL
-     * @access public
      */
     public function getInput();
 }

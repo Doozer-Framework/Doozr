@@ -5,7 +5,7 @@
 /**
  * Doozr - I18n - Service - Localize - Abstract
  *
- * Abstract.php - Abstract base class for formatter of the I18n module
+ * Abstract.php - Abstract base class for formatter of the I18n service
  *
  * PHP versions 5.5
  *
@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 /**
  * Doozr - I18n - Service - Localize - Abstract
  *
- * Abstract base class for Localizeter of the I18n module
+ * Abstract base class for Localizeter of the I18n service
  *
  * @category   Doozr
  *

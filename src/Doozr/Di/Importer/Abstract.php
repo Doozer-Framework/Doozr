@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Importer - Abstract
+ * Doozr - Di - Importer - Abstract.
  *
  * Abstract.php - Abstract base for importers of the Di Library. This base class
  * provides functionality for ...
@@ -44,26 +45,27 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
 
 /**
- * Doozr - Di - Importer - Abstract
+ * Doozr - Di - Importer - Abstract.
  *
  * Di abstract base class for importer.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  * @abstract
  */
@@ -73,7 +75,6 @@ abstract class Doozr_Di_Importer_Abstract
      * Input.
      *
      * @var mixed
-     * @access protected
      */
     protected $input;
 
@@ -81,7 +82,6 @@ abstract class Doozr_Di_Importer_Abstract
      * Content.
      *
      * @var mixed
-     * @access protected
      */
     protected $content;
 
@@ -90,15 +90,13 @@ abstract class Doozr_Di_Importer_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Sets the content of the current instance
+     * Sets the content of the current instance.
      *
      * This method is intend to set the content of dependencies of the current instance.
      *
      * @param mixed $content The content to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setContent($content)
     {
@@ -106,15 +104,15 @@ abstract class Doozr_Di_Importer_Abstract
     }
 
     /**
-     * Fluent: Sets the content of the current instance
+     * Fluent: Sets the content of the current instance.
      *
      * This method is intend to set the content of dependencies of the current instance.
      *
      * @param mixed $content The content to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function content($content)
     {
@@ -124,13 +122,13 @@ abstract class Doozr_Di_Importer_Abstract
     }
 
     /**
-     * Returns the content of the current instance
+     * Returns the content of the current instance.
      *
      * This method is intend to return the content of dependencies of the current instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The content of dependencies
-     * @access public
      */
     public function getContent()
     {
@@ -143,8 +141,6 @@ abstract class Doozr_Di_Importer_Abstract
      * @param mixed $input The input to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setInput($input)
     {
@@ -160,8 +156,8 @@ abstract class Doozr_Di_Importer_Abstract
      * @param mixed $input The input to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function input($input)
     {
@@ -174,8 +170,8 @@ abstract class Doozr_Di_Importer_Abstract
      * Getter for input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The input
-     * @access public
      */
     public function getInput()
     {
@@ -183,19 +179,18 @@ abstract class Doozr_Di_Importer_Abstract
     }
 
     /**
-     * Resets the input
+     * Resets the input.
      *
      * This method is intend to reset the input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
     public function reset()
     {
         $this->input = null;
 
-        // Fluent / chaining
         return $this;
     }
 
@@ -204,15 +199,16 @@ abstract class Doozr_Di_Importer_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Reads content from given file
+     * Reads content from given file.
      *
      * This method is intend to read content from given file and store it in $content.
      *
      * @param string $file The file to read from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The function returns the read data or false on failure.
-     * @access protected
+     *
      * @throws Doozr_Di_Exception
      */
     protected function readFile($file)

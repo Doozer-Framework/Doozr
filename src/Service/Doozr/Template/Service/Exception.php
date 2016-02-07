@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Service Template
+ * Doozr - Service - Template.
  *
- * Exception - Exception of Doozr Service Template
+ * Exception.php - Base exception of service "Template"
  *
  * PHP versions 5.5
  *
@@ -43,58 +44,33 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Template
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Exception.php';
 
 /**
- * Doozr Service Template
+ * Doozr - Service - Template.
  *
- * Exception of Doozr Service Template
+ * Base exception of service "Template"
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Template
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Template_Service_Exception extends Doozr_Exception
+class Doozr_Template_Service_Exception extends Doozr_Base_Service_Exception
 {
-    /**
-     * Overrides parents constructor to add context to each exception of type:
-     * Service_Doozr_Template_Exception
-     *
-     * This method is intend to override parents constructor to add context to each exception.
-     *
-     * @param string  $message  The exception-message
-     * @param int $code     The code of the exception
-     * @param object  $previous The previous exception thrown - AS_OF: PHP 5.3 introduced !
-     *
-     * @return \Doozr_Template_Service_Exception instance of this class
-     * @author  Benjamin Carl <opensource@clickalicious.de>
-     * @access  public
-     */
-    public function __construct($message = null, $code = 0, $previous = null)
-    {
-        // if no message set set => throw us again
-        if (!$message) {
-            throw new $this('Exception => "'.get_class($this).'" without message!');
-        }
-
-        // add context to message!
-        $message = 'Service-Exception => Doozr_Template: '.$message;
-
-        // call parents constructor
-        parent::__construct($message, $code, $previous);
-    }
+    // Intentionally left empty
 }

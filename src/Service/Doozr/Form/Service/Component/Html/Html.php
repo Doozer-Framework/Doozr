@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Class Doozr_Form_Service_Component_Html_Html is a basic HTML-Component
  * which provides some simple rendering and templating capabilities.
@@ -45,32 +46,33 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Html/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Html.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Html/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface/Html.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Class Doozr_Form_Service_Component_Html_Html is a basic HTML-Component
  * which provides some simple rendering and templating capabilities.
  * It's a concrete implementation which extends the HTML-skeleton abstract.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
@@ -84,10 +86,9 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     /**
      * The observers references.
      * Is array on default so that a access as array
-     * won't fail till construction
+     * won't fail till construction.
      *
      * @var SplObjectStorage
-     * @access protected
      */
     protected $observers = [];
 
@@ -98,15 +99,13 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * which must not be valid in an other context!
      *
      * @var string
-     * @access protected
      */
     protected $template = Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_CLOSING;
 
     /**
-     * The inner HTML string
+     * The inner HTML string.
      *
      * @var string
-     * @access protected
      */
     protected $innerHtml = '';
 
@@ -115,7 +114,6 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * is forced to render again = override cache!
      *
      * @var string
-     * @access protected
      */
     protected $html;
 
@@ -123,8 +121,8 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Form_Service_Component_Html_Html
-     * @access public
      */
     public function __construct()
     {
@@ -143,8 +141,9 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * @param bool $force TRUE to override primitive caching (FALSE = default)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed|string
-     * @access public
+     *
      * @see    tpl(), $template
      */
     public function render($force = false)
@@ -154,36 +153,34 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
 
         // Render only if not already rendered OR if forced
         if ($this->html === null || $force === true) {
-
             foreach ($this->attributes as $attribute => $value) {
 
                 // check value-less attributes to be embedded properly
                 if ($value === null) {
-                    $attributes .= ' ' . $attribute;
+                    $attributes .= ' '.$attribute;
                 } else {
                     $value = (is_array($value)) ? $value[0] : $value;
-                    $attributes .= ' ' . $attribute . '="' . $value . '"';
+                    $attributes .= ' '.$attribute.'="'.$value.'"';
                 }
             }
 
             // Set template variables for our default template
-            $templateVariables = array(
+            $templateVariables = [
                 'attributes' => $attributes,
-                'tag'        => $this->tag
-            );
+                'tag'        => $this->tag,
+            ];
 
             $html = $this->tpl($this->template, $templateVariables);
 
             if ($this->innerHtml !== null) {
-
-                $variables = array(
-                    'inner-html' => $this->innerHtml
-                );
+                $variables = [
+                    'inner-html' => $this->innerHtml,
+                ];
 
                 $html = $this->tpl($html, $variables);
             }
 
-            $this->html = $html . PHP_EOL;
+            $this->html = $html.PHP_EOL;
         }
 
         return $this->html;
@@ -195,8 +192,8 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * an component rendered.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The result of render()
-     * @access public
      */
     public function __toString()
     {
@@ -204,13 +201,11 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     }
 
     /**
-     * Setter for $html which is originally filled by render(); -> override
+     * Setter for $html which is originally filled by render(); -> override.
      *
      * @param string $html The HTML to set override
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setHtml($html = '')
     {
@@ -218,11 +213,11 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     }
 
     /**
-     * Getter for $html
+     * Getter for $html.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null HTML as string if set, otherwise NULL
-     * @access public
      */
     public function getHtml()
     {
@@ -235,8 +230,6 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * @param string $template The template to use for rendering HTML
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setTemplate($template)
     {
@@ -247,8 +240,8 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * Getter for template.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The template of the component
-     * @access public
      */
     public function getTemplate()
     {
@@ -261,8 +254,6 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * @param string $key The name of the attribute
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function removeAttribute($key)
     {
@@ -286,14 +277,14 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * @param array  $templateVariables The variables used for replace
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The result
-     * @access protected
      */
     protected function tpl($template, array $templateVariables)
     {
         // micro templating engine
         foreach ($templateVariables as $templateVariable => $value) {
-            $template = str_replace('{{' . strtoupper($templateVariable) . '}}', $value, $template);
+            $template = str_replace('{{'.strtoupper($templateVariable).'}}', $value, $template);
         }
 
         return $template;
@@ -307,7 +298,7 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * Magic implementation to prevent us spamming the class
      * body with thousands of getters and setters for all those
      * special attributes that exist. Like id, name, style, on...
-     * and so on. This basic implementation transforms calls like
+     * and so on. This basic implementation transforms calls like.
      *
      * @example
      *  - getName() <=> getAttribute('name');
@@ -318,6 +309,7 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * @param $arguments The arguments passed while calling $method
      *
      * @return null|void
+     *
      * @throws Doozr_Form_Service_Exception
      */
     public function __call($method, $arguments)
@@ -334,10 +326,9 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
             !isset($methodSplitted[1])
         ) {
             trigger_error(
-                'Call to undefined function: ' . $method . '. Arguments: ' . var_export($arguments, true) . PHP_EOL
+                'Call to undefined function: '.$method.'. Arguments: '.var_export($arguments, true).PHP_EOL
                 #'Callstack: '.var_export(, true)
             );
-
         }
 
         // extract the property from call
@@ -346,7 +337,6 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
         // dispatch to correct method
         if ($methodSplitted[0] === 'get') {
             return $this->getAttribute($property);
-
         } else {
             if (count($arguments) === 0) {
                 $arguments[0] = null;
@@ -377,7 +367,7 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
                     break;
                 case 'integer':
                 case 'double':
-                    $output = (string)$input;
+                    $output = (string) $input;
                     break;
                 case 'object':
                 case 'array':
@@ -400,12 +390,9 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      *----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Attach a observer which is notified about changes
+     * Attach a observer which is notified about changes.
      *
      * @param SplObserver $observer The observer to attach
-     *
-     * @return void
-     * @access public
      */
     public function attach(SplObserver $observer)
     {
@@ -413,12 +400,9 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     }
 
     /**
-     * Detaches an observer from this instance
+     * Detaches an observer from this instance.
      *
      * @param SplObserver $observer
-     *
-     * @return void
-     * @access public
      */
     public function detach(SplObserver $observer)
     {
@@ -429,9 +413,6 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
      * Notifies the attached observers about changes by
      * calling the observers update() method by passing
      * the current instance to it.
-     *
-     * @return void
-     * @access public
      */
     public function notify()
     {
@@ -455,12 +436,11 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
 
     /**
      * Returns the information about the existence
-     * of a passed offset as boolean (TRUE|FALSE)
+     * of a passed offset as boolean (TRUE|FALSE).
      *
      * @param mixed $offset The offset to check
      *
      * @return bool
-     * @access public
      */
     public function offsetExists($offset)
     {
@@ -468,12 +448,11 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     }
 
     /**
-     * Returns the value for a passed offset
+     * Returns the value for a passed offset.
      *
      * @param mixed $offset The offset to return value for
      *
      * @return mixed|null The value for the attribute if exist, otherwise NULL
-     * @access public
      */
     public function offsetGet($offset)
     {
@@ -481,13 +460,10 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     }
 
     /**
-     * Sets a new offset and its value
+     * Sets a new offset and its value.
      *
      * @param mixed $offset The offset to set
      * @param mixed $value  The value to set
-     *
-     * @return void
-     * @access public
      */
     public function offsetSet($offset, $value)
     {
@@ -497,12 +473,9 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     }
 
     /**
-     * Removes an offset
+     * Removes an offset.
      *
      * @param mixed $offset The offset to remove
-     *
-     * @return void
-     * @access public
      */
     public function offsetUnset($offset)
     {

@@ -85,13 +85,13 @@ interface Doozr_Loader_Autoloader_Interface
      *
      * This method is intend to load the given class or interface.
      *
-     * @param string $classname The name of the class to load.
+     * @param string $className The name of the class to load.
      *
      * @return void
      * @access public
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function load($classname);
+    public function load($className);
 
     /**
      * returns the active UID

@@ -101,7 +101,7 @@ class Doozr_Oauth2_Service extends Doozr_Base_Service_Multiple_Facade implements
     const CONTAINER_PDO = 'PDO';
 
     /**
-     * Constructor.
+     * Service entry point.
      *
      * @param int $mode The runtimeEnvironment of this service instance (can be either server or client)
      *

@@ -198,7 +198,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor for services.
+     * Service entry point.
      *
      * This method is a replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!

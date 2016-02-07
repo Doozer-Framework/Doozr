@@ -71,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Generic.php';
 class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
 {
     /**
-     * The type of the exception (is in 99% the classname)
+     * The type of the exception (is in 99% the className)
      *
      * @var string
      * @access public

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Abstract.php Class Doozr_Form_Service_Component_Html_Abstract is
  * a simple basic HTML-Component in an abstract form.
@@ -44,28 +45,30 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Class Doozr_Form_Service_Component_Html_Abstract is
  * a simple basic HTML-Component in an abstract form.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
@@ -76,7 +79,6 @@ abstract class Doozr_Form_Service_Component_Html_Abstract
      * e.g. BODY, HR, H1, SPAN ...
      *
      * @var string
-     * @access protected
      */
     protected $tag;
 
@@ -84,35 +86,30 @@ abstract class Doozr_Form_Service_Component_Html_Abstract
      * Is this a self-closing tag?
      *
      * @var bool
-     * @access protected
      */
     protected $selfClosing = false;
 
     /**
-     * The HTML-Version this component is for/from
+     * The HTML-Version this component is for/from.
      *
      * @var int
-     * @access protected
      */
     protected $htmlVersion = Doozr_Form_Service_Constant::HTML_VERSION_5;
 
     /**
-     * The HTML-Version this component is for/from
+     * The HTML-Version this component is for/from.
      *
      * @var int
-     * @access protected
      */
     protected $attributes = [];
 
     /**
-     * Setter for attributes[]
+     * Setter for attributes[].
      *
      * @param string      $key   The name of the attribute
      * @param null|string $value The value of the attribute
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAttribute($key, $value = null)
     {
@@ -120,25 +117,21 @@ abstract class Doozr_Form_Service_Component_Html_Abstract
     }
 
     /**
-     * Getter for attributes[]
+     * Getter for attributes[].
      *
      * @param $key The name of the attribute
      *
      * @return null|mixed The attributes value if set, otherwise NULL
-     * @access public
      */
     public function getAttribute($key)
     {
-        return (isset($this->attributes[$key]) ? $this->attributes[$key] : null);
+        return isset($this->attributes[$key]) ? $this->attributes[$key] : null;
     }
 
     /**
-     * Setter for an array of attributes[]
+     * Setter for an array of attributes[].
      *
      * @param array $attributes The attributes to set as an array
-     *
-     * @return void
-     * @access public
      */
     public function setAttributes(array $attributes)
     {
@@ -148,7 +141,7 @@ abstract class Doozr_Form_Service_Component_Html_Abstract
     }
 
     /**
-     * Getter for attributes[]
+     * Getter for attributes[].
      *
      * @return array|int
      */

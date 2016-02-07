@@ -1,6 +1,6 @@
 <?php
 /**
- * Object_Freezer
+ * Object_Freezer.
  *
  * Copyright (c) 2008-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -34,21 +34,22 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @since      File available since Release 1.0.0
  */
 
 /**
  * Interface for generators of object hashes.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://github.com/sebastianbergmann/php-object-freezer/
  * @since      Interface available since Release 1.0.0
  */
@@ -57,7 +58,8 @@ interface Object_Freezer_HashGenerator
     /**
      * Returns a hash for an object.
      *
-     * @param  object $object The object that is to be hashed.
+     * @param object $object The object that is to be hashed.
+     *
      * @return string
      */
     public function getHash($object);
