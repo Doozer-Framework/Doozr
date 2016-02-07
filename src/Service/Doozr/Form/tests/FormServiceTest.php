@@ -261,17 +261,39 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
      */
     public function testFormHandler()
     {
-        /*
-        $request = new Doozr_Request_Cli(
-            new Doozr_Request_State()
-        );
-        dump($request);
-        die;
-        */
-
         // Generate, set & test getting a custom fieldname
         $scope = self::$faker->word();
-        $formHandler = self::$service->getFormHandler($scope);
+
+        // Clean
+        $formHandler = self::$service->getFormHandler(
+            $scope
+        );
+
         $this->assertInstanceOf('Doozr_Form_Service_FormHandler', $formHandler);
+        $this->assertEquals(1, $formHandler->getStep());
+        $this->assertFalse($formHandler->wasSubmitted());
+        $this->assertTrue($formHandler->isValid());
+    }
+
+    /**
+     * Test: If a FormHandler can be retrieved for a custom scope with submitted data.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function testFormHandlerSubmittedState()
+    {
+        // Generate, set & test getting a custom fieldname
+        $scope = self::$faker->word();
+
+        // Initially submitted
+        $formHandler = self::$service->getFormHandler(
+            $scope,
+            ['Doozr_Form_Service_Submitted' => $scope]
+        );
+
+        $this->assertInstanceOf('Doozr_Form_Service_FormHandler', $formHandler);
+        $this->assertEquals(2, $formHandler->getStep());
+        $this->assertTrue($formHandler->wasSubmitted());
+        $this->assertTrue($formHandler->isValid());
     }
 }

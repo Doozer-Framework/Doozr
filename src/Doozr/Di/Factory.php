@@ -407,11 +407,26 @@ final class Doozr_Di_Factory
                         $arguments[8],
                         $arguments[9],
                         $arguments[10]);
+                case 12:
+
+                    return new $className(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9],
+                        $arguments[10],
+                        $arguments[11]);
 
                 default:
                     throw new Doozr_Di_Exception(
                         sprintf(
-                            'Too much arguments passed to "%s". This method can handle up to 6 arguments. You passed '.
+                            'Too much arguments passed to "%s". This method can handle up to 12 arguments. You passed '.
                             '"%s". Please reduce arguments passed to constructor.',
                             __METHOD__,
                             $countArguments
@@ -664,7 +679,6 @@ final class Doozr_Di_Factory
         // Check if constructor is our common and well known __construct
         if (true === $reflectionClass->isInstantiable()) {
             $constructor = Doozr_Di_Constants::CONSTRUCTOR_METHOD;
-
         } else {
             // Only in other cases we need to parse ...
             $constructorCandidates = $reflectionClass->getMethods(ReflectionMethod::IS_STATIC);

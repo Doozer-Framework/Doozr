@@ -247,6 +247,7 @@ class Doozr_Form_Service_FormHandler
      * Constructor.
      *
      * @param string                                      $scope             Scope to operate on (name of form)
+     * @param Doozr_Registry                              $registry          Registry for Di and some other operations.
      * @param Doozr_I18n_Service_Interface                $i18n              I18n Translator instance if required
      * @param Doozr_Form_Service_Component_Input          $inputInstance     Input instance for cloning meta fields
      * @param Doozr_Form_Service_Component_Interface_Form $form              Form instance (the main object)
@@ -261,16 +262,17 @@ class Doozr_Form_Service_FormHandler
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(
-                                                    $scope             = Doozr_Form_Service_Constant::DEFAULT_SCOPE,
-        Doozr_I18n_Service_Interface                $i18n              = null,
-        Doozr_Form_Service_Component_Input          $inputInstance     = null,
-        Doozr_Form_Service_Component_Interface_Form $form              = null,
-        Doozr_Form_Service_Store_Interface          $store             = null,
-        Doozr_Form_Service_Renderer_Interface       $renderer          = null,
-        Doozr_Form_Service_Validate_Validator       $validator         = null,
-        Doozr_Form_Service_Validate_Error           $errorInstance     = null,
-        array                                       $arguments         = null,
-                                                    $requestMethod     = null,
+                                                    $scope = Doozr_Form_Service_Constant::DEFAULT_SCOPE,
+        Doozr_Registry                              $registry = null,
+        Doozr_I18n_Service_Interface                $i18n = null,
+        Doozr_Form_Service_Component_Input          $inputInstance = null,
+        Doozr_Form_Service_Component_Interface_Form $form = null,
+        Doozr_Form_Service_Store_Interface          $store = null,
+        Doozr_Form_Service_Renderer_Interface       $renderer = null,
+        Doozr_Form_Service_Validate_Validator       $validator = null,
+        Doozr_Form_Service_Validate_Error           $errorInstance = null,
+        array                                       $arguments = null,
+                                                    $requestMethod = null,
                                                     $angularDirectives = false
     ) {
         // Store instances for further use
@@ -356,7 +358,7 @@ class Doozr_Form_Service_FormHandler
                 // get current request
                 $arguments = $this->getArguments();
 
-                $fieldnameStep = Doozr_Form_Service_Constant::PREFIX.'Step';
+                $fieldnameStep = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP;
 
                 // try to get from last submit -> fallback to default of service
                 $step = (isset($arguments->{$fieldnameStep})) ?
@@ -415,15 +417,16 @@ class Doozr_Form_Service_FormHandler
 
         // and now check if submission identifier exists in current request
         if (
-            isset($submittedData->{$fieldnameStep}) &&
-            $submittedData->{$fieldnameStep} <= $registry['lastvalidstep']
+            true === isset($submittedData[$fieldnameStep]) &&
+            $submittedData[$fieldnameStep] <= $registry['lastvalidstep']
         ) {
-            $step = $submittedData->{$fieldnameStep};
+            $step = $submittedData[$fieldnameStep];
+
         } elseif (
-            isset($submittedData->{$fieldnameJump}) &&
+            true === isset($submittedData[$fieldnameJump]) &&
             $submittedData->{$fieldnameJump} <= $registry['lastvalidstep']
         ) {
-            $step = $submittedData->{$fieldnameJump};
+            $step = $submittedData[$fieldnameJump];
         }
 
         if ($this->wasSubmitted() && $this->isValid($step)) {
@@ -643,7 +646,6 @@ class Doozr_Form_Service_FormHandler
             try {
                 $i18n->useDomain($this->getScope());
                 $this->i18n = $i18n->getTranslator();
-
             } catch (Doozr_I18n_Service_Exception $exception) {
                 // Intentionally do nothing
             }
@@ -1203,11 +1205,11 @@ class Doozr_Form_Service_FormHandler
             $registry = $this->getStore()->read(
                 Doozr_Form_Service_Constant::PREFIX.$this->getScope()
             );
-        } catch (Doozr_Session_Service_Exception $e) {
+        } catch (Doozr_Form_Service_Exception $e) {
             // Nothing
         }
 
-        if ($registry === null && $default !== null) {
+        if (null === $registry && null !== $default) {
             $registry = $default;
         }
 
@@ -1233,9 +1235,10 @@ class Doozr_Form_Service_FormHandler
      */
     public function wasSubmitted()
     {
-        // check already done?
-        if ($this->submitted !== null) {
+        // Inline cache [expensive]
+        if (null !== $this->submitted) {
             $submitted = $this->submitted;
+
         } else {
             // assume not submitted
             $submitted = false;
@@ -1245,12 +1248,12 @@ class Doozr_Form_Service_FormHandler
 
             // build fieldname by pattern
             $fieldnameSubmissionStatus = Doozr_Form_Service_Constant::PREFIX.
-                Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
+                                         Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED;
 
             // and now check if submission identifier exists in current request
             if (
-                isset($submittedData->{$fieldnameSubmissionStatus}) &&
-                $submittedData->{$fieldnameSubmissionStatus} === $this->scope
+                true === isset($submittedData[$fieldnameSubmissionStatus]) &&
+                $this->getScope() === $submittedData[$fieldnameSubmissionStatus]
             ) {
                 $submitted = true;
             }
@@ -1273,19 +1276,21 @@ class Doozr_Form_Service_FormHandler
      */
     public function isValid($step = 1)
     {
-        // check already done?
-        if ($this->valid !== null) {
+        // Inline cache [expensive]
+        if (null !== $this->valid) {
             $valid = $this->valid;
+
         } else {
-            // check for submission
-            if ($this->wasSubmitted() === true) {
+            // Check for submission
+            if (true === $this->wasSubmitted()) {
                 $valid = $this->validate($step);
+
             } else {
-                // assume status valid if not submitted
+                // Assume status valid if not submitted
                 $valid = true;
             }
 
-            // store valid status for further faster accessing
+            // Store valid status for further faster accessing
             $this->valid = $valid;
         }
 
@@ -1385,7 +1390,7 @@ class Doozr_Form_Service_FormHandler
      */
     protected function validateRegistry()
     {
-        return $this->getRegistry() !== null;
+        return (null !== $this->getRegistry());
     }
 
     /**
@@ -1425,8 +1430,10 @@ class Doozr_Form_Service_FormHandler
      */
     protected function validate($step)
     {
-        // check if store i still valid - session can be timed out ...
-        if (!$this->validateRegistry()) {
+        // Check if store i still valid - session can be timed out ...
+        /*
+        if (false === $this->validateRegistry()) {
+
             $this->setError(
                 Doozr_Form_Service_Validate_Constant::ERROR_PREFIX.
                 Doozr_Form_Service_Validate_Constant::ERROR_STORE_INVALID,
@@ -1436,8 +1443,9 @@ class Doozr_Form_Service_FormHandler
             // @todo: Warning! A special case is a session which is invalid and stuck @ step 2,3,4 ... and not 1
             return false;
         }
+        */
 
-        // get store data
+        // Get store data
         $registry = $this->getRegistry(
             $this->getRegistrySkeleton()
         );
@@ -1445,7 +1453,7 @@ class Doozr_Form_Service_FormHandler
         // 2nd step of all check if correct method was used for submission
         if (strtolower($this->getRequestMethod()) !== strtolower($registry['method'])) {
             $this->setError(
-            // use array here -> I18n arguments as seoond key
+            // use array here -> I18n arguments as second key
                 [
                     'error' => Doozr_Form_Service_Validate_Constant::ERROR_PREFIX.
                         Doozr_Form_Service_Validate_Constant::ERROR_REQUESTTYPE_INVALID,
@@ -1464,7 +1472,7 @@ class Doozr_Form_Service_FormHandler
         }
 
         // 3rd step - validate token used for submit
-        if ($this->validateToken() !== true) {
+        if (true !== $this->validateToken()) {
             $this->handleInvalidToken($registry);
             $this->setError(
                 Doozr_Form_Service_Validate_Constant::ERROR_PREFIX.
@@ -1475,6 +1483,7 @@ class Doozr_Form_Service_FormHandler
         }
 
         // Get stored components
+        /*
         $stored = $this->getStore()->read(Doozr_Form_Service_Constant::PREFIX.$this->getScope());
 
         // 4th step - iterate fields and check for individual error(s) if one found
@@ -1494,6 +1503,7 @@ class Doozr_Form_Service_FormHandler
 
             return false;
         }
+        */
 
         // valid
         return true;
@@ -1891,9 +1901,14 @@ class Doozr_Form_Service_FormHandler
     protected function validateToken()
     {
         // 1st get valid token from store
-        $data = $this->getStore()->read(
-            Doozr_Form_Service_Constant::PREFIX.$this->getScope()
-        );
+        try {
+            $data = $this->getStore()->read(
+                Doozr_Form_Service_Constant::PREFIX.$this->getScope()
+            );
+        } catch (Doozr_Form_Service_Exception $exception) {
+            // Intentionally left empty
+
+        }
 
         $validToken = (isset($data['token']) === true) ? $data['token'] : null;
 
@@ -2103,7 +2118,7 @@ class Doozr_Form_Service_FormHandler
      */
     protected function addField($name, $value, $type = 'hidden')
     {
-        $input = clone $this->inputInstance;
+        $input = clone $this->getInputInstance();
 
         $input->setName($name);
         $input->setType($type);
@@ -2119,7 +2134,8 @@ class Doozr_Form_Service_FormHandler
      */
     protected function addStepField()
     {
-        $input = clone $this->inputInstance;
+        $input = clone $this->getInputInstance();
+
         $input->setName(Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP);
         $input->setType('hidden');
         $input->setValue($this->getStep());
@@ -2128,7 +2144,8 @@ class Doozr_Form_Service_FormHandler
         if ($this->getAngularDirectives() === true) {
             $input->setAttribute(
                 'ng-model',
-                Doozr_Form_Service_Constant::SCOPE.Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP
+                Doozr_Form_Service_Constant::SCOPE.Doozr_Form_Service_Constant::PREFIX.
+                Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP
             );
 
             $input->setAttribute(
@@ -2146,7 +2163,8 @@ class Doozr_Form_Service_FormHandler
      */
     protected function addStepsField()
     {
-        $input = clone $this->inputInstance;
+        $input = clone $this->getInputInstance();
+
         $input->setName(Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS);
         $input->setType('hidden');
         $input->setValue($this->getSteps());
@@ -2173,7 +2191,8 @@ class Doozr_Form_Service_FormHandler
      */
     protected function addTokenField()
     {
-        $input = clone $this->inputInstance;
+        $input = clone $this->getInputInstance();
+
         $input->setName(Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN);
         $input->setType('hidden');
         $input->setValue($this->getToken());
@@ -2200,7 +2219,8 @@ class Doozr_Form_Service_FormHandler
      */
     protected function addSubmittedField()
     {
-        $input = clone $this->inputInstance;
+        $input = clone $this->getInputInstance();
+
         $input->setName(Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED);
         $input->setType('hidden');
         $input->setValue($this->getScope());

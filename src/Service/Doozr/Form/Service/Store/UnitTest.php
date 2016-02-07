@@ -111,9 +111,17 @@ class Doozr_Form_Service_Store_UnitTest extends Doozr_Form_Service_Store_Abstrac
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return mixed|null The value if set, otherwise NULL
+     *
+     * @throws Doozr_Form_Service_Exception
      */
     public function read($key)
     {
+        if (false === isset(self::$store[$key])) {
+            throw new Doozr_Form_Service_Exception(
+                sprintf('The key "%s" does not exist in store (%s).', $key, var_export(self::$store, true))
+            );
+        }
+
         return self::$store[$key];
     }
 

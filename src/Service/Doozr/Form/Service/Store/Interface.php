@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Form_Service_Store_Interface
+interface Doozr_Form_Service_Store_Interface extends Doozr_Base_Crud_Interface
 {
-    // Intentionally left empty - Just used for namespace
+    // Intentionally left empty
 }

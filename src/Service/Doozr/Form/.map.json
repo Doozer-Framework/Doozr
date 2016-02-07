@@ -7,38 +7,43 @@
         "dependencies": [
           {
             "type": "constructor",
-            "link": "doozr.i18n.service",
+            "link": "doozr.registry",
             "position": 2
           },
           {
             "type": "constructor",
-            "link": "doozr.form.service.component.input",
+            "link": "doozr.i18n.service",
             "position": 3
           },
           {
             "type": "constructor",
-            "link": "doozr.form.service.component.form",
+            "link": "doozr.form.service.component.input",
             "position": 4
           },
           {
             "type": "constructor",
-            "link": "doozr.form.service.store",
+            "link": "doozr.form.service.component.form",
             "position": 5
           },
           {
             "type": "constructor",
-            "link": "doozr.form.service.renderer",
+            "link": "doozr.form.service.store",
             "position": 6
           },
           {
             "type": "constructor",
-            "className": "Doozr_Form_Service_Validate_Validator",
+            "link": "doozr.form.service.renderer",
             "position": 7
           },
           {
             "type": "constructor",
-            "className": "Doozr_Form_Service_Validate_Error",
+            "className": "Doozr_Form_Service_Validate_Validator",
             "position": 8
+          },
+          {
+            "type": "constructor",
+            "className": "Doozr_Form_Service_Validate_Error",
+            "position": 9
           }
         ]
       },
