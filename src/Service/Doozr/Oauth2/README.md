@@ -1,6 +1,6 @@
-# Module: Oauth2
-## (Doozr\_Oauth2\_Module)
-This is the information for the Doozr default module "Oauth2". *Oauth2* provides ...
+# Service: Oauth2
+## (Doozr\_Oauth2\_Service)
+This is the information for the Doozr default service "Oauth2". *Oauth2* provides ...
 Ged
     A service to enable Oauth2 features in Doozr projects
 

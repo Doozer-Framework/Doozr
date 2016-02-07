@@ -173,7 +173,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple implements Doozr_Bas
     const TYPE_CONSUMER = 2;
 
     /**
-     * Constructor.
+     * Service entry point.
      *
      * @param int $type        The type of this ACL (Consumer | Provider)
      * @param int $permissions The permissions code that will be tested against. It is optional and not needed

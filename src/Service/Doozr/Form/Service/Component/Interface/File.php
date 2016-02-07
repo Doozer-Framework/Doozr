@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * File.php - Contract for file upload component.
  *
@@ -43,27 +44,29 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Contract for file upload component.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Form_Service_Component_Interface_File
@@ -76,8 +79,6 @@ interface Doozr_Form_Service_Component_Interface_File
      * @internal param null|string $file The file
      *
      * @author   Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access   public
      */
     public function setFile($filename);
 
@@ -85,8 +86,8 @@ interface Doozr_Form_Service_Component_Interface_File
      * Getter for file.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The filename if set, otherwise NULL
-     * @access public
      */
     public function getFile();
 
@@ -96,8 +97,8 @@ interface Doozr_Form_Service_Component_Interface_File
      * @param int|string $maxFilesize The maximum allowed size in bytes
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The size in bytes
-     * @access public
+     *
+     * @return int The size in bytes
      */
     public function setMaxFilesize($maxFilesize);
 
@@ -105,8 +106,8 @@ interface Doozr_Form_Service_Component_Interface_File
      * Returns the maximum size in bytes a file is allowed to have.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The size in bytes
-     * @access public
+     *
+     * @return int The size in bytes
      */
     public function getMaxFilesize();
 }

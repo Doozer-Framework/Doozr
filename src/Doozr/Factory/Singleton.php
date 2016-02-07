@@ -77,7 +77,7 @@ class Doozr_Factory_Singleton
      * pass optional arguments to the factory for creating instance and passing arguments
      * to it.
      *
-     * @param string $classname   The name of the class to instantiate
+     * @param string $className   The name of the class to instantiate
      * @param mixed  $arguments   The arguments to pass to class for instantiation
      * @param string $constructor Signature of the instantiation-method (constructor)
      * @param string $reflection  NOT USED but part of interface/contract
@@ -87,18 +87,18 @@ class Doozr_Factory_Singleton
      * @access public
      * @static
      */
-    public static function create($classname, $arguments = null, $constructor = 'getInstance', $reflection = null)
+    public static function create($className, $arguments = null, $constructor = 'getInstance', $reflection = null)
     {
         // instantiate
         if (is_null($arguments)) {
-            return call_user_func($classname.'::'.$constructor);
+            return call_user_func($className.'::'.$constructor);
 
         } else {
             // arguments
             if (is_array($arguments)) {
-                return call_user_func_array($classname.'::'.$constructor, $arguments);
+                return call_user_func_array($className.'::'.$constructor, $arguments);
             } else {
-                return call_user_func($classname.'::'.$constructor, $arguments);
+                return call_user_func($className.'::'.$constructor, $arguments);
             }
 
         }

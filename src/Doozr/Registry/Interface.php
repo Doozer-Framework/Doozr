@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Registry - Interface
+ * Doozr - Registry - Interface.
  *
  * Interface.php - Registry Interface of the Doozr Framework
  *
@@ -43,51 +44,34 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Registry
- * @subpackage Doozr_Registry_Interface
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Accessor/Interface.php';
+
 /**
- * Doozr - Registry - Interface
+ * Doozr - Registry - Interface.
  *
  * Registry Interface of the Doozr Framework
  *
  * @category   Doozr
- * @package    Doozr_Registry
- * @subpackage Doozr_Registry_Interface
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-interface Doozr_Registry_Interface
+interface Doozr_Registry_Interface extends Doozr_Accessor_Interface
 {
-    /**
-     * The official and supported way of getting stored objects from registry.
-     *
-     * @param string|null $identifier The identifier to return content for, NULL to return all objects
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The stored variable if exist, otherwise NULL
-     * @access public
-     */
-    public function get($identifier = null);
-
-    /**
-     * The official and supported way of storing objects in registry.
-     *
-     * @param mixed       $variable   The variable to store
-     * @param string|null $identifier The identifier to store variable under
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
-     */
-    public function set(&$variable, $identifier = null);
+    // Intentionally left empty
 }

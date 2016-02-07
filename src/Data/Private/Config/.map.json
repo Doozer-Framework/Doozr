@@ -2,9 +2,8 @@
   "map": [
     {
       "doozr.configuration": {
-        "classname": "Doozr_Configuration",
+        "className": "Doozr_Configuration",
         "instance": null,
-        "arguments": [],
         "constructor": "getInstance",
         "dependencies": [
           {
@@ -22,7 +21,7 @@
         ]
       },
       "doozr.encoding": {
-        "classname": "Doozr_Encoding",
+        "className": "Doozr_Encoding",
         "instance": null,
         "arguments": [],
         "constructor": "getInstance",
@@ -42,7 +41,7 @@
         ]
       },
       "doozr.debugging": {
-        "classname": "Doozr_Debugging",
+        "className": "Doozr_Debugging",
         "instance": null,
         "arguments": [],
         "constructor": "getInstance",
@@ -55,7 +54,7 @@
         ]
       },
       "doozr.locale": {
-        "classname": "Doozr_Locale",
+        "className": "Doozr_Locale",
         "instance": null,
         "arguments": [],
         "constructor": "getInstance",
@@ -75,7 +74,7 @@
         ]
       },
       "doozr.logging": {
-        "classname": "Doozr_Logging",
+        "className": "Doozr_Logging",
         "instance": null,
         "arguments": [],
         "dependencies": [
@@ -86,7 +85,7 @@
         ]
       },
       "doozr.logging.collecting": {
-        "classname": "Doozr_Logging_Collecting",
+        "className": "Doozr_Logging_Collecting",
         "instance": null,
         "arguments": [],
         "dependencies": [
@@ -97,7 +96,7 @@
         ]
       },
       "doozr.logging.system": {
-        "classname": "Doozr_Logging_System",
+        "className": "Doozr_Logging_System",
         "instance": null,
         "arguments": [],
         "dependencies": [
@@ -108,7 +107,7 @@
         ]
       },
       "doozr.logging.debugbar": {
-        "classname": "Doozr_Logging_Debugbar",
+        "className": "Doozr_Logging_Debugbar",
         "instance": null,
         "arguments": [],
         "dependencies": [
@@ -119,13 +118,13 @@
         ]
       },
       "doozr.model": {
-        "classname": "Doozr_Model",
+        "className": "Doozr_Model",
         "instance": null,
         "arguments": [],
         "constructor": "getInstance",
         "dependencies": [
           {
-            "classname": "Doozr_Registry",
+            "className": "Doozr_Registry",
             "type": "constructor",
             "target": "getInstance",
             "position": 2
@@ -145,7 +144,7 @@
         ]
       },
       "doozr.route": {
-        "classname": "Doozr_Route",
+        "className": "Doozr_Route",
         "instance": null,
         "arguments": [],
         "dependencies": [
@@ -156,7 +155,7 @@
         ]
       },
       "doozr.response.resolver": {
-        "classname": "Doozr_Response_Resolver",
+        "className": "Doozr_Response_Resolver",
         "instance": null,
         "arguments": [],
         "dependencies": [
@@ -167,7 +166,9 @@
         ]
       },
       "doozr.configuration.reader.ini": {
-        "classname": "Doozr_Configuration_Reader_Ini",
+        "className": "Doozr_Configuration_Reader_Ini",
+        "instance": null,
+        "arguments": [],
         "dependencies": [
           {
             "type": "constructor",

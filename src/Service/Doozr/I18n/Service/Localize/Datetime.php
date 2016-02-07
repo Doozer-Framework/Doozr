@@ -281,7 +281,7 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
      *
      * @return string The resulting middle-date
      *
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function middleDate($timestamp = 0)
     {
