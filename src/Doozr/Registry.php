@@ -57,6 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Registry/Interface.php';
 
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid;
 
@@ -411,27 +412,27 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for request (state).
+     * Setter for request.
      *
-     * @param Doozr_Request $request The request state to set
+     * @param Request $request The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setRequest(Doozr_Request $request)
+    public function setRequest(Request $request)
     {
         $this->set($request, 'request');
     }
 
     /**
-     * Fluent: Setter for request (state).
+     * Fluent: Setter for request.
      *
-     * @param Doozr_Request $request The request state to set
+     * @param Request $request The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    public function request(Doozr_Request $request)
+    public function request(Request $request)
     {
         $this->setRequest($request);
 
@@ -439,11 +440,11 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Getter for request (state).
+     * Getter for request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Request_Web The request state
+     * @return Request The request
      */
     public function getRequest()
     {

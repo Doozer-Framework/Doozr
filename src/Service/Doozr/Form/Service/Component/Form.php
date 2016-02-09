@@ -123,6 +123,22 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     }
 
     /**
+     * Fluent: Setter for accept.
+     *
+     * @param string $mimeType The mimetype to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function accept($mimeType)
+    {
+        $this->setAccept($mimeType);
+
+        return $this;
+    }
+
+    /**
      * Getter for accept.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -135,7 +151,7 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     }
 
     /**
-     * Setter for accept.
+     * Setter for accept-charset.
      *
      * @param string $mimeType The mime-type to set.
      *
@@ -144,6 +160,22 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     public function setAcceptCharset($mimeType)
     {
         $this->setAttribute('accept-charset', $mimeType);
+    }
+
+    /**
+     * Fluent: Setter for accept-charset.
+     *
+     * @param string $mimeType The mimetype to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function acceptCharset($mimeType)
+    {
+        $this->setAccept($mimeType);
+
+        return $this;
     }
 
     /**
@@ -171,6 +203,22 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     }
 
     /**
+     * Fluent: Setter for action.
+     *
+     * @param string $action The action to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function action($action)
+    {
+        $this->setAction($action);
+
+        return $this;
+    }
+
+    /**
      * Getter for action.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -192,6 +240,22 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     public function setAutocomplete($autocomplete)
     {
         $this->setAttribute('autocomplete', $autocomplete);
+    }
+
+    /**
+     * Fluent: Setter for autocomplete.
+     *
+     * @param string $autocomplete The autocomplete to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function autocomplete($autocomplete)
+    {
+        $this->setAutocomplete($autocomplete);
+
+        return $this;
     }
 
     /**
@@ -219,6 +283,22 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     }
 
     /**
+     * Fluent: Setter for enctype.
+     *
+     * @param string $enctype The enctype to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function enctype($enctype)
+    {
+        $this->setEnctype($enctype);
+
+        return $this;
+    }
+
+    /**
      * Getter for enctype.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -240,6 +320,22 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     public function setMethod($method)
     {
         $this->setAttribute('method', $method);
+    }
+
+    /**
+     * Fluent: Setter for method.
+     *
+     * @param string $method The method to set.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function method($method)
+    {
+        $this->setMethod($method);
+
+        return $this;
     }
 
     /**
@@ -267,6 +363,22 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     }
 
     /**
+     * Fluent: Setter for enctype.
+     *
+     * @param string $novalidate The enctype to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function novalidate($novalidate = null)
+    {
+        $this->setNovalidate($novalidate);
+
+        return $this;
+    }
+
+    /**
      * Getter for novalidate.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -288,6 +400,22 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     public function setTarget($target)
     {
         $this->setAttribute('target', $target);
+    }
+
+    /**
+     * Fluent: Setter for target.
+     *
+     * @param string $target The enctype to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function target($target)
+    {
+        $this->setTarget($target);
+
+        return $this;
     }
 
     /**
@@ -313,7 +441,7 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     }
 
     /**
-     * Setter for encoding type.
+     * Setter for encoding-type.
      *
      * @param string $encodingType The correct encoding type
      *
@@ -325,7 +453,23 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     }
 
     /**
-     * Getter for encoding type.
+     * Fluent: Setter for encoding-type.
+     *
+     * @param string $encodingtype The encodingtype to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function encodingtype($encodingtype)
+    {
+        $this->setEncodingType($encodingtype);
+
+        return $this;
+    }
+
+    /**
+     * Getter for encoding-type.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

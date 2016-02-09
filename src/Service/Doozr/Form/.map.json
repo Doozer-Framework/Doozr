@@ -60,6 +60,32 @@
           }
         ]
       },
+      "doozr.form.service.component.label": {
+        "className": "Doozr_Form_Service_Component_Label",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer"
+          },
+          {
+            "type": "constructor",
+            "className": "Doozr_Form_Service_Validator_Generic"
+          }
+        ]
+      },
+      "doozr.form.service.component.text": {
+        "className": "Doozr_Form_Service_Component_Text",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer"
+          },
+          {
+            "type": "constructor",
+            "className": "Doozr_Form_Service_Validator_Generic"
+          }
+        ]
+      },
       "doozr.form.service.component.form": {
         "className": "Doozr_Form_Service_Component_Form",
         "dependencies": [

@@ -259,7 +259,6 @@ abstract class Doozr_Di_Map
                 foreach ($setup['dependencies'] as $recipe) {
 
                     // Clone base dependency object so we don't need a new operator here
-                    /* @todo Replace next line with Di $this->getRegistry()->getContainer()->build('doozr.form.service.dependency'); */
                     $dependency = clone $this->dependency;
                     $dependency->import($recipe);
 

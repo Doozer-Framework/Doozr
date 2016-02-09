@@ -273,6 +273,51 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         $this->assertEquals(1, $formHandler->getStep());
         $this->assertFalse($formHandler->wasSubmitted());
         $this->assertTrue($formHandler->isValid());
+
+        // Get the form instance from handler
+        $form = $formHandler->getForm();
+        $this->assertInstanceOf('Doozr_Form_Service_Component_Form', $form);
+
+        // Setter & getter check
+
+        $form->setMethod('post');
+        $this->assertEquals('post', $form->getMethod());
+
+        $form->setAction('/testing');
+        $this->assertEquals('/testing', $form->getAction());
+
+        // Fluent check
+
+
+        // Test HTML Rendering
+
+
+        /*
+        $form
+            ->method('post')
+        $form->setAction($_SERVER['PHP_SELF']);
+        $form->setNovalidate();
+        $form->enableUpload();
+
+
+        // Configure meta information in form manager ...
+        $formManager
+            ->step(1)
+            ->steps(3)
+            ->invalidTokenBehavior(\Doozr_Form_Service_Constant::TOKEN_BEHAVIOR_DENY)
+            ->i18n($i18n);
+
+
+
+
+        # BEGIN check for stepped into this step ...
+
+        if (false !== $formManager->wasJumped()) {
+            pre('We jumped right to step: '.$formManager->getStep());
+        }
+
+        # END
+*/
     }
 
     /**

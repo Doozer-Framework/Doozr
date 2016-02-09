@@ -84,7 +84,7 @@ interface Doozr_Form_Service_Renderer_Interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The rendered result
+     * @return Doozr_Form_Service_Renderer_Interface Renderer
      */
     public function render(
         $force = false,
@@ -101,7 +101,7 @@ interface Doozr_Form_Service_Renderer_Interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return mixed The rendered content in any type provided
+     * @return string|mixed Rendered content as string or in any type provided
      */
     public function get();
 }

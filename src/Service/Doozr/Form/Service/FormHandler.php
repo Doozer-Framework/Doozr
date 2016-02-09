@@ -76,8 +76,7 @@
 class Doozr_Form_Service_FormHandler
 {
     /**
-     * The scope of this instance. This must
-     * be unqiue cause of storage prefix usage ...
+     * The scope of this instance (should be unique).
      *
      * @var string
      */
@@ -242,7 +241,6 @@ class Doozr_Form_Service_FormHandler
      */
     protected $errorInstance;
 
-
     /**
      * Constructor.
      *
@@ -278,6 +276,7 @@ class Doozr_Form_Service_FormHandler
         // Store instances for further use
         $this
             ->scope($scope)
+            ->registry($registry)
             ->i18n($i18n)
             ->inputInstance($inputInstance)
             ->form($form)
@@ -407,9 +406,8 @@ class Doozr_Form_Service_FormHandler
         // get request from front-controller
         $submittedData = $this->getArguments();
 
-        $registry = $this->getRegistry(
-            $this->getRegistrySkeleton()
-        );
+        // Get storage ...
+        $storage = $this->getStorage($this->getStorageSkeleton());
 
         // build fieldname by pattern
         $fieldnameStep = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP;
@@ -418,21 +416,20 @@ class Doozr_Form_Service_FormHandler
         // and now check if submission identifier exists in current request
         if (
             true === isset($submittedData[$fieldnameStep]) &&
-            $submittedData[$fieldnameStep] <= $registry['lastvalidstep']
+            $submittedData[$fieldnameStep] <= $storage['lastvalidstep']
         ) {
             $step = $submittedData[$fieldnameStep];
-
         } elseif (
             true === isset($submittedData[$fieldnameJump]) &&
-            $submittedData->{$fieldnameJump} <= $registry['lastvalidstep']
+            $submittedData->{$fieldnameJump} <= $storage['lastvalidstep']
         ) {
             $step = $submittedData[$fieldnameJump];
         }
 
         if ($this->wasSubmitted() && $this->isValid($step)) {
             $step += 1;
-            $registry['lastvalidstep'] = $step;
-            $this->setRegistry($registry);
+            $storage['lastvalidstep'] = $step;
+            $this->setStorage($storage);
         }
 
         return (int) $step;
@@ -491,11 +488,11 @@ class Doozr_Form_Service_FormHandler
      */
     public function updateToken()
     {
-        $stored = $this->getRegistry();
+        $stored = $this->getStorage();
         $this->generateToken();
         $token           = $this->getToken();
         $stored['token'] = $token;
-        $this->setRegistry($stored);
+        $this->setStorage($stored);
 
         return $token;
     }
@@ -538,15 +535,13 @@ class Doozr_Form_Service_FormHandler
          */
         $value = $this->getSubmittedValue($name);
 
-        // if no value was retrieved
-        if ($value === null) {
-            // now try to retrieve from registry (store) instead (maybe we're jumped over here)
-            $registry = $this->getRegistry(
-                $this->getRegistrySkeleton()
-            );
+        // No value was retrieved?
+        if (null === $value) {
+            // Get storage ...
+            $storage = $this->getStorage($this->getStorageSkeleton());
 
-            if (isset($registry['data'][$name])) {
-                $value = $registry['data'][$name];
+            if (isset($storage['data'][$name])) {
+                $value = $storage['data'][$name];
             }
         }
 
@@ -562,28 +557,25 @@ class Doozr_Form_Service_FormHandler
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return bool TRUE if the form is jumped to a specific step, otherwise FALSE
+     * @return int|bool Step as int where the form was jumped to, otherwise FALSE if not jumped
      */
     public function wasJumped()
     {
-        // check already done?
-        if ($this->wasJumped !== null) {
+        // Inline cache ...
+        if (null !== $this->wasJumped) {
             return $this->wasJumped;
         } else {
-            // get method used for submit
-            $arguments = $this->getArguments();
-
+            $arguments     = $this->getArguments();
             $fieldnameJump = Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_JUMP;
 
             // and now check if submission identifier exists in current request
-            if (isset($arguments->{$fieldnameJump})) {
+            if (true === isset($arguments[$fieldnameJump])) {
                 $this->wasJumped = $arguments[$fieldnameJump];
             } else {
                 $this->wasJumped = false;
             }
         }
 
-        // submission status
         return $this->wasJumped;
     }
 
@@ -764,6 +756,75 @@ class Doozr_Form_Service_FormHandler
     {
         return $this->form;
     }
+
+    /**
+     * Registry.
+     *
+     * @var Doozr_Registry
+     */
+    protected $registry;
+
+    /**
+     * Setter.
+     *
+     * @param \Doozr_Registry $registry
+     */
+    protected function setRegistry(Doozr_Registry $registry)
+    {
+        $this->registry = $registry;
+    }
+
+    /**
+     * Fluent: Setter.
+     *
+     * @param \Doozr_Registry $registry
+     *
+     * @return $this
+     */
+    protected function registry(Doozr_Registry $registry)
+    {
+        $this->setRegistry($registry);
+
+        return $this;
+    }
+
+    /**
+     * Getter.
+     *
+     * @return \Doozr_Registry
+     */
+    protected function getRegistry()
+    {
+        return $this->registry;
+    }
+
+
+
+
+    public function getLabel($text = null)
+    {
+        /* @var Doozr_Form_Service_Component_Label $element */
+        $element = $this->getRegistry()->getContainer()->build('doozr.form.service.component.label');
+
+        if (null !== $text) {
+            $element->setText($text);
+        }
+
+        return $element;
+    }
+
+    public function getElement($name = null)
+    {
+        /* @var Doozr_Form_Service_Component_Text $element */
+        $element = $this->getRegistry()->getContainer()->build('doozr.form.service.component.text');
+
+        if (null !== $name) {
+            $element->setName($name);
+        }
+
+        return $element;
+    }
+
 
     /**
      * Returns the token of this form.
@@ -1145,28 +1206,25 @@ class Doozr_Form_Service_FormHandler
      *
      * @return bool TRUE on success, otherwise FALSE
      */
-    public function removeFromRegistry($key, $component = null)
+    public function removeFromStorage($key, $component = null)
     {
-        $registry = $this->getRegistry(
-            $this->getRegistrySkeleton()
-        );
+        // Get storage ...
+        $storage = $this->getStorage($this->getStorageSkeleton());
 
-        if (!isset($registry[$key])) {
+        if (!isset($storage[$key])) {
             throw new Doozr_Form_Service_Exception(
-                'Could not remove unexisting key: "'.$key.'" from registry.'
+                sprintf('Could not remove not existing key: "%s" from registry.', $key)
             );
         }
 
         //
         if ($component !== null) {
-            unset($registry[$key][$component]);
+            unset($storage[$key][$component]);
         } else {
-            unset($registry[$key]);
+            unset($storage[$key]);
         }
 
-        $this->setRegistry(
-            $registry
-        );
+        $this->setStorage($storage);
 
         return true;
     }
@@ -1174,17 +1232,17 @@ class Doozr_Form_Service_FormHandler
     /**
      * Setter for registry.
      *
-     * @param mixed $registry The registry
+     * @param mixed $storage The registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return array The registry
      */
-    public function setRegistry($registry)
+    public function setStorage($storage)
     {
         return $this->getStore()->create(
             Doozr_Form_Service_Constant::PREFIX.$this->getScope(),
-            $registry
+            $storage
         );
     }
 
@@ -1197,23 +1255,23 @@ class Doozr_Form_Service_FormHandler
      *
      * @return array The registry
      */
-    public function getRegistry($default = null)
+    public function getStorage($default = null)
     {
-        $registry = null;
+        $storage = null;
 
         try {
-            $registry = $this->getStore()->read(
+            $storage = $this->getStore()->read(
                 Doozr_Form_Service_Constant::PREFIX.$this->getScope()
             );
         } catch (Doozr_Form_Service_Exception $e) {
             // Nothing
         }
 
-        if (null === $registry && null !== $default) {
-            $registry = $default;
+        if (null === $storage && null !== $default) {
+            $storage = $default;
         }
 
-        return $registry;
+        return $storage;
     }
 
     /**
@@ -1221,9 +1279,9 @@ class Doozr_Form_Service_FormHandler
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function invalidateRegistry()
+    public function invalidateStorage()
     {
-        return $this->setRegistry(null);
+        return $this->setStorage(null);
     }
 
     /**
@@ -1238,7 +1296,6 @@ class Doozr_Form_Service_FormHandler
         // Inline cache [expensive]
         if (null !== $this->submitted) {
             $submitted = $this->submitted;
-
         } else {
             // assume not submitted
             $submitted = false;
@@ -1279,12 +1336,10 @@ class Doozr_Form_Service_FormHandler
         // Inline cache [expensive]
         if (null !== $this->valid) {
             $valid = $this->valid;
-
         } else {
             // Check for submission
             if (true === $this->wasSubmitted()) {
                 $valid = $this->validate($step);
-
             } else {
                 // Assume status valid if not submitted
                 $valid = true;
@@ -1323,6 +1378,9 @@ class Doozr_Form_Service_FormHandler
      */
     public function isComplete($steps = 1)
     {
+        dump('AAAA');
+        die;
+
         // check already done?
         if ($this->complete !== null) {
             $complete = $this->complete;
@@ -1388,9 +1446,9 @@ class Doozr_Form_Service_FormHandler
      *
      * @return bool TRUE is the store is valid, otherwise FALSE
      */
-    protected function validateRegistry()
+    protected function validateStorage()
     {
-        return (null !== $this->getRegistry());
+        return null !== $this->getStorage();
     }
 
     /**
@@ -1432,7 +1490,7 @@ class Doozr_Form_Service_FormHandler
     {
         // Check if store i still valid - session can be timed out ...
         /*
-        if (false === $this->validateRegistry()) {
+        if (false === $this->validateStorage()) {
 
             $this->setError(
                 Doozr_Form_Service_Validate_Constant::ERROR_PREFIX.
@@ -1445,15 +1503,13 @@ class Doozr_Form_Service_FormHandler
         }
         */
 
-        // Get store data
-        $registry = $this->getRegistry(
-            $this->getRegistrySkeleton()
-        );
+        // Get storage ...
+        $storage = $this->getStorage($this->getStorageSkeleton());
 
         // 2nd step of all check if correct method was used for submission
-        if (strtolower($this->getRequestMethod()) !== strtolower($registry['method'])) {
+        if (strtolower($this->getRequestMethod()) !== strtolower($storage['method'])) {
             $this->setError(
-            // use array here -> I18n arguments as second key
+                // use array here -> I18n arguments as second key
                 [
                     'error' => Doozr_Form_Service_Validate_Constant::ERROR_PREFIX.
                         Doozr_Form_Service_Validate_Constant::ERROR_REQUESTTYPE_INVALID,
@@ -1473,7 +1529,7 @@ class Doozr_Form_Service_FormHandler
 
         // 3rd step - validate token used for submit
         if (true !== $this->validateToken()) {
-            $this->handleInvalidToken($registry);
+            $this->handleInvalidToken($storage);
             $this->setError(
                 Doozr_Form_Service_Validate_Constant::ERROR_PREFIX.
                 Doozr_Form_Service_Validate_Constant::ERROR_TOKEN_INVALID
@@ -1490,7 +1546,7 @@ class Doozr_Form_Service_FormHandler
         // either MISSING, BAD, INCORRECT DATA => FORM INVALID! and error = fields error message
         if (
             $this->validateComponents(
-                $registry['components'],
+                $storage['components'],
                 $step,
                 $this->getArguments(),
                 $stored
@@ -1544,25 +1600,24 @@ class Doozr_Form_Service_FormHandler
                         $registry->front->getRequest()->FILES();
                         $value = $_FILES[$component];
 
-                        $registry = $this->getRegistry(
-                            $this->getRegistrySkeleton()
-                        );
+                        // Get storage ...
+                        $storage = $this->getStorage($this->getStorageSkeleton());
 
-                        if (isset($registry['data'][$component]) && $registry['data'][$component] !== null) {
+                        if (isset($storage['data'][$component]) && $storage['data'][$component] !== null) {
                             $emulatedFileUpload = true;
-                            $pathInfo           = pathinfo($registry['data'][$component]);
+                            $pathInfo           = pathinfo($storage['data'][$component]);
 
                             // emulate value
                             $value = [
                                 'name'     => $pathInfo['basename'],
                                 'type'     => $this->getMimeTypeByExtension($pathInfo['extension']),
-                                'tmp_name' => $registry['data'][$component],
+                                'tmp_name' => $storage['data'][$component],
                                 'error'    => '0',
-                                'size'     => filesize($registry['data'][$component]),
+                                'size'     => filesize($storage['data'][$component]),
                             ];
                         }
 
-                        $check = $this->validateFileUpload($component, $value, $configuration['validation'], $registry);
+                        $check = $this->validateFileUpload($component, $value, $configuration['validation'], $storage);
                     } else {
                         $isFile = false;
                         $value  = isset($arguments->{$component}) ? $arguments->{$component} : null;
@@ -1577,7 +1632,7 @@ class Doozr_Form_Service_FormHandler
                         $this->setError($check, $component);
 
                         // ON ERROR -> REMOVE
-                        $this->removeFromRegistry('data', $component);
+                        $this->removeFromStorage('data', $component);
                     } else {
                         // COMMENT BLOCK REMOVE: The SUCCESS case!
                         if ($isFile === true && $emulatedFileUpload === false) {
@@ -1587,7 +1642,7 @@ class Doozr_Form_Service_FormHandler
                         }
 
                         // ON SUCCESS -> ADD
-                        $this->addToRegistry($component, $value);
+                        $this->addToStorage($component, $value);
                     }
                 }
             }
@@ -1818,35 +1873,30 @@ class Doozr_Form_Service_FormHandler
      *
      * @return bool TRUE on success, otherwise FALSE
      */
-    protected function addToRegistry($key, $value)
+    protected function addToStorage($key, $value)
     {
-        $registry = $this->getRegistry(
-            $this->getRegistrySkeleton()
-        );
+        // Get storage ...
+        $storage = $this->getStorage($this->getStorageSkeleton());
 
-        $registry['data'][$key] = $value;
+        $storage['data'][$key] = $value;
 
-        $this->setRegistry(
-            $registry
-        );
+        $this->setStorage($storage);
 
         return true;
     }
 
     /**
-     * Handles an invalid token. Cause we have different behaviors
-     * to deal with an invalid token we need to check which one was
-     * set and handle it.
+     * Handles an invalid token. Cause we have different behaviors to deal with an invalid token we need to check
+     * which one was set and handle it.
      *
      * @param array $data The meta-information of the form
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE om success, otherwise FALSE
      */
     protected function handleInvalidToken(array $data)
     {
-        // assume that token is valid - all other possible ...
-        $status = true;
-
         // get behavior configured in previous request
         $invalidTokenBehavior = $data['tokenbehavior'];
 
@@ -1874,7 +1924,7 @@ class Doozr_Form_Service_FormHandler
             default:
                 $status = false;
 
-                // try to send correct 404 status ...
+                // Try to send correct 404 status ...
                 try {
                     $header = 'HTTP/1.0 400 Bad Request';
                     header($header);
@@ -1886,7 +1936,6 @@ class Doozr_Form_Service_FormHandler
                 break;
         }
 
-        // and return the status
         return $status;
     }
 
@@ -1907,7 +1956,6 @@ class Doozr_Form_Service_FormHandler
             );
         } catch (Doozr_Form_Service_Exception $exception) {
             // Intentionally left empty
-
         }
 
         $validToken = (isset($data['token']) === true) ? $data['token'] : null;
@@ -1958,21 +2006,19 @@ class Doozr_Form_Service_FormHandler
      */
     protected function handleDataTransfer()
     {
-        // hole registry
-        $registry = $this->getRegistry(
-            $this->getRegistrySkeleton()
-        );
+        // Get storage
+        $storage = $this->getStorage($this->getStorageSkeleton());
 
         // store important meta information about the current form
-        $registry['components']    = $this->getComponents($this->form);
-        $registry['method']        = $this->form->getMethod();
-        $registry['step']          = $this->getStep();
-        $registry['steps']         = $this->getSteps();
-        $registry['token']         = $this->getToken();
-        $registry['tokenbehavior'] = $this->getInvalidTokenBehavior();
+        $storage['components']    = $this->getComponents($this->form);
+        $storage['method']        = $this->form->getMethod();
+        $storage['step']          = $this->getStep();
+        $storage['steps']         = $this->getSteps();
+        $storage['token']         = $this->getToken();
+        $storage['tokenbehavior'] = $this->getInvalidTokenBehavior();
 
-        // store
-        $this->setRegistry($registry);
+        // Store
+        $this->setStorage($storage);
 
         // send header
         $this->sendHeader();
@@ -1996,7 +2042,7 @@ class Doozr_Form_Service_FormHandler
      *
      * @return array An empty registry skeleton
      */
-    protected function getRegistrySkeleton()
+    protected function getStorageSkeleton()
     {
         // the default skeleton containing entries at the 1st level
         return [
@@ -2063,11 +2109,11 @@ class Doozr_Form_Service_FormHandler
         $ip        = $_SERVER['REMOTE_ADDR'];
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         $salt      = $this->getSalt();
-        $name      = $this->getScope();
+        $scope     = $this->getScope();
 
         // generate token from unique input
         $this->setToken(
-            md5($ip.$userAgent.$name.$salt)
+            md5($ip.$userAgent.$scope.$salt)
         );
     }
 

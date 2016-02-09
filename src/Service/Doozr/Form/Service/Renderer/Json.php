@@ -95,7 +95,7 @@ class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstr
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The rendered result
+     * @return $this Instance for chaining
      */
     public function render(
         $force = false,
@@ -106,7 +106,6 @@ class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstr
         array $attributes = [],
         $innerJson = ''
     ) {
-        //
         $json               = [];
         $json['tag']        = $tag;
         $json['childs']     = [];

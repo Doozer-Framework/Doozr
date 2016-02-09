@@ -157,7 +157,7 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The rendered result
+     * @return Doozr_Form_Service_Renderer_Interface Renderer
      */
     public function render($force = false)
     {

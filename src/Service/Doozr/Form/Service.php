@@ -368,7 +368,7 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
      * @return Doozr_Form_Service_FormHandler
      */
     public function getFormHandler(
-              $scope,
+              $scope             = DOOZR_NAMESPACE,
         array $arguments         = [],
               $requestMethod     = null,
               $angularDirectives = false

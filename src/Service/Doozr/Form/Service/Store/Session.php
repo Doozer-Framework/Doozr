@@ -128,7 +128,18 @@ class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract
      */
     public function read($key = null)
     {
-        return $this->subject->read($key);
+        try{
+            $value = $this->subject->read($key);
+
+        } catch (Doozr_Base_Service_Exception $exception) {
+            throw new Doozr_Form_Service_Exception(
+                sprintf('The key "%s" does not exist in store.', $key),
+                null,
+                $exception
+            );
+        }
+
+        return $value;
     }
 
     /**

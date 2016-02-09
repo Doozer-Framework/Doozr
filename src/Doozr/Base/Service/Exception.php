@@ -84,7 +84,7 @@ class Doozr_Base_Service_Exception extends Doozr_Exception
     public function __construct($message = null, $code = 0, $previousException = null)
     {
         // Add prefix to message ...
-        $message = sprintf('%s: %s', __CLASS__, $message);
+        $message = sprintf('%s: %s', get_class($this), $message);
 
         // Get final code
         $code = $this->generateUniqueCode($this->file, $code);

@@ -20,6 +20,10 @@
           }
         ]
       },
+      "doozr.di.dependency": {
+        "className": "Doozr_Di_Dependency",
+        "instance": null
+      },
       "doozr.encoding": {
         "className": "Doozr_Encoding",
         "instance": null,

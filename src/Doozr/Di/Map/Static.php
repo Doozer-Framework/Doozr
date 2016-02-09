@@ -126,6 +126,7 @@ class Doozr_Di_Map_Static extends Doozr_Di_Map
         // Add these dependencies to collection
         $this->addRawDependenciesToCollection($this->getImporter()->import());
 
+        // Return this
         return $this;
     }
 

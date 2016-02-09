@@ -86,8 +86,8 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     SplSubject,
     ArrayAccess,
     Iterator,
-    Countable/*,
-    LoggerAwareInterface*/
+    Countable,
+    LoggerAwareInterface
 {
     /**
      * The observer storage.
@@ -276,11 +276,12 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
 
     /**
      * Setter for logger.
-     * Attaches a passed logger to queue of loggers.
      *
      * @param LoggerInterface $logger The logger to attach
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return null
      *
      * @throws Doozr_Logging_Exception
      */
@@ -288,7 +289,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     {
         if (!$logger instanceof SplObserver) {
             throw new Doozr_Logging_Exception(
-                sprintf('Please implement SplObserver before trying to attach this logger.')
+                sprintf('Please implement SplObserver before trying to attach your logger.')
             );
         }
 

@@ -908,34 +908,6 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     }
 
     /**
-     * Initialize the request state.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return bool TRUE on success
-     * @static
-     */
-    protected static function initRequest()
-    {
-        if (true === self::$registry->getParameter('doozr.kernel.debugging')) {
-            self::$registry->getDebugbar()['time']->startMeasure('request-parsing', 'Parsing request');
-        }
-
-        self::$registry->setRequest(
-            self::$registry->getContainer()->build(
-                'Doozr_Request_'.self::$registry->getParameter('doozr.kernel.runtime.environment')
-            )
-        );
-
-        if (true === self::$registry->getParameter('doozr.kernel.debugging')) {
-            self::$registry->getDebugbar()['time']->stopMeasure('request-parsing');
-        }
-
-        // Important for bootstrap result
-        return true;
-    }
-
-    /**
      * Initialize the response state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1228,6 +1200,34 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
             ->withBody($body);
     }
 
+    /**
+     * Filters the request base URI to filter development and debugging stuff.
+     *
+     * @param Request         $request Request to be filtered
+     * @param array|\stdClass $filters ArrayAccess filters
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return Request Filtered and prepared request instance
+     * @static
+     */
+    protected static function filterRequest(Request $request, $filters)
+    {
+        $tmp = [];
+
+        foreach ($filters as $filter) {
+            $tmp[] = $filter;
+        }
+
+        $filter = new \Doozr_Filter($tmp);
+
+        return $request->withUri(
+            $request->getUri()->withPath(
+                $filter->apply($request->getUri()->getPath())
+            )
+        );
+    }
+
     /*------------------------------------------------------------------------------------------------------------------
     | MAGIC
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -1273,23 +1273,15 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     {
         $debugging = self::$registry->getParameter('doozr.kernel.debugging');
 
+        if (true === $debugging) {
+            self::$registry->getDebugbar()['time']->startMeasure('request-processing', 'Processing request');
+        }
+
         try {
-            // Build Filter for URI and apply ...
-            $a = self::$registry->getConfiguration()->kernel->transmission->request->filter;
-
-            $filters = [];
-            foreach ($a as $filter) {
-                $filters[] = $filter;
-            }
-
-            $filter = new \Doozr_Filter(
-                $filters
-            );
-
-            $request->withUri(
-                $request->getUri()->withPath(
-                    $filter->apply($request->getUri()->getPath())
-                )
+            // Apply internal filter from configuration on base URI
+            $request = self::filterRequest(
+                $request,
+                self::$registry->getConfiguration()->kernel->transmission->request->filter
             );
 
             /* @var $router Doozr_Route */
@@ -1298,6 +1290,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
 
             /* @var $responseResolver Doozr_Response_Resolver */
             $responseResolver = self::$registry->getContainer()->build('doozr.response.resolver');
+
+            // Before we run the MVP stack we need to set the final request object with filtered base URI
+            self::$registry->setRequest($request);
 
             // Retrieving response by dispatching "request + route" to request dispatcher
             $response = $responseResolver->resolve($request, $response);
@@ -1313,6 +1308,10 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
             } else {
                 throw $exception;
             }
+        }
+
+        if (true === self::$registry->getParameter('doozr.kernel.debugging')) {
+            self::$registry->getDebugbar()['time']->stopMeasure('request-processing');
         }
 
         // Invoke the $next middleware and get back a new response

@@ -127,7 +127,7 @@ abstract class Doozr_Form_Service_Renderer_Abstract
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The rendered result
+     * @return self
      */
     public function render(
         $force = false,
@@ -173,7 +173,7 @@ abstract class Doozr_Form_Service_Renderer_Abstract
      */
     protected function _tpl($template, array $templateVariables)
     {
-        // micro templating engine
+        // Micro templating engine
         foreach ($templateVariables as $templateVariable => $value) {
             $template = str_replace('{{'.strtoupper($templateVariable).'}}', $value, $template);
         }

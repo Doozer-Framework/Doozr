@@ -119,7 +119,7 @@ abstract class Doozr_Form_Service_Component_Html_Abstract
     /**
      * Getter for attributes[].
      *
-     * @param $key The name of the attribute
+     * @param string $key The name of the attribute
      *
      * @return null|mixed The attributes value if set, otherwise NULL
      */

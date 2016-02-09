@@ -197,9 +197,10 @@ final class Doozr_Route extends Doozr_Base_Class
      */
     public function route(Request $request)
     {
-        // Map the request states URL to a route (presenter:action)
+        // Map request state URL to a route (presenter:action)
         $uri = ''.$request->getUri();
 
+        // Get
         $route = $this
             ->uuid(
                 $this->calculateUuid($uri)
@@ -230,8 +231,11 @@ final class Doozr_Route extends Doozr_Base_Class
                     'route', new Doozr_Request_Route_State($route[1][0], $route[1][1])
                 );
 
+                // Variables found from Route placeholder? ...
                 if (true === isset($route[2])) {
-                    $request = $request->withQueryParams($route[2]);
+                    // Merge the arguments with existing URI query parameter
+                    $parameter = array_merge_recursive($request->getQueryParams(), $route[2]);
+                    $request   = $request->withQueryParams($parameter);
                 }
                 break;
         }
