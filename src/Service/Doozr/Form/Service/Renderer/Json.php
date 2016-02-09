@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Json.php - JSON Renderer. Renders a components setup to JSON.
  * Useful for example if you only need a skeleton for client side
@@ -45,31 +46,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Renderer/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Renderer/Abstract.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * JSON Renderer. Renders a components setup to JSON.
  * Useful for example if you only need a skeleton for client side
  * Javascript e.g. AngularJS or some jQuery based projects.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstract
@@ -81,31 +83,29 @@ class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstr
     /**
      * Renders a passed templates with variables childs and attributes.
      *
-     * @param bool $force      TRUE to force rerendering, FALSE to accept cached result
-     * @param array   $template   The template to render
-     * @param string  $tag        The tag of the element to render
-     * @param array   $variables  The variables to use for rendering
-     * @param array   $childs     The child elements
-     * @param array   $attributes The attributes
-     * @param string  $innerJson
+     * @param bool   $force      TRUE to force rerendering, FALSE to accept cached result
+     * @param array  $template   The template to render
+     * @param string $tag        The tag of the element to render
+     * @param array  $variables  The variables to use for rendering
+     * @param array  $childs     The child elements
+     * @param array  $attributes The attributes
+     * @param string $innerJson
      *
      * @internal param $string %innerJson  The JSON of the component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The rendered result
-     * @access public
+     *
+     * @return $this Instance for chaining
      */
     public function render(
-        $force            = false,
-        $template         = [],
-        $tag              = '',
-        array $variables  = [],
-        array $childs     = [],
+        $force = false,
+        $template = [],
+        $tag = '',
+        array $variables = [],
+        array $childs = [],
         array $attributes = [],
-        $innerJson  = ''
-    )
-    {
-        //
+        $innerJson = ''
+    ) {
         $json               = [];
         $json['tag']        = $tag;
         $json['childs']     = [];
@@ -118,18 +118,18 @@ class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstr
 
         $this->rendered = $json;
 
-        /** @var $this Doozr_Form_Service_Renderer_Json */
+        /* @var $this Doozr_Form_Service_Renderer_Json */
         return $this;
     }
 
     /**
-     * Return JSON-encoded result! So we prevent double JSON encoding
+     * Return JSON-encoded result! So we prevent double JSON encoding.
      *
      * @param bool $encode TRUE to return JSON encoded, FALSE to return unencoded
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The rendered result JSON encoded
-     * @access public
      */
     public function get($encode = true)
     {
@@ -146,8 +146,8 @@ class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstr
      * @param array $attributes
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The rendered result
-     * @access public
      */
     protected function prepareAttributes(array $attributes)
     {
@@ -156,10 +156,10 @@ class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstr
         foreach ($attributes as $attribute => $value) {
             // Check value-less attributes to be embedded properly
             if ($value === null) {
-                $attributesCollected .= ' ' . $attribute;
+                $attributesCollected .= ' '.$attribute;
             } else {
                 $value = (is_array($value)) ? $value[0] : $value;
-                $attributesCollected .= ' ' . $attribute . '="' . $value . '"';
+                $attributesCollected .= ' '.$attribute.'="'.$value.'"';
             }
         }
 

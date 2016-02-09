@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Base - Service - Exception.
  *
- * Unit.php - Unit-test capable storage.
+ * Exception.php - Base exception for Services.
  *
  * PHP versions 5.5
  *
@@ -43,107 +44,52 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Store/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Store/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Base - Service - Exception.
  *
- * Unit-test capable storage.
+ * Base exception for Services.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Store_Unit extends Doozr_Form_Service_Store_Abstract
-    implements
-    Doozr_Form_Service_Store_Interface
+class Doozr_Base_Service_Exception extends Doozr_Exception
 {
     /**
-     * The store
+     * Constructor.
      *
-     * @var array
-     * @access protected
-     */
-    protected static $store = [];
-
-
-    /*------------------------------------------------------------------------------------------------------------------
-    | Public API
-    +-----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Creates an entry in store.
-     *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
+     * @param string|null    $message           Message
+     * @param int            $code              Code of the exception
+     * @param Exception|null $previousException Previously thrown exception - AS_OF: PHP 5.3 introduced!
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
-     * @access public
      */
-    public function create($key, $value)
+    public function __construct($message = null, $code = 0, $previousException = null)
     {
-        self::$store[$key] = $value;
-        return true;
-    }
+        // Add prefix to message ...
+        $message = sprintf('%s: %s', get_class($this), $message);
 
-    /**
-     * Reads an entry from store.
-     *
-     * @param string $key The key for the data to store
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|null The value if set, otherwise NULL
-     * @access public
-     */
-    public function read($key)
-    {
-        return self::$store[$key];
-    }
+        // Get final code
+        $code = $this->generateUniqueCode($this->file, $code);
 
-    /**
-     * Updates an entry in store.
-     *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
-     * @access public
-     */
-    public function update($key, $value)
-    {
-        self::$store[$key] = $value;
-        return true;
-    }
-
-    /**
-     * Deletes an entry from store.
-     *
-     * @param string $key The key to delete
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE on success, otherwise FALSE
-     * @access public
-     */
-    public function delete($key)
-    {
-        unset(self::$store[$key]);
-        return true;
+        // Dispatch to parent
+        parent::__construct($message, $code, $previousException);
     }
 }

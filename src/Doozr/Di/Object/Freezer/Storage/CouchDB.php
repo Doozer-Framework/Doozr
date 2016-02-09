@@ -1,6 +1,6 @@
 <?php
 /**
- * Object_Freezer
+ * Object_Freezer.
  *
  * Copyright (c) 2008-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -34,23 +34,23 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @since      File available since Release 1.0.0
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/Storage.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Object/Freezer/Storage.php';
 
 /**
  * Object storage that uses Apache CouchDB as its backend.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://github.com/sebastianbergmann/php-object-freezer/
  * @since      Class available since Release 1.0.0
  */
@@ -79,27 +79,28 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
     /**
      * @var bool
      */
-    protected $debug = FALSE;
+    protected $debug = false;
 
     /**
      * Constructor.
      *
-     * @param  string               $database
-     *                              Name of the database to be used
-     * @param  Object_Freezer       $freezer
-     *                              Object_Freezer instance to be used
-     * @param  Object_Freezer_Cache $cache
-     *                              Object_Freezer_Cache instance to be used
-     * @param  boolean              $useLazyLoad
-     *                              Flag that controls whether objects are
-     *                              fetched using lazy load or not
-     * @param  string               $host
-     *                              Hostname of the CouchDB instance to be used
-     * @param  int                  $port
-     *                              Port of the CouchDB instance to be used
+     * @param string               $database
+     *                                          Name of the database to be used
+     * @param Object_Freezer       $freezer
+     *                                          Object_Freezer instance to be used
+     * @param Object_Freezer_Cache $cache
+     *                                          Object_Freezer_Cache instance to be used
+     * @param bool                 $useLazyLoad
+     *                                          Flag that controls whether objects are
+     *                                          fetched using lazy load or not
+     * @param string               $host
+     *                                          Hostname of the CouchDB instance to be used
+     * @param int                  $port
+     *                                          Port of the CouchDB instance to be used
+     *
      * @throws InvalidArgumentException
      */
-    public function __construct($database, Object_Freezer $freezer = NULL, Object_Freezer_Cache $cache = NULL, $useLazyLoad = FALSE, $host = 'localhost', $port = 5984)
+    public function __construct($database, Object_Freezer $freezer = null, Object_Freezer_Cache $cache = null, $useLazyLoad = false, $host = 'localhost', $port = 5984)
     {
         parent::__construct($freezer, $cache, $useLazyLoad);
 
@@ -135,8 +136,8 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
         $payload = ['docs' => []];
 
         foreach ($frozenObject['objects'] as $id => $object) {
-            if ($object['isDirty'] !== FALSE) {
-                $revision = NULL;
+            if ($object['isDirty'] !== false) {
+                $revision = null;
 
                 if (isset($this->revisions[$id])) {
                     $revision = $this->revisions[$id];
@@ -146,7 +147,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
                   '_id'   => $id,
                   '_rev'  => $revision,
                   'class' => $object['className'],
-                  'state' => $object['state']
+                  'state' => $object['state'],
                 ];
 
                 if (!$data['_rev']) {
@@ -160,7 +161,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
         if (!empty($payload['docs'])) {
             $response = $this->send(
               'POST',
-              '/' . $this->database . '/_bulk_docs',
+              '/'.$this->database.'/_bulk_docs',
               json_encode($payload)
             );
 
@@ -170,7 +171,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
                 // @codeCoverageIgnoreEnd
             }
 
-            $data = json_decode($response['body'], TRUE);
+            $data = json_decode($response['body'], true);
 
             foreach ($data as $state) {
                 if (isset($state['error'])) {
@@ -194,9 +195,11 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
     /**
      * Fetches a frozen object from the object storage and thaws it.
      *
-     * @param  string $id      The ID of the object that is to be fetched.
-     * @param  array  $objects Only used internally.
+     * @param string $id      The ID of the object that is to be fetched.
+     * @param array  $objects Only used internally.
+     *
      * @return object
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -206,7 +209,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
 
         if (!isset($objects[$id])) {
             $response = $this->send(
-              'GET', '/' . $this->database . '/' . urlencode($id)
+              'GET', '/'.$this->database.'/'.urlencode($id)
             );
 
             if (strpos($response['headers'], 'HTTP/1.1 200 OK') !== 0) {
@@ -215,13 +218,13 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
                 );
             }
 
-            $object = json_decode($response['body'], TRUE);
+            $object                          = json_decode($response['body'], true);
             $this->revisions[$object['_id']] = $object['_rev'];
 
             $objects[$id] = [
               'className' => $object['class'],
-              'isDirty'   => FALSE,
-              'state'     => $object['state']
+              'isDirty'   => false,
+              'state'     => $object['state'],
             ];
 
             if (!$this->lazyLoad) {
@@ -237,18 +240,20 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
     /**
      * Sends an HTTP request to the CouchDB server.
      *
-     * @param  string $method
-     * @param  string $url
-     * @param  string $payload
+     * @param string $method
+     * @param string $url
+     * @param string $payload
+     *
      * @return array
+     *
      * @throws RuntimeException
      */
-    public function send($method, $url, $payload = NULL)
+    public function send($method, $url, $payload = null)
     {
         $socket = @fsockopen($this->host, $this->port, $errno, $errstr);
 
         if (!$socket) {
-            throw new RuntimeException($errno . ': ' . $errstr);
+            throw new RuntimeException($errno.': '.$errstr);
         }
 
         $request = sprintf(
@@ -259,8 +264,8 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
           $this->port
         );
 
-        if ($payload !== NULL) {
-            $request .= 'Content-Length: ' . strlen($payload) . "\r\n\r\n" .
+        if ($payload !== null) {
+            $request .= 'Content-Length: '.strlen($payload)."\r\n\r\n".
                         $payload;
         }
 
@@ -268,7 +273,7 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
 
         // @codeCoverageIgnoreStart
         if ($this->debug) {
-            print $request;
+            echo $request;
         }
         // @codeCoverageIgnoreEnd
 
@@ -288,7 +293,8 @@ class Object_Freezer_Storage_CouchDB extends Object_Freezer_Storage
     /**
      * Sets the flag that controls whether or not debug messages are printed.
      *
-     * @param  boolean $flag
+     * @param bool $flag
+     *
      * @throws InvalidArgumentException
      */
     public function setDebug($flag)

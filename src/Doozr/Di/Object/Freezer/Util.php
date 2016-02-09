@@ -1,6 +1,6 @@
 <?php
 /**
- * Object_Freezer
+ * Object_Freezer.
  *
  * Copyright (c) 2008-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -34,21 +34,22 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @since      File available since Release 1.0.0
  */
 
 /**
  * Utility methods.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://github.com/sebastianbergmann/php-object-freezer/
  * @since      Class available since Release 1.0.0
  */
@@ -58,15 +59,17 @@ class Object_Freezer_Util
      * Returns an associative array of all attributes of an object,
      * including those declared as protected or private.
      *
-     * @param  object $object The object for which all attributes are returned.
+     * @param object $object The object for which all attributes are returned.
+     *
      * @return array
+     *
      * @throws InvalidArgumentException
      */
     public static function readAttributes($object)
     {
         // Bail out if a non-object was passed.
         if (!is_object($object)) {
-            throw Object_Freezer_Util::getInvalidArgumentException(1, 'object');
+            throw self::getInvalidArgumentException(1, 'object');
         }
 
         $reflector = new ReflectionObject($object);
@@ -74,7 +77,7 @@ class Object_Freezer_Util
 
         // Iterate over the attributes of the object.
         foreach ($reflector->getProperties() as $attribute) {
-            $attribute->setAccessible(TRUE);
+            $attribute->setAccessible(true);
             $result[$attribute->getName()] = $attribute->getValue($object);
         }
 
@@ -84,13 +87,14 @@ class Object_Freezer_Util
     /**
      * Only used internally.
      *
-     * @param  integer $argument
-     * @param  string  $type
+     * @param int    $argument
+     * @param string $type
+     *
      * @return InvalidArgumentException
      */
     public static function getInvalidArgumentException($argument, $type)
     {
-        $stack = debug_backtrace(FALSE);
+        $stack = debug_backtrace(false);
 
         return new InvalidArgumentException(
           sprintf(

@@ -543,7 +543,7 @@ class vfsStreamWrapper
      * @param   string  $path_from
      * @param   string  $path_to
      * @return  bool
-     * @author  Benoit Aubuchon
+     * @author Benoit Aubuchon
      */
     public function rename($path_from, $path_to)
     {

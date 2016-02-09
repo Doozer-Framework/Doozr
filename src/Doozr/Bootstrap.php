@@ -283,7 +283,23 @@ if (false === composer_running()) {
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
-| EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
+| DOOZR RUNTIME GLOBAL CONSTANTS
++---------------------------------------------------------------------------------------------------------------------*/
+
+define('DOOZR_PHP_VERSION',    floatval(PHP_VERSION));
+define('DOOZR_PHP_ERROR_MAX',  PHP_INT_MAX);
+define('DOOZR_OS',             strtoupper(PHP_OS));
+define('DOOZR_WINDOWS',        (substr(DOOZR_OS, 0, 3) === 'WIN') && DIRECTORY_SEPARATOR !== '/');
+define('DOOZR_UNIX',           (DIRECTORY_SEPARATOR === '/' && DOOZR_WINDOWS === false));
+define('DOOZR_SECURE_HASH',    (DOOZR_PHP_VERSION > 5.11));
+define('DOOZR_SAPI',           php_sapi_name());
+define('DOOZR_VERSION',        '$Id$');
+define('DOOZR_NAME',           'Doozr');
+define('DOOZR_NAMESPACE',      'Doozr');
+define('DOOZR_NAMESPACE_FLAT', 'doozr');
+
+/*----------------------------------------------------------------------------------------------------------------------
+| EXTEND PHP's FUNCTIONALITY
 +---------------------------------------------------------------------------------------------------------------------*/
 
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Extend.php';

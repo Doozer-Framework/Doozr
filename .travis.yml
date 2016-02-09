@@ -41,7 +41,7 @@ after_script:
 after_success:
   # Push coverage to github pages branch
   - chmod +x ./update-gh-pages.sh
-  - bash ./update-gh-pages.sh
+  - if [ $(phpenv version-name) == "5.5" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then bash ./update-gh-pages.sh; fi
   # CREATE GIT TAG
   - git config --global user.email "builds@travis-ci.org"
   - git config --global user.name "Travis"

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Interface.php - Interface for all validators.
  *
@@ -43,39 +44,41 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Interface for all validators.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Form_Service_Validator_Interface
 {
     /**
-     * Validates a passed set of arguments
+     * Validates a passed set of arguments.
      *
      * @param bool $force TRUE to force validation, FALSE to do not and use cache if exists
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The rendered result
-     * @access public
      */
     public function validate(
         $force = false

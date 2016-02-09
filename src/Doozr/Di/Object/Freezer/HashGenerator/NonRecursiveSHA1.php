@@ -1,6 +1,6 @@
 <?php
 /**
- * Object_Freezer
+ * Object_Freezer.
  *
  * Copyright (c) 2008-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -34,24 +34,24 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @since      File available since Release 1.0.0
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/HashGenerator.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/Util.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Object/Freezer/HashGenerator.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Object/Freezer/Util.php';
 
 /**
  * Interface for generators of object hashes.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://github.com/sebastianbergmann/php-object-freezer/
  * @since      Interface available since Release 1.0.0
  */
@@ -67,7 +67,7 @@ class Object_Freezer_HashGenerator_NonRecursiveSHA1
     /**
      * Constructor.
      *
-     * @param  Object_Freezer_IdGenerator $idGenerator
+     * @param Object_Freezer_IdGenerator $idGenerator
      */
     public function __construct(Object_Freezer_IdGenerator $idGenerator)
     {
@@ -79,8 +79,10 @@ class Object_Freezer_HashGenerator_NonRecursiveSHA1
      * hashing function on the attribute values of an object without recursing
      * into aggregated arrays or objects.
      *
-     * @param  object $object The object that is to be hashed.
+     * @param object $object The object that is to be hashed.
+     *
      * @return string
+     *
      * @throws InvalidArgumentException
      */
     public function getHash($object)
@@ -100,22 +102,18 @@ class Object_Freezer_HashGenerator_NonRecursiveSHA1
         foreach ($attributes as $key => $value) {
             if (is_array($value)) {
                 $attributes[$key] = '<array>';
-            }
-
-            else if (is_object($value)) {
+            } elseif (is_object($value)) {
                 if (!isset($value->__php_object_freezer_uuid)) {
                     $value->__php_object_freezer_uuid =
                     $this->idGenerator->getId();
                 }
 
                 $attributes[$key] = $value->__php_object_freezer_uuid;
-            }
-
-            else if (is_resource($value)) {
-                $attributes[$key] = NULL;
+            } elseif (is_resource($value)) {
+                $attributes[$key] = null;
             }
         }
 
-        return sha1(get_class($object) . join(':', $attributes));
+        return sha1(get_class($object).implode(':', $attributes));
     }
 }

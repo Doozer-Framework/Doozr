@@ -1812,11 +1812,16 @@ class Doozr_Http extends Doozr_Base_Class implements Http
         static $uri = null;
 
         if (null === $uri) {
-            $uri = (true === is_ssl()) ? 'https://' : 'http://';
-            $uri .= $_SERVER['SERVER_NAME'];
+            $uri = (true === isset($_SERVER['SERVER_NAME'])) ? $_SERVER['SERVER_NAME'] : '';
 
-            if ($_SERVER['SERVER_PORT'] !== '80' && $_SERVER['SERVER_PORT'] !== '443') {
-                $uri .= ':'.$_SERVER['SERVER_PORT'];
+            if (strlen($uri) > 0) {
+                $uri = ((true === is_ssl()) ? 'https://' : 'http://') . $uri;
+            }
+
+            if (true === isset($_SERVER['SERVER_PORT'])) {
+                if ($_SERVER['SERVER_PORT'] !== '80' && $_SERVER['SERVER_PORT'] !== '443') {
+                    $uri .= ':'.$_SERVER['SERVER_PORT'];
+                }
             }
 
             $uri .= $_SERVER['REQUEST_URI'];

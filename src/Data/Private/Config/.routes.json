@@ -1,12 +1,12 @@
 {
-    "/foo/bar/{id:\\d+}": {
-        "methods": "GET,POST",
-        "presenter": "index",
-        "action": "index"
-    },
-    "/index/index/test": {
-        "methods": "GET",
-        "presenter": "index",
-        "action": "index"
-    }
+  "/foo/bar/{id:\\d+}": {
+    "methods": "GET,POST",
+    "presenter": "index",
+    "action": "index"
+  },
+  "/index/index/test": {
+    "methods": "GET",
+    "presenter": "index",
+    "action": "index"
+  }
 }

@@ -84,7 +84,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
     protected static $serviceName;
 
     /**
-     * Classname of Service.
+     * ClassName of Service.
      *
      * @var string
      */
@@ -128,7 +128,7 @@ abstract class Doozr_Base_Service_Test_Abstract extends PHPUnit_Framework_TestCa
             DOOZR_NAMESPACE_FLAT
         );
 
-        // Store classname
+        // Store className
         self::$serviceClassName = 'Doozr_'.self::$serviceName.'_Service';
 
         // Get registry

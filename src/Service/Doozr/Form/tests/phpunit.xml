@@ -1,0 +1,36 @@
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
+    backupGlobals="true"
+    backupStaticAttributes="false"
+    bootstrap="../../../../Doozr/Bootstrap.php"
+    cacheTokens="false"
+    colors="true"
+    stopOnError="true"
+    stopOnFailure="true"
+    verbose="false"
+    testdox="true"
+    timeoutForSmallTests="1"
+    timeoutForMediumTests="10"
+    timeoutForLargeTests="60"
+    >
+
+    <testsuites>
+        <testsuite name="Doozr_Form_Service">
+            <directory>.</directory>
+        </testsuite>
+    </testsuites>
+
+    <logging>
+        <log
+            type="testdox"
+        />
+    </logging>
+
+    <php>
+        <const name="DOOZR_APP_ENVIRONMENT" value="testing" />
+        <includePath>.</includePath>
+        <includePath>../../../../src</includePath>
+        <ini name="max_execution_time" value="600" />
+    </php>
+</phpunit>
