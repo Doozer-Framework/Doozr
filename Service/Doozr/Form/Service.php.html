@@ -402,7 +402,7 @@
 
      <tr>
       <td class="success" colspan="4">&nbsp;<a href="#370"><abbr title="getFormHandler(
-              $scope,
+              $scope             = DOOZR_NAMESPACE,
         array $arguments         = [],
               $requestMethod     = null,
               $angularDirectives = false
@@ -504,7 +504,7 @@
      <tr><td><div align="right"><a name="50"></a><a href="#50">50</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@copyright&nbsp;&nbsp;2005&nbsp;-&nbsp;2016&nbsp;Benjamin&nbsp;Carl</span></td></tr>
      <tr><td><div align="right"><a name="51"></a><a href="#51">51</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@license&nbsp;&nbsp;&nbsp;&nbsp;http://www.opensource.org/licenses/bsd-license.php&nbsp;The&nbsp;BSD&nbsp;License</span></td></tr>
      <tr><td><div align="right"><a name="52"></a><a href="#52">52</a></div></td><td class="codeLine"><span class="comment">&nbsp;*</span></td></tr>
-     <tr><td><div align="right"><a name="53"></a><a href="#53">53</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@version&nbsp;&nbsp;&nbsp;&nbsp;Git:&nbsp;$Id:&nbsp;42a2837fcf1a22407a6be543d6c10294f46a40b4&nbsp;$</span></td></tr>
+     <tr><td><div align="right"><a name="53"></a><a href="#53">53</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@version&nbsp;&nbsp;&nbsp;&nbsp;Git:&nbsp;$Id:&nbsp;e96fe8300a718fdffcab49e2fa88de8a2909eba2&nbsp;$</span></td></tr>
      <tr><td><div align="right"><a name="54"></a><a href="#54">54</a></div></td><td class="codeLine"><span class="comment">&nbsp;*</span></td></tr>
      <tr><td><div align="right"><a name="55"></a><a href="#55">55</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@link&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http://clickalicious.github.com/Doozr/</span></td></tr>
      <tr><td><div align="right"><a name="56"></a><a href="#56">56</a></div></td><td class="codeLine"><span class="comment">&nbsp;*/</span></td></tr>
@@ -527,7 +527,7 @@
      <tr><td><div align="right"><a name="73"></a><a href="#73">73</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@copyright&nbsp;&nbsp;2005&nbsp;-&nbsp;2016&nbsp;Benjamin&nbsp;Carl</span></td></tr>
      <tr><td><div align="right"><a name="74"></a><a href="#74">74</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@license&nbsp;&nbsp;&nbsp;&nbsp;http://www.opensource.org/licenses/bsd-license.php&nbsp;The&nbsp;BSD&nbsp;License</span></td></tr>
      <tr><td><div align="right"><a name="75"></a><a href="#75">75</a></div></td><td class="codeLine"><span class="comment">&nbsp;*</span></td></tr>
-     <tr><td><div align="right"><a name="76"></a><a href="#76">76</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@version&nbsp;&nbsp;&nbsp;&nbsp;Git:&nbsp;$Id:&nbsp;42a2837fcf1a22407a6be543d6c10294f46a40b4&nbsp;$</span></td></tr>
+     <tr><td><div align="right"><a name="76"></a><a href="#76">76</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@version&nbsp;&nbsp;&nbsp;&nbsp;Git:&nbsp;$Id:&nbsp;e96fe8300a718fdffcab49e2fa88de8a2909eba2&nbsp;$</span></td></tr>
      <tr><td><div align="right"><a name="77"></a><a href="#77">77</a></div></td><td class="codeLine"><span class="comment">&nbsp;*</span></td></tr>
      <tr><td><div align="right"><a name="78"></a><a href="#78">78</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@link&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http://clickalicious.github.com/Doozr/</span></td></tr>
      <tr><td><div align="right"><a name="79"></a><a href="#79">79</a></div></td><td class="codeLine"><span class="comment">&nbsp;*&nbsp;@Inject(</span></td></tr>
@@ -822,7 +822,7 @@
      <tr><td><div align="right"><a name="368"></a><a href="#368">368</a></div></td><td class="codeLine"><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;Doozr_Form_Service_FormHandler</span></td></tr>
      <tr><td><div align="right"><a name="369"></a><a href="#369">369</a></div></td><td class="codeLine"><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span></td></tr>
      <tr><td><div align="right"><a name="370"></a><a href="#370">370</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">public</span><span class="default">&nbsp;</span><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">getFormHandler</span><span class="keyword">(</span></td></tr>
-     <tr><td><div align="right"><a name="371"></a><a href="#371">371</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$scope</span><span class="keyword">,</span></td></tr>
+     <tr><td><div align="right"><a name="371"></a><a href="#371">371</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$scope</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">DOOZR_NAMESPACE</span><span class="keyword">,</span></td></tr>
      <tr><td><div align="right"><a name="372"></a><a href="#372">372</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">array</span><span class="default">&nbsp;</span><span class="default">$arguments</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="keyword">[</span><span class="keyword">]</span><span class="keyword">,</span></td></tr>
      <tr><td><div align="right"><a name="373"></a><a href="#373">373</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$requestMethod</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">null</span><span class="keyword">,</span></td></tr>
      <tr><td><div align="right"><a name="374"></a><a href="#374">374</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$angularDirectives</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">false</span></td></tr>
