@@ -93,7 +93,7 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      *
      * @var string
      */
-    protected $template = Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_NONCLOSING;
+    protected $template = Doozr_Form_Service_Constant::DEFAULT_TEMPLATE_NONCLOSING;
 
     /**
      * Type for <input type="text">.
@@ -146,7 +146,7 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
 
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

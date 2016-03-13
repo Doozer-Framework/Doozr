@@ -65,7 +65,7 @@ The **lightweight** PHP-Framework for **high-performance** websites.
  - `Filesystem` (Filesystem wrapper with virtual filesystem support)
  - `Form` (Secure form handler (csrf/token) + validation)
  - `I18n` (Internationalization + Localization, native gettext™ support & gettext emulation)
- - `Password` (Password generator + validator, support for PHPass based hashes)
+ - `Password` (Password generator + validationHandler, support for PHPass based hashes)
  - `Session` (Secure and object oriented session subystem, En-/Decryption, Unique Identifier, Automatic Id regenerating, ...)
  - `Template` (Interface to PHPTal with full PHPTal templating support)
 

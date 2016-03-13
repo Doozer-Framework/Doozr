@@ -79,7 +79,7 @@ class TokenController implements TokenControllerInterface
         }
 
         /* Determine grant type from request
-         * and validate the request for that grant type
+         * and validation the request for that grant type
          */
         if (!$grantTypeIdentifier = $request->request('grant_type')) {
             $response->setError(400, 'invalid_request', 'The grant type was not specified in the request');
@@ -112,7 +112,7 @@ class TokenController implements TokenControllerInterface
             }
             $clientId = $this->clientAssertionType->getClientId();
 
-            // validate the Client ID (if applicable)
+            // validation the Client ID (if applicable)
             if (!is_null($storedClientId = $grantType->getClientId()) && $storedClientId != $clientId) {
                 $response->setError(400, 'invalid_grant', sprintf('%s doesn\'t exist or is invalid for the client', $grantTypeIdentifier));
                 return null;

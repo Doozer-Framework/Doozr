@@ -102,22 +102,22 @@ interface Doozr_Form_Service_Component_Interface_Form
     public function getValidation();
 
     /**
-     * Setter for validator.
+     * Setter for validationHandler.
      *
-     * @param Doozr_Form_Service_Validator_Interface $validator The validator instance
+     * @param Doozr_Form_Service_Validator_Interface $validator The validationHandler instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Form_Service_Validator_Interface The validator instance
+     * @return Doozr_Form_Service_Validator_Interface The validationHandler instance
      */
     public function setValidator(Doozr_Form_Service_Validator_Interface $validator);
 
     /**
-     * Getter for validator.
+     * Getter for validationHandler.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Form_Service_Validator_Interface The validator instance
+     * @return Doozr_Form_Service_Validator_Interface The validationHandler instance
      */
     public function getValidator();
 
@@ -174,4 +174,17 @@ interface Doozr_Form_Service_Component_Interface_Form
      * @return mixed Name of this component
      */
     public function getName();
+
+    /**
+     *
+     * @return mixed
+     */
+    public function hasChildren();
+
+    /**
+     * Getter for type.
+     *
+     * @return string Type of the component.
+     */
+    public function getType();
 }

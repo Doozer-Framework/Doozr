@@ -149,7 +149,7 @@ class Doozr_Di_Container
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Di_Container Instance
+     * @return self Instance
      * @static
      */
     public static function getInstance($scope = Doozr_Di_Constants::DEFAULT_SCOPE)

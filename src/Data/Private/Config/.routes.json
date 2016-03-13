@@ -8,5 +8,10 @@
     "methods": "GET",
     "presenter": "index",
     "action": "index"
+  },
+  "/": {
+    "methods": "POST",
+    "presenter": "index",
+    "action": "index"
   }
 }

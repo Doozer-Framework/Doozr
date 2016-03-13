@@ -178,7 +178,7 @@ class Doozr_View_Web extends Doozr_Base_View
                 }
 
                 $template->setTranslator($i18n);
-                $template->{'doozr_locale'} = $i18n->getActiveLocale();
+                $template->{'doozr_locale'} = $i18n->getLocale();
             }
 
             // Assign data from passed in array to template (for use as a template variable)

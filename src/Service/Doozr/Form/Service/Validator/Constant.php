@@ -68,7 +68,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Validate_Constant
+class Doozr_Form_Service_Validator_Constant
 {
     /*------------------------------------------------------------------------------------------------------------------
     | Errors of elements
@@ -208,7 +208,7 @@ class Doozr_Form_Service_Validate_Constant
     const VALIDATE_UPPERCASE = 'uppercase';
 
     /**
-     * valid-type for post-/zipcode input.
+     * valid-type for post-/zip-code input.
      *
      * @var string
      */
@@ -336,7 +336,7 @@ class Doozr_Form_Service_Validate_Constant
      *
      * @var string
      */
-    const ERROR_REQUESTTYPE_INVALID = 'requesttype_invalid';
+    const ERROR_REQUESTTYPE_INVALID = 'request-type_invalid';
 
     /**
      * From error flag for form was submitted using an invalid token

@@ -176,7 +176,7 @@ class vfsStream
      * content.
      *
      * If no baseDir is given it will try to add the structure to the existing
-     * root directory without replacing existing childs except those with equal
+     * root directory without replacing existing children except those with equal
      * names.
      *
      * @param   array<string,array|string>  $structure  directory structure to add under root directory
@@ -225,7 +225,7 @@ class vfsStream
      * copies the file system structure from given path into the base dir
      *
      * If no baseDir is given it will try to add the structure to the existing
-     * root directory without replacing existing childs except those with equal
+     * root directory without replacing existing children except those with equal
      * names.
      * File permissions are copied as well.
      * Please note that file contents will only be copied if their file size

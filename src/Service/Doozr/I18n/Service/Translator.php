@@ -714,7 +714,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
         $result = in_array($namespace, $this->getNamespaces());
 
         // Check if not already set
-        if (false !== $result) {
+        if (false === $result) {
 
             // make array for iteration
             if (is_string($namespace)) {
@@ -775,8 +775,9 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      */
     public function hasNamespace($namespace = null)
     {
-        if ($namespace === null) {
+        if (null === $namespace) {
             $result = (count($this->namespaces) > 0);
+
         } else {
             $result = in_array($namespace, $this->namespaces);
         }
@@ -836,6 +837,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      */
     public function _($key, $arguments = null)
     {
+        #$this->setNamespace('myform');
+
         return $this->translate($key, $arguments, self::MODE_TRANSLATE);
     }
 

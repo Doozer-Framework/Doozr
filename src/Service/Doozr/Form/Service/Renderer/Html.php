@@ -73,17 +73,17 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Renderer/Abstract.p
 class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstract
 {
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Renders a passed templates with variables childs and attributes.
+     * Renders a passed templates with variables children and attributes.
      *
      * @param bool   $force      TRUE to force rerendering, FALSE to accept cached result
      * @param array  $template   The template to render
      * @param string $tag        The tag of the element to render
      * @param array  $variables  The variables to use for rendering
-     * @param array  $childs     The child elements
+     * @param array  $children     The child elements
      * @param array  $attributes The attributes
      * @param string $innerHtml
      *
@@ -98,13 +98,13 @@ class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstr
         $template = [],
         $tag = '',
         array $variables = [],
-        array $childs = [],
+        array $children = [],
         array $attributes = [],
               $innerHtml = ''
     ) {
-        // Render childs if any attached
-        if (count($childs) > 0) {
-            $innerHtml .= $this->renderChilds($childs, $force);
+        // Render children if any attached
+        if (count($children) > 0) {
+            $innerHtml .= $this->renderChildren($children, $force);
         }
 
         // Get attributes prepared as string
@@ -168,22 +168,22 @@ class Doozr_Form_Service_Renderer_Html extends Doozr_Form_Service_Renderer_Abstr
     }
 
     /**
-     * Renders the HTML of the childs attached.
+     * Renders the HTML of the children attached.
      *
-     * @param array $childs The childs attached
+     * @param array $children The children attached
      * @param bool  $force  TRUE to force rerendering, otherwise FALSE to use cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string The rendered result
      */
-    protected function renderChilds(array $childs = [], $force)
+    protected function renderChildren(array $children = [], $force)
     {
-        // The HTML result of childs
+        // The HTML result of children
         $html = '';
 
-        // Iterate childs and render HTML of each
-        foreach ($childs as $child) {
+        // Iterate children and render HTML of each
+        foreach ($children as $child) {
             $html .= $child->render($force)->get();
         }
 

@@ -54,7 +54,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Html.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
 
 /**
  * Doozr - Form - Service.
@@ -72,7 +72,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Html.php'
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Html
+class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
      * The tag of this component.
@@ -160,7 +160,9 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
                                                $component = null,
                                                $message = null
     ) {
+        // Parse label if set ...
         if ($label !== null) {
+            // Check for collection or single item ...
             if (is_array($label)) {
                 foreach ($label as $singleLabel) {
                     $this->addLabel($singleLabel);
@@ -170,7 +172,9 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
             }
         }
 
-        if ($component !== null) {
+        // Parse component if set ...
+        if (null !== $component) {
+            // Check for collection or single item ...
             if (is_array($component)) {
                 foreach ($component as $singleComponent) {
                     $this->addComponent($singleComponent);
@@ -180,7 +184,10 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
             }
         }
 
-        if ($message instanceof Doozr_Form_Service_Component_Message) {
+        #if ($message instanceof Doozr_Form_Service_Component_Message) {
+        // Parse message if set ...
+        if (null !== $message) {
+            // Check for collection or single item ...
             if (is_array($message)) {
                 foreach ($message as $singleMessage) {
                     $this->addMessage($singleMessage);
@@ -190,7 +197,7 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
             }
         }
 
-        parent::__construct(null, null, $renderer);
+        parent::__construct($renderer, $validator);
 
         // automagic management
         $this->wire();
@@ -427,7 +434,7 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Ht
     public function render($force = false)
     {
         // Do custom sort and stuff like this and proxy forward the call to render to renderer->render(...)
-        $this->setChilds(
+        $this->setChildren(
             $this->sort($this->order)
         );
 

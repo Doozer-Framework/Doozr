@@ -796,7 +796,6 @@ class Doozr_Loader_Autoloader_Spl_Config
             }
         }
 
-        // Nothing done
         return false;
     }
 }

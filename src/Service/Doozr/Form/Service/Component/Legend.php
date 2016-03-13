@@ -83,7 +83,7 @@ class Doozr_Form_Service_Component_Legend extends Doozr_Form_Service_Component_F
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_LEGEND;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

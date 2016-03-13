@@ -72,7 +72,5 @@
  */
 abstract class Doozr_Form_Service_Validator_Abstract
 {
-    /*
-     * Currently only used as contract for typehinting
-     */
+    // Intentionally left empty
 }

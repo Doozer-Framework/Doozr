@@ -103,13 +103,13 @@ interface Doozr_Form_Service_Component_Interface_Html
     public function removeChild($index);
 
     /**
-     * Returns all attached childs.
+     * Returns all attached children.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return array An array containing the attached childs
+     * @return array An array containing the attached children
      */
-    public function getChilds();
+    public function getChildren();
 
     /**
      * Returns a child by passed Id.
@@ -127,9 +127,9 @@ interface Doozr_Form_Service_Component_Interface_Html
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return bool TRUE if the component has childs, otherwise FALSE
+     * @return bool TRUE if the component has children, otherwise FALSE
      */
-    public function hasChilds();
+    public function hasChildren();
 
     /**
      * Renders a component a returns it HTML code.
@@ -292,11 +292,11 @@ interface Doozr_Form_Service_Component_Interface_Html
     /**
      * Setter for arguments.
      *
-     * @param array|Doozr_Request_Arguments $arguments The arguments
+     * @param array $arguments The arguments
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setArguments($arguments);
+    public function setArguments(array $arguments);
 
     /**
      * Getter for arguments.

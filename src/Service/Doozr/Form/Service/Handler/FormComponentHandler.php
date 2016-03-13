@@ -1,10 +1,15 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Http - Service
+ * Doozr - Form - Service - Handler - FormComponentHandler.
  *
- * Demo.php - Http Service
+ * FormComponentHandler.php -
+ *
+ * Important note: This getUploadedFiles is used only in context of the form
+ * service and so its not only responsible for uploaded files but also for
+ * already uploaded and validated files.
  *
  * PHP versions 5.5
  *
@@ -43,32 +48,79 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Http
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
-require_once '../../../../src/Doozr/Bootstrap.php';
+/**
+ * Doozr - Form - Service - Handler - FormComponentHandler.
+ *
+ * ddd
+ *
+ * @category   Doozr
+ *
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2016 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
+ * @version    Git: $Id$
+ *
+ * @link       http://clickalicious.github.com/Doozr/
+ */
+class Doozr_Form_Service_Handler_FormComponentHandler extends Doozr_Base_Class
+    implements Doozr_Form_Service_Handler_Interface
+{
+    /**
+     * Doozr_Form_Service_Handler_FormComponentHandler constructor.
+     *
+     * @param \Doozr_Registry_Interface $registry
+     */
+    public function __construct(Doozr_Registry_Interface $registry)
+    {
+        $this
+            ->registry($registry);
+    }
 
-/* @var $http Doozr_Http_Service */
-$http = Doozr_Loader_Serviceloader::load('http');
+    public function getLabel($text = null)
+    {
+        /* @var Doozr_Form_Service_Component_Label $element */
+        $element = $this->getRegistry()->getContainer()->build('doozr.form.service.component.label');
 
-$result = var_export(
-    $http
-        ->host('requestb.in')
-        ->port(80)
-        ->protocol(Doozr_Http_Service::CONNECTION_PROTOCOL_HTTP)
-        ->post('ti0ozjti', array('foo' => 'bar'))
-        ->get('ti0ozjti')
-        ->put('ti0ozjti')
-        ->delete('ti0ozjti')
-        ->run()
-    ,
-    true
-);
+        if (null !== $text) {
+            $element->setText($text);
+        }
 
-echo $result;
+        return $element;
+    }
+
+    public  function getFile($name = null)
+    {
+        /* @var Doozr_Form_Service_Component_File $element */
+        $element = $this->getRegistry()->getContainer()->build('doozr.form.service.component.file');
+
+        if (null !== $name) {
+            $element->setName($name);
+        }
+
+        return $element;
+    }
+
+    public function getText($name = null)
+    {
+        /* @var Doozr_Form_Service_Component_Text $element */
+        $element = $this->getRegistry()->getContainer()->build('doozr.form.service.component.text');
+
+        if (null !== $name) {
+            $element->setName($name);
+        }
+
+        return $element;
+    }
+}

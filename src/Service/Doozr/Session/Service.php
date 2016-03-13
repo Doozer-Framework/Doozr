@@ -429,6 +429,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
      */
     public function __tearup($sessionId = null, $autoInit = false, $phpVersion = DOOZR_PHP_VERSION)
     {
+        /*
         // get instance of logger
         $this->logger = self::getRegistry()->getLogger();
 
@@ -453,6 +454,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
                 self::getRegistry()->getConfiguration()->session
             );
         }
+        */
     }
 
     /**
@@ -627,7 +629,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
 
         // at this point the ip is in format configured (X-octets)
         if ($ipFromSession !== null) {
-            // found ip in session! try to validate and destroy if suspicious
+            // found ip in session! try to validation and destroy if suspicious
             if ($ipFromSession != $ip) {
                 $this->log('Session seems to be hijacked! Destroying session and closing connection!');
                 $this->destroy();
@@ -820,7 +822,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
     /**
      * Handle the regeneration process.
      *
-     * This method is intend to handle the regeneration process.
+     * This method is intend to getMetaComponents the regeneration process.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

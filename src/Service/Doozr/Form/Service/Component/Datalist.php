@@ -90,7 +90,7 @@ class Doozr_Form_Service_Component_Datalist extends Doozr_Form_Service_Component
     protected $type = Doozr_Form_Service_Constant::COMPONENT_CONTAINER;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -122,7 +122,7 @@ class Doozr_Form_Service_Component_Datalist extends Doozr_Form_Service_Component
     public function addOption(Doozr_Form_Service_Component_Interface_Option $option)
     {
         // Beim addOption() von Datalist modifiy template so das <option></option> zu <option dkjdkjdkd/> wird!
-        $option->setTemplate(Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_NONCLOSING);
+        $option->setTemplate(Doozr_Form_Service_Constant::DEFAULT_TEMPLATE_NONCLOSING);
 
         return parent::addOption($option);
     }

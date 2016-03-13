@@ -1,8 +1,8 @@
 {
   "map": [
     {
-      "doozr.form.service.formhandler": {
-        "className": "Doozr_Form_Service_FormHandler",
+      "doozr.form.service.handler.formhandler": {
+        "className": "Doozr_Form_Service_Handler_FormHandler",
         "constructor": "__construct",
         "dependencies": [
           {
@@ -17,35 +17,54 @@
           },
           {
             "type": "constructor",
-            "link": "doozr.form.service.component.input",
+            "link": "doozr.form.service.component.form",
             "position": 4
           },
           {
             "type": "constructor",
-            "link": "doozr.form.service.component.form",
+            "link": "doozr.form.service.store",
             "position": 5
           },
           {
             "type": "constructor",
-            "link": "doozr.form.service.store",
+            "link": "doozr.form.service.renderer",
             "position": 6
           },
           {
             "type": "constructor",
-            "link": "doozr.form.service.renderer",
+            "className": "Doozr_Form_Service_Accessor_DotNotation",
             "position": 7
           },
           {
             "type": "constructor",
-            "className": "Doozr_Form_Service_Validate_Validator",
+            "className": "Doozr_Form_Service_Handler_ValidationHandler",
             "position": 8
           },
           {
             "type": "constructor",
-            "className": "Doozr_Form_Service_Validate_Error",
+            "className": "Doozr_Form_Service_Handler_FileUploadHandler",
             "position": 9
+          },
+          {
+            "type": "constructor",
+            "className": "Doozr_Form_Service_Handler_TokenHandler",
+            "position": 10
+          },
+          {
+            "type": "constructor",
+            "className": "Doozr_Form_Service_Handler_DataHandler",
+            "position": 11
           }
         ]
+      },
+      "doozr.form.service.validate.error": {
+        "className": "Doozr_Form_Service_Validator_Error"
+      },
+      "doozr.form.service.handler.metacomponenthandler": {
+        "className": "Doozr_Form_Service_Handler_MetaComponentHandler"
+      },
+      "doozr.form.service.handler.formcomponenthandler": {
+        "className": "Doozr_Form_Service_Handler_FormComponentHandler"
       },
       "doozr.form.service.component.input": {
         "className": "Doozr_Form_Service_Component_Input",
@@ -88,6 +107,63 @@
       },
       "doozr.form.service.component.form": {
         "className": "Doozr_Form_Service_Component_Form",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer"
+          },
+          {
+            "type": "constructor",
+            "className": "Doozr_Form_Service_Validator_Generic"
+          }
+        ]
+      },
+      "doozr.form.service.component.group": {
+        "className": "Doozr_Form_Service_Component_Group",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer"
+          },
+          {
+            "type": "constructor",
+            "className": "Doozr_Form_Service_Validator_Generic"
+          }
+        ]
+      },
+      "doozr.form.service.component.legend": {
+        "className": "Doozr_Form_Service_Component_Legend",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer"
+          }
+        ]
+      },
+      "doozr.form.service.component.fieldset": {
+        "className": "Doozr_Form_Service_Component_Fieldset",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer"
+          },
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.component.legend"
+          }
+        ]
+      },
+      "doozr.form.service.component.message": {
+        "className": "Doozr_Form_Service_Component_Message",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer"
+          }
+        ]
+      },
+      "doozr.form.service.component.file": {
+        "className": "Doozr_Form_Service_Component_File",
         "dependencies": [
           {
             "type": "constructor",

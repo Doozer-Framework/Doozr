@@ -5,7 +5,7 @@
 /**
  * Doozr - Form - Service.
  *
- * Class Doozr_Form_Service_Component_Html_Html is a basic HTML-Component
+ * Html.php - Class Doozr_Form_Service_Component_Html_Html is a basic HTML-Component
  * which provides some simple rendering and templating capabilities.
  * It's a concrete implementation which extends the HTML-skeleton abstract.
  *
@@ -84,23 +84,20 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     ArrayAccess
 {
     /**
-     * The observers references.
-     * Is array on default so that a access as array
-     * won't fail till construction.
+     * The observers references. Is array on default so that a access as array won't fail till construction.
      *
      * @var SplObjectStorage
      */
     protected $observers = [];
 
     /**
-     * The template is required for output. Each HTML-Component inherits
-     * this base template and so every component based on this base class
-     * is renderable. This template produces at least a correct HTML tag
-     * which must not be valid in an other context!
+     * The template is required for output. Each HTML-Component inherits this base template and so every component
+     * based on this base class is renderable. This template produces at least a correct HTML tag which must not be
+     * valid in an other context!
      *
      * @var string
      */
-    protected $template = Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_CLOSING;
+    protected $template = Doozr_Form_Service_Constant::DEFAULT_TEMPLATE_CLOSING;
 
     /**
      * The inner HTML string.
@@ -110,19 +107,20 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     protected $innerHtml = '';
 
     /**
-     * This contains the rendered HTML when rendered. Its kept till render
-     * is forced to render again = override cache!
+     * This contains the rendered HTML when rendered. Its kept till render is forced to render again = override cache!
      *
      * @var string
      */
     protected $html;
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return \Doozr_Form_Service_Component_Html_Html
      */
     public function __construct()
     {
@@ -130,7 +128,7 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -295,18 +293,16 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     *-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Magic implementation to prevent us spamming the class
-     * body with thousands of getters and setters for all those
-     * special attributes that exist. Like id, name, style, on...
-     * and so on. This basic implementation transforms calls like.
+     * Magic implementation to prevent us spamming the class body with thousands of getters and setters for all those
+     * special attributes that exist. Like id, name, style, and so on. This basic implementation transforms calls like.
      *
      * @example
      *  - getName() <=> getAttribute('name');
      *  - setName('foo') <=> setAttribute('name', 'foo');
      *  - ...
      *
-     * @param $method    The method called (e.g. setId())
-     * @param $arguments The arguments passed while calling $method
+     * @param string $method    Method called (e.g. setId())
+     * @param array  $arguments Arguments passed while calling $method
      *
      * @return null|void
      *
@@ -326,8 +322,11 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
             !isset($methodSplitted[1])
         ) {
             trigger_error(
-                'Call to undefined function: '.$method.'. Arguments: '.var_export($arguments, true).PHP_EOL
-                #'Callstack: '.var_export(, true)
+                sprintf(
+                    'Call to undefined function: "%s" with arguments: "%s"',
+                    $method,
+                    var_export($arguments, true).PHP_EOL
+                )
             );
         }
 
@@ -469,7 +468,7 @@ abstract class Doozr_Form_Service_Component_Html_Html extends Doozr_Form_Service
     {
         // IMPORTANT: Don't set this value directly ->
         // or the index won't be extended!!!
-        return $this->setAttribute($offset, $value);
+        $this->setAttribute($offset, $value);
     }
 
     /**

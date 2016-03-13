@@ -77,17 +77,17 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Renderer/Abstract.p
 class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstract
 {
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Renders a passed templates with variables childs and attributes.
+     * Renders a passed templates with variables children and attributes.
      *
      * @param bool   $force      TRUE to force rerendering, FALSE to accept cached result
      * @param array  $template   The template to render
      * @param string $tag        The tag of the element to render
      * @param array  $variables  The variables to use for rendering
-     * @param array  $childs     The child elements
+     * @param array  $children     The child elements
      * @param array  $attributes The attributes
      * @param string $innerJson
      *
@@ -102,18 +102,18 @@ class Doozr_Form_Service_Renderer_Json extends Doozr_Form_Service_Renderer_Abstr
         $template = [],
         $tag = '',
         array $variables = [],
-        array $childs = [],
+        array $children = [],
         array $attributes = [],
         $innerJson = ''
     ) {
         $json               = [];
         $json['tag']        = $tag;
-        $json['childs']     = [];
+        $json['children']     = [];
         $json['attributes'] = $attributes;
 
         //
-        foreach ($childs as $child) {
-            $json['childs'][] = $child->render()->get(false);
+        foreach ($children as $child) {
+            $json['children'][] = $child->render()->get(false);
         }
 
         $this->rendered = $json;

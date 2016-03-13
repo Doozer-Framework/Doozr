@@ -78,7 +78,7 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
     Doozr_Form_Service_Component_Interface_File
 {
     /**
-     * The maximum filesize allowed for fileuploads in Bytes.
+     * The maximum filesize allowed for file-uploads in Bytes.
      *
      * @var int
      */
@@ -92,7 +92,7 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
     protected $file;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -102,11 +102,9 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * @param Doozr_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return \Doozr_Form_Service_Component_File
      */
     public function __construct(
-        Doozr_Form_Service_Renderer_Interface $renderer = null,
+        Doozr_Form_Service_Renderer_Interface  $renderer  = null,
         Doozr_Form_Service_Validator_Interface $validator = null
     ) {
         $this->setType('file');
@@ -150,7 +148,7 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
     {
         $this->type = $type;
 
-        return parent::setType($type);
+        parent::setType($type);
     }
 
     /**
@@ -162,7 +160,7 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      */
     public function setValue($value)
     {
-        return $this->setFile($value);
+        $this->setFile($value);
     }
 
     /**

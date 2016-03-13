@@ -99,7 +99,7 @@ abstract class Doozr_Form_Service_Renderer_Abstract
 
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -115,13 +115,13 @@ abstract class Doozr_Form_Service_Renderer_Abstract
     }
 
     /**
-     * Renders a passed templates with variables childs and attributes.
+     * Renders a passed templates with variables children and attributes.
      *
      * @param bool   $force      TRUE to force rerendering, otherwise FALSE to do not
      * @param array  $template   The template to render
      * @param string $tag        The tag of the component
      * @param array  $variables  The variables to use for rendering
-     * @param array  $childs     The child elements
+     * @param array  $children     The child elements
      * @param array  $attributes The attributes
      * @param string $innerHtml  The inner Html to set
      *
@@ -134,7 +134,7 @@ abstract class Doozr_Form_Service_Renderer_Abstract
         $template = [],
         $tag = '',
         array $variables = [],
-        array $childs = [],
+        array $children = [],
         array $attributes = [],
         $innerHtml = ''
     ) {
@@ -144,9 +144,9 @@ abstract class Doozr_Form_Service_Renderer_Abstract
             $template['attributes'][$key] = $attribute;
         }
 
-        $template['childs'] = [];
-        foreach ($childs as $child) {
-            $template['childs'][] = $child;
+        $template['children'] = [];
+        foreach ($children as $child) {
+            $template['children'][] = $child;
         }
 
         $template['variables'] = [];

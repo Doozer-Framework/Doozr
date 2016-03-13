@@ -109,7 +109,7 @@ class Doozr_Base_Response_Rest extends Doozr_Base_Class
     protected $code;
 
     /**
-     * States this instance can handle/have.
+     * States this instance can getMetaComponents/have.
      *
      * @var string
      */

@@ -89,7 +89,7 @@ class Doozr_Form_Service_Component_Fieldset extends Doozr_Form_Service_Component
     protected $legendId;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -104,7 +104,7 @@ class Doozr_Form_Service_Component_Fieldset extends Doozr_Form_Service_Component
      */
     public function __construct(
         Doozr_Form_Service_Renderer_Interface $renderer = null,
-        Doozr_Form_Service_Component_Legend $legend = null
+        Doozr_Form_Service_Component_Legend   $legend = null
     ) {
         if ($legend !== null) {
             $this->setLegend($legend);
@@ -179,7 +179,7 @@ class Doozr_Form_Service_Component_Fieldset extends Doozr_Form_Service_Component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The legend component
+     * @return Doozr_Form_Service_Component_Legend The legend component
      */
     public function getLegend()
     {

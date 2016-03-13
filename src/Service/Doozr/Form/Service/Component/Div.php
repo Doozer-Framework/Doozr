@@ -70,11 +70,10 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Html.php'
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Component_Div extends Doozr_Form_Service_Component_Html
+class Doozr_Form_Service_Component_Div extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form".
+     * This is the tag-name for HTML output. e.g. "input" or "form".
      *
      * @var string
      */
@@ -93,6 +92,6 @@ class Doozr_Form_Service_Component_Div extends Doozr_Form_Service_Component_Html
         Doozr_Form_Service_Renderer_Interface $renderer = null
     ) {
         // Important call so observer storage ... can be initiated
-        parent::__construct(null, null, $renderer);
+        parent::__construct($renderer);
     }
 }

@@ -69,7 +69,7 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Validate_Error
+class Doozr_Form_Service_Validator_Error
 {
     /**
      * The error.
@@ -163,7 +163,7 @@ class Doozr_Form_Service_Validate_Error
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -315,7 +315,7 @@ class Doozr_Form_Service_Validate_Error
         // build the local matrix just once
         if (empty($this->errorCodeMatrix)) {
             // get type and order from Doozr_Form_Service_Validate so we don't need to define it manually again
-            $typeMatrix = Doozr_Form_Service_Validate_Validator::getValidationTypeMatrix();
+            $typeMatrix = Doozr_Form_Service_Validator_Generic::getValidationTypeMatrix();
 
             // iterate over types and construct error-code-matrix of it
             foreach ($typeMatrix as $type => $order) {

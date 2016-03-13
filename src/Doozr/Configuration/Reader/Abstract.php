@@ -179,7 +179,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
             }
         }
 
-        // Check first if we can handle the file (basic check - everything else done by filesystem service)
+        // Check first if we can getMetaComponents the file (basic check - everything else done by filesystem service)
         if (
             false === $this->getFilesystem()->exists($filename) ||
             false === $this->getFilesystem()->readable($filename)

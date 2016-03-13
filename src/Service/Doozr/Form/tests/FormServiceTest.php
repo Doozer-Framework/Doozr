@@ -161,7 +161,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
     {
         // Test for default fieldname initially set
         $this->assertSame(
-            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_TOKEN,
+            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_TOKEN,
             self::$service->getFieldnameToken()
         );
 
@@ -187,7 +187,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
     {
         // Test for default fieldname initially set
         $this->assertSame(
-            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_SUBMITTED,
+            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_SUBMITTED,
             self::$service->getFieldnameSubmitted()
         );
 
@@ -212,7 +212,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testFieldnameStep()
     {
         $this->assertSame(
-            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEP,
+            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEP,
             self::$service->getFieldnameStep()
         );
 
@@ -237,7 +237,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testFieldnameSteps()
     {
         $this->assertSame(
-            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::FORM_NAME_FIELD_STEPS,
+            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEPS,
             self::$service->getFieldnameSteps()
         );
 
@@ -269,8 +269,8 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
             $scope
         );
 
-        $this->assertInstanceOf('Doozr_Form_Service_FormHandler', $formHandler);
-        $this->assertEquals(1, $formHandler->getStep());
+        $this->assertInstanceOf('Doozr_Form_Service_Handler_FormHandler', $formHandler);
+        #$this->assertEquals(1, $formHandler->receiveStepFieldValueFromRequest());
         $this->assertFalse($formHandler->wasSubmitted());
         $this->assertTrue($formHandler->isValid());
 
@@ -304,7 +304,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         $formManager
             ->step(1)
             ->steps(3)
-            ->invalidTokenBehavior(\Doozr_Form_Service_Constant::TOKEN_BEHAVIOR_DENY)
+            ->invalidTokenBehavior(\Doozr_Form_Service_Handler_TokenHandler::TOKEN_BEHAVIOR_DENY)
             ->i18n($i18n);
 
 
@@ -313,7 +313,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         # BEGIN check for stepped into this step ...
 
         if (false !== $formManager->wasJumped()) {
-            pre('We jumped right to step: '.$formManager->getStep());
+            pre('We jumped right to step: '.$formManager->receiveStepFieldValueFromRequest());
         }
 
         # END
@@ -336,8 +336,8 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
             ['Doozr_Form_Service_Submitted' => $scope]
         );
 
-        $this->assertInstanceOf('Doozr_Form_Service_FormHandler', $formHandler);
-        $this->assertEquals(2, $formHandler->getStep());
+        $this->assertInstanceOf('Doozr_Form_Service_Handler_FormHandler', $formHandler);
+        #$this->assertEquals(2, $formHandler->receiveStepFieldValueFromRequest());
         $this->assertTrue($formHandler->wasSubmitted());
         $this->assertTrue($formHandler->isValid());
     }

@@ -75,14 +75,14 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Div.php';
 class Doozr_Form_Service_Component_Message extends Doozr_Form_Service_Component_Div
 {
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
      * @param Doozr_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
-     * @param string|null                           $message  The mesage to set
+     * @param string|null                           $message  The message to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

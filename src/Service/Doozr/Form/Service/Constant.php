@@ -71,114 +71,107 @@
  */
 class Doozr_Form_Service_Constant
 {
+    /*------------------------------------------------------------------------------------------------------------------
+    | GENERAL
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * The prefix for fields, fieldsets ...
+     * The prefix for fields, fieldset ...
      *
      * @var string
      */
     const PREFIX = 'Doozr_Form_Service_';
 
     /**
-     * Identifier for the container object
-     * in an AngularJS scope. So in this default setup
-     * hidden fields available through.
-     *
-     * @example $scope.hidden.[NAME]
+     * Identifier for data pool "components".
      *
      * @var string
      */
-    const SCOPE = '';
+    const IDENTIFIER_COMPONENTS = 'components';
 
     /**
-     * The default name used at init for default (e.g. for optional I18n scope).
+     * Identifier for data pool "lastvalidstep".
      *
      * @var string
      */
-    const DEFAULT_SCOPE = 'Form';
+    const IDENTIFIER_LASTVALIDSTEP = 'lastvalidstep';
 
     /**
-     * The default step if no step is/was set before.
-     *
-     * @var int
-     */
-    const STEP_DEFAULT_FIRST = 1;
-
-    /**
-     * The default amount of steps till finish is 1 (1/1).
-     *
-     * @var int
-     */
-    const STEP_DEFAULT_LAST = 1;
-
-    /**
-     * The name/identifier of hidden field for submission status.
+     * Identifier for data pool "step".
      *
      * @var string
      */
-    const FORM_NAME_FIELD_SUBMITTED = 'Submitted';
+    const IDENTIFIER_STEP = 'step';
 
     /**
-     * The fieldname of the token field.
+     * Identifier for data pool "steps".
      *
      * @var string
      */
-    const FORM_NAME_FIELD_TOKEN = 'Token';
+    const IDENTIFIER_STEPS = 'steps';
 
     /**
-     * The name of the element which carries the
-     * information about a valid file uploaded.
+     * Identifier for data pool "data".
      *
      * @var string
      */
-    const FORM_NAME_FIELD_FILE = 'File';
+    const IDENTIFIER_DATA = 'data';
 
     /**
-     * The fieldname for the step field.
+     * Identifier for data pool "files".
      *
      * @var string
      */
-    const FORM_NAME_FIELD_STEP = 'Step';
+    const IDENTIFIER_FILES = 'files';
 
     /**
-     * The fieldname for the steps field.
+     * Identifier for data pool "token".
      *
      * @var string
      */
-    const FORM_NAME_FIELD_STEPS = 'Steps';
+    const IDENTIFIER_TOKEN = 'token';
 
     /**
-     * The fieldname for the jump field.
+     * Identifier for data pool "submitted".
      *
      * @var string
      */
-    const FORM_NAME_FIELD_JUMP = 'Jump';
+    const IDENTIFIER_SUBMITTED = 'submitted';
 
     /**
-     * Token behavior constants
-     * DENY = Block access to page (tries to send 404).
+     * Identifier for data pool "jump".
      *
-     * @var int
+     * @var string
      */
-    const TOKEN_BEHAVIOR_DENY = 1;
+    const IDENTIFIER_JUMP = 'jump';
 
     /**
-     * Token behavior constants
-     * IGNORE = No matter if valid or invalid - the token just get ignored.
+     * Identifier for data pool "method".
      *
-     * @var int
+     * @var string
      */
-    const TOKEN_BEHAVIOR_IGNORE = 2;
+    const IDENTIFIER_METHOD = 'method';
 
     /**
-     * Token behavior constants
-     * DENY = Block access to page (tries to send 404).
+     * Identifier for data pool "tokenbehavior".
      *
-     * @var int
+     * @var string
      */
-    const TOKEN_BEHAVIOR_INVALIDATE = 3;
+    const IDENTIFIER_TOKENBEHAVIOR = 'tokenbehavior';
 
     /**
-     * Fieldtypes of form elements.
+     * Identifier for upload.
+     *
+     * @var string
+     */
+    const IDENTIFIER_UPLOAD = 'upload';
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | HTML TAG
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Field-types of form elements.
      *
      * @var string
      */
@@ -311,22 +304,36 @@ class Doozr_Form_Service_Constant
     const HTML_VERSION_5 = 5;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Upload related constants
+    | UPLOAD
     +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Max size of file upload in bytes.
+     *
+     * @var int
+     */
+    const DEFAULT_MAX_UPLOAD_FILESIZE = 65535;
 
     /**
      * The encoding type for "normal" form data (default).
      *
      * @var string
      */
-    const ENCODING_TYPE_DEFAULT = 'application/x-www-form-urlencoded';
+    const ENCODING_TYPE_NOFILEUPLOAD = 'application/x-www-form-urlencoded';
 
     /**
-     * The encoding type for multitype upload form data.
+     * The encoding type for multipart upload form data.
      *
      * @var string
      */
     const ENCODING_TYPE_FILEUPLOAD = 'multipart/form-data';
+
+    /**
+     * Default for has upload.
+     *
+     * @@int
+     */
+    const DEFAULT_HAS_FILE_UPLOAD = 1;
 
     /**
      * The encoding type for text which has encoded
@@ -337,7 +344,7 @@ class Doozr_Form_Service_Constant
     const ENCODING_TYPE_TEXT = 'text/plain';
 
     /**
-     * Type for generic components like <textare> <select> ...
+     * Type for generic components like <textarea> <select> ...
      *
      * @var string
      */
@@ -352,23 +359,175 @@ class Doozr_Form_Service_Constant
 
     /**
      * Container component type. Container is a form component
-     * which must contain childs to be valid like <select>.
+     * which must contain children to be valid like <select>.
      *
      * @var string
      */
     const COMPONENT_CONTAINER = 'container';
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | DEFAULTS
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Default "method" (post|get) for form submission.
+     *
+     */
+    const DEFAULT_METHOD = Doozr_Http::REQUEST_METHOD_POST;
+
+    /**
+     * Default encoding type of forms.
+     *
+     * @var string
+     */
+    const DEFAULT_ENCODING_TYPE = self::ENCODING_TYPE_NOFILEUPLOAD;
+
+    /**
+     * Default name used at init for default (e.g. for optional I18n scope).
+     *
+     * @var string
+     */
+    const DEFAULT_SCOPE = 'Form';
+
+    /**
+     * Default step if no step is/was set before.
+     *
+     * @var int
+     */
+    const DEFAULT_STEP_FIRST = 1;
+
+    /**
+     * Default amount of steps till finish is 1 (1/1).
+     *
+     * @var int
+     */
+    const DEFAULT_STEP_LAST = 1;
+
+    /**
+     * The name/identifier of hidden field for submission status.
+     *
+     * @var string
+     */
+    const DEFAULT_NAME_FIELD_SUBMITTED = 'Doozr_Form_Service_Submitted';
+
+    /**
+     * The fieldname of the token field.
+     *
+     * @var string
+     */
+    const DEFAULT_NAME_FIELD_TOKEN = 'Doozr_Form_Service_Token';
+
+    /**
+     * The name of the element which carries the
+     * information about a valid file uploaded.
+     *
+     * @var string
+     */
+    const DEFAULT_NAME_FIELD_FILE = 'Doozr_Form_Service_File';
+
+    /**
+     * The fieldname for the step field.
+     *
+     * @var string
+     */
+    const DEFAULT_NAME_FIELD_STEP = 'Doozr_Form_Service_Step';
+
+    /**
+     * The fieldname for the steps field.
+     *
+     * @var string
+     */
+    const DEFAULT_NAME_FIELD_STEPS = 'Doozr_Form_Service_Steps';
+
+    /**
+     * The fieldname for the jump field.
+     *
+     * @var string
+     */
+    const DEFAULT_NAME_FIELD_JUMP = 'Doozr_Form_Service_Jump';
+
+    /**
+     * Name of the upload meta field.
+     *
+     * @var string
+     */
+    const DEFAULT_NAME_FIELD_UPLOAD = 'Doozr_Form_Service_Upload';
 
     /**
      * Template for closing tag.
      *
      * @var string
      */
-    const TEMPLATE_DEFAULT_CLOSING = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
+    const DEFAULT_TEMPLATE_CLOSING = '<{{TAG}}{{ATTRIBUTES}}>{{INNER-HTML}}</{{TAG}}>';
 
     /**
      * Template for non-closing tag.
      *
      * @var string
      */
-    const TEMPLATE_DEFAULT_NONCLOSING = '<{{TAG}}{{ATTRIBUTES}} />';
+    const DEFAULT_TEMPLATE_NONCLOSING = '<{{TAG}}{{ATTRIBUTES}} />';
+
+    /**
+     * Default behavior for invalid token.
+     *
+     * @var int
+     */
+    const DEFAULT_TOKEN_BEHAVIOR = Doozr_Form_Service_Handler_TokenHandler::TOKEN_BEHAVIOR_DEFAULT;
+
+    /**
+     * Default jumped status.
+     *
+     * @var bool
+     */
+    const DEFAULT_JUMPED = false;
+
+    /**
+     * Default submitted status.
+     *
+     * @var bool
+     */
+    const DEFAULT_SUBMITTED = false;
+
+    /**
+     * Default valid status of form.
+     *
+     * @var bool
+     */
+    const DEFAULT_VALID_STATUS = true;
+
+    /**
+     * Default complete status of form.
+     *
+     * @var bool
+     */
+    const DEFAULT_COMPLETE_STATUS = false;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | TRANSPORTATION
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Request method GET.
+     *
+     * @var string
+     */
+    const METHOD_GET = Doozr_Http::REQUEST_METHOD_GET;
+
+    /**
+     * Request method POST.
+     *
+     * @var string
+     */
+    const METHOD_POST = Doozr_Http::REQUEST_METHOD_POST;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | ERROR
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Identifier for error messages of form component.
+     *
+     * @var string
+     */
+    const ERROR_IDENTIFIER_FORM = 'form';
 }

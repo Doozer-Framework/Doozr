@@ -85,7 +85,7 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_FORM;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -93,16 +93,16 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
      *
      * @param Doozr_Form_Service_Renderer_Interface  $renderer  Renderer instance for rendering this component
      * @param Doozr_Form_Service_Validator_Interface $validator Validator instance for validating this component
-     * @param null                                   $name      The name of the form
+     * @param string|null                            $name      Name/identifier of form
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(
-        Doozr_Form_Service_Renderer_Interface $renderer = null,
+        Doozr_Form_Service_Renderer_Interface  $renderer = null,
         Doozr_Form_Service_Validator_Interface $validator = null,
-        $name = null
+                                               $name = null
     ) {
-        if ($name !== null) {
+        if (null !== $name) {
             $this->setName($name);
         }
 
@@ -431,7 +431,7 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
     }
 
     /**
-     * Enable the form to handle uploads.
+     * Enable the form to getMetaComponents uploads.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -447,7 +447,7 @@ class Doozr_Form_Service_Component_Form extends Doozr_Form_Service_Component_For
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setEncodingType($encodingType = Doozr_Form_Service_Constant::ENCODING_TYPE_DEFAULT)
+    public function setEncodingType($encodingType = Doozr_Form_Service_Constant::DEFAULT_ENCODING_TYPE)
     {
         $this->setAttribute('enctype', $encodingType);
     }

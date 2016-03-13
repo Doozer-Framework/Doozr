@@ -90,7 +90,7 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     protected $type = Doozr_Form_Service_Constant::COMPONENT_CONTAINER;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

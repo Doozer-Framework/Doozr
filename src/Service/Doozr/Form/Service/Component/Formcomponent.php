@@ -123,7 +123,7 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
     protected $type = Doozr_Form_Service_Constant::COMPONENT_GENERIC;
 
     /**
-     * A validator instance used to validate this component.
+     * A validationHandler instance used to validation this component.
      *
      * @var Doozr_Form_Service_Validator_Interface
      */
@@ -133,12 +133,12 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * Constructor.
      *
      * @param Doozr_Form_Service_Renderer_Interface  $renderer  The renderer instance which renders this component
-     * @param Doozr_Form_Service_Validator_Interface $validator The validator instance which validates this component
+     * @param Doozr_Form_Service_Validator_Interface $validator The validationHandler instance which validates this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __construct(
-        Doozr_Form_Service_Renderer_Interface $renderer = null,
+        Doozr_Form_Service_Renderer_Interface  $renderer  = null,
         Doozr_Form_Service_Validator_Interface $validator = null
     ) {
         if ($validator !== null) {
@@ -150,7 +150,7 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -178,13 +178,13 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
     }
 
     /**
-     * Setter for validator.
+     * Setter for validationHandler.
      *
-     * @param Doozr_Form_Service_Validator_Interface $validator The validator instance
+     * @param Doozr_Form_Service_Validator_Interface $validator The validationHandler instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Form_Service_Validator_Interface The validator instance
+     * @return Doozr_Form_Service_Validator_Interface The validationHandler instance
      */
     public function setValidator(Doozr_Form_Service_Validator_Interface $validator)
     {
@@ -192,11 +192,11 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
     }
 
     /**
-     * Getter for validator.
+     * Getter for validationHandler.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Form_Service_Validator_Interface The validator instance
+     * @return Doozr_Form_Service_Validator_Interface The validationHandler instance
      */
     public function getValidator()
     {
@@ -223,14 +223,18 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      * @param null|string $value      The value for validation or NULL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
      */
     public function addValidation($validation, $value = null)
     {
-        if (!isset($this->validation[$validation])) {
+        if (false === isset($this->validation[$validation])) {
             $this->validation[$validation] = [];
         }
 
         $this->validation[$validation][] = $value;
+
+        return $this;
     }
 
     /**

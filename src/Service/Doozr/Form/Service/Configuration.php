@@ -114,7 +114,7 @@ class Doozr_Form_Service_Configuration
     const DOOZR_COMMAND_PREFIX = 'doozr-';
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -272,7 +272,7 @@ class Doozr_Form_Service_Configuration
     /**
      * Validates the input passed to parser.
      *
-     * @param array $input The input to validate
+     * @param array $input The input to validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -357,8 +357,8 @@ class Doozr_Form_Service_Configuration
         $result = [];
 
         // Extract commands of Doozr from configuration
-        foreach ($configuration as $root => $childs) {
-            foreach ($childs as $key => $values) {
+        foreach ($configuration as $root => $children) {
+            foreach ($children as $key => $values) {
                 foreach ($values as $node => $value) {
                     $dom   = [];
                     $doozr = [];

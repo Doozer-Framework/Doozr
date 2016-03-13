@@ -75,7 +75,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Input.php
 class Doozr_Form_Service_Component_Hidden extends Doozr_Form_Service_Component_Input
 {
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

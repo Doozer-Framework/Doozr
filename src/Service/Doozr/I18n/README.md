@@ -15,7 +15,7 @@ The `I18n-Service` is full compatible with the `PHPTAL I18n Interface` and so it
 - **PHPTal I18n Interface compatible** (works smooth together)
 
 ### Modes
-The **I18n** Service provides different interfaces to handle translations. Currently the following interfaces are supported:
+The **I18n** Service provides different interfaces to getMetaComponents translations. Currently the following interfaces are supported:
 
  - **Text** (*ini*-File based)
  - **Gettext** (*gettext™*)
@@ -64,7 +64,7 @@ If you choose *Text* as interface to translations then you need to create a dire
                     LC_MESSAGES\
                         *.po      (Textdomain[namespace].po file(s))
  
-Also no magic. The Text runtimeEnvironment is based on ini-Files which can be handled fast and with good performance with native PHP and caching of contents is also not that difficult. We used this way a long time and currently evaluating to migrate over to gettext cause it is easier for translators to handle.
+Also no magic. The Text runtimeEnvironment is based on ini-Files which can be handled fast and with good performance with native PHP and caching of contents is also not that difficult. We used this way a long time and currently evaluating to migrate over to gettext cause it is easier for translators to getMetaComponents.
 
 An example ini-Translation file would look like this:
 
@@ -102,11 +102,11 @@ Set available locales (override config):
 
 Get active locale:
 
-    $activeLocale = $i18n->getActiveLocale();
+    $locale = $i18n->getLocale();
 
 Set active locale:
 
-    $i18n->setActiveLocale('en-us');
+    $i18n->setLocale('en-us');
 
 Get encoding (e.g. UTF-8):
 

@@ -1253,13 +1253,13 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         }
 
         // Save session
-        session_write_close();
+        #session_write_close();
     }
 
     /**
      * Invoke execution is part of Middleware implementation (PSR-7).
      *
-     * @param Request  $request  The request to handle
+     * @param Request  $request  The request to getMetaComponents
      * @param Response $response The response to send
      * @param callable $next     The next callable middleware implementation
      *
@@ -1298,13 +1298,14 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
             $response = $responseResolver->resolve($request, $response);
 
         } catch (\Exception $exception) {
-            if (true === !$debugging) {
+            if (false === $debugging) {
                 $response = $this->buildErrorResponse(
                     $exception->getCode(),
                     $exception->getMessage(),
                     $response,
                     $debugging
                 );
+
             } else {
                 throw $exception;
             }

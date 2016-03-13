@@ -87,11 +87,11 @@ class Doozr_Form_Service_Component_Button extends Doozr_Form_Service_Component_I
      *
      * @var string
      */
-    protected $template = Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_CLOSING;
+    protected $template = Doozr_Form_Service_Constant::DEFAULT_TEMPLATE_CLOSING;
 
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

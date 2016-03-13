@@ -74,13 +74,10 @@ interface Doozr_Form_Service_Validator_Interface
     /**
      * Validates a passed set of arguments.
      *
-     * @param bool $force TRUE to force validation, FALSE to do not and use cache if exists
+     * @param mixed $value           Value to validation
+     * @param mixed $validationSetup Setup of validations
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The rendered result
+     * @return bool|mixed TRUE if valid, otherwise mixed result
      */
-    public function validate(
-        $force = false
-    );
+    public function validation($value, $validationSetup);
 }

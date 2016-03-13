@@ -537,7 +537,7 @@ function regexp($input, $mode = 'default')
     return $output;
 }
 
-// Check if method already exists
+// Check if function already exists
 if (false === function_exists('is_ip')) {
     /**
      * Checks if a given string is an IP and returns result as boolean.
@@ -568,7 +568,7 @@ if (false === function_exists('is_ip')) {
  */
 function checksum()
 {
-    // get all arguments of method
+    // get all arguments of function
     $values = func_get_args();
 
     // assume empty checksum input
@@ -582,12 +582,12 @@ function checksum()
     return crc32($input);
 }
 
-// Check if method already exists
+// Check if function already exists
 if (false === function_exists('pre')) {
     /**
      * prints out or return a colorized output (no color in CLI-Mode).
      *
-     * This method is intend to print out or return a colorized output (no color in CLI-Mode).
+     * This function is intend to print out or return a colorized output (no color in CLI-Mode).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -603,12 +603,12 @@ if (false === function_exists('pre')) {
     }
 }
 
-// Check if method already exists
+// Check if function already exists
 if (false === function_exists('pred')) {
     /**
      * prints out or return a colorized output (no color in CLI-Mode) and dies! after output.
      *
-     * This method is intend to print out or return a colorized output (no color in CLI-Mode).
+     * This function is intend to print out or return a colorized output (no color in CLI-Mode).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -625,7 +625,7 @@ if (false === function_exists('pred')) {
     }
 }
 
-// Check if method already exists
+// Check if function already exists
 if (false === function_exists('json_last_error_msg')) {
     /**
      * Returns the last JSON error as string.
@@ -854,7 +854,7 @@ function banner($data = '', $nl = PHP_EOL)
     return $output;
 }
 
-// Check if method already exists
+// Check if function already exists
 if (false === function_exists('is_ssl')) {
     /**
      * Checks if the current connection is SSL secured.
@@ -879,7 +879,7 @@ if (false === function_exists('is_ssl')) {
     }
 }
 
-// Check if method already exists
+// Check if function already exists
 if (false === function_exists('microseconds')) {
     /**
      * Returns microseconds.
@@ -891,6 +891,36 @@ if (false === function_exists('microseconds')) {
     function microseconds()
     {
         return (int)gettimeofday()['usec'];
+    }
+}
+
+// Check if function already exists
+if (false === function_exists('resolve')) {
+    /**
+     * Resolves a dot notation from array to a value.
+     * Use foo.bar.baz to access $array[foo][bar][baz].
+     *
+     * @param array  $input Input array to resolve from
+     * @param string $path  Path to resolve (e.g. foo.bar.baz)
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return array|mixed The result
+     */
+    function resolve(array $input, $path, $default = null)
+    {
+        $current = $input;
+        $p       = strtok($path, '.');
+
+        while ($p !== false) {
+            if (!isset($current[$p])) {
+                return $default;
+            }
+            $current = $current[$p];
+            $p       = strtok('.');
+        }
+
+        return $current;
     }
 }
 

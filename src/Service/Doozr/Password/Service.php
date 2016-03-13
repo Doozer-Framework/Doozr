@@ -786,10 +786,10 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
     /**
      * validates a given password against a given hash.
      *
-     * This method is intend to validate a given password against a given hash.
+     * This method is intend to validation a given password against a given hash.
      *
-     * @param string $buffer Password to validate against hash
-     * @param string $hash   Hash used to validate password against
+     * @param string $buffer Password to validation against hash
+     * @param string $hash   Hash used to validation password against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

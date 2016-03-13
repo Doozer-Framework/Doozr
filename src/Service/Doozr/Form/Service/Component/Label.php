@@ -83,7 +83,7 @@ class Doozr_Form_Service_Component_Label extends Doozr_Form_Service_Component_Fo
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_LABEL;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

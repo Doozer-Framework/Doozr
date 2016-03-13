@@ -81,7 +81,7 @@ class Doozr_Form_Service_Component_Textarea extends Doozr_Form_Service_Component
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_TEXTAREA;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

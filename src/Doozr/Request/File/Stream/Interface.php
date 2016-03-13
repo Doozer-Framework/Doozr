@@ -69,9 +69,9 @@
 interface Doozr_Request_File_Stream_Interface
 {
     /**
-     * Must return a resource handle (known by PHP) of the stream representation of uploaded file.
+     * Must return a resource getMetaComponents (known by PHP) of the stream representation of uploaded file.
      *
-     * @return resource The resource handle of the stream representation of uploaded file.
+     * @return resource The resource getMetaComponents of the stream representation of uploaded file.
      * @access public
      * @throws Doozr_Exception_Runtime
      */

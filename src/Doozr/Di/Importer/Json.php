@@ -159,7 +159,7 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
     /**
      * Validates that a passed string is valid json.
      *
-     * @param string $input The input to validate
+     * @param string $input The input to validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

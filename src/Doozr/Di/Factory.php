@@ -346,9 +346,10 @@ final class Doozr_Di_Factory
                         $arguments[2],
                         $arguments[3],
                         $arguments[4],
-                        $arguments[5]);
-                case 7:
+                        $arguments[5]
+                    );
 
+                case 7:
                     return new $className(
                         $arguments[0],
                         $arguments[1],
@@ -356,9 +357,10 @@ final class Doozr_Di_Factory
                         $arguments[3],
                         $arguments[4],
                         $arguments[5],
-                        $arguments[6]);
-                case 8:
+                        $arguments[6]
+                    );
 
+                case 8:
                     return new $className(
                         $arguments[0],
                         $arguments[1],
@@ -367,9 +369,10 @@ final class Doozr_Di_Factory
                         $arguments[4],
                         $arguments[5],
                         $arguments[6],
-                        $arguments[7]);
-                case 9:
+                        $arguments[7]
+                    );
 
+                case 9:
                     return new $className(
                         $arguments[0],
                         $arguments[1],
@@ -379,9 +382,10 @@ final class Doozr_Di_Factory
                         $arguments[5],
                         $arguments[6],
                         $arguments[7],
-                        $arguments[8]);
-                case 10:
+                        $arguments[8]
+                    );
 
+                case 10:
                     return new $className(
                         $arguments[0],
                         $arguments[1],
@@ -392,9 +396,10 @@ final class Doozr_Di_Factory
                         $arguments[6],
                         $arguments[7],
                         $arguments[8],
-                        $arguments[9]);
-                case 11:
+                        $arguments[9]
+                    );
 
+                case 11:
                     return new $className(
                         $arguments[0],
                         $arguments[1],
@@ -406,9 +411,10 @@ final class Doozr_Di_Factory
                         $arguments[7],
                         $arguments[8],
                         $arguments[9],
-                        $arguments[10]);
-                case 12:
+                        $arguments[10]
+                    );
 
+                case 12:
                     return new $className(
                         $arguments[0],
                         $arguments[1],
@@ -421,12 +427,112 @@ final class Doozr_Di_Factory
                         $arguments[8],
                         $arguments[9],
                         $arguments[10],
-                        $arguments[11]);
+                        $arguments[11]
+                    );
+
+                case 13:
+                    return new $className(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9],
+                        $arguments[10],
+                        $arguments[11],
+                        $arguments[12]
+                    );
+
+                case 14:
+                    return new $className(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9],
+                        $arguments[10],
+                        $arguments[11],
+                        $arguments[12],
+                        $arguments[13]
+                    );
+
+                case 15:
+                    return new $className(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9],
+                        $arguments[10],
+                        $arguments[11],
+                        $arguments[12],
+                        $arguments[13],
+                        $arguments[14]
+                    );
+
+                case 16:
+                    return new $className(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9],
+                        $arguments[10],
+                        $arguments[11],
+                        $arguments[12],
+                        $arguments[13],
+                        $arguments[14],
+                        $arguments[15]
+                    );
+
+                case 17:
+                    return new $className(
+                        $arguments[0],
+                        $arguments[1],
+                        $arguments[2],
+                        $arguments[3],
+                        $arguments[4],
+                        $arguments[5],
+                        $arguments[6],
+                        $arguments[7],
+                        $arguments[8],
+                        $arguments[9],
+                        $arguments[10],
+                        $arguments[11],
+                        $arguments[12],
+                        $arguments[13],
+                        $arguments[14],
+                        $arguments[15],
+                        $arguments[16]
+                    );
 
                 default:
+
+                    // Try to run with lib from composer?
+                    dump('Bum');die;
+
                     throw new Doozr_Di_Exception(
                         sprintf(
-                            'Too much arguments passed to "%s". This method can handle up to 12 arguments. You passed '.
+                            'Too much arguments passed to "%s". This method can getMetaComponents up to 17 arguments. You passed '.
                             '"%s". Please reduce arguments passed to constructor.',
                             __METHOD__,
                             $countArguments

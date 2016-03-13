@@ -81,7 +81,7 @@ class Doozr_Form_Service_Component_Output extends Doozr_Form_Service_Component_F
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_OUTPUT;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

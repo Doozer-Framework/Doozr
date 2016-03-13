@@ -72,13 +72,13 @@
 interface Doozr_Form_Service_Renderer_Interface
 {
     /**
-     * Renders a passed templates with variables childs and attributes.
+     * Renders a passed templates with variables children and attributes.
      *
      * @param bool   $force      TRUE to force rerendering, FALSE to allow caching
      * @param array  $template   The template to render
      * @param string $tag        The html tag we are about to render
      * @param array  $variables  The variables to use for rendering
-     * @param array  $childs     The child elements
+     * @param array  $children     The child elements
      * @param array  $attributes The attributes
      * @param string $innerHtml  The inner HTML to set
      *
@@ -91,7 +91,7 @@ interface Doozr_Form_Service_Renderer_Interface
         $template = [],
         $tag = '',
         array $variables = [],
-        array $childs = [],
+        array $children = [],
         array $attributes = [],
         $innerHtml = ''
     );
