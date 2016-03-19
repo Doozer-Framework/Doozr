@@ -107,7 +107,7 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
         Doozr_Form_Service_Renderer_Interface  $renderer  = null,
         Doozr_Form_Service_Validator_Interface $validator = null
     ) {
-        $this->setType('file');
+        $this->setType(Doozr_Form_Service_Constant::COMPONENT_TYPE_FILE);
 
         // Important call so observer storage ... can be initiated
         parent::__construct($renderer, $validator);

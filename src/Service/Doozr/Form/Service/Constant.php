@@ -348,7 +348,14 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      */
-    const COMPONENT_GENERIC = 'generic';
+    const COMPONENT_TYPE_GENERIC = 'generic';
+
+    /**
+     * Type for file upload elements <input type="file" ...>
+     *
+     * @var string
+     */
+    const COMPONENT_TYPE_FILE = 'file';
 
     /**
      * Type for default components like <input type="..." ...>.

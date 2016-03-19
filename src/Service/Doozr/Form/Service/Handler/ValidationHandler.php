@@ -134,7 +134,7 @@ class Doozr_Form_Service_Handler_ValidationHandler extends Doozr_Form_Service_Va
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string $componentName The name of the component
+     * @return string $co   mponentName The name of the component
      */
     public function hasError($componentName)
     {

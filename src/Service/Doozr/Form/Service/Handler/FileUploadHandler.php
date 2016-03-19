@@ -103,27 +103,23 @@ class Doozr_Form_Service_Handler_FileUploadHandler extends Doozr_Base_Class
      *
      * @return array Array containing file(s) information, for either uploaded or reloaded for step from store!
      */
-    public function getUploadedFiles($step, array $pool, array $files)
+    public function getUploadedFiles($step, array $pool, array $files = [])
     {
         $result = [];
 
         // 1. Get files for this step from pool
         if (count($pool) > 0) {
-            $result = array_merge_recursive(
-                $result,
-                (isset($pool[Doozr_Form_Service_Constant::IDENTIFIER_FILES][$step])) ?
-                    $pool[Doozr_Form_Service_Constant::IDENTIFIER_FILES][$step] :
-                    []
-            );
+            $result = (isset($pool[Doozr_Form_Service_Constant::IDENTIFIER_FILES][$step])) ?
+                $pool[Doozr_Form_Service_Constant::IDENTIFIER_FILES][$step] :
+                [];
         }
 
         // 2. Get uploaded files for this step - if any ...
         if (count($files) > 0) {
-            // Flatten structure ...
-            $result = array_merge_recursive(
-                $result,
-                $this->extract($files)
-            );
+            $normalizedFiles = $this->extract($files);
+            foreach ($normalizedFiles as $key => $value) {
+                $result[$key] = $value;
+            }
         }
 
         return $result;

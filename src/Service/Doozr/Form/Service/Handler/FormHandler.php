@@ -258,6 +258,13 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
     protected $tokenHandler;
 
     /**
+     * Data handler.
+     *
+     * @var Doozr_Form_Service_Handler_DataHandler
+     */
+    protected $dataHandler;
+
+    /**
      * DotNotation Accessor.
      *
      * @var Doozr_Form_Service_Accessor_DotNotation
@@ -457,8 +464,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                 // Check for form has file upload (in general not on current request limited) - and getMetaComponents it ...
                 if (true === $this->hasFileUpload()) {
                     // ... getMetaComponents in this context is to ensure that we can't
-                    /* @todo DI refactor to DI */
-                    $fileUploadHandler = new Doozr_Form_Service_Handler_FileUploadHandler();
+                    $fileUploadHandler = $this->getFileUploadHandler();
 
                     // Retrieve files for this step (either from pool or fresh uploaded)
                     $files = $fileUploadHandler->getUploadedFiles(
@@ -473,17 +479,13 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                 // Store files ...
                 $this->setFiles($files);
 
-
-
-
-
                 // Extract components for validation in this steps
                 $validationRules = $this->getDataPool()[Doozr_Form_Service_Constant::IDENTIFIER_COMPONENTS][$step];
 
                 // Manually inject validation for method
                 $validationRules[Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::IDENTIFIER_METHOD] = [
                     'validation' => ['value' => [$this->getDataPool()[Doozr_Form_Service_Constant::IDENTIFIER_METHOD]]],
-                    'type'       => 'generic',
+                    'type'       => Doozr_Form_Service_Constant::COMPONENT_TYPE_GENERIC,
                 ];
 
                 $submittedValues = $this->buildValueArray(
@@ -496,7 +498,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                 // Manually inject validation for token
                 $validationRules[Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::IDENTIFIER_TOKEN] = [
                     'validation' => ['value' => [$this->getDataPool()[Doozr_Form_Service_Constant::IDENTIFIER_TOKEN]]],
-                    'type'       => 'generic',
+                    'type'       => Doozr_Form_Service_Constant::COMPONENT_TYPE_GENERIC,
                 ];
 
                 $submittedValues[Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::IDENTIFIER_TOKEN] = $this->getToken();
@@ -508,7 +510,6 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                         $validationRules
                     )
                 );
-
 
                 /**
                  * Required to handle
@@ -530,7 +531,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                 );
 
                 // Transfer valid data ...
-                $this->transferValidDataToPool($step);
+                $this->transferValidDataAndFilesToPool($step);
 
                 // If valid we must increase active step to the next one :)
                 if (true === $this->isValid()) {
@@ -565,14 +566,109 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
             $data   = $this->getDataPoolValue(Doozr_Form_Service_Constant::IDENTIFIER_DATA);
             $upload = (int) $this->getDataPoolValue(Doozr_Form_Service_Constant::IDENTIFIER_UPLOAD);
             $valid  = true;
+            $jumped = $this->getJumped();
+
+            $lastValidStep = (int) $this->getDataPoolValue(Doozr_Form_Service_Constant::IDENTIFIER_LASTVALIDSTEP);
+
+            /**
+             * CHECK
+             * Special case - When jumped over through AT MAXIMUM ONE (1) GRATER THAN LAST VALID STEP then
+             * this is allowed but require us to handle it a bit more special.
+             *
+             * - We do not have any validation to run.
+             *
+             *
+             * @todo $jumped
+             */
+            if ($jumped > $lastValidStep) {
+                #if ($this->getJumped() $lastValidStep)
+                dump($this->getJumped());
+            }
+            die;
+
+
+
 
             // If validation now fails for basic manipulation protection fallback to default
-            if ($step === 0 || $steps === 0 || null === $token || true === empty($data)) {
+            if (
+                $step                        <=  0                    ||    // ~ e.g. no valid step found
+                $steps                       <=  0                    ||    // ~ e.g. no valid steps limit/end found
+                null                         === $token               ||    // ~ e.g. no token ever stored
+                $step                        >   $steps               ||    // ~ e.g. stepped over goal
+                ($lastValidStep              === 0      && $step > 1) ||    // ~ e.g. If no last valid step but where in a step > 1
+                (abs($lastValidStep - $step) !=  1      && $step > 1)       // ~ e.g. More than 1 step diff is only allowed for jump
+            ) {
                 $valid = false;
             }
 
-            // At this point the basic validation must be done!
+            if (true === $valid) {
+                // Store the detected values for further processing
+                $this->setStep($step);
+                $this->setSteps($steps);
+                $this->setToken($token);
+                $this->setUpload($upload);
 
+                // Check for form has file upload (in general not on current request limited) - and getMetaComponents it ...
+                if (true === $this->hasFileUpload()) {
+                    // ... getMetaComponents in this context is to ensure that we can't
+                    $fileUploadHandler = $this->getFileUploadHandler();
+
+                    // Retrieve files for this step (either from pool or fresh uploaded)
+                    $files = $fileUploadHandler->getUploadedFiles(
+                        $step,
+                        $this->getDataPool()
+                    );
+
+                } else {
+                    $files = [];
+                }
+
+                // Store files ...
+                $this->setFiles($files);
+
+                // Extract components for validation in this steps
+                $validationRules = $this->getDataPool()[Doozr_Form_Service_Constant::IDENTIFIER_COMPONENTS][$step];
+
+                $submittedValues = $this->buildValueArray(
+                    array_keys($validationRules)
+                );
+
+                // Run validation by using validation handler ...
+                $this->setValid(
+                    $this->getValidationHandler()->validate(
+                        $submittedValues,
+                        $validationRules
+                    )
+                );
+
+                // Transfer valid data ...
+                $this->transferValidDataAndFilesToPool($step);
+
+                // If valid we must increase active step to the next one :)
+                if (true === $this->isValid()) {
+                    // We only accept completion of forms on a submit. This is a condition which prevent us from
+                    // running into raise conditions with jumped forms which are valid ... and it makes the rule easy:
+                    $this->setComplete($step === $steps);
+
+                    if (true === $this->isComplete()) {
+                        $this->setResult(
+                            $this->getDataHandler()->enrichWithMetaInformation(
+                                $this->invalidateDataPool()
+                            )
+                        );
+                    }
+
+                    $this->setActiveStep($step);
+                } else {
+                    $this->setActiveStep($step);
+                }
+
+                $processed = true;
+            }
+
+
+            /*
+            // At this point the basic validation must be done!
             if (true === $valid) {
                 // Store the detected values for further processing
                 $this->setStep($step);
@@ -588,7 +684,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                 $this->setActiveStep($step);
 
                 $processed = true;
-            }
+            }*/
         }
 
         // If neither submit nor successful jump step back to defaults!
@@ -660,7 +756,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return $this Instance for chaining
      */
-    protected function transferValidDataToPool($step)
+    protected function transferValidDataAndFilesToPool($step)
     {
         // Get active pool
         $pool = $this->getDataPool();
@@ -674,14 +770,22 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
         // We prevent execution above and so we assume that components is set without further checks
         $components = $pool[Doozr_Form_Service_Constant::IDENTIFIER_COMPONENTS][$step];
         $data       = [];
+        $files      = [];
 
         foreach ($components as $componentName => $configuration) {
             if (false === $this->hasError($componentName)) {
                 $data[$componentName] = $this->getValue($componentName);
+
+                if (Doozr_Form_Service_Constant::COMPONENT_TYPE_FILE === $configuration['type']) {
+                    $files[$componentName] = $data[$componentName];
+                }
             }
         }
 
-        $pool[Doozr_Form_Service_Constant::IDENTIFIER_DATA][$step] = $data;
+        // Store data & files @todo make file pointers of it
+        $pool[Doozr_Form_Service_Constant::IDENTIFIER_DATA][$step]  = $data;
+        $pool[Doozr_Form_Service_Constant::IDENTIFIER_FILES][$step] = $files;
+
         $this->setDataPool($pool);
 
         return $this;
@@ -1047,6 +1151,47 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
     protected function getTokenHandler()
     {
         return $this->tokenHandler;
+    }
+
+
+    /**
+     * Setter for dataHandler.
+     *
+     * @param Doozr_Form_Service_Handler_DataHandler $dataHandler The dataHandler instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setDataHandler(Doozr_Form_Service_Handler_DataHandler $dataHandler = null)
+    {
+        $this->dataHandler = $dataHandler;
+    }
+
+    /**
+     * Fluent: Setter for dataHandler.
+     *
+     * @param Doozr_Form_Service_Handler_DataHandler $dataHandler The dataHandler instance
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function dataHandler(Doozr_Form_Service_Handler_DataHandler $dataHandler = null)
+    {
+        $this->setDataHandler($dataHandler);
+
+        return $this;
+    }
+
+    /**
+     * Getter for dataHandler.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return null|Doozr_Form_Service_Handler_DataHandler The dataHandler instance if set, otherwise NULL
+     */
+    protected function getDataHandler()
+    {
+        return $this->dataHandler;
     }
 
     /**
@@ -2445,7 +2590,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      */
     protected function hasError($name)
     {
-        return true === isset($this->error[$name]);
+        return null !== $this->getValidationHandler()->getError($name);
     }
 
     /**
@@ -2528,7 +2673,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
         $pool[Doozr_Form_Service_Constant::IDENTIFIER_COMPONENTS][$this->getActiveStep()] = $this->getComponents($this->getForm());
         $pool[Doozr_Form_Service_Constant::IDENTIFIER_METHOD]                             = $this->getMethod();
         $pool[Doozr_Form_Service_Constant::IDENTIFIER_STEP]                               = $this->getActiveStep();
-        $pool[Doozr_Form_Service_Constant::IDENTIFIER_FILES][$this->getActiveStep()]      = null; /*@todo  FILES?! */
+        $pool[Doozr_Form_Service_Constant::IDENTIFIER_FILES][$this->getActiveStep()]      = $this->getFiles();
         $pool[Doozr_Form_Service_Constant::IDENTIFIER_STEPS]                              = $this->getSteps();
         $pool[Doozr_Form_Service_Constant::IDENTIFIER_TOKEN]                              = $this->getToken();
         $pool[Doozr_Form_Service_Constant::IDENTIFIER_UPLOAD]                             = $this->getUpload();

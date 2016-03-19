@@ -130,24 +130,24 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     /**
      * Service entry point.
      *
-     * @param string  $fieldnameToken     Name of form field for "token" value
-     * @param string  $fieldnameSubmitted Name of form field for "submitted" value
-     * @param string  $fieldnameStep      Name of form field for "step" value
-     * @param string  $fieldnameSteps     Name of form field for "steps" value
-     * @param string  $fieldnameJump      Name of form field for "jump" indicator
-     * @param string  $fieldnameUpload    Name of form field for "upload" indicator
+     * @param string $fieldnameToken     Name of form field for "token" value
+     * @param string $fieldnameSubmitted Name of form field for "submitted" value
+     * @param string $fieldnameStep      Name of form field for "step" value
+     * @param string $fieldnameSteps     Name of form field for "steps" value
+     * @param string $fieldnameJump      Name of form field for "jump" indicator
+     * @param string $fieldnameUpload    Name of form field for "upload" indicator
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return bool TRUE on success, otherwise FALSE
      */
     public function __tearup(
-        $fieldnameToken     = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_TOKEN,
+        $fieldnameToken = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_TOKEN,
         $fieldnameSubmitted = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_SUBMITTED,
-        $fieldnameStep      = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEP,
-        $fieldnameSteps     = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEPS,
-        $fieldnameJump      = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_JUMP,
-        $fieldnameUpload    = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_UPLOAD
+        $fieldnameStep = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEP,
+        $fieldnameSteps = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEPS,
+        $fieldnameJump = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_JUMP,
+        $fieldnameUpload = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_UPLOAD
     ) {
         $this
             ->fieldnameToken($fieldnameToken)
@@ -178,7 +178,7 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     public function getHandableScopeByRequest(Request $request)
     {
         // Assume that nothing in request is handable
-        $handable           = false;
+        $handable = false;
 
         $requestArguments   = $request->getQueryParams();
         $requestBody        = $request->getParsedBody();
@@ -191,7 +191,6 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
             // Check for passed _POST arguments from request body like: &jump=1
         } elseif (true === isset($requestBody[$fieldnameSubmitted])) {
             $handable = $requestBody[$fieldnameSubmitted];
-
         }
 
         return $handable;
@@ -210,9 +209,9 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
      * @return Doozr_Form_Service_Handler_FormHandler
      */
     public function getFormHandler(
-                $scope             = DOOZR_NAMESPACE,
-        Request $request           = null,
-                $method            = Doozr_Form_Service_Constant::DEFAULT_METHOD,
+                $scope = DOOZR_NAMESPACE,
+        Request $request = null,
+                $method = Doozr_Form_Service_Constant::DEFAULT_METHOD,
                 $angularDirectives = false
     ) {
         // Return form handler from factory
@@ -261,7 +260,7 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
                     Doozr_Form_Service_Constant::IDENTIFIER_STEPS     => $this->getFieldnameSteps(),
                     Doozr_Form_Service_Constant::IDENTIFIER_JUMP      => $this->getFieldnameJump(),
                     Doozr_Form_Service_Constant::IDENTIFIER_UPLOAD    => $this->getFieldnameUpload(),
-                ]
+                ],
             ]
         );
     }

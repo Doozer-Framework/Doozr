@@ -120,7 +120,7 @@ abstract class Doozr_Form_Service_Component_Formcomponent extends Doozr_Form_Ser
      *
      * @var string
      */
-    protected $type = Doozr_Form_Service_Constant::COMPONENT_GENERIC;
+    protected $type = Doozr_Form_Service_Constant::COMPONENT_TYPE_GENERIC;
 
     /**
      * A validationHandler instance used to validation this component.
