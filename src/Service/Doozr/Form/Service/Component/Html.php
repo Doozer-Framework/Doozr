@@ -302,7 +302,7 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      *
      * @return bool|null TRUE  if child was removed successfully,
      *                   FALSE if child could not be removed,
-     *                   NULL  if child wasn't found
+     *                   NULL  if child was not found
      */
     public function removeChild($index)
     {

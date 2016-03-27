@@ -532,33 +532,33 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for logger.
+     * Setter for logging.
      *
-     * @param Doozr_Logging_Interface $logger The logger to store
+     * @param Doozr_Logging_Interface $logging The logging to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setLogger(Doozr_Logging_Interface $logger)
+    public function setLogging(Doozr_Logging_Interface $logging)
     {
-        $this->set($logger, 'logger');
+        $this->set($logging, 'logging');
     }
 
     /**
-     * Getter for logger.
+     * Getter for logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Logging The logger instance
+     * @return Doozr_Logging The logging instance
      */
-    public function getLogger()
+    public function getLogging()
     {
-        return $this->get('logger');
+        return $this->get('logging');
     }
 
     /**
      * Setter for filesystem.
      *
-     * @param Doozr_Base_Service_Interface $filesystem The filesystem instance to store
+     * @param Doozr_Filesystem_Service $filesystem The filesystem instance to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -610,7 +610,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setCache($cache)
+    public function setCache(CacheItemPoolInterface $cache)
     {
         $this->set($cache, 'cache');
     }
@@ -624,7 +624,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      *
      * @return $this Instance for chaining
      */
-    public function cache($cache)
+    public function cache(CacheItemPoolInterface $cache)
     {
         $this->setCache($cache);
 
@@ -841,6 +841,46 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     public function getDebugbar()
     {
         return $this->get('debugbar');
+    }
+
+    /**
+     * Setter for eventBus.
+     *
+     * @param \League\Event\Emitter $eventBus The eventBus state to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function setEventBus(\League\Event\Emitter $eventBus)
+    {
+        $this->set($eventBus, 'eventBus');
+    }
+
+    /**
+     * Fluent: Setter for eventBus.
+     *
+     * @param \League\Event\Emitter $eventBus The eventBus state to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function eventBus(\League\Event\Emitter $eventBus)
+    {
+        $this->setEventBus($eventBus);
+
+        return $this;
+    }
+
+    /**
+     * Getter for eventBus.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return \League\Event\Emitter The eventBus
+     */
+    public function getEventBus()
+    {
+        return $this->get('eventBus');
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+

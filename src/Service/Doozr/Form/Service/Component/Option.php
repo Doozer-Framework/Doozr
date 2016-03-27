@@ -6,7 +6,7 @@
  * Doozr - Form - Service.
  *
  * Option.php - Option part of select field. Extra element cause it
- * has a similar interface like standard html elements. so recycle.
+ * has a similar interface like standard html elements.
  *
  * PHP versions 5.5
  *
@@ -61,7 +61,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface
  * Doozr - Form - Service.
  *
  * Option part of select field. Extra element cause it
- * has a similar interface like standard html elements. so recycle.
+ * has a similar interface like standard html elements.
  *
  * @category   Doozr
  *
@@ -181,7 +181,7 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
         }
 
         if ($value === null) {
-            $value = $this->getKey();
+            //$value = $this->getKey();
         }
 
         $this->setAttribute('value', $value);
@@ -208,7 +208,7 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
      */
     public function setKey($key)
     {
-        return $this->setInnerHtml($key);
+        $this->setInnerHtml($key);
     }
 
     /**

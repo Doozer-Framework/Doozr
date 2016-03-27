@@ -123,4 +123,29 @@ class Doozr_Form_Service_Handler_FormComponentHandler extends Doozr_Base_Class
 
         return $element;
     }
+
+    public function getSelect($name = null)
+    {
+        /* @var Doozr_Form_Service_Component_Select $element */
+        $element = $this->getRegistry()->getContainer()->build('doozr.form.service.component.select');
+
+        if (null !== $name) {
+            $element->setName($name);
+        }
+
+        return $element;
+    }
+
+    public function getOption($key = null, $value = '', $submittedValue = '')
+    {
+        /* @var Doozr_Form_Service_Component_Option $element */
+        $element = $this->getRegistry()->getContainer()->build('doozr.form.service.component.option');
+
+        if (null !== $key) {
+            $element->setKey($key);
+            $element->setValue($value, $submittedValue);
+        }
+
+        return $element;
+    }
 }

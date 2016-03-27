@@ -105,6 +105,32 @@
           }
         ]
       },
+      "doozr.form.service.component.select": {
+        "className": "Doozr_Form_Service_Component_Select",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer"
+          },
+          {
+            "type": "constructor",
+            "className": "Doozr_Form_Service_Validator_Generic"
+          }
+        ]
+      },
+      "doozr.form.service.component.option": {
+        "className": "Doozr_Form_Service_Component_Option",
+        "dependencies": [
+          {
+            "type": "constructor",
+            "link": "doozr.form.service.renderer"
+          },
+          {
+            "type": "constructor",
+            "className": "Doozr_Form_Service_Validator_Generic"
+          }
+        ]
+      },
       "doozr.form.service.component.form": {
         "className": "Doozr_Form_Service_Component_Form",
         "dependencies": [

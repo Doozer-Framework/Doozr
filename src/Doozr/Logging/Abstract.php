@@ -198,7 +198,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @example: 'emergency' => 0 means that emergency is level 0
      *           as 'debug' is level 7
      *
-     * @var int
+     * @var int[]
      */
     protected $availableLogtypes = [
         'emergency' => 7,   // 0,
@@ -294,7 +294,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
               $separator = null
     ) {
         // Prevent misuse
-        if (!array_key_exists($type, $this->availableLogtypes)) {
+        if (false === array_key_exists($type, $this->availableLogtypes)) {
             throw new Doozr_Logging_InvalidArgumentException(
                 sprintf('Invalid log type "%s" passed to "%s".',  $type, __METHOD__)
             );
@@ -304,10 +304,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
         if ($this->getLevelByType($type) >= $this->level) {
 
             // Get given log content (array / object) as string
-            $message = $this->interpolate(
-                $this->string($message),
-                $context
-            );
+            $message = $this->interpolate($this->string($message), $context);
 
             // Message
             $message = wordwrap($message, $this->lineWidth, $this->lineBreak, true);
@@ -720,7 +717,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
 
     /**
      * Takes the passed content and return it as string.
-     * This method instrumentalizes the var_export PHP function.
+     * This method use var_export PHP function.
      *
      * @param string $content The content to convert
      *
@@ -730,13 +727,12 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      */
     protected function string($content)
     {
-        // check if not is string ...
-        if (!is_string($content)) {
-            // ... make string of it
+        // Check if not is string ...
+        if (false === is_string($content)) {
+            // ... and make string of it.
             $content = var_export($content, true);
         }
 
-        // and return it
         return $content;
     }
 
@@ -784,10 +780,10 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      */
     protected function format($string = '', $type = '', $lineBreak = false)
     {
-        // holds the formatted log entry
+        // Formatted log entry
         $formatted = $string;
 
-        // format only if value is passed
+        // Format only if value is passed
         if (isset($string[1])) {
             $formatted = ' '.(strlen($type) ? $type.':' : '').' '.$string.
                 (($lineBreak) ? $this->lineBreak : '');

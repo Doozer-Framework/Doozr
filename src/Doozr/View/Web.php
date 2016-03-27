@@ -158,21 +158,21 @@ class Doozr_View_Web extends Doozr_Base_View
                 } catch (Doozr_I18n_Service_Exception $e) {
 
                     // We don't care but we log for developing purposes
-                    $this->getRegistry()->getLogger()->debug($e->getMessage());
+                    $this->getRegistry()->getLogging()->debug($e->getMessage());
 
                     // Try to load specific namespace/textdomain for PRESENTER
                     try {
                         $i18n->useDomain($this->translateToTextdomain(true));
                     } catch (Doozr_I18n_Service_Exception $e) {
                         // We don't care but we log for developing purposes
-                        $this->getRegistry()->getLogger()->debug($e->getMessage());
+                        $this->getRegistry()->getLogging()->debug($e->getMessage());
 
                         // Try to load default namespace/textdomain
                         try {
                             $i18n->useDomain($this->getConfiguration()->i18n->default->namespace);
                         } catch (Doozr_I18n_Service_Exception $e) {
                             // We don't care but we log for developing purposes
-                            $this->getRegistry()->getLogger()->debug($e->getMessage());
+                            $this->getRegistry()->getLogging()->debug($e->getMessage());
                         }
                     }
                 }
@@ -230,7 +230,7 @@ class Doozr_View_Web extends Doozr_Base_View
     {
         $debugBar = $this->getRegistry()->getDebugbar();
 
-        $debugBar = $this->getRegistry()->getLogger()->getLogger('debugbar')->exportToDebugBar($debugBar);
+        $debugBar = $this->getRegistry()->getLogging()->getLogger('debugbar')->exportToDebugBar($debugBar);
         $renderer = $debugBar->getJavascriptRenderer();
         $renderer->setBaseUrl('/assets');
 

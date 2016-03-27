@@ -3,10 +3,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Kernel - Events.
  *
- * Option.php - Interface for Options as well as Optgroup components.
- * Same contract.
+ * Events.php - Kernel Events of Doozr.
  *
  * PHP versions 5.5
  *
@@ -54,13 +53,11 @@
  *
  * @link       http://clickalicious.github.com/Doozr/
  */
-require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface/Html.php';
 
 /**
- * Doozr - Form - Service.
+ * Doozr - Kernel - Events.
  *
- * Interface for Options as well as Optgroup components.
- * Same contract.
+ * Kernel Events of Doozr.
  *
  * @category   Doozr
  *
@@ -71,60 +68,56 @@ require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface
  * @version    Git: $Id$
  *
  * @link       http://clickalicious.github.com/Doozr/
+ * @final
  */
-interface Doozr_Form_Service_Component_Interface_Option extends Doozr_Form_Service_Component_Interface_Html
+final class Doozr_Kernel_Events
 {
     /**
-     * Setter for label.
+     * Event: Request processing triggered
      *
-     * @param string $label The label of the option
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @var string
      */
-    public function setLabel($label);
+    const REQUEST = 'kernel.request';
 
     /**
-     * Getter for label.
+     * Event: Controller
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The label
+     * @var string
      */
-    public function getLabel();
+    const CONTROLLER = 'kernel.controller';
 
     /**
-     * Setter for disabled status.
+     * Event:
      *
-     * @param bool $state The status
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @var string
      */
-    public function setDisabled($state);
+    const VIEW = 'kernel.view';
 
     /**
-     * Getter for disabled status.
+     * Event:
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return bool TRUE if disabled, otherwise FALSE
+     * @var string
      */
-    public function getDisabled();
+    const RESPONSE = 'kernel.response';
 
     /**
-     * Setter for key.
+     * Event:
      *
-     * @param string $key The key to set
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
+     * @var string
      */
-    public function setKey($key);
+    const FINISH_REQUEST = 'kernel.finish_request';
 
     /**
-     * Getter for key.
+     * Event:
      *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The key
+     * @var string
      */
-    public function getKey();
+    const TERMINATE = 'kernel.terminate';
+
+    /**
+     * Event:
+     *
+     * @var string
+     */
+    const EXCEPTION = 'kernel.exception';
 }

@@ -138,7 +138,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                     "instance": null,
                     "config": {
                         "type": "method",
-                        "value": "setLogger"
+                        "value": "setLogging"
                     }
                 }
             ]

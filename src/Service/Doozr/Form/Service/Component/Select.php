@@ -94,7 +94,7 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for Autofocus.
+     * Setter for autofocus.
      *
      * @param string $autofocus The autofocus value
      *
@@ -106,7 +106,7 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for Autofocus.
+     * Getter for autofocus.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -241,6 +241,8 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
      * @param Doozr_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return int Id of added child (reference)
      */
     public function addOption(Doozr_Form_Service_Component_Interface_Option $option)
     {
@@ -253,6 +255,10 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
      * @param int $index The index of the component to remove
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool|null TRUE  if child was removed successfully,
+     *                   FALSE if child could not be removed,
+     *                   NULL  if child was not found
      */
     public function removeOption($index)
     {

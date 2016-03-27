@@ -91,32 +91,35 @@ class Doozr_Form_Service_Handler_FileUploadHandler extends Doozr_Base_Class
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This handler handles uploads in general right before validation.
+     * Returns uploaded files.
+     *
      * It does transfer the file to systems temporary location and store information about it for validation
      * (if required).
      *
-     * @param int                  $step  Step to process
-     * @param array                $pool  Pool to use/parse as fallback (e.g. used when jump is active ...)
-     * @param Doozr_Request_File[] $files Files array of PHP ($_FILES) to check for uploaded files
+     * @param int   $step  Step to process
+     * @param array $pool  Pool to use/parse as fallback (e.g. used when jump is active ...)
+     * @param array $files Files array of PHP ($_FILES) to check for uploaded files
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return array Array containing file(s) information, for either uploaded or reloaded for step from store!
      */
-    public function getUploadedFiles($step, array $pool, array $files = [])
+    public function getUploadedFiles($step, array $pool = null, array $files = null)
     {
+        // Result is empty if no files at all are uploaded ...
         $result = [];
 
         // 1. Get files for this step from pool
-        if (count($pool) > 0) {
+        if (null !== $pool && count($pool) > 0) {
             $result = (isset($pool[Doozr_Form_Service_Constant::IDENTIFIER_FILES][$step])) ?
                 $pool[Doozr_Form_Service_Constant::IDENTIFIER_FILES][$step] :
                 [];
         }
 
         // 2. Get uploaded files for this step - if any ...
-        if (count($files) > 0) {
+        if (null !== $files && count($files) > 0) {
             $normalizedFiles = $this->extract($files);
+
             foreach ($normalizedFiles as $key => $value) {
                 $result[$key] = $value;
             }
@@ -183,7 +186,8 @@ class Doozr_Form_Service_Handler_FileUploadHandler extends Doozr_Base_Class
     }
 
     /**
-     * Returns mime-type by file-extension.
+     * Returns a files mime-type by its extension.
+     * (e.g. would return mime-type 'text/plain' for extension 'txt').
      *
      * @param string $extension Extension used for lookup.
      *

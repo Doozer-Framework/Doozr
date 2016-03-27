@@ -99,8 +99,7 @@ class Doozr_Base_Class_Singleton_Generic extends Doozr_Base_Tools
      * @static
      */
     protected static $registry;
-
-
+    
     /**
      * Instance getter for singleton instances
      *

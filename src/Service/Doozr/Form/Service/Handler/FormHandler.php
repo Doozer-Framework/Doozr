@@ -570,25 +570,6 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
 
             $lastValidStep = (int) $this->getDataPoolValue(Doozr_Form_Service_Constant::IDENTIFIER_LASTVALIDSTEP);
 
-            /**
-             * CHECK
-             * Special case - When jumped over through AT MAXIMUM ONE (1) GRATER THAN LAST VALID STEP then
-             * this is allowed but require us to handle it a bit more special.
-             *
-             * - We do not have any validation to run.
-             *
-             *
-             * @todo $jumped
-             */
-            if ($jumped > $lastValidStep) {
-                #if ($this->getJumped() $lastValidStep)
-                dump($this->getJumped());
-            }
-            die;
-
-
-
-
             // If validation now fails for basic manipulation protection fallback to default
             if (
                 $step                        <=  0                    ||    // ~ e.g. no valid step found
@@ -601,6 +582,17 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                 $valid = false;
             }
 
+            if (
+                (null !== $lastValidStep && 0 !== $lastValidStep) &&
+                (abs($jumped - $lastValidStep) <= 1)
+            ) {
+                $valid = true;
+                $step  = $jumped;
+                $steps = (int) $this->getDataPoolDataValue($lastValidStep, $this->getFieldnameSteps());
+                $token = $this->getDataPoolDataValue($lastValidStep, $this->getFieldnameToken());
+            }
+
+            //
             if (true === $valid) {
                 // Store the detected values for further processing
                 $this->setStep($step);
@@ -626,20 +618,26 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                 // Store files ...
                 $this->setFiles($files);
 
-                // Extract components for validation in this steps
-                $validationRules = $this->getDataPool()[Doozr_Form_Service_Constant::IDENTIFIER_COMPONENTS][$step];
+                // Validate only if we ...
+                if ($jumped <= $lastValidStep) {
 
-                $submittedValues = $this->buildValueArray(
-                    array_keys($validationRules)
-                );
+                    // Extract components for validation in this steps
+                    $validationRules = $this->getDataPool()[Doozr_Form_Service_Constant::IDENTIFIER_COMPONENTS][$step];
 
-                // Run validation by using validation handler ...
-                $this->setValid(
-                    $this->getValidationHandler()->validate(
-                        $submittedValues,
-                        $validationRules
-                    )
-                );
+                    $submittedValues = $this->buildValueArray(
+                        array_keys($validationRules)
+                    );
+
+                    // Run validation by using validation handler ...
+                    $this->setValid(
+                        $this->getValidationHandler()->validate(
+                            $submittedValues,
+                            $validationRules
+                        )
+                    );
+                }
+
+                #dump($this->isValid());die;
 
                 // Transfer valid data ...
                 $this->transferValidDataAndFilesToPool($step);
