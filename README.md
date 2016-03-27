@@ -4,9 +4,9 @@
 
 The **lightweight** PHP-Framework for **high-performance** websites.
 
-| [![Build Status](https://img.shields.io/travis/clickalicious/Doozr.svg)](https://travis-ci.org/clickalicious/Doozr) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Doozr.svg)](https://scrutinizer-ci.com/g/clickalicious/Doozr/) 	| [![Code Coverage](https://scrutinizer-ci.com/g/clickalicious/Doozr/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clickalicious/Doozr/?branch=master) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/Doozr.svg?style=flat)](http://opensource.org/licenses/BSD-2-Clause) 	|
+| [![Build Status](https://img.shields.io/travis/clickalicious/Doozr.svg)](https://travis-ci.org/clickalicious/Doozr) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Doozr.svg)](https://scrutinizer-ci.com/g/clickalicious/Doozr/) 	| [![clickalicious premium](https://img.shields.io/badge/clickalicious-premium-green.svg?style=flat)](https://www.clickalicious.de/)  	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/Doozr.svg?style=flat)](http://opensource.org/licenses/BSD-2-Clause) 	|
 |---	|---	|---	|---	|
-| [![GitHub issues](https://img.shields.io/github/issues/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/issues) 	| [![Stories in Ready](https://badge.waffle.io/clickalicious/Doozr.png?label=ready&title=Ready)](https://waffle.io/clickalicious/Doozr)  	| [![GitHub release](https://img.shields.io/github/release/clickalicious/Doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/releases) 	| [![Analytics](https://ga-beacon.appspot.com/UA-905793-10/clickalicious/readme?flat)](https://doozr.readme.io/docs)  	|
+| [![GitHub issues](https://img.shields.io/github/issues/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/issues) 	| [![Code Coverage](https://scrutinizer-ci.com/g/clickalicious/Doozr/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clickalicious/Doozr/?branch=master)  	| [![GitHub release](https://img.shields.io/github/release/clickalicious/Doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/releases) 	|   	|
 
 
 ## Table of Contents
