@@ -274,7 +274,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     }
 
     /**
-     * Setter for active locale.
+     * Setter for locale.
      *
      * @param string $locale The locale to set as active
      *
