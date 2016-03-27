@@ -145,16 +145,16 @@ class Doozr_Base_Service_Singleton_Facade extends Doozr_Base_Service_Singleton
      */
     public static function __callStatic($signature, $arguments)
     {
-        $targetClassname = get_class(self::$_realObject);
+        $targetClassName = get_class(self::$_realObject);
 
         if ($arguments) {
             $result = call_user_func_array(
-                $targetClassname.'::'.$signature,
+                $targetClassName.'::'.$signature,
                 $arguments
             );
         } else {
             $result = call_user_func(
-                array($targetClassname, $signature)
+                array($targetClassName, $signature)
             );
         }
 

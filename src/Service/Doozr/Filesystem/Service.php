@@ -74,7 +74,6 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * @version    Git: $Id$
  * @link       http://clickalicious.github.com/Doozr/
  * @Inject(
- *     id     = "bens.foo.bar",
  *     link   = "doozr.registry",
  *     type   = "constructor",
  *     target = "getInstance"
@@ -91,7 +90,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
     protected $isVirtual = false;
 
     /**
-     * Reference of module virtual-filesystem
+     * Reference of service virtual-filesystem
      *
      * @var object
      * @access protected
@@ -261,7 +260,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
     const PHP_STREAM_COPY_ALL = 2000000;
 
     /**
-     * replacement for __construct
+     * Service entry point.
      *
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
@@ -299,7 +298,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
         // Close all (still) open file handles
         foreach ($this->fileHandle as $uid => $fileHandle) {
             // close
-            fclose($fileHandle['handle']);
+            fclose($fileHandle['getMetaComponents']);
         }
 
         // Just to be sure leave current stats
@@ -417,7 +416,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
         // Get hash (previously calculated)
         $uid = $this->getCurrentResourceInformation('uid');
 
-        // get handle and write data
+        // get getMetaComponents and write data
         $result = $this->_fwrite(
             $this->_getFileHandle($file, ($append ? self::FILE_MODE_WRITE_APPEND : self::FILE_MODE_WRITE)),
             $data
@@ -1014,11 +1013,11 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
     }
 
     /**
-     * Returns a file-handle for requested runtimeEnvironment
+     * Returns a file-getMetaComponents for requested runtimeEnvironment
      *
-     * This method is intend to return a file-handle for requested runtimeEnvironment
+     * This method is intend to return a file-getMetaComponents for requested runtimeEnvironment
      *
-     * @param string  $file File to get handle on
+     * @param string  $file File to get getMetaComponents on
      * @param string  $mode Mode to open file
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1030,20 +1029,20 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
         // get unique Id by file
         $uid = $this->_getUid($file);
 
-        // check if any usable handle exists
+        // check if any usable getMetaComponents exists
         if (!isset($this->fileHandle[$uid]) || $this->fileHandle[$uid]['runtimeEnvironment'] != $mode) {
-            // create handle
+            // create getMetaComponents
             $this->fileHandle[$uid] = array(
                 'runtimeEnvironment'   => $mode,
-                'handle' => $this->_fopen(
+                'getMetaComponents' => $this->_fopen(
                     $file,
                     $mode
                 )
             );
         }
 
-        // return the correct handle
-        return $this->fileHandle[$uid]['handle'];
+        // return the correct getMetaComponents
+        return $this->fileHandle[$uid]['getMetaComponents'];
     }
 
     /**
@@ -1361,7 +1360,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      *
      * This method is intend to work as fread - virtual-fs supporting wrapper.
      *
-     * @param mixed $handle The handle to read from
+     * @param mixed $handle The getMetaComponents to read from
      * @param int   $length The number of bytes to read
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -1379,7 +1378,7 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      *
      * This method is intend to work as fwrite - virtual-fs supporting wrapper.
      *
-     * @param mixed  $handle The handle to write to
+     * @param mixed  $handle The getMetaComponents to write to
      * @param string $data   The data to write as string
      * @param int    $length The number of bytes to write
      *

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Abstract.php - Abstract Renderer. Brings basic templating and rendering
  * capabilities to the rendering part of the service.
@@ -44,30 +45,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Renderer/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Renderer/Interface.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Abstract Renderer. Brings basic templating and rendering
  * capabilities to the rendering part of the service.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 abstract class Doozr_Form_Service_Renderer_Abstract
@@ -75,40 +77,37 @@ abstract class Doozr_Form_Service_Renderer_Abstract
     Doozr_Form_Service_Renderer_Interface
 {
     /**
-     * Default template for rendering
+     * Default template for rendering.
      *
-     * @var $array
-     * @access protected
+     * @var
      */
     protected $template = [];
 
     /**
-     * The raw buffer content we operate on
+     * The raw buffer content we operate on.
      *
      * @var string
-     * @access protected
      */
     protected $buffer;
 
     /**
-     * Rendered content (result of rendering)
+     * Rendered content (result of rendering).
      *
      * @var string
-     * @access protected
      */
     protected $rendered = '{}';
 
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Getter for the rendered result
+     * Getter for the rendered result.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string Returns the result of rendering, if not rendered yet it returns NULL
-     * @access public
      */
     public function get()
     {
@@ -116,28 +115,28 @@ abstract class Doozr_Form_Service_Renderer_Abstract
     }
 
     /**
-     * Renders a passed templates with variables childs and attributes
+     * Renders a passed templates with variables children and attributes.
      *
-     * @param bool $force      TRUE to force rerendering, otherwise FALSE to do not
-     * @param array   $template   The template to render
-     * @param string  $tag        The tag of the component
-     * @param array   $variables  The variables to use for rendering
-     * @param array   $childs     The child elements
-     * @param array   $attributes The attributes
-     * @param string  $innerHtml  The inner Html to set
+     * @param bool   $force      TRUE to force rerendering, otherwise FALSE to do not
+     * @param array  $template   The template to render
+     * @param string $tag        The tag of the component
+     * @param array  $variables  The variables to use for rendering
+     * @param array  $children     The child elements
+     * @param array  $attributes The attributes
+     * @param string $innerHtml  The inner Html to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The rendered result
-     * @access public
+     *
+     * @return self
      */
     public function render(
-        $force            = false,
-        $template         = [],
-        $tag              = '',
-        array $variables  = [],
-        array $childs     = [],
+        $force = false,
+        $template = [],
+        $tag = '',
+        array $variables = [],
+        array $children = [],
         array $attributes = [],
-        $innerHtml        = ''
+        $innerHtml = ''
     ) {
         // What is with
         $template['attributes'] = [];
@@ -145,9 +144,9 @@ abstract class Doozr_Form_Service_Renderer_Abstract
             $template['attributes'][$key] = $attribute;
         }
 
-        $template['childs'] = [];
-        foreach ($childs as $child) {
-            $template['childs'][] = $child;
+        $template['children'] = [];
+        foreach ($children as $child) {
+            $template['children'][] = $child;
         }
 
         $template['variables'] = [];
@@ -169,12 +168,12 @@ abstract class Doozr_Form_Service_Renderer_Abstract
      * @param array  $templateVariables The variables used for replace
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The result
-     * @access protected
      */
     protected function _tpl($template, array $templateVariables)
     {
-        // micro templating engine
+        // Micro templating engine
         foreach ($templateVariables as $templateVariable => $value) {
             $template = str_replace('{{'.strtoupper($templateVariable).'}}', $value, $template);
         }

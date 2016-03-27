@@ -474,7 +474,7 @@ final class Doozr_Request_Uri extends Doozr_Base_Class
      * defined in RFC 7230 Section 2.7.3. But this method MUST NOT automatically
      * do this normalization because in contexts with a trimmed base path, e.g.
      * the front controller, this difference becomes significant. It's the task
-     * of the user to handle both "" and "/".
+     * of the user to getUploadedFiles both "" and "/".
      *
      * The value returned MUST be percent-encoded, but MUST NOT double-encode
      * any characters. To determine what characters to encode, please refer to

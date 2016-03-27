@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Div.php The Div component.
  *
@@ -43,39 +44,38 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Html.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Html.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Div.php The Div component.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-class Doozr_Form_Service_Component_Div extends Doozr_Form_Service_Component_Html
+class Doozr_Form_Service_Component_Div extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form"
+     * This is the tag-name for HTML output. e.g. "input" or "form".
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_DIV;
 
@@ -85,13 +85,13 @@ class Doozr_Form_Service_Component_Div extends Doozr_Form_Service_Component_Html
      * @param Doozr_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Form_Service_Component_Div
-     * @access public
      */
     public function __construct(
         Doozr_Form_Service_Renderer_Interface $renderer = null
     ) {
         // Important call so observer storage ... can be initiated
-        parent::__construct(null, null, $renderer);
+        parent::__construct($renderer);
     }
 }

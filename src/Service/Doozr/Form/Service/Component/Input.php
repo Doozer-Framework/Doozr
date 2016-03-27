@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Input.php - The Input component control layer which adds validation,
  * and so on to an HTML component.
@@ -44,31 +45,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Input.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface/Input.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * The Input component control layer which adds validation,
  * and so on to an HTML component.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Formcomponent
@@ -77,10 +79,9 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
 {
     /**
      * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string ""
+     * e.g. "input" or "form". Default empty string "".
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_INPUT;
 
@@ -91,79 +92,68 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      * which must not be valid in an other context!
      *
      * @var string
-     * @access protected
      */
-    protected $template = Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_NONCLOSING;
+    protected $template = Doozr_Form_Service_Constant::DEFAULT_TEMPLATE_NONCLOSING;
 
     /**
-     * Type for <input type="text">
+     * Type for <input type="text">.
      *
      * @var string
-     * @access public
      */
     const TYPE_TEXT = 'text';
 
     /**
-     * Type for <input type="button">
+     * Type for <input type="button">.
      *
      * @var string
-     * @access public
      */
     const TYPE_BUTTON = 'button';
 
     /**
-     * Type for <input type="image">
+     * Type for <input type="image">.
      *
      * @var string
-     * @access public
      */
     const TYPE_IMAGE = 'image';
 
     /**
-     * Type for <input type="abort">
+     * Type for <input type="abort">.
      *
      * @var string
-     * @access public
      */
     const TYPE_ABORT = 'abort';
 
     /**
-     * Type for <input type="reset">
+     * Type for <input type="reset">.
      *
      * @var string
-     * @access public
      */
     const TYPE_RESET = 'reset';
 
     /**
-     * Type for <input type="upload">
+     * Type for <input type="upload">.
      *
      * @var string
-     * @access public
      */
     const TYPE_UPLOAD = 'upload';
 
     /**
-     * Type for <input type="submit">
+     * Type for <input type="submit">.
      *
      * @var string
-     * @access public
      */
     const TYPE_SUBMIT = 'submit';
-
-
+    
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for autocomplete
+     * Setter for autocomplete.
      *
      * @param string $autocomplete The autocomplete state as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAutocomplete($autocomplete = 'autocomplete')
     {
@@ -171,11 +161,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for autocomplete
+     * Getter for autocomplete.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The autocomplete value if set, otherwise NULL
-     * @access public
      */
     public function getAutocomplete()
     {
@@ -183,13 +173,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for autofocus
+     * Setter for autofocus.
      *
      * @param string $autofocus The autofocus state as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAutofocus($autofocus = 'autofocus')
     {
@@ -197,11 +185,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for autofocus
+     * Getter for autofocus.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The autofocus value if set, otherwise NULL
-     * @access public
      */
     public function getAutofocus()
     {
@@ -209,13 +197,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for disabled
+     * Setter for disabled.
      *
      * @param string $disabled The disabled state as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDisabled($disabled = 'disabled')
     {
@@ -223,11 +209,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for disabled
+     * Getter for disabled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The disabled value if set, otherwise NULL
-     * @access public
      */
     public function getDisabled()
     {
@@ -235,13 +221,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for form
+     * Setter for form.
      *
      * @param string $form The form state as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setForm($form)
     {
@@ -249,11 +233,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for form
+     * Getter for form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The form value if set, otherwise NULL
-     * @access public
      */
     public function getForm()
     {
@@ -261,13 +245,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for formaction
+     * Setter for formaction.
      *
      * @param string $formaction The formaction as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFormaction($formaction)
     {
@@ -275,11 +257,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for formaction
+     * Getter for formaction.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The formaction value if set, otherwise NULL
-     * @access public
      */
     public function getFormaction()
     {
@@ -287,13 +269,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for formenctype
+     * Setter for formenctype.
      *
      * @param string $formEnctype The formenctype as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFormEnctype($formEnctype)
     {
@@ -301,11 +281,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for formenctype
+     * Getter for formenctype.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The formenctype value if set, otherwise NULL
-     * @access public
      */
     public function getFormEnctype()
     {
@@ -313,13 +293,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for formmethod
+     * Setter for formmethod.
      *
      * @param string $formMethod The formmethod as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFormMethod($formMethod)
     {
@@ -327,11 +305,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for formmethod
+     * Getter for formmethod.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The formmethod value if set, otherwise NULL
-     * @access public
      */
     public function getFormMethod()
     {
@@ -339,13 +317,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for formnovalidate
+     * Setter for formnovalidate.
      *
      * @param string $formNovalidate The formnovalidate value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFormNovalidate($formNovalidate = 'formnovalidate')
     {
@@ -353,11 +329,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for formnovalidate
+     * Getter for formnovalidate.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The formnovalidate value if set, otherwise NULL
-     * @access public
      */
     public function getFormNovalidate()
     {
@@ -370,8 +346,6 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      * @param string $listname The name of the list the input refers to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setList($listname)
     {
@@ -382,8 +356,8 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      * Returns the list the component is bound to.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The name of the list this component is bound to, NULL if not bound
-     * @access public
      */
     public function getList()
     {
@@ -391,13 +365,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for max
+     * Setter for max.
      *
      * @param string $max The max value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMax($max)
     {
@@ -405,11 +377,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for max
+     * Getter for max.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The max value if set, otherwise NULL
-     * @access public
      */
     public function getMax()
     {
@@ -417,13 +389,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for maxlength
+     * Setter for maxlength.
      *
      * @param string $maxlength The maxlength value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMaxlength($maxlength)
     {
@@ -431,11 +401,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for maxlength
+     * Getter for maxlength.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The maxlength value if set, otherwise NULL
-     * @access public
      */
     public function getMaxlength()
     {
@@ -443,13 +413,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for min
+     * Setter for min.
      *
      * @param string $min The min value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMin($min)
     {
@@ -457,11 +425,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for min
+     * Getter for min.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The min value if set, otherwise NULL
-     * @access public
      */
     public function getMin()
     {
@@ -469,13 +437,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for multiple
+     * Setter for multiple.
      *
      * @param string $multiple The multiple value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMultiValue($multiple)
     {
@@ -483,11 +449,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for multiple
+     * Getter for multiple.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The multiple value if set, otherwise NULL
-     * @access public
      */
     public function getMultiValue()
     {
@@ -495,13 +461,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for pattern
+     * Setter for pattern.
      *
      * @param string $pattern The pattern value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setPattern($pattern)
     {
@@ -509,11 +473,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for pattern
+     * Getter for pattern.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The pattern value if set, otherwise NULL
-     * @access public
      */
     public function getPattern()
     {
@@ -521,13 +485,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for placeholder
+     * Setter for placeholder.
      *
      * @param string $placeholder The placeholder value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setPlaceholder($placeholder)
     {
@@ -535,11 +497,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for placeholder
+     * Getter for placeholder.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The placeholder value if set, otherwise NULL
-     * @access public
      */
     public function getPlaceholder()
     {
@@ -547,13 +509,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for readonly
+     * Setter for readonly.
      *
      * @param string $readonly The readonly value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setReadonly($readonly)
     {
@@ -561,11 +521,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for readonly
+     * Getter for readonly.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The readonly value if set, otherwise NULL
-     * @access public
      */
     public function getReadonly()
     {
@@ -573,13 +533,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for required
+     * Setter for required.
      *
      * @param string $required The required value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setRequired($required)
     {
@@ -587,11 +545,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for required
+     * Getter for required.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The required value if set, otherwise NULL
-     * @access public
      */
     public function getRequired()
     {
@@ -599,13 +557,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for size
+     * Setter for size.
      *
      * @param string $size The size value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setSize($size)
     {
@@ -613,11 +569,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for size
+     * Getter for size.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The size value if set, otherwise NULL
-     * @access public
      */
     public function getSize()
     {
@@ -625,13 +581,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Setter for step
+     * Setter for step.
      *
      * @param string $step The step value as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setStep($step)
     {
@@ -639,11 +593,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Getter for step
+     * Getter for step.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The step value if set, otherwise NULL
-     * @access public
      */
     public function getStep()
     {
@@ -651,13 +605,11 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
     }
 
     /**
-     * Sets the HTML input element property "autocapitalize"
+     * Sets the HTML input element property "autocapitalize".
      *
      * @param bool $state The state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAutocapitalize($state)
     {
@@ -676,8 +628,8 @@ class Doozr_Form_Service_Component_Input extends Doozr_Form_Service_Component_Fo
      * Returns the autocapitalize state.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if autocapitalize is on, otherwise FALSE
-     * @access public
      */
     public function getAutocapitalize()
     {

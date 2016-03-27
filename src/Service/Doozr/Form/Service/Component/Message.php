@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Message.php - The message element control layer which adds validation,
  * and so on to an HTML element.
@@ -44,47 +45,48 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Div.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Div.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * The message element control layer which adds validation,
  * and so on to an HTML element.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Message extends Doozr_Form_Service_Component_Div
 {
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
      * @param Doozr_Form_Service_Renderer_Interface $renderer Renderer instance for rendering this component
-     * @param string|null                           $message  The mesage to set
+     * @param string|null                           $message  The message to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Form_Service_Component_Message
-     * @access public
      */
     public function __construct(
         Doozr_Form_Service_Renderer_Interface $renderer = null,
@@ -104,8 +106,6 @@ class Doozr_Form_Service_Component_Message extends Doozr_Form_Service_Component_
      * @param string $message The message to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMessage($message = '&nbsp;')
     {
@@ -116,8 +116,8 @@ class Doozr_Form_Service_Component_Message extends Doozr_Form_Service_Component_
      * Returns the message.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The message if set, otherwise NULL
-     * @access public
      */
     public function getMessage()
     {

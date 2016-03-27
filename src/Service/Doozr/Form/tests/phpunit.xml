@@ -16,7 +16,7 @@
     >
 
     <testsuites>
-        <testsuite name="Doozr_I18n_Service">
+        <testsuite name="Doozr_Form_Service">
             <directory>.</directory>
         </testsuite>
     </testsuites>

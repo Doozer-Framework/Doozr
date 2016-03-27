@@ -5,8 +5,8 @@
 /**
  * Doozr - Base - Class.
  *
- * Class.php - Base-Class for all classes of the Doozr Framework except
- * the classes following the singleton pattern.
+ * Class.php - Base-Class for all classes of the Doozr Framework except the
+ * classes following the singleton pattern.
  *
  * PHP versions 5.5
  *
@@ -59,8 +59,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Tools.php';
 /**
  * Doozr - Base - Class.
  *
- * Base-Class for all classes of the Doozr Framework except the classes following
- * the singleton pattern.
+ * Base-Class for all classes of the Doozr Framework except the classes following the
+ * singleton pattern.
  *
  * @category   Doozr
  *
@@ -84,11 +84,11 @@ class Doozr_Base_Class extends Doozr_Base_Tools
     /**
      * Setter for registry.
      *
-     * @param Doozr_Registry $registry The registry instance
+     * @param Doozr_Registry_Interface $registry The registry instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setRegistry(Doozr_Registry &$registry)
+    protected function setRegistry(Doozr_Registry_Interface &$registry)
     {
         $this->registry = $registry;
     }
@@ -96,13 +96,13 @@ class Doozr_Base_Class extends Doozr_Base_Tools
     /**
      * Setter for registry with fluent API support for chaining calls.
      *
-     * @param Doozr_Registry $registry The registry instance
+     * @param Doozr_Registry_Interface $registry The registry instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function registry(Doozr_Registry $registry)
+    protected function registry(Doozr_Registry_Interface $registry)
     {
         $this->setRegistry($registry);
 

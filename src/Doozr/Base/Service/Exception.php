@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Http - Service
+ * Doozr - Base - Service - Exception.
  *
- * Demo.php - Http Service
+ * Exception.php - Base exception for Services.
  *
  * PHP versions 5.5
  *
@@ -43,32 +44,52 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Http
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
-require_once '../../../../src/Doozr/Bootstrap.php';
+/**
+ * Doozr - Base - Service - Exception.
+ *
+ * Base exception for Services.
+ *
+ * @category   Doozr
+ *
+ * @author     Benjamin Carl <opensource@clickalicious.de>
+ * @copyright  2005 - 2016 Benjamin Carl
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
+ * @version    Git: $Id$
+ *
+ * @link       http://clickalicious.github.com/Doozr/
+ */
+class Doozr_Base_Service_Exception extends Doozr_Exception
+{
+    /**
+     * Constructor.
+     *
+     * @param string|null    $message           Message
+     * @param int            $code              Code of the exception
+     * @param Exception|null $previousException Previously thrown exception - AS_OF: PHP 5.3 introduced!
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function __construct($message = null, $code = 0, $previousException = null)
+    {
+        // Add prefix to message ...
+        $message = sprintf('%s: %s', get_class($this), $message);
 
-/* @var $http Doozr_Http_Service */
-$http = Doozr_Loader_Serviceloader::load('http');
+        // Get final code
+        $code = $this->generateUniqueCode($this->file, $code);
 
-$result = var_export(
-    $http
-        ->host('requestb.in')
-        ->port(80)
-        ->protocol(Doozr_Http_Service::CONNECTION_PROTOCOL_HTTP)
-        ->post('ti0ozjti', array('foo' => 'bar'))
-        ->get('ti0ozjti')
-        ->put('ti0ozjti')
-        ->delete('ti0ozjti')
-        ->run()
-    ,
-    true
-);
-
-echo $result;
+        // Dispatch to parent
+        parent::__construct($message, $code, $previousException);
+    }
+}

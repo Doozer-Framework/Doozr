@@ -197,9 +197,10 @@ final class Doozr_Route extends Doozr_Base_Class
      */
     public function route(Request $request)
     {
-        // Map the request states URL to a route (presenter:action)
+        // Map request state URL to a route (presenter:action)
         $uri = ''.$request->getUri();
 
+        // Get
         $route = $this
             ->uuid(
                 $this->calculateUuid($uri)
@@ -230,8 +231,11 @@ final class Doozr_Route extends Doozr_Base_Class
                     'route', new Doozr_Request_Route_State($route[1][0], $route[1][1])
                 );
 
+                // Variables found from Route placeholder? ...
                 if (true === isset($route[2])) {
-                    $request = $request->withQueryParams($route[2]);
+                    // Merge the arguments with existing URI query parameter
+                    $parameter = array_merge_recursive($request->getQueryParams(), $route[2]);
+                    $request   = $request->withQueryParams($parameter);
                 }
                 break;
         }
@@ -599,19 +603,19 @@ final class Doozr_Route extends Doozr_Base_Class
      * Converts an object instance to any other instance (stdClass = default).
      *
      * @param object $instance  An instance to convert
-     * @param string $classname A classname for the new instance
+     * @param string $className A className for the new instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return object The new instance
      */
-    protected function objectToObject($instance, $classname = 'stdClass')
+    protected function objectToObject($instance, $className = 'stdClass')
     {
         // Some "hack" - known to work in general across all PHP versions
         return unserialize(sprintf(
             'O:%d:"%s"%s',
-            strlen($classname),
-            $classname,
+            strlen($className),
+            $className,
             strstr(strstr(serialize($instance), '"'), ':')
         ));
     }
@@ -642,7 +646,7 @@ final class Doozr_Route extends Doozr_Base_Class
             if ($matches > 0) {
 
                 // Use our selection from result
-                $classname = $classes[1];
+                $className = $classes[1];
 
                 // Lookup for namespace ...
                 $namespaceCount = preg_match('#^namespace\s+(.+?);$#sm', $content, $namespace);
@@ -654,10 +658,10 @@ final class Doozr_Route extends Doozr_Base_Class
                     $namespace = '';
                 }
 
-                // Combine everything to a full qualified classname ...
-                $fullQualifiedClassname = $namespace.$classname;
+                // Combine everything to a full qualified className ...
+                $fullQualifiedClassName = $namespace.$className;
 
-                $reflection = new ReflectionClass($fullQualifiedClassname);
+                $reflection = new ReflectionClass($fullQualifiedClassName);
 
                 // Extract the methods (potentially an ...Action())
                 $methods = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);
@@ -709,7 +713,7 @@ final class Doozr_Route extends Doozr_Base_Class
                             // Inject detected presenter if not already redirected to another one by annotation
                             if ($route->getPresenter() === null) {
                                 $route->setPresenter(
-                                    $this->getPresenterByClassname($this->getPresenterClassByFilename($file))
+                                    $this->getPresenterByClassName($this->getPresenterClassByFilename($file))
                                 );
                             }
 
@@ -746,13 +750,13 @@ final class Doozr_Route extends Doozr_Base_Class
     }
 
     /**
-     * Returns the classname of a presenter by its filename.
+     * Returns the className of a presenter by its filename.
      *
-     * @param string $filename The filename to return classname from
+     * @param string $filename The filename to return className from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The classname
+     * @return string The className
      */
     protected function getPresenterClassByFilename($filename)
     {
@@ -760,20 +764,20 @@ final class Doozr_Route extends Doozr_Base_Class
     }
 
     /**
-     * Returns the name of a a presenter by its classname.
+     * Returns the name of a a presenter by its className.
      *
      * @example
      * So if you would pass "Presenter_Index" to it, it would return "Index".
      *
-     * @param string $classname The classname to return presenter from
+     * @param string $className The className to return presenter from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string The name of the presenter
      */
-    protected function getPresenterByClassname($classname)
+    protected function getPresenterByClassName($className)
     {
-        return strtolower(explode('_', $classname)[1]);
+        return strtolower(explode('_', $className)[1]);
     }
 
     /**

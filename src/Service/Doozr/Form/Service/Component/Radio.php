@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Radio.php - Extension to default Input-Component <input type="..." ...
  * but with some specific radio-field tuning.
@@ -44,31 +45,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Input.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Radio.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Input.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface/Radio.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Extension to default Input-Component <input type="..." ...
  * but with some specific radio-field tuning.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_Input
@@ -77,10 +79,9 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
 {
     /**
      * Status if component is capable of
-     * submitting multiple values
+     * submitting multiple values.
      *
      * @var bool
-     * @access protected
      */
     protected $multiValue = true;
 
@@ -91,12 +92,11 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * @example <input type="checkbox" name="foo[]" ...
      *
      * @var string
-     * @access  protected
      */
     protected $multiMarker = '[]';
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -106,8 +106,8 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * @param Doozr_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Form_Service_Component_Radio
-     * @access public
      */
     public function __construct(
         Doozr_Form_Service_Renderer_Interface $renderer = null,
@@ -123,8 +123,6 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * Checks this element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function check()
     {
@@ -135,8 +133,6 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * Unchecks this element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function uncheck()
     {
@@ -150,8 +146,6 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      *                FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMultiValue($status)
     {
@@ -162,8 +156,8 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * Returns the multiple status of this element.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if field is multi select, FALSE if not
-     * @access public
      */
     public function getMultiValue()
     {
@@ -171,7 +165,7 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
-    | Setter & Getter
+    | SETTER & GETTER
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -180,12 +174,11 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * @param string $name The name to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setName($name)
     {
         $name .= '[]';
+
         return parent::setName($name);
     }
 
@@ -196,8 +189,6 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * @param string $value The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAttribute($key, $value = null)
     {
@@ -214,8 +205,8 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * @param string $key The name of the key/attribute to return value for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed|boolean The attributes value if set, FALSE if not
-     * @access public
+     *
+     * @return mixed|bool The attributes value if set, FALSE if not
      */
     public function getAttribute($key)
     {
@@ -234,8 +225,8 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * @param bool $ripBrackets TRUE to remove brackets from name, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The name of this element with or without brackets, or NULL if not set
-     * @access public
      */
     public function getName($ripBrackets = true)
     {
@@ -255,8 +246,6 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * @param string $submittedValue The value which was submitted
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setValue($value, $submittedValue = null)
     {
@@ -280,8 +269,8 @@ class Doozr_Form_Service_Component_Radio extends Doozr_Form_Service_Component_In
      * Active = TRUE means that this element was selected (from a group of elements).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if the element is active, FALSE if not
-     * @access protected
      */
     protected function isActive()
     {

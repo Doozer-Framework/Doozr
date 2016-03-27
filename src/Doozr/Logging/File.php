@@ -108,8 +108,8 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
 
     /**
      * use persistence filehandle for log-operation(s)?
-     * true to keep the handle opened for the length of each request
-     * false to reopen the file (retrieving a handle) for each log entry.
+     * true to keep the getMetaComponents opened for the length of each request
+     * false to reopen the file (retrieving a getMetaComponents) for each log entry.
      *
      * @var bool
      */
@@ -169,7 +169,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
-    | Setter & Getter
+    | SETTER & GETTER
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**

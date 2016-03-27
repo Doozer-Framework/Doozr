@@ -171,7 +171,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
                 $resolved = self::resolveChoice($menu2);
 
                 if ($resolved === 'y') {
-                    // Try to validate and use the auto detected path ...
+                    // Try to validation and use the auto detected path ...
                     try {
                         $path  = self::validatePath(self::getInstallPath());
                         $valid = true;
@@ -410,7 +410,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
     /**
      * Validates a path for installation.
      *
-     * @param string $path The path to validate
+     * @param string $path The path to validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string TRUE if path is valid, otherwise FALSE

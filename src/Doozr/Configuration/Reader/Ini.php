@@ -132,7 +132,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
             $configuration = parent::read($filename);
         }
 
-        // ... but we need to validate here cause our domain
+        // ... but we need to validation here cause our domain
         $configuration = $this->validate($configuration);
 
         // Error handling
@@ -255,7 +255,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
     /**
      * Validates that a passed string is valid ini.
      *
-     * @param string $input           The input to validate
+     * @param string $input           The input to validation
      * @param bool   $processSections TRUE to process sections, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

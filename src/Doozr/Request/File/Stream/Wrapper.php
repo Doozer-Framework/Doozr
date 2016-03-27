@@ -99,7 +99,7 @@ final class Doozr_Request_File_Stream_Wrapper extends Doozr_Base_Class
     /**
      * Wraps a passed stream into an stream resource handable by PHP's internal functions.
      *
-     * @param Doozr_Request_File_Stream_Interface $stream The stream to get handle from for wrapping
+     * @param Doozr_Request_File_Stream_Interface $stream The stream to get getUploadedFiles from for wrapping
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return resource The wrapped resource

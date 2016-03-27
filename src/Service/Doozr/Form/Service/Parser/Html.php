@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Html.php - Parser for parsing form an configuration out of existing HTML
  * Code. Assume the following scenario ->
@@ -71,31 +72,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Parser/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Parser/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Parser/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Parser/Interface.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Parser for parsing HTML files for forms which cab be used in form-manager
  * as preconfigured templates.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
@@ -107,75 +109,58 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * valid at all time.
      *
      * @var string
-     * @access private
      */
     protected $template;
 
     /**
-     * Parsed forms
+     * Parsed forms.
      *
      * @var array
-     * @access protected
      */
     protected $forms = [];
 
     /**
-     * The configurations
+     * The configurations.
      *
      * @var array
-     * @access protected
      */
     protected $configurations;
 
     /**
-     * The pattern to extract HTML-Forms
-     *
-     * @access public
+     * The pattern to extract HTML-Forms.
      */
     const REGEXP_PATTERN_FORMS = '/(<form.*?>)(.*?)<\/form>/ius';
 
     /**
-     * The pattern to extract HTML elements attributes
-     *
-     * @access public
+     * The pattern to extract HTML elements attributes.
      */
     const REGEXP_PATTERN_ATTRIBUTES = '/<([\w]*)|\s*([\w-]*)\s*=\s*[\'"](.*?)[\'"]/ius';
 
     /**
      * The pattern to exract special elements like:
-     * INPUT, SELECT, TEXTAREA
-     *
-     * @access public
+     * INPUT, SELECT, TEXTAREA.
      */
     const REGEXP_PATTERN_ELEMENTS = '/(<(input|select|textarea)(.*?)>)/ius';
 
     /**
-     * The prefix for templae var placeholder(s)
-     *
-     * @access public
+     * The prefix for templae var placeholder(s).
      */
     const TEMPLATE_PREFIX = 'DOOZR_FORM_SERVICE_TEMPLATE_';
 
     /**
-     * The template identifier for form(s)
-     *
-     * @access public
+     * The template identifier for form(s).
      */
     const TEMPLATE_IDENTIFIER_FORM = 'FORM';
 
     /**
      * Template double mustache var:
-     * START
-     *
-     * @access public
+     * START.
      */
     const TEMPLATE_BRACKETS_OPEN = '{{';
 
     /**
      * Template double mustache var:
-     * END
-     *
-     * @access public
+     * END.
      */
     const TEMPLATE_BRACKETS_CLOSE = '}}';
 
@@ -188,8 +173,9 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * Parses form(s) and Doozr-Form-Service directives to configuration from previously set HTML.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Form_Service_Parser_Interface Instance for chaining
-     * @access public
+     *
      * @throws \Exception
      */
     public function parse()
@@ -227,17 +213,15 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for forms
+     * Setter for forms.
      *
      * @param array $forms The forms to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setForms(array $forms)
     {
@@ -245,11 +229,11 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
     }
 
     /**
-     * Getter for forms
+     * Getter for forms.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The forms
-     * @access public
      */
     public function getForms()
     {
@@ -257,13 +241,11 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
     }
 
     /**
-     * Adds a configuration
+     * Adds a configuration.
      *
      * @param Doozr_Form_Service_Configuration $configuration The configuration to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function addConfiguration(Doozr_Form_Service_Configuration $configuration)
     {
@@ -274,8 +256,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * Getter for configurations.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Form_Service_Configuration[] The stored configurations
-     * @access public
      */
     public function getConfigurations()
     {
@@ -283,14 +265,12 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
     }
 
     /**
-     * Setter for forms configuration
+     * Setter for forms configuration.
      *
      * @param string                           $id            The id of the form
      * @param Doozr_Form_Service_Configuration $configuration The configuration of the form
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setForm($id, Doozr_Form_Service_Configuration $configuration)
     {
@@ -303,8 +283,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param string $id The id of the form to return
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|Doozr_Form_Service_Configuration The form configuration if set, otherwise NULL
-     * @access public
      */
     public function getForm($id)
     {
@@ -317,8 +297,6 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param mixed $template The template to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setTemplate($template)
     {
@@ -329,8 +307,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * Getter for template.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The stored template if set, otherwise NULL
-     * @access public
      */
     public function getTemplate()
     {
@@ -349,7 +327,6 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param array $forms
      *
      * @return array The resulting structure
-     * @access protected
      */
     protected function parseConfigurations(array $forms)
     {
@@ -386,10 +363,10 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
             );
 
             // store in result
-            $setup = array(
-                'form'     => array(array('tag' => 'form', 'properties' => $configuration['properties'])),
-                'elements' => []
-            );
+            $setup = [
+                'form'     => [['tag' => 'form', 'properties' => $configuration['properties']]],
+                'elements' => [],
+            ];
 
             // now parse elements from inside <form>
             $elements = $this->parseFormTagsFromHtml($forms[2][$i]);
@@ -410,18 +387,18 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param string $type The type of the element
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The template identifier
-     * @access protected
      */
     protected function buildTemplateIdentifier($id, $type = self::TEMPLATE_IDENTIFIER_FORM)
     {
         $type = strtoupper($type);
 
-        return self::TEMPLATE_BRACKETS_OPEN .
-            self::TEMPLATE_PREFIX .
-            $type .
-            '-' .
-            $id .
+        return self::TEMPLATE_BRACKETS_OPEN.
+            self::TEMPLATE_PREFIX.
+            $type.
+            '-'.
+            $id.
             self::TEMPLATE_BRACKETS_CLOSE;
     }
 
@@ -431,8 +408,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param array $elements The elements to use ...
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The resulting structure
-     * @access protected
      */
     protected function parseElements(array $elements)
     {
@@ -492,8 +469,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param array $data The data used for generating/returning id
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The (new) Id
-     * @access protected
      */
     protected function getId(array $data)
     {
@@ -501,10 +478,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
 
         if (isset($data['id'])) {
             $result = $data['id'];
-
         } elseif (isset($data['name'])) {
             $result = $data['name'];
-
         } else {
             #$result = sha1($data['action'] . $data['method']);
             $result = sha1(serialize($data));
@@ -519,15 +494,16 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param array $data The data to re-arrange
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The array with the resulting new structure
-     * @access protected
+     *
      * @throws Exception
      */
     protected function prepareStructureAndData(array $data)
     {
         // check passed input (simple)
         if (!isset($data[1]) || !isset($data[2]) || !isset($data[3])) {
-            throw new Exception('Array passed to ' . __METHOD__ . ' could not be processed!');
+            throw new Exception('Array passed to '.__METHOD__.' could not be processed!');
         }
 
         // extract required information
@@ -544,10 +520,10 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
         // get result combined and keys in lower case
         $properties = array_change_key_case(array_combine($keys, $values), CASE_LOWER);
 
-        $result = array(
+        $result = [
             'tag'        => $tag,
-            'properties' => $properties
-        );
+            'properties' => $properties,
+        ];
 
         return $result;
     }
@@ -559,8 +535,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param string The HTML to parse
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Containing the result
-     * @access protected
      */
     protected function parsePropertiesFromHtml($html)
     {
@@ -574,8 +550,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param string $html The HTML to parse
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Containing the result
-     * @access protected
      */
     protected function parseFormTagsFromHtml($html)
     {
@@ -589,8 +565,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param string $html The HTML to parse
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Containing the result
-     * @access protected
      */
     protected function parseFormsFromHtml($html)
     {
@@ -604,8 +580,8 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
      * @param string $buffer  The buffer to parse from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Containing the result
-     * @access protected
      */
     protected function parseGeneric($pattern, $buffer = '')
     {

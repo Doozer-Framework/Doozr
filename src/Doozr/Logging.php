@@ -86,8 +86,8 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     SplSubject,
     ArrayAccess,
     Iterator,
-    Countable/*,
-    LoggerAwareInterface*/
+    Countable,
+    LoggerAwareInterface
 {
     /**
      * The observer storage.
@@ -151,7 +151,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -187,14 +187,14 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
         // Store message in archive for e.g. debug bar and similar outputs
         $this->archive(
             sha1($message.$type.$fingerprint),
-            array(
-                'type' => $type,
-                'message' => $message,
-                'context' => $context,
-                'time' => $time,
+            [
+                'type'        => $type,
+                'message'     => $message,
+                'context'     => $context,
+                'time'        => $time,
                 'fingerprint' => $fingerprint,
-                'separator' => $separator,
-            )
+                'separator'   => $separator,
+            ]
         );
 
         // and now the tricky hook -> notify all observers about the log-event
@@ -276,23 +276,26 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
 
     /**
      * Setter for logger.
-     * Attaches a passed logger to queue of loggers.
      *
      * @param LoggerInterface $logger The logger to attach
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @throws Doozr_Logging_Exception
+     *
+     * @return null
      */
     public function setLogger(LoggerInterface $logger)
     {
         if (!$logger instanceof SplObserver) {
             throw new Doozr_Logging_Exception(
-                sprintf('Please implement SplObserver before trying to attach this logger.')
+                sprintf('Please implement SplObserver before trying to attach your logger.')
             );
         }
 
         $this->attach($logger);
+
+        return null;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -539,11 +542,14 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * @param string $name The name of the route to dispatch
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE on success, otherwise FALSE
      */
     public function route($name)
     {
         /*
          * This logger does not need to be re-routed
          */
+        return true;
     }
 }

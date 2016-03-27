@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Datalist.php - Extends Html Base component to build a valid select
  * component.
@@ -44,53 +45,52 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Select.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Option.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Select.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface/Option.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Extends Html Base component to build a valid select component.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Datalist extends Doozr_Form_Service_Component_Select
 {
     /**
      * This is the tag-name for HTML output.
-     * e.g. "input" or "form" => in this case = SELECT
+     * e.g. "input" or "form" => in this case = SELECT.
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_DATALIST;
 
     /**
-     * Mark this component as parent
+     * Mark this component as parent.
      *
      * @var string
-     * @access protected
      */
     protected $type = Doozr_Form_Service_Constant::COMPONENT_CONTAINER;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -100,8 +100,8 @@ class Doozr_Form_Service_Component_Datalist extends Doozr_Form_Service_Component
      * @param Doozr_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Form_Service_Component_Datalist
-     * @access public
      */
     public function __construct(
         Doozr_Form_Service_Renderer_Interface $renderer = null,
@@ -118,13 +118,11 @@ class Doozr_Form_Service_Component_Datalist extends Doozr_Form_Service_Component
      * @param Doozr_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function addOption(Doozr_Form_Service_Component_Interface_Option $option)
     {
         // Beim addOption() von Datalist modifiy template so das <option></option> zu <option dkjdkjdkd/> wird!
-        $option->setTemplate(Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_NONCLOSING);
+        $option->setTemplate(Doozr_Form_Service_Constant::DEFAULT_TEMPLATE_NONCLOSING);
 
         return parent::addOption($option);
     }

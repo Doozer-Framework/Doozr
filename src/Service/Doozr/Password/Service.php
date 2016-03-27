@@ -248,7 +248,7 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
     ];
 
     /**
-     * holds a reference to module passwordhash.
+     * holds a reference to service passwordhash.
      *
      * @var Doozr_Password_Service_Hash
      * @static
@@ -264,7 +264,7 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
 
 
     /**
-     * constructs the class.
+     * Service entry point.
      *
      * constructor builds the class
      *
@@ -774,7 +774,7 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
      *
      * @param string $string The string to hash with MD5
      *
-     * @author  Benjamin Carl <opensource@clickalicious.de>
+     * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string The MD5-hashed string
      */
@@ -786,14 +786,14 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
     /**
      * validates a given password against a given hash.
      *
-     * This method is intend to validate a given password against a given hash.
+     * This method is intend to validation a given password against a given hash.
      *
-     * @param string $buffer Password to validate against hash
-     * @param string $hash   Hash used to validate password against
+     * @param string $buffer Password to validation against hash
+     * @param string $hash   Hash used to validation password against
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return bool True if password matches hash, otherwise false Instance of Passwordhash (module)
+     * @return bool True if password matches hash, otherwise false Instance of Passwordhash (service)
      */
     public function validateAgainstHash($buffer, $hash)
     {
