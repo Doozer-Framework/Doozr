@@ -75,7 +75,7 @@ class Doozr_Base_Model_Driver extends Doozr_Base_Class
     /**
      * Generic input validation by passed configuration.
      *
-     * @param array $data     Data to validate
+     * @param array $data     Data to validation
      * @param array $required Required fields in data array
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

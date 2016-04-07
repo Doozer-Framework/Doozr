@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - I18n - Service - Interface
+ * Doozr - I18n - Service - Interface.
  *
  * Interface.php - This interface is a contract for dependencies outside.
  *
@@ -55,7 +55,7 @@
  */
 
 /**
- * Doozr - I18n - Service - Interface
+ * Doozr - I18n - Service - Interface.
  *
  * This interface is a contract for dependencies outside.
  *
@@ -98,14 +98,14 @@ interface Doozr_I18n_Service_Interface extends PHPTAL_TranslationService
      *
      * @throws Doozr_I18n_Service_Exception
      */
-    public function setActiveLocale($locale);
+    public function setLocale($locale);
 
     /**
      * Returns the currently active locale.
      *
      * @return string|null The active locale if set, otherwise NULL
      */
-    public function getActiveLocale();
+    public function getLocale();
 
     /**
      * This method is intend to return the current active locale.
@@ -131,13 +131,13 @@ interface Doozr_I18n_Service_Interface extends PHPTAL_TranslationService
      *
      * @throws Doozr_I18n_Service_Exception
      */
-    public function getLocalizer($type = self::LOCALIZER_DEFAULT, $locale = null);
+    public function getLocalizer($type = Doozr_I18n_Service::LOCALIZER_DEFAULT, $locale = null);
 
     /**
      * Returns an translator instance for passed locale.
      *
-     * @param string $locale   The locale to return translator for
-     * @param string $encoding The encoding of the translation
+     * @param string $locale   Locale to return translator for
+     * @param string $encoding Encoding of the translation
      *
      * @return Doozr_I18n_Service_Translator An instance of the locale-detector
      *
@@ -172,6 +172,8 @@ interface Doozr_I18n_Service_Interface extends PHPTAL_TranslationService
 
     /**
      * Getter for variable.
+     *
+     * @param string $key Key to return value for.
      *
      * @return string|null The value of the variable, NULL
      */
@@ -220,4 +222,18 @@ interface Doozr_I18n_Service_Interface extends PHPTAL_TranslationService
      * @return bool TRUE if valid, otherwise FALSE
      */
     public function isValidLocale($locale = '');
+
+    /**
+     * Adds a domain to list of existing domains/namespaces.
+     *
+     * Warning! If not supported by configured translator interface this method must throw
+     * a Doozr_I18n_Service_Exception
+     *
+     * @param string $domain The domain (scope) to add
+     *
+     * @return bool TRUE when added successful, otherwise FALSE
+     *
+     * @throws Doozr_Form_Service_Exception On any exceptional behavior
+     */
+    public function addDomain($domain);
 }

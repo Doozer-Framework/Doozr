@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * File.php - Extension to default Input-Component <input type="..." ...
  * but with some specific file-upload specific.
@@ -44,31 +45,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Input.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/File.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Input.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface/File.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Extension to default Input-Component <input type="..." ...
  * but with some specific file-upload specific.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Input
@@ -76,23 +78,21 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
     Doozr_Form_Service_Component_Interface_File
 {
     /**
-     * The maximum filesize allowed for fileuploads in Bytes.
+     * The maximum filesize allowed for file-uploads in Bytes.
      *
      * @var int
-     * @access protected
      */
     protected $maxFilesize = 0;
 
     /**
-     * The filename of this component
+     * The filename of this component.
      *
      * @var string
-     * @access protected
      */
     protected $file;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -102,14 +102,12 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * @param Doozr_Form_Service_Validator_Interface $validator Validator instance for validating this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Form_Service_Component_File
-     * @access public
      */
     public function __construct(
-        Doozr_Form_Service_Renderer_Interface $renderer = null,
+        Doozr_Form_Service_Renderer_Interface  $renderer  = null,
         Doozr_Form_Service_Validator_Interface $validator = null
     ) {
-        $this->setType('file');
+        $this->setType(Doozr_Form_Service_Constant::COMPONENT_TYPE_FILE);
 
         // Important call so observer storage ... can be initiated
         parent::__construct($renderer, $validator);
@@ -121,8 +119,6 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * @param string $mimeType The mime type to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAccept($mimeType)
     {
@@ -133,8 +129,8 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * Getter for accept.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The accept attributes value
-     * @access public
      */
     public function getAccept()
     {
@@ -147,13 +143,12 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * @param string $type The type to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setType($type)
     {
         $this->type = $type;
-        return parent::setType($type);
+
+        parent::setType($type);
     }
 
     /**
@@ -162,20 +157,18 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * @param mixed $value The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setValue($value)
     {
-        return $this->setFile($value);
+        $this->setFile($value);
     }
 
     /**
      * Getter for value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Value of this element
-     * @access public
      */
     public function getValue()
     {
@@ -188,8 +181,6 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * @param string|null $file The file
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFile($file = null)
     {
@@ -200,8 +191,8 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * Getter for file.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The filename if set, otherwise NULL
-     * @access public
      */
     public function getFile()
     {
@@ -214,8 +205,8 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * @param int|string $maxFilesize The maximum allowed size in bytes
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The size in bytes
-     * @access public
+     *
+     * @return int The size in bytes
      */
     public function setMaxFilesize($maxFilesize = 'auto')
     {
@@ -235,8 +226,8 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
      * Returns the maximum size in bytes a file is allowed to have.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The size in bytes
-     * @access public
+     *
+     * @return int The size in bytes
      */
     public function getMaxFilesize()
     {
@@ -248,13 +239,13 @@ class Doozr_Form_Service_Component_File extends Doozr_Form_Service_Component_Inp
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Converts an PHP INI-Value from string to integer (bytes)
+     * Converts an PHP INI-Value from string to integer (bytes).
      *
      * @param string $value The value to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The value in bytes
-     * @access protected
+     *
+     * @return int The value in bytes
      */
     protected function convertToBytes($value)
     {

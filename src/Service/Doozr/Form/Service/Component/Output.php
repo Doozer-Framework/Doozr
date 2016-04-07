@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Output.php - More specialized version of a form component.
  *
@@ -43,54 +44,52 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Textarea.php - More specialized version of a form component.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Output extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
      * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string ""
+     * e.g. "input" or "form". Default empty string "".
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_OUTPUT;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for For
+     * Setter for For.
      *
      * @param string $for The label the element is for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFor($for)
     {
@@ -98,11 +97,11 @@ class Doozr_Form_Service_Component_Output extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for For
+     * Getter for For.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The value if set, otherwise NULL
-     * @access public
      */
     public function getFor()
     {
@@ -110,13 +109,11 @@ class Doozr_Form_Service_Component_Output extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for Form
+     * Setter for Form.
      *
      * @param string $form The form to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setForm($form)
     {
@@ -124,11 +121,11 @@ class Doozr_Form_Service_Component_Output extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for Form
+     * Getter for Form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The value if set, otherwise NULL
-     * @access public
      */
     public function getForm()
     {

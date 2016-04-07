@@ -77,7 +77,7 @@ class Doozr_Factory_Multiple
      * if one exist to speed up instantiation. If you don't use an autoloader the you must
      * include the file containing the class right before you call this method.
      *
-     * @param string $classname   The name of the class to instantiate
+     * @param string $className   The name of the class to instantiate
      * @param mixed  $arguments   The arguments to pass to class for instantiation
      * @param string $constructor NOT USED but part of interface/contract
      * @param string $reflection  An optional already existing reflection of the class to create
@@ -87,11 +87,11 @@ class Doozr_Factory_Multiple
      * @access public
      * @static
      */
-    public static function create($classname, $arguments = null, $constructor = null, $reflection = null)
+    public static function create($className, $arguments = null, $constructor = null, $reflection = null)
     {
         // get reflection if not passed
         if (!$reflection) {
-            $reflection = new ReflectionClass($classname);
+            $reflection = new ReflectionClass($className);
         }
 
         // check for given arguments

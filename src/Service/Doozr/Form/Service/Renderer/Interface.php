@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Interface.php - Interface for all renderer.
  *
@@ -43,62 +44,64 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Interface for all renderer.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Form_Service_Renderer_Interface
 {
     /**
-     * Renders a passed templates with variables childs and attributes
+     * Renders a passed templates with variables children and attributes.
      *
-     * @param bool $force      TRUE to force rerendering, FALSE to allow caching
-     * @param array   $template   The template to render
-     * @param string  $tag        The html tag we are about to render
-     * @param array   $variables  The variables to use for rendering
-     * @param array   $childs     The child elements
-     * @param array   $attributes The attributes
-     * @param string  $innerHtml  The inner HTML to set
+     * @param bool   $force      TRUE to force rerendering, FALSE to allow caching
+     * @param array  $template   The template to render
+     * @param string $tag        The html tag we are about to render
+     * @param array  $variables  The variables to use for rendering
+     * @param array  $children     The child elements
+     * @param array  $attributes The attributes
+     * @param string $innerHtml  The inner HTML to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The rendered result
-     * @access public
+     *
+     * @return Doozr_Form_Service_Renderer_Interface Renderer
      */
     public function render(
-        $force            = false,
-        $template         = [],
-        $tag              = '',
-        array $variables  = [],
-        array $childs     = [],
+        $force = false,
+        $template = [],
+        $tag = '',
+        array $variables = [],
+        array $children = [],
         array $attributes = [],
-        $innerHtml        = ''
+        $innerHtml = ''
     );
 
     /**
-     * Returns the rendered result
+     * Returns the rendered result.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return mixed The rendered content in any type provided
-     * @access public
+     *
+     * @return string|mixed Rendered content as string or in any type provided
      */
     public function get();
 }

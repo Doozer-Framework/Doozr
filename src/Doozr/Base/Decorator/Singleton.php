@@ -113,7 +113,7 @@ class Doozr_Base_Decorator_Singleton extends Doozr_Base_Class_Singleton
         if (true === isset($configuration['driver']) && false || null !== $configuration['driver']) {
             $driverFile = DOOZR_DOCUMENT_ROOT.'Model/'.$configuration['oxm'].'/'.$configuration['driver'];
 
-            $this->getRegistry()->getLogger()->debug(
+            $this->getRegistry()->getLogging()->debug(
                 'Loading model driver for OxM "'.$configuration['oxm'].'" from file "'.$driverFile.'"'
             );
 

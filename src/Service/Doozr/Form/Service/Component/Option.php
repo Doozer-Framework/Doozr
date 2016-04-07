@@ -1,11 +1,12 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Option.php - Option part of select field. Extra element cause it
- * has a similar interface like standard html elements. so recycle.
+ * has a similar interface like standard html elements.
  *
  * PHP versions 5.5
  *
@@ -44,31 +45,32 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Option.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface/Option.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Option part of select field. Extra element cause it
- * has a similar interface like standard html elements. so recycle.
+ * has a similar interface like standard html elements.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_Formcomponent
@@ -76,25 +78,22 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
     Doozr_Form_Service_Component_Interface_Option
 {
     /**
-     * The tag for this type of element
+     * The tag for this type of element.
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_OPTION;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for selected
+     * Setter for selected.
      *
      * @param string $selected The selected value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setSelected($selected = 'selected')
     {
@@ -102,11 +101,11 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for selected
+     * Getter for selected.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The value of selected if set, otherwise NULL
-     * @access public
      */
     public function getSelected()
     {
@@ -114,13 +113,11 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for disabled status
+     * Setter for disabled status.
      *
      * @param bool $state The status
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDisabled($state)
     {
@@ -132,11 +129,11 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for disabled status
+     * Getter for disabled status.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if disabled, otherwise FALSE
-     * @access public
      */
     public function getDisabled()
     {
@@ -144,13 +141,11 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for label of this element
+     * Setter for label of this element.
      *
      * @param string $label The label to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setLabel($label)
     {
@@ -158,11 +153,11 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for label
+     * Getter for label.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The label
-     * @access public
      */
     public function getLabel()
     {
@@ -170,14 +165,12 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for value of this element
+     * Setter for value of this element.
      *
      * @param string|null $value          The value to set, or NULL to use key as value
      * @param string|null $submittedValue The value which was submitted on last request, or NULL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setValue($value = null, $submittedValue = null)
     {
@@ -188,18 +181,18 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
         }
 
         if ($value === null) {
-            $value = $this->getKey();
+            //$value = $this->getKey();
         }
 
         $this->setAttribute('value', $value);
     }
 
     /**
-     * Getter for value
+     * Getter for value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The value
-     * @access public
      */
     public function getValue()
     {
@@ -207,25 +200,23 @@ class Doozr_Form_Service_Component_Option extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for key [<option>KEY</option>] of this element
+     * Setter for key [<option>KEY</option>] of this element.
      *
      * @param string $key The key to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setKey($key)
     {
-        return $this->setInnerHtml($key);
+        $this->setInnerHtml($key);
     }
 
     /**
-     * Getter for key
+     * Getter for key.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The key
-     * @access public
      */
     public function getKey()
     {

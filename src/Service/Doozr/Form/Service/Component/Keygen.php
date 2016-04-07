@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Keygen.php - The Kegen component.
  *
@@ -43,86 +44,77 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Input.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Input.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * The keygen component.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Keygen extends Doozr_Form_Service_Component_Input
 {
     /**
-     * The tag of this component
+     * The tag of this component.
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_KEYGEN;
 
     /**
-     * The allowed keytypes for the component
+     * The allowed keytypes for the component.
      *
      * @var array
-     * @access protected
      */
-    protected $allowedKeytypes = array(
+    protected $allowedKeytypes = [
         self::KEYTYPE_RSA,
         self::KEYTYPE_DSA,
         self::KEYTYPE_EC,
-    );
+    ];
 
     /**
-     * Keytype RSA
-     *
-     * @access public
+     * Keytype RSA.
      */
     const KEYTYPE_RSA = 'rsa';
 
     /**
-     * Keytype DSA
-     *
-     * @access public
+     * Keytype DSA.
      */
     const KEYTYPE_DSA = 'dsa';
 
     /**
-     * Keytype EC
-     *
-     * @access public
+     * Keytype EC.
      */
     const KEYTYPE_EC = 'ec';
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for challenge
+     * Setter for challenge.
      *
      * @param string $challenge The challenge
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setChallenge($challenge)
     {
@@ -130,11 +122,11 @@ class Doozr_Form_Service_Component_Keygen extends Doozr_Form_Service_Component_I
     }
 
     /**
-     * Getter for challenge
+     * Getter for challenge.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The challenge
-     * @access public
      */
     public function getChallenge()
     {
@@ -142,20 +134,19 @@ class Doozr_Form_Service_Component_Keygen extends Doozr_Form_Service_Component_I
     }
 
     /**
-     * Setter for keytype
+     * Setter for keytype.
      *
      * @param string $keytype The keytype
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     *
      * @throws Doozr_Form_Service_Exception
      */
     public function setKeytype($keytype)
     {
         if (in_array($keytype, $this->allowedKeytypes) === false) {
             throw new Doozr_Form_Service_Exception(
-                'Passed keytype: "' . $keytype . '" is not allowed or invalid.'
+                'Passed keytype: "'.$keytype.'" is not allowed or invalid.'
             );
         }
 
@@ -163,11 +154,11 @@ class Doozr_Form_Service_Component_Keygen extends Doozr_Form_Service_Component_I
     }
 
     /**
-     * Getter for keytype
+     * Getter for keytype.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The keytype
-     * @access public
      */
     public function getKeytype()
     {

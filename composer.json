@@ -19,7 +19,7 @@
     "doctrine/instantiator": "~1.0.5",
     "doctrine/annotations": "~1.2.6",
     "symfony/var-dumper": "~2.8.0",
-    "symfony/console": "~2.7.1",
+    "symfony/console": "~2.8.2",
     "symfony/polyfill-mbstring": "~1.0.1",
     "hautelook/phpass": "~0.3.4",
     "wp-cli/php-cli-tools": "~0.10.4",
@@ -44,7 +44,10 @@
     "vlucas/phpdotenv": "~2.1.0",
     "friendsofphp/uprofiler": "dev-master as 1.0.x-dev",
     "shrikeh/teapot": "~1.0.2",
-    "cocur/slugify": "~0.4.1"
+    "cocur/slugify": "~0.4.1",
+    "guzzlehttp/guzzle": "~6.1.1",
+    "league/event": "~2.1.2",
+    "gpupo/cache": "~1.2.2"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.8.9",

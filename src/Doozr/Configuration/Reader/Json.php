@@ -123,7 +123,7 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
             $configuration = parent::read($filename);
         }
 
-        // but we need to validate here cause our domain
+        // but we need to validation here cause our domain
         $configuration = $this->validate($configuration);
 
         // Error handling
@@ -243,7 +243,7 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
     /**
      * Validates that a passed string is valid json.
      *
-     * @param string $input The input to validate
+     * @param string $input The input to validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

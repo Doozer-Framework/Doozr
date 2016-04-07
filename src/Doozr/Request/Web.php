@@ -54,6 +54,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/File/UploadedFileFactory.php';
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -111,6 +112,10 @@ class Doozr_Request_Web extends Doozr_Request
     const EMULATED = 1;
 
     /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /*------------------------------------------------------------------------------------------------------------------
     | FULFILL: @see Doozr_Request_Interface
     +-----------------------------------------------------------------------------------------------------------------*/
 
@@ -131,7 +136,7 @@ class Doozr_Request_Web extends Doozr_Request
         );
 
         // HTTP Version of the request made
-        $protocolVersion = explode('/', $_SERVER['SERVER_PROTOCOL']);
+        $protocolVersion = explode('/', (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : '/');
 
         // Store protocol version
         $this->withProtocolVersion(
@@ -160,13 +165,12 @@ class Doozr_Request_Web extends Doozr_Request
             $_COOKIE
         );
 
-        // Store file uploads ...
-        $files = [];
-        foreach ($_FILES as $file) {
-            $files[] = new Doozr_Request_File($file);
-        }
+        // Parse upload(s) in PSR-7 more/better logical structure (some array shuffling)
+        $uploadedFileFactory = new Doozr_Request_File_UploadedFileFactory($_FILES);
+        $uploadedFiles       = $uploadedFileFactory->build();
+
         $this->withUploadedFiles(
-            $files
+            $uploadedFiles
         );
 
         // Store query params as array
@@ -757,10 +761,6 @@ class Doozr_Request_Web extends Doozr_Request
 
         return $this;
     }
-
-
-
-
 
 
     /**

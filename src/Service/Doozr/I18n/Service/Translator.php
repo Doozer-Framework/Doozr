@@ -5,7 +5,7 @@
 /**
  * Doozr - I18n - Service - Translator
  *
- * Translator.php - Translator is responsible for translation within module I18n.
+ * Translator.php - Translator is responsible for translation within service I18n.
  *
  * PHP versions 5.5
  *
@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 /**
  * Doozr - I18n - Service - Translator
  *
- * Translator is responsible for translation within the module I18n
+ * Translator is responsible for translation within the service I18n
  *
  * @category   Doozr
  *
@@ -714,7 +714,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
         $result = in_array($namespace, $this->getNamespaces());
 
         // Check if not already set
-        if (false !== $result) {
+        if (false === $result) {
 
             // make array for iteration
             if (is_string($namespace)) {
@@ -775,8 +775,9 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      */
     public function hasNamespace($namespace = null)
     {
-        if ($namespace === null) {
+        if (null === $namespace) {
             $result = (count($this->namespaces) > 0);
+
         } else {
             $result = in_array($namespace, $this->namespaces);
         }
@@ -836,6 +837,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      */
     public function _($key, $arguments = null)
     {
+        #$this->setNamespace('myform');
+
         return $this->translate($key, $arguments, self::MODE_TRANSLATE);
     }
 
@@ -928,7 +931,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
         include_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/'.
             $this->getTranslatorInterface().'.php';
 
-        // Combine classname
+        // Combine className
         $interfaceClass = 'Doozr_I18n_Service_Interface_'.$this->getTranslatorInterface();
 
         // Instantiate and return instance

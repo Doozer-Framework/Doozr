@@ -57,6 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Registry/Interface.php';
 
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid;
 
@@ -142,16 +143,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      * @param array $parameters The parameters to store.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return Doozr_Registry The registry
      */
-    /*
-    public static function getInstance(array $parameters = [])
-    {
-        return parent::getInstance($parameters);
-    }
-    */
-
     protected function __construct(array $parameters = [])
     {
         self::setParameters($parameters);
@@ -171,14 +163,14 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     public function set(&$variable, $identifier = null)
     {
         // Generate identifier if not passed
-        if ($identifier === null) {
+        if (null === $identifier) {
             $identifier = sha1(serialize($variable));
         }
 
         // store the variable as reference
-        self::$references[] = $variable;
-        $index = count(self::$references) - 1;
-        self::$lookup[$identifier] = $index;
+        self::$references[]          = $variable;
+        $index                       = count(self::$references) - 1;
+        self::$lookup[$identifier]   = $index;
         self::$reverseLookup[$index] = $identifier;
 
         // store count of elements
@@ -264,7 +256,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
         try {
             // Generate a version 4 (random) UUID object
             $uuid4 = Uuid::uuid4();
-            $uuid = $uuid4->toString();
+            $uuid  = $uuid4->toString();
         } catch (UnsatisfiedDependencyException $exception) {
             throw new Doozr_Registry_Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
@@ -420,27 +412,27 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for request (state).
+     * Setter for request.
      *
-     * @param Doozr_Request $request The request state to set
+     * @param Request $request The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setRequest(Doozr_Request $request)
+    public function setRequest(Request $request)
     {
         $this->set($request, 'request');
     }
 
     /**
-     * Fluent: Setter for request (state).
+     * Fluent: Setter for request.
      *
-     * @param Doozr_Request $request The request state to set
+     * @param Request $request The request state to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    public function request(Doozr_Request $request)
+    public function request(Request $request)
     {
         $this->setRequest($request);
 
@@ -448,11 +440,11 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Getter for request (state).
+     * Getter for request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Request_Web The request state
+     * @return Request The request
      */
     public function getRequest()
     {
@@ -540,33 +532,33 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for logger.
+     * Setter for logging.
      *
-     * @param Doozr_Logging_Interface $logger The logger to store
+     * @param Doozr_Logging_Interface $logging The logging to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setLogger(Doozr_Logging_Interface $logger)
+    public function setLogging(Doozr_Logging_Interface $logging)
     {
-        $this->set($logger, 'logger');
+        $this->set($logging, 'logging');
     }
 
     /**
-     * Getter for logger.
+     * Getter for logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Logging The logger instance
+     * @return Doozr_Logging The logging instance
      */
-    public function getLogger()
+    public function getLogging()
     {
-        return $this->get('logger');
+        return $this->get('logging');
     }
 
     /**
      * Setter for filesystem.
      *
-     * @param Doozr_Base_Service_Interface $filesystem The filesystem instance to store
+     * @param Doozr_Filesystem_Service $filesystem The filesystem instance to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -618,7 +610,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    public function setCache($cache)
+    public function setCache(CacheItemPoolInterface $cache)
     {
         $this->set($cache, 'cache');
     }
@@ -632,7 +624,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
      *
      * @return $this Instance for chaining
      */
-    public function cache($cache)
+    public function cache(CacheItemPoolInterface $cache)
     {
         $this->setCache($cache);
 
@@ -851,6 +843,46 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
         return $this->get('debugbar');
     }
 
+    /**
+     * Setter for eventBus.
+     *
+     * @param \League\Event\Emitter $eventBus The eventBus state to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function setEventBus(\League\Event\Emitter $eventBus)
+    {
+        $this->set($eventBus, 'eventBus');
+    }
+
+    /**
+     * Fluent: Setter for eventBus.
+     *
+     * @param \League\Event\Emitter $eventBus The eventBus state to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function eventBus(\League\Event\Emitter $eventBus)
+    {
+        $this->setEventBus($eventBus);
+
+        return $this;
+    }
+
+    /**
+     * Getter for eventBus.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return \League\Event\Emitter The eventBus
+     */
+    public function getEventBus()
+    {
+        return $this->get('eventBus');
+    }
+
     /*-----------------------------------------------------------------------------------------------------------------+
     | Fulfill ArrayAccess
     +-----------------------------------------------------------------------------------------------------------------*/
@@ -870,7 +902,7 @@ class Doozr_Registry extends Doozr_Base_Class_Singleton
             $offset = array_search($offset, self::$reverseLookup);
         }
 
-        return (isset(self::$references[$offset]));
+        return isset(self::$references[$offset]);
     }
 
     /**

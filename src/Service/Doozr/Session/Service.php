@@ -413,7 +413,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
     const DEFAULT_SEC_FLAG_HTTPONLY = false;
 
     /**
-     * Replacement for __construct.
+     * Service entry point.
      *
      * This method is intend as replacement for __construct
      * PLEASE DO NOT USE __construct() - make always use of __tearup()!
@@ -423,12 +423,13 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
      *
      * @param string $sessionId  The session-Id to use as predefined
      * @param bool   $autoInit   TRUE to automatically start session, FALSE to do not
-     * @param float  $phpVersion The PHP-Version this instance of session module running on
+     * @param float  $phpVersion The PHP-Version this instance of session service running on
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __tearup($sessionId = null, $autoInit = false, $phpVersion = DOOZR_PHP_VERSION)
     {
+        /*
         // get instance of logger
         $this->logger = self::getRegistry()->getLogger();
 
@@ -453,6 +454,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
                 self::getRegistry()->getConfiguration()->session
             );
         }
+        */
     }
 
     /**
@@ -627,7 +629,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
 
         // at this point the ip is in format configured (X-octets)
         if ($ipFromSession !== null) {
-            // found ip in session! try to validate and destroy if suspicious
+            // found ip in session! try to validation and destroy if suspicious
             if ($ipFromSession != $ip) {
                 $this->log('Session seems to be hijacked! Destroying session and closing connection!');
                 $this->destroy();
@@ -700,13 +702,13 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
         // Get security
         include_once DOOZR_DOCUMENT_ROOT.'Doozr/Security.php';
 
-        // Get module crypt
+        // Get service crypt
         $this->cryptService = Doozr_Loader_Serviceloader::load('crypt', $cipher, $encoding);
 
         // Store private key for en-/decryption
         $this->privateKey = Doozr_Security::getPrivateKey();
 
-        // Set key to crypt-module
+        // Set key to crypt-service
         $this->cryptService->setKey($this->privateKey);
 
         // set enabled
@@ -768,7 +770,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
         // set params for cookie!
         session_set_cookie_params(
             $this->getLifetime(),
-            $this->getPathToClass(),
+            $this->retrievePathToCurrentClass(),
             $this->getDomain(),
             $this->getSsl(),
             $this->getHttpOnly()
@@ -793,7 +795,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
             $this->getIdentifier(),
             ($sessionId) ? $sessionId : session_id(),
             $this->getLifetime(),
-            $this->getPathToClass(),
+            $this->retrievePathToCurrentClass(),
             $this->getDomain(),
             $this->getSsl(),
             $this->getHttpOnly()
@@ -820,7 +822,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
     /**
      * Handle the regeneration process.
      *
-     * This method is intend to handle the regeneration process.
+     * This method is intend to getMetaComponents the regeneration process.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -1395,7 +1397,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
      *
      * @return string The active path
      */
-    public function getPathToClass($resolveSymlinks = false)
+    public function retrievePathToCurrentClass($resolveSymlinks = false)
     {
         return $this->path;
     }
@@ -1526,7 +1528,7 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
             $this->getIdentifier(),
             $this->getId(),
             $lifetime,
-            $this->getPathToClass(),
+            $this->retrievePathToCurrentClass(),
             $this->getDomain(),
             $this->getSsl(),
             $this->getHttpOnly()

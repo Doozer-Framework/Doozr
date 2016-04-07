@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Abstract.php - Abstract base for parser.
  *
@@ -43,27 +44,29 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Abstract base for parser.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 abstract class Doozr_Form_Service_Parser_Abstract
@@ -72,7 +75,6 @@ abstract class Doozr_Form_Service_Parser_Abstract
      * The input which get parsed by parser.
      *
      * @var string
-     * @access protected
      */
     protected $input;
 
@@ -80,7 +82,6 @@ abstract class Doozr_Form_Service_Parser_Abstract
      * The output returned by parser as result.
      *
      * @var mixed
-     * @access protected
      */
     protected $output;
 
@@ -88,12 +89,11 @@ abstract class Doozr_Form_Service_Parser_Abstract
      * Configuration object.
      *
      * @var Doozr_Form_Service_Configuration
-     * @access protected
      */
     protected $configuration;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -103,8 +103,8 @@ abstract class Doozr_Form_Service_Parser_Abstract
      *                                                        parsed configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Form_Service_Parser_Abstract
-     * @access protected
      */
     public function __construct(Doozr_Form_Service_Configuration $configuration)
     {
@@ -117,8 +117,6 @@ abstract class Doozr_Form_Service_Parser_Abstract
      * @param Doozr_Form_Service_Configuration $configuration The configuration to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setConfiguration(Doozr_Form_Service_Configuration $configuration)
     {
@@ -129,8 +127,8 @@ abstract class Doozr_Form_Service_Parser_Abstract
      * Getter for configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Form_Service_Configuration|null Configuration if set, otherwise NULL
-     * @access public
      */
     public function getConfiguration()
     {
@@ -143,8 +141,6 @@ abstract class Doozr_Form_Service_Parser_Abstract
      * @param string $input The input to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setInput($input)
     {
@@ -155,8 +151,8 @@ abstract class Doozr_Form_Service_Parser_Abstract
      * Getter for input.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The input set, otherwise NULL if not set
-     * @access public
      */
     public function getInput()
     {
@@ -169,8 +165,6 @@ abstract class Doozr_Form_Service_Parser_Abstract
      * @param string $output The output to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setOutput($output)
     {
@@ -181,8 +175,8 @@ abstract class Doozr_Form_Service_Parser_Abstract
      * Getter for output.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The output set, otherwise NULL if not set
-     * @access public
      */
     public function getOutput()
     {

@@ -198,7 +198,7 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
         // assume empty resulting array
         $result = [];
 
-        // open read handle to file
+        // open read getMetaComponents to file
         $fileHandle = fopen($filename, 'r');
 
         // read till end of file (eof)
@@ -212,7 +212,7 @@ class Doozr_I18n_Service_Interface_Text extends Doozr_I18n_Service_Interface_Abs
             }
         }
 
-        // close handle to file
+        // close getMetaComponents to file
         fclose($fileHandle);
 
         // return parsed array

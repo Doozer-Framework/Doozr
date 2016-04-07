@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Kernel - Exception
+ * Doozr - Kernel - Exception.
  *
  * Exception.php - Exception of Doozr Kernel
  *
@@ -43,46 +44,45 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Base_Exception
- * @subpackage Doozr_Base_Exception_Kernel
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Exception.php';
 
 /**
- * Doozr - Service - Template - Exception
+ * Doozr - Service - Template - Exception.
  *
  * Exception of Doozr Service Template
  *
  * @category   Doozr
- * @package    Doozr_Base_Exception
- * @subpackage Doozr_Base_Exception_Kernel
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Kernel_Exception extends Doozr_Base_Exception
 {
     /**
      * Overrides parents constructor to add context to each exception of type:
-     * Doozr_Kernel_Exception
+     * Doozr_Kernel_Exception.
      *
-     * @param string  $message  Exception message
-     * @param int     $code     Code of the exception
-     * @param object  $previous Previous exception thrown
+     * @param string|null    $message           Exception message
+     * @param int            $code              Code of the exception
+     * @param Exception|null $previousException Previous exception thrown
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Kernel_Exception instance of this class
-     * @access public
      */
-    public function __construct($message = null, $code = 0, $previous = null)
+    public function __construct($message = null, $code = 0, $previousException = null)
     {
         // If no message set set => throw us again
         if (null === $message) {
@@ -92,9 +92,8 @@ class Doozr_Kernel_Exception extends Doozr_Base_Exception
         }
 
         // Add context to message!
-        $message = (($code == E_USER_CORE_FATAL_EXCEPTION) ? 'Fatal: ' : '') . $message;
+        $message = (($code == E_USER_CORE_FATAL_EXCEPTION) ? 'Fatal: ' : '').$message;
 
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code, $previousException);
     }
-
 }

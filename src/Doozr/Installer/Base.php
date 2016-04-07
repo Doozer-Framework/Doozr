@@ -398,7 +398,7 @@ class Doozr_Installer_Base
     /**
      * Validates a path for installation.
      *
-     * @param string $path The path to validate
+     * @param string $path The path to validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return string TRUE if path is valid, otherwise FALSE

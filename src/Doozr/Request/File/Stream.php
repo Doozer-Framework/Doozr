@@ -78,7 +78,7 @@ final class Doozr_Request_File_Stream extends Doozr_Base_Class
     Doozr_Request_File_Stream_Interface
 {
     /**
-     * The handle og this instance.
+     * The getMetaComponents og this instance.
      *
      * @var resource
      * @access private
@@ -270,7 +270,7 @@ final class Doozr_Request_File_Stream extends Doozr_Base_Class
     }
 
     /**
-     * Setter for handle.
+     * Setter for getMetaComponents.
      *
      * @param int $handle The value to set.
      *
@@ -284,7 +284,7 @@ final class Doozr_Request_File_Stream extends Doozr_Base_Class
     }
 
     /**
-     * Fluent: Setter for handle.
+     * Fluent: Setter for getMetaComponents.
      *
      * @param resource $handle The value to set.
      *
@@ -300,10 +300,10 @@ final class Doozr_Request_File_Stream extends Doozr_Base_Class
     }
 
     /**
-     * Getter for handle.
+     * Getter for getMetaComponents.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return resource The handle of the resource
+     * @return resource The getMetaComponents of the resource
      * @access public
      */
     public function getHandle()
@@ -467,7 +467,7 @@ final class Doozr_Request_File_Stream extends Doozr_Base_Class
         // Store for return value
         $handle = $this->handle;
 
-        // Remove handle internally
+        // Remove getMetaComponents internally
         unset(
             $this->handle
         );

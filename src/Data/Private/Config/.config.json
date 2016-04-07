@@ -70,7 +70,6 @@
     },
     "service": {
       "web": [
-        "session"
       ],
       "cli": [
         "crypt",

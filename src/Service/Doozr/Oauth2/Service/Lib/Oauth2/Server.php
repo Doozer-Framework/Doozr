@@ -79,7 +79,7 @@ class Server implements ResourceControllerInterface,
      * @param OAuth2\TokenTypeInterface $tokenType
      * The token type object to use. Valid token types are "bearer" and "mac"
      * @param OAuth2\ScopeInterface $scopeUtil
-     * The scope utility class to use to validate scope
+     * The scope utility class to use to validation scope
      * @param OAuth2\ClientAssertionTypeInterface $clientAssertionType
      * The method in which to verify the client identity.  Default is HttpBasic
      *

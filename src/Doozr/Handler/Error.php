@@ -176,7 +176,7 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
         // We can retrieve the last error as whole by using PHP's internal function
         $error = error_get_last();
 
-        // Check if can handle the error ...
+        // Check if can getMetaComponents the error ...
         if (!empty($error) && self::isError($error) === true) {
             // Handle by default handler -> It seems that the types of error catched here cannot be processed like ...
             // Return FALSE to signalize PHP error handled: http://php.net/manual/en/function.set-error-handler.php
@@ -288,7 +288,7 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
 
             case E_RECOVERABLE_ERROR:                // 4096
                 // Catchable fatal error. It indicates that a probably dangerous error occurred, but did not
-                // leave the Engine in an unstable state. If the error is not caught by a user defined handle
+                // leave the Engine in an unstable state. If the error is not caught by a user defined getMetaComponents
                 // (see also set_error_handler()), the application aborts as it was an E_ERROR (since PHP 5.2.0).
                 $type = 'RECOVERABLE';
                 break;

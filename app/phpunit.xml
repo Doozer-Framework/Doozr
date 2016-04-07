@@ -21,11 +21,11 @@
         <testsuite name="Doozr_Crypt_Service">
             <directory>../src/Service/Doozr/Crypt/tests/</directory>
         </testsuite>
+        <!--//testsuite name="Doozr_Form_Service">
+            <directory>../src/Service/Doozr/Form/tests/</directory>
+        </testsuite//-->
         <testsuite name="Doozr_I18n_Service">
             <directory>../src/Service/Doozr/I18n/tests/</directory>
-        </testsuite>
-        <testsuite name="Doozr_Http_Service">
-            <directory>../src/Service/Doozr/Http/tests/</directory>
         </testsuite>
     </testsuites>
 

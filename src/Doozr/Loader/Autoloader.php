@@ -191,29 +191,29 @@ class Doozr_Loader_Autoloader
      *
      * This method is intend to load the given class or interface.
      *
-     * @param string $classname The name of the class to load.
+     * @param string $className The name of the class to load.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function load($classname)
+    public function load($className)
     {
-        // get namespace from classname
-        $namespace = substr($classname, 0, strlen($this->namespace.$this->namespaceSeparator));
+        // get namespace from className
+        $namespace = substr($className, 0, strlen($this->namespace.$this->namespaceSeparator));
 
         // check if requested class must be loaded by this instance of loader
         if ($this->namespace === null || $this->namespace.$this->namespaceSeparator === $namespace) {
             $fileName  = '';
             $namespace = '';
 
-            if (($lastNsPos = strripos($classname, $this->namespaceSeparator)) !== false) {
-                $namespace = substr($classname, 0, $lastNsPos);
-                $classname = substr($classname, $lastNsPos + 1);
+            if (($lastNsPos = strripos($className, $this->namespaceSeparator)) !== false) {
+                $namespace = substr($className, 0, $lastNsPos);
+                $className = substr($className, $lastNsPos + 1);
                 $fileName  = str_replace($this->namespaceSeparator, $this->separator, $namespace).$this->separator;
             }
 
-            $fileName .= str_replace('_', $this->separator, $classname).$this->fileExtension;
+            $fileName .= str_replace('_', $this->separator, $className).$this->fileExtension;
 
             if ($this->includePath !== null) {
                 $fileName = $this->includePath.$this->separator.$fileName;

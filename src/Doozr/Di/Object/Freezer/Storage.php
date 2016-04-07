@@ -1,6 +1,6 @@
 <?php
 /**
- * Object_Freezer
+ * Object_Freezer.
  *
  * Copyright (c) 2008-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
@@ -34,25 +34,25 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @since      File available since Release 1.0.0
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/Cache.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Object/Freezer/LazyProxy.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Object/Freezer.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Object/Freezer/Cache.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Object/Freezer/LazyProxy.php';
 
 /**
  * Abstract base class for object storage implementations.
  *
- * @package    Object_Freezer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2008-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://github.com/sebastianbergmann/php-object-freezer/
  * @since      Class available since Release 1.0.0
  */
@@ -71,27 +71,27 @@ abstract class Object_Freezer_Storage
     /**
      * @var bool
      */
-    protected $lazyLoad = FALSE;
+    protected $lazyLoad = false;
 
     /**
      * Constructor.
      *
-     * @param  Object_Freezer       $freezer
-     *                              Object_Freezer instance to be used
-     * @param  Object_Freezer_Cache $cache
-     *                              Object_Freezer_Cache instance to be used
-     * @param  boolean              $useLazyLoad
-     *                              Flag that controls whether objects are
-     *                              fetched using lazy load or not
+     * @param Object_Freezer       $freezer
+     *                                          Object_Freezer instance to be used
+     * @param Object_Freezer_Cache $cache
+     *                                          Object_Freezer_Cache instance to be used
+     * @param bool                 $useLazyLoad
+     *                                          Flag that controls whether objects are
+     *                                          fetched using lazy load or not
      */
-    public function __construct(Object_Freezer $freezer = NULL, Object_Freezer_Cache $cache = NULL, $useLazyLoad = FALSE)
+    public function __construct(Object_Freezer $freezer = null, Object_Freezer_Cache $cache = null, $useLazyLoad = false)
     {
-        if ($freezer === NULL) {
-            $freezer = new Object_Freezer;
+        if ($freezer === null) {
+            $freezer = new Object_Freezer();
         }
 
-        if ($cache === NULL) {
-            $cache = new Object_Freezer_Cache;
+        if ($cache === null) {
+            $cache = new Object_Freezer_Cache();
         }
 
         $this->freezer = $freezer;
@@ -103,7 +103,8 @@ abstract class Object_Freezer_Storage
     /**
      * Sets the flag that controls whether objects are fetched using lazy load.
      *
-     * @param  boolean $flag
+     * @param bool $flag
+     *
      * @throws InvalidArgumentException
      */
     public function setUseLazyLoad($flag)
@@ -121,7 +122,8 @@ abstract class Object_Freezer_Storage
     /**
      * Freezes an object and storages it in the object storage.
      *
-     * @param  object $object The object that is to be stored.
+     * @param object $object The object that is to be stored.
+     *
      * @return string
      */
     public function store($object)
@@ -139,7 +141,8 @@ abstract class Object_Freezer_Storage
     /**
      * Fetches a frozen object from the object storage and thaws it.
      *
-     * @param  string $id The ID of the object that is to be fetched.
+     * @param string $id The ID of the object that is to be fetched.
+     *
      * @return object
      */
     public function fetch($id)
@@ -176,9 +179,7 @@ abstract class Object_Freezer_Storage
         foreach ($array as &$value) {
             if (is_array($value)) {
                 $this->fetchArray($value, $objects);
-            }
-
-            else if (is_string($value) &&
+            } elseif (is_string($value) &&
                      strpos($value, '__php_object_freezer_') === 0) {
                 $uuid = str_replace('__php_object_freezer_', '', $value);
 
@@ -201,7 +202,8 @@ abstract class Object_Freezer_Storage
     /**
      * Fetches a frozen object from the object storage and thaws it.
      *
-     * @param  string $id The ID of the object that is to be fetched.
+     * @param string $id The ID of the object that is to be fetched.
+     *
      * @return object
      */
     abstract protected function doFetch($id);
