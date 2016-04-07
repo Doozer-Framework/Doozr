@@ -13,7 +13,7 @@
     "php": ">=5.5.0",
     "clickalicious/cachingmiddleware": "~1.0",
     "clickalicious/memcached.php": "~0.4",
-    "clickalicious/rng": "~0.1",
+    "clickalicious/rng": "~1.0.0",
     "doctrine/dbal": "~2.5.1",
     "doctrine/orm": "~2.5.0",
     "doctrine/instantiator": "~1.0.5",
