@@ -117,10 +117,13 @@ Thanks to our sponsors and supporters:
 | JetBrains | Navicat |
 |---|---|
 | <a href="https://www.jetbrains.com/phpstorm/" title="PHP IDE :: JetBrains PhpStorm" target="_blank"><img src="https://resources.jetbrains.com/assets/media/open-graph/jetbrains_250x250.png" height="55"></img></a> | <a href="http://www.navicat.com/" title="Navicat GUI - DB GUI-Admin-Tool for MySQL, MariaDB, SQL Server, SQLite, Oracle & PostgreSQL" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/en/9/90/PremiumSoft_Navicat_Premium_Logo.png" height="55" /></a>  |
+<<<<<<< HEAD
 
 
 ###### Copyright
 Icons made by <a href="http://www.flaticon.com/authors/sebastian-carl" title="Sebastian Carl">Sebastian Carl</a> licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
+=======
+>>>>>>> 382f911ffbc4540b287030284e3c4873c1fd87a5
 
 
 [1]: https://packagist "packagist.org - Package registry of composer"
