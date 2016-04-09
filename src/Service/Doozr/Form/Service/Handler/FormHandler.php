@@ -290,42 +290,42 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @var string
      */
-    protected $fieldnameToken;
+    protected $fieldnameToken = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_TOKEN;
 
     /**
      * META: Name of "submitted" field.
      *
      * @var string
      */
-    protected $fieldnameSubmitted;
+    protected $fieldnameSubmitted = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_SUBMITTED;
 
     /**
      * META: Name of "step" field.
      *
      * @var string
      */
-    protected $fieldnameStep;
+    protected $fieldnameStep = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEP;
 
     /**
      * META: Name of the "steps" field.
      *
      * @var string
      */
-    protected $fieldnameSteps;
+    protected $fieldnameSteps = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEPS;
 
     /**
      * META: Name of the "jump" field.
      *
      * @var string
      */
-    protected $fieldnameJump;
+    protected $fieldnameJump = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_JUMP;
 
     /**
      * META: Name of "upload" field.
      *
      * @var string
      */
-    protected $fieldnameUpload;
+    protected $fieldnameUpload = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_UPLOAD;
 
     /*------------------------------------------------------------------------------------------------------------------
     | INIT
@@ -348,7 +348,6 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      * @param Request                                      $request             Request instance (PSR).
      * @param string                                       $method              Request method for transportation.
      * @param bool                                         $angularDirectives   Whether to render angular directives.
-     * @param array                                        $metaComponentNames  Collection of key value pairs with names
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -366,8 +365,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
         Doozr_Form_Service_Handler_DataHandler       $dataHandler = null,
         Request                                      $request = null,
                                                      $method = Doozr_Form_Service_Constant::DEFAULT_METHOD,
-                                                     $angularDirectives = false,
-        array                                        $metaComponentNames
+                                                     $angularDirectives = false
     ) {
         // Store instances for further use
         $this
@@ -385,12 +383,6 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
             ->request($request)
             ->method($method)
             ->angularDirectives($angularDirectives)
-            ->fieldnameToken($metaComponentNames[Doozr_Form_Service_Constant::IDENTIFIER_TOKEN])
-            ->fieldnameSubmitted($metaComponentNames[Doozr_Form_Service_Constant::IDENTIFIER_SUBMITTED])
-            ->fieldnameStep($metaComponentNames[Doozr_Form_Service_Constant::IDENTIFIER_STEP])
-            ->fieldnameSteps($metaComponentNames[Doozr_Form_Service_Constant::IDENTIFIER_STEPS])
-            ->fieldnameJump($metaComponentNames[Doozr_Form_Service_Constant::IDENTIFIER_JUMP])
-            ->fieldnameUpload($metaComponentNames[Doozr_Form_Service_Constant::IDENTIFIER_UPLOAD])
             ->init();
     }
 
@@ -488,12 +480,9 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                     'type'       => Doozr_Form_Service_Constant::COMPONENT_TYPE_GENERIC,
                 ];
 
-                $submittedValues = $this->buildValueArray(
-                    array_keys($validationRules)
-                );
+                $submittedValues = $this->buildValueArray(array_keys($validationRules));
 
                 $submittedValues[Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::IDENTIFIER_METHOD] = $this->getRequest()->getMethod();
-
 
                 // Manually inject validation for token
                 $validationRules[Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::IDENTIFIER_TOKEN] = [
@@ -540,11 +529,9 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                     $this->setComplete($step === $steps);
 
                     if (true === $this->isComplete()) {
-                        $this->setResult(
-                            $this->getDataHandler()->enrichWithMetaInformation(
-                                $this->invalidateDataPool()
-                            )
-                        );
+                        $data = $this->getDataHandler()->enrichWithMetaInformation($this->getDataPool());
+                        $this->invalidateDataPool();
+                        $this->setResult($data);
                     }
 
                     $this->setActiveStep($step + 1);
@@ -637,8 +624,6 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                     );
                 }
 
-                #dump($this->isValid());die;
-
                 // Transfer valid data ...
                 $this->transferValidDataAndFilesToPool($step);
 
@@ -649,11 +634,9 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
                     $this->setComplete($step === $steps);
 
                     if (true === $this->isComplete()) {
-                        $this->setResult(
-                            $this->getDataHandler()->enrichWithMetaInformation(
-                                $this->invalidateDataPool()
-                            )
-                        );
+                        $data = $this->getDataHandler()->enrichWithMetaInformation($this->getDataPool());
+                        $this->invalidateDataPool();
+                        $this->setResult($data);
                     }
 
                     $this->setActiveStep($step);
@@ -733,15 +716,11 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      */
     protected function initializeDataPool()
     {
-        // Start a session
-        // @TODO: Remove by store!
-        session_start();
+        try {
+            $dataPool = $this->getStore()->read($this->addPrefix($this->getScope()));
 
-        if (false === isset($_SESSION[$this->addPrefix($this->getScope())])) {
-            $dataPool                                      = $this->getDataPoolSkeleton();
-            $_SESSION[$this->addPrefix($this->getScope())] = $dataPool;
-        } else {
-            $dataPool = $_SESSION[$this->addPrefix($this->getScope())];
+        } catch (Doozr_Form_Service_Exception $exception) {
+            $dataPool = $this->getDataPoolSkeleton();
         }
 
         return $this->dataPool($dataPool);
@@ -1279,7 +1258,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setFieldnameToken($fieldnameToken)
+    public function setFieldnameToken($fieldnameToken)
     {
         $this->fieldnameToken = $fieldnameToken;
     }
@@ -1293,7 +1272,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return $this Instance for chaining
      */
-    protected function fieldnameToken($fieldnameToken)
+    public function fieldnameToken($fieldnameToken)
     {
         $this->setFieldnameToken($fieldnameToken);
 
@@ -1307,7 +1286,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return string The name of the token field
      */
-    protected function getFieldnameToken()
+    public function getFieldnameToken()
     {
         return $this->fieldnameToken;
     }
@@ -1319,7 +1298,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setFieldnameSubmitted($fieldnameSubmitted)
+    public function setFieldnameSubmitted($fieldnameSubmitted)
     {
         $this->fieldnameSubmitted = $fieldnameSubmitted;
     }
@@ -1333,7 +1312,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return $this Instance for chaining
      */
-    protected function fieldnameSubmitted($fieldnameSubmitted)
+    public function fieldnameSubmitted($fieldnameSubmitted)
     {
         $this->setFieldnameSubmitted($fieldnameSubmitted);
 
@@ -1347,7 +1326,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return string The name of the submitted field
      */
-    protected function getFieldnameSubmitted()
+    public function getFieldnameSubmitted()
     {
         return $this->fieldnameSubmitted;
     }
@@ -1359,7 +1338,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setFieldnameStep($fieldnameStep)
+    public function setFieldnameStep($fieldnameStep)
     {
         $this->fieldnameStep = $fieldnameStep;
     }
@@ -1373,7 +1352,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return $this Instance for chaining
      */
-    protected function fieldnameStep($fieldnameStep)
+    public function fieldnameStep($fieldnameStep)
     {
         $this->setFieldnameStep($fieldnameStep);
 
@@ -1387,7 +1366,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return string The name of the step field
      */
-    protected function getFieldnameStep()
+    public function getFieldnameStep()
     {
         return $this->fieldnameStep;
     }
@@ -1399,7 +1378,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setFieldnameSteps($fieldnameSteps)
+    public function setFieldnameSteps($fieldnameSteps)
     {
         $this->fieldnameSteps = $fieldnameSteps;
     }
@@ -1413,7 +1392,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return $this Instance for chaining
      */
-    protected function fieldnameSteps($fieldnameSteps)
+    public function fieldnameSteps($fieldnameSteps)
     {
         $this->setFieldnameSteps($fieldnameSteps);
 
@@ -1427,7 +1406,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return string The name of the steps field
      */
-    protected function getFieldnameSteps()
+    public function getFieldnameSteps()
     {
         return $this->fieldnameSteps;
     }
@@ -1439,7 +1418,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setFieldnameJump($fieldnameJump)
+    public function setFieldnameJump($fieldnameJump)
     {
         $this->fieldnameJump = $fieldnameJump;
     }
@@ -1453,7 +1432,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return $this Instance for chaining
      */
-    protected function fieldnameJump($fieldnameJump)
+    public function fieldnameJump($fieldnameJump)
     {
         $this->setFieldnameJump($fieldnameJump);
 
@@ -1467,24 +1446,24 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      *
      * @return string The name of the jump field
      */
-    protected function getFieldnameJump()
+    public function getFieldnameJump()
     {
         return $this->fieldnameJump;
     }
 
-    protected function setFieldnameUpload($fieldnameUpload)
+    public function setFieldnameUpload($fieldnameUpload)
     {
         $this->fieldnameUpload = $fieldnameUpload;
     }
 
-    protected function fieldnameUpload($fieldnameUpload)
+    public function fieldnameUpload($fieldnameUpload)
     {
         $this->setFieldnameUpload($fieldnameUpload);
 
         return $this;
     }
 
-    protected function getFieldnameUpload()
+    public function getFieldnameUpload()
     {
         return $this->fieldnameUpload;
     }
@@ -1852,11 +1831,11 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
     /**
      * Setter of registry.
      *
-     * @param Doozr_Registry $registry Value of registry.
+     * @param Doozr_Registry_Interface $registry Value of registry.
      *
      * @return $this Instance for chaining
      */
-    protected function setRegistry(Doozr_Registry $registry)
+    protected function setRegistry(Doozr_Registry_Interface &$registry)
     {
         $this->registry = $registry;
     }
@@ -1864,11 +1843,11 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
     /**
      * Fluent: Setter for registry.
      *
-     * @param Doozr_Registry $registry Value of registry.
+     * @param Doozr_Registry_Interface $registry Value of registry.
      *
      * @return $this Instance for chaining
      */
-    protected function registry(Doozr_Registry $registry)
+    protected function registry(Doozr_Registry_Interface &$registry)
     {
         $this->setRegistry($registry);
 
@@ -1878,7 +1857,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
     /**
      * Getter for registry.
      *
-     * @return Doozr_Registry Value of registry.
+     * @return Doozr_Registry_Interface Value of registry.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -2031,7 +2010,7 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
     {
         if (null === $this->getI18n()) {
             throw new Doozr_Form_Service_Exception(
-                'Please set an instance of Doozr_I18n_Service (or compatible) first before calling translate()'
+                'Please set an instance of Doozr_I18n_Service (or compatible) first before calling encrypt()'
             );
         }
 
@@ -2563,18 +2542,9 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
      */
     protected function invalidateDataPool()
     {
-        // Assume data is empty
-        $data = null;
-
-        // Check if pool exists ...
-        if (true === isset($_SESSION[$this->addPrefix($this->getScope())])) {
-            // $_SESSION[$this->addPrefix($this->getScope())];
-            $data = $this->getDataPool();
-            unset($_SESSION[$this->addPrefix($this->getScope())]);
-            $this->setDataPool(null);
-        }
-
-        return $data;
+        #$this->getStore()->create($this->addPrefix($this->getScope()), null);
+        $this->getStore()->delete($this->addPrefix($this->getScope()));
+        $this->setDataPool(null);
     }
 
     /**
@@ -2679,12 +2649,13 @@ class Doozr_Form_Service_Handler_FormHandler extends Doozr_Base_Class
         $pool[Doozr_Form_Service_Constant::IDENTIFIER_TOKENBEHAVIOR]                      = $this->getInvalidTokenBehavior();
 
         // Store the information
+        $this->getStore()->create($this->addPrefix($this->getScope()), $pool);
         $this->setDataPool($pool);
-
-        $_SESSION[$this->addPrefix($this->getScope())] = $pool;
 
         // Send header
         $this->sendHeader();
+
+        dump($this->getActiveStep());
     }
 
     /**

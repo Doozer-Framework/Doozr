@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Localization
  *
- * Localization.php - The "localization" node representation for providing autocompletion for config values.
+ * Localization.php - The "localization" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Localization
  *
- * The "localization" node representation for providing autocompletion for config values.
+ * The "localization" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  * @package    Doozr_Kernel

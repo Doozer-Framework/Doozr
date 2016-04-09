@@ -4,12 +4,12 @@
 /**
  * Doozr - Logging - Debugbar
  *
- * Debugbar.php - This logger is a bridge to PHP Debug Bar's logging system (
+ * Debugbar.php - This logging is a bridge to PHP Debug Bar's logging system (
  *   http://phpdebugbar.com/docs/base-collectors.html#messages
- * ) we decided to use this logger - which can be combined with all the other
+ * ) we decided to use this logging - which can be combined with all the other
  * loggers - to bring the logging functionality of PHP Debug Bar to the devs.
- * So when developing Doozr you can simply call $logger->log('Foo', LEVEL);
- * and be sure if logging level config is OK the log entry will also appear in
+ * So when developing Doozr you can simply call $logging->log('Foo', LEVEL);
+ * and be sure if logging level configuration is OK the log entry will also appear in
  * debug bar.
  *
  * PHP versions 5.5
@@ -68,12 +68,12 @@ use Psr\Log\LoggerInterface;
 /**
  * Doozr - Logging - Debugbar
  *
- * This logger is a bridge to PHP Debug Bar's logging system (
+ * This logging is a bridge to PHP Debug Bar's logging system (
  *   http://phpdebugbar.com/docs/base-collectors.html#messages
- * ) we decided to use this logger - which can be combined with all the other
+ * ) we decided to use this logging - which can be combined with all the other
  * loggers - to bring the logging functionality of PHP Debug Bar to the devs.
- * So when developing Doozr you can simply call $logger->log('Foo', LEVEL);
- * and be sure if logging level config is OK the log entry will also appear in
+ * So when developing Doozr you can simply call $logging->log('Foo', LEVEL);
+ * and be sure if logging level configuration is OK the log entry will also appear in
  * debug bar.
  *
  * @category   Doozr
@@ -92,7 +92,7 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
     SplObserver
 {
     /**
-     * Name of this logger
+     * Name of this logging
      *
      * @var string
      * @access protected
@@ -100,7 +100,7 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
     protected $name = 'Debugbar';
 
     /**
-     * Version of this logger
+     * Version of this logging
      *
      * @var string
      * @access protected
@@ -128,10 +128,10 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
      * Constructor.
      *
      * @param Doozr_Datetime_Service $datetime
-     * @param int $level The loglevel of the logger extending this class
+     * @param int $level The loglevel of the logging extending this class
      * @param string $fingerprint The fingerprint of the client
      *
-     * @internal param Doozr_Configuration $config The configuration instance
+     * @internal param Doozr_Configuration $configuration The configuration instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Logging_Debugbar
@@ -148,7 +148,7 @@ class Doozr_Logging_Debugbar extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Dispatches a new route to this logger (e.g. for use as new filename).
+     * Dispatches a new route to this logging (e.g. for use as new filename).
      *
      * @param string $name The name of the route to dispatch
      *

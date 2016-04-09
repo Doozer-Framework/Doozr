@@ -86,77 +86,14 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
     Doozr_Base_Service_Interface
 {
     /**
-     * META: Name of "token" field.
-     *
-     * @var string
-     */
-    protected $fieldnameToken;
-
-    /**
-     * META: Name of "submitted" field.
-     *
-     * @var string
-     */
-    protected $fieldnameSubmitted;
-
-    /**
-     * META: Name of "step" field.
-     *
-     * @var string
-     */
-    protected $fieldnameStep;
-
-    /**
-     * META: Name of the "steps" field.
-     *
-     * @var string
-     */
-    protected $fieldnameSteps;
-
-    /**
-     * META: Name of the "jump" field.
-     *
-     * @var string
-     */
-    protected $fieldnameJump;
-
-    /**
-     * META: Name of the "upload" field.
-     *
-     * @var string
-     */
-    protected $fieldnameUpload;
-
-    /**
      * Service entry point.
-     *
-     * @param string $fieldnameToken     Name of form field for "token" value
-     * @param string $fieldnameSubmitted Name of form field for "submitted" value
-     * @param string $fieldnameStep      Name of form field for "step" value
-     * @param string $fieldnameSteps     Name of form field for "steps" value
-     * @param string $fieldnameJump      Name of form field for "jump" indicator
-     * @param string $fieldnameUpload    Name of form field for "upload" indicator
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return bool TRUE on success, otherwise FALSE
      */
-    public function __tearup(
-        $fieldnameToken = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_TOKEN,
-        $fieldnameSubmitted = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_SUBMITTED,
-        $fieldnameStep = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEP,
-        $fieldnameSteps = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEPS,
-        $fieldnameJump = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_JUMP,
-        $fieldnameUpload = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_UPLOAD
-    ) {
-        $this
-            ->fieldnameToken($fieldnameToken)
-            ->fieldnameSubmitted($fieldnameSubmitted)
-            ->fieldnameStep($fieldnameStep)
-            ->fieldnameSteps($fieldnameSteps)
-            ->fieldnameJump($fieldnameJump)
-            ->fieldnameUpload($fieldnameUpload);
-
+    public function __tearup()
+    {
         return true;
     }
 
@@ -169,20 +106,22 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
      * In case of no form is found in request it returns FALSE, otherwise it returns the id/scope/name of the form
      * found in request.
      *
-     * @param Request $request Request PSR
+     * @param Request $request            PSR compatible request instance
+     * @param string  $fieldnameSubmitted Name of submitted form field
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return string|bool The name of the form which is handable by Doozr_Form_Service if exist, otherwise FALSE
      */
-    public function getHandableScopeByRequest(Request $request)
-    {
+    public function getHandableScopeByRequest(
+        Request $request,
+        $fieldnameSubmitted = Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_SUBMITTED
+    ) {
         // Assume that nothing in request is handable
         $handable = false;
 
         $requestArguments   = $request->getQueryParams();
         $requestBody        = $request->getParsedBody();
-        $fieldnameSubmitted = $this->getFieldnameSubmitted();
 
         if (true === isset($requestArguments[$fieldnameSubmitted])) {
             // Check for passed _GET arguments from URI like: /?jump=1
@@ -240,10 +179,10 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
      * @return \Doozr_Form_Service_Handler_FormHandler Instance of form handler full ready to process forms
      */
     protected function formHandlerFactory(
-        $scope,
-        Request $request,
-        $method,
-        $angularDirectives
+                $scope,
+        Request $request = null,
+                $method,
+                $angularDirectives
     ) {
         /* @var Doozr_Form_Service_Handler_FormHandler $formHandler */
         return self::$registry->getContainer()->build(
@@ -253,255 +192,7 @@ class Doozr_Form_Service extends Doozr_Base_Service_Singleton_Facade
                 $request,
                 $method,
                 $angularDirectives,
-                [
-                    Doozr_Form_Service_Constant::IDENTIFIER_TOKEN     => $this->getFieldnameToken(),
-                    Doozr_Form_Service_Constant::IDENTIFIER_SUBMITTED => $this->getFieldnameSubmitted(),
-                    Doozr_Form_Service_Constant::IDENTIFIER_STEP      => $this->getFieldnameStep(),
-                    Doozr_Form_Service_Constant::IDENTIFIER_STEPS     => $this->getFieldnameSteps(),
-                    Doozr_Form_Service_Constant::IDENTIFIER_JUMP      => $this->getFieldnameJump(),
-                    Doozr_Form_Service_Constant::IDENTIFIER_UPLOAD    => $this->getFieldnameUpload(),
-                ],
             ]
         );
-    }
-
-    /**
-     * Setter for fieldname token.
-     *
-     * @param string $fieldnameToken Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    protected function setFieldnameToken($fieldnameToken)
-    {
-        $this->fieldnameToken = $fieldnameToken;
-    }
-
-    /**
-     * Setter for fieldname token.
-     *
-     * @param string $fieldnameToken Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    protected function fieldnameToken($fieldnameToken)
-    {
-        $this->setFieldnameToken($fieldnameToken);
-
-        return $this;
-    }
-
-    /**
-     * Getter for fieldname token.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The name of the token field
-     */
-    protected function getFieldnameToken()
-    {
-        return $this->fieldnameToken;
-    }
-
-    /**
-     * Setter for fieldname submitted.
-     *
-     * @param string $fieldnameSubmitted Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    protected function setFieldnameSubmitted($fieldnameSubmitted)
-    {
-        $this->fieldnameSubmitted = $fieldnameSubmitted;
-    }
-
-    /**
-     * Setter for fieldname submitted.
-     *
-     * @param string $fieldnameSubmitted Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    protected function fieldnameSubmitted($fieldnameSubmitted)
-    {
-        $this->setFieldnameSubmitted($fieldnameSubmitted);
-
-        return $this;
-    }
-
-    /**
-     * Getter for fieldname submitted.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The name of the submitted field
-     */
-    protected function getFieldnameSubmitted()
-    {
-        return $this->fieldnameSubmitted;
-    }
-
-    /**
-     * Setter for fieldname step.
-     *
-     * @param string $fieldnameStep Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    protected function setFieldnameStep($fieldnameStep)
-    {
-        $this->fieldnameStep = $fieldnameStep;
-    }
-
-    /**
-     * Setter for fieldname step.
-     *
-     * @param string $fieldnameStep Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    protected function fieldnameStep($fieldnameStep)
-    {
-        $this->setFieldnameStep($fieldnameStep);
-
-        return $this;
-    }
-
-    /**
-     * Getter for fieldname step.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The name of the step field
-     */
-    protected function getFieldnameStep()
-    {
-        return $this->fieldnameStep;
-    }
-
-    /**
-     * Setter for fieldname steps.
-     *
-     * @param string $fieldnameSteps Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    protected function setFieldnameSteps($fieldnameSteps)
-    {
-        $this->fieldnameSteps = $fieldnameSteps;
-    }
-
-    /**
-     * Setter for fieldname steps.
-     *
-     * @param string $fieldnameSteps Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    protected function fieldnameSteps($fieldnameSteps)
-    {
-        $this->setFieldnameSteps($fieldnameSteps);
-
-        return $this;
-    }
-
-    /**
-     * Getter for fieldname steps.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The name of the steps field
-     */
-    protected function getFieldnameSteps()
-    {
-        return $this->fieldnameSteps;
-    }
-
-    /**
-     * Setter for fieldname jump.
-     *
-     * @param string $fieldnameJump Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    protected function setFieldnameJump($fieldnameJump)
-    {
-        $this->fieldnameJump = $fieldnameJump;
-    }
-
-    /**
-     * Setter for fieldname jump.
-     *
-     * @param string $fieldnameJump Fieldname
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    protected function fieldnameJump($fieldnameJump)
-    {
-        $this->setFieldnameJump($fieldnameJump);
-
-        return $this;
-    }
-
-    /**
-     * Getter for fieldname jump.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The name of the jump field
-     */
-    protected function getFieldnameJump()
-    {
-        return $this->fieldnameJump;
-    }
-
-    /**
-     * Setter for fieldname upload.
-     *
-     * @param string $fieldnameUpload Fieldname upload.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     */
-    protected function setFieldnameUpload($fieldnameUpload)
-    {
-        $this->fieldnameUpload = $fieldnameUpload;
-    }
-
-    /**
-     * Fluent: Setter for fieldname upload.
-     *
-     * @param string $fieldnameUpload Fieldname upload.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return $this Instance for chaining
-     */
-    protected function fieldnameUpload($fieldnameUpload)
-    {
-        $this->setFieldnameUpload($fieldnameUpload);
-
-        return $this;
-    }
-
-    /**
-     * Getter for fieldname upload.
-     *
-     * @author Benjamin Carl <opensource@clickalicious.de>
-     *
-     * @return string The name of the upload field
-     */
-    protected function getFieldnameUpload()
-    {
-        return $this->fieldnameUpload;
     }
 }

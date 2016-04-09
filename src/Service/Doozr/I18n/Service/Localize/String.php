@@ -164,7 +164,7 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
      */
     public function removeBadWords($string)
     {
-        // read badword-table if not already read-in
+        // read bad-word-table if not already read-in
         if (!$this->_badWordTable) {
             $this->_createBadWordTable();
         }
@@ -175,7 +175,7 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
         // get replace character
         try {
             $replacecharacter = $this->getConfiguration()->words->replacecharacter;
-        } catch (Doozr_Config_Service_Exception $e) {
+        } catch (Doozr_Configuration_Service_Exception $exception) {
             $replacecharacter = '*';
         }
 
@@ -187,7 +187,6 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
 
             foreach ($this->_badWordTable as $badWord) {
                 if (preg_match('/^'.$badWord.'/im', $word)) {
-                    #$words[$key] = str_replace($badWord, str_repeat($replacecharacter, mb_strlen($badWord)), $word);
                     $words[$key] = preg_replace(
                         '/^'.$badWord.'+/im',
                         str_repeat($replacecharacter, mb_strlen($badWord)),
@@ -215,7 +214,7 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
      */
     private function _createSpecialWordTable()
     {
-        // get l10n config for strings
+        // get l10n configuration for strings
         $config = $this->getConfiguration();
 
         // assume empty special word table
@@ -235,7 +234,7 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
      */
     private function _createBadWordTable()
     {
-        // get l10n config for strings
+        // get l10n configuration for strings
         $config = $this->getConfiguration();
 
         // create empty table
@@ -260,8 +259,8 @@ class Doozr_I18n_Service_Localize_String extends Doozr_I18n_Service_Localize_Abs
      * @param Doozr_Registry_Interface $registry   The Doozr_Registry instance
      * @param string                   $locale     The locale this instance is working with
      * @param string                   $namespace  The active namespace of this format-class
-     * @param object                   $configI18n An instance of Doozr_Config_Ini holding the I18n-config
-     * @param object                   $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $configI18n An instance of Doozr_Config_Ini holding the I18n-configuration
+     * @param object                   $configL10n An instance of Doozr_Config_Ini holding the I10n-configuration (for locale)
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

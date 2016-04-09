@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Caching.
  *
- * Caching.php - The "debugging" node representation for providing autocompletion for config values.
+ * Caching.php - The "debugging" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Caching.
  *
- * The "debugging" node representation for providing autocompletion for config values.
+ * The "debugging" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

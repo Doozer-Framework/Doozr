@@ -168,7 +168,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
      * @param Doozr_Registry &$registry The instance of Doozr_Registry
      * @param string          $resource The resource to load
      * @param array           $config   The resource to set as input (optional)
-     *                                  defaults come from config
+     *                                  defaults come from configuration
      *
      * @throws Doozr_Template_Service_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>

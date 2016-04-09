@@ -747,7 +747,7 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * This method is the loader mechanism for this loader config
+     * This method is the loader mechanism for this loader configuration
      *
      * @param string $className The name of the class to load
      *

@@ -94,7 +94,7 @@ class Doozr_Di_Collection
     protected $position = 0;
 
     /**
-     * Numerical index to translate position of Iterator to array index.
+     * Numerical index to encrypt position of Iterator to array index.
      *
      * @var array
      */

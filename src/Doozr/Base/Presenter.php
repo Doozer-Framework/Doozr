@@ -588,7 +588,7 @@ class Doozr_Base_Presenter extends Doozr_Base_Presenter_Subject
      */
     protected function registerAutoloader($app)
     {
-        // now configure a new autoloader spl config
+        // now configure a new autoloader spl configuration
         $autoloaderApp = new Doozr_Loader_Autoloader_Spl_Config();
         $autoloaderApp
             ->_namespace($app->namespace)

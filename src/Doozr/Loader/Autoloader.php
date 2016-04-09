@@ -251,7 +251,7 @@ class Doozr_Loader_Autoloader
      */
     public function setUid($uid = false)
     {
-        // generate UID by config if not given
+        // generate UID by configuration if not given
         $uid = (!$uid) ? $uid = md5($this->name.$this->namespace.$this->priority) : $uid;
 
         $this->uid = $uid;

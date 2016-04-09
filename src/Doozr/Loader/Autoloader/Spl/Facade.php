@@ -121,7 +121,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
 
     /**
      * Registers an autoloader by passed configuration. Registers a new autoloader to SPL-Subsystem
-     * based on the Information (setup) of given config (Doozr_Loader_Autoloader_Spl_Config-Instance).
+     * based on the Information (setup) of given configuration (Doozr_Loader_Autoloader_Spl_Config-Instance).
      *
      * @param Doozr_Loader_Autoloader_Spl_Config[]|Doozr_Loader_Autoloader_Spl_Config $configuration An instance of the Doozr_Loader_Autoloader_Spl_Config
      *
@@ -148,14 +148,14 @@ class Doozr_Loader_Autoloader_Spl_Facade
             foreach ($configuration as $singleConfig) {
                 if (false === $singleConfig instanceof Doozr_Loader_Autoloader_Spl_Config) {
                     throw new Doozr_Exception(
-                        'Passed config must be of type: "Doozr_Loader_Autoloader_Spl_Config_Interface"'
+                        'Passed configuration must be of type: "Doozr_Loader_Autoloader_Spl_Config_Interface"'
                     );
                 }
             }
         } else {
             if (false === $configuration instanceof Doozr_Loader_Autoloader_Spl_Config) {
                 throw new Doozr_Exception(
-                    'Passed config must be of type: "Doozr_Loader_Autoloader_Spl_Config_Interface"'
+                    'Passed configuration must be of type: "Doozr_Loader_Autoloader_Spl_Config_Interface"'
                 );
             }
 
@@ -189,7 +189,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
                     }
                 }
 
-                // add extension(s) of current config to spl
+                // add extension(s) of current configuration to spl
                 self::addFileExtensions($singleConfig->getExtension());
 
                 // register autoloader
@@ -204,10 +204,10 @@ class Doozr_Loader_Autoloader_Spl_Facade
                 }
             }
 
-            // add file-extension from config
+            // add file-extension from configuration
             self::addFileExtensions($singleConfig->getExtension());
 
-            // store config
+            // store configuration
             self::$autoloader[$singleConfig->getUid()] = $singleConfig;
 
             if ($prioritize === true) {
@@ -260,7 +260,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
             $result = spl_autoload_unregister($loader);
         }
 
-        // remove config
+        // remove configuration
         unset(self::$autoloader[$uId]);
 
         // return result
@@ -268,9 +268,9 @@ class Doozr_Loader_Autoloader_Spl_Facade
     }
 
     /**
-     * Returns the config of the last registered AL (checks current spl-stack)
+     * Returns the configuration of the last registered AL (checks current spl-stack)
      *
-     * This method is intend to return the config of the last registered AL (checks current spl-stack).
+     * This method is intend to return the configuration of the last registered AL (checks current spl-stack).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Doozr_Loader_Autoloader_Spl_Config of last AL if exist, otherwise boolean FALSE
@@ -296,9 +296,9 @@ class Doozr_Loader_Autoloader_Spl_Facade
     }
 
     /**
-     * Returns the config of the first registered AL (checks current spl-stack)
+     * Returns the configuration of the first registered AL (checks current spl-stack)
      *
-     * This method is intend to return the config of the first registered AL (checks current spl-stack).
+     * This method is intend to return the configuration of the first registered AL (checks current spl-stack).
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed Doozr_Loader_Autoloader_Spl_Config of first AL if exist, otherwise boolean FALSE
@@ -328,7 +328,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
      *
      * This method is intend to return a single - or a list of - configurations of currently registered Autoloaders.
      *
-     * @param string $uId An unique-Id of an Autoloader to retrieve a single config
+     * @param string $uId An unique-Id of an Autoloader to retrieve a single configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed a single Doozr_Loader_Autoloader_Spl_Config or a list of (array) Doozr_Loader_Autoloader_Spl_Config's
@@ -435,7 +435,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
         // Set priority to max possible
         ($priority > ($autoloaderCount-1)) ? ($priority = $autoloaderCount-1) : '';
 
-        // Get config as $configuration for better reading
+        // Get configuration as $configuration for better reading
         $configuration = self::$autoloader[$uniqueId];
 
         // Find out what we are looking for ...
@@ -585,9 +585,9 @@ class Doozr_Loader_Autoloader_Spl_Facade
     }
 
     /**
-     * Returns a config (Doozr_Loader_Autoloader_Spl_Config) of a registered AL by it's AL-function/method
+     * Returns a configuration (Doozr_Loader_Autoloader_Spl_Config) of a registered AL by it's AL-function/method
      *
-     * This method is intend to return return a config (Doozr_Loader_Autoloader_Spl_Config) of a registered AL by
+     * This method is intend to return return a configuration (Doozr_Loader_Autoloader_Spl_Config) of a registered AL by
      * it's AL-function/method.
      *
      * @param mixed $function STRING The name of the function, or ARRAY containing Class, Method

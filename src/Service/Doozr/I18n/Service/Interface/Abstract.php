@@ -136,7 +136,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
     /**
      * Constructor.
      *
-     * @param \stdClass $config The config for this type of interface
+     * @param \stdClass $config The configuration for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */

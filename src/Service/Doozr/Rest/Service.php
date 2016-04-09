@@ -96,7 +96,7 @@ class Doozr_Rest_Service extends Doozr_Base_Service_Multiple implements Doozr_Ba
      */
     public function __tearup(Doozr_Base_State_Interface $requestState, array $route = [], $countRootNodes = 2)
     {
-        // If no custom request data/config is passed ...
+        // If no custom request data/configuration is passed ...
         if (empty($route)) {
             // ... use defeault
             $route = array(

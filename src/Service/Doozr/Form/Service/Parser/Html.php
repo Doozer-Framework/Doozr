@@ -30,7 +30,7 @@
  *   will use the resulting "template" for ruther rebuilding the
  *   form.
  *
- * - Use concrete class instead of array for config structure!
+ * - Use concrete class instead of array for configuration structure!
  *   Maybe something like: Doozr_Form_Service_Configuration
  *   will result in an configuration-object instance :)
  *   do not forget to TYPEHINT!
@@ -371,7 +371,7 @@ class Doozr_Form_Service_Parser_Html extends Doozr_Form_Service_Parser_Abstract
             // now parse elements from inside <form>
             $elements = $this->parseFormTagsFromHtml($forms[2][$i]);
 
-            // now parse element config
+            // now parse element configuration
             $setup['elements'] = $this->parseElements($elements);
 
             $result[] = $setup;

@@ -125,7 +125,7 @@ abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
     protected $translator;
 
     /**
-     * Localized config of Localize_String.
+     * Localized configuration of Localize_String.
      *
      * @var object
      */
@@ -141,8 +141,8 @@ abstract class Doozr_I18n_Service_Localize_Abstract extends Doozr_Base_Class
      * @param Doozr_Registry_Interface $registry   The registry
      * @param string                   $locale     The locale this instance is working with
      * @param string                   $namespace  The active namespace of this format-class
-     * @param object                   $configI18n An instance of Doozr_Config_Ini holding the I18n-config
-     * @param object                   $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
+     * @param object                   $configI18n An instance of Doozr_Config_Ini holding the I18n-configuration
+     * @param object                   $configL10n An instance of Doozr_Config_Ini holding the I10n-configuration (for locale)
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

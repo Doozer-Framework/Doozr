@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - Translator
  *
- * Translator.php - The "translator" node representation for providing auto-completion of config values.
+ * Translator.php - The "translator" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - Translator
  *
- * Translator.php - The "translator" node representation for providing auto-completion of config values.
+ * Translator.php - The "translator" node representation for providing auto-completion of configuration values.
  *
  * @category   Doozr
  * @package    Doozr_I18n

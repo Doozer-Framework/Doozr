@@ -67,7 +67,7 @@ tools:
     php_code_coverage: false
     php_code_sniffer:
         enabled: true
-        config:
+        configuration:
             standard: "PSR2"
         filter:
             paths:
@@ -90,7 +90,7 @@ tools:
             - vendor
     php_cs_fixer:
         enabled: true
-        config:
+        configuration:
             level: all
         filter:
             paths:

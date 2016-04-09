@@ -528,8 +528,6 @@ final class Doozr_Di_Factory
                 default:
 
                     // Try to run with lib from composer?
-                    dump('Bum');die;
-
                     throw new Doozr_Di_Exception(
                         sprintf(
                             'Too much arguments passed to "%s". This method can getMetaComponents up to 17 arguments. You passed '.
@@ -592,7 +590,7 @@ final class Doozr_Di_Factory
         // Does it have dependencies?
         if (true === isset($recipe['dependencies']) && null !== $recipe['dependencies']) {
 
-            // Iterate over config
+            // Iterate over configuration
             foreach ($recipe['dependencies'] as $dependency) {
 
                 /* @var $dependency Doozr_Di_Dependency */

@@ -102,7 +102,7 @@ class Doozr_Base_Class extends Doozr_Base_Tools
      *
      * @return $this Instance for chaining
      */
-    protected function registry(Doozr_Registry_Interface $registry)
+    protected function registry(Doozr_Registry_Interface &$registry)
     {
         $this->setRegistry($registry);
 

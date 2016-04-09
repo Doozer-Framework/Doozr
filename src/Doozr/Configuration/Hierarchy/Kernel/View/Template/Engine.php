@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View - Template - Engine
  *
- * Engine.php - The "engine" node representation for providing autocompletion for config values.
+ * Engine.php - The "engine" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View - Template - Engine
  *
- * The "engine" node representation for providing autocompletion for config values.
+ * The "engine" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  * @package    Doozr_Kernel

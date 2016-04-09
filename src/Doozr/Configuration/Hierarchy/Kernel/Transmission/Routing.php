@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Routing.
  *
- * Routing.php - The "routing" node representation for providing autocompletion for config values.
+ * Routing.php - The "routing" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Routing.
  *
- * The "routing" node representation for providing autocompletion for config values.
+ * The "routing" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

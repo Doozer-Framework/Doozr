@@ -76,7 +76,7 @@ interface Doozr_I18n_Service_Interface extends PHPTAL_TranslationService
      +----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the available locales defined in config.
+     * Returns the available locales defined in configuration.
      *
      * @return array An array containing the available locales with numerical index
      */

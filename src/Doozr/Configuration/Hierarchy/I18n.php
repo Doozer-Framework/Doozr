@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n.
  *
- * I18n.php - The "i18n" node representation for providing auto-completion of config values.
+ * I18n.php - The "i18n" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n.
  *
- * The "i18n" node representation for providing autocompletion for config values.
+ * The "i18n" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

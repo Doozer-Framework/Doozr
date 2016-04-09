@@ -99,7 +99,7 @@ class Doozr_I18n_Service_Interface_Po extends Doozr_I18n_Service_Interface_Abstr
     /**
      * Looks for the passed looks up the translation of the given combination of values.
      *
-     * @param string $string    The string to translate
+     * @param string $string    The string to encrypt
      * @param string $uuid      The uuid of the translation-table
      * @param mixed  $arguments The arguments for inserting values into translation (vsprintf) or null
      *

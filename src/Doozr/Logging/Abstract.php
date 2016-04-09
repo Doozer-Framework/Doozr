@@ -5,7 +5,7 @@
 /**
  * Doozr - Logging - Abstract.
  *
- * Abstract.php - Abstract-Logging base for logger of the Doozr framework
+ * Abstract.php - Abstract-Logging base for logging of the Doozr framework
  *
  * PHP versions 5.5
  *
@@ -56,12 +56,13 @@
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
-use \Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Doozr - Logging - Abstract.
  *
- * Abstract-Logging base for logger of the Doozr framework
+ * Abstract-Logging base for logging of the Doozr framework
  *
  * @category   Doozr
  *
@@ -76,20 +77,21 @@ use \Psr\Log\LoggerAwareTrait;
  */
 abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     implements
-    Countable
+    Countable,
+    LoggerInterface
 {
     // Default capabilities from library
     use LoggerAwareTrait;
 
     /**
-     * The name of this logger.
+     * The name of this logging.
      *
      * @var string
      */
     protected $name = 'NAME_NOT_DEFINED';
 
     /**
-     * The version of this logger.
+     * The version of this logging.
      *
      * @var string
      */
@@ -113,7 +115,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     protected $contentRaw = [];
 
     /**
-     * The content of all logger call's (collection).
+     * The content of all logging call's (collection).
      * if you need only the last call's content have a look at
      * $content.
      *
@@ -138,7 +140,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     /**
      * Clean log content.
      *
-     * holds the clean content to log. without any special chars (e.g. for use in firePHP-logger)
+     * holds the clean content to log. without any special chars (e.g. for use in firePHP-logging)
      *
      * @var string
      */
@@ -172,7 +174,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     protected $lineWidth = 120;
 
     /**
-     * The level specific for this logger.
+     * The level specific for this logging.
      *
      * @var int
      */
@@ -230,7 +232,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Constructor.
      *
      * @param null|Doozr_Datetime_Service $datetime    Instance of date/time service
-     * @param int                         $level       The log-level of the logger extending this class
+     * @param int                         $level       The log-level of the logging extending this class
      * @param string                      $fingerprint The fingerprint of the client
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -239,7 +241,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      */
     public function __construct(Doozr_Datetime_Service $datetime, $level = null, $fingerprint = null)
     {
-        // Store config
+        // Store configuration
         $this->dateTime = $datetime;
 
         // Set date
@@ -350,7 +352,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * Returns the collection of the logger.
+     * Returns the collection of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -362,7 +364,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * Returns the raw collection of the logger.
+     * Returns the raw collection of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -374,7 +376,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * Returns the content of the logger.
+     * Returns the content of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -386,7 +388,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * Returns the raw content of the logger.
+     * Returns the raw content of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -602,7 +604,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The name of logger that extends this abstract class
+     * @return string The name of logging that extends this abstract class
      */
     public function getName()
     {
@@ -626,7 +628,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The version of the logger-class that extends this abstract class
+     * @return string The version of the logging-class that extends this abstract class
      */
     public function getVersion()
     {
@@ -664,9 +666,9 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     /**
      * Returns the level (integer) for a passed type.
      *
-     * This method is intend to translate a given log-type to its level.
+     * This method is intend to encrypt a given log-type to its level.
      *
-     * @param string $type The type to translate as string
+     * @param string $type The type to encrypt as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -1015,7 +1017,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Dispatches a new route to this logger (e.g. for use as new filename).
+     * Dispatches a new route to this logging (e.g. for use as new filename).
      *
      * @param string $name The name of the route to dispatch
      *

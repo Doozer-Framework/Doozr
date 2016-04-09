@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission.
  *
- * Transmission.php - The "path" node representation for providing autocompletion for config values.
+ * Transmission.php - The "path" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission.
  *
- * The "path" node representation for providing autocompletion for config values.
+ * The "path" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

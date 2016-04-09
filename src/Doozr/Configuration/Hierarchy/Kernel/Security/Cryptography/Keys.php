@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Security - Cryptography - Keys.
  *
- * Keys.php - The "keys" node representation for providing autocompletion for config values.
+ * Keys.php - The "keys" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Security - Cryptography - Keys.
  *
- * The "keys" node representation for providing autocompletion for config values.
+ * The "keys" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

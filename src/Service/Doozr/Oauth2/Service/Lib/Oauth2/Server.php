@@ -43,7 +43,7 @@ class Server implements ResourceControllerInterface,
     protected $tokenController;
     protected $resourceController;
 
-    // config classes
+    // configuration classes
     protected $grantTypes;
     protected $responseTypes;
     protected $tokenType;
@@ -93,7 +93,7 @@ class Server implements ResourceControllerInterface,
             $this->addStorage($service, $key);
         }
 
-        // merge all config values.  These get passed to our controller objects
+        // merge all configuration values.  These get passed to our controller objects
         $this->config = array_merge(array(
             'access_lifetime'          => 3600,
             'www_realm'                => 'Service',
@@ -235,9 +235,9 @@ class Server implements ResourceControllerInterface,
     /**
      * Pull the authorization request data out of the HTTP request.
      * - The redirect_uri is OPTIONAL as per draft 20. But your implementation can enforce it
-     * by setting $config['enforce_redirect'] to true.
+     * by setting $configuration['enforce_redirect'] to true.
      * - The state is OPTIONAL but recommended to enforce CSRF. Draft 21 states, however, that
-     * CSRF protection is MANDATORY. You can enforce this by setting the $config['enforce_state'] to true.
+     * CSRF protection is MANDATORY. You can enforce this by setting the $configuration['enforce_state'] to true.
      *
      * The draft specifies that the parameters should be retrieved from GET, override the Response
      * object to change this

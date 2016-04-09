@@ -157,11 +157,12 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
+    /*
     public function testFieldnameToken()
     {
         // Test for default fieldname initially set
         $this->assertSame(
-            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_TOKEN,
+            Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_TOKEN,
             self::$service->getFieldnameToken()
         );
 
@@ -177,17 +178,19 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
             self::$service->getFieldnameToken()
         );
     }
+    */
 
     /**
      * Test: If the correct fieldname for submitted field is returned.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
+    /*
     public function testFieldnameSubmitted()
     {
         // Test for default fieldname initially set
         $this->assertSame(
-            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_SUBMITTED,
+            Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_SUBMITTED,
             self::$service->getFieldnameSubmitted()
         );
 
@@ -203,16 +206,18 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
             self::$service->getFieldnameSubmitted()
         );
     }
+    */
 
     /**
      * Test: If the correct fieldname for step field is returned.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
+    /*
     public function testFieldnameStep()
     {
         $this->assertSame(
-            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEP,
+            Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEP,
             self::$service->getFieldnameStep()
         );
 
@@ -228,16 +233,18 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
             self::$service->getFieldnameStep()
         );
     }
+    */
 
     /**
      * Test: If the correct fieldname for steps field is returned.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
+    /*
     public function testFieldnameSteps()
     {
         $this->assertSame(
-            Doozr_Form_Service_Constant::PREFIX.Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEPS,
+            Doozr_Form_Service_Constant::DEFAULT_NAME_FIELD_STEPS,
             self::$service->getFieldnameSteps()
         );
 
@@ -253,6 +260,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
             self::$service->getFieldnameSteps()
         );
     }
+    */
 
     /**
      * Test: If a FormHandler can be retrieved for a custom scope.
@@ -265,9 +273,7 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         $scope = self::$faker->word();
 
         // Clean
-        $formHandler = self::$service->getFormHandler(
-            $scope
-        );
+        $formHandler = self::$service->getFormHandler($scope);
 
         $this->assertInstanceOf('Doozr_Form_Service_Handler_FormHandler', $formHandler);
         #$this->assertEquals(1, $formHandler->receiveStepFieldValueFromRequest());

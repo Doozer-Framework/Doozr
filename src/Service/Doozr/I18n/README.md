@@ -92,11 +92,11 @@ Detect clients preferred locale:
 
     $locale = $i18n->getClientPreferredLocale();
 
-Get all available locales (defined in config):
+Get all available locales (defined in configuration):
 
     $availableLocales = $i18n->getAvailableLocales();
 
-Set available locales (override config):
+Set available locales (override configuration):
 
     $i18n->setAvailableLocales(array('de-de', 'en-us'));
 

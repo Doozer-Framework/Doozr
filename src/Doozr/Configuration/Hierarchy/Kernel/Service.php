@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Service.
  *
- * Service.php - The "service" node representation for providing autocompletion for config values.
+ * Service.php - The "service" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Service.
  *
- * The "service" node representation for providing autocompletion for config values.
+ * The "service" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

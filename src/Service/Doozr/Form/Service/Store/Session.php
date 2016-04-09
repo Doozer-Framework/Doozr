@@ -82,6 +82,9 @@ class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract
      */
     protected $subject;
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
@@ -119,8 +122,7 @@ class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract
     /**
      * Reads an entry from store.
      *
-     * @param string $key   The key for the data to store
-     * @param mixed  $value The value to store
+     * @param string $key The key for the data to store
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -128,9 +130,8 @@ class Doozr_Form_Service_Store_Session extends Doozr_Form_Service_Store_Abstract
      */
     public function read($key = null)
     {
-        try{
+        try {
             $value = $this->subject->read($key);
-
         } catch (Doozr_Base_Service_Exception $exception) {
             throw new Doozr_Form_Service_Exception(
                 sprintf('The key "%s" does not exist in store.', $key),

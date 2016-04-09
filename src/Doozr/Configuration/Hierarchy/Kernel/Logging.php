@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Logging
  *
- * Logging.php - The "logging" node representation for providing autocompletion for config values.
+ * Logging.php - The "logging" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Logging
  *
- * The "logging" node representation for providing autocompletion for config values.
+ * The "logging" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  * @package    Doozr_Kernel

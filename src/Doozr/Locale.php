@@ -71,7 +71,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
 class Doozr_Locale extends Doozr_Base_Class_Singleton
 {
     /**
-     * Instance of config
+     * Instance of configuration
      *
      * @var Doozr_Configuration
      * @access protected
@@ -79,7 +79,7 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
     protected $config;
 
     /**
-     * Instance of logger
+     * Instance of logging
      *
      * @var Doozr_Logging
      * @access protected
@@ -93,8 +93,8 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param Doozr_Configuration $config The config instance
-     * @param Doozr_Logging       $logger The logger instance
+     * @param Doozr_Configuration $config The configuration instance
+     * @param Doozr_Logging       $logger The logging instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return \Doozr_Locale
@@ -105,7 +105,7 @@ class Doozr_Locale extends Doozr_Base_Class_Singleton
         $this->config = $config;
         $this->logger = $logger;
 
-        // retrieve timezone from config
+        // retrieve timezone from configuration
         $timezone = $this->config->kernel->localization->timezone;
 
         // setup

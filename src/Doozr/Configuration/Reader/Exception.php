@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Reader - Exception
  *
- * Exception.php - The Exception for config reader.
+ * Exception.php - The Exception for configuration reader.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@ require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
 /**
  * Doozr - Configuration - Rader - Exception
  *
- * The Exception for config reader.
+ * The Exception for configuration reader.
  *
  * @category   Doozr
  * @package    Doozr_Configuration

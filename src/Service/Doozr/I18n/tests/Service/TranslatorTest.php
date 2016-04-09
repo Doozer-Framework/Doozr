@@ -145,7 +145,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the try to translate a string without setting a namespace first will throw an exception as warning for
+     * Test: If the try to encrypt a string without setting a namespace first will throw an exception as warning for
      * the developer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

@@ -101,7 +101,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
     protected static $ormDirectory = [];
 
     /**
-     * stored instance identifier used for config
+     * stored instance identifier used for configuration
      * (e.g. for migration FROM A => (TO) B)
      *
      * @var mixed
@@ -137,7 +137,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
      * Constructor.
      *
      * @param Doozr_Path          $path   Instance of Doozr_Path manager for path'
-     * @param Doozr_Configuration $config Instance of Doozr_Configuration holding Doozr's config
+     * @param Doozr_Configuration $config Instance of Doozr_Configuration holding Doozr's configuration
      * @param Doozr_Logging       $logger Instance of Doozr_Logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -152,9 +152,9 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * setter for current used config-identifier
+     * setter for current used configuration-identifier
      *
-     * This method is intend as setter for current used config-identifier.
+     * This method is intend as setter for current used configuration-identifier.
      *
      * @param string $identifier The identifier to use for this instance
      *
@@ -168,9 +168,9 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * getter for current used config-identifier
+     * getter for current used configuration-identifier
      *
-     * This method is intend as getter for current used config-identifier.
+     * This method is intend as getter for current used configuration-identifier.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return mixed STRING the identifier of this instance if previously set, otherwise NULL
@@ -308,20 +308,20 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * retrieves the configuration for ORM/DBA via Doozr_Kernel::config()
+     * retrieves the configuration for ORM/DBA via Doozr_Kernel::configuration()
      *
-     * This method is intend to retrieve the configuration for ORM/DBA via Doozr_Kernel::config().
+     * This method is intend to retrieve the configuration for ORM/DBA via Doozr_Kernel::configuration().
      *
-     * @param string $orm The name of the ORM to retrieve config for
+     * @param string $orm The name of the ORM to retrieve configuration for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean Config retrieved by Doozr_Kernel::config()
+     * @return boolean Config retrieved by Doozr_Kernel::configuration()
      * @access protected
      * @throws Doozr_Exception
      */
     protected function retrieveOrmConfig($orm)
     {
-        // Try to retrieve config for ORM/DBA
+        // Try to retrieve configuration for ORM/DBA
         try {
             self::$ormConfig = $this->config->kernel->model->{$orm};
 
@@ -342,10 +342,10 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
     /**
      * Returns the configuration for ORM/DBA
      *
-     * @param mixed $instanceIdentifier The identifier to use for config-retrieval, NULL to return the whole config
+     * @param mixed $instanceIdentifier The identifier to use for configuration-retrieval, NULL to return the whole configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array $ormConfig The config for the ORM/DBA
+     * @return array $ormConfig The configuration for the ORM/DBA
      * @access public
      * @static
      * @throws Doozr_Exception

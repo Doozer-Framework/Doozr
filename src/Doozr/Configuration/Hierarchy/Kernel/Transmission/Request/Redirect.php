@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Request - Redirect.
  *
- * Redirect.php - The "redirect" node representation for providing autocompletion for config values.
+ * Redirect.php - The "redirect" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Request - Redirect.
  *
- * The "redirect" node representation for providing autocompletion for config values.
+ * The "redirect" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

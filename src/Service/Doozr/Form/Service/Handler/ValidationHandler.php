@@ -157,6 +157,7 @@ class Doozr_Form_Service_Handler_ValidationHandler extends Doozr_Form_Service_Va
 
         if (null === $componentName) {
             $result = $this->error;
+
         } else {
             if ($this->hasError($componentName)) {
                 $result = $this->error[$componentName];

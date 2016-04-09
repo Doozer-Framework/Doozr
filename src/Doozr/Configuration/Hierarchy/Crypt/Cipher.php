@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Crypt - Cipher.
  *
- * Cipher.php - The "cipher" node representation for providing auto-completion of config values.
+ * Cipher.php - The "cipher" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Crypt - Cipher.
  *
- * Cipher.php - The "cipher" node representation for providing auto-completion of config values.
+ * Cipher.php - The "cipher" node representation for providing auto-completion of configuration values.
  *
  * @category   Doozr
  *

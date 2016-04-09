@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Session - Security - Bind - Path.
  *
- * Path.php - The "path" node representation for providing auto-completion of config values.
+ * Path.php - The "path" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Session - Security - Bind - Path.
  *
- * The "path" node representation for providing autocompletion for config values.
+ * The "path" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

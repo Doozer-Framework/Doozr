@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Ssl.
  *
- * Ssl.php - The "ssl" node representation for providing autocompletion for config values.
+ * Ssl.php - The "ssl" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Ssl.
  *
- * The "ssl" node representation for providing autocompletion for config values.
+ * The "ssl" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

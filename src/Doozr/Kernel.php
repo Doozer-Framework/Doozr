@@ -477,6 +477,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
                     self::initPhp() &&
                     self::initEncoding() &&
                     self::initLocale() &&
+                    self::initSecurity() &&         // >< Protect Model (Userland) and Services (Mixed) ><
                     self::initModel() &&
                     self::initServices()
                 )
@@ -601,7 +602,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      * Initializes the registry of the Doozr Framework. The registry itself
      * is intend to store the instances mainly used by core classes like Doozr_Path, Doozr_Configuration,
      * Doozr_Logging and this instances are always accessible by its name after the underscore (_ - written lowercase)
-     * e.g. Doozr_Logging will be available like this $registry->logger, Doozr_Configuration like $registry->config
+     * e.g. Doozr_Logging will be available like this $registry->logging, Doozr_Configuration like $registry->configuration
      * and so on.
      *
      * @param array $parameters The parameters to store in parameter bag.
@@ -620,8 +621,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     }
 
     /**
-     * Initializes the logger-manager of the Doozr Framework. The first initialized logger
-     * is of type collecting. So it collects all entries as long as the config isn't parsed and the real
+     * Initializes the logging-manager of the Doozr Framework. The first initialized logging
+     * is of type collecting. So it collects all entries as long as the configuration isn't parsed and the real
      * configured loggers are attached.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -638,7 +639,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
             ]
         );
 
-        // Get logger ...
+        // Get logging ...
         $logger = self::$registry->getContainer()->build('doozr.logging');
 
         // ... and attach the Collecting Logger
@@ -671,7 +672,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     }
 
     /**
-     * Initialize and prepare the config used for running the framework and the app.
+     * Initialize and prepare the configuration used for running the framework and the app.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -711,9 +712,9 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
             ]
         );
 
-        // Read Kernel config
+        // Read Kernel configuration
         $configuration->read(
-            self::$registry->getPath()->get('config').'.config.json'
+            self::$registry->getPath()->get('configuration').'.config.json'
         );
 
         // Retrieve list of service configuration files and read them ...
@@ -736,7 +737,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // Check if debugging is enabled ...
         if (true === self::$registry->getParameter('doozr.kernel.debugging')) {
 
-            // Now add a collector for config
+            // Now add a collector for configuration
             self::$registry->getDebugbar()->addCollector(
                 new DebugBar\DataCollector\ConfigCollector(
                     json_decode(json_encode(self::$registry->getConfiguration()->get()), true)
@@ -749,8 +750,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
     }
 
     /**
-     * Configures logging. It attaches the real configured loggers from config and removes
-     * the collecting logger. This method also injects the collected entries into the new attached loggers.
+     * Configures logging. It attaches the real configured loggers from configuration and removes
+     * the collecting logging. This method also injects the collected entries into the new attached loggers.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -759,7 +760,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      */
     protected static function configureLogging()
     {
-        // 1st get collecting logger
+        // 1st get collecting logging
         $collectingLogger = self::$registry->getLogging()->getLogger('collecting');
 
         // 2nd get existing log content
@@ -768,7 +769,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // Check if logging enabled ...
         if (true === self::$registry->getParameter('doozr.kernel.logging')) {
 
-            // Remove collecting logger
+            // Remove collecting logging
             self::$registry->getLogging()->detachAll(true);
 
             // Iterate and attach to subsystem
@@ -780,7 +781,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
                     ]
                 );
 
-                // Attach the logger
+                // Attach the logging
                 self::$registry->getLogging()->attach($loggerInstance);
             }
 
@@ -921,8 +922,8 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      */
     protected static function initSecurity()
     {
-        // Get security manager
-        self::$registry->setSecurity(self::$registry->getContainer()->build('Doozr_Security'));
+        // Init security layer
+        self::$registry->setSecurity(self::$registry->getContainer()->build('doozr.security'));
 
         // Important for bootstrap result
         return true;
@@ -970,7 +971,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         // Retrieve configuration
         $configuration = self::$registry->getConfiguration();
 
-        // Build decorator config ...
+        // Build decorator configuration ...
         $databaseConfiguration = object_to_array($configuration->kernel->model);
 
         self::$registry->setModel(
@@ -1078,7 +1079,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      */
     protected static function retrieveServiceConfigurationFiles()
     {
-        $virtualFile = self::$registry->getPath()->get('config').'.service.json';
+        $virtualFile = self::$registry->getPath()->get('configuration').'.service.json';
         $caching     = self::$registry->getParameter('doozr.kernel.caching');
         $files       = null;
         $stale       = false;
@@ -1129,7 +1130,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
         $stale          = false;
         $file           = self::$registry->getPath()->get(
             'app',
-            'Data\Private\Config\.config.'.$appEnvironment.'.json'
+            'Data\Private\Config\.configuration.'.$appEnvironment.'.json'
         );
 
         // Try to load information from cache!
@@ -1260,7 +1261,7 @@ class Doozr_Kernel extends Doozr_Base_Class_Singleton implements
      */
     public function __destruct()
     {
-        // Log request serving time -> but only if logger available!
+        // Log request serving time -> but only if logging available!
         if (self::$registry instanceof Doozr_Registry && null !== self::$registry->getLogging()) {
             self::$registry->getLogging()->debug(
                 'Request cycle completed in: '.self::getDateTime()->getMicrotimeDiff(self::$starttime).' seconds'

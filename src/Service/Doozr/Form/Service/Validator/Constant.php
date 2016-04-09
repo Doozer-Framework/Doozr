@@ -76,7 +76,7 @@ class Doozr_Form_Service_Validator_Constant
 
     /**
      * valid type for impact validation (impact is detected by PHP-IDS if enabled)
-     * we only check for impact if PHP-IDS is enabled in config. otherwise we have no
+     * we only check for impact if PHP-IDS is enabled in configuration. otherwise we have no
      * base for validation.
      *
      * @var string

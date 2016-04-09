@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Session.
  *
- * Session.php - The "session" node representation for providing auto-completion of config values.
+ * Session.php - The "session" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Session.
  *
- * The "session" node representation for providing auto-completion of config values.
+ * The "session" node representation for providing auto-completion of configuration values.
  *
  * @category   Doozr
  *
@@ -102,6 +102,13 @@ class Doozr_Configuration_Hierarchy_Session
      * @var int
      */
     public $gcTime = 86400;
+
+    /**
+     * USe cookies for session transportation flag.
+     *
+     * @var bool
+     */
+    public $useCookies = true;
 
     /**
      * The security node of session configuration.

@@ -116,7 +116,7 @@ final class Doozr_Route extends Doozr_Base_Class
 
     /**
      * The current active route prefilled with defaults. The minimum length of a route is 2 nodes which
-     * represents an object and its action. But through .config.json you are free to define a custom route
+     * represents an object and its action. But through .configuration.json you are free to define a custom route
      * pattern and so up to n-nodes-routes (e.g. /foo/bar/foo/bar/...).
      *
      * @var array

@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Crypt - Encoding.
  *
- * Encoding.php - The "cipher" node representation for providing auto-completion of config values.
+ * Encoding.php - The "cipher" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Crypt - Encoding.
  *
- * Encoding.php - The "cipher" node representation for providing auto-completion of config values.
+ * Encoding.php - The "cipher" node representation for providing auto-completion of configuration values.
  *
  * @category   Doozr
  *

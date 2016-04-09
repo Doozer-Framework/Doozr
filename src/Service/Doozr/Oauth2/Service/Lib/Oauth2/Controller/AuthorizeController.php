@@ -32,7 +32,7 @@ class AuthorizeController implements AuthorizeControllerInterface
      * @param array $config
      * OPTIONAL Configuration options for the server
      * @code
-     * $config = array(
+     * $configuration = array(
      *   'allow_implicit' => false,            // if the controller should allow the "implicit" grant type
      *   'enforce_state'  => true              // if the controller should require the "state" parameter
      *   'require_exact_redirect_uri' => true, // if the controller should require an exact match on the "redirect_uri" parameter

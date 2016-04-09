@@ -116,7 +116,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     protected static $config;
 
     /**
-     * holds the config instances indexed by locale.
+     * holds the configuration instances indexed by locale.
      *
      * @var array
      * @static
@@ -139,7 +139,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     const FILE_NAME_L10N = 'L10n';
 
     /**
-     * The extension of the config file.
+     * The extension of the configuration file.
      *
      * @var string
      */
@@ -216,7 +216,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         // Check if requirements fulfilled
         self::checkRequirements();
 
-        // Store config passed to this instance
+        // Store configuration passed to this instance
         self::$config = self::getRegistry()->getConfiguration();
 
         // If no locale was passed then we try to read the preferred locale from client
@@ -250,7 +250,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     }
 
     /**
-     * Returns the available locales defined in config.
+     * Returns the available locales defined in configuration.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -387,7 +387,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
                     $input['locale'],
                     null,
                     self::$config,
-                    $input['config'],
+                    $input['configuration'],
                     $this->getTranslator($input['locale']),
                 ]
             );
@@ -434,7 +434,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
         if (isset($input['redirect'])) {
             $translator = $this->getTranslator($input['redirect'], $encoding);
         } else {
-            $translator = new Doozr_I18n_Service_Translator($locale, $encoding, self::$config, $input['config']);
+            $translator = new Doozr_I18n_Service_Translator($locale, $encoding, self::$config, $input['configuration']);
         }
 
         return $translator;
@@ -479,7 +479,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
     /**
      * PHPTAL:
      * Will inform translation service what encoding page uses.
-     * Output of translate() must be in this encoding.
+     * Output of encrypt() must be in this encoding.
      *
      * @param string $encoding The encoding as string e.g. ...
      *
@@ -746,11 +746,11 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
             $redirectLocale = null;
         }
 
-        // return a valid set of locale, redirect locale and the config
+        // return a valid set of locale, redirect locale and the configuration
         return [
             'locale'   => $locale,
             'redirect' => $redirectLocale,
-            'config'   => $config,
+            'configuration'   => $config,
         ];
     }
 
@@ -808,7 +808,7 @@ class Doozr_I18n_Service extends Doozr_Base_Service_Singleton
      */
     protected function getL10nConfigurationByLocale($locale)
     {
-        // Check if already a config parser exist
+        // Check if already a configuration parser exist
         if (true === isset(self::$configurationByLocale[$locale])) {
             $config = self::$configurationByLocale[$locale];
         } else {

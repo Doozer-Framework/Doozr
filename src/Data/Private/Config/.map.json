@@ -20,6 +20,26 @@
           }
         ]
       },
+      "doozr.security": {
+        "className": "Doozr_Security",
+        "instance": null,
+        "arguments": [],
+        "constructor": "getInstance",
+        "dependencies": [
+          {
+            "link": "doozr.configuration",
+            "type": "constructor",
+            "target": "getInstance",
+            "position": 1
+          },
+          {
+            "link": "doozr.logging",
+            "type": "constructor",
+            "target": "getInstance",
+            "position": 2
+          }
+        ]
+      },
       "doozr.di.dependency": {
         "className": "Doozr_Di_Dependency",
         "instance": null

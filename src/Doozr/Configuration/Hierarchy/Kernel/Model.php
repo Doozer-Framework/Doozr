@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Model.
  *
- * Model.php - The "model" node representation for providing autocompletion for config values.
+ * Model.php - The "model" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Model.
  *
- * The "model" node representation for providing autocompletion for config values.
+ * The "model" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

@@ -274,7 +274,7 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
      */
     public function __tearup()
     {
-        // get current active Doozr config from registry
+        // get current active Doozr configuration from registry
         $this->config = $this->registry->config;
 
         // construct password matrices

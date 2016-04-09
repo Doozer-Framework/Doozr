@@ -130,7 +130,7 @@ class Doozr_Base_Presenter_Rest_Config
     protected $ids = [];
 
     /**
-     * The route of this config object
+     * The route of this configuration object
      *
      * @var string
      * @access protected
@@ -138,7 +138,7 @@ class Doozr_Base_Presenter_Rest_Config
     protected $route;
 
     /**
-     * The real route of this config object
+     * The real route of this configuration object
      *
      * @var array
      * @access protected
@@ -154,7 +154,7 @@ class Doozr_Base_Presenter_Rest_Config
     protected $rootNode;
 
     /**
-     * Login required status for this route config.
+     * Login required status for this route configuration.
      *
      * @var bool
      * @access protected
@@ -249,7 +249,7 @@ class Doozr_Base_Presenter_Rest_Config
     /**
      * Setter for nodes
      *
-     * @param int $nodes The count of nodes for this config
+     * @param int $nodes The count of nodes for this configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -263,7 +263,7 @@ class Doozr_Base_Presenter_Rest_Config
     /**
      * Chaining setter for nodes
      *
-     * @param int $nodes The count of nodes for this config
+     * @param int $nodes The count of nodes for this configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
@@ -442,7 +442,7 @@ class Doozr_Base_Presenter_Rest_Config
     /**
      * Setter for URL
      *
-     * @param string $url The URL of this config object
+     * @param string $url The URL of this configuration object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -456,7 +456,7 @@ class Doozr_Base_Presenter_Rest_Config
     /**
      * Chaining setter for URL
      *
-     * @param string $url The URL of this config object
+     * @param string $url The URL of this configuration object
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return Doozr_Base_Presenter_Rest_Config This instance for chaining calls
@@ -568,7 +568,7 @@ class Doozr_Base_Presenter_Rest_Config
      * Getter for route
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The route of this config
+     * @return string The route of this configuration
      * @access public
      */
     public function getRoute()

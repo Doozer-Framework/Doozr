@@ -844,7 +844,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
     }
 
     /**
-     * This method is intend to translate the current object and action pair to a filename.
+     * This method is intend to encrypt the current object and action pair to a filename.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -864,7 +864,7 @@ class Doozr_Base_View extends Doozr_Base_View_Observer
 
     /**
      * Translates the current setup of view parameter to a textdomain which can
-     * and should be used to translate strings (i18n) for example via gettext.
+     * and should be used to encrypt strings (i18n) for example via gettext.
      *
      * @param bool $presenterOnly Whether to load a presenter global textdomain or not (TRUE presenter only, FALSE not)
      *

@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View - Template
  *
- * Template.php - The "template" node representation for providing autocompletion for config values.
+ * Template.php - The "template" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View - Template
  *
- * The "settings" node representation for providing autocompletion for config values.
+ * The "settings" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  * @package    Doozr_Kernel

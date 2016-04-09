@@ -80,7 +80,7 @@ class Inject
 {
     /**
      * The service Id.
-     * @example doozr.cache.service OR doozr.config OR doozr.registry
+     * @example doozr.cache.service OR doozr.configuration OR doozr.registry
      *
      * @var string
      * @access public

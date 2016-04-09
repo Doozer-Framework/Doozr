@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Request.
  *
- * Request.php - The "request" node representation for providing autocompletion for config values.
+ * Request.php - The "request" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Request.
  *
- * The "request" node representation for providing autocompletion for config values.
+ * The "request" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

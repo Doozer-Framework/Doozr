@@ -4,8 +4,8 @@
 /**
  * Doozr - Logging - Collecting
  *
- * Collecting.php - This logger collects log-entries and hold them until the
- * logger-subsystem is finally ready for (real) logging.
+ * Collecting.php - This logging collects log-entries and hold them until the
+ * logging-subsystem is finally ready for (real) logging.
  *
  * PHP versions 5.5
  *
@@ -63,8 +63,8 @@ use Psr\Log\LoggerInterface;
 /**
  * Doozr - Logging - Collecting
  *
- * This logger collects log-entries and hold them until the
- * logger-subsystem is finally ready for (real) logging.
+ * This logging collects log-entries and hold them until the
+ * logging-subsystem is finally ready for (real) logging.
  *
  * @category   Doozr
  * @package    Doozr_Logging
@@ -83,7 +83,7 @@ final class Doozr_Logging_Collecting extends Doozr_Logging_Abstract
     SplObserver
 {
     /**
-     * Name of this logger
+     * Name of this logging
      *
      * @var string
      * @access private
@@ -91,7 +91,7 @@ final class Doozr_Logging_Collecting extends Doozr_Logging_Abstract
     protected $name = 'Collecting';
 
     /**
-     * Version of this logger
+     * Version of this logging
      *
      * @var string
      * @access protected
@@ -146,7 +146,7 @@ final class Doozr_Logging_Collecting extends Doozr_Logging_Abstract
      */
     protected function output()
     {
-        // Dummy return true -> cause not needed for collecting logger
+        // Dummy return true -> cause not needed for collecting logging
         return true;
     }
 
@@ -155,7 +155,7 @@ final class Doozr_Logging_Collecting extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Dispatches a new route to this logger (e.g. for use as new filename).
+     * Dispatches a new route to this logging (e.g. for use as new filename).
      *
      * @param string $name The name of the route to dispatch
      *
@@ -166,7 +166,7 @@ final class Doozr_Logging_Collecting extends Doozr_Logging_Abstract
     public function route($name)
     {
         /**
-         * This logger does not need to be re-routed
+         * This logging does not need to be re-routed
          */
     }
 }

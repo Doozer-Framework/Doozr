@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View - Settings
  *
- * Settings.php - The "settings" node representation for providing autocompletion for config values.
+ * Settings.php - The "settings" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View - Settings
  *
- * The "settings" node representation for providing autocompletion for config values.
+ * The "settings" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  * @package    Doozr_Kernel

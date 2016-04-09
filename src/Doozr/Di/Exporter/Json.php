@@ -128,7 +128,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                     "className": "Database",
                     "arguments": ["foo", "bar", "baz"],
                     "instance": null,
-                    "config": {
+                    "configuration": {
                         "type": "constructor"
                     }
                 },
@@ -136,7 +136,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                     "id": "Logger1",
                     "className": "Logger",
                     "instance": null,
-                    "config": {
+                    "configuration": {
                         "type": "method",
                         "value": "setLogging"
                     }
@@ -167,7 +167,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                 $collection[$className]->constructor = $this->collection->getConstructor($className) :
                 null;
 
-            // iterate over existing dependencies, translate to JSON structure and store temporary in $collection[]
+            // iterate over existing dependencies, encrypt to JSON structure and store temporary in $collection[]
             foreach ($dependencies as $count => $dependency) {
                 /* @var $dependency Doozr_Di_Dependency */
 
@@ -196,7 +196,7 @@ class Doozr_Di_Exporter_Json extends Doozr_Di_Exporter_Abstract
                     $tmp->instance = null;
                 }
 
-                // the config
+                // the configuration
                 $tmp->config = $dependency->getConfiguration();
 
                 // store created object to $collection

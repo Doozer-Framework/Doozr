@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel
  *
- * Kernel.php - The "kernel" node representation for providing auto-completion of config values.
+ * Kernel.php - The "kernel" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel
  *
- * The "kernel" node representation for providing auto-completion of config values.
+ * The "kernel" node representation for providing auto-completion of configuration values.
  *
  * @category   Doozr
  * @package    Doozr_Kernel

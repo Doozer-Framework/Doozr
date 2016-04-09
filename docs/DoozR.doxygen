@@ -11,10 +11,10 @@
 # Values that contain spaces should be placed between quotes (" ")
 
 #---------------------------------------------------------------------------
-# Project related config options
+# Project related configuration options
 #---------------------------------------------------------------------------
 
-# This tag specifies the encoding used for all characters in the config file
+# This tag specifies the encoding used for all characters in the configuration file
 # that follow. The default is UTF-8 which is also the encoding used for all
 # text before the first occurrence of this tag. Doxygen uses libiconv (or the
 # iconv built into libc) for the transcoding. See
@@ -290,7 +290,7 @@ TYPEDEF_HIDES_STRUCT   = NO
 SYMBOL_CACHE_SIZE      = 0
 
 #---------------------------------------------------------------------------
-# Build related config options
+# Build related configuration options
 #---------------------------------------------------------------------------
 
 # If the EXTRACT_ALL tag is set to YES doxygen will assume all entities in
@@ -521,7 +521,7 @@ FILE_VERSION_FILTER    =
 LAYOUT_FILE            =
 
 #---------------------------------------------------------------------------
-# config options related to warning and progress messages
+# configuration options related to warning and progress messages
 #---------------------------------------------------------------------------
 
 # The QUIET tag can be used to turn on/off the messages that are generated
@@ -572,7 +572,7 @@ WARN_FORMAT            = "$file:$line: $text"
 WARN_LOGFILE           = Doozr_documentation_error.log
 
 #---------------------------------------------------------------------------
-# config options related to the input files
+# configuration options related to the input files
 #---------------------------------------------------------------------------
 
 # The INPUT tag can be used to specify the files and/or directories that contain
@@ -709,7 +709,7 @@ FILTER_PATTERNS        =
 FILTER_SOURCE_FILES    = NO
 
 #---------------------------------------------------------------------------
-# config options related to source browsing
+# configuration options related to source browsing
 #---------------------------------------------------------------------------
 
 # If the SOURCE_BROWSER tag is set to YES then a list of source files will
@@ -764,7 +764,7 @@ USE_HTAGS              = YES
 VERBATIM_HEADERS       = NO
 
 #---------------------------------------------------------------------------
-# config options related to the alphabetical class index
+# configuration options related to the alphabetical class index
 #---------------------------------------------------------------------------
 
 # If the ALPHABETICAL_INDEX tag is set to YES, an alphabetical index
@@ -787,7 +787,7 @@ COLS_IN_ALPHA_INDEX    = 1
 IGNORE_PREFIX          =
 
 #---------------------------------------------------------------------------
-# config options related to the HTML output
+# configuration options related to the HTML output
 #---------------------------------------------------------------------------
 
 # If the GENERATE_HTML tag is set to YES (the default) Doxygen will
@@ -1098,7 +1098,7 @@ SEARCHENGINE           = YES
 SERVER_BASED_SEARCH    = NO
 
 #---------------------------------------------------------------------------
-# config options related to the LaTeX output
+# configuration options related to the LaTeX output
 #---------------------------------------------------------------------------
 
 # If the GENERATE_LATEX tag is set to YES (the default) Doxygen will
@@ -1184,7 +1184,7 @@ LATEX_HIDE_INDICES     = NO
 LATEX_SOURCE_CODE      = NO
 
 #---------------------------------------------------------------------------
-# config options related to the RTF output
+# configuration options related to the RTF output
 #---------------------------------------------------------------------------
 
 # If the GENERATE_RTF tag is set to YES Doxygen will generate RTF output
@@ -1215,18 +1215,18 @@ COMPACT_RTF            = NO
 RTF_HYPERLINKS         = NO
 
 # Load stylesheet definitions from file. Syntax is similar to doxygen's
-# config file, i.e. a series of assignments. You only have to provide
+# configuration file, i.e. a series of assignments. You only have to provide
 # replacements, missing definitions are set to their default value.
 
 RTF_STYLESHEET_FILE    =
 
 # Set optional variables used in the generation of an rtf document.
-# Syntax is similar to doxygen's config file.
+# Syntax is similar to doxygen's configuration file.
 
 RTF_EXTENSIONS_FILE    =
 
 #---------------------------------------------------------------------------
-# config options related to the man page output
+# configuration options related to the man page output
 #---------------------------------------------------------------------------
 
 # If the GENERATE_MAN tag is set to YES (the default) Doxygen will
@@ -1254,7 +1254,7 @@ MAN_EXTENSION          = .3
 MAN_LINKS              = NO
 
 #---------------------------------------------------------------------------
-# config options related to the XML output
+# configuration options related to the XML output
 #---------------------------------------------------------------------------
 
 # If the GENERATE_XML tag is set to YES Doxygen will
@@ -1289,7 +1289,7 @@ XML_DTD                =
 XML_PROGRAMLISTING     = NO
 
 #---------------------------------------------------------------------------
-# config options for the AutoGen Definitions output
+# configuration options for the AutoGen Definitions output
 #---------------------------------------------------------------------------
 
 # If the GENERATE_AUTOGEN_DEF tag is set to YES Doxygen will
@@ -1301,7 +1301,7 @@ XML_PROGRAMLISTING     = NO
 GENERATE_AUTOGEN_DEF   = NO
 
 #---------------------------------------------------------------------------
-# config options related to the Perl module output
+# configuration options related to the Perl module output
 #---------------------------------------------------------------------------
 
 # If the GENERATE_PERLMOD tag is set to YES Doxygen will

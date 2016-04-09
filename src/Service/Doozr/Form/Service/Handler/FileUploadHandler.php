@@ -149,7 +149,7 @@ class Doozr_Form_Service_Handler_FileUploadHandler extends Doozr_Base_Class
                 // Simple security layer
                 $filename = $this->cleanFilename($file->getClientFilename());
 
-                // @todo Move to a basic validation applied always for files if enabled in config.
+                // @todo Move to a basic validation applied always for files if enabled in configuration.
                 #$mediaType = $this->getMimeTypeByExtension(pathinfo($filename)['extension']);
 
                 /* @var Doozr_Request_File $file */

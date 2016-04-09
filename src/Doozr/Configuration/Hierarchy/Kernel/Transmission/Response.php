@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Response.
  *
- * Response.php - The "response" node representation for providing autocompletion for config values.
+ * Response.php - The "response" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Response.
  *
- * The "response" node representation for providing autocompletion for config values.
+ * The "response" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *
