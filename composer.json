@@ -55,7 +55,6 @@
     "jbroadway/urlify": "1.0.7-stable"
   },
   "require-dev": {
-    "ext-uprofiler": "*",
     "phpunit/phpunit": "~4.8.9",
     "fzaninotto/faker": "~1.5.0",
     "symfony/var-dumper": "~2.8.4"
