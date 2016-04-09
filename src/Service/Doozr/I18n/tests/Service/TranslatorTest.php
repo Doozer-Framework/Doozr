@@ -91,7 +91,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         $translator = self::$service->getTranslator();
 
@@ -133,7 +133,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         $input = Resource_Fixture::KEY_MISSING;
 
@@ -145,7 +145,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     }
 
     /**
-     * Test: If the try to translate a string without setting a namespace first will throw an exception as warning for
+     * Test: If the try to encrypt a string without setting a namespace first will throw an exception as warning for
      * the developer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -155,7 +155,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
         $translator = self::$service->getTranslator();
         $translator->_('hour');
     }
@@ -170,7 +170,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
@@ -189,7 +189,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         $translator = self::$service->getTranslator();
         $translator->setNamespace('default');
@@ -208,7 +208,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         /* @var Doozr_I18n_Service_Translator $translator*/
         $translator = self::$service->getTranslator();

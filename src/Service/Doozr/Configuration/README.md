@@ -1,14 +1,14 @@
 # Config
-The config service for managing configurations (R|W) in JSON and INI format. The Config service provides performant merging functionality and brings support for caching (e.g. Redis, memcached).
+The configuration service for managing configurations (R|W) in JSON and INI format. The Config service provides performant merging functionality and brings support for caching (e.g. Redis, memcached).
 
 ## Example
-Reading from config:
+Reading from configuration:
 
-    $config->foo->bar();
+    $configuration->foo->bar();
 
-Writing to config:
+Writing to configuration:
 
-    $config->foo->bar('baz');
+    $configuration->foo->bar('baz');
 
 ## Read
 Read

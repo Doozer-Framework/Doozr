@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n - String.
  *
- * String.php - The "string" node representation for providing auto-completion of config values.
+ * String.php - The "string" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n - String.
  *
- * String.php - The "string" node representation for providing auto-completion of config values.
+ * String.php - The "string" node representation for providing auto-completion of configuration values.
  *
  * @category   Doozr
  *

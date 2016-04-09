@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Reader - Abstract.
  *
- * Abstract.php - The Abstract class for config reader. This class provides high level
+ * Abstract.php - The Abstract class for configuration reader. This class provides high level
  * access to filesystem and cache. Can be used for all types of readers.
  *
  * PHP versions 5.5
@@ -62,7 +62,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Doozr - Configuration - Reader - Abstract.
  *
- * The Abstract class for config reader. This class provides high level
+ * The Abstract class for configuration reader. This class provides high level
  * access to filesystem and cache. Can be used for all types of readers.
  *
  * @category   Doozr
@@ -179,7 +179,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
             }
         }
 
-        // Check first if we can handle the file (basic check - everything else done by filesystem service)
+        // Check first if we can getMetaComponents the file (basic check - everything else done by filesystem service)
         if (
             false === $this->getFilesystem()->exists($filename) ||
             false === $this->getFilesystem()->readable($filename)
@@ -189,7 +189,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
             );
         }
 
-        // Store config filename
+        // Store configuration filename
         $this->setFilename($filename);
 
         // Return the result of the operation ...
@@ -487,7 +487,7 @@ abstract class Doozr_Configuration_Reader_Abstract extends Doozr_Base_Class
      *
      * @return string Filename if set, otherwise NULL
      */
-    public function getClassFilename()
+    public function getFilename()
     {
         return $this->filename;
     }

@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Security.
  *
- * Security.php - The "security" node representation for providing autocompletion for config values.
+ * Security.php - The "security" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Security.
  *
- * The "security" node representation for providing autocompletion for config values.
+ * The "security" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

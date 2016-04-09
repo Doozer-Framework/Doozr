@@ -71,9 +71,9 @@
 interface Doozr_Logging_Interface
 {
     /**
-     * Sets the name of the logger or an other identifier.
+     * Sets the name of the logging or an other identifier.
      *
-     * @param string $name The name of the logger.
+     * @param string $name The name of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -82,16 +82,16 @@ interface Doozr_Logging_Interface
     public function setName($name);
 
     /**
-     * Returns the name of the logger or an other identifier.
+     * Returns the name of the logging or an other identifier.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The name of the logger.
+     * @return string The name of the logging.
      * @access public
      */
     public function getName();
 
     /**
-     * Sets the level of the logger.
+     * Sets the level of the logging.
      *
      * @param int $level The log level.
      *
@@ -102,7 +102,7 @@ interface Doozr_Logging_Interface
     public function setLevel($level);
 
     /**
-     * Returns the log level of the logger.
+     * Returns the log level of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return int The log level
@@ -114,7 +114,7 @@ interface Doozr_Logging_Interface
      * Should return the Version of the Logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The version of the logger-class that use this interface
+     * @return string The version of the logging-class that use this interface
      * @access public
      */
     public function getVersion();

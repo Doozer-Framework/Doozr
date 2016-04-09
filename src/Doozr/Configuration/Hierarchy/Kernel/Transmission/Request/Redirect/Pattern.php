@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Request - Redirect - Pattern.
  *
- * Pattern.php - The "pattern" node representation for providing autocompletion for config values.
+ * Pattern.php - The "pattern" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Request - Redirect - Pattern.
  *
- * The "pattern" node representation for providing autocompletion for config values.
+ * The "pattern" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

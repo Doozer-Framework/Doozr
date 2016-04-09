@@ -185,7 +185,7 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
             return $this->getConfiguration()->currency->code;
         } catch (Exception $e) {
             throw new Doozr_I18n_Service_Exception(
-                'Error reading currency code from L10N config.', null, $e
+                'Error reading currency code from L10N configuration.', null, $e
             );
         }
     }
@@ -200,8 +200,8 @@ class Doozr_I18n_Service_Localize_Currency extends Doozr_I18n_Service_Localize_A
      * @param Doozr_Registry_Interface      $registry   The Doozr_Registry instance
      * @param string                        $locale     The locale this instance is working with
      * @param string                        $namespace  The active namespace of this format-class
-     * @param object                        $configI18n An instance of Doozr_Config_Ini holding the I18n-config
-     * @param object                        $configL10n An instance of Doozr_Config_Ini holding the I10n-config (locale)
+     * @param object                        $configI18n An instance of Doozr_Config_Ini holding the I18n-configuration
+     * @param object                        $configL10n An instance of Doozr_Config_Ini holding the I10n-configuration (locale)
      * @param Doozr_I18n_Service_Translator $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

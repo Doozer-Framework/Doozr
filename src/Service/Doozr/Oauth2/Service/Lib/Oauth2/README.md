@@ -67,7 +67,7 @@ the use of your own Storage objects to fit your application's implementation.
 Once you've created a storage object, pass it to the server object and define which Grant Types your server is to support.  See
 the list of supported [Grant Types](#grant-types) below.
 
-The final step, once the Server object is set up, is to handle the incoming request.  Consult the [Server Methods](#server-methods), or
+The final step, once the Server object is set up, is to getMetaComponents the incoming request.  Consult the [Server Methods](#server-methods), or
 follow the [Step-by-Step Walkthrough](#step-by-step-walkthrough) to familiarize yourself with the types of requests involved in
 OAuth2.0 workflows.
 
@@ -171,7 +171,7 @@ If everything works, you should receive a response like this:
 
 ### Create a Resource Controller
 
-Now that you are creating tokens, you'll want to validate them in your APIs.  Here is an
+Now that you are creating tokens, you'll want to validation them in your APIs.  Here is an
 example of a resource controller in the file `resource.php`:
 
 ```php
@@ -214,7 +214,7 @@ require_once __DIR__.'/server.php';
 $request = OAuth2\Request::createFromGlobals();
 $response = new OAuth2\Response();
 
-// validate the authorize request
+// validation the authorize request
 if (!$server->validateAuthorizeRequest($request, $response)) {
     $response->send();
     die;
@@ -326,7 +326,7 @@ Server Methods
 >
 >   ~ OAuth2 ([draft #31](http://tools.ietf.org/html/rfc6749#section-1))
 
-Most OAuth2 APIs will have endpoints for `Authorize Requests`, `Token Requests`, and `Resource Requests`.  The `OAuth2\Server` object has methods to handle each of these requests.
+Most OAuth2 APIs will have endpoints for `Authorize Requests`, `Token Requests`, and `Resource Requests`.  The `OAuth2\Server` object has methods to getMetaComponents each of these requests.
 
 ### Authorize Requests
 
@@ -358,7 +358,7 @@ An endpoint which the client uses to exchange the `authorization code` for an `a
 
 ### Resource Requests
 
-Any API method requiring oauth2 authentication.  The server will validate the incomming request, and then allow
+Any API method requiring oauth2 authentication.  The server will validation the incomming request, and then allow
 the application to serve back the protected resource.
 
 **methods**:

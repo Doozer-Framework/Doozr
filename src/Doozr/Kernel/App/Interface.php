@@ -74,7 +74,7 @@ interface Doozr_Kernel_App_Interface
     /**
      * Handles a Request to convert it to a Response.
      *
-     * @param Request  $request  The request to handle
+     * @param Request  $request  The request to getMetaComponents
      * @param Response $response The response to send
      * @param callable $next     The next callable middleware implementation
      *

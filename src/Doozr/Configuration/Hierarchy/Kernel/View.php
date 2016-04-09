@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View.
  *
- * View.php - The "path" node representation for providing autocompletion for config values.
+ * View.php - The "path" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View.
  *
- * The "path" node representation for providing autocompletion for config values.
+ * The "path" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Security - Cryptography.
  *
- * Cryptography.php - The "cryptography" node representation for providing autocompletion for config values.
+ * Cryptography.php - The "cryptography" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Security - Cryptography.
  *
- * The "cryptography" node representation for providing autocompletion for config values.
+ * The "cryptography" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

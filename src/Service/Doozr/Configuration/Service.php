@@ -127,7 +127,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
     private static $_ownProperties = array(
         'decoratedObject',
         'path',
-        'logger'
+        'logging'
     );
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -135,10 +135,9 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend as replacement for __construct
-     * PLEASE DO NOT USE __construct() - make always use of __tearup()!
+     * Service entry point.
      *
-     * @param string $type          The type of config container (Ini, Json, ...)
+     * @param string $type          The type of configuration container (Ini, Json, ...)
      * @param bool   $enableCaching TRUE to enable caching, FALSE to disable it
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -150,7 +149,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
         // Store path manager
         $this->path = $this->registry->path;
 
-        // Store logger
+        // Store logging
         $this->logger = $this->registry->logger;
 
         // Create instance through factory and set as object to decorate!
@@ -239,16 +238,16 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
      */
     public static function __callStatic($signature, $arguments)
     {
-        $targetClassname = get_class(self::$_staticDecoratedObject);
+        $targetClassName = get_class(self::$_staticDecoratedObject);
 
         if ($arguments) {
             $result = call_user_func_array(
-                $targetClassname.'::'.$signature,
+                $targetClassName.'::'.$signature,
                 $arguments
             );
         } else {
             $result = call_user_func(
-                array($targetClassname, $signature)
+                array($targetClassName, $signature)
             );
         }
 
@@ -322,9 +321,9 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * This method is intend to act as factory for creating an instance of a config container.
+     * This method is intend to act as factory for creating an instance of a configuration container.
      *
-     * @param string $class     The classname of container
+     * @param string $class     The className of container
      * @param string $path      The base path to Framework
      * @param mixed  $arguments Arguments to pass to instance
      *
@@ -361,10 +360,10 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
     }
 
     /**
-     * Setter for key => value pairs of config.
+     * Setter for key => value pairs of configuration.
      *
      * @param string $node The key used for entry
-     * @param mixed $value The value (every type allow) be sure to check if it is supported by your chosen config type
+     * @param mixed $value The value (every type allow) be sure to check if it is supported by your chosen configuration type
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -394,7 +393,7 @@ class Doozr_Configuration_Service extends Doozr_Base_Service_Multiple
      * Creates a configuration node.
      *
      * @param string $node The node to create
-     * @param string $data The data to write to config
+     * @param string $data The data to write to configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE if entry was created successful, otherwise FALSE

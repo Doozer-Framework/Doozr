@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Di - Importer - Json
+ * Doozr - Di - Importer - Json.
  *
  * Json.php - Di importer for static JSON-maps. This importer imports a map
  * from a JSON-encoded file and adds them to a @see Doozr_Di_Collection.
@@ -44,31 +45,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       https://github.com/clickalicious/Di
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Importer/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Di/Collection.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Importer/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Importer/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Di/Collection.php';
 
 /**
- * Doozr - Di - Importer - Json
+ * Doozr - Di - Importer - Json.
  *
  * Di importer for static JSON-maps. This importer imports a map
  * from a JSON-encoded file and adds them to a @see Doozr_Di_Collection.
  *
  * @category   Doozr
- * @package    Doozr_Di
- * @subpackage Doozr_Di_Importer
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @link       https://github.com/clickalicious/Di
  */
 class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
@@ -83,8 +84,9 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
      * Import dependencies from a static JSON Map (Filesystem) and adds them to @see Doozr_Di_Collection.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The imported map
-     * @access public
+     *
      * @throws Doozr_Di_Exception
      */
     public function import()
@@ -104,13 +106,13 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
     }
 
     /**
-     * Exports content as array containing Doozr_Di_Dependency-Instances
+     * Exports content as array containing Doozr_Di_Dependency-Instances.
      *
      * This method is intend to export content as array containing Doozr_Di_Dependency-Instances.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array An array containing instances of Doozr_Di_Dependency for each dependency
-     * @access public
      */
     public function export()
     {
@@ -122,14 +124,14 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the content of a JSON file as object.
-     * This method is intend to return the content of a JSON file as an object.
+     * Returns the content of a file in JSON-syntax as object.
      *
-     * @param string $file The JSON file to read from
+     * @param string $file The file in JSON-syntax to read from
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object Instance
-     * @access protected
+     *
      * @throws Doozr_Di_Exception
      */
     protected function importMapFromFromJsonFile($file)
@@ -155,13 +157,13 @@ class Doozr_Di_Importer_Json extends Doozr_Di_Importer_Abstract
     }
 
     /**
-     * Validates that a passed string is valid json
+     * Validates that a passed string is valid json.
      *
-     * @param string $input The input to validate
+     * @param string $input The input to validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool|array FALSE on error, array containing content
-     * @access protected
      */
     protected function validate($input)
     {

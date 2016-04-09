@@ -116,7 +116,7 @@ class Doozr_Loader_Autoloader_Spl_Config
     protected $extension = [];
 
     /**
-     * Holds the (optional) classname containing the Autoloader-Method (Function)
+     * Holds the (optional) className containing the Autoloader-Method (Function)
      *
      * @var string
      * @access protected
@@ -500,7 +500,7 @@ class Doozr_Loader_Autoloader_Spl_Config
         $this->isClass  = true;
         $this->isLoader = false;
 
-        // store classname
+        // store className
         $this->class = $class;
     }
 
@@ -747,21 +747,21 @@ class Doozr_Loader_Autoloader_Spl_Config
     }
 
     /**
-     * This method is the loader mechanism for this loader config
+     * This method is the loader mechanism for this loader configuration
      *
-     * @param string $classname The name of the class to load
+     * @param string $className The name of the class to load
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return bool TRUE on success, otherwise FALSE
      * @access public
      */
-    public function load($classname)
+    public function load($className)
     {
         // get namespace of current instance
         $currentNamespace = $this->namespace . $this->namespaceSeparator;
 
-        // get namespace from passed classname
-        $namespace = substr($classname, 0, strlen($currentNamespace));
+        // get namespace from passed className
+        $namespace = substr($className, 0, strlen($currentNamespace));
 
         // check if requested class must be loaded by this instance of loader
         // this is a good example use case for namespacing which makes sense
@@ -770,11 +770,11 @@ class Doozr_Loader_Autoloader_Spl_Config
             $currentNamespace === $namespace
         ) {
             $filename = '';
-            $lastNamespaceSeparatorPosition = strripos($classname, $this->namespaceSeparator);
+            $lastNamespaceSeparatorPosition = strripos($className, $this->namespaceSeparator);
 
             if ($lastNamespaceSeparatorPosition !== false) {
-                $namespace = substr($classname, 0, $lastNamespaceSeparatorPosition);
-                $classname = substr($classname, $lastNamespaceSeparatorPosition + 1);
+                $namespace = substr($className, 0, $lastNamespaceSeparatorPosition);
+                $className = substr($className, $lastNamespaceSeparatorPosition + 1);
                 $filename  = str_replace(
                     $this->namespaceSeparator,
                     $this->separator,
@@ -782,7 +782,7 @@ class Doozr_Loader_Autoloader_Spl_Config
                 ).$this->separator;
             }
 
-            $filename .= str_replace('_', $this->separator, $classname).'.php';
+            $filename .= str_replace('_', $this->separator, $className).'.php';
             $path      = $this->getPath();
 
             if ($path !== null) {
@@ -796,7 +796,6 @@ class Doozr_Loader_Autoloader_Spl_Config
             }
         }
 
-        // Nothing done
         return false;
     }
 }

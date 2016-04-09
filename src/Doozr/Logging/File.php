@@ -5,7 +5,7 @@
 /**
  * Doozr - Logging - File.
  *
- * File.php - This logger logs all passed content to a logfile.
+ * File.php - This logging logs all passed content to a logfile.
  *
  * PHP versions 5.5
  *
@@ -62,7 +62,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Doozr - Logging - File.
  *
- * File.php - This logger logs all passed content to a logfile.
+ * File.php - This logging logs all passed content to a logfile.
  *
  * @category   Doozr
  *
@@ -82,14 +82,14 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     SplObserver
 {
     /**
-     * Name of this logger.
+     * Name of this logging.
      *
      * @var string
      */
     protected $name = 'File';
 
     /**
-     * Version of this logger.
+     * Version of this logging.
      *
      * @var string
      */
@@ -108,8 +108,8 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
 
     /**
      * use persistence filehandle for log-operation(s)?
-     * true to keep the handle opened for the length of each request
-     * false to reopen the file (retrieving a handle) for each log entry.
+     * true to keep the getMetaComponents opened for the length of each request
+     * false to reopen the file (retrieving a getMetaComponents) for each log entry.
      *
      * @var bool
      */
@@ -141,7 +141,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      * Constructor.
      *
      * @param Doozr_Datetime_Service $datetime    Datetime Service of Doozr
-     * @param int                    $level       Loglevel of the logger extending this class
+     * @param int                    $level       Loglevel of the logging extending this class
      * @param string                 $fingerprint Fingerprint of the client
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -169,7 +169,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     }
 
     /*-----------------------------------------------------------------------------------------------------------------+
-    | Setter & Getter
+    | SETTER & GETTER
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -297,7 +297,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Dispatches a new route to this logger (e.g. for use as new filename).
+     * Dispatches a new route to this logging (e.g. for use as new filename).
      *
      * @param string $name The name of the route to dispatch
      *
@@ -379,7 +379,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
     }
 
     /**
-     * Returns the separator for this very specific logger.
+     * Returns the separator for this very specific logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -399,7 +399,7 @@ class Doozr_Logging_File extends Doozr_Logging_Abstract
      */
     protected function separate()
     {
-        // do nothing to separate in system logger
+        // do nothing to separate in system logging
         return true;
     }
 }

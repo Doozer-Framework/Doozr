@@ -567,7 +567,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
                     ++$elementsCollected;
                 }
             } else {
-                // Get handle on file
+                // Get getMetaComponents on file
                 $fileHandle = @fopen($filename, 'rb');
 
                 if (!$fileHandle) {
@@ -580,7 +580,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
                 // Get expire date from within the file - first line the first 11 bytes.
                 $expire = fgets($fileHandle, 11);
 
-                // close file handle
+                // close file getMetaComponents
                 fclose($fileHandle);
 
                 // Remove if expired
@@ -846,7 +846,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
         // Assume fail
         $result = false;
 
-        // Get handle on file to write binary ...
+        // Get getMetaComponents on file to write binary ...
         $fileHandle = @fopen($filename, 'wb');
 
         if (!$fileHandle) {
@@ -867,7 +867,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
             flock($fileHandle, LOCK_UN);
         }
 
-        // close handle
+        // close getMetaComponents
         fclose($fileHandle);
 
         return $result;
@@ -984,7 +984,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
         // according to php-manual the following is needed for windows installations.
         closedir($directoryHandle);
 
-        // unset the handle
+        // unset the getMetaComponents
         unset($directoryHandle);
 
         // if directory given isn't the cache-directory -> remove it to

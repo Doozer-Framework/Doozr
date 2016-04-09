@@ -128,7 +128,6 @@ class Doozr_Base_Service_Singleton extends Doozr_Base_Class_Singleton
      * Constructor.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Base_Service_Singleton Instance of this class
      * @access protected
      */
     protected function __construct()

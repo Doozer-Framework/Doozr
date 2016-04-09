@@ -283,7 +283,23 @@ if (false === composer_running()) {
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
-| EXTEND PHP's FUNCTIONALITY + LOAD PHP 5.3 EMULATOR-FUNCTIONS FOR PHP < 5.3
+| DOOZR RUNTIME GLOBAL CONSTANTS
++---------------------------------------------------------------------------------------------------------------------*/
+
+define('DOOZR_PHP_VERSION',    floatval(PHP_VERSION));
+define('DOOZR_PHP_ERROR_MAX',  PHP_INT_MAX);
+define('DOOZR_OS',             strtoupper(PHP_OS));
+define('DOOZR_WINDOWS',        (substr(DOOZR_OS, 0, 3) === 'WIN') && DIRECTORY_SEPARATOR !== '/');
+define('DOOZR_UNIX',           (DIRECTORY_SEPARATOR === '/' && DOOZR_WINDOWS === false));
+define('DOOZR_SECURE_HASH',    (DOOZR_PHP_VERSION > 5.11));
+define('DOOZR_SAPI',           php_sapi_name());
+define('DOOZR_VERSION',        '$Id$');
+define('DOOZR_NAME',           'Doozr');
+define('DOOZR_NAMESPACE',      'Doozr');
+define('DOOZR_NAMESPACE_FLAT', 'doozr');
+
+/*----------------------------------------------------------------------------------------------------------------------
+| EXTEND PHP's FUNCTIONALITY
 +---------------------------------------------------------------------------------------------------------------------*/
 
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Extend.php';
@@ -292,11 +308,11 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Extend.php';
 | AUTOLOADING (SPL)
 +---------------------------------------------------------------------------------------------------------------------*/
 
-// SPL facade files config + facade itself
+// SPL facade files configuration + facade itself
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Autoloader/Spl/Configuration.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Autoloader/Spl/Facade.php';
 
-// now configure a new autoloader spl config
+// now configure a new autoloader spl configuration
 $autoloaderDoozr = new Doozr_Loader_Autoloader_Spl_Config();
 $autoloaderDoozr
     ->_namespace('Doozr')
@@ -321,7 +337,7 @@ $autoloaderService
 /*
  * The facade itself is auto instanciating singleton within the
  * register method if not already instantiated! So don't worry
- * just call the register() method pass a config and everything
+ * just call the register() method pass a configuration and everything
  * is handled magically (:
  */
 Doozr_Loader_Autoloader_Spl_Facade::attach(

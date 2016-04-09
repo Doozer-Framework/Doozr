@@ -73,10 +73,10 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Configuration/Reader/Interface.php';
 interface Doozr_Configuration_Interface extends Doozr_Configuration_Reader_Interface
 {
     /**
-     * Setter for key => value pairs of config.
+     * Setter for key => value pairs of configuration.
      *
      * @param string $node  The key used for entry
-     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen config type
+     * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen configuration type
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */

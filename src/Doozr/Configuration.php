@@ -247,7 +247,7 @@ class Doozr_Configuration extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * Setter for key => value pairs of config.
+     * Setter for key => value pairs of configuration.
      * This method does not persist!
      *
      * @param string $node  The key used for entry

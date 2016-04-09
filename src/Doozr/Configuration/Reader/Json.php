@@ -123,7 +123,7 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
             $configuration = parent::read($filename);
         }
 
-        // but we need to validate here cause our domain
+        // but we need to validation here cause our domain
         $configuration = $this->validate($configuration);
 
         // Error handling
@@ -193,9 +193,9 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
     }
 
     /**
-     * Returns the decoded JSON config content as whole or for a passed node.
+     * Returns the decoded JSON configuration content as whole or for a passed node.
      *
-     * @return \stdClass The config as stdClass
+     * @return \stdClass The configuration as stdClass
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -227,9 +227,9 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
 
     /**
      * Magic method for provide access to content of this class via a
-     * fluent API. Like $config->foo->bar ...
+     * fluent API. Like $configuration->foo->bar ...
      *
-     * @param string $property The property to read from config
+     * @param string $property The property to read from configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -243,7 +243,7 @@ class Doozr_Configuration_Reader_Json extends Doozr_Configuration_Reader_Abstrac
     /**
      * Validates that a passed string is valid json.
      *
-     * @param string $input The input to validate
+     * @param string $input The input to validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

@@ -120,8 +120,8 @@ class Doozr_I18n_Service_Localize_Measure extends Doozr_I18n_Service_Localize_Ab
      * @param Doozr_Registry_Interface $registry   The Doozr_Registry instance
      * @param string                   $locale     The locale this instance is working with
      * @param string                   $namespace  The active namespace of this format-class
-     * @param \stdClass                $configI18n An instance of Doozr_Config_Ini holding the I18n-config
-     * @param \stdClass                $configL10n An instance of Doozr_Config_Ini holding the I10n-config (for locale)
+     * @param \stdClass                $configI18n An instance of Doozr_Config_Ini holding the I18n-configuration
+     * @param \stdClass                $configL10n An instance of Doozr_Config_Ini holding the I10n-configuration (for locale)
      * @param object                   $translator An instance of a translator (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

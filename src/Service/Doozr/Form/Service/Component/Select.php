@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Select.php - Extends Html Base component to build a valid select
  * component.
@@ -44,63 +45,60 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Formcomponent.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Interface/Option.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Formcomponent.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Interface/Option.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Extends Html Base component to build a valid select component.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_Formcomponent
 {
     /**
      * This is the tag-name for HTML output.
-     * e.g. "input" or "form" => in this case = SELECT
+     * e.g. "input" or "form" => in this case = SELECT.
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_SELECT;
 
     /**
-     * Mark this component as parent
+     * Mark this component as parent.
      *
      * @var string
-     * @access protected
      */
     protected $type = Doozr_Form_Service_Constant::COMPONENT_CONTAINER;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for Autofocus
+     * Setter for autofocus.
      *
      * @param string $autofocus The autofocus value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setAutofocus($autofocus = null)
     {
@@ -108,11 +106,9 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for Autofocus
+     * Getter for autofocus.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function getAutofocus()
     {
@@ -120,13 +116,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for Disabled
+     * Setter for Disabled.
      *
      * @param string $disabled The disabled value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDisabled($disabled = 'disabled')
     {
@@ -134,11 +128,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for Disabled
+     * Getter for Disabled.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The value if set, otherwise NULL
-     * @access public
      */
     public function getDisabled()
     {
@@ -146,13 +140,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for Form
+     * Setter for Form.
      *
      * @param string $form The form value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setForm($form)
     {
@@ -160,11 +152,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for Form
+     * Getter for Form.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The value if set, otherwise NULL
-     * @access public
      */
     public function getForm()
     {
@@ -172,13 +164,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for multiple
+     * Setter for multiple.
      *
      * @param string $multiple The multiple value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setMultiple($multiple = 'multiple')
     {
@@ -186,11 +176,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for multiple
+     * Getter for multiple.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The value if set, otherwise NULL
-     * @access public
      */
     public function getMultiple()
     {
@@ -198,13 +188,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for required
+     * Setter for required.
      *
      * @param string $required The required value
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setRequired($required)
     {
@@ -212,11 +200,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for required
+     * Getter for required.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The value if set, otherwise NULL
-     * @access public
      */
     public function getRequired()
     {
@@ -224,13 +212,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Setter for size
+     * Setter for size.
      *
      * @param string $size The size to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setSize($size)
     {
@@ -238,11 +224,11 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Getter for size
+     * Getter for size.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The value if set, otherwise NULL
-     * @access public
      */
     public function getSize()
     {
@@ -250,13 +236,13 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Proxy to addChild() to filter input components
+     * Proxy to addChild() to filter input components.
      *
      * @param Doozr_Form_Service_Component_Interface_Option $option The component to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     *
+     * @return int Id of added child (reference)
      */
     public function addOption(Doozr_Form_Service_Component_Interface_Option $option)
     {
@@ -264,13 +250,15 @@ class Doozr_Form_Service_Component_Select extends Doozr_Form_Service_Component_F
     }
 
     /**
-     * Proxy to removeChild() to filter input components
+     * Proxy to removeChild() to filter input components.
      *
      * @param int $index The index of the component to remove
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
+     *
+     * @return bool|null TRUE  if child was removed successfully,
+     *                   FALSE if child could not be removed,
+     *                   NULL  if child was not found
      */
     public function removeOption($index)
     {

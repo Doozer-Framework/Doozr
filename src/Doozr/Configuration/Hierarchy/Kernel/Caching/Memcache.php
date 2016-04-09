@@ -5,7 +5,7 @@
  * Doozr - Configuration - Hierarchy - Kernel - Caching - Memcache
  *
  * Memcache.php - The "memcache" node representation for providing autocompletion
- *                for config values.
+ *                for configuration values.
  *
  * PHP versions 5.5
  *
@@ -56,7 +56,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Caching - Memcache
  *
- * The "memcache" node representation for providing autocompletion for config values.
+ * The "memcache" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  * @package    Doozr_Kernel

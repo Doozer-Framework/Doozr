@@ -4,7 +4,7 @@
 /**
  * Doozr - Configuration - Reader - Interface
  *
- * Interface.php - Base contract for Doozr's config reader.
+ * Interface.php - Base contract for Doozr's configuration reader.
  *
  * PHP versions 5.5
  *
@@ -55,7 +55,7 @@
 /**
  * Doozr - Configuration - Reader - Interface
  *
- * Base contract for Doozr's config reader.
+ * Base contract for Doozr's configuration reader.
  *
  * @category   Doozr
  * @package    Doozr_Configuration

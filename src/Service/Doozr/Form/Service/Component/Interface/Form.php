@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Html.php - Contract for all form components including <form> itself.
  *
@@ -43,27 +44,29 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Contract for all form components including <form> itself.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 interface Doozr_Form_Service_Component_Interface_Form
@@ -72,8 +75,8 @@ interface Doozr_Form_Service_Component_Interface_Form
      * Returns the valid state of the component.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if component state is valid, otherwise FALSE
-     * @access public
      */
     public function isValid();
 
@@ -84,8 +87,8 @@ interface Doozr_Form_Service_Component_Interface_Form
      * @param null|string $value      The value for validation or NULL
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Form_Service_Component_Input
-     * @access public
      */
     public function addValidation($validation, $value = null);
 
@@ -93,28 +96,28 @@ interface Doozr_Form_Service_Component_Interface_Form
      * Getter for validation.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array Validations as array
-     * @access public
      */
     public function getValidation();
 
     /**
-     * Setter for validator.
+     * Setter for validationHandler.
      *
-     * @param Doozr_Form_Service_Validator_Interface $validator The validator instance
+     * @param Doozr_Form_Service_Validator_Interface $validator The validationHandler instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Form_Service_Validator_Interface The validator instance
-     * @access public
+     *
+     * @return Doozr_Form_Service_Validator_Interface The validationHandler instance
      */
     public function setValidator(Doozr_Form_Service_Validator_Interface $validator);
 
     /**
-     * Getter for validator.
+     * Getter for validationHandler.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Form_Service_Validator_Interface The validator instance
-     * @access public
+     *
+     * @return Doozr_Form_Service_Validator_Interface The validationHandler instance
      */
     public function getValidator();
 
@@ -124,8 +127,6 @@ interface Doozr_Form_Service_Component_Interface_Form
      * @param mixed $value The value to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setValue($value);
 
@@ -133,8 +134,8 @@ interface Doozr_Form_Service_Component_Interface_Form
      * Getter for value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Value of this component
-     * @access public
      */
     public function getValue();
 
@@ -144,8 +145,6 @@ interface Doozr_Form_Service_Component_Interface_Form
      * @param mixed $value The submitted value of this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setSubmittedValue($value);
 
@@ -153,8 +152,8 @@ interface Doozr_Form_Service_Component_Interface_Form
      * Getter for submitted value.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Submitted value of the component
-     * @access public
      */
     public function getSubmittedValue();
 
@@ -164,8 +163,6 @@ interface Doozr_Form_Service_Component_Interface_Form
      * @param string $name The name to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setName($name);
 
@@ -173,8 +170,21 @@ interface Doozr_Form_Service_Component_Interface_Form
      * Getter for name.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Name of this component
-     * @access public
      */
     public function getName();
+
+    /**
+     *
+     * @return mixed
+     */
+    public function hasChildren();
+
+    /**
+     * Getter for type.
+     *
+     * @return string Type of the component.
+     */
+    public function getType();
 }

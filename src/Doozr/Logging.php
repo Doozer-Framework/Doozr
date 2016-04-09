@@ -5,8 +5,8 @@
 /**
  * Doozr - Logging.
  *
- * Logging.php - This logger is the composite for accessing the logging-subsystem of Doozr.
- * This logger is the main entry point for all log-content. This logger takes any log and
+ * Logging.php - This logging is the composite for accessing the logging-subsystem of Doozr.
+ * This logging is the main entry point for all log-content. This logging takes any log and
  * dispatch this to the attached loggers.
  *
  * PHP versions 5.5
@@ -65,8 +65,8 @@ use Psr\Log\LoggerInterface;
 /**
  * Doozr - Logging.
  *
- * This logger is the composite for accessing the logging-subsystem of Doozr.
- * This logger is the main entry point for all log-content. This logger takes any log and
+ * This logging is the composite for accessing the logging-subsystem of Doozr.
+ * This logging is the main entry point for all log-content. This logging takes any log and
  * dispatch this to the attached loggers.
  *
  * @category   Doozr
@@ -86,8 +86,8 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     SplSubject,
     ArrayAccess,
     Iterator,
-    Countable/*,
-    LoggerAwareInterface*/
+    Countable,
+    LoggerAwareInterface
 {
     /**
      * The observer storage.
@@ -97,21 +97,21 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     protected $observer;
 
     /**
-     * The default log level from config (once set).
+     * The default log level from configuration (once set).
      *
      * @var int
      */
     protected $defaultLoglevel;
 
     /**
-     * Name of this logger.
+     * Name of this logging.
      *
      * @var string
      */
     protected $name = 'Composite';
 
     /**
-     * Version of this logger.
+     * Version of this logging.
      *
      * @var string
      */
@@ -133,7 +133,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * Constructor.
      *
      * @param Doozr_Datetime_Service $datetime    Instance of Datetime-Service for date-operations
-     * @param int|null               $level       The logger level | if not passed the max is set
+     * @param int|null               $level       The logging level | if not passed the max is set
      * @param string|null            $fingerprint The fingerprint of the current client|will be
      *                                            generated if not passed
      *
@@ -151,7 +151,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -187,14 +187,14 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
         // Store message in archive for e.g. debug bar and similar outputs
         $this->archive(
             sha1($message.$type.$fingerprint),
-            array(
-                'type' => $type,
-                'message' => $message,
-                'context' => $context,
-                'time' => $time,
+            [
+                'type'        => $type,
+                'message'     => $message,
+                'context'     => $context,
+                'time'        => $time,
                 'fingerprint' => $fingerprint,
-                'separator' => $separator,
-            )
+                'separator'   => $separator,
+            ]
         );
 
         // and now the tricky hook -> notify all observers about the log-event
@@ -208,7 +208,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      * Removes all attached loggers. Optionally it removes
      * all contents as well.
      *
-     * @param bool $clearContents TRUE to remove all content from logger,
+     * @param bool $clearContents TRUE to remove all content from logging,
      *                            FALSE to keep it
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -227,13 +227,13 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns a logger by its name.
+     * Returns a logging by its name.
      *
-     * @param string $name The name of the logger
+     * @param string $name The name of the logging
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Logging_Interface|null The logger if exist, otherwise NULL
+     * @return Doozr_Logging_Interface|null The logging if exist, otherwise NULL
      */
     public function getLogger($name)
     {
@@ -275,24 +275,27 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for logger.
-     * Attaches a passed logger to queue of loggers.
+     * Setter for logging.
      *
-     * @param LoggerInterface $logger The logger to attach
+     * @param LoggerInterface $logger The logging to attach
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @throws Doozr_Logging_Exception
+     *
+     * @return null
      */
     public function setLogger(LoggerInterface $logger)
     {
         if (!$logger instanceof SplObserver) {
             throw new Doozr_Logging_Exception(
-                sprintf('Please implement SplObserver before trying to attach this logger.')
+                sprintf('Please implement SplObserver before trying to attach your logging.')
             );
         }
 
         $this->attach($logger);
+
+        return null;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -346,7 +349,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
 
     /**
      * Suppress the output.
-     * This logger implementation is Composite and does not echo any
+     * This logging implementation is Composite and does not echo any
      * log-content it just dispatch the stuff to its attached observers.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -355,7 +358,7 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
      */
     protected function output()
     {
-        // return true -> cause not needed for collecting logger
+        // return true -> cause not needed for collecting logging
         return true;
     }
 
@@ -534,16 +537,19 @@ final class Doozr_Logging extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Dispatches a new route to this logger (e.g. for use as new filename).
+     * Dispatches a new route to this logging (e.g. for use as new filename).
      *
      * @param string $name The name of the route to dispatch
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return bool TRUE on success, otherwise FALSE
      */
     public function route($name)
     {
         /*
-         * This logger does not need to be re-routed
+         * This logging does not need to be re-routed
          */
+        return true;
     }
 }

@@ -72,5 +72,5 @@ interface Doozr_Factory_Interface
      * @param string $constructor
      * @param string $reflection
      */
-    public static function create($classname, $arguments = null, $constructor = null, $reflection = null);
+    public static function create($className, $arguments = null, $constructor = null, $reflection = null);
 }

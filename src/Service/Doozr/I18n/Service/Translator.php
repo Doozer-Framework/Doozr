@@ -5,7 +5,7 @@
 /**
  * Doozr - I18n - Service - Translator
  *
- * Translator.php - Translator is responsible for translation within module I18n.
+ * Translator.php - Translator is responsible for translation within service I18n.
  *
  * PHP versions 5.5
  *
@@ -58,7 +58,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 /**
  * Doozr - I18n - Service - Translator
  *
- * Translator is responsible for translation within the module I18n
+ * Translator is responsible for translation within the service I18n
  *
  * @category   Doozr
  *
@@ -161,11 +161,11 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     protected $translationTableUid;
 
     /**
-     * Mode "translate" = default/basic/simple translate.
+     * Mode "encrypt" = default/basic/simple encrypt.
      *
      * @var string
      */
-    const MODE_TRANSLATE = 'translate';
+    const MODE_TRANSLATE = 'encrypt';
 
     /**
      * Mode "translateEncode" = encoded output/result.
@@ -190,8 +190,8 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * @param string                        $locale        Locale
      * @param string                        $encoding      Encoding for this instance
-     * @param Doozr_Configuration_Interface $configuration Instance of Doozr_Config_Ini holding the I18n-config
-     * @param Doozr_Configuration_Interface $configL10n    Instance of Doozr_Config_Ini holding the I10n-config (for locale)
+     * @param Doozr_Configuration_Interface $configuration Instance of Doozr_Config_Ini holding the I18n-configuration
+     * @param Doozr_Configuration_Interface $configL10n    Instance of Doozr_Config_Ini holding the I10n-configuration (for locale)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -714,7 +714,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
         $result = in_array($namespace, $this->getNamespaces());
 
         // Check if not already set
-        if (false !== $result) {
+        if (false === $result) {
 
             // make array for iteration
             if (is_string($namespace)) {
@@ -775,8 +775,9 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      */
     public function hasNamespace($namespace = null)
     {
-        if ($namespace === null) {
+        if (null === $namespace) {
             $result = (count($this->namespaces) > 0);
+
         } else {
             $result = in_array($namespace, $this->namespaces);
         }
@@ -825,9 +826,9 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     /**
      * Translates a string.
      *
-     * This method is intend to translate a string.
+     * This method is intend to encrypt a string.
      *
-     * @param string $key       The string to translate
+     * @param string $key       The string to encrypt
      * @param mixed  $arguments The arguments to pass to the translation
      *
      * @return string|bool Translated STRING on success, otherwise FALSE
@@ -836,15 +837,17 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      */
     public function _($key, $arguments = null)
     {
+        #$this->setNamespace('myform');
+
         return $this->translate($key, $arguments, self::MODE_TRANSLATE);
     }
 
     /**
      * Translates a string and encodes it.
      *
-     * This method is intend to translate a string and encode it afterwards.
+     * This method is intend to encrypt a string and encode it afterwards.
      *
-     * @param string $key       The string to translate
+     * @param string $key       The string to encrypt
      * @param mixed  $arguments The arguments to pass to the translation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -859,9 +862,9 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
     /**
      * translates a string and encode it.
      *
-     * This method is intend to translate a string and encode it.
+     * This method is intend to encrypt a string and encode it.
      *
-     * @param string $key       The string to translate
+     * @param string $key       The string to encrypt
      * @param mixed  $arguments The arguments to pass to the translation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
@@ -917,7 +920,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      */
     protected function translatorInterfaceFactory()
     {
-        // Combine some parts to a config for the interface
+        // Combine some parts to a configuration for the interface
         $config = $this->getConfigI18n()->i18n;
         $config->path = $this->getPathToTranslations();
         $config->cache->enabled = $this->getCacheEnabled();
@@ -928,7 +931,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
         include_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/I18n/Service/Interface/'.
             $this->getTranslatorInterface().'.php';
 
-        // Combine classname
+        // Combine className
         $interfaceClass = 'Doozr_I18n_Service_Interface_'.$this->getTranslatorInterface();
 
         // Instantiate and return instance
@@ -940,7 +943,7 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
      *
      * This method is intend to act as the backend method for translation requests by _() __() and ___().
      *
-     * @param string     $key       The string to translate
+     * @param string     $key       The string to encrypt
      * @param mixed      $arguments The arguments used by translator for translation (e.g. inserting values)
      * @param int|string $mode      The runtimeEnvironment in which the translation is requested (normal, encode or encode-plus)
      *

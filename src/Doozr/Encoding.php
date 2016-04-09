@@ -74,7 +74,7 @@ use Psr\Log\LoggerInterface;
 class Doozr_Encoding extends Doozr_Base_Class_Singleton
 {
     /**
-     * Instance of config
+     * Instance of configuration
      *
      * @var Doozr_Configuration_Interface
      * @access protected
@@ -92,8 +92,8 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
     /**
      * Constructor.
      *
-     * @param Doozr_Configuration_Interface $config The config instance
-     * @param LoggerInterface               $logger The logger instance
+     * @param Doozr_Configuration_Interface $config The configuration instance
+     * @param LoggerInterface               $logger The logging instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @access protected

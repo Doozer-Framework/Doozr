@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Response - Gzip.
  *
- * Gzip.php - The "gzip" node representation for providing autocompletion for config values.
+ * Gzip.php - The "gzip" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Transmission - Response - Gzip.
  *
- * The "gzip" node representation for providing autocompletion for config values.
+ * The "gzip" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *

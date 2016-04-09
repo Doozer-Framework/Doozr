@@ -323,15 +323,15 @@ interface Doozr_Autoload_Spl_Config_Interface
     public function getPath();
 
     /**
-     * This method is the loader mechanism for this loader config
+     * This method is the loader mechanism for this loader configuration
      *
-     * @param string $classname The name of the class to load
+     * @param string $className The name of the class to load
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
      * @access public
      */
-    public function load($classname);
+    public function load($className);
 
     /**
      * This method returns TRUE if the current instance is a loader,

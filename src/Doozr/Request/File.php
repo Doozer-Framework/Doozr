@@ -266,7 +266,7 @@ final class Doozr_Request_File extends Doozr_Base_Class implements UploadedFileI
     }
 
     /*------------------------------------------------------------------------------------------------------------------
-    | INTERNAL API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -276,7 +276,7 @@ final class Doozr_Request_File extends Doozr_Base_Class implements UploadedFileI
      * @return string The temporary location
      * @access private
      */
-    private function getTemporaryName()
+    public function getTemporaryName()
     {
         return $this->getFile()['tmp_name'];
     }

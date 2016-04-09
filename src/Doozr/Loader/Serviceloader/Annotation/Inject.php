@@ -59,7 +59,7 @@ namespace Doozr\Loader\Serviceloader\Annotation;
  *
  * Inject Annotation for DI of Doozr.
  *
- * classname       string      "Doozr_Registry" ASCII
+ * className       string      "Doozr_Registry" ASCII
  * target          string      "__construct" ASCII
  * instance        null
  * type            string      "constructor" ASCII
@@ -80,7 +80,7 @@ class Inject
 {
     /**
      * The service Id.
-     * @example doozr.cache.service OR doozr.config OR doozr.registry
+     * @example doozr.cache.service OR doozr.configuration OR doozr.registry
      *
      * @var string
      * @access public
@@ -93,7 +93,7 @@ class Inject
      * @var string
      * @access public
      */
-    public $classname;
+    public $className;
 
     /**
      * The instance for an injection.
@@ -204,11 +204,11 @@ class Inject
             $id = $uuid1->toString();
 
         } catch (UnsatisfiedDependencyException $exception) {
-            $id = md5(microtime() . $this->getClassname());
+            $id = md5(microtime() . $this->getClassName());
         }
         */
 
-        $id = md5(microtime() . $this->classname);
+        $id = md5(microtime() . $this->className);
         return $id;
     }
 }

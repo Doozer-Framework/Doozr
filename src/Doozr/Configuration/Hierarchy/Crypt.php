@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Crypt.
  *
- * Crypt.php - The "crypt" node representation for providing auto-completion of config values.
+ * Crypt.php - The "crypt" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Crypt.
  *
- * The "crypt" node representation for providing autocompletion for config values.
+ * The "crypt" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *
@@ -72,9 +72,16 @@
 class Doozr_Configuration_Hierarchy_Crypt
 {
     /**
-     * The crypt node of the configuration.
+     * The cipher node of the configuration.
      *
      * @var Doozr_Configuration_Hierarchy_Crypt_Cipher
      */
     public $cipher;
+
+    /**
+     * The encoding node of the configuration.
+     *
+     * @var Doozr_Configuration_Hierarchy_Crypt_Encoding
+     */
+    public $encoding;
 }

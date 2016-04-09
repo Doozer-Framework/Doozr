@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Security
+ * Doozr - Security.
  *
  * Security.php - Access to private/public keys for security operations of
  * the Doozr Framework.
@@ -44,118 +45,263 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Security
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton.php';
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton.php';
+use Psr\Log\LoggerInterface;
 
 /**
- * Doozr Security
+ * Doozr Security.
  *
  * Access to private/public keys for security operations of the Doozr Framework.
  *
  * @category   Doozr
- * @package    Doozr_Kernel
- * @subpackage Doozr_Kernel_Security
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Security extends Doozr_Base_Class_Singleton
 {
     /**
-     * Instance of Doozr_Configuration
+     * Global Doozr Doozr_Configuration.
      *
-     * @var Doozr_Configuration
-     * @access protected
+     * @var Doozr_Configuration_Interface
      */
-    protected static $config;
+    protected $configuration;
 
     /**
-     * Contains an instance of Doozr_Logging
+     * Logging subsystem.
      *
-     * @var object
-     * @access protected
+     * @var LoggerInterface
      */
-    protected static $logger;
+    protected $logging;
 
+    /**
+     * Private key used for non critical de-/encryption.
+     *
+     * @var string
+     */
+    private $privateKey;
+
+    /**
+     * Public key used for non critical de-/encryption.
+     *
+     * @var string
+     */
+    private $publicKey;
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INIT
+    +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
-     * @param Doozr_Configuration $config Instance of Doozr_Configuration
-     * @param Doozr_Logging $logger Instance of Doozr_Logging
+     * @param Doozr_Configuration_Interface $configuration Global configuration of Doozr
+     * @param LoggerInterface               $logging       Logging subsystem
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Security
-     * @access protected
      */
-    protected function __construct(Doozr_Configuration $config, Doozr_Logging $logger)
+    protected function __construct(Doozr_Configuration_Interface $configuration, LoggerInterface $logging)
     {
-        self::$config = $config;
-        self::$logger = $logger;
+        $this
+            ->configuration($configuration)
+            ->logging($logging)
+            ->privateKey(
+                substr($this->getSystemFingerprint(), -16, 32) // 256 Bit cut down for Doozr_Crypt_Service_Container_Interface compatibility
+            );
+    }
 
-        /*
-        $data = array(
-            'POST' => array(
-                'test' => 'foo',
-                'bar' => array(
-                    'baz' => 'quux',
-                    'testing' => '<script>test</script>'
-                )
-            )
-        );
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
 
-        $filters = new \Expose\FilterCollection();
-        $filters->load();
-        $manager = new \Expose\Manager($filters, $logger);
-        $manager->run($data);
-        echo 'impact: '.$manager->getImpact()."\n"; // should return 8
-        // get all matching filter reports
-        $reports = $manager->getReports();
-        print_r($reports);
-        // export out the report in the given format ("text" is default)
-        echo $manager->export();
-        echo "\n\n";
-        */
+    /**
+     * Returns a unique fingerprint for current system running Doozr Kernel.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string Unique fingerprint
+     */
+    public function getSystemFingerprint()
+    {
+        return sha1(serialize(php_uname()));
     }
 
     /**
-     * Returns private key of Doozr
+     * Setter for public key.
      *
-     * This method is intend to return the current private key.
-     *
-     * @param int $bit The Bit-Count for the private key (e.g. 256 / 512 / 1024)
+     * @param string $publicKey Public key to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The current private key
-     * @access public
-     * @throws Doozr_Exception
      */
-    public static function getPrivateKey($bit = 256)
+    public function setPublicKey($publicKey)
     {
-        // max-len in bit = 1024
-        if ($bit > 1024) {
-            throw new Doozr_Exception(
-                'The largest size of a private-key is 1024! Please choose a lower bit count.'
-            );
-        }
+        $this->publicKey = $publicKey;
+    }
 
-        // calculate bytes from bits
-        $bytes = round($bit / 8);
+    /**
+     * Fluent: Setter for public key.
+     *
+     * @param string $publicKey Public key to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function publicKey($publicKey)
+    {
+        $this->setPublicKey($publicKey);
 
-        // get whole key
-        $key = self::$config->kernel->security->cryptography->keys->private;
+        return $this;
+    }
 
-        // return extracted key
-        return substr($key, (strlen($key) - $bytes), $bytes);
+    /**
+     * Getter for public key.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string|null Public key if set, otherwise NULL
+     */
+    public function getPublicKey()
+    {
+        return $this->publicKey;
+    }
+
+    /**
+     * Setter for private key.
+     *
+     * @param string $privateKey Public key to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    public function setPrivateKey($privateKey)
+    {
+        $this->privateKey = $privateKey;
+    }
+
+    /**
+     * Fluent: Setter for private key.
+     *
+     * @param string $privateKey Public key to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    public function privateKey($privateKey)
+    {
+        $this->setPrivateKey($privateKey);
+
+        return $this;
+    }
+
+    /**
+     * Getter for private key.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string|null Public key if set, otherwise NULL
+     */
+    public function getPrivateKey()
+    {
+        return $this->privateKey;
+    }
+
+    /*------------------------------------------------------------------------------------------------------------------
+    | INTERNAL API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Setter for configuration.
+     *
+     * @param Doozr_Configuration_Interface $configuration Configuration to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setConfiguration(Doozr_Configuration_Interface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * Fluent: Setter for configuration.
+     *
+     * @param Doozr_Configuration_Interface $configuration Configuration to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function configuration(Doozr_Configuration_Interface $configuration)
+    {
+        $this->setConfiguration($configuration);
+
+        return $this;
+    }
+
+    /**
+     * Getter for configuration.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return Doozr_Configuration_Interface|null Instance if set, otherwise NULL
+     */
+    protected function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * Setter for logging.
+     *
+     * @param LoggerInterface $logging Logging to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     */
+    protected function setLogging(LoggerInterface $logging)
+    {
+        $this->logging = $logging;
+    }
+
+    /**
+     * Fluent: Setter for logging.
+     *
+     * @param LoggerInterface $logging Logging to set
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return $this Instance for chaining
+     */
+    protected function logging(LoggerInterface $logging)
+    {
+        $this->setLogging($logging);
+
+        return $this;
+    }
+
+    /**
+     * Getter for logging.
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return LoggerInterface|null Logger instance if set, otherwise NULL
+     */
+    protected function getLogging()
+    {
+        return $this->logging;
     }
 }

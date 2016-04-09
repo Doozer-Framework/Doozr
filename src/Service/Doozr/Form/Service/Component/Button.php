@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Button.php - Extension to default Input-Component <input type="..."
  *
@@ -43,38 +44,38 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Input.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Input.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Extension to default Input-Component <input type="..."
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Form_Service_Component_Button extends Doozr_Form_Service_Component_Input
 {
     /**
-     * The tag of this component
+     * The tag of this component.
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_BUTTON;
 
@@ -85,13 +86,12 @@ class Doozr_Form_Service_Component_Button extends Doozr_Form_Service_Component_I
      * which must not be valid in an other context!
      *
      * @var string
-     * @access protected
      */
-    protected $template = Doozr_Form_Service_Constant::TEMPLATE_DEFAULT_CLOSING;
+    protected $template = Doozr_Form_Service_Constant::DEFAULT_TEMPLATE_CLOSING;
 
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -100,8 +100,6 @@ class Doozr_Form_Service_Component_Button extends Doozr_Form_Service_Component_I
      * @param string $formtarget The formtarget to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFormtarget($formtarget)
     {
@@ -112,8 +110,8 @@ class Doozr_Form_Service_Component_Button extends Doozr_Form_Service_Component_I
      * Getter for formtarget.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return null|string The formtarget if set, otherwise NULL
-     * @access public
      */
     public function getFormatarget()
     {

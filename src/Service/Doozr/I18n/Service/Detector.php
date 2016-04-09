@@ -446,16 +446,16 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
      */
     protected function init($lookupAlternative)
     {
-        // 1st try to retrieve previously stored pereferences from session (fastet store) and cookie
+        // 1st try to retrieve previously stored preferences from session (fastest store) and cookie
         $userPreferences = $this->readPreferences();
 
-        // retrieving of stored preferences failed
-        if ($userPreferences === null) {
-            // now try to detect
+        // Retrieving of stored preferences failed ... 
+        if (null === $userPreferences) {
+            // ... now try to detect
             $userPreferences = $this->detectPreferences();
 
             // check if retrieved locale exists
-            if ($userPreferences === false || !in_array($userPreferences['locale'], self::$availableLocales)) {
+            if (false === $userPreferences || !in_array($userPreferences['locale'], self::$availableLocales)) {
 
                 // look in the list of retrieved locales for the next matching one (alternative = true)
                 if ($lookupAlternative) {
@@ -784,7 +784,7 @@ class Doozr_I18n_Service_Detector extends Doozr_Base_Class_Singleton
     }
 
     /**
-     * This method is intend to translate a given domain (like "de" or "com") to countrycode.
+     * This method is intend to encrypt a given domain (like "de" or "com") to countrycode.
      *
      * @param string $domain The domain to retrieve countrycode from
      *

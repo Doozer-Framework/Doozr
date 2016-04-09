@@ -4,9 +4,9 @@
 
 The **lightweight** PHP-Framework for **high-performance** websites.
 
-| [![Build Status](https://img.shields.io/travis/clickalicious/Doozr.svg)](https://travis-ci.org/clickalicious/Doozr) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Doozr.svg)](https://scrutinizer-ci.com/g/clickalicious/Doozr/) 	| [![Code Coverage](https://scrutinizer-ci.com/g/clickalicious/Doozr/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clickalicious/Doozr/?branch=master) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/Doozr.svg?style=flat)](http://opensource.org/licenses/BSD-2-Clause) 	|
+| [![Build Status](https://img.shields.io/travis/clickalicious/Doozr.svg)](https://travis-ci.org/clickalicious/Doozr) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Doozr.svg)](https://scrutinizer-ci.com/g/clickalicious/Doozr/) 	| [![Code Coverage](https://scrutinizer-ci.com/g/clickalicious/Doozr/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clickalicious/Doozr/?branch=master) 	| [![clickalicious open source](https://img.shields.io/badge/clickalicious-open--source-green.svg?style=flat)](https://www.clickalicious.de/) 	|
 |---	|---	|---	|---	|
-| [![GitHub issues](https://img.shields.io/github/issues/clickalicious/doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/issues) 	| [![Stories in Ready](https://badge.waffle.io/clickalicious/Doozr.png?label=ready&title=Ready)](https://waffle.io/clickalicious/Doozr)  	| [![GitHub release](https://img.shields.io/github/release/clickalicious/Doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/releases) 	| [![Analytics](https://ga-beacon.appspot.com/UA-905793-10/clickalicious/readme?flat)](https://doozr.readme.io/docs)  	|
+| [![GitHub release](https://img.shields.io/github/release/clickalicious/Doozr.svg?style=flat)](https://github.com/clickalicious/Doozr/releases) 	| [![Waffle.io](https://img.shields.io/waffle/label/clickalicious/Doozr/in%20progress.svg)](https://waffle.io/clickalicious/Doozr) 	| [![SensioLabsInsight](https://insight.sensiolabs.com/projects/ee43ca73-2756-4f97-8054-57cd5c98c394/mini.png)](https://insight.sensiolabs.com/projects/ee43ca73-2756-4f97-8054-57cd5c98c394) 	| [![Packagist](https://img.shields.io/packagist/l/clickalicious/Doozr.svg?style=flat)](http://opensource.org/licenses/BSD-3-Clause)  	|
 
 
 ## Table of Contents
@@ -39,7 +39,7 @@ The **lightweight** PHP-Framework for **high-performance** websites.
  - Lightweight and high quality code base (following *PSR-[1][6],[2][7],[3][8],[4][9],[7][10]*)
  - Fully [*PSR-7*][10] compatible
  - Middleware [Layer][11] support
- - Integrated [logger][8] subsystem
+ - Integrated [logging][8] subsystem
  - Clean & [well documented][12] code
  - Unit-tested
  - Shipped with implemented [profiler][5] 
@@ -65,7 +65,7 @@ The **lightweight** PHP-Framework for **high-performance** websites.
  - `Filesystem` (Filesystem wrapper with virtual filesystem support)
  - `Form` (Secure form handler (csrf/token) + validation)
  - `I18n` (Internationalization + Localization, native gettext™ support & gettext emulation)
- - `Password` (Password generator + validator, support for PHPass based hashes)
+ - `Password` (Password generator + validationHandler, support for PHPass based hashes)
  - `Session` (Secure and object oriented session subystem, En-/Decryption, Unique Identifier, Automatic Id regenerating, ...)
  - `Template` (Interface to PHPTal with full PHPTal templating support)
 
@@ -117,6 +117,13 @@ Thanks to our sponsors and supporters:
 | JetBrains | Navicat |
 |---|---|
 | <a href="https://www.jetbrains.com/phpstorm/" title="PHP IDE :: JetBrains PhpStorm" target="_blank"><img src="https://resources.jetbrains.com/assets/media/open-graph/jetbrains_250x250.png" height="55"></img></a> | <a href="http://www.navicat.com/" title="Navicat GUI - DB GUI-Admin-Tool for MySQL, MariaDB, SQL Server, SQLite, Oracle & PostgreSQL" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/en/9/90/PremiumSoft_Navicat_Premium_Logo.png" height="55" /></a>  |
+<<<<<<< HEAD
+
+
+###### Copyright
+Icons made by <a href="http://www.flaticon.com/authors/sebastian-carl" title="Sebastian Carl">Sebastian Carl</a> licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
+=======
+>>>>>>> 382f911ffbc4540b287030284e3c4873c1fd87a5
 
 
 [1]: https://packagist "packagist.org - Package registry of composer"

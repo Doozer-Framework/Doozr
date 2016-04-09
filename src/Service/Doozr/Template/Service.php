@@ -5,7 +5,7 @@
  * Doozr - Template - Service
  *
  * Service.php - Service: Gate for accessing any kind of template library.
- * This module is build upon the deep core integration of
+ * This service is build upon the deep core integration of
  * Doozr_Base_Template_Engine.
  *
  * PHP versions 5.5
@@ -64,7 +64,7 @@ use Doozr\Loader\Serviceloader\Annotation\Inject;
  * Doozr - Template - Service
  *
  * Service: Gate for accessing any kind of template library.
- * This module is build upon the deep core integration of
+ * This service is build upon the deep core integration of
  * Doozr_Base_Template_Engine.
  *
  * @category   Doozr
@@ -168,7 +168,7 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
      * @param Doozr_Registry &$registry The instance of Doozr_Registry
      * @param string          $resource The resource to load
      * @param array           $config   The resource to set as input (optional)
-     *                                  defaults come from config
+     *                                  defaults come from configuration
      *
      * @throws Doozr_Template_Service_Exception
      * @author Benjamin Carl <opensource@clickalicious.de>

@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
-* Html.php - Generic renderable HTML component like <p>...</p> or
+ * Html.php - Generic renderable HTML component like <p>...</p> or
  * <span>...</span> ...
  *
  * PHP versions 5.5
@@ -44,30 +45,31 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Form/Service/Component/Html/Html.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Form/Service/Component/Html/Html.php';
 
 /**
- * Doozr - Form - Service
+ * Doozr - Form - Service.
  *
  * Generic renderable HTML component like <p>...</p> or
  * <span>...</span> ...
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Form
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  * @abstract
  */
@@ -76,66 +78,71 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
     Iterator
 {
     /**
-     * This is the tag-name for HTML output.
-     * e.g. "input" or "form". Default empty string ""
+     * Tag-name for HTML output. e.g.
+     * "input" or "form". Default empty string "".
      *
      * @var string
-     * @access protected
      */
     protected $tag = Doozr_Form_Service_Constant::HTML_TAG_NONE;
 
     /**
-     * Child components added to this component
+     * Child components added to this component.
      *
      * @var array
-     * @access protected
      */
-    protected $childs = [];
+    protected $children = [];
 
     /**
-     * This is the pointer which points to the last
-     * component in the loop.
+     * Pointer which points to the last component in the loop.
      *
      * @var int
-     * @access protected
      */
     protected $pointer = 0;
 
     /**
-     * This is the type of the component
+     * Type of the component.
      *
      * @var string
-     * @access protected
      */
     protected $type;
 
     /**
-     * The attached renderer to render the component
+     * Attached renderer to render the component.
      *
      * @var Doozr_Form_Service_Renderer_Interface
-     * @access protected
      */
     protected $renderer;
 
+    /**
+     * Instance of Registry.
+     *
+     * @var Doozr_Registry_Interface
+     */
+    protected $registry;
+
+    /**
+     * Arguments.
+     *
+     * @var array
+     */
+    protected $arguments = [];
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | INIT
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Constructor.
      *
-     * @param string                                 $tag      The tag name of the component
-     * @param string                                 $template The template used for rendering component
-     * @param Doozr_Form_Service_Renderer_Interface  $renderer A renderer instance
+     * @param string                                $tag      Tag name of the component
+     * @param string                                $template Template used for rendering component
+     * @param Doozr_Form_Service_Renderer_Interface $renderer Renderer instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return \Doozr_Form_Service_Component_Html
-     * @access public
      */
     public function __construct(
-        $tag      = null,
-        $template = null,
+        $tag                                            = null,
+        $template                                       = null,
         Doozr_Form_Service_Renderer_Interface $renderer = null
     ) {
         if ($tag !== null) {
@@ -153,31 +160,36 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
         parent::__construct();
     }
 
+    /*------------------------------------------------------------------------------------------------------------------
+    | PUBLIC API
+    +-----------------------------------------------------------------------------------------------------------------*/
+
     /**
-     * Hook on default renderer for some slighty required modifications on input
+     * Hook on default renderer for some slighty required modifications on input.
      *
      * @param bool $force TRUE to force rerendering, otherwise FALSE to use cached result
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The rendered result
-     * @access public
+     *
+     * @return Doozr_Form_Service_Renderer_Interface Renderer
      */
     public function render($force = false)
     {
         $template   = $this->getTemplate();
         $tag        = $this->getTag();
         $variables  = [];
-        $childs     = $this->getChilds();
+        $children     = $this->getChildren();
         $attributes = $this->getAttributes();
         $innerHtml  = $this->getInnerHtml();
 
         $renderer = $this->getRenderer();
-        $result = $renderer->render(
+
+        $result   = $renderer->render(
             $force,
             $template,
             $tag,
             $variables,
-            $childs,
+            $children,
             $attributes,
             $innerHtml
         );
@@ -191,8 +203,6 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * @param Doozr_Form_Service_Renderer_Interface $renderer A renderer instance
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setRenderer(Doozr_Form_Service_Renderer_Interface $renderer)
     {
@@ -203,8 +213,8 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * Getter for renderer instance.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Form_Service_Renderer_Interface A renderer instance
-     * @access public
      */
     public function getRenderer()
     {
@@ -212,11 +222,11 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
     }
 
     /**
-     * Magic shortcut to renderer
+     * Magic shortcut to renderer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The resulting HTML code
-     * @access public
      */
     public function __toString()
     {
@@ -224,22 +234,41 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
     }
 
     /**
-     * Aplies the passed stylesheet/css string to the component
+     * Aplies the passed stylesheet/css string to the component.
      *
      * @param string $style The style to apply
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setStyle($style)
     {
         $this->setAttribute('style', $style);
     }
 
+    /**
+     * @return mixed|null
+     */
     public function getStyle()
     {
         return $this->getAttribute('style');
+    }
+
+
+    public function setCssClassname($cssClassname)
+    {
+        $this->setAttribute('class', $cssClassname);
+    }
+
+    public function cssClassname($cssClassname)
+    {
+        $this->setCssClassname($cssClassname);
+
+        return $this;
+    }
+
+    public function getCssClassname()
+    {
+        return $this->getAttribute('class');
     }
 
     /**
@@ -249,14 +278,14 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * @param string                                      $id    An id to used as index
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The index of the child component
-     * @access public
+     *
+     * @return int The index of the child component
      */
     public function addChild(Doozr_Form_Service_Component_Interface_Html $child, $id = null)
     {
-        $id = ($id === null) ? count($this->childs) : $id;
+        $id = ($id === null) ? count($this->children) : $id;
 
-        $this->childs[$id] = $child;
+        $this->children[$id] = $child;
 
         // Notify all attached components -> render again
         $this->notify();
@@ -270,18 +299,17 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * @param int $index The index of the child component to remove from component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool|null TRUE  if child was removed successfully,
-     *                      FALSE if child could not be removed,
-     *                      NULL  if child wasn't found
-     * @access public
+     *                   FALSE if child could not be removed,
+     *                   NULL  if child was not found
      */
     public function removeChild($index)
     {
-        if (!isset($this->childs[$index])) {
+        if (!isset($this->children[$index])) {
             $result = null;
-
         } else {
-            $result = (array_splice($this->childs, $index, 1) !== null);
+            $result = (array_splice($this->children, $index, 1) !== null);
         }
 
         // Notify all attached components -> render again
@@ -291,44 +319,43 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
     }
 
     /**
-     * Setter for childs.
+     * Setter for children.
      *
-     * @param array $childs The childs to set
+     * @param array $children The children to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
-    public function setChilds(array $childs)
+    public function setChildren(array $children)
     {
-        $this->childs = $childs;
+        $this->children = $children;
     }
 
     /**
-     * Setter for childs.
+     * Setter for children.
      *
-     * @param array $childs The childs to set
+     * @param array $children The children to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access public
      */
-    public function childs(array $childs)
+    public function children(array $children)
     {
-        $this->setChilds($childs);
+        $this->setChildren($children);
+
         return $this;
     }
 
     /**
-     * Returns all attached childs
+     * Returns all attached children.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array An array containing the attached childs
-     * @access public
+     *
+     * @return array An array containing the attached children
      */
-    public function getChilds()
+    public function getChildren()
     {
-        return $this->childs;
+        return $this->children;
     }
 
     /**
@@ -337,24 +364,24 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * @param string $id The id to return child for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The child
-     * @access public
      */
     public function getChild($id)
     {
-        return (isset($this->childs[$id]) ? $this->childs[$id] : null);
+        return isset($this->children[$id]) ? $this->children[$id] : null;
     }
 
     /**
      * Returns the parent status of a component.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return bool TRUE if the component has childs, otherwise FALSE
-     * @access public
+     *
+     * @return bool TRUE if the component has children, otherwise FALSE
      */
-    public function hasChilds()
+    public function hasChildren()
     {
-        return (count($this->getChilds()) > 0);
+        return count($this->getChildren()) > 0;
     }
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -362,13 +389,11 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for Id
+     * Setter for Id.
      *
      * @param string $id The id to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setId($id)
     {
@@ -376,11 +401,11 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
     }
 
     /**
-     * Getter for Id
+     * Getter for Id.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The attribute id
-     * @access public
      */
     public function getId()
     {
@@ -388,13 +413,11 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
     }
 
     /**
-     * Setter for inner-HTML of the component
+     * Setter for inner-HTML of the component.
      *
      * @param string $html The HTML to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setInnerHtml($html)
     {
@@ -405,8 +428,8 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * Getter for inner-HTML.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The inner-HTML if set, otherwise NULL
-     * @access public
      */
     public function getInnerHtml()
     {
@@ -419,8 +442,6 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * @param string $tag The tag of this component
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setTag($tag)
     {
@@ -431,8 +452,8 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * Getter for tag.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The tag if set, otherwise NULL
-     * @access public
      */
     public function getTag()
     {
@@ -442,13 +463,11 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
     /**
      * Setter for arguments.
      *
-     * @param array|Doozr_Request_Arguments $arguments The arguments
+     * @param array $arguments The arguments
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
-    public function setArguments($arguments)
+    public function setArguments(array $arguments)
     {
         $this->arguments = $arguments;
     }
@@ -457,8 +476,8 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * Getter for arguments.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return array|Doozr_Request_Arguments $arguments The arguments
-     * @access public
+     *
+     * @return array $arguments The arguments
      */
     public function getArguments()
     {
@@ -471,8 +490,6 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * @param array $registry The registry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setRegistry($registry)
     {
@@ -486,8 +503,8 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * @param mixed  $default The default value to return if key does not exist
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed The value from registry if key passed, otherwise the whole registry
-     * @access public
      */
     public function getRegistry($key = null, $default = null)
     {
@@ -509,29 +526,24 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
      * pointer points to.
      *
      * @return mixed|null
-     * @access public
      */
     public function current()
     {
-        return $this->childs[$this->pointer];
+        return $this->children[$this->pointer];
     }
 
     /**
-     * Steps to next element
-     *
-     * @return void
-     * @access public
+     * Steps to next element.
      */
     public function next()
     {
-        $this->pointer++;
+        ++$this->pointer;
     }
 
     /**
-     * Returns the current positions pointer
+     * Returns the current positions pointer.
      *
-     * @return integer The current position
-     * @access public
+     * @return int The current position
      */
     public function key()
     {
@@ -540,21 +552,17 @@ abstract class Doozr_Form_Service_Component_Html extends Doozr_Form_Service_Comp
 
     /**
      * Returns the validity of the current pointer
-     * position as boolean (TRUE|FALSE)
+     * position as boolean (TRUE|FALSE).
      *
      * @return bool TRUE of pointer is valid, otherwise FALSE
-     * @access public
      */
     public function valid()
     {
-        return $this->pointer < count($this->childs);
+        return $this->pointer < count($this->children);
     }
 
     /**
-     * Rewinds the pointer to position 0 (1st)
-     *
-     * @return void
-     * @access public
+     * Rewinds the pointer to position 0 (1st).
      */
     public function rewind()
     {

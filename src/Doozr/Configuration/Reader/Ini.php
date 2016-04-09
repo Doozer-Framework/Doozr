@@ -132,7 +132,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
             $configuration = parent::read($filename);
         }
 
-        // ... but we need to validate here cause our domain
+        // ... but we need to validation here cause our domain
         $configuration = $this->validate($configuration);
 
         // Error handling
@@ -203,11 +203,11 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
     }
 
     /**
-     * Returns the decoded JSON config content as whole or for a passed node.
+     * Returns the decoded JSON configuration content as whole or for a passed node.
      *
      * @param string|null $node The node to return
      *
-     * @return \stdClass The config as stdClass
+     * @return \stdClass The configuration as stdClass
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -239,9 +239,9 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
 
     /**
      * Magic method for provide access to content of this class via a
-     * fluent API. Like $config->foo->bar ...
+     * fluent API. Like $configuration->foo->bar ...
      *
-     * @param string $property The property to read from config
+     * @param string $property The property to read from configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -255,7 +255,7 @@ class Doozr_Configuration_Reader_Ini extends Doozr_Configuration_Reader_Abstract
     /**
      * Validates that a passed string is valid ini.
      *
-     * @param string $input           The input to validate
+     * @param string $input           The input to validation
      * @param bool   $processSections TRUE to process sections, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>

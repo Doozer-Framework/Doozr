@@ -56,7 +56,7 @@ if (
  * You can override the default environment by a defined constant:
  * define('DOOZR_APP_ENVIRONMENT', 'development|testing|staging|production');
  *
- * or by an environment variable which can be set via apache config
+ * or by an environment variable which can be set via apache configuration
  * for example on a per vhost base or like this with PHP:
  * putenv('DOOZR_APP_ENVIRONMENT', 'development|testing|staging|production');
  *
@@ -64,7 +64,7 @@ if (
  * You can override the default app path by a defined constant:
  * define('DOOZR_APP_ROOT', '/path/to/app');
  *
- * or by an environment variable which can be set via apache config
+ * or by an environment variable which can be set via apache configuration
  * for example on a per vhost base or like this with PHP:
  * putenv('DOOZR_APP_ROOT = /path/to/app');
  *

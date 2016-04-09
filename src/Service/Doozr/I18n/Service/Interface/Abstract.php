@@ -136,7 +136,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
     /**
      * Constructor.
      *
-     * @param \stdClass $config The config for this type of interface
+     * @param \stdClass $config The configuration for this type of interface
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -152,7 +152,7 @@ abstract class Doozr_I18n_Service_Interface_Abstract extends Doozr_Base_Class_Si
             ->cacheLifetime($config->cache->lifetime)
             ->encoding($config->encoding);
 
-        // If cache enabled - get module cache and setup
+        // If cache enabled - get service cache and setup
         if (!self::$cache && true === $this->getCacheEnabled()) {
             if (true === isset($config->cache->container)) {
                 $container = $config->cache->container;

@@ -5,7 +5,7 @@
  * Doozr - Configuration - Hierarchy - Kernel - Caching - Filesystem
  *
  * Filesystem.php - The "filesystem" node representation for providing autocompletion
- *                  for config values.
+ *                  for configuration values.
  *
  * PHP versions 5.5
  *
@@ -56,7 +56,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Caching - Filesystem
  *
- * The "filesystem" node representation for providing autocompletion for config values.
+ * The "filesystem" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  * @package    Doozr_Kernel

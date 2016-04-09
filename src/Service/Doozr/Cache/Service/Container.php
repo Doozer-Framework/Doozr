@@ -566,7 +566,7 @@ abstract class Doozr_Cache_Service_Container
     }
 
     /**
-     * This method is intend to translate human-readable/relative times into UNIX-time
+     * This method is intend to encrypt human-readable/relative times into UNIX-time
      *
      * @param mixed $expires This can be in the following formats:
      *                       human readable          : yyyymmddhhmm[ss]] eg: 20010308095100

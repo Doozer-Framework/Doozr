@@ -129,7 +129,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
     const STATUS_OK_DELETED = 204;
 
     /*------------------------------------------------------------------------------------------------------------------
-    | Public API
+    | PUBLIC API
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -139,7 +139,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      * @param Doozr_Base_State_Interface    $requestState  The whole request as processed by "Route"
      * @param array                         $request       The request
      * @param array                         $translation   The translation required to read the request
-     * @param Doozr_Configuration_Interface $configuration The Doozr main config instance
+     * @param Doozr_Configuration_Interface $configuration The Doozr main configuration instance
      * @param Doozr_Base_Model              $model         The model to communicate with backend (db)
      * @param Doozr_Base_View               $view          The view to display results
      *
@@ -242,7 +242,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
     /**
      * Registers a new route.
      *
-     * @param Doozr_Base_Presenter_Rest_Config $config The config
+     * @param Doozr_Base_Presenter_Rest_Config $config The configuration
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -314,7 +314,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
     }
 
     /**
-     * Returns the route matched by URL including config and extracted Ids ...
+     * Returns the route matched by URL including configuration and extracted Ids ...
      * We do only throws exceptions here instead of sending header directives like 404 405 406.
      * This is responsibility of the implementing application cause here too high level.
      *
@@ -322,7 +322,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return Doozr_Base_Presenter_Rest_Config|false The config if route could be revsolved,
+     * @return Doozr_Base_Presenter_Rest_Config|false The configuration if route could be revsolved,
      *                                                false if route could not be resolved
      *
      * @throws Doozr_Base_Presenter_Rest_Exception
@@ -373,7 +373,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
                         ->realRoute($route)
                         ->rootNode($this->rootNode);
                 } else {
-                    // In this case we ended up before we got config!
+                    // In this case we ended up before we got configuration!
                     throw new Doozr_Base_Presenter_Rest_Exception(
                         'Route for URL "'.$url.'" seems incomplete.',
                         406
@@ -434,7 +434,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
         // First convert via subrouting defined routes to a parsable array tree
         $this->setRouteTree(explodeTree($this->getRoutes(), self::ROUTE_SEPARATOR));
 
-        // Retrieve route config via match by current request URL ;)
+        // Retrieve route configuration via match by current request URL ;)
         $routeConfig = $this->getRouteByUrl($this->getStateObject()->getUrl());
 
         // Real processed request method depends on the override header if set. Otherwise normal request type is used

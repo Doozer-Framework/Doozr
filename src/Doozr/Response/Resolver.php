@@ -80,7 +80,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
      *
      * @var string
      */
-    protected $classname;
+    protected $className;
 
     /**
      * Method (Action) for active route.
@@ -173,7 +173,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         $this
             ->response($response)
             ->route($route)
-            ->classname($target)
+            ->className($target)
             ->action($route->getAction())
             ->initMvp($target, $this->getRegistry(), $request);
 
@@ -218,7 +218,6 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
 
             $response = $response->withBody($responseBody);
             $response = $response->withStatus(Doozr_Http::OK);
-
         } else {
             // So if the Status is not TRUE (successful) it contains an integer for HTTP Response :)
             switch ($httpStatus) {
@@ -234,7 +233,7 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
                     $message = sprintf(
                         'Method "%s()" of class "%s" not callable. Sure it exists and it\'s public?',
                         $method,
-                        'Presenter_'.ucfirst($this->getClassname())
+                        'Presenter_'.ucfirst($this->getClassName())
                     );
                     break;
             }
@@ -254,43 +253,43 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setter for classname.
+     * Setter for className.
      *
-     * @param string $classname The classname for presenter of current request.
+     * @param string $className The className for presenter of current request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
-    protected function setClassname($classname)
+    protected function setClassName($className)
     {
-        $this->classname = $classname;
+        $this->className = $className;
     }
 
     /**
-     * Fluent: Setter for classname.
+     * Fluent: Setter for className.
      *
-     * @param string $classname The classname for presenter of current request.
+     * @param string $className The className for presenter of current request.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
      * @return $this Instance for chaining
      */
-    protected function classname($classname)
+    protected function className($className)
     {
-        $this->setClassname($classname);
+        $this->setClassName($className);
 
         return $this;
     }
 
     /**
-     * Getter for classname.
+     * Getter for className.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
-     * @return string The classname if set, otherwise NULL
+     * @return string The className if set, otherwise NULL
      */
-    protected function getClassname()
+    protected function getClassName()
     {
-        return $this->classname;
+        return $this->className;
     }
 
     /**
@@ -669,19 +668,19 @@ class Doozr_Response_Resolver extends Doozr_Base_Class
         // Assume instance won't be created
         $instance = null;
 
-        // Build classname
-        $classname = 'App\\'.$layer.'\\'.ucfirst($request);
+        // Build className
+        $className = 'App\\'.$layer.'\\'.ucfirst($request);
 
         // Build location (path + filename)
         $classFileAndPath = $this->getRegistry()->getParameter('doozr.app.root').
-                            str_replace('_', $this->separator, $classname).'.php';
+                            str_replace('_', $this->separator, $className).'.php';
 
         // Check if requested layer file exists
         if ($this->getRegistry()->getFilesystem()->exists($classFileAndPath)) {
             include_once $classFileAndPath;
 
             /* @var Doozr_Base_Presenter|Doozr_Base_Model|Doozr_Base_View $instance */
-            $instance = self::instantiate($classname, $arguments);
+            $instance = self::instantiate($className, $arguments);
         }
 
         return $instance;

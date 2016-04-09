@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.5
   - 5.6
   - 7.0
 
@@ -35,16 +34,16 @@ script:
 
 after_script:
   # We upload only for reference platform! This is our base for further code analyses and so on.
-  - if [ $(phpenv version-name) == "5.5" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [ $(phpenv version-name) == "5.5" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover > /dev/null 2>&1; fi
+  - if [ $(phpenv version-name) == "5.6" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ $(phpenv version-name) == "5.6" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover > /dev/null 2>&1; fi
 
 after_success:
   # Push coverage to github pages branch
   - chmod +x ./update-gh-pages.sh
-  - bash ./update-gh-pages.sh
+  - if [ $(phpenv version-name) == "5.6" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then bash ./update-gh-pages.sh; fi
   # CREATE GIT TAG
-  - git config --global user.email "builds@travis-ci.org"
-  - git config --global user.name "Travis"
+  - git configuration --global user.email "builds@travis-ci.org"
+  - git configuration --global user.name "Travis"
   - export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
   - echo -n $GIT_TAG > public/version
   - git commit -m "Set build VERSION number" public/version
@@ -56,6 +55,7 @@ branches:
   except:
     - /^build-[0-9a-z\-]*/
 
+# Who to notify?
 notifications:
   email:
     recipients:

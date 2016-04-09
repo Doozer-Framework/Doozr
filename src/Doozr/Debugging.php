@@ -348,9 +348,9 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
     }
 
     /**
-     * Setter for logger.
+     * Setter for logging.
      *
-     * @param Doozr_Logging_Interface $logger The logger to set.
+     * @param Doozr_Logging_Interface $logger The logging to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return void
@@ -362,9 +362,9 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
     }
 
     /**
-     * Fluent: Setter for logger.
+     * Fluent: Setter for logging.
      *
-     * @param Doozr_Logging_Interface $logger The logger to set.
+     * @param Doozr_Logging_Interface $logger The logging to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      * @return $this Instance for chaining
@@ -378,10 +378,10 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
     }
 
     /**
-     * Getter for logger.
+     * Getter for logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return Doozr_Logging Instance of logger
+     * @return Doozr_Logging Instance of logging
      * @access protected
      */
     protected function getLogger()

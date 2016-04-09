@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View - Directories.
  *
- * Directories.php - The "directories" node representation for providing autocompletion for config values.
+ * Directories.php - The "directories" node representation for providing autocompletion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - View - Directories.
  *
- * The "directories" node representation for providing autocompletion for config values.
+ * The "directories" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *
@@ -86,7 +86,7 @@ class Doozr_Configuration_Hierarchy_Kernel_View_Directories
     public $compiled = '{{DOOZR_DIRECTORY_TEMP}}';
 
     /**
-     * The config path.
+     * The configuration path.
      *
      * @var string
      */

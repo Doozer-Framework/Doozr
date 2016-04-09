@@ -6,7 +6,7 @@
  * Doozr - Model.
  *
  * Model.php - Model of Doozr - This Model-class provides access to Database libs in Model/Lib/...
- * by acting as a configurable (.config.json) proxy.
+ * by acting as a configurable (.configuration.json) proxy.
  *
  * PHP versions 5.5
  *
@@ -60,7 +60,7 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Decorator/Singleton.php';
  * Doozr - Model.
  *
  * Model of Doozr - This Model-class provides access to Database libs in Model/Lib/...
- * by acting as a configurable (.config.json) proxy.
+ * by acting as a configurable (.configuration.json) proxy.
  *
  * @category   Doozr
  *
@@ -121,7 +121,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
 
         // Start decorating if enabled ...
         if (true === $this->isEnabled()) {
-            // ... what we get is generic and mixed in result so we store it named as "handle" MODEL->getHandle()
+            // ... what we get is generic and mixed in result so we store it named as "getMetaComponents" MODEL->getHandle()
             $this->handle(
                 $this->init($this->getDecoratorConfiguration())
             );
@@ -129,9 +129,9 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     }
 
     /**
-     * Setter for handle.
+     * Setter for getMetaComponents.
      *
-     * @param mixed $handle The handle
+     * @param mixed $handle The getMetaComponents
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
@@ -141,9 +141,9 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     }
 
     /**
-     * Setter for handle.
+     * Setter for getMetaComponents.
      *
-     * @param mixed $handle The handle
+     * @param mixed $handle The getMetaComponents
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *
@@ -157,7 +157,7 @@ class Doozr_Model extends Doozr_Base_Decorator_Singleton
     }
 
     /**
-     * Getter for handle.
+     * Getter for getMetaComponents.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
      *

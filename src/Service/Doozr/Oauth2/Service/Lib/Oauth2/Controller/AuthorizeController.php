@@ -32,14 +32,14 @@ class AuthorizeController implements AuthorizeControllerInterface
      * @param array $config
      * OPTIONAL Configuration options for the server
      * @code
-     * $config = array(
+     * $configuration = array(
      *   'allow_implicit' => false,            // if the controller should allow the "implicit" grant type
      *   'enforce_state'  => true              // if the controller should require the "state" parameter
      *   'require_exact_redirect_uri' => true, // if the controller should require an exact match on the "redirect_uri" parameter
      * );
      * @endcode
      * @param OAuth2_ScopeInterface $scopeUtil
-     * OPTIONAL Instance of OAuth2_ScopeInterface to validate the requested scope
+     * OPTIONAL Instance of OAuth2_ScopeInterface to validation the requested scope
      */
     public function __construct(ClientInterface $clientStorage, array $responseTypes = [], array $config = [], ScopeInterface $scopeUtil = null)
     {
@@ -63,7 +63,7 @@ class AuthorizeController implements AuthorizeControllerInterface
             throw new InvalidArgumentException('Argument "is_authorized" must be a boolean.  This method must know if the user has granted access to the client.');
         }
 
-        // We repeat this, because we need to re-validate. The request could be POSTed
+        // We repeat this, because we need to re-validation. The request could be POSTed
         // by a 3rd-party (because we are not internally enforcing NONCEs, etc)
         if (!$this->validateAuthorizeRequest($request, $response)) {
             return;
@@ -114,7 +114,7 @@ class AuthorizeController implements AuthorizeControllerInterface
         // @link http://tools.ietf.org/html/rfc6749#section-4.1.2.1
         // @link http://tools.ietf.org/html/rfc6749#section-4.2.2.1
         if ($supplied_redirect_uri = $request->query('redirect_uri')) {
-            // validate there is no fragment supplied
+            // validation there is no fragment supplied
             $parts = parse_url($supplied_redirect_uri);
 
             if (isset($parts['fragment']) && $parts['fragment']) {
@@ -122,7 +122,7 @@ class AuthorizeController implements AuthorizeControllerInterface
                 return false;
             }
 
-            // validate against the registered redirect uri(s) if available
+            // validation against the registered redirect uri(s) if available
             if ($registered_redirect_uri && !$this->validateRedirectUri($supplied_redirect_uri, $registered_redirect_uri)) {
                 $response->setError(400, 'redirect_uri_mismatch', 'The redirect URI provided is missing or does not match', '#section-3.1.2');
                 return false;
@@ -253,7 +253,7 @@ class AuthorizeController implements AuthorizeControllerInterface
      * @param string $inputUri
      * The submitted URI to be validated
      * @param string $registeredUriString
-     * The allowed URI(s) to validate against.  Can be a space-delimited string of URIs to
+     * The allowed URI(s) to validation against.  Can be a space-delimited string of URIs to
      * allow for multiple URIs
      *
      * @link http://tools.ietf.org/html/rfc6749#section-3.1.2

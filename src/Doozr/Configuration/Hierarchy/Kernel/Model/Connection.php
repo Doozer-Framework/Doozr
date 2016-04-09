@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Model - Connection.
  *
- * Connection.php - The "connection" node representation for providing auto-completion for config values.
+ * Connection.php - The "connection" node representation for providing auto-completion for configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Kernel - Model - Connection.
  *
- * The "connection" node representation for providing auto-completion for config values.
+ * The "connection" node representation for providing auto-completion for configuration values.
  *
  * @category   Doozr
  *

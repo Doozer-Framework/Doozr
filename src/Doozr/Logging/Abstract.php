@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Logging - Abstract
+ * Doozr - Logging - Abstract.
  *
- * Abstract.php - Abstract-Logging base for logger of the Doozr framework
+ * Abstract.php - Abstract-Logging base for logging of the Doozr framework
  *
  * PHP versions 5.5
  *
@@ -43,50 +44,56 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Logging
- * @subpackage Doozr_Logging_Abstract
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  *             http://tools.ietf.org/html/rfc5424
  */
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
- * Doozr - Logging - Abstract
+ * Doozr - Logging - Abstract.
  *
- * Abstract-Logging base for logger of the Doozr framework
+ * Abstract-Logging base for logging of the Doozr framework
  *
  * @category   Doozr
- * @package    Doozr_Logging
- * @subpackage Doozr_Logging_Abstract
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  *             http://tools.ietf.org/html/rfc5424
  */
 abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     implements
-    Countable
+    Countable,
+    LoggerInterface
 {
+    // Default capabilities from library
+    use LoggerAwareTrait;
+
     /**
-     * The name of this logger
+     * The name of this logging.
      *
      * @var string
-     * @access protected
      */
     protected $name = 'NAME_NOT_DEFINED';
 
     /**
-     * The version of this logger
+     * The version of this logging.
      *
      * @var string
-     * @access protected
      */
     protected $version = 'Git: $Id$';
 
@@ -97,118 +104,105 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Enter description here ...
      *
      * @var array
-     * @access protected
      */
     protected $content = [];
 
     /**
-     * The raw content of the current log call
+     * The raw content of the current log call.
      *
      * @var array
-     * @access protected
      */
     protected $contentRaw = [];
 
     /**
-     * The content of all logger call's (collection).
+     * The content of all logging call's (collection).
      * if you need only the last call's content have a look at
      * $content.
      *
      * @var array
-     * @access protected
      */
     protected $collection = [];
 
     /**
-     * The raw log-content collection
+     * The raw log-content collection.
      *
      * @var array
-     * @access protected
      */
     protected $collectionRaw = [];
 
     /**
-     * The instance of the datetime module required for time/date calculations
+     * The instance of the datetime module required for time/date calculations.
      *
      * @var Doozr_Datetime_Service
-     * @access protected
      */
     protected $dateTime;
 
     /**
-     * Clean log content
+     * Clean log content.
      *
-     * holds the clean content to log. without any special chars (e.g. for use in firePHP-logger)
+     * holds the clean content to log. without any special chars (e.g. for use in firePHP-logging)
      *
      * @var string
-     * @access protected
      */
     protected $logClean = '';
 
     /**
-     * The line separator
+     * The line separator.
      *
      * holds the line separator which is used to seperate single log entries (e.g. a row of - or *)
      *
      * @var string
-     * @access protected
      */
     protected $lineSeparator;
 
     /**
-     * The line break char
+     * The line break char.
      *
      * holds the line break char (e.g. default = \n possible = <br /> or anything else)
      *
      * @var string
-     * @access protected
      */
     protected $lineBreak = PHP_EOL;
 
     /**
-     * The line width
+     * The line width.
      *
      * holds the line width. following our coding standards - the line width default = 120 char
      *
      * @var int
-     * @access protected
      */
     protected $lineWidth = 120;
 
     /**
-     * The level specific for this logger
+     * The level specific for this logging.
      *
      * @var int
-     * @access private
      */
     protected $level;
 
     /**
-     * Contains the fingerprint of the client used as UId
+     * Contains the fingerprint of the client used as UId.
      *
      * @var string
-     * @access protected
      */
     protected $fingerprint;
 
     /**
-     * The current date
+     * The current date.
      *
      * @var string
-     * @access protected
      */
     protected $date;
 
     /**
-     * The translation from [type to level]
+     * The translation from [type to level].
      *
      * @example: 'emergency' => 0 means that emergency is level 0
      *           as 'debug' is level 7
      *
-     * @var int
-     * @access const
+     * @var int[]
      */
-    protected $availableLogtypes = array(
+    protected $availableLogtypes = [
         'emergency' => 7,   // 0,
         'alert'     => 6,   // 1,
         'critical'  => 5,   // 2,
@@ -217,13 +211,12 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
         'notice'    => 2,   // 5,
         'info'      => 1,   // 6,
         'debug'     => 0,   // 7,
-    );
+    ];
 
     /**
      * Archive collection for log entries.
      *
      * @var array
-     * @access protected
      */
     protected $archive = [];
 
@@ -232,7 +225,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * or manually (false).
      *
      * @var bool
-     * @access protected
      */
     protected $automaticOutput = true;
 
@@ -240,16 +232,16 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Constructor.
      *
      * @param null|Doozr_Datetime_Service $datetime    Instance of date/time service
-     * @param int                    $level       The log-level of the logger extending this class
-     * @param string                 $fingerprint The fingerprint of the client
+     * @param int                         $level       The log-level of the logging extending this class
+     * @param string                      $fingerprint The fingerprint of the client
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return \Doozr_Logging_Abstract
-     * @access public
      */
     public function __construct(Doozr_Datetime_Service $datetime, $level = null, $fingerprint = null)
     {
-        // Store config
+        // Store configuration
         $this->dateTime = $datetime;
 
         // Set date
@@ -278,7 +270,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Logs a given message/content
+     * Logs a given message/content.
      *
      * This method is intend to log a message.
      *
@@ -290,20 +282,21 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param string $separator   The separator to use/set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Logging_InvalidArgumentException
      */
     public function log(
               $type,
               $message,
-        array $context     = [],
-              $time        = null,
+        array $context = [],
+              $time = null,
               $fingerprint = null,
-              $separator   = null
+              $separator = null
     ) {
         // Prevent misuse
-        if (!array_key_exists($type, $this->availableLogtypes)) {
+        if (false === array_key_exists($type, $this->availableLogtypes)) {
             throw new Doozr_Logging_InvalidArgumentException(
                 sprintf('Invalid log type "%s" passed to "%s".',  $type, __METHOD__)
             );
@@ -313,10 +306,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
         if ($this->getLevelByType($type) >= $this->level) {
 
             // Get given log content (array / object) as string
-            $message = $this->interpolate(
-                $this->string($message),
-                $context
-            );
+            $message = $this->interpolate($this->string($message), $context);
 
             // Message
             $message = wordwrap($message, $this->lineWidth, $this->lineBreak, true);
@@ -333,14 +323,14 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
             $separator = ($separator !== null) ? $separator : $this->getLineSeparator();
 
             // this is one accumulated log-entry
-            $logEntry = array(
+            $logEntry = [
                 'type'        => $type,
                 'message'     => $message,
                 'context'     => serialize($context),
                 'time'        => $time,
                 'fingerprint' => $fingerprint,
-                'separator'   => $separator
-            );
+                'separator'   => $separator,
+            ];
 
             // Store the log-entry as whole string = one string
             $this->concat(
@@ -362,11 +352,11 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * Returns the collection of the logger
+     * Returns the collection of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The collection
-     * @access public
      */
     public function getCollection()
     {
@@ -374,11 +364,11 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * Returns the raw collection of the logger
+     * Returns the raw collection of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The raw collection
-     * @access public
      */
     public function getCollectionRaw()
     {
@@ -386,23 +376,23 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * Returns the content of the logger
+     * Returns the content of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The content
-     * @access public
      */
-    public final function getContent()
+    final public function getContent()
     {
         return $this->content;
     }
 
     /**
-     * Returns the raw content of the logger
+     * Returns the raw content of the logging.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The raw content
-     * @access public
      */
     public function getContentRaw()
     {
@@ -413,15 +403,13 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Clears the collections - Both the raw and the normal one.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
-    public final function clearCollection()
+    final public function clearCollection()
     {
-        $reset = array(
+        $reset = [
             &$this->collection,
             &$this->collectionRaw,
-        );
+        ];
 
         foreach ($reset as &$property) {
             $property = [];
@@ -432,15 +420,13 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Clears the contents - Both the raw and the normal one.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
-    public final function clearContent()
+    final public function clearContent()
     {
-        $reset = array(
+        $reset = [
             &$this->content,
             &$this->contentRaw,
-        );
+        ];
 
         foreach ($reset as &$property) {
             $property = [];
@@ -451,10 +437,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Clears the whole log contents - The collection and the content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
-    public final function clear()
+    final public function clear()
     {
         //$this->history($this->getContentRaw());
         $this->clearContent();
@@ -468,8 +452,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param mixed  $entry The entry to archive
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setArchive($hash, $entry)
     {
@@ -483,8 +465,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param mixed  $entry The entry to archive
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function archive($hash, $entry)
     {
@@ -497,8 +479,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Getter for archive.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The archive collection
-     * @access public
      */
     public function getArchive()
     {
@@ -515,8 +497,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param string $fingerprint The fingerprint to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setFingerprint($fingerprint)
     {
@@ -527,8 +507,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Getter for fingerprint.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Fingerprint
-     * @access public
      */
     public function getFingerprint()
     {
@@ -541,8 +521,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param string $lineSeparator The lineSeparator to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setLineSeparator($lineSeparator)
     {
@@ -553,8 +531,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Getter for lineSeparator.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string lineSeparator
-     * @access protected
      */
     protected function getLineSeparator()
     {
@@ -567,8 +545,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param int $level The level to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setLevel($level)
     {
@@ -579,8 +555,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Getter for level.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer level
-     * @access public
+     *
+     * @return int level
      */
     public function getLevel()
     {
@@ -593,8 +569,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param string $date The date to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setDate($date)
     {
@@ -605,8 +579,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Getter for date.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string date
-     * @access public
      */
     public function getDate()
     {
@@ -619,8 +593,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param string $name The name to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setName($name)
     {
@@ -631,8 +603,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Getter for name.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The name of logger that extends this abstract class
-     * @access public
+     *
+     * @return string The name of logging that extends this abstract class
      */
     public function getName()
     {
@@ -645,8 +617,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param string $version The version to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access public
      */
     public function setVersion($version)
     {
@@ -657,8 +627,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Getter for version.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return string The version of the logger-class that extends this abstract class
-     * @access public
+     *
+     * @return string The version of the logging-class that extends this abstract class
      */
     public function getVersion()
     {
@@ -670,11 +640,11 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Generates a fingerprint
+     * Generates a fingerprint.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string Generated fingerprint
-     * @access protected
      */
     protected function generateFingerprint()
     {
@@ -682,13 +652,11 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     }
 
     /**
-     * adds the defined line-separator to log-content
+     * adds the defined line-separator to log-content.
      *
      * This method is intend to add the defined line-separator to log-content.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function separate()
     {
@@ -698,13 +666,13 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     /**
      * Returns the level (integer) for a passed type.
      *
-     * This method is intend to translate a given log-type to its level.
+     * This method is intend to encrypt a given log-type to its level.
      *
-     * @param string $type The type to translate as string
+     * @param string $type The type to encrypt as string
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The corresponding level
-     * @access protected
+     *
+     * @return int The corresponding level
      */
     protected function getLevelByType($type)
     {
@@ -723,8 +691,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param string $type The type to return color hex-code for
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The corresponding color hex-code
-     * @access protected
      */
     protected function getColorByType($type)
     {
@@ -751,23 +719,22 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
 
     /**
      * Takes the passed content and return it as string.
-     * This method instrumentalizes the var_export PHP function.
+     * This method use var_export PHP function.
      *
      * @param string $content The content to convert
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string serialized The result as string
-     * @access protected
      */
     protected function string($content)
     {
-        // check if not is string ...
-        if (!is_string($content)) {
-            // ... make string of it
+        // Check if not is string ...
+        if (false === is_string($content)) {
+            // ... and make string of it.
             $content = var_export($content, true);
         }
 
-        // and return it
         return $content;
     }
 
@@ -777,8 +744,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param string $logEntry The content to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function concat($logEntry)
     {
@@ -795,8 +760,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array $array The array to concat
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function concatRaw(array $array)
     {
@@ -814,17 +777,17 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param bool   $lineBreak TRUE to use defined line break, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string The formatted string to log
-     * @access protected
      */
     protected function format($string = '', $type = '', $lineBreak = false)
     {
-        // holds the formatted log entry
+        // Formatted log entry
         $formatted = $string;
 
-        // format only if value is passed
+        // Format only if value is passed
         if (isset($string[1])) {
-            $formatted = ' ' . (strlen($type) ? $type . ':' : '') . ' ' . $string .
+            $formatted = ' '.(strlen($type) ? $type.':' : '').' '.$string.
                 (($lineBreak) ? $this->lineBreak : '');
         }
 
@@ -836,8 +799,6 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * Basic output method which takes the current content and displays it via pre().
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function output()
     {
@@ -872,8 +833,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string TRUE on success, otherwise FALSE
-     * @access protected
      */
     protected function interpolate($message, array $context = [])
     {
@@ -881,7 +842,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
         $replace = [];
 
         foreach ($context as $key => $val) {
-            $replace['{' . $key . '}'] = $val;
+            $replace['{'.$key.'}'] = $val;
         }
 
         // interpolate replacement values into the message and return
@@ -899,8 +860,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining
-     * @access public
      */
     public function emergency($message, array $context = [])
     {
@@ -918,8 +879,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining
-     * @access public
      */
     public function alert($message, array $context = [])
     {
@@ -936,8 +897,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining
-     * @access public
      */
     public function critical($message, array $context = [])
     {
@@ -954,8 +915,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining
-     * @access public
      */
     public function error($message, array $context = [])
     {
@@ -973,8 +934,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining
-     * @access public
      */
     public function warning($message, array $context = [])
     {
@@ -990,8 +951,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining
-     * @access public
      */
     public function notice($message, array $context = [])
     {
@@ -1008,8 +969,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining
-     * @access public
      */
     public function info($message, array $context = [])
     {
@@ -1025,8 +986,8 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
      * @param array  $context The context (e.g. template variables)
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance of this class for chaining
-     * @access public
      */
     public function debug($message, array $context = [])
     {
@@ -1040,11 +1001,11 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the count of elements in registry
+     * Returns the count of elements in registry.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return integer The result of the operation
-     * @access public
+     *
+     * @return int The result of the operation
      */
     public function count()
     {
@@ -1056,13 +1017,13 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Dispatches a new route to this logger (e.g. for use as new filename).
+     * Dispatches a new route to this logging (e.g. for use as new filename).
      *
      * @param string $name The name of the route to dispatch
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool True on success, otherwise false
-     * @access public
      */
     abstract public function route($name);
 }

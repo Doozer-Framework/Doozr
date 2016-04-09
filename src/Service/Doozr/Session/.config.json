@@ -4,6 +4,8 @@
     "identifier": "{{DOOZR_NAMESPACE_FLAT}}",
     "lifetime": 86400,
     "gcTime": 86400,
+    "useCookies": true,
+    "useOnlyCookies": true,
     "security": {
       "enabled": true,
       "regenerate": 5,
@@ -11,8 +13,8 @@
       "httponly": false,
       "ssl": true,
       "encryption": {
-        "enabled": false,
-        "cipher": "Aes",
+        "enabled": true,
+        "cipher": "aes",
         "encoding": "base64"
       },
       "bind": {

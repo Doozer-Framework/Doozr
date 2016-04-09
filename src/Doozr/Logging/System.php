@@ -4,7 +4,7 @@
 /**
  * Doozr - Logging - System
  *
- * System.php - This logger logs all passed content to systems (OS) default
+ * System.php - This logging logs all passed content to systems (OS) default
  * log system.
  *
  * PHP versions 5.5
@@ -62,7 +62,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Doozr - Logging - System
  *
- * This logger logs all passed content to systems (OS) default
+ * This logging logs all passed content to systems (OS) default
  * log system.
  *
  * @category   Doozr
@@ -82,7 +82,7 @@ class Doozr_Logging_System extends Doozr_Logging_Abstract
     SplObserver
 {
     /**
-     * Name of this logger
+     * Name of this logging
      *
      * @var string
      * @access protected
@@ -90,7 +90,7 @@ class Doozr_Logging_System extends Doozr_Logging_Abstract
     protected $name = 'System';
 
     /**
-     * Version of this logger
+     * Version of this logging
      *
      * @var string
      * @access protected
@@ -194,7 +194,7 @@ class Doozr_Logging_System extends Doozr_Logging_Abstract
      */
     protected function separate()
     {
-        // do nothing to seperate in system logger
+        // do nothing to seperate in system logging
         return true;
     }
 
@@ -256,7 +256,7 @@ class Doozr_Logging_System extends Doozr_Logging_Abstract
     +-----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Dispatches a new route to this logger (e.g. for use as new filename).
+     * Dispatches a new route to this logging (e.g. for use as new filename).
      *
      * @param string $name The name of the route to dispatch
      *
@@ -267,7 +267,7 @@ class Doozr_Logging_System extends Doozr_Logging_Abstract
     public function route($name)
     {
         /**
-         * This logger does not need to be re-routed
+         * This logging does not need to be re-routed
          */
     }
 }

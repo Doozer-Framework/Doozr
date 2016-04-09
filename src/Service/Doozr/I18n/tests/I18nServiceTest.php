@@ -95,7 +95,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testRetrievingExpectedDefaultLocale()
     {
         // Assertion(s)
-        $this->assertEquals(Resource_Fixture::LOCALE_DEFAULT, self::$service->getActiveLocale());
+        $this->assertEquals(Resource_Fixture::LOCALE_DEFAULT, self::$service->getLocale());
     }
 
     /**
@@ -107,10 +107,10 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     {
         // Prepare
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         // Assertion(s)
-        $this->assertEquals($locale, self::$service->getActiveLocale());
+        $this->assertEquals($locale, self::$service->getLocale());
     }
 
     /**
@@ -126,7 +126,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
         $locale = Resource_Fixture::LOCALE_INVALID;
 
         // Assertion(s)
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
     }
 
     /**
@@ -162,7 +162,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testGettingCurrencyLocalizerFromService()
     {
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_Currency $currency */
         $currency = self::$service->getLocalizer('Currency');
@@ -183,7 +183,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testGettingDatetimeLocalizerFromService()
     {
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_Datetime $datetime */
         $datetime = self::$service->getLocalizer('Datetime');
@@ -204,7 +204,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testGettingMeasureLocalizerFromService()
     {
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_Measure $measure */
         $measure = self::$service->getLocalizer('Measure');
@@ -225,7 +225,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testGettingNumberLocalizerFromService()
     {
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_Number $number */
         $number = self::$service->getLocalizer('Number');
@@ -247,7 +247,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testLocalizeNumber()
     {
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_Number $number */
         $number = self::$service->getLocalizer('Number', 'en-us');
@@ -276,7 +276,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testGettingStringLocalizerFromService()
     {
         $locale = Resource_Fixture::LOCALE_VALID;
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_String $string */
         $string = self::$service->getLocalizer('String');
@@ -300,7 +300,7 @@ class I18nServiceTest extends Doozr_Base_Service_Test_Abstract
     public function testGettingLocalizerForARedirectLocale()
     {
         $locale = 'en-gb';
-        self::$service->setActiveLocale($locale);
+        self::$service->setLocale($locale);
 
         /* @var Doozr_I18n_Service_Localize_String $string */
         $string = self::$service->getLocalizer('String');

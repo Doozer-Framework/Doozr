@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n - Currency.
  *
- * Currency.php - The "currency" node representation for providing auto-completion of config values.
+ * Currency.php - The "currency" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - I18n - L10n - Currency.
  *
- * Currency.php - The "currency" node representation for providing auto-completion of config values.
+ * Currency.php - The "currency" node representation for providing auto-completion of configuration values.
  *
  * @category   Doozr
  *

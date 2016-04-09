@@ -5,7 +5,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Session - Security - Bind - Domain.
  *
- * Domain.php - The "domain" node representation for providing auto-completion of config values.
+ * Domain.php - The "domain" node representation for providing auto-completion of configuration values.
  *
  * PHP versions 5.5
  *
@@ -57,7 +57,7 @@
 /**
  * Doozr - Configuration - Hierarchy - Session - Security - Bind - Domain.
  *
- * The "domain" node representation for providing autocompletion for config values.
+ * The "domain" node representation for providing autocompletion for configuration values.
  *
  * @category   Doozr
  *
