@@ -7,7 +7,7 @@
       "name": "Benjamin Carl",
       "email": "opensource@clickalicious.de",
       "homepage": "https://www.clickalicious.de",
-      "role": "Developer"
+      "role": "Lead"
     }
   ],
   "minimum-stability": "dev",
@@ -51,7 +51,7 @@
     "guzzlehttp/guzzle": "~6.2.0",
     "league/event": "~2.1.2",
     "gpupo/cache": "~1.2.2",
-    "stringy/stringy": "dev-master as 1.0.x-dev",
+    "danielstjules/stringy": "~2.3.1",
     "jbroadway/urlify": "1.0.7-stable"
   },
   "require-dev": {
