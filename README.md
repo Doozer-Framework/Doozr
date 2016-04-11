@@ -2,7 +2,7 @@
 ---
 ![Logo of Doozr](docs/logo-large.png)
 
-The **lightweight** PHP-Framework for **high-performance** websites.
+Doozr: The **lightweight** PHP-Framework for **high-performance** websites
 
 | [![Build Status](https://img.shields.io/travis/clickalicious/Doozr.svg)](https://travis-ci.org/clickalicious/Doozr) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Doozr.svg)](https://scrutinizer-ci.com/g/clickalicious/Doozr/) 	| [![Code Coverage](https://scrutinizer-ci.com/g/clickalicious/Doozr/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clickalicious/Doozr/?branch=master) 	| [![clickalicious open source](https://img.shields.io/badge/clickalicious-open--source-green.svg?style=flat)](https://www.clickalicious.de/) 	|
 |---	|---	|---	|---	|
@@ -47,7 +47,7 @@ The **lightweight** PHP-Framework for **high-performance** websites.
 
 ## Requirements
 
- - PHP >= 5.5 (compatible up to PHP version 7)
+ - `PHP >= 5.5` (compatible up to PHP version 7.x)
 
 
 ## Philosophy
