@@ -287,7 +287,7 @@ class Doozr_Installer_Base
     {
         \cli\line();
         \cli\line(\cli\Colors::colorize('%y+----------------------------------------------------------------------+%N'));
-        \cli\line(\cli\Colors::colorize('%y| Welcome to Doozr\'s bootstrap project installer.                      |%N'));
+        \cli\line(\cli\Colors::colorize('%y| Welcome to Doozr\'s Demo project installer.                           |%N'));
         \cli\line(\cli\Colors::colorize('%y| Version: ' . DOOZR_INSTALLER_VERSION . '             |%N'));
         \cli\line(\cli\Colors::colorize('%y+----------------------------------------------------------------------+%N'));
     }
