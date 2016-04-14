@@ -43,7 +43,7 @@
     "enygma/expose": "~2.4.0",
     "ircmaxell/password-compat": "~1.0.4",
     "relay/relay": "1.*@dev",
-    "relay/middleware": "1.*@dev",
+    "relay/middleware": "^1.0.0",
     "vlucas/phpdotenv": "~2.2.0",
     "shrikeh/teapot": "~1.0.2",
     "cocur/slugify": "~2.1.1",
@@ -57,7 +57,7 @@
     "phpunit/phpunit": "~4.8.9",
     "fzaninotto/faker": "~1.5.0",
     "symfony/var-dumper": "~2.8.4",
-    "friendsofphp/uprofiler": "dev-master as 1.0.x-stable"
+    "friendsofphp/uprofiler": "dev-master as 1.0.x-dev"
   },
   "autoload": {
     "psr-0": {
