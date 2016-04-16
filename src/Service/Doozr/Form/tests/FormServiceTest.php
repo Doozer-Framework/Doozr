@@ -273,7 +273,10 @@ class FormServiceTest extends Doozr_Base_Service_Test_Abstract
         $scope = self::$faker->word();
 
         // Clean
-        $formHandler = self::$service->getFormHandler($scope);
+        $formHandler = self::$service->getFormHandler(
+            $scope
+            // PSR Request here
+        );
 
         $this->assertInstanceOf('Doozr_Form_Service_Handler_FormHandler', $formHandler);
         #$this->assertEquals(1, $formHandler->receiveStepFieldValueFromRequest());

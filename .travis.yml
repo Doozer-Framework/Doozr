@@ -42,8 +42,8 @@ after_success:
   - chmod +x ./update-gh-pages.sh
   - if [ $(phpenv version-name) == "5.6" ] && [ "$PREFER_LOWEST" == "--prefer-lowest" ]; then bash ./update-gh-pages.sh; fi
   # CREATE GIT TAG
-  - git configuration --global user.email "builds@travis-ci.org"
-  - git configuration --global user.name "Travis"
+  - git config --global user.email "builds@travis-ci.org"
+  - git config --global user.name "Travis"
   - export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
   - echo -n $GIT_TAG > public/version
   - git commit -m "Set build VERSION number" public/version

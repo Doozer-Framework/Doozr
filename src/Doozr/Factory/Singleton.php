@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Factory Singleton
+ * Doozr Factory Singleton.
  *
  * Singleton.php - Doozr's singleton factory for creating instances of classes
  *
@@ -43,29 +44,30 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Factory
- * @subpackage Doozr_Factory_Singleton
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
-
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Factory/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Factory/Interface.php';
 
 /**
- * Doozr Factory Singleton
+ * Doozr Factory Singleton.
  *
  * Doozr's singleton factory for creating instances of classes
  *
  * @category   Doozr
- * @package    Doozr_Factory
- * @subpackage Doozr_Factory_Singleton
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Factory_Singleton
@@ -83,8 +85,8 @@ class Doozr_Factory_Singleton
      * @param string $reflection  NOT USED but part of interface/contract
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object An instance of the requested class
-     * @access public
      * @static
      */
     public static function create($className, $arguments = null, $constructor = 'getInstance', $reflection = null)
@@ -92,7 +94,6 @@ class Doozr_Factory_Singleton
         // instantiate
         if (is_null($arguments)) {
             return call_user_func($className.'::'.$constructor);
-
         } else {
             // arguments
             if (is_array($arguments)) {
@@ -100,7 +101,6 @@ class Doozr_Factory_Singleton
             } else {
                 return call_user_func($className.'::'.$constructor, $arguments);
             }
-
         }
     }
 }
