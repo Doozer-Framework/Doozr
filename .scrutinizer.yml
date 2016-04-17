@@ -1,16 +1,76 @@
 # language: php
 # .scrutinizer.yml
 before_commands:
-    - "composer update --prefer-source --no-interaction"
+    - "composer install --prefer-dist --no-interaction"
 
 filter:
+    paths:
+        - app/*
+        - src/*
+        - tests/*
+        - web/*
     excluded_paths:
-        - bin/*
         - docs/*
         - src/Service/Doozr/Oauth2/Service/Lib
-        - src/Service/Doozr/*
         - src/Data/*
+        - app/Data/*
         - src/Doozr/Configuration/Hierarchy/*
+
+tools:
+    external_code_coverage: true
+    php_code_sniffer:
+        enabled: true
+        config:
+            standard: PSR2
+    php_cs_fixer:
+        enabled: true
+        filter:
+            paths:
+                - app/*
+                - src/*
+                - tests/*
+                - web/*
+            excluded_paths:
+                - docs/*
+                - src/Service/Doozr/Oauth2/Service/Lib
+                - src/Data/*
+                - app/Data/*
+                - src/Doozr/Configuration/Hierarchy/*
+        config:
+            level: all
+    php_cpd:
+        enabled: true
+        excluded_dirs:
+            - docs/*
+            - src/Service/Doozr/Oauth2/Service/Lib
+            - src/Data/*
+            - app/Data/*
+            - src/Doozr/Configuration/Hierarchy/*
+    php_loc:
+        enabled: true
+        excluded_dirs:
+            - docs/*
+    php_mess_detector:
+        enabled: true
+        filter:
+            paths:
+                - app/*
+                - src/*
+                - tests/*
+                - web/*
+    php_pdepend:
+        enabled: true
+        excluded_dirs:
+            - docs/*
+    php_analyzer: true
+    php_analyzer:
+        filter:
+            paths:
+                - app/*
+                - src/*
+                - tests/*
+                - web/*
+    sensiolabs_security_checker: true
 
 checks:
     php:
@@ -28,35 +88,3 @@ checks:
         fix_line_ending: true
         fix_identation_4spaces: true
         fix_doc_comments: true
-        use_self_instead_of_fqcn: true
-        uppercase_constants: true
-        simplify_boolean_return: true
-        return_doc_comments: true
-        properties_in_camelcaps: true
-        prefer_while_loop_over_for_loop: true
-        phpunit_assertions: true
-        parameters_in_camelcaps: true
-        optional_parameters_at_the_end: true
-        no_short_variable_names:
-            minimum: '3'
-        no_short_method_names:
-            minimum: '3'
-        no_new_line_at_end_of_file: true
-        no_long_variable_names:
-            maximum: '20'
-        no_goto: true
-        newline_at_end_of_file: true
-        line_length:
-            max_length: '120'
-        function_in_camel_caps: true
-        encourage_single_quotes: true
-        encourage_postdec_operator: true
-        avoid_perl_style_comments: true
-        avoid_multiple_statements_on_same_line: true
-        avoid_fixme_comments: true
-        align_assignments: true
-        return_doc_comment_if_not_inferrable: true
-        parameter_doc_comments: true
-        param_doc_comment_if_not_inferrable: true
-        more_specific_types_in_doc_comments: true
-        avoid_unnecessary_concatenation: true

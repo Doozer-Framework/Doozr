@@ -82,6 +82,8 @@ final class Index extends \Doozr_Base_Presenter
         // Retrieve data from model instance
         $buffer = $this->getModel()->getData();
 
+        // Here you would do a clean transformation on the data arrived from model ...
+
         // Set data to trigger events in view (and maybe also model [two way data binding])
         return $this->setData($buffer);
     }

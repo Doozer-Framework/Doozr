@@ -66,7 +66,7 @@ Doozr: The **lightweight** PHP-Framework for **high-performance** websites
  - `Form` (Secure form handler (csrf/token) + validation)
  - `I18n` (Internationalization + Localization, native gettext™ support & gettext emulation)
  - `Password` (Password generator + validationHandler, support for PHPass based hashes)
- - `Session` (Secure and object oriented session subystem, En-/Decryption, Unique Identifier, Automatic Id regenerating, ...)
+ - `Session` (Secure OOP Facade, En-/Decryption, Unique Identifier per User, interval regenerating, ...)
  - `Template` (Interface to PHPTal with full PHPTal templating support)
 
 100% `composer` support. For any missing features we can make use of [packagist.org][1]. So just put the required package(s) in your `composer.json` and use them right after installation without need to include `.../vendor/autoload.php` manually. `Doozr` detects the `composer` packages and includes the autoloader of `composer`.
