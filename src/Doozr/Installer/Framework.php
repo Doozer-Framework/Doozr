@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 // Check for execution from www or something!
@@ -10,9 +11,8 @@ if ('cli' !== php_sapi_name()) {
 /**
  * Doozr - Installer - Framework
  *
- * Framework.php - Installer script for installing web, app, bin ... folder to document root
- * after using composer to install Doozr. It's a convenient way to get Doozr
- * running.
+ * Framework.php - Installer script for installing web, app, bin ... folder to document root after using composer
+ * to install Doozr. It's a convenient way to get Doozr running.
  *
  * PHP versions 5.5
  *
@@ -65,19 +65,19 @@ use Composer\Script\CommandEvent;
 define('DOOZR_INSTALLER_VERSION', '$Id$');
 
 /**
- * Doozr - Installer - Framework
+ * Doozr - Installer - Framework.
  *
- * Installer script for installing web + app folder to document root
- * after using composer to install Doozr. It's a convenient way to get Doozr
- * running.
+ * Installer script for installing web + app folder to document root after using composer to install Doozr.
+ * It's a convenient way to get Doozr running.
  *
  * @category   Doozr
- * @package    Doozr_Installer
- * @subpackage Doozr_Installer_Framework
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Installer_Framework extends Doozr_Installer_Base
@@ -86,13 +86,36 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * Default folders we install/copy.
      *
      * @var array
-     * @access protected
      * @static
      */
-    protected static $folders = array(
+    protected static $folders = [
         'app',
         'web',
-    );
+    ];
+
+    /**
+     * Choice YES [y].
+     *
+     * @var string
+     * @const
+     */
+    const CHOICE_Y    = 'y';
+
+    /**
+     * Choice No [n].
+     * 
+     * @var string
+     * @const
+     */
+    const CHOICE_N    = 'n';
+
+    /**
+     * Choice QUIT [quit].
+     *
+     * @var string
+     * @const
+     */
+    const CHOICE_QUIT = 'quit';
 
     /**
      * Installer process for Doozr's bootstrap project based on post install event hook on composer.
@@ -100,8 +123,8 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * @param CommandEvent $event The event passed in by Composer.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|null TRUE on success, otherwise FALSE (signal for Composer to resolve with error)
-     * @access public
+     *
+     * @return bool|null TRUE on success, otherwise FALSE (signal for Composer to resolve with error)
      * @static
      */
     public static function postInstall(CommandEvent $event)
@@ -112,7 +135,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
         );
 
         // We must include autoloader - funny.
-        require_once self::getInstallPath() . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
+        require_once self::getInstallPath().DIRECTORY_SEPARATOR.'vendor/autoload.php';
 
         // Store extra from composer
         self::setExtra(
@@ -129,24 +152,26 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
     /**
      * Handles a received event - dispatcher.
      *
+     * @param CommandEvent $event The event triggered by Composer
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean|null TRUE on success, otherwise FALSE
-     * @access protected
+     *
+     * @return bool|null TRUE on success, otherwise FALSE
      */
     protected static function handleEvent(CommandEvent $event)
     {
         $valid = false;
 
         // Construct menus ...
-        $menu1 = array(
-            'install' => \cli\Colors::colorize('%N%gInstall Doozr\'s bootstrap project%N'),
+        $menu1 = [
+            'install' => \cli\Colors::colorize('%N%gInstall Doozr\'s Demo project%N'),
             'quit'    => \cli\Colors::colorize('%N%rQuit %N'),
-        );
-        $menu2 = \cli\Colors::colorize('%NInstall to %g' . self::getInstallPath() . ' %N');
-        $menu3 = array(
+        ];
+        $menu2 = \cli\Colors::colorize('%NInstall to %g'.self::getInstallPath().' %N');
+        $menu3 = [
             'change' => \cli\Colors::colorize('%N%gChange path to install%N'),
             'quit'   => \cli\Colors::colorize('%N%rQuit%N'),
-        );
+        ];
         $menu4 = 'Enter path';
 
         // Show the big old school banner - yeah i like :)
@@ -162,7 +187,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
         while (true) {
             // Ask for OK for install in general ...
             $resolved = self::resolveTree($menu1, 'install');
-            if ($resolved === 'quit') {
+            if ($resolved === self::CHOICE_QUIT) {
                 break;
 
             } else {
@@ -170,12 +195,11 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
                 // Ask if auto detected install path is ok ...
                 $resolved = self::resolveChoice($menu2);
 
-                if ($resolved === 'y') {
+                if ($resolved === self::CHOICE_Y) {
                     // Try to validation and use the auto detected path ...
                     try {
-                        $path  = self::validatePath(self::getInstallPath());
+                        self::validatePath(self::getInstallPath());
                         $valid = true;
-
                     } catch (Exception $e) {
                         return self::showError($e->getMessage());
                     }
@@ -183,16 +207,16 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
                     // If operation failed above -> Ask user for alternative path to install
                     if ($valid !== true) {
                         self::showError('Automatic detected path seems to be invalid. Please choose another path!');
-                        $path = self::askAlternatePath($menu4);
-                    }
+                        self::askAlternatePath($menu4);
 
+                    }
                 } else {
                     // Check for alternate path ...
                     $resolved = self::resolveTree($menu3, 'change');
 
                     // If user decided to change the path
                     if ($resolved === 'change') {
-                         // If operation failed above -> Ask user for path to install
+                        // If operation failed above -> Ask user for path to install
                         $valid = self::askAlternatePath($menu4);
 
                     } else {
@@ -203,7 +227,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
 
                 // Check if alternate path also failed in case of exception ...
                 if ($valid === true) {
-                    if (self::install(self::getInstallPath() . DIRECTORY_SEPARATOR) === true) {
+                    if (self::install(self::getInstallPath().DIRECTORY_SEPARATOR) === true) {
                         self::showSuccess();
                         self::showVhostExample(self::getInstallPath());
                         self::showOutro(self::getInstallPath());
@@ -223,12 +247,20 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
     }
 
     /**
-     * @param string $menu
+     * Ask user for alternate path.
+     *
+     * @param string $menu The menu to render
+     *
+     * @author Benjamin Carl <opensource@clickalicious.de>
+     *
+     * @return string
+     * @throws Exception
      */
     protected static function askAlternatePath($menu)
     {
         $valid = false;
-        while ($valid === false) {
+
+        while (false === $valid) {
             try {
                 self::setInstallPath(
                     self::validatePath(
@@ -238,8 +270,8 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
 
                 return true;
 
-            } catch (Exception $e) {
-                self::showError($e->getMessage());
+            } catch (Exception $exception) {
+                self::showError($exception->getMessage());
             }
         }
     }
@@ -248,8 +280,8 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * Shows the success message after install was successful.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return boolean
-     * @access protected
+     *
+     * @return bool TRUE
      * @static
      */
     protected static function showSuccess()
@@ -263,22 +295,29 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
     }
 
     /**
-     * @param string $message
+     * Shows an error message.
+     *
+     * @param string $message Message to display
+     *
+     * @return bool FALSE
+     * @static
      */
     protected static function showError($message)
     {
         \cli\line();
         \cli\err(
-            \cli\Colors::colorize('%N%n%1' . $message . '%N%n')
+            \cli\Colors::colorize('%N%n%1'.$message.'%N%n')
         );
 
         return false;
     }
 
     /**
+     *
+     *
      * @param string $menu
      */
-    protected static function resolveChoice($menu, $choices = 'yn', $default = 'y')
+    protected static function resolveChoice($menu, $choices = 'yn', $default = self::CHOICE_Y)
     {
         $choice = false;
         while ($choice === false) {
@@ -289,7 +328,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
         return $choice;
     }
 
-    protected static function resolveTree($menu, $default = 'quit', $text = 'Your choice:')
+    protected static function resolveTree($menu, $default = self::CHOICE_QUIT, $text = 'Your choice:')
     {
         $choice = false;
         while ($choice === false) {
@@ -304,8 +343,6 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * Shows the failed message after install failed.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      * @static
      */
     protected static function showFailed()
@@ -320,8 +357,6 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * Shows the outro message after install succeeded to inform about management console.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      * @static
      */
     protected static function showOutro($projectRoot = 'n.a.')
@@ -329,7 +364,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
         \cli\line();
         \cli\line(\cli\Colors::colorize('%nEnjoy developing with %yDoozr%n'));
         \cli\line('To maintain your app you can now run %k%Uphp app/console%n%N from your project');
-        \cli\line('root: %k%U' . $projectRoot . '%n%N');
+        \cli\line('root: %k%U'.$projectRoot.'%n%N');
         \cli\line();
         \cli\line('This will offer you options like:');
         \cli\line('  --webserver=start To run Doozr on PHP\'s internal webserver - instantly.');
@@ -341,8 +376,8 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * @param string $targetDirectory The directory where to put the files/folders.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
      * @static
      */
     protected static function install($targetDirectory)
@@ -355,12 +390,12 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
 
         // Iterate and copy ...
         foreach (self::getFolders() as $folder) {
-            self::xcopy($source . $folder, $destination . $folder);
+            self::xcopy($source.$folder, $destination.$folder);
         }
 
-        $target    = realpath($destination . 'vendor/maximebf/debugbar/src/DebugBar/Resources');
-        $link      = (realpath($destination . 'web') !== false) ?
-            realpath($destination . 'web') . DIRECTORY_SEPARATOR . 'assets' :
+        $target = realpath($destination.'vendor/maximebf/debugbar/src/DebugBar/Resources');
+        $link   = (realpath($destination.'web') !== false) ?
+            realpath($destination.'web').DIRECTORY_SEPARATOR.'assets' :
             false;
 
         if ($target !== false && $link !== false) {
@@ -372,7 +407,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
 
         if ($symlinked === false) {
             self::showError(
-                'Could not create symlink from "' . $target . '" to "' . $link . '"'
+                'Could not create symlink from "'.$target.'" to "'.$link.'"'
             );
         }
 
@@ -387,8 +422,6 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * @param array $folders The folders to set.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected static function setFolders(array $folders = [])
     {
@@ -399,8 +432,8 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * Getter for folders.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array The folders.
-     * @access protected
      */
     protected static function getFolders()
     {
@@ -413,8 +446,9 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * @param string $path The path to validation
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string TRUE if path is valid, otherwise FALSE
-     * @access protected
+     *
      * @throws Exception
      */
     protected static function validatePath($path)
@@ -427,16 +461,16 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
 
         // Check now if any of the target directories exists
         foreach (self::getFolders() as $folder) {
-            if (file_exists($path . $folder)) {
-                $existingFolders[] =  $folder . '/';
+            if (file_exists($path.$folder)) {
+                $existingFolders[] = $folder.'/';
             }
         }
 
         // Any folder found? => Exception
         if (count($existingFolders) > 0) {
             throw new Exception(
-                'The target directory contains the following files/folders already: ' .
-                implode(' & ', $existingFolders) . '.' . PHP_EOL . 'Remove those files/folders first and try again.' .
+                'The target directory contains the following files/folders already: '.
+                implode(' & ', $existingFolders).'.'.PHP_EOL.'Remove those files/folders first and try again.'.
                 PHP_EOL
             );
         }

@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Factory Multiple
+ * Doozr Factory Multiple.
  *
  * Multiple.php - Doozr's factory for creating instances of multi-instance-classes
  *
@@ -43,27 +44,29 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Factory
- * @subpackage Doozr_Factory_Multiple
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr Factory Multiple
+ * Doozr Factory Multiple.
  *
  * Doozr's factory for creating instances of multi-instance-classes
  *
  * @category   Doozr
- * @package    Doozr_Factory
- * @subpackage Doozr_Factory_Multiple
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Factory_Multiple
@@ -73,7 +76,7 @@ class Doozr_Factory_Multiple
     /**
      * This method is intend to create instances of multi-instance-classes. You can
      * pass optional arguments to the factory for creating instance and passing arguments
-     * to it. You can pass an optional already exisiting reflection instance of the class
+     * to it. You can pass an optional already existing reflection instance of the class
      * if one exist to speed up instantiation. If you don't use an autoloader the you must
      * include the file containing the class right before you call this method.
      *
@@ -83,8 +86,8 @@ class Doozr_Factory_Multiple
      * @param string $reflection  An optional already existing reflection of the class to create
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return object An instance of the requested class
-     * @access public
      * @static
      */
     public static function create($className, $arguments = null, $constructor = null, $reflection = null)
@@ -99,16 +102,14 @@ class Doozr_Factory_Multiple
             // check if parameter is already of type array
             if (!is_array($arguments)) {
                 // if not make array
-                $arguments = array($arguments);
+                $arguments = [$arguments];
             }
 
             // return instance with parameter
             return $reflection->newInstanceArgs($arguments);
-
         } else {
             // return instance without parameter
             return $reflection->newInstance();
-
         }
     }
 }

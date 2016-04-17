@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr Factory Generic
+ * Doozr Factory Generic.
  *
  * Generic.php - Doozr's generic factory for creating instances for classes
  * also if type (and constructor) is unknown.
@@ -44,39 +45,39 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Factory
- * @subpackage Doozr_Factory_Generic
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 /**
- * Doozr Factory Generic
+ * Doozr Factory Generic.
  *
  * Doozr's generic factory for creating instances for classes
  * also if type (and constructor) is unknown.
  *
  * @category   Doozr
- * @package    Doozr_Factory
- * @subpackage Doozr_Factory_Generic
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Factory_Generic
 {
     public function __construct()
     {
-
     }
 
     public static function create()
     {
-
     }
 }
