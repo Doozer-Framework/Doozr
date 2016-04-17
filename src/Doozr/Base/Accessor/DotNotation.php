@@ -153,7 +153,7 @@ class Doozr_Base_Accessor_DotNotation extends Doozr_Base_Class
      * Sets a value for path.
      *
      * @param string $path  Path to set value for.
-     * @param mixed  $value Default value to return if path could no be resolved
+     * @param mixed  $value Value to set 
      *
      * @author Anton Medvedev <anton (at) elfet (dot) ru>
      */
