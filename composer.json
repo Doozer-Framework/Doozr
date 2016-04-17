@@ -35,7 +35,7 @@
     "moontoast/math": "^1.1",
     "phptal/phptal": "^1.3",
     "mrclay/minify": "^2.3",
-    "sepia/po-parser": "^4.2",
+    "sepia/po-parser": "^4.2.1",
     "psr/http-message": "^1.0",
     "psr/log": "^1.0",
     "lusitanian/oauth": "^0.8.9",
