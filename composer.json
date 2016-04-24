@@ -80,14 +80,9 @@
   "support": {
     "email": "opensource@clickalicious.de",
     "issues": "https://github.com/clickalicious/Doozr/issues",
-    "wiki": "https://github.com/clickalicious/Doozr/wiki"
+    "wiki": "https://github.com/clickalicious/Doozr/wiki",
+    "tests": "https://clickalicious.github.io/Doozr"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/clickalicious/Doozr.git"
-    }
-  ],
   "config": {
     "bin-dir": "bin",
     "use-include-path": true,
