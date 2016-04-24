@@ -57,9 +57,8 @@ branches:
 
 # Who to notify?
 notifications:
+  slack:
+    secure: "rxD9VLvCcMhNpDhDdsVexEew3g4d7i9u6QQuH/tTuzi109/q/tnCw5amSVJmFagARxMlvlpZzxU2Y+6gcdt9UhfwCQJqlB6UeU8B1QKGSxg8dHZLiPTqkbj+5NvwB9zovVhVvqdPNvnBsTk1e1htjf/PnN5JChA1YJj2T704jdI="
   email:
     recipients:
       - opensource@clickalicious.de
-    on_success: always
-    on_failure: change
-  slack: clickalicious:$SLACKKEY
