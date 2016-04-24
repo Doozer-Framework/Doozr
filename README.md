@@ -2,7 +2,7 @@
 ---
 ![Logo of Doozr](docs/logo-large.png)
 
-Doozr: The **lightweight** PHP-Framework for **high-performance** websites
+Doozr: The **lightweight** PHP-Framework for **high-performance** websites.
 
 | [![Build Status](https://img.shields.io/travis/clickalicious/Doozr.svg)](https://travis-ci.org/clickalicious/Doozr) 	| [![Scrutinizer](https://img.shields.io/scrutinizer/g/clickalicious/Doozr.svg)](https://scrutinizer-ci.com/g/clickalicious/Doozr/) 	| [![Code Coverage](https://scrutinizer-ci.com/g/clickalicious/Doozr/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clickalicious/Doozr/?branch=master) 	| [![clickalicious open source](https://img.shields.io/badge/clickalicious-open--source-green.svg?style=flat)](https://www.clickalicious.de/) 	|
 |---	|---	|---	|---	|
@@ -47,7 +47,7 @@ Doozr: The **lightweight** PHP-Framework for **high-performance** websites
 
 ## Requirements
 
- - `PHP >= 5.5` (compatible up to PHP version 7.x)
+ - `PHP >= 5.6` (compatible up to PHP version 7.x *currently* NOT compatible with `HHVM`)
 
 
 ## Philosophy
@@ -57,7 +57,7 @@ Doozr: The **lightweight** PHP-Framework for **high-performance** websites
 
 ## Services
 
-`Doozr` is shipped with the following high quality core *Services*:
+`Doozr` is shipped with the following Services:
 
  - `Cache` ([PSR-6][2] compatible caching subsystem, support for Filesystem, Memcached and ...)
  - `Configuration` (Configuration-Reader for Ini- & JSON-Configurations and caching)
@@ -86,13 +86,13 @@ For a consistent versioning we decided to make use of `Semantic Versioning 2.0.0
 
 ## Roadmap
 
+- [x] Target stable release `1.0.0`
+- [ ] 75 ~ 90% Test Coverage
 - [x] Bug hunt and quality offensive
 - [x] Travis implementation ([travis-ci.org](https://travis-ci.org/clickalicious/Doozr))
-- [x] Scrutinizer ([scrutinizer-ci.com](https://scrutinizer-ci.com/g/clickalicious/Doozr/))
+- [x] Scrutinizer-CI ([scrutinizer-ci.com](https://scrutinizer-ci.com/g/clickalicious/Doozr/))
 - [x] Documentation ([doozr.readme.io](https://doozr.readme.io))
-- [ ] 75 - 90% Test Coverage
-- [ ] Target stable release 1.0.0 (The Rock)
-
+- [ ] Security check through 3rd-Party (Please get in contact with me)
 
 [![Throughput Graph](https://graphs.waffle.io/clickalicious/Doozr/throughput.svg)](https://waffle.io/clickalicious/Doozr/metrics)
 
