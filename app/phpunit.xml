@@ -34,6 +34,8 @@
             <directory suffix=".php">../src/</directory>
             <exclude>
                 <directory suffix=".php">../src/Doozr/Configuration/Hierarchy/</directory>
+                <directory suffix=".php">../src/Service/Doozr/Oauth2/Service/Lib/</directory>
+                <directory suffix=".php">../src/Service/Doozr/Virtualfilesystem/Service/Lib/</directory>
             </exclude>
         </whitelist>
     </filter>
