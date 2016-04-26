@@ -51,7 +51,8 @@
     "league/event": "^2.1",
     "gpupo/cache": "^1.2",
     "danielstjules/stringy": "^2.3",
-    "jbroadway/urlify": "^1.0"
+    "jbroadway/urlify": "^1.0",
+    "mikey179/vfsStream": "^1.6"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8",

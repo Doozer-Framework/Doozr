@@ -16,8 +16,9 @@ filter:
         - _*
         - src/Data/*
         - app/Data/*
-        - src/Service/Doozr/Oauth2/Service/Lib
         - src/Doozr/Configuration/Hierarchy/*
+        - src/Service/Doozr/Oauth2/Service/Lib/*
+        - src/Service/Doozr/Virtualfilesystem/Service/Lib/*
 
 tools:
     external_code_coverage:
@@ -40,8 +41,9 @@ tools:
                 - _*
                 - src/Data/*
                 - app/Data/*
-                - src/Service/Doozr/Oauth2/Service/Lib/*
                 - src/Doozr/Configuration/Hierarchy/*
+                - src/Service/Doozr/Oauth2/Service/Lib/*
+                - src/Service/Doozr/Virtualfilesystem/Service/Lib/*
     php_cpd:
         enabled: true
         excluded_dirs:
@@ -52,8 +54,9 @@ tools:
             - _*
             - src/Data/*
             - app/Data/*
-            - src/Service/Doozr/Oauth2/Service/Lib/*
             - src/Doozr/Configuration/Hierarchy/*
+            - src/Service/Doozr/Oauth2/Service/Lib/*
+            - src/Service/Doozr/Virtualfilesystem/Service/Lib/*
     php_cs_fixer:
         enabled: true
         config:
@@ -87,8 +90,9 @@ tools:
             - _*
             - src/Data/*
             - app/Data/*
-            - src/Service/Doozr/Oauth2/Service/Lib/*
             - src/Doozr/Configuration/Hierarchy/*
+            - src/Service/Doozr/Oauth2/Service/Lib/*
+            - src/Service/Doozr/Virtualfilesystem/Service/Lib/*
     php_analyzer: true
     php_analyzer:
         filter:
