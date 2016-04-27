@@ -208,7 +208,7 @@ class Inject
         }
         */
 
-        $id = md5(microtime() . $this->className);
+        $id = md5(microtime().$this->className);
         return $id;
     }
 }

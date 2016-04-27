@@ -57,10 +57,10 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Multiple.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Crud/Interface.php';
 
+use Doozr\Loader\Serviceloader\Annotation\Inject;
 use Gpupo\Cache\CacheItem;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use Doozr\Loader\Serviceloader\Annotation\Inject;
 
 /**
  * Doozr - Cache - Service.
@@ -200,11 +200,11 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @author Benjamin Carl <opensource@clickalicious.de>
      */
     public function __tearup(
-              $container,
-              $scope = self::SCOPE_DEFAULT,
+                $container,
+                $scope = self::SCOPE_DEFAULT,
         array $containerOptions = [],
-              $unix = true,
-              $enabled = true
+                $unix = true,
+                $enabled = true
     ) {
         $this
             ->scope($scope)
@@ -605,7 +605,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @throws Doozr_Cache_Service_Exception
      */
     protected function setContainer(
-              $container,
+                $container,
         array $containerOptions = []
     ) {
         // check if container-type exists
@@ -640,7 +640,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
      * @throws Doozr_Cache_Service_Exception
      */
     protected function container(
-              $container,
+                $container,
         array $containerOptions = null
     ) {
         $this->setContainer($container, $containerOptions);
@@ -894,7 +894,7 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         $container = ucfirst(strtolower($container));
         $class     = __CLASS__.'_Container_'.$container;
         $file      = DOOZR_DOCUMENT_ROOT.'Service'.DIRECTORY_SEPARATOR.
-                     str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+                        str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
 
         include_once $file;
 

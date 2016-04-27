@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Autoloader/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Interface.php';
 
 /**
  * Doozr - Loader - Autoloader

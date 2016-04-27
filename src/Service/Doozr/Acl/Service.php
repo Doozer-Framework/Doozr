@@ -53,8 +53,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
 
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
@@ -365,7 +365,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple implements Doozr_Bas
             $result = $this->grant($this->getPermissions(), $action);
 
         } else {
-            throw new Doozr_Exception_Service('Action "' . $action . '" does not exist!');
+            throw new Doozr_Exception_Service('Action "'.$action.'" does not exist!');
         }
 
         return $result;
@@ -408,7 +408,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple implements Doozr_Bas
         // Permission must be set before we can remove it ...
         if ($this->grant($this->getPermissions(), $action) === true) {
             $this->setPermissions(
-               $this->getPermissions() - $this->getKey($action)
+                $this->getPermissions() - $this->getKey($action)
             );
         }
 
@@ -464,7 +464,7 @@ class Doozr_Acl_Service extends Doozr_Base_Service_Multiple implements Doozr_Bas
     {
         $result = false;
 
-        if ($this->loggedin ===true) {
+        if ($this->loggedin === true) {
             $result = true;
         }
 

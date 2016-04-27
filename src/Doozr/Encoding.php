@@ -159,15 +159,15 @@ class Doozr_Encoding extends Doozr_Base_Class_Singleton
     protected function setLanguage($encoding = 'UTF-8')
     {
         switch ($encoding) {
-        case 'English':
-        case 'en':
-        case 'Japanese':
-        case 'ja':
-            mb_language($encoding);
-            break;
-        default:
-            mb_language('uni');
-            break;
+            case 'English':
+            case 'en':
+            case 'Japanese':
+            case 'ja':
+                mb_language($encoding);
+                break;
+            default:
+                mb_language('uni');
+                break;
         }
     }
 

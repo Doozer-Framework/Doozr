@@ -193,12 +193,12 @@ class Doozr_Installer_Base
      */
     protected static function retrieveInstallPath()
     {
-        $path1 = DIRECTORY_SEPARATOR . implode(
+        $path1 = DIRECTORY_SEPARATOR.implode(
                 DIRECTORY_SEPARATOR,
-                array('src', 'Doozr','Installer', 'Base.php')
+                array('src', 'Doozr', 'Installer', 'Base.php')
             );
 
-        $path2 = DIRECTORY_SEPARATOR . implode(
+        $path2 = DIRECTORY_SEPARATOR.implode(
                 DIRECTORY_SEPARATOR,
                 array('vendor', 'clickalicious', 'doozr')
             );
@@ -247,8 +247,8 @@ class Doozr_Installer_Base
 
             // Deep copy directories
             self::xcopy(
-                $source . DIRECTORY_SEPARATOR . $entry,
-                $destination . DIRECTORY_SEPARATOR . $entry
+                $source.DIRECTORY_SEPARATOR.$entry,
+                $destination.DIRECTORY_SEPARATOR.$entry
             );
         }
 
@@ -267,12 +267,12 @@ class Doozr_Installer_Base
      */
     protected static function getSourcePath()
     {
-        $path = DIRECTORY_SEPARATOR . implode(
+        $path = DIRECTORY_SEPARATOR.implode(
                 DIRECTORY_SEPARATOR,
-                array('src', 'Doozr','Installer', 'Base.php')
+                array('src', 'Doozr', 'Installer', 'Base.php')
             );
 
-        return realpath(str_replace($path, '', __FILE__)) . DIRECTORY_SEPARATOR;
+        return realpath(str_replace($path, '', __FILE__)).DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -409,18 +409,18 @@ class Doozr_Installer_Base
     {
         if (realpath($path) === false) {
             throw new Exception(
-                'Path "' . $path . '" does not exist.'
+                'Path "'.$path.'" does not exist.'
             );
         }
 
         if (is_dir($path) === false || is_writable($path) === false) {
             throw new Exception(
-                'Make sure path "' . $path . '" exists and that it\'s writable.'
+                'Make sure path "'.$path.'" exists and that it\'s writable.'
             );
         }
 
         // Make full usable with trailing slash
-        $path = realpath($path) . DIRECTORY_SEPARATOR;
+        $path = realpath($path).DIRECTORY_SEPARATOR;
 
         return $path;
     }

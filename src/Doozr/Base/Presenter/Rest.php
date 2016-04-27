@@ -192,7 +192,7 @@ class Doozr_Base_Presenter_Rest extends Doozr_Base_Presenter
     public function Main()
     {
         // Get REAL action (hey dude u know this is the Main() API entry like the main.cpp ;)
-        $resource = $this->getStateObject()->get($this->rootNode.'{{resource}}', function ($resource) {
+        $resource = $this->getStateObject()->get($this->rootNode.'{{resource}}', function($resource) {
                 return $resource;
             }
         );

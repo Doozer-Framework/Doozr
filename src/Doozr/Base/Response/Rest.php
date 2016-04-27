@@ -56,7 +56,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 /**
  * Doozr - Base - Response - Rest
@@ -325,7 +325,7 @@ class Doozr_Base_Response_Rest extends Doozr_Base_Class
         $response = [];
 
         foreach ($this->responseStructure as $node) {
-            $value = call_user_func(array($this, 'get' . ucfirst($node)));
+            $value = call_user_func(array($this, 'get'.ucfirst($node)));
             if ($value !== null) {
                 $response[$node] = $value;
             }

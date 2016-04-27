@@ -378,9 +378,9 @@ class Doozr_Form_Service_Component_Group extends Doozr_Form_Service_Component_Fo
     {
         // Check requirements
         if (
-            in_array(self::LABEL,     $order) === false ||
+            in_array(self::LABEL, $order) === false ||
             in_array(self::COMPONENT, $order) === false ||
-            in_array(self::MESSAGE,   $order) === false
+            in_array(self::MESSAGE, $order) === false
         ) {
             throw new Doozr_Form_Service_Exception(
                 'Alda'

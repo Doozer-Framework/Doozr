@@ -52,9 +52,9 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple/Facade.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Oauth2/Service/Lib/Oauth2/Autoloader.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Multiple/Facade.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Oauth2/Service/Lib/Oauth2/Autoloader.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
 
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 

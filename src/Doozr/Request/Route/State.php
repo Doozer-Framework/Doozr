@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State/Interface.php';
 
 /**
  * Doozr - Request - Route - State
@@ -227,7 +227,7 @@ final class Doozr_Request_Route_State extends Doozr_Base_State
      */
     public function __toString()
     {
-        return $this->getPresenter() . ':' . $this->getAction();
+        return $this->getPresenter().':'.$this->getAction();
     }
 
 }

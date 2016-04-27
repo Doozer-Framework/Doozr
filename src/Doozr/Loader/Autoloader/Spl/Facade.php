@@ -53,7 +53,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Autoloader/Spl/Config/Interface.php';
 
 /**
  * Doozr - Loader - Autoloader - Spl - Facade
@@ -433,7 +433,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
         $autoloaderCount = count($autoloaderPriority);
 
         // Set priority to max possible
-        ($priority > ($autoloaderCount-1)) ? ($priority = $autoloaderCount-1) : '';
+        ($priority > ($autoloaderCount - 1)) ? ($priority = $autoloaderCount - 1) : '';
 
         // Get configuration as $configuration for better reading
         $configuration = self::$autoloader[$uniqueId];
@@ -498,7 +498,7 @@ class Doozr_Loader_Autoloader_Spl_Facade
         $extensionCount = count($extensionPriority);
 
         // set prio to max possible
-        ($priority > ($extensionCount-1)) ? ($priority = $extensionCount-1) : '';
+        ($priority > ($extensionCount - 1)) ? ($priority = $extensionCount - 1) : '';
 
         // check if reposition needed
         if (!(isset($extensionPriority[$priority]) && $extensionPriority[$priority] == $fileExtension)) {

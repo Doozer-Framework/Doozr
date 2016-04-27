@@ -809,9 +809,9 @@ class Doozr_Session_Service extends Doozr_Base_Service_Singleton
         // All advanced features only available for named hosts - no ip!
         if (!is_ip($domain)) {
             switch (strtolower($mode)) {
-            case 'subdomain':
-                $domain = '.'.$this->getDotParts($domain, 2, 'rtl');
-                break;
+                case 'subdomain':
+                    $domain = '.'.$this->getDotParts($domain, 2, 'rtl');
+                    break;
             }
         }
 

@@ -52,9 +52,9 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Logging/Constant.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Logging/Constant.php';
 
 use Psr\Log\LoggerInterface;
 

@@ -882,20 +882,20 @@ final class Doozr_Di_Factory
             $result = [];
 
             switch ($type) {
-            case Doozr_Di_Constants::INJECTION_TYPE_PROPERTY:
-            case Doozr_Di_Constants::INJECTION_TYPE_METHOD:
-                foreach ($injections[$type] as $recipe) {
-                    $result[] = [
-                        'signature' => $recipe['target'],
-                        'argument'  => $recipe['instance'],
-                    ];
-                }
-                break;
-            default:
-                // Break intentionally omitted
-            case Doozr_Di_Constants::INJECTION_TYPE_CONSTRUCTOR:
-                return $injections[$type];
-                break;
+                case Doozr_Di_Constants::INJECTION_TYPE_PROPERTY:
+                case Doozr_Di_Constants::INJECTION_TYPE_METHOD:
+                    foreach ($injections[$type] as $recipe) {
+                        $result[] = [
+                            'signature' => $recipe['target'],
+                            'argument'  => $recipe['instance'],
+                        ];
+                    }
+                    break;
+                default:
+                    // Break intentionally omitted
+                case Doozr_Di_Constants::INJECTION_TYPE_CONSTRUCTOR:
+                    return $injections[$type];
+                    break;
             }
         }
 

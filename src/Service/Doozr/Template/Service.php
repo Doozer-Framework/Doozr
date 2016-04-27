@@ -54,9 +54,9 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Facade/Singleton.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Facade/Singleton.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
 
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
@@ -125,20 +125,20 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
     public function fetch($return = false)
     {
         switch ($this->library) {
-        case 'phptal':
-            // execute the template
-            try {
-                $buffer = $this->execute();
-                if ($return === true) {
-                    return $buffer;
-                } else {
-                    echo $buffer;
+            case 'phptal':
+                // execute the template
+                try {
+                    $buffer = $this->execute();
+                    if ($return === true) {
+                        return $buffer;
+                    } else {
+                        echo $buffer;
+                    }
+                } catch (Exception $e) {
+                    // repack
+                    throw new Doozr_Exception($e);
                 }
-            } catch (Exception $e) {
-                // repack
-                throw new Doozr_Exception($e);
-            }
-            break;
+                break;
         }
 
         return null;
@@ -334,14 +334,14 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
     protected function initEngine($engine)
     {
         switch ($engine) {
-        case 'phptal':
-            // We do not need to include PHPTAL cause Composer's job ;)
-            $this->setDecoratedObject(new PHPTAL($this->resource));
-            break;
-        default:
-        throw new Doozr_Template_Service_Exception(
-            'Configured engine "'.$this->library.'" is currently not supported!'
-        );
+            case 'phptal':
+                // We do not need to include PHPTAL cause Composer's job ;)
+                $this->setDecoratedObject(new PHPTAL($this->resource));
+                break;
+            default:
+            throw new Doozr_Template_Service_Exception(
+                'Configured engine "'.$this->library.'" is currently not supported!'
+            );
         }
     }
 
@@ -365,11 +365,11 @@ class Doozr_Template_Service extends Doozr_Base_Facade_Singleton implements Dooz
     public function assignVariable($variable = null, $value = null)
     {
         switch ($this->library) {
-        case 'phptal':
-            return ($this->{$variable} = $value);
-        break;
-        default:
-        return false;
+            case 'phptal':
+                return ($this->{$variable} = $value);
+            break;
+            default:
+            return false;
         }
     }
 

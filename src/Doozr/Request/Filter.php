@@ -2,8 +2,8 @@
 
 
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State/Interface.php';
 
 
 class Doozr_Request_Filter extends Doozr_Base_State_Container

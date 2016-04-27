@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Request/Web.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Web.php';
 
 /**
  * Doozr - Base - Presenter - Rest - Config
@@ -323,8 +323,7 @@ class Doozr_Base_Presenter_Rest_Config
      */
     protected function verbToOperation($verb)
     {
-        switch (strtoupper($verb))
-        {
+        switch (strtoupper($verb)) {
             case Doozr_Http::REQUEST_METHOD_POST:
                 $operation = 'create';
                 break;
@@ -616,7 +615,7 @@ class Doozr_Base_Presenter_Rest_Config
      */
     public function getRealRoute($asString = false)
     {
-        return ($asString === true) ? implode( '/', $this->realRoute ) : $this->realRoute;
+        return ($asString === true) ? implode('/', $this->realRoute) : $this->realRoute;
     }
 
     /**

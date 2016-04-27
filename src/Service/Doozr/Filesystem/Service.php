@@ -53,9 +53,9 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Exception.php';
 
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
@@ -1563,7 +1563,8 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      * @return bool TRUE if service is singleton, otherwise FALSE
      * @access public
      */
-    public function isSingleton() {
+    public function isSingleton()
+    {
         // TODO: Implement isSingleton() method.
     }
 
@@ -1574,7 +1575,8 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      * @return bool TRUE if service is multiple, otherwise FALSE
      * @access public
      */
-    public function isMultiple() {
+    public function isMultiple()
+    {
         // TODO: Implement isMultiple() method.
     }
 
@@ -1585,7 +1587,8 @@ class Doozr_Filesystem_Service extends Doozr_Base_Service_Multiple implements Do
      * @return string The name of the service.
      * @access public
      */
-    public function getName() {
+    public function getName()
+    {
         // TODO: Implement getName() method.
     }
 }

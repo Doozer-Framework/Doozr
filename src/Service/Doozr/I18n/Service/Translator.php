@@ -973,13 +973,13 @@ class Doozr_I18n_Service_Translator extends Doozr_Base_Class
 
         // encode result? => check runtimeEnvironment
         switch ($mode) {
-        case self::MODE_TRANSLATE_ENCODE:
-            $translation = htmlspecialchars($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5, 'UTF-8');
-            break;
+            case self::MODE_TRANSLATE_ENCODE:
+                $translation = htmlspecialchars($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5, 'UTF-8');
+                break;
 
-        case self::MODE_TRANSLATE_ENCODE_PLUS:
-            $translation = htmlentities($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5, 'UTF-8', false);
-            break;
+            case self::MODE_TRANSLATE_ENCODE_PLUS:
+                $translation = htmlentities($translation, ENT_QUOTES & ENT_DISALLOWED & ENT_HTML5, 'UTF-8', false);
+                break;
         }
 
         return $translation;

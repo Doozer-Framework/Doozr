@@ -114,7 +114,7 @@ class Doozr_Response_Body extends Doozr_Base_Class
             $this->resource = $stream;
         } elseif (is_string($stream)) {
             set_error_handler(
-                function ($errorNumber, $errorMessage) {
+                function($errorNumber, $errorMessage) {
                     throw new \InvalidArgumentException(
                         sprintf(
                             'Invalid file provided for stream; '.
@@ -198,7 +198,7 @@ class Doozr_Response_Body extends Doozr_Base_Class
     {
         $error = null;
         if (!is_resource($resource) && is_string($resource)) {
-            set_error_handler(function ($e) use (&$error) {
+            set_error_handler(function($e) use (&$error) {
                 $error = $e;
             },
                 E_WARNING);
