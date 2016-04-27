@@ -345,7 +345,7 @@ class Doozr_Crypt_Service_Container_Aes extends Doozr_Crypt_Service_Container
 
         $this->rounds = $this->nk + self::$nb + 2;
         $this->word   = []; // Nb*(Nr+1) 32-bit words
-        $this->state  = [[]];  // 2-D array of Nb colums and 4 rows
+        $this->state  = [[]]; // 2-D array of Nb colums and 4 rows
 
         $this->KeyExpansion($key); // places expanded key in w
     }

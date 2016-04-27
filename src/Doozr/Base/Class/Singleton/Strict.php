@@ -55,7 +55,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton/Generic.php';
 
 /**
  * Doozr Base-Singleton-Class (Strict)

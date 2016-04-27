@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Cache/Service/Container.php';
 
 /**
  * TEMPORARY SOLUTION
@@ -219,7 +219,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     public function create($key, $value, $lifetime, $namespace, $userdata = null)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // On create we need to purge the old entry from runtime cache ...
         $this->purgeRuntimeCache($key, $namespace);
@@ -270,7 +270,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     public function read($key, $namespace)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // Try to retrieve data from runtime cache ...
         $dataset = $this->getFromRuntimeCache($key, $namespace);
@@ -307,7 +307,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     public function update($key, $value, $namespace, $lifetime = null, $userdata = null)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // Build dataset from input
         $dataset = array(
@@ -356,7 +356,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     public function delete($key, $namespace)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // On create we need to purge the old entry from runtime cache ...
         $this->purgeRuntimeCache($key, $namespace);
@@ -389,7 +389,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     public function exists($key, $namespace)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // Assume it does not exist
         $result = false;
@@ -423,7 +423,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     public function expired($key, $namespace)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // Assume item expired
         $result = true;
@@ -767,12 +767,12 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
 
             $cachedump = $this->getConnection()->stats(
                 Client::STATS_TYPE_CACHEDUMP,
-                (int)$slabId,
+                (int) $slabId,
                 Client::CACHEDUMP_ITEMS_MAX
             );
 
             // Iterate entries from slab
-            foreach($cachedump as $key => $value) {
+            foreach ($cachedump as $key => $value) {
 
                 // Retrieve data from Memcached and meta data as well
                 $metaData = $this->getConnection()->gets(array($key), true);
@@ -788,7 +788,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
                         'frames' => $metaData[$key]['meta']['frames'],
                         'flags'  => $metaData[$key]['meta']['flags'],
                         'raw'    => $value,
-                        'server' => $this->getConnection()->getHost() . ':' . $this->getConnection()->getPort(),
+                        'server' => $this->getConnection()->getHost().':'.$this->getConnection()->getPort(),
                         'slabId' => $slabId,
                         'age'    => $items['items'][$slabId]['age'],
                     );

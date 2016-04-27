@@ -79,6 +79,7 @@ interface Doozr_Configuration_Interface extends Doozr_Configuration_Reader_Inter
      * @param mixed  $value The value (every type allow) be sure to check if it is supported by your chosen configuration type
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     * @return null|boolean
      */
     public function set($node, $value);
 

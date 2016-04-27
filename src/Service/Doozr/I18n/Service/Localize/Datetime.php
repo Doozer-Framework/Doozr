@@ -515,18 +515,18 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     protected function formatDate($timestamp = 0, $format = '')
     {
         switch ($this->timeset) {
-        case 1:
-            // swatch date
-        return $this->swatchDate($timestamp).' � '.$this->swatchTime($timestamp);
-        break;
-        case 2:
-            // iso date
-        return $this->unixTimestampToIsoDatetime($timestamp);
-        break;
-        default:
-            // default time
-        return date($this->dateFilter($format, $timestamp), $timestamp);
-        break;
+            case 1:
+                // swatch date
+            return $this->swatchDate($timestamp).' � '.$this->swatchTime($timestamp);
+            break;
+            case 2:
+                // iso date
+            return $this->unixTimestampToIsoDatetime($timestamp);
+            break;
+            default:
+                // default time
+            return date($this->dateFilter($format, $timestamp), $timestamp);
+            break;
         }
     }
 
@@ -543,18 +543,18 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     protected function formatTime($timestamp = 0, $format = '')
     {
         switch ($this->timeset) {
-        case 1:
-            // swatch date
-        return $this->swatchTime($timestamp);
-        break;
-        case 2:
-            // iso date
-        return $this->unixTimestampToISOtime($timestamp);
-        break;
-        default:
-            // default time
-        return date($this->dateFilter($format, $timestamp), $timestamp);
-        break;
+            case 1:
+                // swatch date
+            return $this->swatchTime($timestamp);
+            break;
+            case 2:
+                // iso date
+            return $this->unixTimestampToISOtime($timestamp);
+            break;
+            default:
+                // default time
+            return date($this->dateFilter($format, $timestamp), $timestamp);
+            break;
         }
     }
 
@@ -569,18 +569,18 @@ class Doozr_I18n_Service_Localize_Datetime extends Doozr_I18n_Service_Localize_A
     protected function formatDatetime($timestamp = 0, $format = '')
     {
         switch ($this->timeset) {
-        case 1:
-            // swatch date
-        return $this->swatchDate($timestamp).' � '.$this->swatchTime($timestamp);
-        break;
-        case 2:
-            // iso date
-        return $this->unixTimestampToISOdatetime($timestamp);
-        break;
-        default:
-            // default time
-        return date($this->dateFilter($format, $timestamp), $timestamp);
-        break;
+            case 1:
+                // swatch date
+            return $this->swatchDate($timestamp).' � '.$this->swatchTime($timestamp);
+            break;
+            case 2:
+                // iso date
+            return $this->unixTimestampToISOdatetime($timestamp);
+            break;
+            default:
+                // default time
+            return date($this->dateFilter($format, $timestamp), $timestamp);
+            break;
         }
     }
 

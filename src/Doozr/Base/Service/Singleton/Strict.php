@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Serviceloader/Annotation/Inject.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton/Strict.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Serviceloader/Annotation/Inject.php';
 
 /**
  * Doozr Base Service Singleton
@@ -201,11 +201,11 @@ class Doozr_Base_Service_Singleton_Strict extends Doozr_Base_Class_Singleton_Str
         // Register services custom autoloader
         $autoloaderService = new Doozr_Loader_Autoloader_Spl_Config();
         $autoloaderService
-            ->_namespace('Doozr_' . $service)
+            ->_namespace('Doozr_'.$service)
             ->namespaceSeparator('_')
             ->addExtension('php')
-            ->path(DOOZR_DOCUMENT_ROOT . 'Service')
-            ->description('Doozr\'s ' . $service . ' service autoloader. Timestamp: ' . time());
+            ->path(DOOZR_DOCUMENT_ROOT.'Service')
+            ->description('Doozr\'s '.$service.' service autoloader. Timestamp: '.time());
 
         // Add to SPL through facade
         $this->autoloader = Doozr_Loader_Autoloader_Spl_Facade::attach(

@@ -523,14 +523,14 @@ function regexp($input, $mode = 'default')
 
     // operate in requested runtimeEnvironment
     switch ($mode) {
-    case 'default':
-    case 'exclude':
-    default:
-        for ($i = 0; $i < count($input); ++$i) {
-            $output .= (strlen($output)) ? '|'.$input[$i] : $input[$i];
-        }
-        $output = (strlen($output)) ? '(?!'.$output.')' : '';
-        break;
+        case 'default':
+        case 'exclude':
+        default:
+            for ($i = 0; $i < count($input); ++$i) {
+                $output .= (strlen($output)) ? '|'.$input[$i] : $input[$i];
+            }
+            $output = (strlen($output)) ? '(?!'.$output.')' : '';
+            break;
     }
 
     // return result

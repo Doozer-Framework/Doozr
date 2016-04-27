@@ -128,9 +128,9 @@ class Doozr_Password_Service_Hash {
         # consequently in lower iteration counts and hashes that are
         # quicker to crack (by non-PHP code).
         if (PHP_VERSION >= '5') {
-            $hash = md5($salt . $password, TRUE);
+            $hash = md5($salt . $password, true);
             do {
-                $hash = md5($hash . $password, TRUE);
+                $hash = md5($hash . $password, true);
             } while (--$count);
         } else {
             $hash = pack('H*', md5($salt . $password));

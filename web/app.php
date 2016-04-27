@@ -78,12 +78,12 @@ try {
 require_once 'Doozr/Bootstrap.php';
 
 use Clickalicious\CachingMiddleware;
+use Cocur\Slugify\Slugify;
+use Gpupo\Cache\CacheItem;
+use Gpupo\Cache\CacheItemPool;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Relay\Runner;
-use Gpupo\Cache\CacheItemPool;
-use Gpupo\Cache\CacheItem;
-use Cocur\Slugify\Slugify;
 
 /*
  * Put CachingMiddleware on stack when caching is enabled
@@ -99,15 +99,15 @@ if (true === DOOZR_CACHING) {
      *
      * @return \Psr\Http\Message\ResponseInterface A PSR compatible response
      */
-    $queue[] = function (Request $request, Response $response, callable $next) {
+    $queue[] = function(Request $request, Response $response, callable $next) {
 
         // Create cache item factory
-        $cacheItemFactory = function ($key) {
+        $cacheItemFactory = function($key) {
             return new CacheItem($key);
         };
 
         // Create cache item key factory
-        $cacheItemKeyFactory = function (Request $request) {
+        $cacheItemKeyFactory = function(Request $request) {
             static $key = null;
             if (null === $key) {
                 $uri     = $request->getUri();
@@ -142,7 +142,7 @@ if (true === DOOZR_CACHING) {
  *
  * @return \Psr\Http\Message\ResponseInterface A PSR compatible response
  */
-$queue[] = function (Request $request, Response $response, callable $next) {
+$queue[] = function(Request $request, Response $response, callable $next) {
 
     // Boot the App kernel
     $app = Doozr_Kernel_App::boot(

@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr\Response\Sender\Web.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr\Response\Sender\Web.php';
 
 /**
  * Doozr - Response - Sender - Httpd

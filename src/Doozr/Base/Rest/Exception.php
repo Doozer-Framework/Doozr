@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Exception.php';
 
 /**
  * Doozr - Base - Rest - Exception
@@ -125,7 +125,8 @@ class Doozr_Base_Rest_Exception extends Doozr_Base_Exception
      * @return void
      * @access public
      */
-    public function setToken(array $token = null) {
+    public function setToken(array $token = null)
+    {
         $this->token = $token;
     }
 
@@ -138,7 +139,8 @@ class Doozr_Base_Rest_Exception extends Doozr_Base_Exception
      * @return $this Instance for chaining
      * @access public
      */
-    public function token(array $token) {
+    public function token(array $token)
+    {
         $this->setToken($token);
         return $this;
     }
@@ -150,7 +152,8 @@ class Doozr_Base_Rest_Exception extends Doozr_Base_Exception
      * @return array|null The token if set, otherwise NULL
      * @access public
      */
-    public function getToken() {
+    public function getToken()
+    {
         return $this->token;
     }
 

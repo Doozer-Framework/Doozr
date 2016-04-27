@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Loader/Autoloader/Spl/Config/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Loader/Autoloader/Spl/Config/Interface.php';
 
 /**
  * Doozr - Loader - Autoloader - Spl - Config
@@ -758,7 +758,7 @@ class Doozr_Loader_Autoloader_Spl_Config
     public function load($className)
     {
         // get namespace of current instance
-        $currentNamespace = $this->namespace . $this->namespaceSeparator;
+        $currentNamespace = $this->namespace.$this->namespaceSeparator;
 
         // get namespace from passed className
         $namespace = substr($className, 0, strlen($currentNamespace));

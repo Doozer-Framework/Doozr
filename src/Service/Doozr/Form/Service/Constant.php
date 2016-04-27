@@ -231,7 +231,7 @@ class Doozr_Form_Service_Constant
      *
      * @var string
      */
-    const HTML_TAG_INPUT = 'input';#
+    const HTML_TAG_INPUT = 'input'; #
 
     /**
      * The tag label.

@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Container.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Subject/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Subject/Interface.php';
 
 /**
  * Doozr Base Presenter Subject

@@ -52,9 +52,9 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State/Interface.php';
 
 use Psr\Http\Message\StreamInterface;
 
@@ -501,7 +501,7 @@ class Doozr_Http_State extends Doozr_Base_State
      */
     public function getProtocolLine()
     {
-        return self::DEFAULT_PROTOCOL_PREFIX . $this->getProtocolVersion();
+        return self::DEFAULT_PROTOCOL_PREFIX.$this->getProtocolVersion();
     }
 
     /*------------------------------------------------------------------------------------------------------------------

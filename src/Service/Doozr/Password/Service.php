@@ -387,40 +387,40 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
         $password = '';
 
         switch ($type) {
-        case self::PASSWORD_ALPHANUM:
-            // build password
-            for ($i = 0; $i < $length; ++$i) {
-                $password .= $this->getRandomCharacter(self::$_RANGE_ALPHANUM['default']);
-            }
-            break;
-        case self::PASSWORD_ALPHANUM_SPECIAL:
-            // build password
-            for ($i = 0; $i < $length; ++$i) {
-                $password .= $this->getRandomCharacter(self::$_RANGE_ALPHANUM_SPECIAL['default']);
-            }
-            break;
-        case self::PASSWORD_ALPHANUM_SPECIAL_HARDCORE:
-            // build password
-            for ($i = 0; $i < $length; ++$i) {
-                $password .= $this->getRandomCharacter(self::$_RANGE_ALPHANUM_SPECIAL_HARDCORE['default']);
-            }
-            break;
-        case self::PASSWORD_USERFRIENDLY:
-            $password = $this->_createUserFriendlyPassword(self::$_RANGE_USERFRIENDLY, $length);
-            break;
-        case self::PASSWORD_USERFRIENDLY_REMEMBER:
-            $password = $this->_createUserFriendlyPassword(self::$_RANGE_USERFRIENDLY_REMEMBER, $length);
-            break;
+            case self::PASSWORD_ALPHANUM:
+                // build password
+                for ($i = 0; $i < $length; ++$i) {
+                    $password .= $this->getRandomCharacter(self::$_RANGE_ALPHANUM['default']);
+                }
+                break;
+            case self::PASSWORD_ALPHANUM_SPECIAL:
+                // build password
+                for ($i = 0; $i < $length; ++$i) {
+                    $password .= $this->getRandomCharacter(self::$_RANGE_ALPHANUM_SPECIAL['default']);
+                }
+                break;
+            case self::PASSWORD_ALPHANUM_SPECIAL_HARDCORE:
+                // build password
+                for ($i = 0; $i < $length; ++$i) {
+                    $password .= $this->getRandomCharacter(self::$_RANGE_ALPHANUM_SPECIAL_HARDCORE['default']);
+                }
+                break;
+            case self::PASSWORD_USERFRIENDLY:
+                $password = $this->_createUserFriendlyPassword(self::$_RANGE_USERFRIENDLY, $length);
+                break;
+            case self::PASSWORD_USERFRIENDLY_REMEMBER:
+                $password = $this->_createUserFriendlyPassword(self::$_RANGE_USERFRIENDLY_REMEMBER, $length);
+                break;
         }
 
         // check for transformation of password to hash
         switch ($returnType) {
-        case self::RETURN_TYPE_MD5:
-            $password = $this->getMd5Hash($password);
-            break;
-        case self::RETURN_TYPE_PASSWORDHASH:
-            $password = $this->getPasswordhash($password);
-            break;
+            case self::RETURN_TYPE_MD5:
+                $password = $this->getMd5Hash($password);
+                break;
+            case self::RETURN_TYPE_PASSWORDHASH:
+                $password = $this->getPasswordhash($password);
+                break;
         }
 
         // return new created password
@@ -731,7 +731,8 @@ class Doozr_Password_Service extends Doozr_Base_Service_Multiple_Facade implemen
         }
 
         // delete vocals
-        for ($i = 1; $i > $length; ++$i) { //omitting first characer code and h
+        for ($i = 1; $i > $length; ++$i) {
+//omitting first characer code and h
             if ($value[$i] == 0) {
                 $value[$i] = '';
             }

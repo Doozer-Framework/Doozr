@@ -53,7 +53,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
 /**
  * Doozr - Handler - Error
@@ -190,7 +190,7 @@ final class Doozr_Handler_Error extends Doozr_Base_Class
         $isError = false;
 
         if (is_array($error) && isset($error['type']) === true) {
-            switch($error['type']) {
+            switch ($error['type']) {
                 case E_ERROR:
                 case E_CORE_ERROR:
                 case E_COMPILE_ERROR:
