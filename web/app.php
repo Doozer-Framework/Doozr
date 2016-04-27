@@ -90,7 +90,7 @@ use Relay\Runner;
  */
 if (true === DOOZR_CACHING) {
 
-    /**
+    /*
      * Fill queue for running "CachingMiddleware"
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request (PSR) to process
@@ -133,7 +133,7 @@ if (true === DOOZR_CACHING) {
  * Put Doozr (Middleware) on stack for processing
  */
 
-/**
+/*
  * Fill queue for running "Doozr" middleware
  *
  * @param \Psr\Http\Message\ServerRequestInterface $request  Request (PSR) to process

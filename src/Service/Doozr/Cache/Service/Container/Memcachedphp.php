@@ -1,8 +1,9 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Doozr - Cache - Service - Container - Memcachedphp
+ * Doozr - Cache - Service - Container - Memcachedphp.
  *
  * Memcachedphp.php - Container Memcachedphp: Serves I/O access to memcached.
  *
@@ -43,19 +44,20 @@
  * Please feel free to contact us via e-mail: opensource@clickalicious.de
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 
 require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Cache/Service/Container.php';
 
 /**
- * TEMPORARY SOLUTION
+ * TEMPORARY SOLUTION.
  */
 require_once 'Clickalicious\\Memcached\\Client.php';
 
@@ -63,17 +65,18 @@ require_once 'Clickalicious\\Memcached\\Client.php';
 use Clickalicious\Memcached\Client;
 
 /**
- * Doozr - Cache - Service - Container - Memcachedphp
+ * Doozr - Cache - Service - Container - Memcachedphp.
  *
  * Container Memcachedphp: Serves I/O access to memcached.
  *
  * @category   Doozr
- * @package    Doozr_Service
- * @subpackage Doozr_Service_Cache
+ *
  * @author     Benjamin Carl <opensource@clickalicious.de>
  * @copyright  2005 - 2016 Benjamin Carl
  * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ *
  * @version    Git: $Id$
+ *
  * @link       http://clickalicious.github.com/Doozr/
  */
 class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Container
@@ -82,7 +85,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * The hostname used for connection.
      *
      * @var string
-     * @access protected
      */
     protected $hostname = '127.0.0.1';
 
@@ -90,15 +92,13 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * The port used for the connection.
      *
      * @var int
-     * @access protected
      */
     protected $port = 11211;
 
     /**
-     * contains the memcache instance (connection)
+     * contains the memcache instance (connection).
      *
      * @var Clickalicious\Memcached\Client
-     * @access protected
      */
     protected $connection;
 
@@ -109,7 +109,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * FALSE to store content uncompressed
      *
      * @var bool
-     * @access protected
      */
     protected $compress = false;
 
@@ -122,28 +121,26 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * lowwater mark.
      *
      * @var int
+     *
      * @see lowwaterMarker
-     * @access protected
      * @see parent::highwaterMarker
      */
     protected $highwaterMarker = -1;
 
     /**
-     * Allowed options specific for this container
+     * Allowed options specific for this container.
      *
      * @var array
-     * @access protected
      */
-    protected $thisContainerAllowedOptions = array(
+    protected $thisContainerAllowedOptions = [
         'hostname',
-        'port'
-    );
+        'port',
+    ];
 
     /**
      * Type for slabs.
      *
      * @var string
-     * @access public
      */
     const MEMCACHE_TYPE_SLABS = 'slabs';
 
@@ -151,7 +148,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * Type for items.
      *
      * @var string
-     * @access public
      */
     const MEMCACHE_TYPE_ITEMS = 'items';
 
@@ -159,7 +155,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * Type for cachedump.
      *
      * @var string
-     * @access public
      */
     const MEMCACHE_TYPE_CACHEDUMP = 'cachedump';
 
@@ -169,8 +164,9 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param array $options Custom configuration options
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Doozr_Cache_Service_Container_Memcachedphp
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function __construct(array $options = [])
@@ -189,7 +185,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
 
             if (isset($serverStatistics['limit_maxbytes']) === false) {
                 throw new Doozr_Cache_Service_Exception(
-                    sprintf('Could not retrieve "limit_maxbytes" for server "%s"', $server)
+                    sprintf('Could not retrieve "limit_maxbytes" for server "%s"', $this->getHostname())
                 );
             }
 
@@ -212,8 +208,9 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string $userdata  The custom userdata to add
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function create($key, $value, $lifetime, $namespace, $userdata = null)
@@ -225,12 +222,12 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
         $this->purgeRuntimeCache($key, $namespace);
 
         // Build dataset from input
-        $dataset = array(
+        $dataset = [
             $this->getExpiresAbsolute($lifetime),
             $userdata,
             $this->encode($value),
             $namespace,
-        );
+        ];
 
         if (
             true !== $result = $this->connection->set(
@@ -264,8 +261,8 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string $namespace The namespace used for that
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool|array The data from cache if set, otherwise FALSE
-     * @access public
      */
     public function read($key, $namespace)
     {
@@ -300,8 +297,9 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string $userdata  The custom userdata to add
      *
      * @return bool TRUE on success, otherwise FALSE
+     *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function update($key, $value, $namespace, $lifetime = null, $userdata = null)
@@ -310,12 +308,12 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
         $key = $this->calculateUuid($key.$namespace);
 
         // Build dataset from input
-        $dataset = array(
+        $dataset = [
             $this->getExpiresAbsolute($lifetime),
             $userdata,
             $this->encode($value),
             $namespace,
-        );
+        ];
 
         if (
             true !== $result = $this->connection->replace(
@@ -345,12 +343,13 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     /**
      * Deletes a dataset from cache.
      *
-     * @param string $key The key of the cache entry
+     * @param string $key       The key of the cache entry
      * @param string $namespace The namespace of the dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function delete($key, $namespace)
@@ -374,7 +373,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     }
 
     /**
-     * Checks if a dataset exists
+     * Checks if a dataset exists.
      *
      * This method is intend to check if a dataset exists.
      *
@@ -382,8 +381,9 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string $namespace The namespace of the dataset
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if dataset exist, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function exists($key, $namespace)
@@ -396,7 +396,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
 
         if ($this->getFromRuntimeCache($key, $namespace) !== false) {
             $result = true;
-
         } else {
             $value = $this->connection->get($key);
 
@@ -416,8 +415,9 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string $namespace The namespace to look in
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if element is expired, otherwise FALSE
-     * @access public
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     public function expired($key, $namespace)
@@ -446,15 +446,15 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
     }
 
     /**
-     * Flushes the cache
+     * Flushes the cache.
      *
      * This method is intend to purge the cache. It removes all caches datasets from the cache.
      *
      * @param string $namespace The dataset namespace to purge
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Number of removed datasets on success, otherwise FALSE
-     * @access public
      */
     public function purge($namespace)
     {
@@ -476,8 +476,8 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param int    $lifetime  The maximum age for an entry of the cache
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool The result of the operation
-     * @access public
      */
     public function garbageCollection($namespace, $lifetime)
     {
@@ -498,8 +498,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param int The port to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setPort($port)
     {
@@ -512,12 +510,13 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param int The port to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function port($port)
     {
         $this->setPort($port);
+
         return $this;
     }
 
@@ -525,8 +524,8 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * Getter for port.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return int|null The port if set, otherwise NULL
-     * @access protected
      */
     protected function getPort()
     {
@@ -539,8 +538,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param bool $compress TRUE to use compression, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setCompress($compress)
     {
@@ -553,12 +550,13 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param bool $compress TRUE to use compression, otherwise FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function compress($compress)
     {
         $this->setCompress($compress);
+
         return $this;
     }
 
@@ -566,8 +564,8 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * Getter for compress.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE if compression enabled, otherwise FALSE
-     * @access protected
      */
     protected function getCompress()
     {
@@ -580,8 +578,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string The hostname to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setHostname($hostname)
     {
@@ -594,12 +590,13 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string The hostname to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function hostname($hostname)
     {
         $this->setHostname($hostname);
+
         return $this;
     }
 
@@ -607,8 +604,8 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * Getter for hostname.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return string|null The hostname if set, otherwise NULL
-     * @access protected
      */
     protected function getHostname()
     {
@@ -621,8 +618,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param Clickalicious\Memcached\Client $connection The connection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return void
-     * @access protected
      */
     protected function setConnection(Clickalicious\Memcached\Client $connection = null)
     {
@@ -635,12 +630,13 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param Clickalicious\Memcached\Client $connection The connection to set
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return $this Instance for chaining
-     * @access protected
      */
     protected function connection(Clickalicious\Memcached\Client $connection)
     {
         $this->setConnection($connection);
+
         return $this;
     }
 
@@ -648,8 +644,8 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * Getter for connection.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Clickalicious\Memcached\Client|null The memcache connection instance if connected, otherwise FALSE
-     * @access protected
      */
     protected function getConnection()
     {
@@ -663,8 +659,9 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string $port     The port to connect to
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return Clickalicious\Memcached\Client The created instance of memcached client
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function connect($hostname, $port)
@@ -694,14 +691,14 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * Disconnects from a server.
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
-     * @return null
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function disconnect()
     {
         $this->getConnection()->close();
-        return null;
+
+        return;
     }
 
     /**
@@ -710,8 +707,9 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param string $namespace The namespace to delete/remove/unlink
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return mixed Number of removed entries on success, otherwise FALSE
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function removeEntries($namespace)
@@ -740,11 +738,11 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * Returns all entries for a passed slab (hostname & port) by passed namespace or all.
      *
      * @param string|null $namespace The namespace to filter on as string, otherwise NULL to fetch all
-     * @param boolean     $flat      TRUE to receive result flat, FALSE to do not
+     * @param bool        $flat      TRUE to receive result flat, FALSE to do not
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return array List of entries indexed by key
-     * @access protected
      */
     protected function getAllEntries($namespace = null, $flat = false)
     {
@@ -763,8 +761,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
             unset($slabs['total_malloced']);
         }
 
-        foreach ($allSlabs AS $slabId => $slabMeta) {
-
+        foreach ($allSlabs as $slabId => $slabMeta) {
             $cachedump = $this->getConnection()->stats(
                 Client::STATS_TYPE_CACHEDUMP,
                 (int) $slabId,
@@ -775,13 +772,13 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
             foreach ($cachedump as $key => $value) {
 
                 // Retrieve data from Memcached and meta data as well
-                $metaData = $this->getConnection()->gets(array($key), true);
+                $metaData = $this->getConnection()->gets([$key], true);
 
                 // Check if we need to getMetaComponents this one ...
                 if ($namespace === null || (isset($metaData[$key]['value'][3]) === true && $namespace == $metaData[$key]['value'][3])) {
 
                     // Build array here ...
-                    $data = array(
+                    $data = [
                         'key'    => $key,
                         'value'  => $metaData[$key]['value'],
                         'cas'    => $metaData[$key]['meta']['cas'],
@@ -791,7 +788,7 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
                         'server' => $this->getConnection()->getHost().':'.$this->getConnection()->getPort(),
                         'slabId' => $slabId,
                         'age'    => $items['items'][$slabId]['age'],
-                    );
+                    ];
 
                     // Is this flat?
                     if ($flat === true) {
@@ -813,8 +810,9 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
      * @param int    $lifetime  Maximum lifetime in seconds of an no longer used/touched entry
      *
      * @author Benjamin Carl <opensource@clickalicious.de>
+     *
      * @return bool TRUE on success, otherwise FALSE
-     * @access protected
+     *
      * @throws Doozr_Cache_Service_Exception
      */
     protected function doGarbageCollection($namespace, $lifetime)
@@ -834,7 +832,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
                     continue;
                 }
                 ++$deleted;
-
             } else {
                 $expire = $entry['value'][0];
 
@@ -847,14 +844,13 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
                         continue;
                     }
                     ++$deleted;
-
                 } else {
                     $this->addEntry(
                         time(),
-                        array(
+                        [
                             'key'  => $key,
-                            'size' => strlen($entry['value'][2])
-                        )
+                            'size' => strlen($entry['value'][2]),
+                        ]
                     );
 
                     $this->setTotalSize($this->getTotalSize() + strlen($entry['value'][2]));
@@ -864,7 +860,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
 
         // Check the space used by the cache entries
         if ($this->getTotalSize() > $this->getHighwaterMarker()) {
-
             $entries = $this->getEntries();
             krsort($entries);
             reset($entries);
@@ -874,7 +869,6 @@ class Doozr_Cache_Service_Container_Memcachedphp extends Doozr_Cache_Service_Con
 
                 if ($this->getConnection()->delete($key) === true) {
                     $this->setTotalSize($this->getTotalSize() - $entry['size']);
-
                 } else {
                     throw new Doozr_Cache_Service_Exception(
                         sprintf('Can\'t unlink cache file "%s". Check permissions and path.', $entry['file'])
