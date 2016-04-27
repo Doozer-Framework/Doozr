@@ -57,8 +57,8 @@ namespace Model\Doctrine;
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Model/Driver.php';
 
-use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
 
 /**
  * Doozr - Model - Doctrine - Driver.

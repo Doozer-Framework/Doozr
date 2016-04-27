@@ -52,10 +52,10 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Container/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Cache/Service/Container/Interface.php';
 
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Doozr - Cache - Service - Container
@@ -234,7 +234,7 @@ abstract class Doozr_Cache_Service_Container
     {
         $ret = $this->read($key, $namespace);
 
-        list( , , $userdata) = $ret;
+        list(,, $userdata) = $ret;
         return $userdata;
     }
 
@@ -582,7 +582,7 @@ abstract class Doozr_Cache_Service_Container
     protected function getExpiresAbsolute($expires)
     {
         if (!$expires) {
-            $result= 0;
+            $result = 0;
 
         } else {
             // For API-compatibility, one has not to provide a "+", if integer is < 946681200 (= Jan 01 2000 00:00:00)

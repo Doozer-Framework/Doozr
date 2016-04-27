@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Interface.php';
 
 use Doozr\Loader\Serviceloader\Annotation\Inject;
 
@@ -820,7 +820,7 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
         list($microtimeStart_dec, $microtimeStart_sec) = explode(' ', $microtimeStart);
         list($microtimeEnd_dec, $microtimeEnd_sec) = explode(' ', $microtimeEnd);
 
-        return (float)sprintf(
+        return (float) sprintf(
             '%0.12f',
             ($microtimeEnd_sec - $microtimeStart_sec + $microtimeEnd_dec - $microtimeStart_dec)
         );
@@ -843,7 +843,7 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
         $date = explode('-', $val[0]);
         $time = explode(':', $val[1]);
 
-        return mktime((int)$time[0], (int)$time[1], (int)$time[2], (int)$date[1], (int)$date[2], (int)$date[0]);
+        return mktime((int) $time[0], (int) $time[1], (int) $time[2], (int) $date[1], (int) $date[2], (int) $date[0]);
     }
 
     /**
@@ -904,7 +904,7 @@ class Doozr_Datetime_Service extends Doozr_Base_Service_Multiple
                 strtotime(
                     $this->getDate('Y-m-d H:i:s')
                 )
-            ) . " ".$operation.$count." ".$unit
+            )." ".$operation.$count." ".$unit
         );
 
         if ($update) {

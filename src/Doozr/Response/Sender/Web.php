@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr\Base\Class.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr\Base\Class.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamInterface as Stream;
@@ -224,7 +224,7 @@ class Doozr_Response_Sender_Web extends Doozr_Base_Class
      */
     protected function getProtocolLine()
     {
-        return self::DEFAULT_PROTOCOL_PREFIX . $this->getResponse()->getProtocolVersion();
+        return self::DEFAULT_PROTOCOL_PREFIX.$this->getResponse()->getProtocolVersion();
     }
 
     /**

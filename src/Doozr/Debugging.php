@@ -53,7 +53,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Class/Singleton/Strict.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class/Singleton/Strict.php';
 
 use Whoops\Handler\PlainTextHandler;
 use Whoops\Handler\PrettyPageHandler;
@@ -583,7 +583,7 @@ class Doozr_Debugging extends Doozr_Base_Class_Singleton_Strict
 
             // Extract Doozr Constants as debugging information
             $data = [];
-            foreach($constants as $key => $value) {
+            foreach ($constants as $key => $value) {
                 if ('DOOZR_' === substr($key, 0, 6)) {
                     $data[$key] = (true === is_bool($value)) ? ((true === $value) ? 'TRUE' : 'FALSE') : $value;
                 }

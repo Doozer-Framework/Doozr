@@ -177,19 +177,19 @@ class Doozr_Form_Service_Handler_MetaComponentHandler extends Doozr_Base_Class
      * @param Doozr_Registry $registry Registry instance (??? only Di !!!)
      */
     public function __construct(
-                       $scope,
+                        $scope,
         Doozr_Registry $registry,
-                       $token,
-                       $step,
-                       $steps,
-                       $upload,
-                       $angularDirectives,
-                       $fieldnameToken,
-                       $fieldnameSubmitted,
-                       $fieldnameStep,
-                       $fieldnameSteps,
-                       $fieldnameJump,
-                       $fieldnameUpload
+                        $token,
+                        $step,
+                        $steps,
+                        $upload,
+                        $angularDirectives,
+                        $fieldnameToken,
+                        $fieldnameSubmitted,
+                        $fieldnameStep,
+                        $fieldnameSteps,
+                        $fieldnameJump,
+                        $fieldnameUpload
     ) {
         $this
             ->scope($scope)

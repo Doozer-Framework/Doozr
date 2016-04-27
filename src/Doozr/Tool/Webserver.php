@@ -251,7 +251,7 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
                     $argumentBag['interface'],
                     $argumentBag['port'],
                     $argumentBag['docroot'],
-                    isset($argumentBag['router']) ? ' ' . $argumentBag['router'] : ''
+                    isset($argumentBag['router']) ? ' '.$argumentBag['router'] : ''
                 );
                 break;
 
@@ -337,8 +337,8 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
 
         } else {
             $status = proc_get_status($this->server);
-            echo $this->colorize('Server running ', '%g') .
-                 sprintf('[PID: %s] ', $status['pid']) .
+            echo $this->colorize('Server running ', '%g').
+                 sprintf('[PID: %s] ', $status['pid']).
                  $this->colorize(
                     sprintf(
                         '%s:%s %s %s',
@@ -346,10 +346,10 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
                         $port,
                         $documentRoot,
                         $router
-                    ) . ' ',
+                    ).' ',
                     '%y'
-                 ) . PHP_EOL;
-            echo 'Press Ctrl + C to stop ...' . PHP_EOL;
+                 ).PHP_EOL;
+            echo 'Press Ctrl + C to stop ...'.PHP_EOL;
             #file_put_contents(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'doozr-webserver.pid', $status['pid']);
 
             // Check if running in a loop
@@ -385,7 +385,7 @@ class Doozr_Tool_Webserver extends Doozr_Tool_Abstract
      */
     protected function __destruct()
     {
-        foreach ($this->pipes AS $pipe) {
+        foreach ($this->pipes as $pipe) {
             fclose($pipe);
         }
 

@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Route/Collector.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Route/Collector.php';
 
 use FastRoute\Dispatcher\GroupCountBased;
 

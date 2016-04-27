@@ -220,7 +220,7 @@ class Doozr_Form_Service_Handler_ValidationHandler extends Doozr_Form_Service_Va
                 if (true !== $validationResult) {
                     $valid                     = $valid && false;
                     $validationResult['error'] = Doozr_Form_Service_Validator_Constant::ERROR_PREFIX.
-                                                 $validationResult['error'];
+                                                    $validationResult['error'];
                     $result[$index] = $validationResult;
                 }
             }

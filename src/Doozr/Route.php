@@ -58,12 +58,12 @@
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
-use Ramsey\Uuid\Uuid;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Gpupo\Cache\CacheItem;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
-use Doctrine\Common\Annotations\AnnotationReader;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Doozr - Route.

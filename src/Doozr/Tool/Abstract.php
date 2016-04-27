@@ -55,9 +55,9 @@
  */
 require_once 'Doozr/Base/Class.php';
 
-use donatj\Flags;
 use donatj\Exceptions\InvalidFlagParamException;
 use donatj\Exceptions\InvalidFlagTypeException;
+use donatj\Flags;
 
 /**
  * Doozr - Tool - Abstract.

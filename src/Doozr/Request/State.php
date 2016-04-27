@@ -57,8 +57,8 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http/State.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Route/State.php';
 
-use Psr\Http\Message\UriInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Doozr - Request - State.

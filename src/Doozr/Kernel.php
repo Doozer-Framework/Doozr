@@ -75,10 +75,10 @@ require_once DOOZR_DOCUMENT_ROOT.'Doozr/Model.php';
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Request/Arguments.php';
 
 use DebugBar\StandardDebugBar;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Gpupo\Cache\CacheItem;
 use League\Event\Emitter;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * Doozr - Kernel.

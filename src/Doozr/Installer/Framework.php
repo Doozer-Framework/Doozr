@@ -99,7 +99,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * @var string
      * @const
      */
-    const CHOICE_Y    = 'y';
+    const CHOICE_Y = 'y';
 
     /**
      * Choice No [n].
@@ -107,7 +107,7 @@ class Doozr_Installer_Framework extends Doozr_Installer_Base
      * @var string
      * @const
      */
-    const CHOICE_N    = 'n';
+    const CHOICE_N = 'n';
 
     /**
      * Choice QUIT [quit].

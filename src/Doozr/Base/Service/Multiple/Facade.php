@@ -52,7 +52,7 @@
 * @link       http://clickalicious.github.com/Doozr/
 */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Service/Multiple.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Service/Multiple.php';
 
 /**
  * Doozr - Base - Service - Multiple - Facade

@@ -291,7 +291,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
             $name = $this->getOrmName();
 
             // get directory of ORM/DBA
-            $directory  = constant(get_class($this).'::ORM_DIRECTORY');
+            $directory = constant(get_class($this).'::ORM_DIRECTORY');
 
             // get generic model path
             if ($directory && !$stripLibrary) {
@@ -325,7 +325,7 @@ abstract class Doozr_Base_Database_Facade_Abstract extends Doozr_Base_Class
         try {
             self::$ormConfig = $this->config->kernel->model->{$orm};
 
-        } catch(Doozr_Config_Ini_Exception $e) {
+        } catch (Doozr_Config_Ini_Exception $e) {
             throw new Doozr_Exception(
                 sprintf(
                     'Configuration for ORM "%s" could not be retrieved! Please check your configuration', $orm

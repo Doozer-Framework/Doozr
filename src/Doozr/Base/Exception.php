@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Generic.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Exception/Generic.php';
 
 /**
  * Doozr - Base - Exception
@@ -164,7 +164,7 @@ class Doozr_Base_Exception extends Doozr_Base_Exception_Generic
     {
         $file  = filename($file);
         $base  = 999;
-        $base -= floor(sqrt($base * $this->getChecksum($file))/1000);
+        $base -= floor(sqrt($base * $this->getChecksum($file)) / 1000);
         $base  = crossfoot($base);
         $base  = sprintf("%03d", $base);
         $base  = strrev($base);

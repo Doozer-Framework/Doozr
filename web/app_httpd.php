@@ -117,7 +117,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Relay\Runner;
 
 // Build queue for running middleware through relay
-$queue[] = function (Request $request, Response $response, callable $next) {
+$queue[] = function(Request $request, Response $response, callable $next) {
 
     // Boot the App kernel
     $app = Doozr_Kernel_App::boot(

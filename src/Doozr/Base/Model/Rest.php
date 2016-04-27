@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Http.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Model.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Http.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Model.php';
 
 /**
  * Doozr - Base - Model - Rest
@@ -286,8 +286,7 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
      */
     protected function verbToOperation($verb)
     {
-        switch (strtoupper($verb))
-        {
+        switch (strtoupper($verb)) {
             case Doozr_Http::REQUEST_METHOD_POST:
                 $operation = 'create';
                 break;
@@ -391,7 +390,7 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
 
         /* @var $model Doozr_Base_Model */
         $resource = $this->getStateObject()
-            ->get($configuration->getRootNode() . $configuration->getRoute(), function() use ($model) {
+            ->get($configuration->getRootNode().$configuration->getRoute(), function() use ($model) {
                 $result = [];
                 foreach (func_get_args() as $argument) {
                     $result[] = $model->escape($argument);
@@ -410,8 +409,8 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
         $id = $configuration->getId();
         if ($id !== null) {
             // Check for passed Id for all follow up operations on this resource
-            if (array_key_exists('{{' . $id . '}}', $routeArguments)) {
-                $id = $routeArguments['{{' . $id . '}}'];
+            if (array_key_exists('{{'.$id.'}}', $routeArguments)) {
+                $id = $routeArguments['{{'.$id.'}}'];
 
             } elseif (isset($requestArguments->{$id})) {
                 $id = $requestArguments->{$id};
@@ -432,14 +431,14 @@ class Doozr_Base_Model_Rest extends Doozr_Base_Model
         // Dispatch to resource manager if one is defined...
         $method = $this->getMethodByVerbAndRoute($this->getStateObject()->getMethod(), $configuration->getRealRoute());
         if (is_callable(array($this, $method))) {
-            $data = $this->{$method}( $configuration, $arguments, getallheaders(), $id);
+            $data = $this->{$method}($configuration, $arguments, getallheaders(), $id);
 
         } else {
             // Inform developer about a not resolvable route endpoint and show him/her the methods available as hint!
             $methodsDefined = get_class_methods(__CLASS__);
             throw new Doozr_Base_Model_Rest_Exception(
-                'Could not call "' . $method . '" operation method in model "' . __CLASS__ .
-                '". Currently defined methods of the model [unordered] are: ' . var_export($methodsDefined, true)
+                'Could not call "'.$method.'" operation method in model "'.__CLASS__.
+                '". Currently defined methods of the model [unordered] are: '.var_export($methodsDefined, true)
             );
         }
 

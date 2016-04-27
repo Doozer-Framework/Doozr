@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Service/Doozr/Cache/Service/Container.php';
+require_once DOOZR_DOCUMENT_ROOT.'Service/Doozr/Cache/Service/Container.php';
 
 /**
  * Doozr - Cache - Service - Container - Memcache
@@ -186,7 +186,7 @@ class Doozr_Cache_Service_Container_Memcache extends Doozr_Cache_Service_Contain
         if ($this->getHighwaterMarker() === -1) {
             $serverStatistics = $this->getConnection()->getExtendedStats();
 
-            $server = $this->getHostname() . ':' . $this->getPort();
+            $server = $this->getHostname().':'.$this->getPort();
 
             if (isset($serverStatistics[$server]['limit_maxbytes']) === false) {
                 throw new Doozr_Cache_Service_Exception(
@@ -220,7 +220,7 @@ class Doozr_Cache_Service_Container_Memcache extends Doozr_Cache_Service_Contain
     public function create($key, $value, $lifetime, $namespace, $userdata = null)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // On create we need to purge the old entry from runtime cache ...
         $this->purgeRuntimeCache($key, $namespace);
@@ -271,7 +271,7 @@ class Doozr_Cache_Service_Container_Memcache extends Doozr_Cache_Service_Contain
     public function read($key, $namespace)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // Try to retrieve data from runtime cache ...
         $dataset = $this->getFromRuntimeCache($key, $namespace);
@@ -308,7 +308,7 @@ class Doozr_Cache_Service_Container_Memcache extends Doozr_Cache_Service_Contain
     public function update($key, $value, $namespace, $lifetime = null, $userdata = null)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // Build dataset from input
         $dataset = array(
@@ -357,7 +357,7 @@ class Doozr_Cache_Service_Container_Memcache extends Doozr_Cache_Service_Contain
     public function delete($key, $namespace)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // On create we need to purge the old entry from runtime cache ...
         $this->purgeRuntimeCache($key, $namespace);
@@ -390,7 +390,7 @@ class Doozr_Cache_Service_Container_Memcache extends Doozr_Cache_Service_Contain
     public function exists($key, $namespace)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // Assume it does not exist
         $result = false;
@@ -424,7 +424,7 @@ class Doozr_Cache_Service_Container_Memcache extends Doozr_Cache_Service_Contain
     public function expired($key, $namespace)
     {
         // Get internal used key
-        $key = $this->calculateUuid($key . $namespace);
+        $key = $this->calculateUuid($key.$namespace);
 
         // Assume item expired
         $result = true;
@@ -758,12 +758,12 @@ class Doozr_Cache_Service_Container_Memcache extends Doozr_Cache_Service_Contain
         $items    = $this->getConnection()->getExtendedStats(self::MEMCACHE_TYPE_ITEMS);
 
         // Iterate slabs
-        foreach($allSlabs as $server => $slabs) {
+        foreach ($allSlabs as $server => $slabs) {
             // Iterate single slab
-            foreach($slabs as $slabId => $slabMeta) {
+            foreach ($slabs as $slabId => $slabMeta) {
                 // There is also metadata within array (string index!)
                 if (is_int($slabId) === true) {
-                    $cachedump = $this->getConnection()->getExtendedStats(self::MEMCACHE_TYPE_CACHEDUMP, (int)$slabId);
+                    $cachedump = $this->getConnection()->getExtendedStats(self::MEMCACHE_TYPE_CACHEDUMP, (int) $slabId);
 
                     // Iterate all server from slab
                     foreach ($cachedump as $server => $entries) {
@@ -773,14 +773,14 @@ class Doozr_Cache_Service_Container_Memcache extends Doozr_Cache_Service_Contain
                             if (count($entries) > 0) {
 
                                 // Get data for eacht entry and store in list ...
-                                foreach($entries as $key => $data) {
+                                foreach ($entries as $key => $data) {
                                     $dataset = $this->getConnection()->get($key);
 
                                     if (
                                         is_array($dataset) === true &&
-                                        isset($dataset[3]) === true &&  // first both checks to be sure we have an dataset
+                                        isset($dataset[3]) === true && // first both checks to be sure we have an dataset
                                         (
-                                            $namespace === null ||      // this one to either include all (null) or specific
+                                            $namespace === null || // this one to either include all (null) or specific
                                             $namespace === $dataset[3]
                                         )
                                     ) {

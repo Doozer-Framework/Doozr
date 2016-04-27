@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/State/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/State/Interface.php';
 
 /**
  * Doozr - Request - Filter - State

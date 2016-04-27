@@ -52,7 +52,7 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Connector/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Connector/Interface.php';
 
 /**
  * Doozr - Base Presenter Interface

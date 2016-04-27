@@ -526,7 +526,7 @@ class Doozr_Cache_Service_Container_Filesystem extends Doozr_Cache_Service_Conta
     {
         // Check permissions
         if (
-               !is_writable($directory)
+                !is_writable($directory)
             || !is_readable($directory)
             || !($directoryHandle = opendir($directory))
         ) {

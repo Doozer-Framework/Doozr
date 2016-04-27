@@ -52,8 +52,8 @@
  * @link       http://clickalicious.github.com/Doozr/
  */
 
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Abstract.php';
-require_once DOOZR_DOCUMENT_ROOT . 'Doozr/Base/Exception/Interface.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Exception/Abstract.php';
+require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Exception/Interface.php';
 
 /**
  * Doozr Base Exception

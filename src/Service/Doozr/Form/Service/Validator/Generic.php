@@ -617,7 +617,7 @@ class Doozr_Form_Service_Validator_Generic extends Doozr_Form_Service_Validator_
 
         // regular expressions for postcode(s)
         $pattern = [
-            'DE' => '^(DE)[0-9]{9,9}$',  // GERMANY
+            'DE' => '^(DE)[0-9]{9,9}$', // GERMANY
         ];
 
         if (!isset($pattern[$countrycode])) {

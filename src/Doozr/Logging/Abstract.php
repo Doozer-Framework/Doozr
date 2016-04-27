@@ -56,8 +56,8 @@
  */
 require_once DOOZR_DOCUMENT_ROOT.'Doozr/Base/Class.php';
 
-use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 
 /**
  * Doozr - Logging - Abstract.
@@ -298,7 +298,7 @@ abstract class Doozr_Logging_Abstract extends Doozr_Base_Class
         // Prevent misuse
         if (false === array_key_exists($type, $this->availableLogtypes)) {
             throw new Doozr_Logging_InvalidArgumentException(
-                sprintf('Invalid log type "%s" passed to "%s".',  $type, __METHOD__)
+                sprintf('Invalid log type "%s" passed to "%s".', $type, __METHOD__)
             );
         }
 
