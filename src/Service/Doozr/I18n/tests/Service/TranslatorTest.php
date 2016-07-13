@@ -176,7 +176,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
         $translator->setNamespace('default');
 
         // Assertion(s)
-        $this->assertEquals('Ja', $translator->_('Yes'));
+        $this->assertEquals('Ja', $translator->_('yes'));
     }
 
     /**
@@ -195,7 +195,7 @@ class TranslatorTest extends Doozr_Base_Service_Test_Abstract
         $translator->setNamespace('default');
 
         // Assertion(s)
-        $this->assertEquals('Nein', $translator->_('No'));
+        $this->assertEquals('Nein', $translator->_('no'));
     }
 
     /**
