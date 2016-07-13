@@ -347,6 +347,20 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
     }
 
     /**
+     * Proxy: @see delete()
+     *
+     * @param string $key The key to delete data of
+     *
+     * @author Benjamin Carl <benjamin.carl@preis24.de>
+     *
+     * @return bool TRUE if entry was deleted successful, otherwise FALSE
+     */
+    public function deleteItem($key)
+    {
+        return $this->delete($key);
+    }
+
+    /**
      * Checks if an cached object exists and return result.
      *
      * This method is intend to check if an cached object exists and return result.
@@ -365,6 +379,20 @@ class Doozr_Cache_Service extends Doozr_Base_Service_Multiple
         }
 
         return $this->getContainer()->exists($key, $scope);
+    }
+
+    /**
+     * Proxy: @see hasItem()
+     *
+     * @param string $key The id of the object to check
+     *
+     * @author Benjamin Carl <benjamin.carl@preis24.de>
+     *
+     * @return bool TRUE if exists, otherwise FALSE
+     */
+    public function hasItem($key)
+    {
+        return $this->exists($key);
     }
 
     /**
